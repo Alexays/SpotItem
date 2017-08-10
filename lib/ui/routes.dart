@@ -3,6 +3,7 @@ import 'package:spotitems/interactor/manager/profile_manager.dart';
 import 'package:spotitems/ui/home_screen.dart';
 import 'package:spotitems/ui/login_screen.dart';
 import 'package:spotitems/ui/profile_screen.dart';
+import 'package:spotitems/ui/add_item_screen.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
@@ -30,6 +31,12 @@ HandlerFunc buildItemHandler(AuthManager authManager) {
           params['username']);
 }
 
+HandlerFunc buildAddItemHandler(AuthManager authManager) {
+  return (BuildContext context, Map<String, dynamic> params) =>
+      new AddItemScreen(new ProfileManager(authManager, params['username']),
+          params['username']);
+}
+
 void configureRouter(Router router, AuthManager authManager) {
   router.define('/login',
       handler: new Handler(handlerFunc: buildLoginHandler(authManager)));
@@ -45,4 +52,7 @@ void configureRouter(Router router, AuthManager authManager) {
 
   router.define('/items/:id/edit',
       handler: new Handler(handlerFunc: buildItemHandler(authManager)));
+
+  router.define('/addItem',
+      handler: new Handler(handlerFunc: buildAddItemHandler(authManager)));
 }

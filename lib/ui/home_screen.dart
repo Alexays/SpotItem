@@ -103,7 +103,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       floatingActionButton: new FloatingActionButton(
         child: new Icon(Icons.add),
         tooltip: "Add new item",
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).pushNamed('/addItem');
+        },
       ),
       body: new DefaultTabController(
         length: _homeScreenItems[_currentIndex].sub != null
@@ -173,9 +175,10 @@ class HomeScreenItem {
   HomeScreenItem({Widget icon, String title, Widget content, this.sub})
       : item = new BottomNavigationBarItem(icon: icon, title: new Text(title)),
         content = content,
-        contentList = new List<Widget>.generate(sub != null ? sub.length : 0, (int index) {
-                    return sub[index].content;
-                });
+        contentList = new List<Widget>.generate(sub != null ? sub.length : 0,
+            (int index) {
+          return sub[index].content;
+        });
 }
 
 class HomeScreenSubItem {

@@ -1,39 +1,24 @@
-import 'package:spotitems/interactor/manager/auth_manager.dart';
+import 'package:spotitems/interactor/manager/profile_manager.dart';
+import 'package:spotitems/ui/profile_view.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatefulWidget {
-  final AuthManager _authManager;
-
-  LoginScreen(this._authManager);
-
-  @override
-  State createState() => new _LoginScreenState(_authManager);
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  final AuthManager _authManager;
+class AddItemScreen extends StatelessWidget {
+  final ProfileManager _profileManager;
+  final String _username;
   final _usernameController = new TextEditingController();
   final _passwordController = new TextEditingController();
 
-  _LoginScreenState(this._authManager);
+  AddItemScreen(this._profileManager, this._username);
 
   void _handleSubmit() {
-    _authManager
-        .login(_usernameController.text, _passwordController.text)
-        .then((success) {
-      if (success) {
-        Navigator.pushReplacementNamed(context, "/home");
-      } else {
-        // TODO show an error
-      }
-    });
+    print("walou");
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text("Login"),
+          title: new Text("Add item"),
         ),
         body: new Container(
             margin: const EdgeInsets.all(20.0),
