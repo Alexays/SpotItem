@@ -1,5 +1,5 @@
-import 'package:spot_items/interactor/manager/profile_manager.dart';
-import 'package:spot_items/ui/profile_view.dart';
+import 'package:spotitems/interactor/manager/profile_manager.dart';
+import 'package:spotitems/ui/profile_view.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatelessWidget {

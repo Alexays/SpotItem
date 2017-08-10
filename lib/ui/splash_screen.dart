@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:spot_items/interactor/manager/auth_manager.dart';
+import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {

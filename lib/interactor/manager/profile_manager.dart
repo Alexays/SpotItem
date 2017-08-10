@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'dart:convert';
-import 'package:spot_items/model/user.dart';
-import 'package:spot_items/interactor/manager/auth_manager.dart';
+import 'package:spotitems/model/user.dart';
+import 'package:spotitems/interactor/manager/auth_manager.dart';
 
 class ProfileManager {
   final AuthManager _authManager;

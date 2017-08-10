@@ -1,8 +1,8 @@
-import 'package:spot_items/interactor/manager/auth_manager.dart';
-import 'package:spot_items/interactor/manager/profile_manager.dart';
-import 'package:spot_items/ui/home_screen.dart';
-import 'package:spot_items/ui/login_screen.dart';
-import 'package:spot_items/ui/profile_screen.dart';
+import 'package:spotitems/interactor/manager/auth_manager.dart';
+import 'package:spotitems/interactor/manager/profile_manager.dart';
+import 'package:spotitems/ui/home_screen.dart';
+import 'package:spotitems/ui/login_screen.dart';
+import 'package:spotitems/ui/profile_screen.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 

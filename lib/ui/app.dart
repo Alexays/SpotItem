@@ -1,6 +1,6 @@
-import 'package:spot_items/interactor/manager/auth_manager.dart';
-import 'package:spot_items/ui/routes.dart';
-import 'package:spot_items/ui/splash_screen.dart';
+import 'package:spotitems/interactor/manager/auth_manager.dart';
+import 'package:spotitems/ui/routes.dart';
+import 'package:spotitems/ui/splash_screen.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 

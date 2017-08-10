@@ -1,4 +1,4 @@
-import 'package:spot_items/model/user.dart';
+import 'package:spotitems/model/user.dart';
 
 class Item {
   final String id;

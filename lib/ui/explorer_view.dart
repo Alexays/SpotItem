@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:spot_items/model/item.dart';
-import 'package:spot_items/ui/components/item.dart';
-import 'package:spot_items/keys.dart';
+import 'package:spotitems/model/item.dart';
+import 'package:spotitems/ui/components/item.dart';
+import 'package:spotitems/keys.dart';
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
 
@@ -35,6 +35,8 @@ class _FeedViewState extends State<ExplorerView> {
 
     var items = JSON.decode(responses.body);
 
+    if (!mounted) return;
+
     setState(() {
       _items = items.toList();
       loading = false;
@@ -45,7 +47,7 @@ class _FeedViewState extends State<ExplorerView> {
   Widget build(BuildContext context) {
     return new RefreshIndicator(
       onRefresh: _loadItems,
-      child: new ItemsList(_items),
+      child: loading ? new Center(child: new CircularProgressIndicator()) : new ItemsList(_items),
     );
   }
 }

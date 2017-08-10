@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:spot_items/keys.dart';
+import 'package:spotitems/keys.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

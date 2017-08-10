@@ -1,8 +1,8 @@
-import 'package:spot_items/interactor/manager/auth_manager.dart';
-import 'package:spot_items/interactor/manager/profile_manager.dart';
-import 'package:spot_items/ui/explorer_view.dart';
-import 'package:spot_items/ui/profile_view.dart';
-import 'package:spot_items/ui/items_view.dart';
+import 'package:spotitems/interactor/manager/auth_manager.dart';
+import 'package:spotitems/interactor/manager/profile_manager.dart';
+import 'package:spotitems/ui/explorer_view.dart';
+import 'package:spotitems/ui/profile_view.dart';
+import 'package:spotitems/ui/items_view.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -147,10 +147,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           },
           body: new TabBarView(
             children: _homeScreenItems[_currentIndex].sub != null
-                ? new List<Widget>.generate(
-                    _homeScreenItems[_currentIndex].sub.length, (int index) {
-                    return _homeScreenItems[_currentIndex].sub[index].content;
-                  })
+                ? _homeScreenItems[_currentIndex].contentList
                 : <Widget>[_homeScreenItems[_currentIndex].content],
           ),
         ),
@@ -163,31 +160,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       ),
     );
   }
-  // return new Scaffold(
-  //   appBar: new AppBar(
-  //     title: new Text('SpotItems'),
-  //     actions: [
-  //       new PopupMenuButton<OverflowItem>(
-  //           onSelected: _overflow,
-  //           itemBuilder: (BuildContext context) {
-  //             return [
-  //               new PopupMenuItem(
-  //                   value: OverflowItem.Settings,
-  //                   child: new Text('Settings')),
-  //               new PopupMenuItem<OverflowItem>(
-  //                   value: OverflowItem.LogOut, child: new Text('Log out'))
-  //             ];
-  //           })
-  //     ],
-  //   ),
-  //   body: _homeScreenItems[_currentIndex].content,
-  //   bottomNavigationBar: new BottomNavigationBar(
-  //     currentIndex: _currentIndex,
-  //     items:
-  //         _homeScreenItems.map((HomeScreenItem item) => item.item).toList(),
-  //     onTap: _navBarItemSelected,
-  //   ),
-  // );
 }
 
 enum OverflowItem { Settings, LogOut }
@@ -195,11 +167,15 @@ enum OverflowItem { Settings, LogOut }
 class HomeScreenItem {
   final BottomNavigationBarItem item;
   final Widget content;
+  final List<Widget> contentList;
   final List<HomeScreenSubItem> sub;
 
   HomeScreenItem({Widget icon, String title, Widget content, this.sub})
       : item = new BottomNavigationBarItem(icon: icon, title: new Text(title)),
-        content = content;
+        content = content,
+        contentList = new List<Widget>.generate(sub != null ? sub.length : 0, (int index) {
+                    return sub[index].content;
+                });
 }
 
 class HomeScreenSubItem {

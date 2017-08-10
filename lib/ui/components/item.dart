@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
-import 'package:spot_items/model/item.dart';
-import 'package:spot_items/ui/item_view.dart';
+import 'package:spotitems/model/item.dart';
+import 'package:spotitems/ui/item_view.dart';
 
 class _ItemsListItem extends StatelessWidget {
   const _ItemsListItem({Key key, @required this.item, this.onPressed})

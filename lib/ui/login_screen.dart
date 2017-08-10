@@ -1,4 +1,4 @@
-import 'package:spot_items/interactor/manager/auth_manager.dart';
+import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -36,25 +36,27 @@ class _LoginScreenState extends State<LoginScreen> {
           title: new Text("Login"),
         ),
         body: new Container(
+            margin: new EdgeInsets.only(top: 20.0),
             child: new Form(
-          child: new Column(
-            children: <Widget>[
-              new TextFormField(
-                key: new Key('username'),
-                decoration: new InputDecoration.collapsed(
-                    hintText: "Username or email"),
-                autofocus: true,
-                controller: _usernameController,
+              child: new Column(
+                children: <Widget>[
+                  new TextFormField(
+                    key: new Key('username'),
+                    decoration: new InputDecoration.collapsed(
+                        hintText: "Username or email"),
+                    autofocus: true,
+                    controller: _usernameController,
+                  ),
+                  new TextFormField(
+                    decoration:
+                        new InputDecoration.collapsed(hintText: 'Password'),
+                    controller: _passwordController,
+                    obscureText: true,
+                  ),
+                  new RaisedButton(
+                      child: new Text('Login'), onPressed: _handleSubmit)
+                ],
               ),
-              new TextFormField(
-                decoration: new InputDecoration.collapsed(hintText: 'Password'),
-                controller: _passwordController,
-                obscureText: true,
-              ),
-              new RaisedButton(
-                  child: new Text('Login'), onPressed: _handleSubmit)
-            ],
-          ),
-        )));
+            )));
   }
 }

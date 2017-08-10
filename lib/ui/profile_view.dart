@@ -1,6 +1,5 @@
-import 'package:spot_items/model/item.dart';
-import 'package:spot_items/model/user.dart';
-import 'package:spot_items/interactor/manager/profile_manager.dart';
+import 'package:spotitems/model/user.dart';
+import 'package:spotitems/interactor/manager/profile_manager.dart';
 import 'package:flutter/material.dart';
 
 class ProfileView extends StatefulWidget {
