@@ -1,17 +1,15 @@
-import 'package:spotitems/interactor/manager/profile_manager.dart';
-import 'package:spotitems/ui/profile_view.dart';
+import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:flutter/material.dart';
 
 class AddItemScreen extends StatelessWidget {
-  final ProfileManager _profileManager;
-  final String _username;
+  final AuthManager _authManager;
   final _usernameController = new TextEditingController();
   final _passwordController = new TextEditingController();
 
-  AddItemScreen(this._profileManager, this._username);
+  AddItemScreen(this._authManager);
 
   void _handleSubmit() {
-    print("walou");
+    print(this._authManager.user.name);
   }
 
   @override
@@ -26,20 +24,18 @@ class AddItemScreen extends StatelessWidget {
               child: new Column(
                 children: <Widget>[
                   new TextFormField(
-                    key: new Key('username'),
-                    decoration: new InputDecoration.collapsed(
-                        hintText: "Username or email"),
+                    key: new Key('name'),
+                    decoration: new InputDecoration.collapsed(hintText: "name"),
                     autofocus: true,
                     controller: _usernameController,
                   ),
                   new TextFormField(
                     decoration:
-                        new InputDecoration.collapsed(hintText: 'Password'),
+                        new InputDecoration.collapsed(hintText: 'Description'),
                     controller: _passwordController,
-                    obscureText: true,
                   ),
                   new RaisedButton(
-                      child: new Text('Login'), onPressed: _handleSubmit)
+                      child: new Text('Add'), onPressed: _handleSubmit)
                 ],
               ),
             )));

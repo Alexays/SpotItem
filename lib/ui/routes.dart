@@ -33,8 +33,7 @@ HandlerFunc buildItemHandler(AuthManager authManager) {
 
 HandlerFunc buildAddItemHandler(AuthManager authManager) {
   return (BuildContext context, Map<String, dynamic> params) =>
-      new AddItemScreen(new ProfileManager(authManager, params['username']),
-          params['username']);
+      new AddItemScreen(authManager);
 }
 
 void configureRouter(Router router, AuthManager authManager) {

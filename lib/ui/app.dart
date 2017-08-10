@@ -15,7 +15,7 @@ class SpotItemsApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: 'SpotItemsApp',
+      title: 'SpotItems',
       theme: new ThemeData(
         primarySwatch: Colors.teal,
       ),

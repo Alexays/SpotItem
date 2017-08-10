@@ -47,8 +47,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         icon: const Icon(Icons.person),
         title: "Profile",
         content: new ProfileView(
-            new ProfileManager(_authManager, _authManager.email),
-            _authManager.email),
+            new ProfileManager(_authManager, _authManager.user),
+            _authManager.user),
       )
     ];
     _expandAnimationController = new AnimationController(

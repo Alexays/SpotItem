@@ -4,20 +4,20 @@ import 'package:flutter/material.dart';
 
 class ProfileView extends StatefulWidget {
   final ProfileManager _profileManager;
-  final String _username;
+  final User _user;
 
-  ProfileView(this._profileManager, this._username);
+  ProfileView(this._profileManager, this._user);
 
   @override
   State<StatefulWidget> createState() =>
-      new _ProfileViewState(_profileManager, _username);
+      new _ProfileViewState(_profileManager, _user);
 }
 
 class _ProfileViewState extends State<ProfileView> {
   final ProfileManager _profileManager;
-  final String _username;
+  final User _user;
 
-  _ProfileViewState(this._profileManager, this._username);
+  _ProfileViewState(this._profileManager, this._user);
 
   @override
   void initState() {
@@ -27,27 +27,13 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     return new Column(children: <Widget>[
-      _buildProfileView(),
-      new Flexible(child: new Text("test"))
+      _buildProfileHeader(_user),
+      new Flexible(child: new Text(""))
     ]);
   }
 
-  Widget _buildProfileView() {
-    return new FutureBuilder<User>(
-      future: _profileManager.loadUser(),
-      builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.none:
-          case ConnectionState.waiting:
-          default:
-            return _buildProfileHeader(snapshot.data);
-        }
-      },
-    );
-  }
-
   Widget _buildProfileHeader(User user) {
-    user = user != null ? user : new User(-1, null, null, null, null);
+    user = user != null ? user : new User(null, null, null, null, null);
 
     return new Container(
       margin: new EdgeInsets.only(top: 16.0),

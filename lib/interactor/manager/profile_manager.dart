@@ -6,14 +6,14 @@ import 'package:spotitems/interactor/manager/auth_manager.dart';
 
 class ProfileManager {
   final AuthManager _authManager;
-  final String _email;
+  final User _user;
 
-  ProfileManager(this._authManager, this._email);
+  ProfileManager(this._authManager, this._user);
 
   Future<User> loadUser() async {
     var oauthClient = _authManager.oauthClient;
     var response = await oauthClient
-        .get('https://api.github.com/users/${_email}')
+        .get('https://api.github.com/users/${_user.email}')
         .whenComplete(oauthClient.close);
 
     if (response.statusCode == 200) {

@@ -1,5 +1,5 @@
 class User {
-  final int id;
+  final String id;
   final String email;
   final String firstname;
   final String name;
@@ -22,6 +22,6 @@ class User {
 
   @override
   String toString() {
-    return 'User{id: $id, name: $name, email: $email, firstname: $firstname, avatar: $avatar}';
+    return "{\"id\": \"$id\", \"name\": \"$name\", \"email\": \"$email\", \"firstname\": \"$firstname\", \"avatar\": \"$avatar\"}";
   }
 }
