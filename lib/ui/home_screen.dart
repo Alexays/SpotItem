@@ -148,9 +148,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ];
           },
           body: new TabBarView(
-            children: _homeScreenItems[_currentIndex].sub != null
-                ? _homeScreenItems[_currentIndex].contentList
-                : <Widget>[_homeScreenItems[_currentIndex].content],
+            children: _homeScreenItems[_currentIndex].content,
           ),
         ),
       ),
@@ -168,17 +166,16 @@ enum OverflowItem { Settings, LogOut }
 
 class HomeScreenItem {
   final BottomNavigationBarItem item;
-  final Widget content;
-  final List<Widget> contentList;
+  final List<Widget> content;
   final List<HomeScreenSubItem> sub;
 
   HomeScreenItem({Widget icon, String title, Widget content, this.sub})
       : item = new BottomNavigationBarItem(icon: icon, title: new Text(title)),
-        content = content,
-        contentList = new List<Widget>.generate(sub != null ? sub.length : 0,
-            (int index) {
-          return sub[index].content;
-        });
+        content = sub != null
+            ? new List<Widget>.generate(sub.length, (int index) {
+                return sub[index].content;
+              })
+            : [content];
 }
 
 class HomeScreenSubItem {
