@@ -63,7 +63,7 @@ class _ItemsListItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     new RaisedButton(
-                        child: new Text(getDist(item.lat, item.lng)),
+                        child: new Text(getDist(item.lat, item.lng) + 'km'),
                         onPressed: () {})
                   ],
                 ),
