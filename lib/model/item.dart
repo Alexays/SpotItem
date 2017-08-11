@@ -10,6 +10,7 @@ class Item {
   final String location;
   final double lat;
   final double lng;
+  final double dist;
   final List<String> tracks;
   final User owner;
 
@@ -23,10 +24,11 @@ class Item {
       this.location,
       this.lat,
       this.lng,
+      this.dist,
       this.owner,
       this.tracks);
 
-  factory Item.fromJson(json) {
+  factory Item.fromJson(json, dist) {
     if (json == null) {
       return null;
     } else {
@@ -40,6 +42,7 @@ class Item {
           json['location'],
           json['lat'],
           json['lng'],
+          dist,
           new User.fromJson(json['owner']),
           json['tracks']);
     }

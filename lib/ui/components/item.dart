@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
@@ -20,25 +19,6 @@ class _ItemsListItem extends StatelessWidget {
   final ItemsManager itemsManager;
   final Item item;
   final VoidCallback onPressed;
-
-  String getDist(double lat2, double lng2) {
-    if (itemsManager.location == null) return '???';
-    double pi80 = PI / 180;
-    double lat1 = itemsManager.location['latitude'] * pi80;
-    double lng1 = itemsManager.location['longitude'] * pi80;
-    double lat = lat2 * pi80;
-    double lng = lng2 * pi80;
-
-    double r = 6372.797; // mean radius of Earth in km
-    double dlat = lat - lat1;
-    double dlng = lng - lng1;
-    double a = sin(dlat / 2) * sin(dlat / 2) +
-        cos(lat1) * cos(lat) * sin(dlng / 2) * sin(dlng / 2);
-    double c = 2 * atan2(sqrt(a), sqrt(1 - a));
-    double km = r * c;
-
-    return km.toStringAsFixed(2);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +46,9 @@ class _ItemsListItem extends StatelessWidget {
                     new RaisedButton(
                         color: theme.primaryColor,
                         child: new Text(
-                          getDist(item.lat, item.lng) + 'km',
+                          item.dist != null
+                              ? item.dist.toStringAsFixed(2) + 'km'
+                              : '???',
                           style: theme.primaryTextTheme.subhead,
                         ),
                         onPressed: () {})
