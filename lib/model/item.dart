@@ -11,40 +11,45 @@ class Item {
   final double lat;
   final double lng;
   final double dist;
+  final String createdAt;
   final List<String> tracks;
   final User owner;
 
   const Item(
-      this.id,
-      this.name,
-      this.about,
-      this.images,
-      this.lastGeo,
-      this.calendar,
-      this.location,
-      this.lat,
-      this.lng,
-      this.dist,
-      this.owner,
-      this.tracks);
+    this.id,
+    this.name,
+    this.about,
+    this.images,
+    this.lastGeo,
+    this.calendar,
+    this.location,
+    this.lat,
+    this.lng,
+    this.dist,
+    this.createdAt,
+    this.tracks,
+    this.owner,
+  );
 
   factory Item.fromJson(json, dist) {
     if (json == null) {
       return null;
     } else {
       return new Item(
-          json['_id'],
-          json['name'],
-          json['about'],
-          json['images'],
-          json['lastGeo'],
-          json['calendar'],
-          json['location'],
-          json['lat'],
-          json['lng'],
-          dist,
-          new User.fromJson(json['owner']),
-          json['tracks']);
+        json['_id'],
+        json['name'],
+        json['about'],
+        json['images'],
+        json['lastGeo'],
+        json['calendar'],
+        json['location'],
+        json['lat'],
+        json['lng'],
+        dist,
+        json['createdAt'],
+        json['tracks'],
+        new User.fromJson(json['owner']),
+      );
     }
   }
 

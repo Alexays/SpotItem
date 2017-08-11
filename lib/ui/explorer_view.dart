@@ -25,8 +25,8 @@ class _FeedViewState extends State<ExplorerView> {
 
   @override
   void initState() {
-    super.initState();
     _loadItems();
+    super.initState();
   }
 
   Future _loadItems([bool force = false]) async {
@@ -36,8 +36,8 @@ class _FeedViewState extends State<ExplorerView> {
       itemsLoaded.then((data) {
         if (!mounted) return;
         setState(() {
-          _items = data;
-          if (_mode == -1) _items.sort((a, b) => a.dist.compareTo(b.dist));
+          _items = new List<Item>.from(data);
+          if (_mode == 1) _items.sort((a, b) => a.dist.compareTo(b.dist));
           _loading = false;
         });
       });
