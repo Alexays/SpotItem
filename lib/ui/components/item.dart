@@ -23,19 +23,19 @@ class _ItemsListItem extends StatelessWidget {
 
   String getDist(double lat2, double lng2) {
     if (itemsManager.location == null) return '???';
-    var pi80 = PI / 180;
-    var lat1 = itemsManager.location['latitude'] * pi80;
-    var lng1 = itemsManager.location['longitude'] * pi80;
-    var lat = lat2 * pi80;
-    var lng = lng2 * pi80;
+    double pi80 = PI / 180;
+    double lat1 = itemsManager.location['latitude'] * pi80;
+    double lng1 = itemsManager.location['longitude'] * pi80;
+    double lat = lat2 * pi80;
+    double lng = lng2 * pi80;
 
-    var r = 6372.797; // mean radius of Earth in km
-    var dlat = lat - lat1;
-    var dlng = lng - lng1;
-    var a = sin(dlat / 2) * sin(dlat / 2) +
+    double r = 6372.797; // mean radius of Earth in km
+    double dlat = lat - lat1;
+    double dlng = lng - lng1;
+    double a = sin(dlat / 2) * sin(dlat / 2) +
         cos(lat1) * cos(lat) * sin(dlng / 2) * sin(dlng / 2);
-    var c = 2 * atan2(sqrt(a), sqrt(1 - a));
-    var km = r * c;
+    double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+    double km = r * c;
 
     return km.toStringAsFixed(2);
   }
