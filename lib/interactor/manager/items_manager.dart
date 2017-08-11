@@ -51,7 +51,10 @@ class ItemsManager {
     if (_items.length == 0) {
       print("Get location");
       try {
-        location = await _location.getLocation;
+        location = await _location.getLocation
+            .timeout(const Duration(milliseconds: 300), onTimeout: () {
+          location = null;
+        });
       } on PlatformException {
         location = null;
       }
