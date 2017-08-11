@@ -33,9 +33,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           icon: const Icon(Icons.explore),
           title: "Explorer",
           sub: [
-            new HomeScreenSubItem("Discover", new ExplorerView(_itemsManager)),
             new HomeScreenSubItem(
-                "Nearest you", new ExplorerView(_itemsManager)),
+                "Discover", new ExplorerView(_itemsManager, 1)),
+            new HomeScreenSubItem(
+                "Nearest you", new ExplorerView(_itemsManager, -1)),
           ]),
       new HomeScreenItem(
         icon: const Icon(Icons.work),

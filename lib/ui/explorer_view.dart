@@ -6,17 +6,20 @@ import 'package:flutter/material.dart';
 
 class ExplorerView extends StatefulWidget {
   final ItemsManager _itemsManager;
-  ExplorerView(this._itemsManager);
+  final int _mode;
+  ExplorerView(this._itemsManager, this._mode);
 
   @override
-  State<StatefulWidget> createState() => new _FeedViewState(_itemsManager);
+  State<StatefulWidget> createState() =>
+      new _FeedViewState(_itemsManager, _mode);
 }
 
 class _FeedViewState extends State<ExplorerView> {
   final ItemsManager _itemsManager;
+  final int _mode;
   bool _loading = true;
   List<Item> _items = [];
-  _FeedViewState(this._itemsManager);
+  _FeedViewState(this._itemsManager, this._mode);
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
 
@@ -34,6 +37,7 @@ class _FeedViewState extends State<ExplorerView> {
         if (!mounted) return;
         setState(() {
           _items = data;
+          if (_mode == -1) _items.sort((a, b) => a.dist.compareTo(b.dist));
           _loading = false;
         });
       });
