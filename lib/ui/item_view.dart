@@ -117,9 +117,9 @@ class OrderPageState extends State<OrderPage> {
                 icon: const Icon(Icons.create),
                 tooltip: 'Edit',
                 onPressed: () {
-                  scaffoldKey.currentState.showSnackBar(const SnackBar(
-                      content: const Text(
-                          'This is actually just a demo. Editing isn\'t supported.')));
+                  Navigator
+                      .of(context)
+                      .pushNamed('/items/${widget.item.id}/edit');
                 },
               ),
             ],

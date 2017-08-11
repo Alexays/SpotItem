@@ -1,4 +1,5 @@
 import 'package:spotitems/interactor/manager/auth_manager.dart';
+import 'package:spotitems/interactor/manager/items_manager.dart';
 import 'package:spotitems/interactor/manager/profile_manager.dart';
 import 'package:spotitems/ui/explorer_view.dart';
 import 'package:spotitems/ui/profile_view.dart';
@@ -7,18 +8,20 @@ import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
   final AuthManager _authManager;
+  final ItemsManager _itemsManager;
 
-  HomeScreen(this._authManager);
+  HomeScreen(this._authManager, this._itemsManager);
 
   @override
-  State createState() => new _HomeScreenState(_authManager);
+  State createState() => new _HomeScreenState(_authManager, _itemsManager);
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final AuthManager _authManager;
+  final ItemsManager _itemsManager;
   int _currentIndex = 0;
   List<HomeScreenItem> _homeScreenItems;
-  _HomeScreenState(this._authManager);
+  _HomeScreenState(this._authManager, this._itemsManager);
   AnimationController _expandAnimationController;
   Animation<Size> _bottomSize;
 
@@ -30,8 +33,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           icon: const Icon(Icons.explore),
           title: "Explorer",
           sub: [
-            new HomeScreenSubItem("Discover", new ExplorerView()),
-            new HomeScreenSubItem("Nearest you", new ExplorerView()),
+            new HomeScreenSubItem("Discover", new ExplorerView(_itemsManager)),
+            new HomeScreenSubItem(
+                "Nearest you", new ExplorerView(_itemsManager)),
           ]),
       new HomeScreenItem(
         icon: const Icon(Icons.work),

@@ -25,7 +25,9 @@ class AuthManager {
 
   Future init() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    User user = new User.fromJson(JSON.decode(prefs.getString(KEY_USER)));
+    String userData = prefs.getString(KEY_USER);
+    User user =
+        new User.fromJson(JSON.decode(userData != null ? userData : '{}'));
     String oauthToken = prefs.getString(KEY_OAUTH_TOKEN);
     final Client _client = new Client();
 
@@ -64,7 +66,6 @@ class AuthManager {
     } else {
       _loggedIn = false;
     }
-
     return _loggedIn;
   }
 

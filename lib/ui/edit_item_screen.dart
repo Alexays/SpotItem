@@ -1,17 +1,18 @@
 import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:flutter/material.dart';
 
-class AddItemScreen extends StatelessWidget {
+class EditItemScreen extends StatelessWidget {
   final AuthManager _authManager;
+  final String _itemId;
   final _usernameController = new TextEditingController();
   final _passwordController = new TextEditingController();
 
-  AddItemScreen(this._authManager);
+  EditItemScreen(this._authManager, this._itemId);
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(title: new Text('Add Item')),
+      appBar: new AppBar(title: new Text('Edit: ' + this._itemId)),
       body: new Builder(
         builder: (BuildContext context) {
           return new Container(
@@ -32,7 +33,7 @@ class AddItemScreen extends StatelessWidget {
                       controller: _passwordController,
                     ),
                     new RaisedButton(
-                        child: new Text('Add'),
+                        child: new Text('Edit'),
                         onPressed: () {
                           Scaffold.of(context).showSnackBar(
                               new SnackBar(content: new Text("test")));
