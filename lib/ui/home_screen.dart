@@ -103,7 +103,30 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      drawer: new Container(),
+      drawer: new Drawer(
+        child: new ListView(
+          children: <Widget>[
+            new Padding(
+              padding: new EdgeInsets.only(top: 50.0),
+            ),
+            new ClipRect(
+              child: new Column(
+                children: <Widget>[
+                  new ListTile(
+                    title: new Text('test 1'),
+                  ),
+                  new ListTile(
+                    title: new Text('test 2'),
+                  ),
+                  new ListTile(
+                    title: new Text('test 3'),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
       floatingActionButton: new FloatingActionButton(
         child: new Icon(Icons.add),
         tooltip: "Add new item",
