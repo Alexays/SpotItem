@@ -22,7 +22,7 @@ class ItemsManager {
 
   Future loadItems() async {
     if (_items.length == 0) {
-      print("load");
+      print("Load Items...");
       final Client _client = new Client();
       final itemResponse =
           await _client.get(API_URL + '/items').whenComplete(_client.close);
@@ -36,7 +36,7 @@ class ItemsManager {
     return _items;
   }
 
-  Future<List<Item>> getItems(bool force) async {
+  Future<List<Item>> getItems([bool force = false]) async {
     if (force) _items.clear();
     return await loadItems();
   }

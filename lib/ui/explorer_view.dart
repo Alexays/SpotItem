@@ -1,10 +1,7 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:spotitems/model/item.dart';
 import 'package:spotitems/ui/components/item.dart';
-import 'package:spotitems/keys.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
-import 'package:http/http.dart';
 import 'package:flutter/material.dart';
 
 class ExplorerView extends StatefulWidget {
