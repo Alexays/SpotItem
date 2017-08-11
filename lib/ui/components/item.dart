@@ -25,11 +25,11 @@ class _ItemsListItem extends StatelessWidget {
             children: <Widget>[
               new Hero(
                   tag: item.id,
-                  child: new Image.network(
-                    item.images[0],
-                    fit: BoxFit.cover,
-                    alignment: FractionalOffset.center,
-                  )),
+                  child: new FadeInImage(
+                      placeholder: new AssetImage('assets/placeholder.png'),
+                      image: new NetworkImage(item.images[0]),
+                      fit: BoxFit.cover,
+                      alignment: FractionalOffset.center)),
               new Positioned(
                 bottom: 0.0,
                 left: 0.0,
