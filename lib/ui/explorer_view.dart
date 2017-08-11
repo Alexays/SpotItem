@@ -48,7 +48,7 @@ class _FeedViewState extends State<ExplorerView> {
       },
       child: _loading
           ? new Center(child: new CircularProgressIndicator())
-          : new ItemsList(_items),
+          : new ItemsList(_items, _itemsManager),
     );
   }
 }

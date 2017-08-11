@@ -1,18 +1,43 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitems/model/item.dart';
 import 'package:spotitems/ui/item_view.dart';
+import 'package:spotitems/interactor/manager/items_manager.dart';
 
 class _ItemsListItem extends StatelessWidget {
-  const _ItemsListItem({Key key, @required this.item, this.onPressed})
+  const _ItemsListItem(
+      {Key key,
+      @required this.itemsManager,
+      @required this.item,
+      this.onPressed})
       : assert(item != null),
         super(key: key);
 
+  final ItemsManager itemsManager;
   final Item item;
   final VoidCallback onPressed;
+
+  String getDist(double lat2, double lng2) {
+    var pi80 = PI / 180;
+    var lat1 = itemsManager.location['latitude'] * pi80;
+    var lng1 = itemsManager.location['longitude'] * pi80;
+    var lat = lat2 * pi80;
+    var lng = lng2 * pi80;
+
+    var r = 6372.797; // mean radius of Earth in km
+    var dlat = lat - lat1;
+    var dlng = lng - lat1;
+    var a = sin(dlat / 2) * sin(dlat / 2) +
+        cos(lat1) * cos(lat) * sin(dlng / 2) * sin(dlng / 2);
+    var c = 2 * atan2(sqrt(a), sqrt(1 - a));
+    var km = r * c;
+
+    return km.toStringAsFixed(2);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +55,19 @@ class _ItemsListItem extends StatelessWidget {
                       image: new NetworkImage(item.images[0]),
                       fit: BoxFit.cover,
                       alignment: FractionalOffset.center)),
+              new Positioned(
+                top: 15.0,
+                left: 15.0,
+                right: 0.0,
+                child: new Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    new RaisedButton(
+                        child: new Text(getDist(item.lat, item.lng)),
+                        onPressed: () {})
+                  ],
+                ),
+              ),
               new Positioned(
                 bottom: 0.0,
                 left: 0.0,
@@ -71,8 +109,9 @@ class _ItemsListItem extends StatelessWidget {
 
 class ItemsList extends StatelessWidget {
   final List<Item> _items;
+  final ItemsManager _itemsManager;
 
-  ItemsList(this._items);
+  ItemsList(this._items, this._itemsManager);
 
   @override
   Widget build(BuildContext context) {
@@ -85,9 +124,10 @@ class ItemsList extends StatelessWidget {
   List<_ItemsListItem> _buildItemsList(context) {
     return _items
         .map((item) => new _ItemsListItem(
-            item: new Item.fromJson(item),
+            itemsManager: _itemsManager,
+            item: item,
             onPressed: () {
-              _showItemPage(new Item.fromJson(item), context);
+              _showItemPage(item, context);
             }))
         .toList();
   }

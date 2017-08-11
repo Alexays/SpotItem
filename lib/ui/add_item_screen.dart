@@ -1,12 +1,30 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:spotitems/interactor/manager/auth_manager.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 
-class AddItemScreen extends StatelessWidget {
+class AddItemScreen extends StatefulWidget {
+  final AuthManager _authManager;
+  AddItemScreen(this._authManager);
+
+  @override
+  _AddItemScreenState createState() => new _AddItemScreenState();
+}
+
+class _AddItemScreenState extends State<AddItemScreen> {
   final AuthManager _authManager;
   final _usernameController = new TextEditingController();
   final _passwordController = new TextEditingController();
+  File _imageFile;
 
-  AddItemScreen(this._authManager);
+  getImage() async {
+    var _fileName = await ImagePicker.pickImage();
+    setState(() {
+      _imageFile = _fileName;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +59,11 @@ class AddItemScreen extends StatelessWidget {
                 ),
               ));
         },
+      ),
+      floatingActionButton: new FloatingActionButton(
+        onPressed: getImage,
+        tooltip: 'Pick Image',
+        child: new Icon(Icons.add_a_photo),
       ),
     );
   }

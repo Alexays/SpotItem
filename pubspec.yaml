@@ -6,6 +6,8 @@ dependencies:
   fluro: '>=1.1.0'
   stream_ext: '>=0.4.0'
   shared_preferences: '>=0.2.4+1'
+  image_picker: '>=0.1.1'
+  location: '>=1.1.2'
   flutter:
     sdk: flutter
 
