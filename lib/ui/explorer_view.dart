@@ -34,6 +34,7 @@ class _FeedViewState extends State<ExplorerView> {
     final itemsLoaded = _itemsManager.getItems(force);
     if (itemsLoaded != null) {
       itemsLoaded.then((data) {
+        if (!mounted) return;
         setState(() {
           _items = data;
           _loading = false;
