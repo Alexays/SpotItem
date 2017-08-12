@@ -124,14 +124,20 @@ class OrderPageState extends State<OrderPage> {
               ),
             ],
             flexibleSpace: new FlexibleSpaceBar(
-              title: new Text(widget.item.name),
+              title: new Text(
+                widget.item.name,
+                overflow: TextOverflow.ellipsis,
+              ),
               background: new Stack(
                 fit: StackFit.expand,
                 children: <Widget>[
                   new Hero(
-                      tag: widget.item.id,
-                      child: new Image.network(widget.item.images[0],
-                          fit: BoxFit.cover)),
+                      tag: widget.item.id + '_img',
+                      child: new FadeInImage(
+                          placeholder: new AssetImage('assets/placeholder.png'),
+                          image: new NetworkImage(widget.item.images[0]),
+                          fit: BoxFit.cover,
+                          alignment: FractionalOffset.center)),
                   // This gradient ensures that the toolbar icons are distinct
                   // against the background image.
                   const DecoratedBox(

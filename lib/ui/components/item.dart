@@ -30,7 +30,7 @@ class _ItemsListItem extends StatelessWidget {
             fit: StackFit.expand,
             children: <Widget>[
               new Hero(
-                  tag: item.id,
+                  tag: item.id + '_img',
                   child: new FadeInImage(
                       placeholder: new AssetImage('assets/placeholder.png'),
                       image: new NetworkImage(item.images[0]),

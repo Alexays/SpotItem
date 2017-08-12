@@ -19,6 +19,8 @@ class ItemsManager {
 
   Map<String, double> location;
 
+  StreamSubscription<Map<String, double>> _locationSubscription;
+
   bool _initialized;
   bool _loading = true;
   List<Item> _items = [];
@@ -51,8 +53,11 @@ class ItemsManager {
     if (_items.length == 0) {
       print("Get location");
       try {
-        location = await _location.getLocation
-            .timeout(const Duration(milliseconds: 300), onTimeout: () {
+        _locationSubscription = _location.onLocationChanged
+            .listen((Map<String, double> currentLocation) {
+          location = currentLocation;
+        });
+        location = await _location.getLocation.timeout(const Duration(milliseconds: 300), onTimeout: () {
           location = null;
         });
       } on PlatformException {
