@@ -53,11 +53,8 @@ class ItemsManager {
     if (_items.length == 0) {
       print("Get location");
       try {
-        _locationSubscription = _location.onLocationChanged
-            .listen((Map<String, double> currentLocation) {
-          location = currentLocation;
-        });
-        location = await _location.getLocation.timeout(const Duration(milliseconds: 300), onTimeout: () {
+        location = await _location.getLocation
+            .timeout(const Duration(milliseconds: 300), onTimeout: () {
           location = null;
         });
       } on PlatformException {
@@ -83,6 +80,6 @@ class ItemsManager {
 
   Future<List<Item>> getItems([bool force = false]) async {
     if (force) _items.clear();
-    return await loadItems();
+    return loadItems();
   }
 }

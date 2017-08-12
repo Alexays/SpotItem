@@ -102,21 +102,18 @@ class ItemsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new ListView(
+    return new ListView.builder(
         padding: new EdgeInsets.symmetric(vertical: 8.0),
+        itemCount: _items.length,
         itemExtent: 300.0,
-        children: _buildItemsList(context));
-  }
-
-  List<_ItemsListItem> _buildItemsList(context) {
-    return _items
-        .map((item) => new _ItemsListItem(
-            itemsManager: _itemsManager,
-            item: item,
-            onPressed: () {
-              _showItemPage(item, context);
-            }))
-        .toList();
+        itemBuilder: (BuildContext context, int index) {
+          return new _ItemsListItem(
+              itemsManager: _itemsManager,
+              item: _items[index],
+              onPressed: () {
+                _showItemPage(_items[index], context);
+              });
+        });
   }
 }
 
