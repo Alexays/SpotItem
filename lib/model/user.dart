@@ -11,7 +11,7 @@ class User {
     if (json == null) {
       return null;
     } else {
-      return new User(json['id'], json['name'], json['email'],
+      return new User(json['_id'], json['name'], json['email'],
           json['firstname'], json['avatar']);
     }
   }
@@ -22,6 +22,6 @@ class User {
 
   @override
   String toString() {
-    return "{\"id\": \"$id\", \"name\": \"$name\", \"email\": \"$email\", \"firstname\": \"$firstname\", \"avatar\": \"$avatar\"}";
+    return "{\"_id\": \"$id\", \"name\": \"$name\", \"email\": \"$email\", \"firstname\": \"$firstname\", \"avatar\": \"$avatar\"}";
   }
 }

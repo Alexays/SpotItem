@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitems/model/item.dart';
 import 'package:spotitems/model/user.dart';
+import 'package:spotitems/interactor/manager/items_manager.dart';
 
 class _ContactCategory extends StatelessWidget {
   const _ContactCategory({Key key, this.icon, this.children}) : super(key: key);
@@ -76,10 +77,10 @@ class _ContactItem extends StatelessWidget {
 }
 
 class OrderPage extends StatefulWidget {
-  OrderPage({Key key, @required this.item, this.me})
+  OrderPage({Key key, this.itemsManager, @required this.item, this.me})
       : assert(item != null),
         super(key: key);
-
+  final ItemsManager itemsManager;
   final Item item;
   final User me;
   @override
@@ -110,18 +111,57 @@ class OrderPageState extends State<OrderPage> {
     List<Widget> top = [];
     if (widget.me != null && widget.item.owner.id == widget.me.id) {
       top.add(new IconButton(
+        icon: const Icon(Icons.delete),
+        tooltip: 'Delete',
+        onPressed: () {
+          showDialog<Null>(
+            context: context,
+            barrierDismissible: false, // user must tap button!
+            child: new AlertDialog(
+              title: new Text('Delete confirmation'),
+              content: new SingleChildScrollView(
+                child: new ListBody(
+                  children: <Widget>[
+                    new Text('Are you sure to delete this item ?'),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                new FlatButton(
+                  child: new Text('Cancel'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                new FlatButton(
+                  child: new Text('Delete'),
+                  onPressed: () {
+                    widget.itemsManager.deleteItem(widget.item.id).then((resp) {
+                      if (resp['success']) {
+                        Navigator.pushReplacementNamed(context, '/home');
+                      }
+                    });
+                  },
+                ),
+              ],
+            ),
+          );
+        },
+      ));
+      top.add(new IconButton(
         icon: const Icon(Icons.create),
         tooltip: 'Edit',
         onPressed: () {
           Navigator.of(context).pushNamed('/items/${widget.item.id}/edit');
         },
       ));
+    } else {
+      top.add(new IconButton(
+        icon: const Icon(Icons.star_border),
+        tooltip: 'Favorites',
+        onPressed: () {},
+      ));
     }
-    top.add(new IconButton(
-      icon: const Icon(Icons.star_border),
-      tooltip: 'Favorites',
-      onPressed: () {},
-    ));
     return top;
   }
 

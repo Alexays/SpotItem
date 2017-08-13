@@ -79,6 +79,16 @@ class ItemsManager {
     return bodyJson;
   }
 
+  Future deleteItem(String id) async {
+    final Client _client = new Client();
+    final response = await _client
+        .delete(Uri.encodeFull(API_URL + '/items/' + id), headers: {
+      'Authorization': 'Basic ${_clientSecret}'
+    }).whenComplete(_client.close);
+    final bodyJson = JSON.decode(response.body);
+    return bodyJson;
+  }
+
   Future loadItems() async {
     if (_items.length == 0) {
       print("Get location");

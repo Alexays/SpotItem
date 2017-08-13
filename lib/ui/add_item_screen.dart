@@ -95,12 +95,13 @@ class _AddItemScreenState extends State<AddItemScreen> {
           _itemsManager.location['longitude'].toString(),
           images,
           location);
-      print(response);
       Scaffold
           .of(context)
           .showSnackBar(new SnackBar(content: new Text(response['msg'])));
     } else {
-      print("not connect");
+      Scaffold
+          .of(context)
+          .showSnackBar(new SnackBar(content: new Text("Not Connected")));
     }
   }
 
