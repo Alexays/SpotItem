@@ -1,21 +1,20 @@
 import 'package:spotitems/model/user.dart';
 
 class Item {
-  final String id;
-  final String name;
-  final String about;
-  final List<String> images;
-  final String lastGeo;
-  final List<String> calendar;
-  final String location;
-  final double lat;
-  final double lng;
-  final double dist;
-  final String createdAt;
-  final List<String> tracks;
-  final User owner;
+  String id;
+  String name;
+  String about;
+  List<String> images;
+  String lastGeo;
+  List<String> calendar;
+  String location;
+  double lat;
+  double lng;
+  double dist;
+  List<String> tracks;
+  User owner;
 
-  const Item(
+  Item(
     this.id,
     this.name,
     this.about,
@@ -26,7 +25,6 @@ class Item {
     this.lat,
     this.lng,
     this.dist,
-    this.createdAt,
     this.tracks,
     this.owner,
   );
@@ -46,7 +44,6 @@ class Item {
         json['lat'],
         json['lng'],
         dist,
-        json['createdAt'],
         json['tracks'],
         new User.fromJson(json['owner']),
       );

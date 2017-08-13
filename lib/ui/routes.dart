@@ -33,9 +33,10 @@ HandlerFunc buildEditItemHandler(AuthManager authManager) {
       new EditItemScreen(authManager, params['id']);
 }
 
-HandlerFunc buildAddItemHandler(AuthManager authManager) {
+HandlerFunc buildAddItemHandler(
+    AuthManager authManager, ItemsManager itemsManager) {
   return (BuildContext context, Map<String, dynamic> params) =>
-      new AddItemScreen(authManager);
+      new AddItemScreen(authManager, itemsManager);
 }
 
 void configureRouter(
@@ -57,5 +58,6 @@ void configureRouter(
       handler: new Handler(handlerFunc: buildEditItemHandler(authManager)));
 
   router.define('/addItem',
-      handler: new Handler(handlerFunc: buildAddItemHandler(authManager)));
+      handler: new Handler(
+          handlerFunc: buildAddItemHandler(authManager, itemsManager)));
 }

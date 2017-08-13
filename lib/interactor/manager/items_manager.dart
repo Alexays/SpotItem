@@ -15,6 +15,8 @@ class ItemsManager {
 
   List<Item> get items => _items;
 
+  final String _clientSecret = CLIENT_SECRET;
+
   Location _location = new Location();
 
   Map<String, double> location;
@@ -55,6 +57,26 @@ class ItemsManager {
     double c = 2 * atan2(sqrt(a), sqrt(1 - a));
     double km = r * c;
     return km;
+  }
+
+  Future addItem(String name, String about, String userId, String lat,
+      String lng, List<String> images, String location) async {
+    final Client _client = new Client();
+    final response =
+        await _client.post(Uri.encodeFull(API_URL + '/addItem'), headers: {
+      'Authorization': 'Basic ${_clientSecret}'
+    }, body: {
+      'name': name,
+      'about': about,
+      'owner': userId,
+      'holder': userId,
+      'lat': lat,
+      'lng': lng,
+      'images': JSON.encode(images),
+      'location': location
+    }).whenComplete(_client.close);
+    final bodyJson = JSON.decode(response.body);
+    return bodyJson;
   }
 
   Future loadItems() async {

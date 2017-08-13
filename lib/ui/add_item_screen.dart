@@ -1,40 +1,56 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:convert';
 
 import 'package:spotitems/interactor/manager/auth_manager.dart';
+import 'package:spotitems/interactor/manager/items_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 
 class AddItemScreen extends StatefulWidget {
   final AuthManager _authManager;
-  AddItemScreen(this._authManager);
+  final ItemsManager _itemsManager;
+  AddItemScreen(this._authManager, this._itemsManager);
 
   @override
-  _AddItemScreenState createState() => new _AddItemScreenState();
+  _AddItemScreenState createState() =>
+      new _AddItemScreenState(_authManager, _itemsManager);
 }
 
 class _AddItemScreenState extends State<AddItemScreen> {
+  _AddItemScreenState(this._authManager, this._itemsManager);
   final AuthManager _authManager;
-  final _usernameController = new TextEditingController();
-  final _passwordController = new TextEditingController();
+  final ItemsManager _itemsManager;
+  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   List<File> _imageFile = [];
+
+  String name;
+  String about;
+  String location;
+  List<String> images = [];
 
   @override
   void initState() {
     super.initState();
     _imageFile.clear();
+    images.clear();
   }
 
   getImage() async {
     var _fileName = await ImagePicker.pickImage();
     setState(() {
       _imageFile.add(_fileName);
+      _fileName.readAsBytes().then((data) {
+        images.add('data:image/' +
+            _fileName.path.split('.').last +
+            ';base64,' +
+            BASE64.encode(data));
+      });
     });
   }
 
   Widget getImageGrid() {
-    if (_imageFile == null || _imageFile.length < 1)
-      return new Center(child: new Text("No Images"));
+    if (_imageFile == null || _imageFile.length < 1) return new Center();
     return new GridView.count(
       crossAxisCount: _imageFile.length,
       crossAxisSpacing: 10.0,
@@ -46,7 +62,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
             new Positioned(
                 top: 5.0,
                 left: 5.0,
-                right: 0.0,
                 child: new Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -57,6 +72,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                         onPressed: () {
                           setState(() {
                             _imageFile.removeAt(index);
+                            images.removeAt(index);
                           });
                         },
                       ),
@@ -65,6 +81,27 @@ class _AddItemScreenState extends State<AddItemScreen> {
         ));
       }),
     );
+  }
+
+  addItem(BuildContext context) async {
+    final FormState form = _formKey.currentState;
+    form.save();
+    if (_authManager.user != null && _authManager.user.id != null) {
+      var response = await _itemsManager.addItem(
+          name,
+          about,
+          _authManager.user.id,
+          _itemsManager.location['latitude'].toString(),
+          _itemsManager.location['longitude'].toString(),
+          images,
+          location);
+      print(response);
+      Scaffold
+          .of(context)
+          .showSnackBar(new SnackBar(content: new Text(response['msg'])));
+    } else {
+      print("not connect");
+    }
   }
 
   @override
@@ -83,28 +120,39 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     child: getImageGrid(),
                   ),
                   new Form(
+                      key: _formKey,
                       child: new Column(
-                    children: <Widget>[
-                      new TextFormField(
-                        key: new Key('name'),
-                        decoration:
-                            new InputDecoration.collapsed(hintText: "Name"),
-                        autofocus: true,
-                        controller: _usernameController,
-                      ),
-                      new TextFormField(
-                        decoration: new InputDecoration.collapsed(
-                            hintText: 'Description'),
-                        controller: _passwordController,
-                      ),
-                      new RaisedButton(
-                          child: new Text('Add'),
-                          onPressed: () {
-                            Scaffold.of(context).showSnackBar(
-                                new SnackBar(content: new Text("test")));
-                          })
-                    ],
-                  ))
+                        children: <Widget>[
+                          new TextFormField(
+                            key: new Key('name'),
+                            decoration:
+                                new InputDecoration.collapsed(hintText: "Name"),
+                            autofocus: true,
+                            onSaved: (String value) {
+                              name = value;
+                            },
+                          ),
+                          new TextFormField(
+                            decoration: new InputDecoration.collapsed(
+                                hintText: 'Description'),
+                            onSaved: (String value) {
+                              about = value;
+                            },
+                          ),
+                          new TextFormField(
+                            decoration: new InputDecoration.collapsed(
+                                hintText: 'Location'),
+                            onSaved: (String value) {
+                              location = value;
+                            },
+                          ),
+                          new RaisedButton(
+                              child: new Text('Add'),
+                              onPressed: () {
+                                addItem(context);
+                              })
+                        ],
+                      ))
                 ],
               ));
         },

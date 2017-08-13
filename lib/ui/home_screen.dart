@@ -49,8 +49,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         content: new ItemsView(),
       ),
       new HomeScreenItem(
-        icon: const Icon(Icons.person),
-        title: "Profile",
+        icon: const Icon(Icons.sms),
+        title: "Message",
         content: new ProfileView(
             new ProfileManager(_authManager, _authManager.user),
             _authManager.user),
@@ -101,33 +101,79 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
+  Widget _buildDrawer(BuildContext context) {
+    return new Drawer(
+      child: new ListView(
+        children: <Widget>[
+          new DrawerHeader(
+              child: new Center(
+                  child: new Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                new Padding(
+                  child: new CircleAvatar(
+                    radius: 40.0,
+                    backgroundColor: Colors.grey,
+                    backgroundImage: _authManager.user?.avatar != null &&
+                            _authManager.user?.avatar != 'null'
+                        ? new NetworkImage(_authManager.user?.avatar)
+                        : null,
+                  ),
+                  padding: const EdgeInsets.only(right: 16.0),
+                ),
+                new Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    new Padding(
+                      padding: const EdgeInsets.only(bottom: 4.0),
+                      child: new Text(
+                          _authManager.user?.name != null
+                              ? _authManager.user?.name
+                              : '',
+                          style: new TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                    new Text(_authManager.user?.firstname != null
+                        ? _authManager.user?.firstname
+                        : '')
+                  ],
+                )
+              ]))),
+          const ListTile(
+            leading: const Icon(Icons.home),
+            title: const Text('Home'),
+            selected: true,
+          ),
+          const ListTile(
+            leading: const Icon(Icons.account_balance),
+            title: const Text('test'),
+            enabled: false,
+          ),
+          new ListTile(
+            leading: const Icon(Icons.dvr),
+            title: const Text('Dump App to Console'),
+            onTap: () {
+              try {
+                debugDumpApp();
+                debugDumpRenderTree();
+                debugDumpLayerTree();
+              } catch (e, stack) {
+                debugPrint('Exception while dumping app:\n$e\n$stack');
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      drawer: new Drawer(
-        child: new ListView(
-          children: <Widget>[
-            new Padding(
-              padding: new EdgeInsets.only(top: 50.0),
-            ),
-            new ClipRect(
-              child: new Column(
-                children: <Widget>[
-                  new ListTile(
-                    title: new Text('test 1'),
-                  ),
-                  new ListTile(
-                    title: new Text('test 2'),
-                  ),
-                  new ListTile(
-                    title: new Text('test 3'),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+      drawer: _buildDrawer(context),
       floatingActionButton: new FloatingActionButton(
         child: new Icon(Icons.add),
         tooltip: "Add new item",
