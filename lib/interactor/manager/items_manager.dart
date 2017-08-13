@@ -26,8 +26,17 @@ class ItemsManager {
   List<Item> _items = [];
 
   Future init() async {
-    _items.clear();
+    // _locationSubscription =
+    //     _location.onLocationChanged.listen((Map<String, double> result) {
+    //   if (result != null) location = result;
+    // });
     _initialized = true;
+  }
+
+  Future close() async {
+    if (_locationSubscription != null &&
+        await _location.onLocationChanged.isEmpty)
+      _locationSubscription.cancel();
   }
 
   double getDist(double lat2, double lng2) {
@@ -38,14 +47,13 @@ class ItemsManager {
     double lat = lat2 * pi80;
     double lng = lng2 * pi80;
 
-    double r = 6372.797; // mean radius of Earth in km
+    double r = 6371.0088; // mean radius of Earth in km
     double dlat = lat - lat1;
     double dlng = lng - lng1;
     double a = sin(dlat / 2) * sin(dlat / 2) +
         cos(lat1) * cos(lat) * sin(dlng / 2) * sin(dlng / 2);
     double c = 2 * atan2(sqrt(a), sqrt(1 - a));
     double km = r * c;
-
     return km;
   }
 
@@ -53,12 +61,14 @@ class ItemsManager {
     if (_items.length == 0) {
       print("Get location");
       try {
-        location = await _location.getLocation
+        Map<String, double> tmp = await _location.getLocation
             .timeout(const Duration(milliseconds: 300), onTimeout: () {
           location = null;
         });
+        if (tmp != null) location = tmp;
+        print(location);
       } on PlatformException {
-        location = null;
+        print("Can't get location");
       }
       print("Load Items...");
       final Client _client = new Client();
@@ -70,10 +80,8 @@ class ItemsManager {
           return new Item.fromJson(itemJson[index],
               getDist(itemJson[index]['lat'], itemJson[index]['lng']));
         });
-        _loading = false;
-      } else {
-        _loading = false;
       }
+      _loading = false;
     }
     return _items;
   }

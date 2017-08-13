@@ -26,6 +26,12 @@ class _SplashState extends State<SplashScreen> {
     _init();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    _itemsManager.close();
+  }
+
   Future _init() async {
     await _authManager.init();
     await _itemsManager.init();

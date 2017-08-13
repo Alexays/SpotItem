@@ -2,24 +2,27 @@ import 'dart:async';
 import 'package:spotitems/model/item.dart';
 import 'package:spotitems/ui/components/item.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
+import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:flutter/material.dart';
 
 class ExplorerView extends StatefulWidget {
   final ItemsManager _itemsManager;
+  final AuthManager _authManager;
   final int _mode;
-  ExplorerView(this._itemsManager, this._mode);
+  ExplorerView(this._itemsManager, this._authManager, this._mode);
 
   @override
   State<StatefulWidget> createState() =>
-      new _FeedViewState(_itemsManager, _mode);
+      new _FeedViewState(_itemsManager, _mode, _authManager);
 }
 
 class _FeedViewState extends State<ExplorerView> {
   final ItemsManager _itemsManager;
+  final AuthManager _authManager;
   final int _mode;
   bool _loading = true;
   List<Item> _items = [];
-  _FeedViewState(this._itemsManager, this._mode);
+  _FeedViewState(this._itemsManager, this._mode, this._authManager);
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
 
@@ -52,7 +55,7 @@ class _FeedViewState extends State<ExplorerView> {
       },
       child: _loading
           ? new Center(child: new CircularProgressIndicator())
-          : new ItemsList(_items, _itemsManager),
+          : new ItemsList(_items, _itemsManager, _authManager),
     );
   }
 }

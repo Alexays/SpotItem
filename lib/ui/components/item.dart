@@ -4,19 +4,23 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitems/model/item.dart';
+import 'package:spotitems/model/user.dart';
 import 'package:spotitems/ui/item_view.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
+import 'package:spotitems/interactor/manager/auth_manager.dart';
 
 class _ItemsListItem extends StatelessWidget {
   const _ItemsListItem(
       {Key key,
       @required this.itemsManager,
       @required this.item,
+      this.authManager,
       this.onPressed})
       : assert(item != null),
         super(key: key);
 
   final ItemsManager itemsManager;
+  final AuthManager authManager;
   final Item item;
   final VoidCallback onPressed;
 
@@ -39,7 +43,6 @@ class _ItemsListItem extends StatelessWidget {
               new Positioned(
                 top: 15.0,
                 left: 15.0,
-                right: 0.0,
                 child: new Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -52,6 +55,21 @@ class _ItemsListItem extends StatelessWidget {
                           style: theme.primaryTextTheme.subhead,
                         ),
                         onPressed: () {})
+                  ],
+                ),
+              ),
+              new Positioned(
+                top: 15.0,
+                right: 15.0,
+                child: new Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    new IconButton(
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      icon: new Icon(Icons.star_border),
+                      tooltip: 'Fav this item',
+                      onPressed: () {},
+                    ),
                   ],
                 ),
               ),
@@ -97,8 +115,9 @@ class _ItemsListItem extends StatelessWidget {
 class ItemsList extends StatelessWidget {
   final List<Item> _items;
   final ItemsManager _itemsManager;
+  final AuthManager _authManager;
 
-  ItemsList(this._items, this._itemsManager);
+  ItemsList(this._items, this._itemsManager, this._authManager);
 
   @override
   Widget build(BuildContext context) {
@@ -111,16 +130,16 @@ class ItemsList extends StatelessWidget {
               itemsManager: _itemsManager,
               item: _items[index],
               onPressed: () {
-                _showItemPage(_items[index], context);
+                _showItemPage(_items[index], _authManager.user, context);
               });
         });
   }
 }
 
-Future<Null> _showItemPage(dynamic item, context) async {
+Future<Null> _showItemPage(Item item, User me, context) async {
   Navigator.push(context, new MaterialPageRoute<Null>(
     builder: (BuildContext context) {
-      return new OrderPage(item: item);
+      return new OrderPage(item: item, me: me);
     },
   ));
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitems/model/item.dart';
+import 'package:spotitems/model/user.dart';
 
 class _ContactCategory extends StatelessWidget {
   const _ContactCategory({Key key, this.icon, this.children}) : super(key: key);
@@ -75,11 +76,12 @@ class _ContactItem extends StatelessWidget {
 }
 
 class OrderPage extends StatefulWidget {
-  OrderPage({Key key, @required this.item})
+  OrderPage({Key key, @required this.item, this.me})
       : assert(item != null),
         super(key: key);
 
   final Item item;
+  final User me;
   @override
   OrderPageState createState() => new OrderPageState();
 }
@@ -104,6 +106,25 @@ class OrderPageState extends State<OrderPage> {
 
   final double _appBarHeight = 256.0;
 
+  doButton() {
+    List<Widget> top = [];
+    if (widget.me != null && widget.item.owner.id == widget.me.id) {
+      top.add(new IconButton(
+        icon: const Icon(Icons.create),
+        tooltip: 'Edit',
+        onPressed: () {
+          Navigator.of(context).pushNamed('/items/${widget.item.id}/edit');
+        },
+      ));
+    }
+    top.add(new IconButton(
+      icon: const Icon(Icons.star_border),
+      tooltip: 'Favorites',
+      onPressed: () {},
+    ));
+    return top;
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -112,17 +133,7 @@ class OrderPageState extends State<OrderPage> {
           new SliverAppBar(
             expandedHeight: _appBarHeight,
             pinned: true,
-            actions: <Widget>[
-              new IconButton(
-                icon: const Icon(Icons.create),
-                tooltip: 'Edit',
-                onPressed: () {
-                  Navigator
-                      .of(context)
-                      .pushNamed('/items/${widget.item.id}/edit');
-                },
-              ),
-            ],
+            actions: doButton(),
             flexibleSpace: new FlexibleSpaceBar(
               title: new Text(
                 widget.item.name,
