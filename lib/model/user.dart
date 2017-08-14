@@ -1,19 +1,16 @@
 class User {
-  final String id;
-  final String email;
-  final String firstname;
-  final String name;
-  final String avatar;
+  String id;
+  String email;
+  String firstname;
+  String name;
+  String avatar;
 
-  const User(this.id, this.name, this.email, this.firstname, this.avatar);
+  User(this.id, this.name, this.email, this.firstname, this.avatar);
 
   factory User.fromJson(json) {
-    if (json == null) {
-      return null;
-    } else {
-      return new User(json['_id'], json['name'], json['email'],
-          json['firstname'], json['avatar']);
-    }
+    if (json == null) return null;
+    return new User(json['_id'], json['name'], json['email'], json['firstname'],
+        json['avatar']);
   }
 
   bool isValid() {

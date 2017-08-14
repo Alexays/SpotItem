@@ -27,6 +27,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   String name;
   String about;
   String location;
+  bool isGift = false;
   List<String> images = [];
 
   @override
@@ -86,6 +87,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
   addItem(BuildContext context) async {
     final FormState form = _formKey.currentState;
     form.save();
+    List<String> tracks = [];
+    if (isGift) tracks.add('gift');
     if (_authManager.user != null && _authManager.user.id != null) {
       var response = await _itemsManager.addItem(
           name,
@@ -94,10 +97,15 @@ class _AddItemScreenState extends State<AddItemScreen> {
           _itemsManager.location['latitude'].toString(),
           _itemsManager.location['longitude'].toString(),
           images,
-          location);
+          location,
+          tracks);
       Scaffold
           .of(context)
           .showSnackBar(new SnackBar(content: new Text(response['msg'])));
+      if (response['success']) {
+        _itemsManager.getItems(true);
+        Navigator.pushReplacementNamed(context, '/home');
+      }
     } else {
       Scaffold
           .of(context)
@@ -134,6 +142,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                             },
                           ),
                           new TextFormField(
+                            key: new Key('about'),
                             decoration: new InputDecoration.collapsed(
                                 hintText: 'Description'),
                             onSaved: (String value) {
@@ -141,19 +150,29 @@ class _AddItemScreenState extends State<AddItemScreen> {
                             },
                           ),
                           new TextFormField(
+                            key: new Key('location'),
                             decoration: new InputDecoration.collapsed(
                                 hintText: 'Location'),
                             onSaved: (String value) {
                               location = value;
                             },
                           ),
+                          new CheckboxListTile(
+                              key: new Key('gift'),
+                              title: new Text('Is a Gift ?'),
+                              value: isGift,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  isGift = value;
+                                });
+                              }),
                           new RaisedButton(
                               child: new Text('Add'),
                               onPressed: () {
                                 addItem(context);
                               })
                         ],
-                      ))
+                      )),
                 ],
               ));
         },

@@ -30,24 +30,21 @@ class Item {
   );
 
   factory Item.fromJson(json, dist) {
-    if (json == null) {
-      return null;
-    } else {
-      return new Item(
-        json['_id'],
-        json['name'],
-        json['about'],
-        json['images'],
-        json['lastGeo'],
-        json['calendar'],
-        json['location'],
-        json['lat'],
-        json['lng'],
-        dist,
-        json['tracks'],
-        new User.fromJson(json['owner']),
-      );
-    }
+    if (json == null) return null;
+    return new Item(
+      json['_id'],
+      json['name'],
+      json['about'],
+      json['images'],
+      json['lastGeo'],
+      json['calendar'],
+      json['location'],
+      json['lat'],
+      json['lng'],
+      dist,
+      json['tracks'],
+      new User.fromJson(json['owner']),
+    );
   }
 
   bool isValid() {

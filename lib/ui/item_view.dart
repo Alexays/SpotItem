@@ -138,6 +138,7 @@ class OrderPageState extends State<OrderPage> {
                   onPressed: () {
                     widget.itemsManager.deleteItem(widget.item.id).then((resp) {
                       if (resp['success']) {
+                        widget.itemsManager.getItems(true);
                         Navigator.pushReplacementNamed(context, '/home');
                       }
                     });
@@ -163,6 +164,21 @@ class OrderPageState extends State<OrderPage> {
       ));
     }
     return top;
+  }
+
+  Widget giftCard() {
+    if (!widget.item.tracks.contains('gift')) return new Container();
+    return new _ContactCategory(
+      icon: Icons.card_giftcard,
+      children: <Widget>[
+        new _ContactItem(
+          lines: <String>[
+            'It\'s a gift !',
+            'Yeah !',
+          ],
+        ),
+      ],
+    );
   }
 
   @override
@@ -209,6 +225,7 @@ class OrderPageState extends State<OrderPage> {
           ),
           new SliverList(
             delegate: new SliverChildListDelegate(<Widget>[
+              giftCard(),
               new _ContactCategory(
                 icon: Icons.info,
                 children: <Widget>[

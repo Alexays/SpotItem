@@ -28,10 +28,22 @@ class ItemsManager {
   List<Item> _items = [];
 
   Future init() async {
-    // _locationSubscription =
-    //     _location.onLocationChanged.listen((Map<String, double> result) {
-    //   if (result != null) location = result;
-    // });
+    try {
+      Map<String, double> tmp = await _location.getLocation
+          .timeout(const Duration(milliseconds: 300), onTimeout: () {
+        location = null;
+      });
+      if (tmp != null)
+        location = tmp;
+      else {
+        _locationSubscription =
+            _location.onLocationChanged.listen((Map<String, double> result) {
+          if (result != null) location = result;
+        });
+      }
+    } on PlatformException {
+      print("Can't get location");
+    }
     _initialized = true;
   }
 
@@ -59,8 +71,15 @@ class ItemsManager {
     return km;
   }
 
-  Future addItem(String name, String about, String userId, String lat,
-      String lng, List<String> images, String location) async {
+  Future addItem(
+      String name,
+      String about,
+      String userId,
+      String lat,
+      String lng,
+      List<String> images,
+      String location,
+      List<String> tracks) async {
     final Client _client = new Client();
     final response =
         await _client.post(Uri.encodeFull(API_URL + '/addItem'), headers: {
@@ -73,7 +92,8 @@ class ItemsManager {
       'lat': lat,
       'lng': lng,
       'images': JSON.encode(images),
-      'location': location
+      'location': location,
+      'tracks': JSON.encode(tracks)
     }).whenComplete(_client.close);
     final bodyJson = JSON.decode(response.body);
     return bodyJson;
