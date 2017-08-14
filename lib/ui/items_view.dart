@@ -47,25 +47,33 @@ class _ItemsViewState extends State<ItemsView> {
         padding: new EdgeInsets.symmetric(vertical: 8.0),
         itemCount: _myItems.length,
         itemBuilder: (BuildContext context, int index) {
-          return new Card(
-            child: new Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                new ListTile(
-                  leading: const Icon(Icons.event_available),
-                  title: new Text(_myItems[index].name),
-                  subtitle: new Text(_myItems[index].about),
-                ),
-                new RaisedButton(
-                  child: new Text('Private'),
-                  onPressed: () {
-                    Navigator
-                        .of(context)
-                        .pushNamed('/items/${_myItems[index].id}');
-                  },
-                )
-              ],
+          return new GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed('/items/${_myItems[index].id}');
+            },
+            child: new Card(
+              child: new Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  new ListTile(
+                      leading: const Icon(Icons.event_available),
+                      title: new Text(_myItems[index].name),
+                      subtitle: new Text(_myItems[index].about),
+                      trailing: new Row(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: new List<Widget>.generate(
+                              _myItems[index].tracks.length, (int i) {
+                            switch (_myItems[index].tracks[i]) {
+                              case 'private':
+                                return new Icon(Icons.lock);
+                              case 'gift':
+                                return new Icon(Icons.card_giftcard);
+                            }
+                          })))
+                ],
+              ),
             ),
           );
         });
