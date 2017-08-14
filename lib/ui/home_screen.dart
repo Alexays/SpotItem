@@ -121,43 +121,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return new Drawer(
       child: new ListView(
         children: <Widget>[
-          new DrawerHeader(
-              child: new Center(
-                  child: new Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                new Padding(
-                  child: new CircleAvatar(
-                    radius: 40.0,
-                    backgroundColor: Colors.grey,
-                    backgroundImage: _authManager.user?.avatar != null &&
-                            _authManager.user?.avatar != 'null'
-                        ? new NetworkImage(_authManager.user?.avatar)
-                        : null,
-                  ),
-                  padding: const EdgeInsets.only(right: 16.0),
-                ),
-                new Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    new Padding(
-                      padding: const EdgeInsets.only(bottom: 4.0),
-                      child: new Text(
-                          _authManager.user?.name != null
-                              ? _authManager.user?.name
-                              : '',
-                          style: new TextStyle(fontWeight: FontWeight.bold)),
-                    ),
-                    new Text(_authManager.user?.firstname != null
-                        ? _authManager.user?.firstname
-                        : '')
-                  ],
-                )
-              ]))),
+          new UserAccountsDrawerHeader(
+            accountName: new Text(
+                _authManager.user?.firstname + ' ' + _authManager.user?.name),
+            accountEmail: new Text(_authManager.user?.email),
+            currentAccountPicture: new CircleAvatar(
+                backgroundColor: Colors.grey,
+                backgroundImage: _authManager.user?.avatar != null &&
+                        _authManager.user?.avatar != 'null'
+                    ? new NetworkImage(_authManager.user?.avatar)
+                    : null),
+            // otherAccountsPictures: const <Widget>[
+            //   const CircleAvatar(backgroundImage: const AssetImage(_kAsset1)),
+            //   const CircleAvatar(backgroundImage: const AssetImage(_kAsset2)),
+            // ],
+            onDetailsPressed: () {},
+          ),
           const ListTile(
             leading: const Icon(Icons.home),
             title: const Text('Home'),
