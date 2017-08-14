@@ -89,7 +89,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
     final FormState form = _formKey.currentState;
     form.save();
     List<String> tracks = [];
-    if (isGift) tracks.add('gift');
+    if (gift) tracks.add('gift');
+    if (private) tracks.add('private');
     if (_authManager.user != null && _authManager.user.id != null) {
       var response = await _itemsManager.addItem(
           name,
@@ -182,7 +183,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                               child: new Text('Add'),
                               onPressed: () {
                                 addItem(context);
-                              })
+                              }),
                         ],
                       )),
                 ],
