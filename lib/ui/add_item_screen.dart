@@ -27,7 +27,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
   String name;
   String about;
   String location;
-  bool isGift = false;
+  bool gift = false;
+  bool private = false;
   List<String> images = [];
 
   @override
@@ -157,15 +158,26 @@ class _AddItemScreenState extends State<AddItemScreen> {
                               location = value;
                             },
                           ),
-                          new CheckboxListTile(
-                              key: new Key('gift'),
-                              title: new Text('Is a Gift ?'),
-                              value: isGift,
-                              onChanged: (bool value) {
-                                setState(() {
-                                  isGift = value;
-                                });
-                              }),
+                          new SwitchListTile(
+                            title: const Text('Donated Item'),
+                            value: gift,
+                            onChanged: (bool value) {
+                              setState(() {
+                                gift = value;
+                              });
+                            },
+                            secondary: const Icon(Icons.card_giftcard),
+                          ),
+                          new SwitchListTile(
+                            title: const Text('Private Item'),
+                            value: private,
+                            onChanged: (bool value) {
+                              setState(() {
+                                private = value;
+                              });
+                            },
+                            secondary: const Icon(Icons.lock),
+                          ),
                           new RaisedButton(
                               child: new Text('Add'),
                               onPressed: () {
