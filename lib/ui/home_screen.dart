@@ -17,11 +17,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  _HomeScreenState(this._authManager, this._itemsManager);
+
   final AuthManager _authManager;
   final ItemsManager _itemsManager;
   int _currentIndex = 0;
   List<HomeScreenItem> _homeScreenItems;
-  _HomeScreenState(this._authManager, this._itemsManager);
   AnimationController _expandAnimationController;
   Animation<Size> _bottomSize;
 
@@ -41,12 +42,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       new HomeScreenItem(
         icon: const Icon(Icons.work),
         title: "Items",
-        content: new ItemsView(),
+        content: new ItemsView(_itemsManager, _authManager),
       ),
       new HomeScreenItem(
         icon: const Icon(Icons.map),
         title: "Maps",
-        content: new ItemsView(),
+        content: new Center(
+          child: new Text("Comming soon"),
+        ),
       ),
       new HomeScreenItem(
         icon: const Icon(Icons.sms),

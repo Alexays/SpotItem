@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:spotitems/model/item.dart';
 import 'package:spotitems/model/user.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
+import 'package:spotitems/interactor/manager/auth_manager.dart';
 
 class _ContactCategory extends StatelessWidget {
   const _ContactCategory({Key key, this.icon, this.children}) : super(key: key);
@@ -77,39 +78,65 @@ class _ContactItem extends StatelessWidget {
 }
 
 class OrderPage extends StatefulWidget {
-  OrderPage({Key key, this.itemsManager, @required this.item, this.me})
-      : assert(item != null),
-        super(key: key);
+  OrderPage({
+    Key key,
+    @required this.itemsManager,
+    @required this.authManager,
+    this.item,
+    this.itemId,
+  })
+      : super(key: key);
+  //OrderPage(this._authManager, this._itemsManager, this._itemId);
+
+  final AuthManager authManager;
   final ItemsManager itemsManager;
+  final String itemId;
   final Item item;
-  final User me;
+
   @override
-  OrderPageState createState() => new OrderPageState();
+  OrderPageState createState() =>
+      new OrderPageState(authManager, itemsManager, itemId, item);
 }
 
 // Displays a product's heading above photos of all of the other products
 // arranged in two columns. Enables the user to specify a quantity and add an
 // order to the shopping cart.
 class OrderPageState extends State<OrderPage> {
-  GlobalKey<ScaffoldState> scaffoldKey;
+  OrderPageState(this.authManager, this.itemsManager, this._itemId, this.item);
+
+  final AuthManager authManager;
+  final ItemsManager itemsManager;
+  final String _itemId;
+
+  bool _loading = true;
+
+  Item item;
 
   @override
   void initState() {
+    if (item != null) {
+      setState(() {
+        _loading = false;
+      });
+    }
     super.initState();
-    scaffoldKey =
-        new GlobalKey<ScaffoldState>(debugLabel: 'Shrine Order ${widget.key}');
-  }
-
-  void showSnackBarMessage(String message) {
-    scaffoldKey.currentState
-        .showSnackBar(new SnackBar(content: new Text(message)));
+    if (widget.item == null) {
+      itemsManager.getItem(_itemId).then((data) {
+        setState(() {
+          item = data;
+          _loading = false;
+        });
+      });
+    }
   }
 
   final double _appBarHeight = 256.0;
 
   doButton() {
     List<Widget> top = [];
-    if (widget.me != null && widget.item.owner.id == widget.me.id) {
+    if (authManager.user != null &&
+        item != null &&
+        item.owner.id == authManager.user.id) {
       top.add(new IconButton(
         icon: const Icon(Icons.delete),
         tooltip: 'Delete',
@@ -136,9 +163,9 @@ class OrderPageState extends State<OrderPage> {
                 new FlatButton(
                   child: new Text('Delete'),
                   onPressed: () {
-                    widget.itemsManager.deleteItem(widget.item.id).then((resp) {
+                    itemsManager.deleteItem(item.id).then((resp) {
                       if (resp['success']) {
-                        widget.itemsManager.getItems(true);
+                        itemsManager.getItems(true);
                         Navigator.pushReplacementNamed(context, '/home');
                       }
                     });
@@ -153,7 +180,7 @@ class OrderPageState extends State<OrderPage> {
         icon: const Icon(Icons.create),
         tooltip: 'Edit',
         onPressed: () {
-          Navigator.of(context).pushNamed('/items/${widget.item.id}/edit');
+          Navigator.of(context).pushNamed('/items/${item.id}/edit');
         },
       ));
     } else {
@@ -167,7 +194,7 @@ class OrderPageState extends State<OrderPage> {
   }
 
   Widget giftCard() {
-    if (!widget.item.tracks.contains('gift')) return new Container();
+    if (!item.tracks.contains('gift')) return new Container();
     return new _ContactCategory(
       icon: Icons.card_giftcard,
       children: <Widget>[
@@ -184,107 +211,102 @@ class OrderPageState extends State<OrderPage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: new CustomScrollView(
-        slivers: <Widget>[
-          new SliverAppBar(
-            expandedHeight: _appBarHeight,
-            pinned: true,
-            actions: doButton(),
-            flexibleSpace: new FlexibleSpaceBar(
-              title: new Text(
-                widget.item.name,
-                overflow: TextOverflow.ellipsis,
-              ),
-              background: new Stack(
-                fit: StackFit.expand,
-                children: <Widget>[
-                  new Hero(
-                      tag: widget.item.id + '_img',
-                      child: new FadeInImage(
-                          placeholder: new AssetImage('assets/placeholder.png'),
-                          image: new NetworkImage(widget.item.images[0]),
-                          fit: BoxFit.cover,
-                          alignment: FractionalOffset.center)),
-                  // This gradient ensures that the toolbar icons are distinct
-                  // against the background image.
-                  const DecoratedBox(
-                    decoration: const BoxDecoration(
-                      gradient: const LinearGradient(
-                        begin: const FractionalOffset(0.5, 0.0),
-                        end: const FractionalOffset(0.5, 0.30),
-                        colors: const <Color>[
-                          const Color(0x60000000),
-                          const Color(0x00000000)
-                        ],
-                      ),
+      body: _loading
+          ? new Center(child: new CircularProgressIndicator())
+          : new CustomScrollView(
+              slivers: <Widget>[
+                new SliverAppBar(
+                  expandedHeight: _appBarHeight,
+                  pinned: true,
+                  actions: doButton(),
+                  flexibleSpace: new FlexibleSpaceBar(
+                    title: new Text(
+                      item.name,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    background: new Stack(
+                      fit: StackFit.expand,
+                      children: <Widget>[
+                        new Hero(
+                            tag: item.id + '_img',
+                            child: new FadeInImage(
+                                placeholder:
+                                    new AssetImage('assets/placeholder.png'),
+                                image: new NetworkImage(item.images[0]),
+                                fit: BoxFit.cover,
+                                alignment: FractionalOffset.center)),
+                        // This gradient ensures that the toolbar icons are distinct
+                        // against the background image.
+                        const DecoratedBox(
+                          decoration: const BoxDecoration(
+                            gradient: const LinearGradient(
+                              begin: const FractionalOffset(0.5, 0.0),
+                              end: const FractionalOffset(0.5, 0.30),
+                              colors: const <Color>[
+                                const Color(0x60000000),
+                                const Color(0x00000000)
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+                new SliverList(
+                  delegate: new SliverChildListDelegate(<Widget>[
+                    giftCard(),
+                    new _ContactCategory(
+                      icon: Icons.info,
+                      children: <Widget>[
+                        new _ContactItem(
+                          lines: <String>[
+                            item.about,
+                            'About',
+                          ],
+                        ),
+                      ],
+                    ),
+                    new _ContactCategory(
+                      icon: Icons.contact_mail,
+                      children: <Widget>[
+                        new _ContactItem(
+                          icon: Icons.sms,
+                          tooltip: 'Send personal e-mail',
+                          onPressed: () {},
+                          lines: <String>[
+                            '${item.owner.firstname} ${item.owner.name}',
+                            'Owner',
+                          ],
+                        ),
+                      ],
+                    ),
+                    new _ContactCategory(
+                      icon: Icons.location_on,
+                      children: <Widget>[
+                        new _ContactItem(
+                          icon: Icons.map,
+                          tooltip: 'Open map',
+                          onPressed: () {},
+                          lines: <String>[
+                            item.location,
+                            'Location',
+                          ],
+                        ),
+                      ],
+                    ),
+                    new _ContactCategory(
+                      icon: Icons.today,
+                      children: <Widget>[
+                        new _ContactItem(
+                          lines: <String>['Comming soon', 'comming soon'],
+                        ),
+                      ],
+                    ),
+                  ]),
+                ),
+              ],
             ),
-          ),
-          new SliverList(
-            delegate: new SliverChildListDelegate(<Widget>[
-              giftCard(),
-              new _ContactCategory(
-                icon: Icons.info,
-                children: <Widget>[
-                  new _ContactItem(
-                    lines: <String>[
-                      widget.item.about,
-                      'About',
-                    ],
-                  ),
-                ],
-              ),
-              new _ContactCategory(
-                icon: Icons.contact_mail,
-                children: <Widget>[
-                  new _ContactItem(
-                    icon: Icons.sms,
-                    tooltip: 'Send personal e-mail',
-                    onPressed: () {
-                      scaffoldKey.currentState.showSnackBar(const SnackBar(
-                          content: const Text(
-                              'Here, your e-mail application would open.')));
-                    },
-                    lines: <String>[
-                      '${widget.item.owner.firstname} ${widget.item.owner.name}',
-                      'Owner',
-                    ],
-                  ),
-                ],
-              ),
-              new _ContactCategory(
-                icon: Icons.location_on,
-                children: <Widget>[
-                  new _ContactItem(
-                    icon: Icons.map,
-                    tooltip: 'Open map',
-                    onPressed: () {
-                      scaffoldKey.currentState.showSnackBar(const SnackBar(
-                          content: const Text(
-                              'This would show a map of San Francisco.')));
-                    },
-                    lines: <String>[
-                      widget.item.location,
-                      'Location',
-                    ],
-                  ),
-                ],
-              ),
-              new _ContactCategory(
-                icon: Icons.today,
-                children: <Widget>[
-                  new _ContactItem(
-                    lines: <String>['Comming soon', 'comming soon'],
-                  ),
-                ],
-              ),
-            ]),
-          ),
-        ],
-      ),
     );
   }
 }

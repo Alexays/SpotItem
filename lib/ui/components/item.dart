@@ -131,17 +131,18 @@ class ItemsList extends StatelessWidget {
               item: _items[index],
               onPressed: () {
                 _showItemPage(
-                    _items[index], _authManager.user, _itemsManager, context);
+                    _items[index], _authManager, _itemsManager, context);
               });
         });
   }
 }
 
-Future<Null> _showItemPage(
-    Item item, User me, ItemsManager itemsManager, context) async {
+Future<Null> _showItemPage(Item item, AuthManager authManager,
+    ItemsManager itemsManager, context) async {
   Navigator.push(context, new MaterialPageRoute<Null>(
     builder: (BuildContext context) {
-      return new OrderPage(item: item, me: me, itemsManager: itemsManager);
+      return new OrderPage(
+          item: item, authManager: authManager, itemsManager: itemsManager);
     },
   ));
 }

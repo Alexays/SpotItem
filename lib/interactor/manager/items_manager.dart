@@ -15,6 +15,8 @@ class ItemsManager {
 
   List<Item> get items => _items;
 
+  List<Item> get myItems => _myItems;
+
   final String _clientSecret = CLIENT_SECRET;
 
   Location _location = new Location();
@@ -24,8 +26,12 @@ class ItemsManager {
   StreamSubscription<Map<String, double>> _locationSubscription;
 
   bool _initialized;
+
   bool _loading = true;
+
   List<Item> _items = [];
+
+  List<Item> _myItems = [];
 
   Future init() async {
     try {
@@ -141,5 +147,37 @@ class ItemsManager {
   Future<List<Item>> getItems([bool force = false]) async {
     if (force) _items.clear();
     return loadItems();
+  }
+
+  Future getItem(String itemId) async {
+    if (itemId == null) return null;
+    final Client _client = new Client();
+    final itemResponse = await _client.get(API_URL + '/items/' + itemId,
+        headers: {
+          'Authorization': 'Basic ${_clientSecret}'
+        }).whenComplete(_client.close);
+    if (itemResponse.statusCode == 200) {
+      var itemJson = JSON.decode(itemResponse.body);
+      return new Item.fromJson(
+          itemJson, getDist(itemJson['lat'], itemJson['lng']));
+    }
+    return null;
+  }
+
+  Future getSelfItems(String userId) async {
+    if (userId == null) return null;
+    final Client _client = new Client();
+    final itemResponse = await _client.get(API_URL + '/userItem/' + userId,
+        headers: {
+          'Authorization': 'Basic ${_clientSecret}'
+        }).whenComplete(_client.close);
+    if (itemResponse.statusCode == 200) {
+      var itemJson = JSON.decode(itemResponse.body);
+      _myItems = new List<Item>.generate(itemJson.length, (int index) {
+        return new Item.fromJson(itemJson[index],
+            getDist(itemJson[index]['lat'], itemJson[index]['lng']));
+      });
+    }
+    return _myItems;
   }
 }
