@@ -123,7 +123,7 @@ class ItemsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return new ListView.builder(
         padding: new EdgeInsets.symmetric(vertical: 8.0),
-        itemCount: _items.length,
+        itemCount: _items != null ? _items.length : 0,
         itemExtent: 300.0,
         itemBuilder: (BuildContext context, int index) {
           return new _ItemsListItem(

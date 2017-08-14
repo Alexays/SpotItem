@@ -4,6 +4,7 @@ import 'package:spotitems/interactor/manager/profile_manager.dart';
 import 'package:spotitems/ui/explorer_view.dart';
 import 'package:spotitems/ui/profile_view.dart';
 import 'package:spotitems/ui/items_view.dart';
+import 'package:spotitems/model/item.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -34,10 +35,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           icon: const Icon(Icons.explore),
           title: "Explorer",
           sub: [
+            new HomeScreenSubItem("Discover",
+                new ExplorerView(_itemsManager, _authManager, null)),
             new HomeScreenSubItem(
-                "Discover", new ExplorerView(_itemsManager, _authManager, 0)),
-            new HomeScreenSubItem("Nearest you",
-                new ExplorerView(_itemsManager, _authManager, 1)),
+                "Nearest you",
+                new ExplorerView(_itemsManager, _authManager, (items) {
+                  items.sort((a, b) => a.dist.compareTo(b.dist));
+                  return items;
+                })),
+            new HomeScreenSubItem(
+                "Gift",
+                new ExplorerView(_itemsManager, _authManager,
+                    (List<Item> items) {
+                  return items
+                      .where((Item item) => item.tracks.contains('gift'))
+                      .toList();
+                })),
           ]),
       new HomeScreenItem(
         icon: const Icon(Icons.work),

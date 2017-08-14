@@ -5,10 +5,12 @@ import 'package:spotitems/interactor/manager/items_manager.dart';
 import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:flutter/material.dart';
 
+typedef List<Item> Filter(List<Item> items);
+
 class ExplorerView extends StatefulWidget {
   final ItemsManager _itemsManager;
   final AuthManager _authManager;
-  final int _mode;
+  final Filter _mode;
   ExplorerView(this._itemsManager, this._authManager, this._mode);
 
   @override
@@ -19,7 +21,7 @@ class ExplorerView extends StatefulWidget {
 class _FeedViewState extends State<ExplorerView> {
   final ItemsManager _itemsManager;
   final AuthManager _authManager;
-  final int _mode;
+  final Filter _mode;
   bool _loading = true;
   List<Item> _items = [];
   _FeedViewState(this._itemsManager, this._mode, this._authManager);
@@ -40,7 +42,7 @@ class _FeedViewState extends State<ExplorerView> {
         if (!mounted) return;
         setState(() {
           _items = new List<Item>.from(data);
-          if (_mode == 1) _items.sort((a, b) => a.dist.compareTo(b.dist));
+          if (_mode != null) _items = _mode(_items);
           _loading = false;
         });
       });

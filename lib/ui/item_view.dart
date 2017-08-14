@@ -15,7 +15,7 @@ class _ContactCategory extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
     return new Container(
-        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        padding: const EdgeInsets.symmetric(vertical: 10.0),
         decoration: new BoxDecoration(
             border: new Border(
                 bottom: new BorderSide(color: themeData.dividerColor))),
