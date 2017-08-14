@@ -123,7 +123,7 @@ class OrderPageState extends State<OrderPage> {
       itemsManager.getItem(_itemId).then((data) {
         setState(() {
           item = data;
-          _loading = false;
+          if (item != null) _loading = false;
         });
       });
     }

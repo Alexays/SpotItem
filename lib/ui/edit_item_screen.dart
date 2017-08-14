@@ -50,16 +50,18 @@ class _EditItemScreenState extends State<EditItemScreen> {
     _itemsManager.getItem(_itemId).then((data) {
       setState(() {
         item = data;
-        name = item.name;
-        about = item.about;
-        location = item.location;
-        _name = new TextEditingController(text: name);
-        _about = new TextEditingController(text: about);
-        _location = new TextEditingController(text: location);
-        gift = item.tracks.contains('gift');
-        private = item.tracks.contains('private');
-        images = item.images;
-        _loading = false;
+        if (item != null) {
+          name = item.name;
+          about = item.about;
+          location = item.location;
+          _name = new TextEditingController(text: name);
+          _about = new TextEditingController(text: about);
+          _location = new TextEditingController(text: location);
+          gift = item.tracks.contains('gift');
+          private = item.tracks.contains('private');
+          images = item.images;
+          _loading = false;
+        }
       });
     });
   }
