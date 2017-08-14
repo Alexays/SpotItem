@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitems/model/item.dart';
-import 'package:spotitems/model/user.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
 import 'package:spotitems/interactor/manager/auth_manager.dart';
 

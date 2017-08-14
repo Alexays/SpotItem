@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
 
@@ -22,6 +21,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   final AuthManager _authManager;
   final ItemsManager _itemsManager;
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+
   List<File> _imageFile = [];
 
   String name;
