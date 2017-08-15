@@ -22,14 +22,33 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   final AuthManager _authManager;
   final ItemsManager _itemsManager;
-  int _currentIndex = 0;
-  List<HomeScreenItem> _homeScreenItems;
 
   AnimationController _controller;
   Animation<double> _drawerContentsOpacity;
   Animation<FractionalOffset> _drawerDetailsPosition;
   Animation<Size> _bottomSize;
+
+  int _currentIndex = 0;
+  List<HomeScreenItem> _homeScreenItems;
+
   bool _showDrawerContents = true;
+
+  final TextEditingController _searchQuery = new TextEditingController();
+  bool _isSearching = false;
+
+  void _handleSearchBegin() {
+    ModalRoute.of(context).addLocalHistoryEntry(new LocalHistoryEntry(
+      onRemove: () {
+        setState(() {
+          _isSearching = false;
+          _searchQuery.clear();
+        });
+      },
+    ));
+    setState(() {
+      _isSearching = true;
+    });
+  }
 
   @override
   void initState() {
@@ -115,6 +134,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   Widget _buildBottom() {
+    if (_homeScreenItems[_currentIndex].sub == null) return null;
     return new TabBar(
       tabs: new List<Tab>.generate(
           _homeScreenItems[_currentIndex].sub != null
@@ -225,6 +245,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
+  Widget buildSearchBar() {
+    return new SliverAppBar(
+      pinned: true,
+      leading: new BackButton(),
+      floating: _homeScreenItems[_currentIndex].sub != null,
+      title: new TextField(
+        controller: _searchQuery,
+        autofocus: true,
+        decoration: new InputDecoration(
+          hintText: 'Search stocks',
+        ),
+      ),
+      bottom: _buildBottom(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -246,20 +282,20 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               new AnimatedBuilder(
                 animation: _bottomSize,
                 builder: (BuildContext context, Widget child) {
-                  return new SliverAppBar(
-                    pinned: true,
-                    floating: _homeScreenItems[_currentIndex].sub != null,
-                    title: _homeScreenItems[_currentIndex].item.title,
-                    actions: <Widget>[
-                      new IconButton(
-                        icon: new Icon(Icons.search),
-                        onPressed: () {},
-                      ),
-                    ],
-                    bottom: _homeScreenItems[_currentIndex].sub != null
-                        ? _buildBottom()
-                        : null,
-                  );
+                  return _isSearching
+                      ? buildSearchBar()
+                      : new SliverAppBar(
+                          pinned: true,
+                          floating: _homeScreenItems[_currentIndex].sub != null,
+                          title: _homeScreenItems[_currentIndex].item.title,
+                          actions: <Widget>[
+                            new IconButton(
+                              icon: new Icon(Icons.search),
+                              onPressed: _handleSearchBegin,
+                            ),
+                          ],
+                          bottom: _buildBottom(),
+                        );
                 },
               ),
             ];
