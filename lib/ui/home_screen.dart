@@ -24,8 +24,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final ItemsManager _itemsManager;
   int _currentIndex = 0;
   List<HomeScreenItem> _homeScreenItems;
-  AnimationController _expandAnimationController;
+
+  AnimationController _controller;
+  Animation<double> _drawerContentsOpacity;
+  Animation<FractionalOffset> _drawerDetailsPosition;
   Animation<Size> _bottomSize;
+  bool _showDrawerContents = true;
 
   @override
   void initState() {
@@ -72,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ),
       )
     ];
-    _expandAnimationController = new AnimationController(
+    _controller = new AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 200),
     );
@@ -81,27 +85,33 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       end: new Size.fromHeight(kTextTabBarHeight + 280.0),
     )
         .animate(new CurvedAnimation(
-      parent: _expandAnimationController,
+      parent: _controller,
       curve: Curves.ease,
     ));
+    _drawerContentsOpacity = new CurvedAnimation(
+      parent: new ReverseAnimation(_controller),
+      curve: Curves.fastOutSlowIn,
+    );
+    _drawerDetailsPosition = new FractionalOffsetTween(
+      begin: const FractionalOffset(0.0, -1.0),
+      end: const FractionalOffset(0.0, 0.0),
+    )
+        .animate(new CurvedAnimation(
+      parent: _controller,
+      curve: Curves.fastOutSlowIn,
+    ));
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   void _navBarItemSelected(int selected) {
     setState(() {
       _currentIndex = selected;
     });
-  }
-
-  void _overflow(OverflowItem selected) {
-    switch (selected) {
-      case OverflowItem.Settings:
-        break;
-      case OverflowItem.LogOut:
-        _authManager
-            .logout()
-            .then((_) => Navigator.pushReplacementNamed(context, '/login'));
-        break;
-    }
   }
 
   Widget _buildBottom() {
@@ -135,30 +145,80 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             //   const CircleAvatar(backgroundImage: const AssetImage(_kAsset1)),
             //   const CircleAvatar(backgroundImage: const AssetImage(_kAsset2)),
             // ],
-            onDetailsPressed: () {},
-          ),
-          const ListTile(
-            leading: const Icon(Icons.home),
-            title: const Text('Home'),
-            selected: true,
-          ),
-          const ListTile(
-            leading: const Icon(Icons.account_balance),
-            title: const Text('test'),
-            enabled: false,
-          ),
-          new ListTile(
-            leading: const Icon(Icons.dvr),
-            title: const Text('Dump App to Console'),
-            onTap: () {
-              try {
-                debugDumpApp();
-                debugDumpRenderTree();
-                debugDumpLayerTree();
-              } catch (e, stack) {
-                debugPrint('Exception while dumping app:\n$e\n$stack');
-              }
+            onDetailsPressed: () {
+              _showDrawerContents = !_showDrawerContents;
+              if (_showDrawerContents)
+                _controller.reverse();
+              else
+                _controller.forward();
             },
+          ),
+          new ClipRect(
+            child: new Stack(
+              children: <Widget>[
+                new FadeTransition(
+                  opacity: _drawerContentsOpacity,
+                  child: new Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      const ListTile(
+                        leading: const Icon(Icons.home),
+                        title: const Text('Home'),
+                        selected: true,
+                      ),
+                      const ListTile(
+                        leading: const Icon(Icons.account_balance),
+                        title: const Text('test'),
+                        enabled: false,
+                      ),
+                      new ListTile(
+                        leading: const Icon(Icons.dvr),
+                        title: const Text('Dump App to Console'),
+                        onTap: () {
+                          try {
+                            debugDumpApp();
+                            debugDumpRenderTree();
+                            debugDumpLayerTree();
+                          } catch (e, stack) {
+                            debugPrint(
+                                'Exception while dumping app:\n$e\n$stack');
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                new SlideTransition(
+                  position: _drawerDetailsPosition,
+                  child: new FadeTransition(
+                    opacity: new ReverseAnimation(_drawerContentsOpacity),
+                    child: new Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        new ListTile(
+                          leading: const Icon(Icons.exit_to_app),
+                          title: const Text('Logout'),
+                          onTap: () {
+                            _authManager.logout().then((_) => Navigator
+                                .pushReplacementNamed(context, '/login'));
+                          },
+                        ),
+                        new ListTile(
+                          leading: const Icon(Icons.add),
+                          title: const Text('Add account'),
+                        ),
+                        new ListTile(
+                          leading: const Icon(Icons.settings),
+                          title: const Text('Manage accounts'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -195,18 +255,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         icon: new Icon(Icons.search),
                         onPressed: () {},
                       ),
-                      new PopupMenuButton(
-                          onSelected: _overflow,
-                          itemBuilder: (BuildContext context) {
-                            return [
-                              new PopupMenuItem(
-                                  value: OverflowItem.Settings,
-                                  child: new Text('Settings')),
-                              new PopupMenuItem<OverflowItem>(
-                                  value: OverflowItem.LogOut,
-                                  child: new Text('Log out'))
-                            ];
-                          }),
                     ],
                     bottom: _homeScreenItems[_currentIndex].sub != null
                         ? _buildBottom()
