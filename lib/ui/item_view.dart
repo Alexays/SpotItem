@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:spotitems/model/item.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
 import 'package:spotitems/interactor/manager/auth_manager.dart';
+import 'package:spotitems/keys.dart';
 
 class _ContactCategory extends StatelessWidget {
   const _ContactCategory({Key key, this.icon, this.children}) : super(key: key);
@@ -303,7 +304,7 @@ class OrderPageState extends State<OrderPage> {
                     ),
                     new Container(
                       child: new Image.network(
-                          "https://maps.googleapis.com/maps/api/staticmap?center=${item.lat},${item.lng}&markers=color:blue%7C${item.lat},${item.lng}&zoom=18&size=${getWidth()}x340&key=AIzaSyAJh3ASTwUBo06fQai_PZJa-R9czeRC2D0"),
+                          "https://maps.googleapis.com/maps/api/staticmap?center=${item.lat},${item.lng}&markers=color:blue%7C${item.lat},${item.lng}&zoom=13&maptype=roadmap&size=${getWidth()}x300&key=${STATIC_API_KEY}"),
                     ),
                     new _ContactCategory(
                       icon: Icons.today,
