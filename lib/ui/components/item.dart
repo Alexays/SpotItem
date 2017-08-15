@@ -13,6 +13,7 @@ class _ItemsListItem extends StatelessWidget {
       {Key key,
       @required this.itemsManager,
       @required this.item,
+      this.hash,
       this.authManager,
       this.onPressed})
       : assert(item != null),
@@ -20,6 +21,7 @@ class _ItemsListItem extends StatelessWidget {
 
   final ItemsManager itemsManager;
   final AuthManager authManager;
+  final String hash;
   final Item item;
   final VoidCallback onPressed;
 
@@ -33,7 +35,7 @@ class _ItemsListItem extends StatelessWidget {
             fit: StackFit.expand,
             children: <Widget>[
               new Hero(
-                  tag: item.id + '_img',
+                  tag: item.id + '_img_' + hash,
                   child: new FadeInImage(
                       placeholder: new AssetImage('assets/placeholder.png'),
                       image: new NetworkImage(item.images[0]),
@@ -115,33 +117,43 @@ class ItemsList extends StatelessWidget {
   final List<Item> _items;
   final ItemsManager _itemsManager;
   final AuthManager _authManager;
+  final String _hash;
 
-  ItemsList(this._items, this._itemsManager, this._authManager);
+  ItemsList(this._items, this._itemsManager, this._authManager, this._hash);
 
   @override
   Widget build(BuildContext context) {
-    return new ListView.builder(
-        padding: new EdgeInsets.symmetric(vertical: 8.0),
-        itemCount: _items != null ? _items.length : 0,
-        itemExtent: 300.0,
-        itemBuilder: (BuildContext context, int index) {
-          return new _ItemsListItem(
-              itemsManager: _itemsManager,
-              item: _items[index],
-              onPressed: () {
-                _showItemPage(
-                    _items[index], _authManager, _itemsManager, context);
-              });
-        });
+    return _items.length > 0
+        ? new ListView.builder(
+            padding: new EdgeInsets.symmetric(vertical: 8.0),
+            itemCount: _items != null ? _items.length : 0,
+            itemExtent: 300.0,
+            itemBuilder: (BuildContext context, int index) {
+              return new _ItemsListItem(
+                  itemsManager: _itemsManager,
+                  item: _items[index],
+                  hash: _hash,
+                  onPressed: () {
+                    _showItemPage(_items[index], _authManager, _itemsManager,
+                        _hash, context);
+                  });
+            })
+        : new Center(
+            child: new Text("No items"),
+          );
   }
 }
 
 Future<Null> _showItemPage(Item item, AuthManager authManager,
-    ItemsManager itemsManager, context) async {
+    ItemsManager itemsManager, String hash, context) async {
   Navigator.push(context, new MaterialPageRoute<Null>(
     builder: (BuildContext context) {
       return new OrderPage(
-          item: item, authManager: authManager, itemsManager: itemsManager);
+        item: item,
+        authManager: authManager,
+        itemsManager: itemsManager,
+        hash: hash,
+      );
     },
   ));
 }

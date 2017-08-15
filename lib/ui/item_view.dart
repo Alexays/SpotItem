@@ -83,29 +83,32 @@ class OrderPage extends StatefulWidget {
     @required this.authManager,
     this.item,
     this.itemId,
+    this.hash,
   })
       : super(key: key);
-  //OrderPage(this._authManager, this._itemsManager, this._itemId);
 
   final AuthManager authManager;
   final ItemsManager itemsManager;
   final String itemId;
   final Item item;
+  final String hash;
 
   @override
   OrderPageState createState() =>
-      new OrderPageState(authManager, itemsManager, itemId, item);
+      new OrderPageState(authManager, itemsManager, itemId, item, hash);
 }
 
 // Displays a product's heading above photos of all of the other products
 // arranged in two columns. Enables the user to specify a quantity and add an
 // order to the shopping cart.
 class OrderPageState extends State<OrderPage> {
-  OrderPageState(this.authManager, this.itemsManager, this._itemId, this.item);
+  OrderPageState(
+      this.authManager, this.itemsManager, this._itemId, this.item, this.hash);
 
   final AuthManager authManager;
   final ItemsManager itemsManager;
   final String _itemId;
+  final String hash;
 
   bool _loading = true;
 
@@ -227,7 +230,7 @@ class OrderPageState extends State<OrderPage> {
                       fit: StackFit.expand,
                       children: <Widget>[
                         new Hero(
-                            tag: item.id + '_img',
+                            tag: item.id + '_img_' + hash,
                             child: new FadeInImage(
                                 placeholder:
                                     new AssetImage('assets/placeholder.png'),

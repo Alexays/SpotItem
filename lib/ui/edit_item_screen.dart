@@ -120,7 +120,8 @@ class _EditItemScreenState extends State<EditItemScreen> {
     if (gift) tracks.add('gift');
     if (private) tracks.add('private');
     if (_authManager.user != null && _authManager.user.id != null) {
-      var response = await _itemsManager.addItem(
+      var response = await _itemsManager.editItem(
+          item.id,
           name,
           about,
           _authManager.user.id,
@@ -212,7 +213,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                             secondary: const Icon(Icons.lock),
                           ),
                           new RaisedButton(
-                              child: new Text('Add'),
+                              child: new Text('Edit'),
                               onPressed: () {
                                 editItem(context);
                               }),

@@ -105,6 +105,35 @@ class ItemsManager {
     return bodyJson;
   }
 
+  Future editItem(
+      String id,
+      String name,
+      String about,
+      String userId,
+      String lat,
+      String lng,
+      List<String> images,
+      String location,
+      List<String> tracks) async {
+    final Client _client = new Client();
+    final response =
+        await _client.put(Uri.encodeFull(API_URL + '/items/' + id), headers: {
+      'Authorization': 'Basic ${_clientSecret}'
+    }, body: {
+      'name': name,
+      'about': about,
+      'owner': userId,
+      'holder': userId,
+      'lat': lat,
+      'lng': lng,
+      'images': JSON.encode(images),
+      'location': location,
+      'tracks': JSON.encode(tracks)
+    }).whenComplete(_client.close);
+    final bodyJson = JSON.decode(response.body);
+    return bodyJson;
+  }
+
   Future deleteItem(String id) async {
     final Client _client = new Client();
     final response = await _client
@@ -130,8 +159,9 @@ class ItemsManager {
       }
       print("Load Items...");
       final Client _client = new Client();
-      final itemResponse =
-          await _client.get(API_URL + '/items').whenComplete(_client.close);
+      final itemResponse = await _client.get(API_URL + '/items', headers: {
+        'Authorization': 'Basic ${_clientSecret}'
+      }).whenComplete(_client.close);
       if (itemResponse.statusCode == 200) {
         var itemJson = JSON.decode(itemResponse.body);
         _items = new List<Item>.generate(itemJson.length, (int index) {

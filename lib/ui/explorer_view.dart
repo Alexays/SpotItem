@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:math';
+
 import 'package:spotitems/model/item.dart';
 import 'package:spotitems/ui/components/item.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
@@ -51,13 +53,15 @@ class _FeedViewState extends State<ExplorerView> {
 
   @override
   Widget build(BuildContext context) {
+    var rng = new Random();
+    var rdm = new List.generate(3, (_) => rng.nextInt(100));
     return new RefreshIndicator(
       onRefresh: () {
         return _loadItems(true);
       },
       child: _loading
           ? new Center(child: new CircularProgressIndicator())
-          : new ItemsList(_items, _itemsManager, _authManager),
+          : new ItemsList(_items, _itemsManager, _authManager, rdm.toString()),
     );
   }
 }

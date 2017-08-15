@@ -67,9 +67,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       new HomeScreenItem(
         icon: const Icon(Icons.sms),
         title: "Message",
-        content: new ProfileView(
-            new ProfileManager(_authManager, _authManager.user),
-            _authManager.user),
+        content: new Center(
+          child: new Text("Comming soon"),
+        ),
       )
     ];
     _expandAnimationController = new AnimationController(
