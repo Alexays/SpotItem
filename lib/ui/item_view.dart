@@ -210,6 +210,10 @@ class OrderPageState extends State<OrderPage> {
     );
   }
 
+  String getWidth() {
+    return MediaQuery.of(context).size.width.toInt().toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -296,6 +300,10 @@ class OrderPageState extends State<OrderPage> {
                           ],
                         ),
                       ],
+                    ),
+                    new Container(
+                      child: new Image.network(
+                          "https://maps.googleapis.com/maps/api/staticmap?center=${item.lat},${item.lng}&markers=color:blue%7C${item.lat},${item.lng}&zoom=18&size=${getWidth()}x340&key=AIzaSyAJh3ASTwUBo06fQai_PZJa-R9czeRC2D0"),
                     ),
                     new _ContactCategory(
                       icon: Icons.today,

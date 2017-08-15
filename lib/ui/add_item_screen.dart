@@ -91,7 +91,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
     List<String> tracks = [];
     if (gift) tracks.add('gift');
     if (private) tracks.add('private');
-    if (_authManager.user != null && _authManager.user.id != null && _itemsManager.location != null) {
+    if (_authManager.user != null &&
+        _authManager.user.id != null &&
+        _itemsManager.location != null) {
       var response = await _itemsManager.addItem(
           name,
           about,

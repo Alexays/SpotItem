@@ -1,8 +1,7 @@
 import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
-import 'package:spotitems/interactor/manager/profile_manager.dart';
 import 'package:spotitems/ui/explorer_view.dart';
-import 'package:spotitems/ui/profile_view.dart';
+import 'package:spotitems/ui/map_view.dart';
 import 'package:spotitems/ui/items_view.dart';
 import 'package:spotitems/model/item.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +29,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   int _currentIndex = 0;
   List<HomeScreenItem> _homeScreenItems;
+
+  Size size;
 
   bool _showDrawerContents = true;
 
@@ -67,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   return items;
                 })),
             new HomeScreenSubItem(
-                "Gift",
+                "Donated",
                 new ExplorerView(_itemsManager, _authManager,
                     (List<Item> items) {
                   return items
@@ -83,9 +84,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       new HomeScreenItem(
         icon: const Icon(Icons.map),
         title: "Maps",
-        content: new Center(
-          child: new Text("Comming soon"),
-        ),
+        content: new MapView(_itemsManager),
       ),
       new HomeScreenItem(
         icon: const Icon(Icons.sms),

@@ -88,7 +88,7 @@ class _ItemsListItem extends StatelessWidget {
                           children: <Widget>[
                             new Icon(Icons.message, color: Colors.white),
                             new Text(
-                              '12',
+                              ' 12',
                               style: theme.primaryTextTheme.subhead,
                             )
                           ])),
