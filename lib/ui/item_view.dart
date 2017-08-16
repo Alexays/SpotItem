@@ -84,7 +84,7 @@ class OrderPage extends StatefulWidget {
     @required this.authManager,
     this.item,
     this.itemId,
-    this.hash,
+    this.hash = 'n',
   })
       : super(key: key);
 
