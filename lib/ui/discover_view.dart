@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:spotitems/model/item.dart';
 import 'package:spotitems/ui/components/item.dart';
@@ -52,8 +51,6 @@ class _DiscoverViewState extends State<DiscoverView> {
   }
 
   Widget _buildDiscover() {
-    var rng = new Random();
-    var rdm = new List.generate(3, (_) => rng.nextInt(100));
     return new Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -68,7 +65,7 @@ class _DiscoverViewState extends State<DiscoverView> {
           height: 250.0,
           width: MediaQuery.of(context).size.width,
           child: new ItemsList(_items, _itemsManager, _authManager,
-              rdm.toString(), Axis.horizontal),
+              _mode.toString(), Axis.horizontal),
         )
       ],
     );

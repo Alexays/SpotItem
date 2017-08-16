@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:spotitems/model/item.dart';
 import 'package:spotitems/ui/components/item.dart';
@@ -52,9 +51,7 @@ class _ExplorerViewState extends State<ExplorerView> {
   }
 
   Widget _buildExplorer() {
-    var rng = new Random();
-    var rdm = new List.generate(3, (_) => rng.nextInt(100));
-    return new ItemsList(_items, _itemsManager, _authManager, rdm.toString());
+    return new ItemsList(_items, _itemsManager, _authManager, _mode.toString());
   }
 
   @override
