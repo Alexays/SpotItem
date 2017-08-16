@@ -125,7 +125,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
         actions: <Widget>[
           new Builder(builder: (BuildContext context) {
             return new IconButton(
-              icon: new Icon(Icons.save),
+              icon: new Column(
+                children: <Widget>[new Icon(Icons.add_box), new Text("Add")],
+              ),
               onPressed: () {
                 addItem(context);
               },
