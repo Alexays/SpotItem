@@ -161,10 +161,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         _authManager.user?.avatar != 'null'
                     ? new NetworkImage(_authManager.user?.avatar)
                     : null),
-            // otherAccountsPictures: const <Widget>[
-            //   const CircleAvatar(backgroundImage: const AssetImage(_kAsset1)),
-            //   const CircleAvatar(backgroundImage: const AssetImage(_kAsset2)),
-            // ],
+            otherAccountsPictures: <Widget>[
+              new IconButton(
+                icon: const Icon(Icons.settings),
+                color: Colors.white,
+                onPressed: () {},
+              ),
+              //const CircleAvatar(backgroundImage: const AssetImage(_kAsset1)),
+              //const CircleAvatar(backgroundImage: const AssetImage(_kAsset2)),
+            ],
             onDetailsPressed: () {
               _showDrawerContents = !_showDrawerContents;
               if (_showDrawerContents)
@@ -217,6 +222,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
+                        new ListTile(
+                          leading: const Icon(Icons.edit),
+                          title: const Text('Edit Profile'),
+                          onTap: () {
+                            Navigator.of(context).pushNamed('/user/edit');
+                          },
+                        ),
                         new ListTile(
                           leading: const Icon(Icons.exit_to_app),
                           title: const Text('Logout'),

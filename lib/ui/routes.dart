@@ -6,6 +6,7 @@ import 'package:spotitems/ui/login_screen.dart';
 import 'package:spotitems/ui/profile_screen.dart';
 import 'package:spotitems/ui/add_item_screen.dart';
 import 'package:spotitems/ui/edit_item_screen.dart';
+import 'package:spotitems/ui/edit_user_screen.dart';
 import 'package:spotitems/ui/item_view.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,11 @@ HandlerFunc buildUserHandler(AuthManager authManager) {
   return (BuildContext context, Map<String, dynamic> params) =>
       new ProfileScreen(new ProfileManager(authManager, params['username']),
           params['username']);
+}
+
+HandlerFunc buildEditUserHandler(AuthManager authManager) {
+  return (BuildContext context, Map<String, dynamic> params) =>
+      new EditUserScreen(authManager);
 }
 
 HandlerFunc buildItemHandler(
@@ -60,6 +66,9 @@ void configureRouter(
 
   router.define('/user',
       handler: new Handler(handlerFunc: buildUserHandler(authManager)));
+
+  router.define('/user/edit',
+      handler: new Handler(handlerFunc: buildEditUserHandler(authManager)));
 
   router.define('/users/:username',
       handler: new Handler(handlerFunc: buildUserHandler(authManager)));
