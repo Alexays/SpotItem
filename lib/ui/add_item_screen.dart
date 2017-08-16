@@ -135,7 +135,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
           })
         ],
       ),
-      body: new Container(
+      body: new SingleChildScrollView(
+          child: new Container(
         margin: const EdgeInsets.all(20.0),
         child: new Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -197,7 +198,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 )),
           ],
         ),
-      ),
+      )),
       floatingActionButton: new FloatingActionButton(
         onPressed: getImage,
         tooltip: 'Pick Image',

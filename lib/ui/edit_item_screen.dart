@@ -159,11 +159,10 @@ class _EditItemScreenState extends State<EditItemScreen> {
               );
             })
           ]),
-      body: new Builder(
-        builder: (BuildContext context) {
-          return _loading
-              ? new Center(child: new CircularProgressIndicator())
-              : new Container(
+      body: _loading
+          ? new Center(child: new CircularProgressIndicator())
+          : new SingleChildScrollView(
+              child: new Container(
                   margin: const EdgeInsets.all(20.0),
                   child: new Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -227,9 +226,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                             ],
                           )),
                     ],
-                  ));
-        },
-      ),
+                  ))),
       floatingActionButton: new FloatingActionButton(
         onPressed: getImage,
         tooltip: 'Pick Image',
