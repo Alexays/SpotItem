@@ -59,7 +59,6 @@ class _EditItemScreenState extends State<EditItemScreen> {
           _location = new TextEditingController(text: location);
           gift = item.tracks.contains('gift');
           private = item.tracks.contains('private');
-          images = item.images;
           _loading = false;
         }
       });
@@ -80,36 +79,63 @@ class _EditItemScreenState extends State<EditItemScreen> {
   }
 
   Widget getImageGrid() {
-    if (_imageFile == null || _imageFile.length < 1) return new Center();
+    if ((item.images.length + _imageFile.length) < 1) return new Center();
     return new GridView.count(
       primary: false,
-      crossAxisCount: _imageFile.length,
+      crossAxisCount: (item.images.length + _imageFile.length),
       crossAxisSpacing: 10.0,
-      children: new List<Widget>.generate(_imageFile.length, (index) {
-        return new GridTile(
-            child: new Stack(
-          children: <Widget>[
-            new Image.file(_imageFile[index]),
-            new Positioned(
-                top: 5.0,
-                left: 5.0,
-                child: new Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      new IconButton(
-                        color: const Color.fromARGB(255, 255, 255, 255),
-                        icon: new Icon(Icons.delete),
-                        tooltip: 'Delete this image',
-                        onPressed: () {
-                          setState(() {
-                            _imageFile.removeAt(index);
-                            images.removeAt(index);
-                          });
-                        },
-                      ),
-                    ])),
-          ],
-        ));
+      children: new List<Widget>.generate(
+          (item.images.length + _imageFile.length), (index) {
+        if (index < item.images.length) {
+          return new GridTile(
+              child: new Stack(
+            children: <Widget>[
+              new Image.network(item.images[index]),
+              new Positioned(
+                  top: 5.0,
+                  left: 5.0,
+                  child: new Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        new IconButton(
+                          color: const Color.fromARGB(255, 255, 255, 255),
+                          icon: new Icon(Icons.delete),
+                          tooltip: 'Delete this image',
+                          onPressed: () {
+                            setState(() {
+                              item.images.removeAt(index);
+                            });
+                          },
+                        ),
+                      ])),
+            ],
+          ));
+        } else {
+          return new GridTile(
+              child: new Stack(
+            children: <Widget>[
+              new Image.file(_imageFile[index - item.images.length]),
+              new Positioned(
+                  top: 5.0,
+                  left: 5.0,
+                  child: new Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        new IconButton(
+                          color: const Color.fromARGB(255, 255, 255, 255),
+                          icon: new Icon(Icons.delete),
+                          tooltip: 'Delete this image',
+                          onPressed: () {
+                            setState(() {
+                              _imageFile.removeAt(index);
+                              images.removeAt(index);
+                            });
+                          },
+                        ),
+                      ])),
+            ],
+          ));
+        }
       }),
     );
   }
@@ -120,6 +146,9 @@ class _EditItemScreenState extends State<EditItemScreen> {
     List<String> tracks = [];
     if (gift) tracks.add('gift');
     if (private) tracks.add('private');
+    List<String> finalImages = [];
+    item.images.forEach((f) => finalImages.add(f));
+    images.forEach((f) => finalImages.add(f));
     if (_authManager.user != null && _authManager.user.id != null) {
       var response = await _itemsManager.editItem(
           item.id,
@@ -128,7 +157,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
           _authManager.user.id,
           _itemsManager.location['latitude'].toString(),
           _itemsManager.location['longitude'].toString(),
-          images,
+          finalImages,
           location,
           tracks);
       Scaffold
@@ -176,7 +205,6 @@ class _EditItemScreenState extends State<EditItemScreen> {
                                 key: new Key('name'),
                                 decoration: new InputDecoration.collapsed(
                                     hintText: "Name"),
-                                autofocus: true,
                                 onSaved: (String value) {
                                   name = value;
                                 },
