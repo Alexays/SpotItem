@@ -1,5 +1,3 @@
-import 'package:vector_math/vector_math_64.dart';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitems/model/item.dart';
@@ -361,7 +359,7 @@ class OrderPageState extends State<OrderPage>
                     ),
                     new Container(
                       child: new Image.network(
-                          "https://maps.googleapis.com/maps/api/staticmap?center=${item.lat},${item.lng}&markers=color:blue%7C${item.lat},${item.lng}&zoom=13&maptype=roadmap&size=${getWidth()}x300&key=${STATIC_API_KEY}"),
+                          "https://maps.googleapis.com/maps/api/staticmap?center=${item.lat},${item.lng}&markers=color:blue%7C${item.lat},${item.lng}&zoom=13&maptype=roadmap&size=${getWidth()}x250&key=${STATIC_API_KEY}"),
                     ),
                     new _ContactCategory(
                       icon: Icons.today,
