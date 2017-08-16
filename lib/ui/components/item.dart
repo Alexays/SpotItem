@@ -127,6 +127,7 @@ class ItemsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return _items.length > 0
         ? new ListView.builder(
+            physics: const AlwaysScrollableScrollPhysics(),
             scrollDirection: _dir,
             padding: new EdgeInsets.symmetric(vertical: 8.0),
             itemCount: _items != null ? _items.length : 0,

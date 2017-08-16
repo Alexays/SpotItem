@@ -51,24 +51,29 @@ class _DiscoverViewState extends State<DiscoverView> {
   }
 
   Widget _buildDiscover() {
-    return new Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        new Padding(
-          padding: const EdgeInsets.only(left: 10.0, top: 10.0, bottom: 0.0),
-          child: new Text(
-            "Recents items",
-            style: new TextStyle(fontWeight: FontWeight.w400, fontSize: 20.0),
-          ),
-        ),
-        new Container(
-          height: 250.0,
-          width: MediaQuery.of(context).size.width,
-          child: new ItemsList(_items, _itemsManager, _authManager,
-              _mode.toString(), Axis.horizontal),
-        )
-      ],
-    );
+    return new ListView.builder(
+        itemCount: 2,
+        itemBuilder: (BuildContext context, int index) {
+          switch (index) {
+            case 0:
+              return new Padding(
+                padding:
+                    const EdgeInsets.only(left: 10.0, top: 10.0, bottom: 0.0),
+                child: new Text(
+                  "Recents items",
+                  style: new TextStyle(
+                      fontWeight: FontWeight.w400, fontSize: 20.0),
+                ),
+              );
+            case 1:
+              return new Container(
+                height: 250.0,
+                width: MediaQuery.of(context).size.width,
+                child: new ItemsList(_items, _itemsManager, _authManager,
+                    _mode.toString(), Axis.horizontal),
+              );
+          }
+        });
   }
 
   @override
