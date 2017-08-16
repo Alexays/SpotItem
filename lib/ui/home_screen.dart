@@ -225,14 +225,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 .pushReplacementNamed(context, '/login'));
                           },
                         ),
-                        new ListTile(
-                          leading: const Icon(Icons.add),
-                          title: const Text('Add account'),
-                        ),
-                        new ListTile(
-                          leading: const Icon(Icons.settings),
-                          title: const Text('Manage accounts'),
-                        ),
                       ],
                     ),
                   ),

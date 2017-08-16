@@ -54,6 +54,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   Widget getImageGrid() {
     if (_imageFile == null || _imageFile.length < 1) return new Center();
     return new GridView.count(
+      primary: false,
       crossAxisCount: _imageFile.length,
       crossAxisSpacing: 10.0,
       children: new List<Widget>.generate(_imageFile.length, (index) {
@@ -141,10 +142,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
         child: new Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            new Expanded(
-              flex: _imageFile.length > 0 ? 1 : 0,
-              child: getImageGrid(),
-            ),
             new Form(
                 key: _formKey,
                 child: new Column(
@@ -196,6 +193,11 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     )
                   ],
                 )),
+            new Container(
+              height: 300.0,
+              width: 300.0,
+              child: getImageGrid(),
+            ),
           ],
         ),
       )),
