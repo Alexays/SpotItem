@@ -74,6 +74,22 @@ class AuthManager {
     _loggedIn = false;
   }
 
+  Future updateUser(User user, String password) async {
+    final Client _client = new Client();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final response = await _client
+        .put(Uri.encodeFull(API_URL + '/editUser'),
+            headers: {'Authorization': prefs.getString(KEY_OAUTH_TOKEN)},
+            body: JSON.decode(user.toString()))
+        .whenComplete(_client.close);
+    final bodyJson = JSON.decode(response.body);
+    if (response.statusCode == 200 && bodyJson['success']) {
+      _user = new User.fromJson(bodyJson['user']);
+      await _saveTokens(_user.toString(), bodyJson['token']);
+    }
+    return bodyJson;
+  }
+
   Future _saveTokens(String user, String oauthToken) async {
     final Client _client = new Client();
     SharedPreferences prefs = await SharedPreferences.getInstance();

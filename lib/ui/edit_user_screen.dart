@@ -25,25 +25,34 @@ class _EditUserScreenState extends State<EditUserScreen> {
   TextEditingController _name;
   TextEditingController _lastname;
   TextEditingController _email;
+  TextEditingController _password;
 
-  String name;
-  String lastname;
+  User user;
+  String password;
+  String repeat;
 
   @override
   void initState() {
     super.initState();
-    _name = new TextEditingController(text: _authManager.user.firstname);
-    _lastname = new TextEditingController(text: _authManager.user.name);
-    _email = new TextEditingController(text: _authManager.user.email);
+    User tmp = _authManager.user;
+    user = new User(tmp.id, tmp.name, tmp.email, tmp.firstname, tmp.avatar);
+    _name = new TextEditingController(text: user.firstname);
+    _lastname = new TextEditingController(text: user.name);
+    _email = new TextEditingController(text: user.email);
   }
 
-  editItem(BuildContext context) async {
+  editUser(BuildContext context) async {
     final FormState form = _formKey.currentState;
-
     form.save();
+    if (password != repeat) {
+      Scaffold.of(context).showSnackBar(
+          new SnackBar(content: new Text("Password don't match !")));
+      return;
+    }
+    var response = await _authManager.updateUser(user, password);
     Scaffold
         .of(context)
-        .showSnackBar(new SnackBar(content: new Text("Not Connected")));
+        .showSnackBar(new SnackBar(content: new Text(response['msg'])));
   }
 
   @override
@@ -54,7 +63,9 @@ class _EditUserScreenState extends State<EditUserScreen> {
         new Builder(builder: (BuildContext context) {
           return new IconButton(
             icon: new Icon(Icons.save),
-            onPressed: () {},
+            onPressed: () {
+              editUser(context);
+            },
           );
         })
       ]),
@@ -74,7 +85,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
                                 labelText: "Firstname",
                                 hintText: "Enter your firstname"),
                             onSaved: (String value) {
-                              name = value;
+                              user.firstname = value;
                             },
                             controller: _name,
                           ),
@@ -84,7 +95,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
                                 labelText: "Lastname",
                                 hintText: "Enter your lastname"),
                             onSaved: (String value) {
-                              lastname = value;
+                              user.name = value;
                             },
                             controller: _lastname,
                           ),
@@ -100,6 +111,26 @@ class _EditUserScreenState extends State<EditUserScreen> {
                                 hintText: "Enter your email",
                               ),
                             ),
+                          ),
+                          new TextFormField(
+                            key: new Key('password'),
+                            decoration: new InputDecoration(
+                                labelText: "Password", hintText: "***********"),
+                            onSaved: (String value) {
+                              password = value;
+                            },
+                            obscureText: true,
+                          ),
+                          new TextFormField(
+                            key: new Key('repeat'),
+                            decoration: new InputDecoration(
+                                labelText: "Confirm password",
+                                hintText: "***********"),
+                            onSaved: (String value) {
+                              repeat = value;
+                            },
+                            controller: _password,
+                            obscureText: true,
                           ),
                         ],
                       )),

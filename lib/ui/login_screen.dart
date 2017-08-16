@@ -37,9 +37,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       new TextFormField(
-                        key: new Key('username'),
-                        decoration: new InputDecoration.collapsed(
-                            hintText: "Username or email"),
+                        key: new Key('email'),
+                        decoration:
+                            new InputDecoration.collapsed(hintText: "Email"),
                         autofocus: true,
                         controller: _usernameController,
                       ),
