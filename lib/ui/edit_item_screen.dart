@@ -151,76 +151,78 @@ class _EditItemScreenState extends State<EditItemScreen> {
           title: new Text(item != null ? 'Edit: ' + item.name : 'Loading...')),
       body: new Builder(
         builder: (BuildContext context) {
-          return new Container(
-              margin: const EdgeInsets.all(20.0),
-              child: new Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  new Expanded(
-                    flex: _imageFile.length > 0 ? 1 : 0,
-                    child: getImageGrid(),
-                  ),
-                  new Form(
-                      key: _formKey,
-                      child: new Column(
-                        children: <Widget>[
-                          new TextFormField(
-                            key: new Key('name'),
-                            decoration:
-                                new InputDecoration.collapsed(hintText: "Name"),
-                            autofocus: true,
-                            onSaved: (String value) {
-                              name = value;
-                            },
-                            controller: _name,
-                          ),
-                          new TextFormField(
-                            key: new Key('about'),
-                            decoration: new InputDecoration.collapsed(
-                                hintText: 'Description'),
-                            onSaved: (String value) {
-                              about = value;
-                            },
-                            controller: _about,
-                          ),
-                          new TextFormField(
-                            key: new Key('location'),
-                            decoration: new InputDecoration.collapsed(
-                                hintText: 'Location'),
-                            onSaved: (String value) {
-                              location = value;
-                            },
-                            controller: _location,
-                          ),
-                          new SwitchListTile(
-                            title: const Text('Donated Item'),
-                            value: gift,
-                            onChanged: (bool value) {
-                              setState(() {
-                                gift = value;
-                              });
-                            },
-                            secondary: const Icon(Icons.card_giftcard),
-                          ),
-                          new SwitchListTile(
-                            title: const Text('Private Item'),
-                            value: private,
-                            onChanged: (bool value) {
-                              setState(() {
-                                private = value;
-                              });
-                            },
-                            secondary: const Icon(Icons.lock),
-                          ),
-                          new RaisedButton(
-                              child: new Text('Edit'),
-                              onPressed: () {
-                                editItem(context);
-                              }),
-                        ],
-                      )),
-                ],
-              ));
+          return _loading
+              ? new Center(child: new CircularProgressIndicator())
+              : new Container(
+                  margin: const EdgeInsets.all(20.0),
+                  child: new Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      new Expanded(
+                        flex: _imageFile.length > 0 ? 1 : 0,
+                        child: getImageGrid(),
+                      ),
+                      new Form(
+                          key: _formKey,
+                          child: new Column(
+                            children: <Widget>[
+                              new TextFormField(
+                                key: new Key('name'),
+                                decoration: new InputDecoration.collapsed(
+                                    hintText: "Name"),
+                                autofocus: true,
+                                onSaved: (String value) {
+                                  name = value;
+                                },
+                                controller: _name,
+                              ),
+                              new TextFormField(
+                                key: new Key('about'),
+                                decoration: new InputDecoration.collapsed(
+                                    hintText: 'Description'),
+                                onSaved: (String value) {
+                                  about = value;
+                                },
+                                controller: _about,
+                              ),
+                              new TextFormField(
+                                key: new Key('location'),
+                                decoration: new InputDecoration.collapsed(
+                                    hintText: 'Location'),
+                                onSaved: (String value) {
+                                  location = value;
+                                },
+                                controller: _location,
+                              ),
+                              new SwitchListTile(
+                                title: const Text('Donated Item'),
+                                value: gift,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    gift = value;
+                                  });
+                                },
+                                secondary: const Icon(Icons.card_giftcard),
+                              ),
+                              new SwitchListTile(
+                                title: const Text('Private Item'),
+                                value: private,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    private = value;
+                                  });
+                                },
+                                secondary: const Icon(Icons.lock),
+                              ),
+                              new RaisedButton(
+                                  child: new Text('Edit'),
+                                  onPressed: () {
+                                    editItem(context);
+                                  }),
+                            ],
+                          )),
+                    ],
+                  ));
         },
       ),
       floatingActionButton: new FloatingActionButton(
