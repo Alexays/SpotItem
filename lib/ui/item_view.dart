@@ -1,3 +1,5 @@
+import 'package:vector_math/vector_math_64.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitems/model/item.dart';
@@ -102,7 +104,8 @@ class OrderPage extends StatefulWidget {
 // Displays a product's heading above photos of all of the other products
 // arranged in two columns. Enables the user to specify a quantity and add an
 // order to the shopping cart.
-class OrderPageState extends State<OrderPage> {
+class OrderPageState extends State<OrderPage>
+    with SingleTickerProviderStateMixin {
   OrderPageState(
       this.authManager, this.itemsManager, this._itemId, this.item, this.hash);
 
@@ -113,12 +116,20 @@ class OrderPageState extends State<OrderPage> {
 
   bool _loading = true;
 
+  TabController _tabController;
+
   Item item;
+
+  final double _appBarHeight = 256.0;
+
+  bool dragStopped = true;
 
   @override
   void initState() {
     if (item != null) {
       setState(() {
+        _tabController =
+            new TabController(vsync: this, length: item.images.length);
         _loading = false;
       });
     }
@@ -127,13 +138,21 @@ class OrderPageState extends State<OrderPage> {
       itemsManager.getItem(_itemId).then((data) {
         setState(() {
           item = data;
-          if (item != null) _loading = false;
+          if (item != null) {
+            _tabController =
+                new TabController(vsync: this, length: item.images.length);
+            _loading = false;
+          }
         });
       });
     }
   }
 
-  final double _appBarHeight = 256.0;
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   doButton() {
     List<Widget> top = [];
@@ -226,37 +245,75 @@ class OrderPageState extends State<OrderPage> {
                   expandedHeight: _appBarHeight,
                   pinned: true,
                   actions: doButton(),
-                  flexibleSpace: new FlexibleSpaceBar(
-                    title: new Text(
-                      item.name,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    background: new Stack(
-                      fit: StackFit.expand,
-                      children: <Widget>[
-                        new Hero(
-                            tag: item.id + '_img_' + hash,
-                            child: new FadeInImage(
-                                placeholder:
-                                    new AssetImage('assets/placeholder.png'),
-                                image: new NetworkImage(item.images[0]),
-                                fit: BoxFit.cover,
-                                alignment: FractionalOffset.center)),
-                        // This gradient ensures that the toolbar icons are distinct
-                        // against the background image.
-                        const DecoratedBox(
-                          decoration: const BoxDecoration(
-                            gradient: const LinearGradient(
-                              begin: const FractionalOffset(0.5, 0.0),
-                              end: const FractionalOffset(0.5, 0.30),
-                              colors: const <Color>[
-                                const Color(0x60000000),
-                                const Color(0x00000000)
-                              ],
+                  flexibleSpace: new GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onHorizontalDragUpdate: (DragUpdateDetails details) {
+                      if (dragStopped == true &&
+                          details.delta.dx < 0 &&
+                          _tabController.index < item.images.length - 1) {
+                        _tabController.index = _tabController.index + 1;
+                        dragStopped = false;
+                      } else if (dragStopped == true &&
+                          details.delta.dx > 0 &&
+                          _tabController.index > 0) {
+                        _tabController.index = _tabController.index - 1;
+                        dragStopped = false;
+                      }
+                    },
+                    onHorizontalDragEnd: (DragEndDetails details) {
+                      dragStopped = true;
+                    },
+                    child: new FlexibleSpaceBar(
+                      title: new Text(
+                        item.name,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      centerTitle: false,
+                      background: new Stack(
+                        alignment: FractionalOffset.center,
+                        fit: StackFit.expand,
+                        children: <Widget>[
+                          new TabBarView(
+                              controller: _tabController,
+                              children: new List<Widget>.generate(
+                                  item.images.length, (int index) {
+                                if (index == 0) {
+                                  return new Hero(
+                                      tag: item.id + '_img_' + hash,
+                                      child: new FadeInImage(
+                                          placeholder: new AssetImage(
+                                              'assets/placeholder.png'),
+                                          image: new NetworkImage(
+                                              item.images[index]),
+                                          fit: BoxFit.cover,
+                                          alignment: FractionalOffset.center));
+                                } else {
+                                  return new FadeInImage(
+                                      placeholder: new AssetImage(
+                                          'assets/placeholder.png'),
+                                      image:
+                                          new NetworkImage(item.images[index]),
+                                      fit: BoxFit.cover,
+                                      alignment: FractionalOffset.center);
+                                }
+                              })),
+
+                          // This gradient ensures that the toolbar icons are distinct
+                          // against the background image.
+                          const DecoratedBox(
+                            decoration: const BoxDecoration(
+                              gradient: const LinearGradient(
+                                begin: const FractionalOffset(0.5, 0.0),
+                                end: const FractionalOffset(0.5, 0.30),
+                                colors: const <Color>[
+                                  const Color(0x60000000),
+                                  const Color(0x00000000)
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
