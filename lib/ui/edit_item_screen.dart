@@ -150,12 +150,14 @@ class _EditItemScreenState extends State<EditItemScreen> {
       appBar: new AppBar(
           title: new Text(item != null ? 'Edit: ' + item.name : 'Loading...'),
           actions: <Widget>[
-            new IconButton(
-              icon: new Icon(Icons.save),
-              onPressed: () {
-                editItem(context);
-              },
-            ),
+            new Builder(builder: (BuildContext context) {
+              return new IconButton(
+                icon: new Icon(Icons.save),
+                onPressed: () {
+                  editItem(context);
+                },
+              );
+            })
           ]),
       body: new Builder(
         builder: (BuildContext context) {
