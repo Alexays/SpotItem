@@ -1,6 +1,7 @@
 import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
 import 'package:spotitems/ui/explorer_view.dart';
+import 'package:spotitems/ui/discover_view.dart';
 import 'package:spotitems/ui/map_view.dart';
 import 'package:spotitems/ui/items_view.dart';
 import 'package:spotitems/model/item.dart';
@@ -60,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           title: "Explorer",
           sub: [
             new HomeScreenSubItem("Discover",
-                new ExplorerView(_itemsManager, _authManager, null)),
+                new DiscoverView(_itemsManager, _authManager, null)),
             new HomeScreenSubItem(
                 "Nearest you",
                 new ExplorerView(_itemsManager, _authManager, (items) {

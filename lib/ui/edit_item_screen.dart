@@ -148,7 +148,15 @@ class _EditItemScreenState extends State<EditItemScreen> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-          title: new Text(item != null ? 'Edit: ' + item.name : 'Loading...')),
+          title: new Text(item != null ? 'Edit: ' + item.name : 'Loading...'),
+          actions: <Widget>[
+            new IconButton(
+              icon: new Icon(Icons.save),
+              onPressed: () {
+                editItem(context);
+              },
+            ),
+          ]),
       body: new Builder(
         builder: (BuildContext context) {
           return _loading
@@ -214,11 +222,6 @@ class _EditItemScreenState extends State<EditItemScreen> {
                                 },
                                 secondary: const Icon(Icons.lock),
                               ),
-                              new RaisedButton(
-                                  child: new Text('Edit'),
-                                  onPressed: () {
-                                    editItem(context);
-                                  }),
                             ],
                           )),
                     ],

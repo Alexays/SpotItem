@@ -118,13 +118,16 @@ class ItemsList extends StatelessWidget {
   final ItemsManager _itemsManager;
   final AuthManager _authManager;
   final String _hash;
+  final Axis _dir;
 
-  ItemsList(this._items, this._itemsManager, this._authManager, this._hash);
+  ItemsList(this._items, this._itemsManager, this._authManager, this._hash,
+      [this._dir = Axis.vertical]);
 
   @override
   Widget build(BuildContext context) {
     return _items.length > 0
         ? new ListView.builder(
+            scrollDirection: _dir,
             padding: new EdgeInsets.symmetric(vertical: 8.0),
             itemCount: _items != null ? _items.length : 0,
             itemExtent: 300.0,

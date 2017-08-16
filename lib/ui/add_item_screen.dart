@@ -120,77 +120,81 @@ class _AddItemScreenState extends State<AddItemScreen> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(title: new Text('Add Item')),
-      body: new Builder(
-        builder: (BuildContext context) {
-          return new Container(
-              margin: const EdgeInsets.all(20.0),
-              child: new Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  new Expanded(
-                    flex: _imageFile.length > 0 ? 1 : 0,
-                    child: getImageGrid(),
-                  ),
-                  new Form(
-                      key: _formKey,
-                      child: new Column(
-                        children: <Widget>[
-                          new TextFormField(
-                            key: new Key('name'),
-                            decoration:
-                                new InputDecoration.collapsed(hintText: "Name"),
-                            autofocus: true,
-                            onSaved: (String value) {
-                              name = value;
-                            },
-                          ),
-                          new TextFormField(
-                            key: new Key('about'),
-                            decoration: new InputDecoration.collapsed(
-                                hintText: 'Description'),
-                            onSaved: (String value) {
-                              about = value;
-                            },
-                          ),
-                          new TextFormField(
-                            key: new Key('location'),
-                            decoration: new InputDecoration.collapsed(
-                                hintText: 'Location'),
-                            onSaved: (String value) {
-                              location = value;
-                            },
-                          ),
-                          new SwitchListTile(
-                            title: const Text('Donated Item'),
-                            value: gift,
-                            onChanged: (bool value) {
-                              setState(() {
-                                gift = value;
-                              });
-                            },
-                            secondary: const Icon(Icons.card_giftcard),
-                          ),
-                          new SwitchListTile(
-                            title: const Text('Private Item'),
-                            value: private,
-                            onChanged: (bool value) {
-                              setState(() {
-                                private = value;
-                              });
-                            },
-                            secondary: const Icon(Icons.lock),
-                          ),
-                          new RaisedButton(
-                              child: new Text('Add'),
-                              onPressed: () {
-                                addItem(context);
-                              }),
-                        ],
-                      )),
-                ],
-              ));
-        },
+      appBar: new AppBar(
+        title: new Text('Add Item'),
+        actions: <Widget>[
+          new Builder(builder: (BuildContext context) {
+            return new IconButton(
+              icon: new Icon(Icons.save),
+              onPressed: () {
+                addItem(context);
+              },
+            );
+          })
+        ],
+      ),
+      body: new Container(
+        margin: const EdgeInsets.all(20.0),
+        child: new Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            new Expanded(
+              flex: _imageFile.length > 0 ? 1 : 0,
+              child: getImageGrid(),
+            ),
+            new Form(
+                key: _formKey,
+                child: new Column(
+                  children: <Widget>[
+                    new TextFormField(
+                      key: new Key('name'),
+                      decoration:
+                          new InputDecoration.collapsed(hintText: "Name"),
+                      autofocus: true,
+                      onSaved: (String value) {
+                        name = value;
+                      },
+                    ),
+                    new TextFormField(
+                      key: new Key('about'),
+                      decoration: new InputDecoration.collapsed(
+                          hintText: 'Description'),
+                      onSaved: (String value) {
+                        about = value;
+                      },
+                    ),
+                    new TextFormField(
+                      key: new Key('location'),
+                      decoration:
+                          new InputDecoration.collapsed(hintText: 'Location'),
+                      onSaved: (String value) {
+                        location = value;
+                      },
+                    ),
+                    new SwitchListTile(
+                      title: const Text('Donated Item'),
+                      value: gift,
+                      onChanged: (bool value) {
+                        setState(() {
+                          gift = value;
+                        });
+                      },
+                      secondary: const Icon(Icons.card_giftcard),
+                    ),
+                    new SwitchListTile(
+                      title: const Text('Private Item'),
+                      value: private,
+                      onChanged: (bool value) {
+                        setState(() {
+                          private = value;
+                        });
+                      },
+                      secondary: const Icon(Icons.lock),
+                    )
+                  ],
+                )),
+          ],
+        ),
       ),
       floatingActionButton: new FloatingActionButton(
         onPressed: getImage,

@@ -9,24 +9,24 @@ import 'package:flutter/material.dart';
 
 typedef List<Item> Filter(List<Item> items);
 
-class ExplorerView extends StatefulWidget {
+class DiscoverView extends StatefulWidget {
   final ItemsManager _itemsManager;
   final AuthManager _authManager;
   final Filter _mode;
-  ExplorerView(this._itemsManager, this._authManager, this._mode);
+  DiscoverView(this._itemsManager, this._authManager, this._mode);
 
   @override
   State<StatefulWidget> createState() =>
-      new _ExplorerViewState(_itemsManager, _mode, _authManager);
+      new _DiscoverViewState(_itemsManager, _mode, _authManager);
 }
 
-class _ExplorerViewState extends State<ExplorerView> {
+class _DiscoverViewState extends State<DiscoverView> {
   final ItemsManager _itemsManager;
   final AuthManager _authManager;
   final Filter _mode;
   bool _loading = true;
   List<Item> _items = [];
-  _ExplorerViewState(this._itemsManager, this._mode, this._authManager);
+  _DiscoverViewState(this._itemsManager, this._mode, this._authManager);
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
 
@@ -51,10 +51,27 @@ class _ExplorerViewState extends State<ExplorerView> {
     }
   }
 
-  Widget _buildExplorer() {
+  Widget _buildDiscover() {
     var rng = new Random();
     var rdm = new List.generate(3, (_) => rng.nextInt(100));
-    return new ItemsList(_items, _itemsManager, _authManager, rdm.toString());
+    return new Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        new Padding(
+          padding: const EdgeInsets.only(left: 10.0, top: 10.0, bottom: 0.0),
+          child: new Text(
+            "Recents items",
+            style: new TextStyle(fontWeight: FontWeight.w400, fontSize: 20.0),
+          ),
+        ),
+        new Container(
+          height: 250.0,
+          width: MediaQuery.of(context).size.width,
+          child: new ItemsList(_items, _itemsManager, _authManager,
+              rdm.toString(), Axis.horizontal),
+        )
+      ],
+    );
   }
 
   @override
@@ -65,7 +82,7 @@ class _ExplorerViewState extends State<ExplorerView> {
       },
       child: _loading
           ? new Center(child: new CircularProgressIndicator())
-          : _buildExplorer(),
+          : _buildDiscover(),
     );
   }
 }
