@@ -23,8 +23,7 @@ class _MapViewState extends State<MapView> {
   @override
   Widget build(BuildContext context) {
     return new Center(
-      child: new Image.network(
-          "https://maps.googleapis.com/maps/api/staticmap?center=${_itemsManager.location["latitude"]},${_itemsManager.location["longitude"]}&zoom=18&size=${MediaQuery.of(context).size.width}x${MediaQuery.of(context).size.height}&key=AIzaSyAJh3ASTwUBo06fQai_PZJa-R9czeRC2D0"),
+      child: new Text("Comming soon"),
     );
   }
 }

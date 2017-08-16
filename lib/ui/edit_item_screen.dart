@@ -142,11 +142,12 @@ class _EditItemScreenState extends State<EditItemScreen> {
 
   editItem(BuildContext context) async {
     final FormState form = _formKey.currentState;
-    form.save();
+    List<String> finalImages = [];
     List<String> tracks = [];
+
+    form.save();
     if (gift) tracks.add('gift');
     if (private) tracks.add('private');
-    List<String> finalImages = [];
     item.images.forEach((f) => finalImages.add(f));
     images.forEach((f) => finalImages.add(f));
     if (_authManager.user != null && _authManager.user.id != null) {
