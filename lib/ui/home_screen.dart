@@ -76,24 +76,47 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       .where((Item item) => item.tracks.contains('gift'))
                       .toList();
                 })),
-          ]),
+          ],
+          fab: new FloatingActionButton(
+            child: new Icon(Icons.add),
+            tooltip: "Add new item",
+            onPressed: () {
+              Navigator.of(context).pushNamed('/addItem');
+            },
+          )),
       new HomeScreenItem(
-        icon: const Icon(Icons.work),
-        title: "Items",
-        content: new ItemsView(_itemsManager, _authManager),
-      ),
+          icon: const Icon(Icons.work),
+          title: "Items",
+          content: new ItemsView(_itemsManager, _authManager),
+          fab: new FloatingActionButton(
+            child: new Icon(Icons.add),
+            tooltip: "Add new item",
+            onPressed: () {
+              Navigator.of(context).pushNamed('/addItem');
+            },
+          )),
       new HomeScreenItem(
         icon: const Icon(Icons.map),
         title: "Maps",
         content: new MapView(_itemsManager),
       ),
       new HomeScreenItem(
-        icon: const Icon(Icons.sms),
-        title: "Message",
-        content: new Center(
-          child: new Text("Comming soon"),
-        ),
-      )
+          icon: const Icon(Icons.nature_people),
+          title: "Social",
+          sub: [
+            new HomeScreenSubItem(
+              "Groups",
+              new Center(
+                child: new Text("Comming soon"),
+              ),
+            ),
+            new HomeScreenSubItem(
+              "Messages",
+              new Center(
+                child: new Text("Comming soon"),
+              ),
+            ),
+          ]),
     ];
     initAnimation();
   }
@@ -279,17 +302,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
+  _buildFab() {
+    if (_homeScreenItems[_currentIndex].fab == null) return null;
+    return _homeScreenItems[_currentIndex].fab;
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       drawer: _buildDrawer(context),
-      floatingActionButton: new FloatingActionButton(
-        child: new Icon(Icons.add),
-        tooltip: "Add new item",
-        onPressed: () {
-          Navigator.of(context).pushNamed('/addItem');
-        },
-      ),
+      floatingActionButton: _buildFab(),
       body: new DefaultTabController(
         length: _homeScreenItems[_currentIndex].sub?.length,
         child: new NestedScrollView(
@@ -324,8 +346,10 @@ class HomeScreenItem {
   final BottomNavigationBarItem item;
   final List<Widget> content;
   final List<HomeScreenSubItem> sub;
+  final FloatingActionButton fab;
 
-  HomeScreenItem({Widget icon, String title, Widget content, this.sub})
+  HomeScreenItem(
+      {Widget icon, String title, Widget content, this.sub, this.fab})
       : item = new BottomNavigationBarItem(icon: icon, title: new Text(title)),
         content = sub != null
             ? new List<Widget>.generate(sub.length, (int index) {
