@@ -74,13 +74,28 @@ class AuthManager {
     _loggedIn = false;
   }
 
+  Future register(User user, String password) async {
+    final Client _client = new Client();
+    var userJson = JSON.decode(user.toString());
+    userJson['password'] = password;
+    final response = await _client
+        .put(Uri.encodeFull(API_URL + '/editUser'),
+            headers: {'Authorization': 'Basic ${_clientSecret}'},
+            body: userJson)
+        .whenComplete(_client.close);
+    final bodyJson = JSON.decode(response.body);
+    return bodyJson;
+  }
+
   Future updateUser(User user, String password) async {
     final Client _client = new Client();
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    var userJson = JSON.decode(user.toString());
+    if (password != null) userJson['password'] = password;
     final response = await _client
         .put(Uri.encodeFull(API_URL + '/editUser'),
             headers: {'Authorization': prefs.getString(KEY_OAUTH_TOKEN)},
-            body: JSON.decode(user.toString()))
+            body: userJson)
         .whenComplete(_client.close);
     final bodyJson = JSON.decode(response.body);
     if (response.statusCode == 200 && bodyJson['success']) {
