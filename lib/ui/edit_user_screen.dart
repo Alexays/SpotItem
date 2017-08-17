@@ -1,10 +1,5 @@
-import 'dart:io';
-import 'dart:convert';
-
 import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:spotitems/model/user.dart';
-
-import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 
 class EditUserScreen extends StatefulWidget {

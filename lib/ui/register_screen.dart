@@ -126,7 +126,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         new RaisedButton(
                             child: new Text('Login'),
-                            onPressed: addUser(user, password)),
+                            onPressed: addUser(context)),
                       ],
                     )),
               )));
