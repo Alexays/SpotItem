@@ -146,7 +146,6 @@ class ItemsManager {
 
   Future loadItems() async {
     if (_items.length == 0) {
-      print("Get location");
       try {
         Map<String, double> tmp = await _location.getLocation
             .timeout(const Duration(milliseconds: 300), onTimeout: () {
@@ -157,7 +156,6 @@ class ItemsManager {
       } on PlatformException {
         print("Can't get location");
       }
-      print("Load Items...");
       final Client _client = new Client();
       final itemResponse = await _client.get(API_URL + '/items', headers: {
         'Authorization': 'Basic ${_clientSecret}'
