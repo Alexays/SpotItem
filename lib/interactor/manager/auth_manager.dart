@@ -74,7 +74,7 @@ class AuthManager {
     _loggedIn = false;
   }
 
-  Future register(User user, String password) async {
+  Future<bool> register(User user, String password) async {
     final Client _client = new Client();
     var userJson = JSON.decode(user.toString());
     userJson['password'] = password;
@@ -84,7 +84,8 @@ class AuthManager {
             body: userJson)
         .whenComplete(_client.close);
     final bodyJson = JSON.decode(response.body);
-    return bodyJson;
+    if (bodyJson['success']) return true;
+    return false;
   }
 
   Future updateUser(User user, String password) async {

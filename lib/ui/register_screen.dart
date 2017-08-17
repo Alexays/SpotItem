@@ -43,10 +43,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
     _authManager.register(user, password).then((success) {
       if (success) {
-        Navigator.pushReplacementNamed(context, "/home");
+        Navigator.pushReplacementNamed(context, "/login");
       } else {
         Scaffold.of(context).showSnackBar(
-            new SnackBar(content: new Text("Invalid credentials !")));
+            new SnackBar(content: new Text("Something gone wrong !")));
       }
     });
   }
