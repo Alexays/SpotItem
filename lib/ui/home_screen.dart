@@ -255,11 +255,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       leading: new BackButton(),
       floating: _homeScreenItems[_currentIndex].sub != null,
       title: new TextField(
+        key: new Key('search'),
         controller: _searchQuery,
         autofocus: true,
+        style: new TextStyle(color: Colors.white70, fontSize: 16.0),
         decoration: new InputDecoration(
-          hintText: 'Search stocks',
-        ),
+            hintText: 'Search...',
+            hintStyle: new TextStyle(color: Colors.white70, fontSize: 16.0),
+            hideDivider: true),
       ),
       bottom: _buildBottom(),
     );
