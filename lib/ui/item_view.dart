@@ -4,6 +4,7 @@ import 'package:spotitems/model/item.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
 import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:spotitems/keys.dart';
+import 'package:spotitems/ui/components/date_picker.dart';
 
 class _ContactCategory extends StatelessWidget {
   const _ContactCategory({Key key, this.icon, this.children}) : super(key: key);
@@ -361,14 +362,19 @@ class OrderPageState extends State<OrderPage>
                       child: new Image.network(
                           "https://maps.googleapis.com/maps/api/staticmap?center=${item.lat},${item.lng}&markers=color:blue%7C${item.lat},${item.lng}&zoom=13&maptype=roadmap&size=${getWidth()}x250&key=${STATIC_API_KEY}"),
                     ),
-                    new _ContactCategory(
-                      icon: Icons.today,
+                    new Stack(
                       children: <Widget>[
-                        new _ContactItem(
-                          lines: <String>['Comming soon', 'comming soon'],
+                        new DayPickerBar(
+                          selectedDate: new DateTime.now(),
+                          onChanged: (DateTime date) {},
                         ),
+                        new Positioned(
+                          top: 15.0,
+                          left: 15.0,
+                          child: new Icon(Icons.today),
+                        )
                       ],
-                    ),
+                    )
                   ]),
                 ),
               ],

@@ -17,7 +17,7 @@ class DayPickerBarState extends State<DayPickerBar> {
   Widget build(BuildContext context) {
     return new Container(
       color: Theme.of(context).canvasColor,
-      height: 250.0,
+      height: 330.0,
       child: new Row(
         children: <Widget>[
           new IconButton(

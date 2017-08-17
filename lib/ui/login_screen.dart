@@ -38,14 +38,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: <Widget>[
                       new TextFormField(
                         key: new Key('email'),
-                        decoration:
-                            new InputDecoration.collapsed(hintText: "Email"),
+                        decoration: new InputDecoration(hintText: "Email"),
                         autofocus: true,
                         controller: _usernameController,
                       ),
                       new TextFormField(
-                        decoration:
-                            new InputDecoration.collapsed(hintText: 'Password'),
+                        decoration: new InputDecoration(hintText: 'Password'),
                         controller: _passwordController,
                         obscureText: true,
                       ),
