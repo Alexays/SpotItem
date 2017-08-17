@@ -155,7 +155,7 @@ class OrderPageState extends State<OrderPage>
 
   doButton() {
     List<Widget> top = [];
-    if (authManager.user != null &&
+    if (authManager.loggedIn &&
         item != null &&
         item.owner.id == authManager.user.id) {
       top.add(new IconButton(

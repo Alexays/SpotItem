@@ -38,7 +38,7 @@ class _ItemsListItem extends StatelessWidget {
                   tag: item.id + '_img_' + hash,
                   child: new FadeInImage(
                       placeholder: new AssetImage('assets/placeholder.png'),
-                      image: new NetworkImage(item.images[0]),
+                      image: new NetworkImage(item.images.first),
                       fit: BoxFit.cover,
                       alignment: FractionalOffset.center)),
               new Positioned(
@@ -130,7 +130,7 @@ class ItemsList extends StatelessWidget {
             physics: const AlwaysScrollableScrollPhysics(),
             scrollDirection: _dir,
             padding: new EdgeInsets.symmetric(vertical: 8.0),
-            itemCount: _items != null ? _items.length : 0,
+            itemCount: _items?.length,
             itemExtent: 300.0,
             itemBuilder: (BuildContext context, int index) {
               return new _ItemsListItem(

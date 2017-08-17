@@ -95,6 +95,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ),
       )
     ];
+    initAnimation();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void initAnimation() {
     _controller = new AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 200),
@@ -121,12 +131,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     ));
   }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
   void _navBarItemSelected(int selected) {
     setState(() {
       _currentIndex = selected;
@@ -136,10 +140,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget _buildBottom() {
     if (_homeScreenItems[_currentIndex].sub == null) return null;
     return new TabBar(
-      tabs: new List<Tab>.generate(
-          _homeScreenItems[_currentIndex].sub != null
-              ? _homeScreenItems[_currentIndex].sub.length
-              : 0, (int index) {
+      tabs: new List<Tab>.generate(_homeScreenItems[_currentIndex].sub?.length,
+          (int index) {
         return new Tab(
           text: _homeScreenItems[_currentIndex].sub[index].title,
         );
@@ -157,8 +159,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             accountEmail: new Text(_authManager.user?.email),
             currentAccountPicture: new CircleAvatar(
                 backgroundColor: Colors.grey,
-                backgroundImage: _authManager.user?.avatar != null &&
-                        _authManager.user?.avatar != 'null'
+                backgroundImage: _authManager.user?.avatar != 'null'
                     ? new NetworkImage(_authManager.user?.avatar)
                     : null),
             otherAccountsPictures: <Widget>[
@@ -168,7 +169,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 onPressed: () {},
               ),
               //const CircleAvatar(backgroundImage: const AssetImage(_kAsset1)),
-              //const CircleAvatar(backgroundImage: const AssetImage(_kAsset2)),
             ],
             onDetailsPressed: () {
               _showDrawerContents = !_showDrawerContents;
@@ -291,9 +291,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         },
       ),
       body: new DefaultTabController(
-        length: _homeScreenItems[_currentIndex].sub != null
-            ? _homeScreenItems[_currentIndex].sub.length
-            : 1,
+        length: _homeScreenItems[_currentIndex].sub?.length,
         child: new NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return [
