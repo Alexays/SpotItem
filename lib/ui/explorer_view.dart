@@ -37,7 +37,7 @@ class _ExplorerViewState extends State<ExplorerView> {
 
   Future _loadItems([bool force = false]) async {
     _refreshIndicatorKey.currentState?.show();
-    final itemsLoaded = _itemsManager.getItems(force);
+    final itemsLoaded = _itemsManager.getItems(force, _authManager.user?.id);
     if (itemsLoaded != null) {
       itemsLoaded.then((data) {
         if (!mounted) return;

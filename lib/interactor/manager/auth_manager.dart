@@ -15,13 +15,13 @@ class AuthManager {
 
   User get user => _user;
 
-  OauthClient get oauthClient => _oauthClient;
+  String get oauthClient => _oauthToken;
 
   final String _clientSecret = CLIENT_SECRET;
   bool _initialized;
   bool _loggedIn;
   User _user;
-  OauthClient _oauthClient;
+  String _oauthToken;
 
   Future init() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -29,7 +29,6 @@ class AuthManager {
     User user =
         new User.fromJson(JSON.decode(userData != null ? userData : '{}'));
     String oauthToken = prefs.getString(KEY_OAUTH_TOKEN);
-    final Client _client = new Client();
 
     if (user == null || oauthToken == null) {
       _loggedIn = false;
@@ -37,7 +36,7 @@ class AuthManager {
     } else {
       _loggedIn = true;
       _user = user;
-      _oauthClient = new OauthClient(_client, oauthToken);
+      _oauthToken = oauthToken;
     }
 
     _initialized = true;
@@ -112,23 +111,6 @@ class AuthManager {
     prefs.setString(KEY_USER, user);
     prefs.setString(KEY_OAUTH_TOKEN, oauthToken);
     await prefs.commit();
-    _oauthClient = new OauthClient(_client, oauthToken);
-  }
-}
-
-class OauthClient extends _AuthClient {
-  OauthClient(Client client, String token) : super(client, 'JWT ${token}');
-}
-
-abstract class _AuthClient extends BaseClient {
-  final Client _client;
-  final String _authorization;
-
-  _AuthClient(this._client, this._authorization);
-
-  @override
-  Future<StreamedResponse> send(BaseRequest request) {
-    request.headers['Authorization'] = _authorization;
-    return _client.send(request);
+    _oauthToken = oauthToken;
   }
 }

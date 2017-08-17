@@ -8,7 +8,11 @@ import 'package:http/http.dart';
 import 'package:flutter/services.dart';
 import 'package:location/location.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 class ItemsManager {
+  static const String KEY_OAUTH_TOKEN = 'KEY_AUTH_TOKEN';
+
   bool get initialized => _initialized;
 
   bool get loading => _loading;
@@ -144,7 +148,7 @@ class ItemsManager {
     return bodyJson;
   }
 
-  Future loadItems() async {
+  Future loadItems(String userId) async {
     if (_items.length == 0) {
       try {
         Map<String, double> tmp = await _location.getLocation
@@ -156,12 +160,20 @@ class ItemsManager {
       } on PlatformException {
         print("Can't get location");
       }
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String token = prefs.getString(KEY_OAUTH_TOKEN);
       final Client _client = new Client();
-      final itemResponse = await _client.get(API_URL + '/items', headers: {
-        'Authorization': 'Basic ${_clientSecret}'
-      }).whenComplete(_client.close);
-      if (itemResponse.statusCode == 200) {
-        var itemJson = JSON.decode(itemResponse.body);
+      var response;
+      if (userId != null) {
+        response = await _client.get(API_URL + '/items/auth',
+            headers: {'Authorization': token}).whenComplete(_client.close);
+      } else {
+        response = await _client.get(API_URL + '/items', headers: {
+          'Authorization': 'Basic ${_clientSecret}'
+        }).whenComplete(_client.close);
+      }
+      if (response.statusCode == 200) {
+        var itemJson = JSON.decode(response.body);
         _items = new List<Item>.generate(itemJson.length, (int index) {
           return new Item.fromJson(itemJson[index],
               getDist(itemJson[index]['lat'], itemJson[index]['lng']));
@@ -172,9 +184,10 @@ class ItemsManager {
     return _items;
   }
 
-  Future<List<Item>> getItems([bool force = false]) async {
+  Future<List<Item>> getItems(
+      [bool force = false, String userId = 'no']) async {
     if (force) _items.clear();
-    return loadItems();
+    return loadItems(userId);
   }
 
   Future getItem(String itemId) async {

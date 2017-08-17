@@ -7,6 +7,7 @@ import 'package:spotitems/model/item.dart';
 import 'package:spotitems/ui/item_view.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
 import 'package:spotitems/interactor/manager/auth_manager.dart';
+import 'package:spotitems/keys.dart';
 
 class _ItemsListItem extends StatelessWidget {
   const _ItemsListItem(
@@ -38,7 +39,7 @@ class _ItemsListItem extends StatelessWidget {
                   tag: item.id + '_img_' + hash,
                   child: new FadeInImage(
                       placeholder: new AssetImage('assets/placeholder.png'),
-                      image: new NetworkImage(item.images.first),
+                      image: new NetworkImage(API_IMG_URL + item.images.first),
                       fit: BoxFit.cover,
                       alignment: FractionalOffset.center)),
               new Positioned(

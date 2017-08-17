@@ -7,6 +7,7 @@ import 'package:spotitems/model/item.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:spotitems/keys.dart';
 
 class EditItemScreen extends StatefulWidget {
   final AuthManager _authManager;
@@ -90,7 +91,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
           return new GridTile(
               child: new Stack(
             children: <Widget>[
-              new Image.network(item.images[index]),
+              new Image.network(API_IMG_URL + item.images[index]),
               new Positioned(
                   top: 5.0,
                   left: 5.0,
