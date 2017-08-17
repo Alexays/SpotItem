@@ -81,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             child: const Icon(Icons.add),
             tooltip: "Add new item",
             onPressed: () {
-              Navigator.of(context).pushNamed('/addItem');
+              Navigator.of(context).pushNamed('/item/add');
             },
           )),
       new HomeScreenItem(
@@ -92,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             child: const Icon(Icons.add),
             tooltip: "Add new item",
             onPressed: () {
-              Navigator.of(context).pushNamed('/addItem');
+              Navigator.of(context).pushNamed('/item/add');
             },
           )),
       new HomeScreenItem(
@@ -120,7 +120,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           fab: new FloatingActionButton(
             child: const Icon(Icons.person_add),
             tooltip: "Add new groups",
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushNamed('/groups/add');
+            },
           )),
     ];
     initAnimation();
@@ -189,7 +191,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 backgroundColor: Colors.grey,
                 backgroundImage: _authManager.user?.avatar != 'null'
                     ? new NetworkImage(_authManager.user?.avatar)
-                    : null),
+                    : null,
+                child: new Text(_authManager.user?.firstname[0] +
+                    _authManager.user?.name[0])),
             otherAccountsPictures: <Widget>[
               new IconButton(
                 icon: const Icon(Icons.settings),

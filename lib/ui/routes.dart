@@ -7,6 +7,7 @@ import 'package:spotitems/ui/profile_screen.dart';
 import 'package:spotitems/ui/add_item_screen.dart';
 import 'package:spotitems/ui/edit_item_screen.dart';
 import 'package:spotitems/ui/edit_user_screen.dart';
+import 'package:spotitems/ui/add_group_screen.dart';
 import 'package:spotitems/ui/item_view.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
@@ -55,6 +56,12 @@ HandlerFunc buildAddItemHandler(
       new AddItemScreen(authManager, itemsManager);
 }
 
+HandlerFunc buildAddGroupHandler(
+    AuthManager authManager, ItemsManager itemsManager) {
+  return (BuildContext context, Map<String, dynamic> params) =>
+      new AddGroupScreen(authManager, itemsManager);
+}
+
 void configureRouter(
     Router router, AuthManager authManager, ItemsManager itemsManager) {
   router.define('/login',
@@ -81,7 +88,11 @@ void configureRouter(
       handler: new Handler(
           handlerFunc: buildEditItemHandler(authManager, itemsManager)));
 
-  router.define('/addItem',
+  router.define('/item/add',
       handler: new Handler(
           handlerFunc: buildAddItemHandler(authManager, itemsManager)));
+
+  router.define('/groups/add',
+      handler: new Handler(
+          handlerFunc: buildAddGroupHandler(authManager, itemsManager)));
 }
