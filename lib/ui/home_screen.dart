@@ -78,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 })),
           ],
           fab: new FloatingActionButton(
-            child: new Icon(Icons.add),
+            child: const Icon(Icons.add),
             tooltip: "Add new item",
             onPressed: () {
               Navigator.of(context).pushNamed('/addItem');
@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           title: "Items",
           content: new ItemsView(_itemsManager, _authManager),
           fab: new FloatingActionButton(
-            child: new Icon(Icons.add),
+            child: const Icon(Icons.add),
             tooltip: "Add new item",
             onPressed: () {
               Navigator.of(context).pushNamed('/addItem');
@@ -116,7 +116,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 child: new Text("Comming soon"),
               ),
             ),
-          ]),
+          ],
+          fab: new FloatingActionButton(
+            child: const Icon(Icons.person_add),
+            tooltip: "Add new groups",
+            onPressed: () {},
+          )),
     ];
     initAnimation();
   }
