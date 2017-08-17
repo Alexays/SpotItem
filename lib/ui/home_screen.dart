@@ -249,21 +249,32 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  Widget buildSearchBar() {
+  _buildAppBar() {
     return new SliverAppBar(
       pinned: true,
-      leading: new BackButton(),
+      leading: _isSearching ? new BackButton() : null,
       floating: _homeScreenItems[_currentIndex].sub != null,
-      title: new TextField(
-        key: new Key('search'),
-        controller: _searchQuery,
-        autofocus: true,
-        style: new TextStyle(color: Colors.white70, fontSize: 16.0),
-        decoration: new InputDecoration(
-            hintText: 'Search...',
-            hintStyle: new TextStyle(color: Colors.white70, fontSize: 16.0),
-            hideDivider: true),
-      ),
+      title: _isSearching
+          ? new TextField(
+              key: new Key('search'),
+              controller: _searchQuery,
+              autofocus: true,
+              style: new TextStyle(color: Colors.white70, fontSize: 16.0),
+              decoration: new InputDecoration(
+                  hintText: 'Search...',
+                  hintStyle:
+                      new TextStyle(color: Colors.white70, fontSize: 16.0),
+                  hideDivider: true),
+            )
+          : _homeScreenItems[_currentIndex].item.title,
+      actions: _isSearching
+          ? null
+          : <Widget>[
+              new IconButton(
+                icon: new Icon(Icons.search),
+                onPressed: _handleSearchBegin,
+              ),
+            ],
       bottom: _buildBottom(),
     );
   }
@@ -289,20 +300,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               new AnimatedBuilder(
                 animation: _bottomSize,
                 builder: (BuildContext context, Widget child) {
-                  return _isSearching
-                      ? buildSearchBar()
-                      : new SliverAppBar(
-                          pinned: true,
-                          floating: _homeScreenItems[_currentIndex].sub != null,
-                          title: _homeScreenItems[_currentIndex].item.title,
-                          actions: <Widget>[
-                            new IconButton(
-                              icon: new Icon(Icons.search),
-                              onPressed: _handleSearchBegin,
-                            ),
-                          ],
-                          bottom: _buildBottom(),
-                        );
+                  return _buildAppBar();
                 },
               ),
             ];
