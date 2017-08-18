@@ -7,7 +7,6 @@ import 'package:spotitems/ui/edit_item_screen.dart';
 import 'package:spotitems/ui/edit_user_screen.dart';
 import 'package:spotitems/ui/add_group_screen.dart';
 import 'package:spotitems/ui/item_view.dart';
-import 'package:spotitems/ui/group_view.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 

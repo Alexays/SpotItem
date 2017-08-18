@@ -89,16 +89,6 @@ class _GroupsViewState extends State<GroupsView> {
         });
   }
 
-  // new List<Widget>.generate(
-  //                             _myGroups[index].tracks?.length, (int i) {
-  //                           switch (_myGroups[index].tracks[i]) {
-  //                             case 'private':
-  //                               return new Icon(Icons.lock);
-  //                             case 'gift':
-  //                               return new Icon(Icons.card_giftcard);
-  //                           }
-  //                         })
-
   @override
   Widget build(BuildContext context) {
     return new Container(

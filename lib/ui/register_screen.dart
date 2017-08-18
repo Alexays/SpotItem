@@ -27,7 +27,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void initState() {
     super.initState();
-    user = new User(null, null, null, null, null);
+    user = new User(null, null, null, null, null, null);
     _name = new TextEditingController(text: user.firstname);
     _lastname = new TextEditingController(text: user.name);
     _email = new TextEditingController(text: user.email);
