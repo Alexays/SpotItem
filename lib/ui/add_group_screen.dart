@@ -17,11 +17,14 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
   final AuthManager _authManager;
   final ItemsManager _itemsManager;
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKeyEmail = new GlobalKey<FormState>();
 
   String name;
   String about;
   String location;
   List<String> email = [];
+
+  final RegExp emailExp = new RegExp(r'[\w-]+@([\w-]+\.)+[\w-]+');
 
   @override
   void initState() {
@@ -29,8 +32,13 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
   }
 
   addGroup(BuildContext context) async {
-    final FormState form = _formKey.currentState;
-    form.save();
+    
+  }
+
+  String _validateEmail(String value) {
+    if (value.isEmpty) return 'Email is required.';
+    if (!emailExp.hasMatch(value)) return 'Email must be valid';
+    return null;
   }
 
   @override
@@ -81,17 +89,21 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                       ),
                       new Divider(),
                       new Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: new List<Widget>.generate(email.length,
                             (int index) {
-                          return new Chip(
-                            avatar: new CircleAvatar(
-                              backgroundColor: Colors.grey.shade800,
-                              child: new Text('AB'),
-                            ),
-                            label: new Text('Aaron Burr'),
-                          );
+                          return new Flexible(
+                              child: new Chip(
+                            label: new Text(email[index]),
+                            onDeleted: () {
+                              setState(() {
+                                email.removeAt(index);
+                              });
+                            },
+                          ));
                         }),
                       ),
+                      new Divider(),
                       new RaisedButton(
                         child: const Text("Add someone"),
                         onPressed: () {
@@ -102,6 +114,9 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                             child: new AlertDialog(
                               title: new Text('Add someone'),
                               content: new SingleChildScrollView(
+                                  child: new Form(
+                                autovalidate: true,
+                                key: _formKeyEmail,
                                 child: new ListBody(
                                   children: <Widget>[
                                     new Text('Enter email of user.'),
@@ -112,10 +127,11 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                                       onSaved: (String value) {
                                         _email = value;
                                       },
+                                      validator: _validateEmail,
                                     ),
                                   ],
                                 ),
-                              ),
+                              )),
                               actions: <Widget>[
                                 new FlatButton(
                                   child: new Text('Cancel'),
@@ -126,10 +142,11 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                                 new FlatButton(
                                   child: new Text('Add'),
                                   onPressed: () {
-                                    final RegExp emailExp = new RegExp(
-                                        r'^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/');
+                                    final FormState form =
+                                        _formKeyEmail.currentState;
+                                    form.save();
                                     if (_email != null &&
-                                        !emailExp.hasMatch(_email)) {
+                                        emailExp.hasMatch(_email)) {
                                       email.add(_email);
                                       Navigator.of(context).pop();
                                     } else {
