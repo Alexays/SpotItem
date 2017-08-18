@@ -95,9 +95,10 @@ class AuthManager {
   Future updateUser(User user, String password) async {
     final Client _client = new Client();
     var userJson = JSON.decode(user.toString());
+    userJson['groups'] = "groups";
     if (password != null) userJson['password'] = password;
     final response = await _client
-        .put(API_URL + '/editUser',
+        .put(API_URL + '/user/edit',
             headers: {'Authorization': _oauthToken}, body: userJson)
         .whenComplete(_client.close);
     final bodyJson = JSON.decode(response.body);
