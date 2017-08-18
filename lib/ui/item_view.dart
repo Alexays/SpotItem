@@ -100,9 +100,6 @@ class OrderPage extends StatefulWidget {
       new OrderPageState(authManager, itemsManager, itemId, item, hash);
 }
 
-// Displays a product's heading above photos of all of the other products
-// arranged in two columns. Enables the user to specify a quantity and add an
-// order to the shopping cart.
 class OrderPageState extends State<OrderPage>
     with SingleTickerProviderStateMixin {
   OrderPageState(
@@ -125,6 +122,7 @@ class OrderPageState extends State<OrderPage>
 
   @override
   void initState() {
+    super.initState();
     if (item != null) {
       setState(() {
         _tabController =
@@ -132,7 +130,6 @@ class OrderPageState extends State<OrderPage>
         _loading = false;
       });
     }
-    super.initState();
     if (widget.item == null) {
       itemsManager.getItem(_itemId).then((data) {
         setState(() {

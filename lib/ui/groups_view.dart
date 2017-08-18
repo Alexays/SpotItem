@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
+import 'package:spotitems/ui/group_view.dart';
 import 'package:spotitems/model/group.dart';
 
 class GroupsView extends StatefulWidget {
@@ -48,7 +49,15 @@ class _GroupsViewState extends State<GroupsView> {
         itemBuilder: (BuildContext context, int index) {
           return new GestureDetector(
             onTap: () {
-              Navigator.of(context).pushNamed('/groups/${_myGroups[index].id}');
+              Navigator.push(context, new MaterialPageRoute<Null>(
+                builder: (BuildContext context) {
+                  return new GroupPage(
+                    group: _myGroups[index],
+                    authManager: _authManager,
+                    itemsManager: _itemsManager,
+                  );
+                },
+              ));
             },
             child: new Card(
               child: new Column(

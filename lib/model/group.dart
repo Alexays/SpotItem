@@ -5,8 +5,9 @@ class Group {
   String name;
   String about;
   List<User> users;
+  String owner;
 
-  Group(this.id, this.name, this.about, this.users);
+  Group(this.id, this.name, this.about, this.users, this.owner);
 
   factory Group.fromJson(json) {
     if (json == null) return null;
@@ -16,7 +17,8 @@ class Group {
         json['about'],
         new List<User>.generate(json['users'].length, (int index) {
           return new User.fromJson(json['users'][index]);
-        }));
+        }),
+        json['owner']);
   }
 
   bool isValid() {
@@ -31,6 +33,6 @@ class Group {
         return users[index].id;
       });
     }
-    return "{\"_id\": \"$id\", \"name\": \"$name\", \"about\": \"$about\", \"users\": \"$usersId\"}";
+    return '{"_id": "$id", "name": "$name", "about": "$about", "users": $usersId, "owner", "$owner"}';
   }
 }

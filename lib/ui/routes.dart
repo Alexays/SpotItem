@@ -7,6 +7,7 @@ import 'package:spotitems/ui/edit_item_screen.dart';
 import 'package:spotitems/ui/edit_user_screen.dart';
 import 'package:spotitems/ui/add_group_screen.dart';
 import 'package:spotitems/ui/item_view.dart';
+import 'package:spotitems/ui/group_view.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
@@ -77,6 +78,10 @@ void configureRouter(
   router.define('/item/add',
       handler: new Handler(
           handlerFunc: buildAddItemHandler(authManager, itemsManager)));
+
+//   router.define('/groups/:id',
+//       handler: new Handler(
+//           handlerFunc: buildGroupHandler(authManager, itemsManager)));
 
   router.define('/groups/add',
       handler: new Handler(

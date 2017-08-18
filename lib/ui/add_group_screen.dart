@@ -35,7 +35,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
   addGroup(BuildContext context) async {
     final FormState form = _formKey.currentState;
     form.save();
-    Group group = new Group(null, name, about, null);
+    Group group = new Group(null, name, about, null, _authManager.user.id);
     var response = await _authManager.addGroup(group, email);
     Scaffold
         .of(context)
