@@ -1,5 +1,6 @@
 import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
+import 'package:spotitems/model/group.dart';
 import 'package:flutter/material.dart';
 
 class AddGroupScreen extends StatefulWidget {
@@ -32,7 +33,16 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
   }
 
   addGroup(BuildContext context) async {
-    
+    final FormState form = _formKey.currentState;
+    form.save();
+    Group group = new Group(null, name, about, null);
+    var response = await _authManager.addGroup(group, email);
+    Scaffold
+        .of(context)
+        .showSnackBar(new SnackBar(content: new Text(response['msg'])));
+    if (response['success']) {
+      Navigator.of(context).pop();
+    }
   }
 
   String _validateEmail(String value) {

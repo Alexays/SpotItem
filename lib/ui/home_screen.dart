@@ -4,6 +4,7 @@ import 'package:spotitems/ui/explorer_view.dart';
 import 'package:spotitems/ui/discover_view.dart';
 import 'package:spotitems/ui/map_view.dart';
 import 'package:spotitems/ui/items_view.dart';
+import 'package:spotitems/ui/groups_view.dart';
 import 'package:spotitems/model/item.dart';
 import 'package:flutter/material.dart';
 
@@ -106,9 +107,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           sub: [
             new HomeScreenSubItem(
               "Groups",
-              new Center(
-                child: new Text("Comming soon"),
-              ),
+              new GroupsView(_itemsManager, _authManager),
             ),
             new HomeScreenSubItem(
               "Messages",
