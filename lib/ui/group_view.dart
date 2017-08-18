@@ -98,23 +98,25 @@ class _GroupPageState extends State<GroupPage>
             itemBuilder: (BuildContext context, int index) {
               return new GestureDetector(
                   onTap: () {},
-                  child: new Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      new CircleAvatar(
-                        radius: 30.0,
-                        child: new Text(group.users[index].firstname[0] +
-                            group.users[index].name[0]),
-                      ),
-                      new Padding(
-                        padding: new EdgeInsets.symmetric(vertical: 4.0),
-                      ),
-                      new Text(group.users[index].firstname +
-                          '.' +
-                          group.users[index].name[0])
-                    ],
-                  ));
+                  child: new Container(
+                      padding: new EdgeInsets.symmetric(horizontal: 8.0),
+                      child: new Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          new CircleAvatar(
+                            radius: 30.0,
+                            child: new Text(group.users[index].firstname[0] +
+                                group.users[index].name[0]),
+                          ),
+                          new Padding(
+                            padding: new EdgeInsets.symmetric(vertical: 4.0),
+                          ),
+                          new Text(group.users[index].firstname +
+                              '.' +
+                              group.users[index].name[0])
+                        ],
+                      )));
             }));
   }
 
