@@ -25,16 +25,32 @@ class _GroupsViewState extends State<GroupsView> {
 
   List<Group> _myGroups = [];
 
+  List<Group> _myGroupsInv = [];
+
   @override
   void initState() {
+    var loading = true;
     super.initState();
-    if (_authManager.loggedIn)
+    if (_authManager.loggedIn) {
       _authManager.getGroups(_authManager.user.id).then((data) {
         setState(() {
           _myGroups = data;
-          _loading = false;
+          if (loading == false) {
+            _loading = false;
+          }
+          loading = false;
         });
       });
+      _authManager.getGroupsInv(_authManager.user.id).then((data) {
+        setState(() {
+          _myGroupsInv = data;
+          if (loading == false) {
+            _loading = false;
+          }
+          loading = false;
+        });
+      });
+    }
   }
 
   Widget getList() {
@@ -95,7 +111,58 @@ class _GroupsViewState extends State<GroupsView> {
       margin: const EdgeInsets.all(20.0),
       child: _loading
           ? new Center(child: new CircularProgressIndicator())
-          : getList(),
+          : new SingleChildScrollView(
+              child: new Column(
+                children: <Widget>[
+                  new Container(
+                    child: new ExpansionTile(
+                      leading: const Icon(Icons.mail),
+                      title: new Text("You have " +
+                          _myGroupsInv.length.toString() +
+                          " invitation(s)"),
+                      children: new List<Widget>.generate(_myGroupsInv.length,
+                          (int index) {
+                        return new Card(
+                          child: new Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              new ListTile(
+                                  leading: new CircleAvatar(
+                                      child: new Text(
+                                          _myGroupsInv[index].name[0])),
+                                  title: new Text(_myGroupsInv[index]?.name),
+                                  subtitle:
+                                      new Text(_myGroupsInv[index]?.about),
+                                  trailing: new Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      new Text(
+                                        _myGroupsInv[index]
+                                            .users
+                                            .length
+                                            .toString(),
+                                        style: new TextStyle(
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 15.0),
+                                      ),
+                                      const Icon(Icons.people)
+                                    ],
+                                  ))
+                            ],
+                          ),
+                        );
+                      }),
+                    ),
+                  ),
+                  new Divider(),
+                  new Padding(padding: const EdgeInsets.all(20.0)),
+                  getList()
+                ],
+              ),
+            ),
     );
   }
 }

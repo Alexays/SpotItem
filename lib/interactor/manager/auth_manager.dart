@@ -30,6 +30,8 @@ class AuthManager {
 
   List<Group> _myGroups = [];
 
+  List<Group> _myGroupsInv = [];
+
   Future init() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userData = prefs.getString(KEY_USER);
@@ -146,6 +148,20 @@ class AuthManager {
       });
     }
     return _myGroups;
+  }
+
+  Future getGroupsInv(String userId) async {
+    if (userId == null) return null;
+    final Client _client = new Client();
+    final response = await _client.get(API_URL + '/groups/inv',
+        headers: {'Authorization': _oauthToken}).whenComplete(_client.close);
+    if (response.statusCode == 200) {
+      var groupJson = JSON.decode(response.body);
+      _myGroupsInv = new List<Group>.generate(groupJson.length, (int index) {
+        return new Group.fromJson(groupJson[index]);
+      });
+    }
+    return _myGroupsInv;
   }
 
   Future delGroup(String groupId) async {
