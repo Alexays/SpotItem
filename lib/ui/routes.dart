@@ -1,9 +1,7 @@
 import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
-import 'package:spotitems/interactor/manager/profile_manager.dart';
 import 'package:spotitems/ui/home_screen.dart';
 import 'package:spotitems/ui/login_screen.dart';
-import 'package:spotitems/ui/profile_screen.dart';
 import 'package:spotitems/ui/add_item_screen.dart';
 import 'package:spotitems/ui/edit_item_screen.dart';
 import 'package:spotitems/ui/edit_user_screen.dart';
@@ -23,12 +21,6 @@ HandlerFunc buildHomeHandler(
     AuthManager authManager, ItemsManager itemsManager) {
   return (BuildContext context, Map<String, dynamic> params) =>
       new HomeScreen(authManager, itemsManager);
-}
-
-HandlerFunc buildUserHandler(AuthManager authManager) {
-  return (BuildContext context, Map<String, dynamic> params) =>
-      new ProfileScreen(new ProfileManager(authManager, params['username']),
-          params['username']);
 }
 
 HandlerFunc buildEditUserHandler(AuthManager authManager) {
@@ -71,14 +63,8 @@ void configureRouter(
       handler: new Handler(
           handlerFunc: buildHomeHandler(authManager, itemsManager)));
 
-  router.define('/user',
-      handler: new Handler(handlerFunc: buildUserHandler(authManager)));
-
   router.define('/user/edit',
       handler: new Handler(handlerFunc: buildEditUserHandler(authManager)));
-
-  router.define('/users/:username',
-      handler: new Handler(handlerFunc: buildUserHandler(authManager)));
 
   router.define('/items/:id',
       handler: new Handler(

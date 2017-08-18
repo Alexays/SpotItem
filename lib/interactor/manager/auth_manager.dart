@@ -106,7 +106,6 @@ class AuthManager {
   }
 
   Future _saveTokens(String user, String oauthToken) async {
-    final Client _client = new Client();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(KEY_USER, user);
     prefs.setString(KEY_OAUTH_TOKEN, oauthToken);
