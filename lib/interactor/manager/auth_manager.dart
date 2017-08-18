@@ -127,8 +127,8 @@ class AuthManager {
         .whenComplete(_client.close);
     final bodyJson = JSON.decode(response.body);
     if (bodyJson['success']) {
-      user.groups.add(bodyJson['group']['_id']);
-      _saveTokens(user.toString(), _oauthToken);
+      user.groups.add(bodyJson['group']['_id'].toString());
+      _saveTokens(user.toString(), bodyJson['token']);
     }
     return bodyJson;
   }
@@ -143,6 +143,19 @@ class AuthManager {
       _myGroups = new List<Group>.generate(groupJson.length, (int index) {
         return new Group.fromJson(groupJson[index]);
       });
+    }
+    return _myGroups;
+  }
+
+  Future delGroup(String groupId) async {
+    if (groupId == null) return null;
+    final Client _client = new Client();
+    final response = await _client.delete(API_URL + '/group/' + groupId,
+        headers: {'Authorization': _oauthToken}).whenComplete(_client.close);
+    if (response.statusCode == 200) {
+      var groupJson = JSON.decode(response.body);
+      user.groups.removeWhere((group) => group == groupId);
+      _saveTokens(user.toString(), groupJson['token']);
     }
     return _myGroups;
   }

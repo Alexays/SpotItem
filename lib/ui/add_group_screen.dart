@@ -41,7 +41,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
         .of(context)
         .showSnackBar(new SnackBar(content: new Text(response['msg'])));
     if (response['success']) {
-      Navigator.of(context).pop();
+      Navigator.pushReplacementNamed(context, '/home');
     }
   }
 

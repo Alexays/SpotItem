@@ -33,6 +33,6 @@ class Group {
         return users[index].id;
       });
     }
-    return '{"_id": "$id", "name": "$name", "about": "$about", "users": $usersId, "owner", "$owner"}';
+    return '{"_id": "$id", "name": "$name", "about": "$about", "users": $usersId, "owner": "$owner"}';
   }
 }

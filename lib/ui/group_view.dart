@@ -55,7 +55,7 @@ class _GroupPageState extends State<GroupPage>
               content: new SingleChildScrollView(
                 child: new ListBody(
                   children: <Widget>[
-                    new Text('Are you sure to delete this item ?'),
+                    new Text('Are you sure to delete this group ?'),
                   ],
                 ),
               ),
@@ -68,7 +68,10 @@ class _GroupPageState extends State<GroupPage>
                 ),
                 new FlatButton(
                   child: new Text('Delete'),
-                  onPressed: () {},
+                  onPressed: () {
+                    authManager.delGroup(group.id);
+                    Navigator.pushReplacementNamed(context, '/home');
+                  },
                 ),
               ],
             ),
@@ -79,7 +82,7 @@ class _GroupPageState extends State<GroupPage>
         icon: const Icon(Icons.create),
         tooltip: 'Edit',
         onPressed: () {
-          Navigator.of(context).pushNamed('/groups/${group.id}/edit');
+          //Navigator.of(context).pushNamed('/groups/${group.id}/edit');
         },
       ));
     }
@@ -127,7 +130,7 @@ class _GroupPageState extends State<GroupPage>
           child: new Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[_buildUsers()],
+            children: <Widget>[new Text(group.about), _buildUsers()],
           ),
         ));
   }
