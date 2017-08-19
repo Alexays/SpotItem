@@ -143,7 +143,8 @@ class AuthManager {
         headers: {'Authorization': _oauthToken}).whenComplete(_client.close);
     if (response.statusCode == 200) {
       var groupJson = JSON.decode(response.body);
-      _myGroups = new List<Group>.generate(groupJson.length, (int index) {
+      return _myGroups =
+          new List<Group>.generate(groupJson.length, (int index) {
         return new Group.fromJson(groupJson[index]);
       });
     }
@@ -157,7 +158,8 @@ class AuthManager {
         headers: {'Authorization': _oauthToken}).whenComplete(_client.close);
     if (response.statusCode == 200) {
       var groupJson = JSON.decode(response.body);
-      _myGroupsInv = new List<Group>.generate(groupJson.length, (int index) {
+      return _myGroupsInv =
+          new List<Group>.generate(groupJson.length, (int index) {
         return new Group.fromJson(groupJson[index]);
       });
     }
@@ -182,11 +184,24 @@ class AuthManager {
     final Client _client = new Client();
     final response = await _client.put(API_URL + '/group/' + groupId,
         headers: {'Authorization': _oauthToken}).whenComplete(_client.close);
+    var groupJson = JSON.decode(response.body);
     if (response.statusCode == 200) {
-      var groupJson = JSON.decode(response.body);
       user.groups.add(groupId);
       _saveTokens(user.toString(), groupJson['token']);
     }
-    return _myGroups;
+    return groupJson;
+  }
+
+  Future leaveGroup(String groupId) async {
+    if (groupId == null) return null;
+    final Client _client = new Client();
+    final response = await _client.get('$API_URL/group/$groupId/leave',
+        headers: {'Authorization': _oauthToken}).whenComplete(_client.close);
+    var groupJson = JSON.decode(response.body);
+    if (response.statusCode == 200) {
+      user.groups.removeWhere((group) => group == groupId);
+      _saveTokens(user.toString(), groupJson['token']);
+    }
+    return groupJson;
   }
 }

@@ -199,7 +199,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 color: Colors.white,
                 onPressed: () {},
               ),
-              //const CircleAvatar(backgroundImage: const AssetImage(_kAsset1)),
             ],
             onDetailsPressed: () {
               _showDrawerContents = !_showDrawerContents;

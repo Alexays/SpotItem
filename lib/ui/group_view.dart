@@ -38,8 +38,47 @@ class _GroupPageState extends State<GroupPage>
     super.initState();
   }
 
+  _leaveGroup() async {
+    await authManager.leaveGroup(group.id);
+    Navigator.pushReplacementNamed(context, '/home');
+  }
+
   doButton() {
     List<Widget> top = [];
+    top.add(new IconButton(
+      icon: const Icon(Icons.exit_to_app),
+      tooltip: 'Leave group',
+      onPressed: () {
+        showDialog<Null>(
+          context: context,
+          barrierDismissible: false, // user must tap button!
+          child: new AlertDialog(
+            title: new Text('Leave confirmation'),
+            content: new SingleChildScrollView(
+              child: new ListBody(
+                children: <Widget>[
+                  new Text('Are you sure to leave this group ?'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              new FlatButton(
+                child: new Text('Cancel'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              new FlatButton(
+                child: new Text('Leave'),
+                onPressed: () {
+                  _leaveGroup();
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    ));
     if (authManager.loggedIn &&
         group != null &&
         group.owner == authManager.user.id) {
