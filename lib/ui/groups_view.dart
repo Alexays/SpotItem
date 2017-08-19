@@ -122,38 +122,74 @@ class _GroupsViewState extends State<GroupsView> {
                           " invitation(s)"),
                       children: new List<Widget>.generate(_myGroupsInv.length,
                           (int index) {
-                        return new Card(
-                          child: new Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              new ListTile(
-                                  leading: new CircleAvatar(
-                                      child: new Text(
-                                          _myGroupsInv[index].name[0])),
-                                  title: new Text(_myGroupsInv[index]?.name),
-                                  subtitle:
-                                      new Text(_myGroupsInv[index]?.about),
-                                  trailing: new Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      new Text(
-                                        _myGroupsInv[index]
-                                            .users
-                                            .length
-                                            .toString(),
-                                        style: new TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 15.0),
-                                      ),
-                                      const Icon(Icons.people)
-                                    ],
-                                  ))
-                            ],
-                          ),
-                        );
+                        return new GestureDetector(
+                            onTap: () {
+                              showDialog<Null>(
+                                context: context,
+                                barrierDismissible:
+                                    false, // user must tap button!
+                                child: new AlertDialog(
+                                  title: new Text('Join ' +
+                                      _myGroupsInv[index].name +
+                                      ' ?'),
+                                  content: new SingleChildScrollView(
+                                    child: new ListBody(
+                                      children: <Widget>[
+                                        new Text('Are you sure to join ?'),
+                                      ],
+                                    ),
+                                  ),
+                                  actions: <Widget>[
+                                    new FlatButton(
+                                      child: new Text('Cancel'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                    new FlatButton(
+                                      child: new Text('Join !'),
+                                      onPressed: () {
+                                        _authManager
+                                            .joinGroup(_myGroupsInv[index].id);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                            child: new Card(
+                              child: new Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  new ListTile(
+                                      leading: new CircleAvatar(
+                                          child: new Text(
+                                              _myGroupsInv[index].name[0])),
+                                      title:
+                                          new Text(_myGroupsInv[index]?.name),
+                                      subtitle:
+                                          new Text(_myGroupsInv[index]?.about),
+                                      trailing: new Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          new Text(
+                                            _myGroupsInv[index]
+                                                .users
+                                                .length
+                                                .toString(),
+                                            style: new TextStyle(
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 15.0),
+                                          ),
+                                          const Icon(Icons.people)
+                                        ],
+                                      ))
+                                ],
+                              ),
+                            ));
                       }),
                     ),
                   ),
