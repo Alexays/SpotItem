@@ -180,11 +180,11 @@ class AuthManager {
   Future joinGroup(String groupId) async {
     if (groupId == null) return null;
     final Client _client = new Client();
-    final response = await _client.get(API_URL + '/group/' + groupId,
+    final response = await _client.put(API_URL + '/group/' + groupId,
         headers: {'Authorization': _oauthToken}).whenComplete(_client.close);
     if (response.statusCode == 200) {
       var groupJson = JSON.decode(response.body);
-      user.groups.removeWhere((group) => group == groupId);
+      user.groups.add(groupId);
       _saveTokens(user.toString(), groupJson['token']);
     }
     return _myGroups;
