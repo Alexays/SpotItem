@@ -50,7 +50,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
         .of(context)
         .showSnackBar(new SnackBar(content: new Text(response['msg'])));
     if (response['success']) {
-      Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pop(context);
     }
   }
 
