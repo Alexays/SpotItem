@@ -71,53 +71,50 @@ class _GroupsViewState extends State<GroupsView> {
         child: new Text("No groups"),
       );
     }
-    return new Container(
-        padding: const EdgeInsets.all(20.0),
-        child: new ListView.builder(
-            padding: new EdgeInsets.symmetric(vertical: 8.0),
-            itemCount: _myGroups.length,
-            itemBuilder: (BuildContext context, int index) {
-              return new GestureDetector(
-                onTap: () {
-                  Navigator.push(context, new MaterialPageRoute<Null>(
-                    builder: (BuildContext context) {
-                      return new GroupPage(
-                        group: _myGroups[index],
-                        authManager: _authManager,
-                        itemsManager: _itemsManager,
-                      );
-                    },
-                  ));
+    return new ListView.builder(
+        padding: new EdgeInsets.symmetric(vertical: 8.0),
+        itemCount: _myGroups.length,
+        itemBuilder: (BuildContext context, int index) {
+          return new GestureDetector(
+            onTap: () {
+              Navigator.push(context, new MaterialPageRoute<Null>(
+                builder: (BuildContext context) {
+                  return new GroupPage(
+                    group: _myGroups[index],
+                    authManager: _authManager,
+                    itemsManager: _itemsManager,
+                  );
                 },
-                child: new Card(
-                  child: new Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      new ListTile(
-                          leading: new CircleAvatar(
-                              backgroundColor: Colors.grey,
-                              child: new Text(_myGroups[index].name[0])),
-                          title: new Text(_myGroups[index].name),
-                          subtitle: new Text(_myGroups[index].about),
-                          trailing: new Row(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              new Text(
-                                _myGroups[index].users.length.toString(),
-                                style: new TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 15.0),
-                              ),
-                              const Icon(Icons.people)
-                            ],
-                          ))
-                    ],
-                  ),
-                ),
-              );
-            }));
+              ));
+            },
+            child: new Card(
+              child: new Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  new ListTile(
+                      leading: new CircleAvatar(
+                          backgroundColor: Colors.grey,
+                          child: new Text(_myGroups[index].name[0])),
+                      title: new Text(_myGroups[index].name),
+                      subtitle: new Text(_myGroups[index].about),
+                      trailing: new Row(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          new Text(
+                            _myGroups[index].users.length.toString(),
+                            style: new TextStyle(
+                                fontWeight: FontWeight.w400, fontSize: 15.0),
+                          ),
+                          const Icon(Icons.people)
+                        ],
+                      ))
+                ],
+              ),
+            ),
+          );
+        });
   }
 
   _buildInv() {
@@ -200,6 +197,7 @@ class _GroupsViewState extends State<GroupsView> {
                 children: <Widget>[
                   _buildInv(),
                   new Container(
+                    padding: const EdgeInsets.all(20.0),
                     height: MediaQuery.of(context).size.height,
                     child: getList(),
                   )
