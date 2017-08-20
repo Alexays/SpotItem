@@ -24,50 +24,66 @@ class _LoginScreenState extends State<LoginScreen> {
           title: new Text("Login"),
         ),
         body: new Builder(builder: (BuildContext context) {
-          return new Container(
-              decoration: new BoxDecoration(
-                color: const Color.fromARGB(55, 52, 152, 219),
-              ),
-              padding: const EdgeInsets.all(40.0),
-              child: new Card(
-                  child: new Container(
-                margin: const EdgeInsets.all(20.0),
-                child: new Form(
-                  child: new Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      new TextFormField(
-                        key: new Key('email'),
-                        decoration: new InputDecoration(hintText: "Email"),
-                        autofocus: true,
-                        controller: _usernameController,
+          return new SingleChildScrollView(
+              child: new Container(
+                  padding: const EdgeInsets.all(40.0),
+                  child: new Card(
+                      child: new Container(
+                    margin: const EdgeInsets.all(20.0),
+                    child: new Form(
+                      child: new Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          new TextFormField(
+                            key: new Key('email'),
+                            decoration: new InputDecoration(hintText: "Email"),
+                            autofocus: true,
+                            controller: _usernameController,
+                          ),
+                          new TextFormField(
+                            decoration:
+                                new InputDecoration(hintText: 'Password'),
+                            controller: _passwordController,
+                            obscureText: true,
+                          ),
+                          new Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              new RaisedButton(
+                                child: new Text('Don\'t have an account ?'),
+                                onPressed: () {
+                                  Navigator.pushReplacementNamed(
+                                      context, "/register");
+                                },
+                              ),
+                              new Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 5.0),
+                              ),
+                              new RaisedButton(
+                                  child: new Text('Login'),
+                                  onPressed: () {
+                                    _authManager
+                                        .login(_usernameController.text,
+                                            _passwordController.text)
+                                        .then((success) {
+                                      if (success) {
+                                        Navigator.pushReplacementNamed(
+                                            context, "/home");
+                                      } else {
+                                        Scaffold.of(context).showSnackBar(
+                                            new SnackBar(
+                                                content: new Text(
+                                                    "Invalid credentials !")));
+                                      }
+                                    });
+                                  })
+                            ],
+                          )
+                        ],
                       ),
-                      new TextFormField(
-                        decoration: new InputDecoration(hintText: 'Password'),
-                        controller: _passwordController,
-                        obscureText: true,
-                      ),
-                      new RaisedButton(
-                          child: new Text('Login'),
-                          onPressed: () {
-                            _authManager
-                                .login(_usernameController.text,
-                                    _passwordController.text)
-                                .then((success) {
-                              if (success) {
-                                Navigator.pushReplacementNamed(
-                                    context, "/home");
-                              } else {
-                                Scaffold.of(context).showSnackBar(new SnackBar(
-                                    content:
-                                        new Text("Invalid credentials !")));
-                              }
-                            });
-                          })
-                    ],
-                  ),
-                ),
-              )));
+                    ),
+                  ))));
         }));
   }
 }

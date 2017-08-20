@@ -59,77 +59,93 @@ class _RegisterScreenState extends State<RegisterScreen> {
           title: new Text("Register"),
         ),
         body: new Builder(builder: (BuildContext context) {
-          return new Container(
-              decoration: new BoxDecoration(
-                color: const Color.fromARGB(55, 52, 152, 219),
-              ),
-              padding: const EdgeInsets.all(40.0),
-              child: new Card(
-                  child: new Container(
-                margin: const EdgeInsets.all(20.0),
-                child: new Form(
-                    key: _formKey,
-                    child: new Column(
-                      children: <Widget>[
-                        new TextFormField(
-                          key: new Key('name'),
-                          decoration: new InputDecoration(
-                              labelText: "Firstname",
-                              hintText: "Enter your firstname"),
-                          onSaved: (String value) {
-                            user.firstname = value;
-                          },
-                          controller: _name,
-                        ),
-                        new TextFormField(
-                          key: new Key('lastname'),
-                          decoration: new InputDecoration(
-                              labelText: "Lastname",
-                              hintText: "Enter your lastname"),
-                          onSaved: (String value) {
-                            user.name = value;
-                          },
-                          controller: _lastname,
-                        ),
-                        new FocusScope(
-                          node: new FocusScopeNode(),
-                          child: new TextFormField(
-                            controller: _email,
-                            style: theme.textTheme.subhead.copyWith(
-                              color: theme.disabledColor,
-                            ),
+          return new SingleChildScrollView(
+            child: new Container(
+                padding: const EdgeInsets.all(40.0),
+                child: new Card(
+                    child: new Container(
+                  margin: const EdgeInsets.all(20.0),
+                  child: new Form(
+                      key: _formKey,
+                      child: new Column(
+                        children: <Widget>[
+                          new TextFormField(
+                            key: new Key('name'),
                             decoration: new InputDecoration(
-                              labelText: "Email",
-                              hintText: "Enter your email",
+                                labelText: "Firstname",
+                                hintText: "Enter your firstname"),
+                            onSaved: (String value) {
+                              user.firstname = value;
+                            },
+                            controller: _name,
+                          ),
+                          new TextFormField(
+                            key: new Key('lastname'),
+                            decoration: new InputDecoration(
+                                labelText: "Lastname",
+                                hintText: "Enter your lastname"),
+                            onSaved: (String value) {
+                              user.name = value;
+                            },
+                            controller: _lastname,
+                          ),
+                          new FocusScope(
+                            node: new FocusScopeNode(),
+                            child: new TextFormField(
+                              controller: _email,
+                              style: theme.textTheme.subhead.copyWith(
+                                color: theme.disabledColor,
+                              ),
+                              decoration: new InputDecoration(
+                                labelText: "Email",
+                                hintText: "Enter your email",
+                              ),
                             ),
                           ),
-                        ),
-                        new TextFormField(
-                          key: new Key('password'),
-                          decoration: new InputDecoration(
-                              labelText: "Password", hintText: "***********"),
-                          onSaved: (String value) {
-                            password = value;
-                          },
-                          obscureText: true,
-                        ),
-                        new TextFormField(
-                          key: new Key('repeat'),
-                          decoration: new InputDecoration(
-                              labelText: "Confirm password",
-                              hintText: "***********"),
-                          onSaved: (String value) {
-                            repeat = value;
-                          },
-                          controller: _password,
-                          obscureText: true,
-                        ),
-                        new RaisedButton(
-                            child: new Text('Login'),
-                            onPressed: addUser(context)),
-                      ],
-                    )),
-              )));
+                          new TextFormField(
+                            key: new Key('password'),
+                            decoration: new InputDecoration(
+                                labelText: "Password", hintText: "***********"),
+                            onSaved: (String value) {
+                              password = value;
+                            },
+                            obscureText: true,
+                          ),
+                          new TextFormField(
+                            key: new Key('repeat'),
+                            decoration: new InputDecoration(
+                                labelText: "Confirm password",
+                                hintText: "***********"),
+                            onSaved: (String value) {
+                              repeat = value;
+                            },
+                            controller: _password,
+                            obscureText: true,
+                          ),
+                          new Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                new RaisedButton(
+                                  child: new Text('Have an account ?'),
+                                  onPressed: () {
+                                    Navigator.pushReplacementNamed(
+                                        context, "/login");
+                                  },
+                                ),
+                                new Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 5.0),
+                                ),
+                                new RaisedButton(
+                                    child: new Text('Register'),
+                                    onPressed: () {
+                                      addUser(context);
+                                    })
+                              ]),
+                        ],
+                      )),
+                ))),
+          );
         }));
   }
 }

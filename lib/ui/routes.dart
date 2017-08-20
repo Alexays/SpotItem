@@ -2,6 +2,7 @@ import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
 import 'package:spotitems/ui/home_screen.dart';
 import 'package:spotitems/ui/login_screen.dart';
+import 'package:spotitems/ui/register_screen.dart';
 import 'package:spotitems/ui/add_item_screen.dart';
 import 'package:spotitems/ui/edit_item_screen.dart';
 import 'package:spotitems/ui/edit_user_screen.dart';
@@ -15,6 +16,11 @@ typedef Widget HandlerFunc(BuildContext context, Map<String, dynamic> params);
 HandlerFunc buildLoginHandler(AuthManager authManager) {
   return (BuildContext context, Map<String, dynamic> params) =>
       new LoginScreen(authManager);
+}
+
+HandlerFunc buildRegisterHandler(AuthManager authManager) {
+  return (BuildContext context, Map<String, dynamic> params) =>
+      new RegisterScreen(authManager);
 }
 
 HandlerFunc buildHomeHandler(
@@ -58,6 +64,9 @@ void configureRouter(
     Router router, AuthManager authManager, ItemsManager itemsManager) {
   router.define('/login',
       handler: new Handler(handlerFunc: buildLoginHandler(authManager)));
+
+  router.define('/register',
+      handler: new Handler(handlerFunc: buildRegisterHandler(authManager)));
 
   router.define('/home',
       handler: new Handler(
