@@ -1,5 +1,6 @@
 import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:spotitems/interactor/utils.dart';
 
 class LoginScreen extends StatefulWidget {
   final AuthManager _authManager;
@@ -11,11 +12,13 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  _LoginScreenState(this._authManager);
+
   final AuthManager _authManager;
   final _usernameController = new TextEditingController();
   final _passwordController = new TextEditingController();
 
-  _LoginScreenState(this._authManager);
+  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: new Container(
                     margin: const EdgeInsets.all(20.0),
                     child: new Form(
+                      key: _formKey,
                       child: new Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
@@ -39,12 +43,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             decoration: new InputDecoration(hintText: "Email"),
                             autofocus: true,
                             controller: _usernameController,
+                            validator: validateEmail,
                           ),
                           new TextFormField(
                             decoration:
                                 new InputDecoration(hintText: 'Password'),
                             controller: _passwordController,
                             obscureText: true,
+                            validator: validatePassword,
                           ),
                           new Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -63,20 +69,29 @@ class _LoginScreenState extends State<LoginScreen> {
                               new RaisedButton(
                                   child: new Text('Login'),
                                   onPressed: () {
-                                    _authManager
-                                        .login(_usernameController.text,
-                                            _passwordController.text)
-                                        .then((success) {
-                                      if (success) {
-                                        Navigator.pushReplacementNamed(
-                                            context, "/home");
-                                      } else {
-                                        Scaffold.of(context).showSnackBar(
-                                            new SnackBar(
-                                                content: new Text(
-                                                    "Invalid credentials !")));
-                                      }
-                                    });
+                                    final FormState form =
+                                        _formKey.currentState;
+                                    if (form.validate()) {
+                                      _authManager
+                                          .login(_usernameController.text,
+                                              _passwordController.text)
+                                          .then((success) {
+                                        if (success) {
+                                          Navigator.pushReplacementNamed(
+                                              context, "/home");
+                                        } else {
+                                          Scaffold.of(context).showSnackBar(
+                                              new SnackBar(
+                                                  content: new Text(
+                                                      "Invalid credentials !")));
+                                        }
+                                      });
+                                    } else {
+                                      Scaffold.of(context).showSnackBar(
+                                          new SnackBar(
+                                              content: new Text(
+                                                  "Form must be valid !")));
+                                    }
                                   })
                             ],
                           )
