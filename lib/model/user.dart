@@ -27,9 +27,12 @@ class User {
 
   @override
   String toString() {
-    var _groups = new List<String>.generate(groups.length, (int index) {
-      return '"' + groups[index] + '"';
-    });
+    var _groups;
+    if (groups != null) {
+      _groups = new List<String>.generate(groups.length, (int index) {
+        return '"' + groups[index] + '"';
+      });
+    }
     return '{"_id": "$id", "name": "$name", "email": "$email", "firstname": "$firstname", "avatar": "$avatar", "groups": $_groups}';
   }
 }

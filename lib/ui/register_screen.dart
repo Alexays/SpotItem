@@ -1,6 +1,7 @@
 import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitems/model/user.dart';
+import 'package:spotitems/interactor/utils.dart';
 
 class RegisterScreen extends StatefulWidget {
   final AuthManager _authManager;
@@ -41,14 +42,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
           new SnackBar(content: new Text("Password don't match !")));
       return;
     }
-    _authManager.register(user, password).then((success) {
-      if (success) {
-        Navigator.pushReplacementNamed(context, "/login");
-      } else {
-        Scaffold.of(context).showSnackBar(
-            new SnackBar(content: new Text("Something gone wrong !")));
-      }
-    });
+    if (form.validate()) {
+      _authManager.register(user, password).then((data) {
+        if (data['success']) {
+          Navigator.pushReplacementNamed(context, "/login");
+        } else {
+          Scaffold
+              .of(context)
+              .showSnackBar(new SnackBar(content: new Text(data['msg'])));
+        }
+      });
+    } else {
+      Scaffold.of(context).showSnackBar(
+          new SnackBar(content: new Text('Form must be valid !')));
+    }
   }
 
   @override
@@ -67,6 +74,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   margin: const EdgeInsets.all(20.0),
                   child: new Form(
                       key: _formKey,
+                      autovalidate: true,
                       child: new Column(
                         children: <Widget>[
                           new TextFormField(
@@ -78,6 +86,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               user.firstname = value;
                             },
                             controller: _name,
+                            validator: validateName,
                           ),
                           new TextFormField(
                             key: new Key('lastname'),
@@ -88,19 +97,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               user.name = value;
                             },
                             controller: _lastname,
+                            validator: validateName,
                           ),
-                          new FocusScope(
-                            node: new FocusScopeNode(),
-                            child: new TextFormField(
-                              controller: _email,
-                              style: theme.textTheme.subhead.copyWith(
-                                color: theme.disabledColor,
-                              ),
-                              decoration: new InputDecoration(
-                                labelText: "Email",
-                                hintText: "Enter your email",
-                              ),
+                          new TextFormField(
+                            controller: _email,
+                            decoration: new InputDecoration(
+                              labelText: "Email",
+                              hintText: "Enter your email",
                             ),
+                            onSaved: (String value) {
+                              user.email = value;
+                            },
+                            validator: validateEmail,
                           ),
                           new TextFormField(
                             key: new Key('password'),
@@ -110,6 +118,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               password = value;
                             },
                             obscureText: true,
+                            validator: validatePassword,
                           ),
                           new TextFormField(
                             key: new Key('repeat'),

@@ -80,18 +80,19 @@ class AuthManager {
     _loggedIn = false;
   }
 
-  Future<bool> register(User user, String password) async {
+  Future register(User user, String password) async {
     final Client _client = new Client();
     var userJson = JSON.decode(user.toString());
+    userJson['_id'] = 'null';
+    userJson['groups'] = 'groups';
     userJson['password'] = password;
     final response = await _client
-        .put(API_URL + '/editUser',
+        .post(API_URL + '/signup',
             headers: {'Authorization': 'Basic ${_clientSecret}'},
             body: userJson)
         .whenComplete(_client.close);
     final bodyJson = JSON.decode(response.body);
-    if (bodyJson['success']) return true;
-    return false;
+    return bodyJson;
   }
 
   Future updateUser(User user, String password) async {

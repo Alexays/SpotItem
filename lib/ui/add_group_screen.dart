@@ -1,6 +1,7 @@
 import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
 import 'package:spotitems/model/group.dart';
+import 'package:spotitems/interactor/utils.dart';
 import 'package:flutter/material.dart';
 
 class AddGroupScreen extends StatefulWidget {
@@ -25,8 +26,6 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
   String location;
   List<String> email = [];
 
-  final RegExp emailExp = new RegExp(r'[\w-]+@([\w-]+\.)+[\w-]+');
-
   @override
   void initState() {
     super.initState();
@@ -43,12 +42,6 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
     if (response['success']) {
       Navigator.pushReplacementNamed(context, '/home');
     }
-  }
-
-  String _validateEmail(String value) {
-    if (value.isEmpty) return 'Email is required.';
-    if (!emailExp.hasMatch(value)) return 'Email must be valid';
-    return null;
   }
 
   @override
@@ -137,7 +130,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                                       onSaved: (String value) {
                                         _email = value;
                                       },
-                                      validator: _validateEmail,
+                                      validator: validateEmail,
                                     ),
                                   ],
                                 ),
