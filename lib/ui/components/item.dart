@@ -8,6 +8,7 @@ import 'package:spotitems/ui/item_view.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
 import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:spotitems/keys.dart';
+import 'package:spotitems/interactor/utils.dart';
 
 class _ItemsListItem extends StatelessWidget {
   const _ItemsListItem(
@@ -42,37 +43,26 @@ class _ItemsListItem extends StatelessWidget {
                       image: new NetworkImage(API_IMG_URL + item.images.first),
                       fit: BoxFit.cover,
                       alignment: FractionalOffset.center)),
-              new Positioned(
-                top: 15.0,
-                left: 15.0,
-                child: new Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    new RaisedButton(
-                        color: theme.primaryColor,
-                        child: new Text(
-                          item.dist != null
-                              ? item.dist.toStringAsFixed(2) + 'km'
-                              : '???',
-                          style: theme.primaryTextTheme.subhead,
-                        ),
-                        onPressed: () {})
-                  ],
-                ),
-              ),
+              item.dist != null
+                  ? new Positioned(
+                      top: 15.0,
+                      left: 15.0,
+                      child: new RaisedButton(
+                          color: theme.primaryColor,
+                          child: new Text(
+                            distString(item.dist),
+                            style: theme.primaryTextTheme.subhead,
+                          ),
+                          onPressed: () {}))
+                  : new Container(),
               new Positioned(
                 top: 15.0,
                 right: 15.0,
-                child: new Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    new IconButton(
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                      icon: new Icon(Icons.star_border),
-                      tooltip: 'Fav this item',
-                      onPressed: () {},
-                    ),
-                  ],
+                child: new IconButton(
+                  color: const Color.fromARGB(255, 255, 255, 255),
+                  icon: new Icon(Icons.star_border),
+                  tooltip: 'Fav this item',
+                  onPressed: () {},
                 ),
               ),
               new Positioned(

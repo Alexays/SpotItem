@@ -19,3 +19,10 @@ String validatePassword(String value) {
   if (value != value) return 'Passwords don\'t match';
   return null;
 }
+
+String distString(double dist) {
+  if (dist < 1) {
+    return (dist * 1000).toStringAsFixed(0) + 'm';
+  }
+  return dist.toStringAsFixed(2) + 'km';
+}
