@@ -108,10 +108,18 @@ class _GroupsViewState extends State<GroupsView> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           new Text(
-                            _myGroups[index - 1].users.length.toString(),
+                            _myGroups[index - 1]
+                                .users
+                                .where((user) => user.groups
+                                    .contains(_myGroups[index - 1].id))
+                                .length
+                                .toString(),
                             style: new TextStyle(
                                 fontWeight: FontWeight.w400, fontSize: 15.0),
                           ),
+                          new Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 2.0)),
                           const Icon(Icons.people)
                         ],
                       ))
@@ -176,7 +184,12 @@ class _GroupsViewState extends State<GroupsView> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             new Text(
-                              _myGroupsInv[index].users.length.toString(),
+                              _myGroupsInv[index]
+                                  .users
+                                  .where((user) => user.groups
+                                      .contains(_myGroupsInv[index].id))
+                                  .length
+                                  .toString(),
                               style: new TextStyle(
                                   fontWeight: FontWeight.w400, fontSize: 15.0),
                             ),

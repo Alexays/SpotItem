@@ -171,7 +171,7 @@ class _GroupPageState extends State<GroupPage>
           child: new Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[new Text(group.about), _buildUsers()],
+            children: <Widget>[_buildUsers(), new Text(group.about)],
           ),
         ));
   }
