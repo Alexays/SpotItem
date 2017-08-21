@@ -60,7 +60,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
     return new Scaffold(
         appBar: new AppBar(
           title: new Text("Register"),
