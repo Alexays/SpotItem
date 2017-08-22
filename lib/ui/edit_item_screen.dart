@@ -1,6 +1,6 @@
-import 'dart:io';
-import 'dart:convert';
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 
 import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
@@ -14,7 +14,7 @@ class EditItemScreen extends StatefulWidget {
   final AuthManager _authManager;
   final ItemsManager _itemsManager;
   final String _itemId;
-  EditItemScreen(this._authManager, this._itemsManager, this._itemId);
+  const EditItemScreen(this._authManager, this._itemsManager, this._itemId);
 
   @override
   _EditItemScreenState createState() => new _EditItemScreenState(_itemId);
@@ -70,10 +70,8 @@ class _EditItemScreenState extends State<EditItemScreen> {
       setState(() {
         imageFile.add(_fileName);
         _fileName.readAsBytes().then((List<int> data) {
-          images.add('data:image/' +
-              _fileName.path.split('.').last +
-              ';base64,' +
-              BASE64.encode(data));
+          images.add(
+              'data:image/${_fileName.path.split('.').last};base64,${BASE64.encode(data)}');
         });
       });
       return true;
@@ -82,7 +80,9 @@ class _EditItemScreenState extends State<EditItemScreen> {
   }
 
   Widget getImageGrid() {
-    if ((item.images.length + imageFile.length) < 1) return new Center();
+    if ((item.images.length + imageFile.length) < 1) {
+      return new Container();
+    }
     return new GridView.count(
       primary: false,
       crossAxisCount: (item.images.length + imageFile.length),
@@ -93,7 +93,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
           return new GridTile(
               child: new Stack(
             children: <Widget>[
-              new Image.network(API_IMG_URL + item.images[index]),
+              new Image.network('$API_IMG_URL${item.images[index]}'),
               new Positioned(
                   top: 5.0,
                   left: 5.0,
@@ -144,15 +144,18 @@ class _EditItemScreenState extends State<EditItemScreen> {
   }
 
   Future<bool> editItem(BuildContext context) async {
-    final FormState form = _formKey.currentState;
-    List<String> finalImages = <String>[];
-    List<String> tracks = <String>[];
+    final List<String> finalImages = <String>[];
+    final List<String> tracks = <String>[];
 
-    form.save();
-    if (gift) tracks.add('gift');
-    if (private) tracks.add('private');
-    item.images.forEach((String f) => finalImages.add(f));
-    images.forEach((String f) => finalImages.add(f));
+    _formKey.currentState.save();
+    if (gift) {
+      tracks.add('gift');
+    }
+    if (private) {
+      tracks.add('private');
+    }
+    item.images.forEach((String f) => finalImages.add);
+    images.forEach((String f) => finalImages.add);
     if (widget._authManager.user != null &&
         widget._authManager.user.id != null) {
       final dynamic response = await widget._itemsManager.editItem(
@@ -177,98 +180,95 @@ class _EditItemScreenState extends State<EditItemScreen> {
     }
     Scaffold
         .of(context)
-        .showSnackBar(new SnackBar(content: new Text("Not Connected")));
+        .showSnackBar(new SnackBar(content: const Text('Not Connected')));
     return false;
   }
 
   @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-          title: new Text(item != null ? 'Edit: ' + item.name : 'Loading...'),
-          actions: <Widget>[
-            new Builder(builder: (BuildContext context) {
-              return new IconButton(
-                icon: const Icon(Icons.save),
-                onPressed: () {
-                  editItem(context);
-                },
-              );
-            })
-          ]),
-      body: _loading
-          ? new Center(child: new CircularProgressIndicator())
-          : new SingleChildScrollView(
-              child: new Container(
-                  margin: const EdgeInsets.all(20.0),
-                  child: new Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      new Form(
-                          key: _formKey,
-                          child: new Column(
-                            children: <Widget>[
-                              new TextFormField(
-                                key: new Key('name'),
-                                decoration: new InputDecoration.collapsed(
-                                    hintText: "Name"),
-                                onSaved: (String value) {
-                                  name = value;
-                                },
-                                controller: _name,
-                              ),
-                              new TextFormField(
-                                key: new Key('about'),
-                                decoration: new InputDecoration.collapsed(
-                                    hintText: 'Description'),
-                                onSaved: (String value) {
-                                  about = value;
-                                },
-                                controller: _about,
-                              ),
-                              new TextFormField(
-                                key: new Key('location'),
-                                decoration: new InputDecoration.collapsed(
-                                    hintText: 'Location'),
-                                onSaved: (String value) {
-                                  location = value;
-                                },
-                                controller: _location,
-                              ),
-                              new SwitchListTile(
-                                title: const Text('Donated Item'),
-                                value: gift,
-                                onChanged: (bool value) {
-                                  setState(() {
-                                    gift = value;
-                                  });
-                                },
-                                secondary: const Icon(Icons.card_giftcard),
-                              ),
-                              new SwitchListTile(
-                                title: const Text('Private Item'),
-                                value: private,
-                                onChanged: (bool value) {
-                                  setState(() {
-                                    private = value;
-                                  });
-                                },
-                                secondary: const Icon(Icons.lock),
-                              ),
-                            ],
-                          )),
-                      new Container(
-                        height: 300.0,
-                        width: 300.0,
-                        child: getImageGrid(),
-                      ),
-                    ],
-                  ))),
-      floatingActionButton: new FloatingActionButton(
-        onPressed: getImage,
-        tooltip: 'Pick Image',
-        child: const Icon(Icons.add_a_photo),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => new Scaffold(
+        appBar: new AppBar(
+            title: new Text(item != null ? 'Edit: ${item.name}' : 'Loading...'),
+            actions: <Widget>[
+              new Builder(
+                  builder: (BuildContext context) => new IconButton(
+                        icon: const Icon(Icons.save),
+                        onPressed: () {
+                          editItem(context);
+                        },
+                      ))
+            ]),
+        body: _loading
+            ? new Center(child: const CircularProgressIndicator())
+            : new SingleChildScrollView(
+                child: new Container(
+                    margin: const EdgeInsets.all(20.0),
+                    child: new Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        new Form(
+                            key: _formKey,
+                            child: new Column(
+                              children: <Widget>[
+                                new TextFormField(
+                                  key: const Key('name'),
+                                  decoration: const InputDecoration.collapsed(
+                                      hintText: 'Name'),
+                                  onSaved: (String value) {
+                                    name = value;
+                                  },
+                                  controller: _name,
+                                ),
+                                new TextFormField(
+                                  key: const Key('about'),
+                                  decoration: const InputDecoration.collapsed(
+                                      hintText: 'Description'),
+                                  onSaved: (String value) {
+                                    about = value;
+                                  },
+                                  controller: _about,
+                                ),
+                                new TextFormField(
+                                  key: const Key('location'),
+                                  decoration: const InputDecoration.collapsed(
+                                      hintText: 'Location'),
+                                  onSaved: (String value) {
+                                    location = value;
+                                  },
+                                  controller: _location,
+                                ),
+                                new SwitchListTile(
+                                  title: const Text('Donated Item'),
+                                  value: gift,
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      gift = value;
+                                    });
+                                  },
+                                  secondary: const Icon(Icons.card_giftcard),
+                                ),
+                                new SwitchListTile(
+                                  title: const Text('Private Item'),
+                                  value: private,
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      private = value;
+                                    });
+                                  },
+                                  secondary: const Icon(Icons.lock),
+                                ),
+                              ],
+                            )),
+                        new Container(
+                          height: 300.0,
+                          width: 300.0,
+                          child: getImageGrid(),
+                        ),
+                      ],
+                    ))),
+        floatingActionButton: new FloatingActionButton(
+          onPressed: getImage,
+          tooltip: 'Pick Image',
+          child: const Icon(Icons.add_a_photo),
+        ),
+      );
 }

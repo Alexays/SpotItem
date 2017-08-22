@@ -5,7 +5,7 @@ import 'package:spotitems/interactor/utils.dart';
 class LoginScreen extends StatefulWidget {
   final AuthManager _authManager;
 
-  LoginScreen(this._authManager);
+  const LoginScreen(this._authManager);
 
   @override
   State createState() => new _LoginScreenState(_authManager);
@@ -21,13 +21,12 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-        appBar: new AppBar(
-          title: new Text("Login"),
-        ),
-        body: new Builder(builder: (BuildContext context) {
-          return new SingleChildScrollView(
+  Widget build(BuildContext context) => new Scaffold(
+      appBar: new AppBar(
+        title: const Text('Login'),
+      ),
+      body: new Builder(
+          builder: (BuildContext context) => new SingleChildScrollView(
               child: new Container(
                   padding: const EdgeInsets.all(40.0),
                   child: new Card(
@@ -39,15 +38,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           new TextFormField(
-                            key: new Key('email'),
-                            decoration: new InputDecoration(hintText: "Email"),
+                            key: const Key('email'),
+                            decoration:
+                                const InputDecoration(hintText: 'Email'),
                             autofocus: true,
                             controller: _usernameController,
                             validator: validateEmail,
                           ),
                           new TextFormField(
                             decoration:
-                                new InputDecoration(hintText: 'Password'),
+                                const InputDecoration(hintText: 'Password'),
                             controller: _passwordController,
                             obscureText: true,
                             validator: validatePassword,
@@ -56,18 +56,18 @@ class _LoginScreenState extends State<LoginScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               new RaisedButton(
-                                child: new Text('Don\'t have an account ?'),
+                                child: const Text('Don\'t have an account ?'),
                                 onPressed: () {
                                   Navigator.pushReplacementNamed(
-                                      context, "/register");
+                                      context, '/register');
                                 },
                               ),
-                              new Padding(
+                              const Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 5.0),
                               ),
                               new RaisedButton(
-                                  child: new Text('Login'),
+                                  child: const Text('Login'),
                                   onPressed: () {
                                     final FormState form =
                                         _formKey.currentState;
@@ -78,19 +78,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                           .then((bool success) {
                                         if (success) {
                                           Navigator.pushReplacementNamed(
-                                              context, "/home");
+                                              context, '/home');
                                         } else {
                                           Scaffold.of(context).showSnackBar(
                                               new SnackBar(
-                                                  content: new Text(
-                                                      "Invalid credentials !")));
+                                                  content: const Text(
+                                                      'Invalid credentials !')));
                                         }
                                       });
                                     } else {
                                       Scaffold.of(context).showSnackBar(
                                           new SnackBar(
-                                              content: new Text(
-                                                  "Form must be valid !")));
+                                              content: const Text(
+                                                  'Form must be valid !')));
                                     }
                                   })
                             ],
@@ -98,7 +98,5 @@ class _LoginScreenState extends State<LoginScreen> {
                         ],
                       ),
                     ),
-                  ))));
-        }));
-  }
+                  ))))));
 }

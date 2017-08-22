@@ -30,7 +30,9 @@ class Item {
   );
 
   factory Item.fromJson(dynamic json, double dist) {
-    if (json == null) return null;
+    if (json == null) {
+      return null;
+    }
     return new Item(
       json['_id'],
       json['name'],
@@ -47,12 +49,10 @@ class Item {
     );
   }
 
-  bool isValid() {
-    return name != null && about != null && images != null && owner.isValid();
-  }
+  bool isValid() =>
+      name != null && about != null && images != null && owner.isValid();
 
   @override
-  String toString() {
-    return 'Item{id: $id, name: $name, about: $about, images: $images, lastGeo: $lastGeo, calendar: $calendar, location: $location, lat: $lat, lng: $lng, owner: $owner, tracks: $tracks}';
-  }
+  String toString() =>
+      'Item{id: $id, name: $name, about: $about, images: $images, lastGeo: $lastGeo, calendar: $calendar, location: $location, lat: $lat, lng: $lng, owner: $owner, tracks: $tracks}';
 }

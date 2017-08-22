@@ -8,7 +8,7 @@ import 'package:spotitems/interactor/utils.dart';
 class RegisterScreen extends StatefulWidget {
   final AuthManager _authManager;
 
-  RegisterScreen(this._authManager);
+  const RegisterScreen(this._authManager);
 
   @override
   State createState() => new _RegisterScreenState(_authManager);
@@ -37,17 +37,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Future<bool> addUser(BuildContext context) async {
-    final FormState form = _formKey.currentState;
-    form.save();
+    final FormState form = _formKey.currentState..save();
     if (password != repeat) {
       Scaffold.of(context).showSnackBar(
-          new SnackBar(content: new Text("Password don't match !")));
+          new SnackBar(content: const Text('Password don\'t match !')));
       return false;
     }
     if (form.validate()) {
       _authManager.register(user, password).then((dynamic data) {
         if (data['success']) {
-          Navigator.pushReplacementNamed(context, "/login");
+          Navigator.pushReplacementNamed(context, '/login');
           return true;
         }
         Scaffold
@@ -56,108 +55,105 @@ class _RegisterScreenState extends State<RegisterScreen> {
         return false;
       });
     }
-    Scaffold
-        .of(context)
-        .showSnackBar(new SnackBar(content: new Text('Form must be valid !')));
+    Scaffold.of(context).showSnackBar(
+        new SnackBar(content: const Text('Form must be valid !')));
     return false;
   }
 
   @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-        appBar: new AppBar(
-          title: new Text("Register"),
-        ),
-        body: new Builder(builder: (BuildContext context) {
-          return new SingleChildScrollView(
-            child: new Container(
-                padding: const EdgeInsets.all(40.0),
-                child: new Card(
-                    child: new Container(
-                  margin: const EdgeInsets.all(20.0),
-                  child: new Form(
-                      key: _formKey,
-                      autovalidate: true,
-                      child: new Column(
-                        children: <Widget>[
-                          new TextFormField(
-                            key: new Key('name'),
-                            decoration: new InputDecoration(
-                                labelText: "Firstname",
-                                hintText: "Enter your firstname"),
-                            onSaved: (String value) {
-                              user.firstname = value;
-                            },
-                            controller: _name,
-                            validator: validateName,
-                          ),
-                          new TextFormField(
-                            key: new Key('lastname'),
-                            decoration: new InputDecoration(
-                                labelText: "Lastname",
-                                hintText: "Enter your lastname"),
-                            onSaved: (String value) {
-                              user.name = value;
-                            },
-                            controller: _lastname,
-                            validator: validateName,
-                          ),
-                          new TextFormField(
-                            controller: _email,
-                            decoration: new InputDecoration(
-                              labelText: "Email",
-                              hintText: "Enter your email",
-                            ),
-                            onSaved: (String value) {
-                              user.email = value;
-                            },
-                            validator: validateEmail,
-                          ),
-                          new TextFormField(
-                            key: new Key('password'),
-                            decoration: new InputDecoration(
-                                labelText: "Password", hintText: "***********"),
-                            onSaved: (String value) {
-                              password = value;
-                            },
-                            obscureText: true,
-                            validator: validatePassword,
-                          ),
-                          new TextFormField(
-                            key: new Key('repeat'),
-                            decoration: new InputDecoration(
-                                labelText: "Confirm password",
-                                hintText: "***********"),
-                            onSaved: (String value) {
-                              repeat = value;
-                            },
-                            controller: _password,
-                            obscureText: true,
-                          ),
-                          new Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                new RaisedButton(
-                                  child: new Text('Have an account ?'),
-                                  onPressed: () {
-                                    Navigator.pushReplacementNamed(
-                                        context, "/login");
-                                  },
+  Widget build(BuildContext context) => new Scaffold(
+      appBar: new AppBar(
+        title: const Text('Register'),
+      ),
+      body: new Builder(
+          builder: (BuildContext context) => new SingleChildScrollView(
+                child: new Container(
+                    padding: const EdgeInsets.all(40.0),
+                    child: new Card(
+                        child: new Container(
+                      margin: const EdgeInsets.all(20.0),
+                      child: new Form(
+                          key: _formKey,
+                          autovalidate: true,
+                          child: new Column(
+                            children: <Widget>[
+                              new TextFormField(
+                                key: const Key('name'),
+                                decoration: const InputDecoration(
+                                    labelText: 'Firstname',
+                                    hintText: 'Enter your firstname'),
+                                onSaved: (String value) {
+                                  user.firstname = value;
+                                },
+                                controller: _name,
+                                validator: validateName,
+                              ),
+                              new TextFormField(
+                                key: const Key('lastname'),
+                                decoration: const InputDecoration(
+                                    labelText: 'Lastname',
+                                    hintText: 'Enter your lastname'),
+                                onSaved: (String value) {
+                                  user.name = value;
+                                },
+                                controller: _lastname,
+                                validator: validateName,
+                              ),
+                              new TextFormField(
+                                controller: _email,
+                                decoration: const InputDecoration(
+                                  labelText: 'Email',
+                                  hintText: 'Enter your email',
                                 ),
-                                new Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 5.0),
-                                ),
-                                new RaisedButton(
-                                    child: new Text('Register'),
-                                    onPressed: () {
-                                      addUser(context);
-                                    })
-                              ]),
-                        ],
-                      )),
-                ))),
-          );
-        }));
-  }
+                                onSaved: (String value) {
+                                  user.email = value;
+                                },
+                                validator: validateEmail,
+                              ),
+                              new TextFormField(
+                                key: const Key('password'),
+                                decoration: const InputDecoration(
+                                    labelText: 'Password',
+                                    hintText: '***********'),
+                                onSaved: (String value) {
+                                  password = value;
+                                },
+                                obscureText: true,
+                                validator: validatePassword,
+                              ),
+                              new TextFormField(
+                                key: const Key('repeat'),
+                                decoration: const InputDecoration(
+                                    labelText: 'Confirm password',
+                                    hintText: '***********'),
+                                onSaved: (String value) {
+                                  repeat = value;
+                                },
+                                controller: _password,
+                                obscureText: true,
+                              ),
+                              new Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    new RaisedButton(
+                                      child: const Text('Have an account ?'),
+                                      onPressed: () {
+                                        Navigator.pushReplacementNamed(
+                                            context, '/login');
+                                      },
+                                    ),
+                                    const Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 5.0),
+                                    ),
+                                    new RaisedButton(
+                                        child: const Text('Register'),
+                                        onPressed: () {
+                                          addUser(context);
+                                        })
+                                  ]),
+                            ],
+                          )),
+                    ))),
+              )));
 }

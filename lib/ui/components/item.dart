@@ -12,9 +12,9 @@ import 'package:spotitems/interactor/utils.dart';
 
 class _ItemsListItem extends StatelessWidget {
   const _ItemsListItem(
-      {Key key,
-      @required this.itemsManager,
+      {@required this.itemsManager,
       @required this.item,
+      Key key,
       this.hash,
       this.authManager,
       this.onPressed})
@@ -29,7 +29,7 @@ class _ItemsListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
+    final ThemeData theme = Theme.of(context);
     return new GestureDetector(
         onTap: onPressed,
         child: new Card(
@@ -37,10 +37,11 @@ class _ItemsListItem extends StatelessWidget {
             fit: StackFit.expand,
             children: <Widget>[
               new Hero(
-                  tag: item.id + '_img_' + hash,
+                  tag: '${item.id}_img_$hash',
                   child: new FadeInImage(
-                      placeholder: new AssetImage('assets/placeholder.png'),
-                      image: new NetworkImage(API_IMG_URL + item.images.first),
+                      placeholder: const AssetImage('assets/placeholder.png'),
+                      image:
+                          new NetworkImage('$API_IMG_URL${item.images.first}'),
                       fit: BoxFit.cover,
                       alignment: FractionalOffset.center)),
               item.dist != null
@@ -111,44 +112,39 @@ class ItemsList extends StatelessWidget {
   final String _hash;
   final Axis _dir;
 
-  ItemsList(this._items, this._itemsManager, this._authManager, this._hash,
+  const ItemsList(
+      this._items, this._itemsManager, this._authManager, this._hash,
       [this._dir = Axis.vertical]);
 
   @override
-  Widget build(BuildContext context) {
-    return _items.length > 0
-        ? new ListView.builder(
-            physics: const AlwaysScrollableScrollPhysics(),
-            scrollDirection: _dir,
-            padding: new EdgeInsets.symmetric(vertical: 8.0),
-            itemCount: _items?.length,
-            itemExtent: 300.0,
-            itemBuilder: (BuildContext context, int index) {
-              return new _ItemsListItem(
-                  itemsManager: _itemsManager,
-                  item: _items[index],
-                  hash: _hash,
-                  onPressed: () {
-                    _showItemPage(_items[index], _authManager, _itemsManager,
-                        _hash, context);
-                  });
-            })
-        : new Center(
-            child: new Text("No items"),
-          );
-  }
+  Widget build(BuildContext context) => _items.isNotEmpty
+      ? new ListView.builder(
+          physics: const AlwaysScrollableScrollPhysics(),
+          scrollDirection: _dir,
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          itemCount: _items?.length,
+          itemExtent: 300.0,
+          itemBuilder: (BuildContext context, int index) => new _ItemsListItem(
+              itemsManager: _itemsManager,
+              item: _items[index],
+              hash: _hash,
+              onPressed: () {
+                _showItemPage(
+                    _items[index], _authManager, _itemsManager, _hash, context);
+              }))
+      : new Center(child: const Text('No items'));
 }
 
 Future<Null> _showItemPage(Item item, AuthManager authManager,
     ItemsManager itemsManager, String hash, BuildContext context) async {
-  Navigator.push(context, new MaterialPageRoute<Null>(
-    builder: (BuildContext context) {
-      return new OrderPage(
-        item: item,
-        authManager: authManager,
-        itemsManager: itemsManager,
-        hash: hash,
-      );
-    },
-  ));
+  await Navigator.push(
+      context,
+      new MaterialPageRoute<Null>(
+        builder: (BuildContext context) => new OrderPage(
+              item: item,
+              authManager: authManager,
+              itemsManager: itemsManager,
+              hash: hash,
+            ),
+      ));
 }

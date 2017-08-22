@@ -10,28 +10,26 @@ class User {
       this.id, this.name, this.email, this.firstname, this.avatar, this.groups);
 
   factory User.fromJson(dynamic json) {
-    if (json == null) return null;
+    if (json == null) {
+      return null;
+    }
     List<String> _groups = <String>[];
     if (json['groups'] != null && json['groups'].length > 0) {
-      _groups = new List<String>.generate(json['groups'].length, (int index) {
-        return json['groups'][index].toString();
-      });
+      _groups = new List<String>.generate(json['groups'].length,
+          (int index) => json['groups'][index].toString());
     }
     return new User(json['_id'], json['name'], json['email'], json['firstname'],
         json['avatar'], _groups);
   }
 
-  bool isValid() {
-    return name != null && email != null && firstname != null;
-  }
+  bool isValid() => name != null && email != null && firstname != null;
 
   @override
   String toString() {
     List<String> _groups;
     if (groups != null) {
-      _groups = new List<String>.generate(groups.length, (int index) {
-        return '"' + groups[index] + '"';
-      });
+      _groups = new List<String>.generate(
+          groups.length, (int index) => '"$groups[index]"');
     }
     return '{"_id": "$id", "name": "$name", "email": "$email", "firstname": "$firstname", "avatar": "$avatar", "groups": $_groups}';
   }

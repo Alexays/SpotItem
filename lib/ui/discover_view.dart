@@ -12,7 +12,8 @@ class DiscoverView extends StatefulWidget {
   final ItemsManager _itemsManager;
   final AuthManager _authManager;
   final Filter _mode;
-  DiscoverView(this._itemsManager, this._authManager, this._mode);
+
+  const DiscoverView(this._itemsManager, this._authManager, this._mode);
 
   @override
   State<StatefulWidget> createState() =>
@@ -35,59 +36,56 @@ class _DiscoverViewState extends State<DiscoverView> {
     super.initState();
   }
 
-  Future<bool> _loadItems([bool force = false]) async {
+  Future<Null> _loadItems([bool force = false]) async {
     _refreshIndicatorKey.currentState?.show();
     final Future<List<Item>> itemsLoaded =
         _itemsManager.getItems(force, _authManager.user?.id);
     if (itemsLoaded == null) {
-      return false;
+      return;
     }
     itemsLoaded.then((List<Item> data) {
-      if (!mounted) return;
+      if (!mounted) {
+        return;
+      }
       setState(() {
         _items = new List<Item>.from(data);
-        if (_mode != null) _items = _mode(_items);
+        if (_mode != null) {
+          _items = _mode(_items);
+        }
         _loading = false;
       });
     });
-    return true;
   }
 
-  Widget _buildDiscover() {
-    return new ListView.builder(
-        itemCount: 2,
-        itemBuilder: (BuildContext context, int index) {
-          switch (index) {
-            case 0:
-              return new Padding(
-                padding:
-                    const EdgeInsets.only(left: 10.0, top: 10.0, bottom: 0.0),
-                child: new Text(
-                  "Recents items",
-                  style: new TextStyle(
-                      fontWeight: FontWeight.w400, fontSize: 20.0),
-                ),
-              );
-            case 1:
-              return new Container(
-                height: 250.0,
-                width: MediaQuery.of(context).size.width,
-                child: new ItemsList(_items, _itemsManager, _authManager,
-                    _mode.toString(), Axis.horizontal),
-              );
-          }
-        });
-  }
+  Widget _buildDiscover() => new ListView.builder(
+      itemCount: 2,
+      itemBuilder: (BuildContext context, int index) {
+        switch (index) {
+          case 0:
+            return const Padding(
+              padding:
+                  const EdgeInsets.only(left: 10.0, top: 10.0, bottom: 0.0),
+              child: const Text(
+                'Recents items',
+                style: const TextStyle(
+                    fontWeight: FontWeight.w400, fontSize: 20.0),
+              ),
+            );
+          case 1:
+            return new Container(
+              height: 250.0,
+              width: MediaQuery.of(context).size.width,
+              child: new ItemsList(_items, _itemsManager, _authManager,
+                  _mode.toString(), Axis.horizontal),
+            );
+        }
+      });
 
   @override
-  Widget build(BuildContext context) {
-    return new RefreshIndicator(
-      onRefresh: () {
-        return _loadItems(true);
-      },
-      child: _loading
-          ? new Center(child: new CircularProgressIndicator())
-          : _buildDiscover(),
-    );
-  }
+  Widget build(BuildContext context) => new RefreshIndicator(
+        onRefresh: () => _loadItems(true),
+        child: _loading
+            ? new Center(child: const CircularProgressIndicator())
+            : _buildDiscover(),
+      );
 }

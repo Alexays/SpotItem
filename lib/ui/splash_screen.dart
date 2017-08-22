@@ -7,7 +7,7 @@ class SplashScreen extends StatefulWidget {
   final AuthManager _authManager;
   final ItemsManager _itemsManager;
 
-  SplashScreen(this._authManager, this._itemsManager);
+  const SplashScreen(this._authManager, this._itemsManager);
 
   @override
   State<StatefulWidget> createState() =>
@@ -33,9 +33,9 @@ class _SplashState extends State<SplashScreen> {
   }
 
   Future<bool> _init() async {
-    bool auth = await _authManager.init();
-    bool items = await _itemsManager.init();
-    String route = _authManager.loggedIn ? '/home' : '/login';
+    final bool auth = await _authManager.init();
+    final bool items = await _itemsManager.init();
+    final String route = _authManager.loggedIn ? '/home' : '/login';
     Navigator.pushReplacementNamed(context, route);
     if (auth && items) {
       return true;
@@ -44,8 +44,6 @@ class _SplashState extends State<SplashScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-        body: new Center(child: new CircularProgressIndicator()));
-  }
+  Widget build(BuildContext context) =>
+      new Scaffold(body: new Center(child: const CircularProgressIndicator()));
 }

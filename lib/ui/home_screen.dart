@@ -12,7 +12,7 @@ class HomeScreen extends StatefulWidget {
   final AuthManager _authManager;
   final ItemsManager _itemsManager;
 
-  HomeScreen(this._authManager, this._itemsManager);
+  const HomeScreen(this._authManager, this._itemsManager);
 
   @override
   State createState() => new _HomeScreenState(_authManager, _itemsManager);
@@ -59,67 +59,67 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _homeScreenItems = <HomeScreenItem>[
       new HomeScreenItem(
           icon: const Icon(Icons.explore),
-          title: "Explorer",
+          title: 'Explorer',
           sub: <HomeScreenSubItem>[
-            new HomeScreenSubItem("Discover",
+            new HomeScreenSubItem('Discover',
                 new DiscoverView(_itemsManager, _authManager, null)),
             new HomeScreenSubItem(
-                "Nearest you",
+                'Nearest you',
                 new ExplorerView(_itemsManager, _authManager,
                     (List<Item> items) {
                   items.sort((Item a, Item b) => a.dist.compareTo(b.dist));
                   return items;
                 })),
             new HomeScreenSubItem(
-                "Donated",
-                new ExplorerView(_itemsManager, _authManager,
-                    (List<Item> items) {
-                  return items
-                      .where((Item item) => item.tracks.contains('gift'))
-                      .toList();
-                })),
+                'Donated',
+                new ExplorerView(
+                    _itemsManager,
+                    _authManager,
+                    (List<Item> items) => items
+                        .where((Item item) => item.tracks.contains('gift'))
+                        .toList())),
           ],
           fab: new FloatingActionButton(
             child: const Icon(Icons.add),
-            tooltip: "Add new item",
+            tooltip: 'Add new item',
             onPressed: () {
               Navigator.of(context).pushNamed('/item/add');
             },
           )),
       new HomeScreenItem(
           icon: const Icon(Icons.work),
-          title: "Items",
+          title: 'Items',
           content: new ItemsView(_itemsManager, _authManager),
           fab: new FloatingActionButton(
             child: const Icon(Icons.add),
-            tooltip: "Add new item",
+            tooltip: 'Add new item',
             onPressed: () {
               Navigator.of(context).pushNamed('/item/add');
             },
           )),
       new HomeScreenItem(
         icon: const Icon(Icons.map),
-        title: "Maps",
+        title: 'Maps',
         content: new MapView(_itemsManager),
       ),
       new HomeScreenItem(
           icon: const Icon(Icons.nature_people),
-          title: "Social",
+          title: 'Social',
           sub: <HomeScreenSubItem>[
             new HomeScreenSubItem(
-              "Groups",
+              'Groups',
               new GroupsView(_itemsManager, _authManager),
             ),
             new HomeScreenSubItem(
-              "Messages",
+              'Messages',
               new Center(
-                child: new Text("Comming soon"),
+                child: const Text('Comming soon'),
               ),
             ),
           ],
           fab: new FloatingActionButton(
             child: const Icon(Icons.person_add),
-            tooltip: "Add new groups",
+            tooltip: 'Add new groups',
             onPressed: () {
               Navigator.of(context).pushNamed('/groups/add');
             },
@@ -168,185 +168,180 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   Widget _buildBottom() {
-    if (_homeScreenItems[_currentIndex].sub == null) return null;
+    if (_homeScreenItems[_currentIndex].sub == null) {
+      return null;
+    }
     return new TabBar(
-      tabs: new List<Tab>.generate(_homeScreenItems[_currentIndex].sub?.length,
-          (int index) {
-        return new Tab(
-          text: _homeScreenItems[_currentIndex].sub[index].title,
-        );
-      }),
+      tabs: new List<Tab>.generate(
+          _homeScreenItems[_currentIndex].sub?.length,
+          (int index) => new Tab(
+                text: _homeScreenItems[_currentIndex].sub[index].title,
+              )),
     );
   }
 
-  Widget _buildDrawer(BuildContext context) {
-    return new Drawer(
-      child: new ListView(
-        children: <Widget>[
-          new UserAccountsDrawerHeader(
-            accountName: new Text(
-                '${_authManager.user?.firstname} ${_authManager.user?.name}'),
-            accountEmail: new Text(_authManager.user?.email),
-            currentAccountPicture: new CircleAvatar(
-                backgroundColor: Colors.grey,
-                backgroundImage: _authManager.user?.avatar != 'null'
-                    ? new NetworkImage(_authManager.user?.avatar)
-                    : null,
-                child: new Text(_authManager.user?.firstname[0] +
-                    _authManager.user?.name[0])),
-            otherAccountsPictures: <Widget>[
-              new IconButton(
-                icon: const Icon(Icons.settings),
-                color: Colors.white,
-                onPressed: () {},
-              ),
-            ],
-            onDetailsPressed: () {
-              _showDrawerContents = !_showDrawerContents;
-              if (_showDrawerContents)
-                _controller.reverse();
-              else
-                _controller.forward();
-            },
-          ),
-          new ClipRect(
-            child: new Stack(
-              children: <Widget>[
-                new FadeTransition(
-                  opacity: _drawerContentsOpacity,
-                  child: new Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      const ListTile(
-                        leading: const Icon(Icons.home),
-                        title: const Text('Home'),
-                        selected: true,
-                      ),
-                      const ListTile(
-                        leading: const Icon(Icons.account_balance),
-                        title: const Text('test'),
-                        enabled: false,
-                      ),
-                      new ListTile(
-                        leading: const Icon(Icons.dvr),
-                        title: const Text('Dump App to Console'),
-                        onTap: () {
-                          try {
-                            debugDumpApp();
-                            debugDumpRenderTree();
-                            debugDumpLayerTree();
-                          } catch (e, stack) {
-                            debugPrint(
-                                'Exception while dumping app:\n$e\n$stack');
-                          }
-                        },
-                      ),
-                    ],
-                  ),
+  Widget _buildDrawer(BuildContext context) => new Drawer(
+        child: new ListView(
+          children: <Widget>[
+            new UserAccountsDrawerHeader(
+              accountName: new Text(
+                  '${_authManager.user?.firstname} ${_authManager.user?.name}'),
+              accountEmail: new Text(_authManager.user?.email),
+              currentAccountPicture: new CircleAvatar(
+                  backgroundColor: Colors.grey,
+                  backgroundImage: _authManager.user?.avatar != 'null'
+                      ? new NetworkImage(_authManager.user?.avatar)
+                      : null,
+                  child: new Text(
+                      '${_authManager.user?.firstname[0]}${_authManager.user?.name[0]}')),
+              otherAccountsPictures: <Widget>[
+                new IconButton(
+                  icon: const Icon(Icons.settings),
+                  color: Colors.white,
+                  onPressed: () {},
                 ),
-                new SlideTransition(
-                  position: _drawerDetailsPosition,
-                  child: new FadeTransition(
-                    opacity: new ReverseAnimation(_drawerContentsOpacity),
+              ],
+              onDetailsPressed: () {
+                _showDrawerContents = !_showDrawerContents;
+                if (_showDrawerContents)
+                  _controller.reverse();
+                else
+                  _controller.forward();
+              },
+            ),
+            new ClipRect(
+              child: new Stack(
+                children: <Widget>[
+                  new FadeTransition(
+                    opacity: _drawerContentsOpacity,
                     child: new Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        new ListTile(
-                          leading: const Icon(Icons.edit),
-                          title: const Text('Edit Profile'),
-                          onTap: () {
-                            Navigator.of(context).pushNamed('/user/edit');
-                          },
+                        const ListTile(
+                          leading: const Icon(Icons.home),
+                          title: const Text('Home'),
+                          selected: true,
+                        ),
+                        const ListTile(
+                          leading: const Icon(Icons.account_balance),
+                          title: const Text('test'),
+                          enabled: false,
                         ),
                         new ListTile(
-                          leading: const Icon(Icons.exit_to_app),
-                          title: const Text('Logout'),
+                          leading: const Icon(Icons.dvr),
+                          title: const Text('Dump App to Console'),
                           onTap: () {
-                            _authManager.logout().then((_) => Navigator
-                                .pushReplacementNamed(context, '/login'));
+                            try {
+                              debugDumpApp();
+                              debugDumpRenderTree();
+                              debugDumpLayerTree();
+                            } catch (e, stack) {
+                              debugPrint(
+                                  'Exception while dumping app:\n$e\n$stack');
+                            }
                           },
                         ),
                       ],
                     ),
                   ),
+                  new SlideTransition(
+                    position: _drawerDetailsPosition,
+                    child: new FadeTransition(
+                      opacity: new ReverseAnimation(_drawerContentsOpacity),
+                      child: new Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          new ListTile(
+                            leading: const Icon(Icons.edit),
+                            title: const Text('Edit Profile'),
+                            onTap: () {
+                              Navigator.of(context).pushNamed('/user/edit');
+                            },
+                          ),
+                          new ListTile(
+                            leading: const Icon(Icons.exit_to_app),
+                            title: const Text('Logout'),
+                            onTap: () {
+                              _authManager.logout().then((_) => Navigator
+                                  .pushReplacementNamed(context, '/login'));
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+
+  SliverAppBar _buildAppBar() => new SliverAppBar(
+        pinned: true,
+        leading: _isSearching ? const BackButton() : null,
+        floating: _homeScreenItems[_currentIndex].sub != null,
+        title: _isSearching
+            ? new TextField(
+                key: const Key('search'),
+                controller: _searchQuery,
+                autofocus: true,
+                style: new TextStyle(color: Colors.white70, fontSize: 16.0),
+                decoration: new InputDecoration(
+                    hintText: 'Search...',
+                    hintStyle:
+                        new TextStyle(color: Colors.white70, fontSize: 16.0),
+                    hideDivider: true),
+                keyboardType: TextInputType.text,
+              )
+            : _homeScreenItems[_currentIndex].item.title,
+        actions: _isSearching
+            ? null
+            : <Widget>[
+                new IconButton(
+                  icon: const Icon(Icons.search),
+                  onPressed: _handleSearchBegin,
                 ),
               ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  SliverAppBar _buildAppBar() {
-    return new SliverAppBar(
-      pinned: true,
-      leading: _isSearching ? new BackButton() : null,
-      floating: _homeScreenItems[_currentIndex].sub != null,
-      title: _isSearching
-          ? new TextField(
-              key: new Key('search'),
-              controller: _searchQuery,
-              autofocus: true,
-              style: new TextStyle(color: Colors.white70, fontSize: 16.0),
-              decoration: new InputDecoration(
-                  hintText: 'Search...',
-                  hintStyle:
-                      new TextStyle(color: Colors.white70, fontSize: 16.0),
-                  hideDivider: true),
-              keyboardType: TextInputType.text,
-            )
-          : _homeScreenItems[_currentIndex].item.title,
-      actions: _isSearching
-          ? null
-          : <Widget>[
-              new IconButton(
-                icon: const Icon(Icons.search),
-                onPressed: _handleSearchBegin,
-              ),
-            ],
-      bottom: _buildBottom(),
-    );
-  }
+        bottom: _buildBottom(),
+      );
 
   FloatingActionButton _buildFab() {
-    if (_homeScreenItems[_currentIndex].fab == null) return null;
+    if (_homeScreenItems[_currentIndex].fab == null) {
+      return null;
+    }
     return _homeScreenItems[_currentIndex].fab;
   }
 
   @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      drawer: _buildDrawer(context),
-      floatingActionButton: _buildFab(),
-      body: new DefaultTabController(
-        length: _homeScreenItems[_currentIndex].sub?.length,
-        child: new NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[
-              new AnimatedBuilder(
-                animation: _bottomSize,
-                builder: (BuildContext context, Widget child) {
-                  return _buildAppBar();
-                },
-              ),
-            ];
-          },
-          body: new TabBarView(
-            children: _homeScreenItems[_currentIndex].content,
+  Widget build(BuildContext context) => new Scaffold(
+        drawer: _buildDrawer(context),
+        floatingActionButton: _buildFab(),
+        body: new DefaultTabController(
+          length: _homeScreenItems[_currentIndex].sub?.length,
+          child: new NestedScrollView(
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) => <Widget>[
+                      new AnimatedBuilder(
+                        animation: _bottomSize,
+                        builder: (BuildContext context, Widget child) =>
+                            _buildAppBar(),
+                      ),
+                    ],
+            body: new TabBarView(
+              children: _homeScreenItems[_currentIndex].content,
+            ),
           ),
         ),
-      ),
-      bottomNavigationBar: new BottomNavigationBar(
-        currentIndex: _currentIndex,
-        items:
-            _homeScreenItems.map((HomeScreenItem item) => item.item).toList(),
-        onTap: _navBarItemSelected,
-      ),
-    );
-  }
+        bottomNavigationBar: new BottomNavigationBar(
+          currentIndex: _currentIndex,
+          items:
+              _homeScreenItems.map((HomeScreenItem item) => item.item).toList(),
+          onTap: _navBarItemSelected,
+        ),
+      );
 }
 
 class HomeScreenItem {
@@ -359,9 +354,8 @@ class HomeScreenItem {
       {Widget icon, String title, Widget content, this.sub, this.fab})
       : item = new BottomNavigationBarItem(icon: icon, title: new Text(title)),
         content = sub != null
-            ? new List<Widget>.generate(sub.length, (int index) {
-                return sub[index].content;
-              })
+            ? new List<Widget>.generate(
+                sub.length, (int index) => sub[index].content)
             : <Widget>[content];
 }
 

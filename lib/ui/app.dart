@@ -15,14 +15,12 @@ class SpotItemsApp extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: 'SpotItems',
-      theme: new ThemeData(
-        primarySwatch: Colors.teal,
-      ),
-      home: new SplashScreen(_authManager, _itemsManager),
-      onGenerateRoute: router.generator,
-    );
-  }
+  Widget build(BuildContext context) => new MaterialApp(
+        title: 'SpotItems',
+        theme: new ThemeData(
+          primarySwatch: Colors.teal,
+        ),
+        home: new SplashScreen(_authManager, _itemsManager),
+        onGenerateRoute: router.generator,
+      );
 }

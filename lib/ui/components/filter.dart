@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
 class FilterBar extends StatelessWidget {
-  FilterBar({this.isExpanded, this.onExpandedChanged});
-
   /// Whether this filter bar is showing the day picker or not
   final bool isExpanded;
 
   /// Called when the user toggles expansion
   final ValueChanged<bool> onExpandedChanged;
 
+  const FilterBar({this.isExpanded, this.onExpandedChanged});
+
   static const Color _kFilterColor = Colors.deepOrangeAccent;
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
+    final ThemeData theme = Theme.of(context);
     return new Container(
       color: Theme.of(context).canvasColor,
       child: new Row(
@@ -23,7 +23,7 @@ class FilterBar extends StatelessWidget {
             textColor: theme.primaryColor,
             child: new Row(
               children: <Widget>[
-                new Text('Watch Today'),
+                const Text('Watch Today'),
                 new Icon(isExpanded ? Icons.expand_less : Icons.expand_more),
               ],
             ),
@@ -43,7 +43,7 @@ class FilterBar extends StatelessWidget {
             ),
           ),
           new Container(
-            decoration: new BoxDecoration(
+            decoration: const BoxDecoration(
               color: _kFilterColor,
               shape: BoxShape.circle,
             ),

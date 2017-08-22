@@ -13,85 +13,71 @@ import 'package:flutter/material.dart';
 
 typedef Widget HandlerFunc(BuildContext context, Map<String, dynamic> params);
 
-HandlerFunc buildLoginHandler(AuthManager authManager) {
-  return (BuildContext context, Map<String, dynamic> params) =>
-      new LoginScreen(authManager);
-}
+HandlerFunc buildLoginHandler(AuthManager authManager) =>
+    (BuildContext context, Map<String, dynamic> params) =>
+        new LoginScreen(authManager);
 
-HandlerFunc buildRegisterHandler(AuthManager authManager) {
-  return (BuildContext context, Map<String, dynamic> params) =>
-      new RegisterScreen(authManager);
-}
+HandlerFunc buildRegisterHandler(AuthManager authManager) =>
+    (BuildContext context, Map<String, dynamic> params) =>
+        new RegisterScreen(authManager);
 
 HandlerFunc buildHomeHandler(
-    AuthManager authManager, ItemsManager itemsManager) {
-  return (BuildContext context, Map<String, dynamic> params) =>
-      new HomeScreen(authManager, itemsManager);
-}
+        AuthManager authManager, ItemsManager itemsManager) =>
+    (BuildContext context, Map<String, dynamic> params) =>
+        new HomeScreen(authManager, itemsManager);
 
-HandlerFunc buildEditUserHandler(AuthManager authManager) {
-  return (BuildContext context, Map<String, dynamic> params) =>
-      new EditUserScreen(authManager);
-}
+HandlerFunc buildEditUserHandler(AuthManager authManager) =>
+    (BuildContext context, Map<String, dynamic> params) =>
+        new EditUserScreen(authManager);
 
 HandlerFunc buildItemHandler(
-    AuthManager authManager, ItemsManager itemsManager) {
-  return (BuildContext context, Map<String, dynamic> params) => new OrderPage(
-      authManager: authManager,
-      itemsManager: itemsManager,
-      itemId: params['id']);
-}
+        AuthManager authManager, ItemsManager itemsManager) =>
+    (BuildContext context, Map<String, dynamic> params) => new OrderPage(
+        authManager: authManager,
+        itemsManager: itemsManager,
+        itemId: params['id']);
 
 HandlerFunc buildEditItemHandler(
-    AuthManager authManager, ItemsManager itemsManager) {
-  return (BuildContext context, Map<String, dynamic> params) =>
-      new EditItemScreen(authManager, itemsManager, params['id']);
-}
+        AuthManager authManager, ItemsManager itemsManager) =>
+    (BuildContext context, Map<String, dynamic> params) =>
+        new EditItemScreen(authManager, itemsManager, params['id']);
 
 HandlerFunc buildAddItemHandler(
-    AuthManager authManager, ItemsManager itemsManager) {
-  return (BuildContext context, Map<String, dynamic> params) =>
-      new AddItemScreen(authManager, itemsManager);
-}
+        AuthManager authManager, ItemsManager itemsManager) =>
+    (BuildContext context, Map<String, dynamic> params) =>
+        new AddItemScreen(authManager, itemsManager);
 
 HandlerFunc buildAddGroupHandler(
-    AuthManager authManager, ItemsManager itemsManager) {
-  return (BuildContext context, Map<String, dynamic> params) =>
-      new AddGroupScreen(authManager, itemsManager);
-}
+        AuthManager authManager, ItemsManager itemsManager) =>
+    (BuildContext context, Map<String, dynamic> params) =>
+        new AddGroupScreen(authManager, itemsManager);
 
 void configureRouter(
     Router router, AuthManager authManager, ItemsManager itemsManager) {
-  router.define('/login',
-      handler: new Handler(handlerFunc: buildLoginHandler(authManager)));
-
-  router.define('/register',
-      handler: new Handler(handlerFunc: buildRegisterHandler(authManager)));
-
-  router.define('/home',
-      handler: new Handler(
-          handlerFunc: buildHomeHandler(authManager, itemsManager)));
-
-  router.define('/user/edit',
-      handler: new Handler(handlerFunc: buildEditUserHandler(authManager)));
-
-  router.define('/items/:id',
-      handler: new Handler(
-          handlerFunc: buildItemHandler(authManager, itemsManager)));
-
-  router.define('/items/:id/edit',
-      handler: new Handler(
-          handlerFunc: buildEditItemHandler(authManager, itemsManager)));
-
-  router.define('/item/add',
-      handler: new Handler(
-          handlerFunc: buildAddItemHandler(authManager, itemsManager)));
+  router
+    ..define('/login',
+        handler: new Handler(handlerFunc: buildLoginHandler(authManager)))
+    ..define('/register',
+        handler: new Handler(handlerFunc: buildRegisterHandler(authManager)))
+    ..define('/home',
+        handler: new Handler(
+            handlerFunc: buildHomeHandler(authManager, itemsManager)))
+    ..define('/user/edit',
+        handler: new Handler(handlerFunc: buildEditUserHandler(authManager)))
+    ..define('/items/:id',
+        handler: new Handler(
+            handlerFunc: buildItemHandler(authManager, itemsManager)))
+    ..define('/items/:id/edit',
+        handler: new Handler(
+            handlerFunc: buildEditItemHandler(authManager, itemsManager)))
+    ..define('/item/add',
+        handler: new Handler(
+            handlerFunc: buildAddItemHandler(authManager, itemsManager)))
+    ..define('/groups/add',
+        handler: new Handler(
+            handlerFunc: buildAddGroupHandler(authManager, itemsManager)));
 
 //   router.define('/groups/:id',
 //       handler: new Handler(
 //           handlerFunc: buildGroupHandler(authManager, itemsManager)));
-
-  router.define('/groups/add',
-      handler: new Handler(
-          handlerFunc: buildAddGroupHandler(authManager, itemsManager)));
 }

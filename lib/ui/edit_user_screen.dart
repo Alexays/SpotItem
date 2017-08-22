@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class EditUserScreen extends StatefulWidget {
   final AuthManager _authManager;
-  EditUserScreen(this._authManager);
+  const EditUserScreen(this._authManager);
 
   @override
   _EditUserScreenState createState() => new _EditUserScreenState(_authManager);
@@ -31,7 +31,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
   @override
   void initState() {
     super.initState();
-    User tmp = _authManager.user;
+    final User tmp = _authManager.user;
     user = new User(
         tmp.id, tmp.name, tmp.email, tmp.firstname, tmp.avatar, tmp.groups);
     _name = new TextEditingController(text: user.firstname);
@@ -40,11 +40,10 @@ class _EditUserScreenState extends State<EditUserScreen> {
   }
 
   Future<bool> editUser(BuildContext context) async {
-    final FormState form = _formKey.currentState;
-    form.save();
+    _formKey.currentState.save();
     if (password != repeat) {
       Scaffold.of(context).showSnackBar(
-          new SnackBar(content: new Text("Password don't match !")));
+          new SnackBar(content: const Text('Password don\t match !')));
       return false;
     }
     final dynamic response = await _authManager.updateUser(user, password);
@@ -60,17 +59,16 @@ class _EditUserScreenState extends State<EditUserScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
+    final ThemeData theme = Theme.of(context);
     return new Scaffold(
       appBar: new AppBar(title: const Text('Edit Profile'), actions: <Widget>[
-        new Builder(builder: (BuildContext context) {
-          return new IconButton(
-            icon: const Icon(Icons.save),
-            onPressed: () {
-              editUser(context);
-            },
-          );
-        })
+        new Builder(
+            builder: (BuildContext context) => new IconButton(
+                  icon: const Icon(Icons.save),
+                  onPressed: () {
+                    editUser(context);
+                  },
+                ))
       ]),
       body: new SingleChildScrollView(
           child: new Container(
@@ -83,20 +81,20 @@ class _EditUserScreenState extends State<EditUserScreen> {
                       child: new Column(
                         children: <Widget>[
                           new TextFormField(
-                            key: new Key('name'),
-                            decoration: new InputDecoration(
-                                labelText: "Firstname",
-                                hintText: "Enter your firstname"),
+                            key: const Key('name'),
+                            decoration: const InputDecoration(
+                                labelText: 'Firstname',
+                                hintText: 'Enter your firstname'),
                             onSaved: (String value) {
                               user.firstname = value;
                             },
                             controller: _name,
                           ),
                           new TextFormField(
-                            key: new Key('lastname'),
-                            decoration: new InputDecoration(
-                                labelText: "Lastname",
-                                hintText: "Enter your lastname"),
+                            key: const Key('lastname'),
+                            decoration: const InputDecoration(
+                                labelText: 'Lastname',
+                                hintText: 'Enter your lastname'),
                             onSaved: (String value) {
                               user.name = value;
                             },
@@ -109,26 +107,26 @@ class _EditUserScreenState extends State<EditUserScreen> {
                               style: theme.textTheme.subhead.copyWith(
                                 color: theme.disabledColor,
                               ),
-                              decoration: new InputDecoration(
-                                labelText: "Email",
-                                hintText: "Enter your email",
+                              decoration: const InputDecoration(
+                                labelText: 'Email',
+                                hintText: 'Enter your email',
                               ),
                             ),
                           ),
                           new TextFormField(
-                            key: new Key('password'),
-                            decoration: new InputDecoration(
-                                labelText: "Password", hintText: "***********"),
+                            key: const Key('password'),
+                            decoration: const InputDecoration(
+                                labelText: 'Password', hintText: '***********'),
                             onSaved: (String value) {
                               password = value;
                             },
                             obscureText: true,
                           ),
                           new TextFormField(
-                            key: new Key('repeat'),
-                            decoration: new InputDecoration(
-                                labelText: "Confirm password",
-                                hintText: "***********"),
+                            key: const Key('repeat'),
+                            decoration: const InputDecoration(
+                                labelText: 'Confirm password',
+                                hintText: '***********'),
                             onSaved: (String value) {
                               repeat = value;
                             },

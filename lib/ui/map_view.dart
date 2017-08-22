@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class MapView extends StatefulWidget {
   final ItemsManager _itemsManager;
 
-  MapView(this._itemsManager);
+  const MapView(this._itemsManager);
 
   @override
   State<StatefulWidget> createState() => new _MapViewState(_itemsManager);
@@ -21,9 +21,7 @@ class _MapViewState extends State<MapView> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return new Center(
-      child: new Text("Comming soon"),
-    );
-  }
+  Widget build(BuildContext context) => new Center(
+        child: const Text('Comming soon'),
+      );
 }
