@@ -29,74 +29,84 @@ class _LoginScreenState extends State<LoginScreen> {
           builder: (BuildContext context) => new SingleChildScrollView(
               child: new Container(
                   padding: const EdgeInsets.all(40.0),
-                  child: new Card(
-                      child: new Container(
-                    margin: const EdgeInsets.all(20.0),
-                    child: new Form(
-                      key: _formKey,
-                      child: new Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          new TextFormField(
-                            key: const Key('email'),
-                            decoration:
-                                const InputDecoration(hintText: 'Email'),
-                            autofocus: true,
-                            controller: _usernameController,
-                            validator: validateEmail,
-                          ),
-                          new TextFormField(
-                            decoration:
-                                const InputDecoration(hintText: 'Password'),
-                            controller: _passwordController,
-                            obscureText: true,
-                            validator: validatePassword,
-                          ),
-                          new Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                  child: new Column(
+                    children: <Widget>[
+                      new Image.asset(
+                        'assets/logo.png',
+                        width: 200.0,
+                      ),
+                      const Divider(),
+                      new Card(
+                          child: new Container(
+                        margin: const EdgeInsets.all(20.0),
+                        child: new Form(
+                          key: _formKey,
+                          child: new Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              new RaisedButton(
-                                child: const Text('Don\'t have an account ?'),
-                                onPressed: () {
-                                  Navigator.pushReplacementNamed(
-                                      context, '/register');
-                                },
+                              new TextFormField(
+                                key: const Key('email'),
+                                decoration:
+                                    const InputDecoration(hintText: 'Email'),
+                                autofocus: true,
+                                controller: _usernameController,
+                                validator: validateEmail,
                               ),
-                              const Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 5.0),
+                              new TextFormField(
+                                decoration:
+                                    const InputDecoration(hintText: 'Password'),
+                                controller: _passwordController,
+                                obscureText: true,
+                                validator: validatePassword,
                               ),
-                              new RaisedButton(
-                                  child: const Text('Login'),
-                                  onPressed: () {
-                                    final FormState form =
-                                        _formKey.currentState;
-                                    if (form.validate()) {
-                                      _authManager
-                                          .login(_usernameController.text,
-                                              _passwordController.text)
-                                          .then((bool success) {
-                                        if (success) {
-                                          Navigator.pushReplacementNamed(
-                                              context, '/home');
+                              new Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  new RaisedButton(
+                                    child:
+                                        const Text('Don\'t have an account ?'),
+                                    onPressed: () {
+                                      Navigator.pushReplacementNamed(
+                                          context, '/register');
+                                    },
+                                  ),
+                                  const Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5.0),
+                                  ),
+                                  new RaisedButton(
+                                      child: const Text('Login'),
+                                      onPressed: () {
+                                        final FormState form =
+                                            _formKey.currentState;
+                                        if (form.validate()) {
+                                          _authManager
+                                              .login(_usernameController.text,
+                                                  _passwordController.text)
+                                              .then((bool success) {
+                                            if (success) {
+                                              Navigator.pushReplacementNamed(
+                                                  context, '/home');
+                                            } else {
+                                              Scaffold.of(context).showSnackBar(
+                                                  new SnackBar(
+                                                      content: const Text(
+                                                          'Invalid credentials !')));
+                                            }
+                                          });
                                         } else {
                                           Scaffold.of(context).showSnackBar(
                                               new SnackBar(
                                                   content: const Text(
-                                                      'Invalid credentials !')));
+                                                      'Form must be valid !')));
                                         }
-                                      });
-                                    } else {
-                                      Scaffold.of(context).showSnackBar(
-                                          new SnackBar(
-                                              content: const Text(
-                                                  'Form must be valid !')));
-                                    }
-                                  })
+                                      })
+                                ],
+                              )
                             ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ))))));
+                          ),
+                        ),
+                      ))
+                    ],
+                  )))));
 }
