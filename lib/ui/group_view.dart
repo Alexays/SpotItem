@@ -21,16 +21,12 @@ class GroupPage extends StatefulWidget {
   final Group group;
 
   @override
-  _GroupPageState createState() =>
-      new _GroupPageState(authManager, itemsManager, group);
+  _GroupPageState createState() => new _GroupPageState(group);
 }
 
 class _GroupPageState extends State<GroupPage>
     with SingleTickerProviderStateMixin {
-  _GroupPageState(this.authManager, this.itemsManager, this.group);
-
-  final AuthManager authManager;
-  final ItemsManager itemsManager;
+  _GroupPageState(this.group);
 
   Group group;
 
@@ -45,7 +41,7 @@ class _GroupPageState extends State<GroupPage>
   }
 
   Future<bool> _leaveGroup() async {
-    bool leaved = await authManager.leaveGroup(group.id);
+    bool leaved = await widget.authManager.leaveGroup(group.id);
     if (leaved) {
       Navigator.pushReplacementNamed(context, '/home');
       return true;
@@ -89,9 +85,9 @@ class _GroupPageState extends State<GroupPage>
         );
       },
     ));
-    if (authManager.loggedIn &&
+    if (widget.authManager.loggedIn &&
         group != null &&
-        group.owner == authManager.user.id) {
+        group.owner == widget.authManager.user.id) {
       top.add(new IconButton(
         icon: const Icon(Icons.delete),
         tooltip: 'Delete',
@@ -118,7 +114,7 @@ class _GroupPageState extends State<GroupPage>
                 new FlatButton(
                   child: new Text('Delete'),
                   onPressed: () {
-                    authManager.delGroup(group.id);
+                    widget.authManager.delGroup(group.id);
                     Navigator.pushReplacementNamed(context, '/home');
                   },
                 ),
@@ -155,15 +151,14 @@ class _GroupPageState extends State<GroupPage>
                         children: <Widget>[
                           new CircleAvatar(
                             radius: 30.0,
-                            child: new Text(group.users[index].firstname[0] +
-                                group.users[index].name[0]),
+                            child: new Text(
+                                '${group.users[index].firstname[0]}${group.users[index].name[0]}'),
                           ),
                           new Padding(
                             padding: new EdgeInsets.symmetric(vertical: 4.0),
                           ),
-                          new Text(group.users[index].firstname +
-                              '.' +
-                              group.users[index].name[0])
+                          new Text(
+                              '${group.users[index].firstname}.${group.users[index].name[0]}')
                         ],
                       )));
             }));
@@ -173,7 +168,7 @@ class _GroupPageState extends State<GroupPage>
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text('Group: ' + group.name),
+          title: new Text('Group: ${group.name}'),
           actions: _doButton(),
         ),
         body: new Container(
