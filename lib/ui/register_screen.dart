@@ -44,7 +44,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       return false;
     }
     if (form.validate()) {
-      _authManager.register(user, password).then((dynamic data) {
+      _authManager.register(user, password).then((data) {
         if (data['success']) {
           Navigator.pushReplacementNamed(context, '/login');
           return true;

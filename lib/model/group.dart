@@ -9,7 +9,7 @@ class Group {
 
   Group(this.id, this.name, this.about, this.users, this.owner);
 
-  factory Group.fromJson(dynamic json) {
+  factory Group.fromJson(json) {
     if (json == null) {
       return null;
     }

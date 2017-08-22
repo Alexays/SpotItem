@@ -9,7 +9,7 @@ class User {
   User(
       this.id, this.name, this.email, this.firstname, this.avatar, this.groups);
 
-  factory User.fromJson(dynamic json) {
+  factory User.fromJson(json) {
     if (json == null) {
       return null;
     }

@@ -177,9 +177,7 @@ class OrderPageState extends State<OrderPage>
                   new FlatButton(
                     child: const Text('Delete'),
                     onPressed: () {
-                      widget.itemsManager
-                          .deleteItem(item.id)
-                          .then((dynamic resp) {
+                      widget.itemsManager.deleteItem(item.id).then((resp) {
                         if (resp['success']) {
                           widget.itemsManager.getItems(force: true);
                           Navigator.pushReplacementNamed(context, '/home');

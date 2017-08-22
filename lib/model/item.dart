@@ -29,7 +29,7 @@ class Item {
     this.owner,
   );
 
-  factory Item.fromJson(dynamic json, double dist) {
+  factory Item.fromJson(json, double dist) {
     if (json == null) {
       return null;
     }
