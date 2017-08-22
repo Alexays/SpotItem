@@ -53,7 +53,7 @@ class _GroupPageState extends State<GroupPage>
     return false;
   }
 
-  List<Widget> doButton() {
+  List<Widget> _doButton() {
     List<Widget> top = <Widget>[];
     top.add(new IconButton(
       icon: const Icon(Icons.exit_to_app),
@@ -174,7 +174,7 @@ class _GroupPageState extends State<GroupPage>
     return new Scaffold(
         appBar: new AppBar(
           title: new Text('Group: ' + group.name),
-          actions: doButton(),
+          actions: _doButton(),
         ),
         body: new Container(
           margin: const EdgeInsets.all(20.0),
