@@ -185,7 +185,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         children: <Widget>[
           new UserAccountsDrawerHeader(
             accountName: new Text(
-                _authManager.user?.firstname + ' ' + _authManager.user?.name),
+                '${_authManager.user?.firstname} ${_authManager.user?.name}'),
             accountEmail: new Text(_authManager.user?.email),
             currentAccountPicture: new CircleAvatar(
                 backgroundColor: Colors.grey,

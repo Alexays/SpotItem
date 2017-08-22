@@ -14,15 +14,11 @@ class GroupsView extends StatefulWidget {
   GroupsView(this._itemsManager, this._authManager);
 
   @override
-  State<StatefulWidget> createState() =>
-      new _GroupsViewState(_itemsManager, _authManager);
+  State<StatefulWidget> createState() => new _GroupsViewState();
 }
 
 class _GroupsViewState extends State<GroupsView> {
-  _GroupsViewState(this._itemsManager, this._authManager);
-
-  final AuthManager _authManager;
-  final ItemsManager _itemsManager;
+  _GroupsViewState();
 
   bool _loading = true;
 
@@ -41,8 +37,10 @@ class _GroupsViewState extends State<GroupsView> {
       _loading = true;
     });
     bool loading = true;
-    if (_authManager.loggedIn) {
-      _authManager.getGroups(_authManager.user.id).then((List<Group> data) {
+    if (widget._authManager.loggedIn) {
+      widget._authManager
+          .getGroups(widget._authManager.user.id)
+          .then((List<Group> data) {
         setState(() {
           _myGroups = data;
           if (loading == false) {
@@ -51,7 +49,9 @@ class _GroupsViewState extends State<GroupsView> {
           loading = false;
         });
       });
-      _authManager.getGroupsInv(_authManager.user.id).then((List<Group> data) {
+      widget._authManager
+          .getGroupsInv(widget._authManager.user.id)
+          .then((List<Group> data) {
         setState(() {
           _myGroupsInv = data;
           if (loading == false) {
@@ -65,7 +65,7 @@ class _GroupsViewState extends State<GroupsView> {
 
   Future<bool> _joinGroup(int index) async {
     final dynamic response =
-        await _authManager.joinGroup(_myGroupsInv[index].id);
+        await widget._authManager.joinGroup(_myGroupsInv[index].id);
     if (response['success']) {
       Navigator.pushReplacementNamed(context, '/home');
       return true;
@@ -92,8 +92,8 @@ class _GroupsViewState extends State<GroupsView> {
                 builder: (BuildContext context) {
                   return new GroupPage(
                     group: _myGroups[index - 1],
-                    authManager: _authManager,
-                    itemsManager: _itemsManager,
+                    authManager: widget._authManager,
+                    itemsManager: widget._itemsManager,
                   );
                 },
               ));

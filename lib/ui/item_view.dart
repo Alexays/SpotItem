@@ -96,17 +96,13 @@ class OrderPage extends StatefulWidget {
   final String hash;
 
   @override
-  OrderPageState createState() =>
-      new OrderPageState(authManager, itemsManager, itemId, item, hash);
+  OrderPageState createState() => new OrderPageState(itemId, item, hash);
 }
 
 class OrderPageState extends State<OrderPage>
     with SingleTickerProviderStateMixin {
-  OrderPageState(
-      this.authManager, this.itemsManager, this._itemId, this.item, this.hash);
+  OrderPageState(this._itemId, this.item, this.hash);
 
-  final AuthManager authManager;
-  final ItemsManager itemsManager;
   final String _itemId;
   final String hash;
 
@@ -131,7 +127,7 @@ class OrderPageState extends State<OrderPage>
       });
     }
     if (widget.item == null) {
-      itemsManager.getItem(_itemId).then((Item data) {
+      widget.itemsManager.getItem(_itemId).then((Item data) {
         setState(() {
           item = data;
           if (item != null) {
@@ -152,9 +148,9 @@ class OrderPageState extends State<OrderPage>
 
   List<Widget> doButton() {
     List<Widget> top = <Widget>[];
-    if (authManager.loggedIn &&
+    if (widget.authManager.loggedIn &&
         item != null &&
-        item.owner.id == authManager.user.id) {
+        item.owner.id == widget.authManager.user.id) {
       top.add(new IconButton(
         icon: const Icon(Icons.delete),
         tooltip: 'Delete',
@@ -181,9 +177,11 @@ class OrderPageState extends State<OrderPage>
                 new FlatButton(
                   child: new Text('Delete'),
                   onPressed: () {
-                    itemsManager.deleteItem(item.id).then((dynamic resp) {
+                    widget.itemsManager
+                        .deleteItem(item.id)
+                        .then((dynamic resp) {
                       if (resp['success']) {
-                        itemsManager.getItems(true);
+                        widget.itemsManager.getItems(true);
                         Navigator.pushReplacementNamed(context, '/home');
                       }
                     });
