@@ -72,7 +72,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     children: <Widget>[
                       new IconButton(
                         color: const Color.fromARGB(255, 255, 255, 255),
-                        icon: new Icon(Icons.delete),
+                        icon: const Icon(Icons.delete),
                         tooltip: 'Delete this image',
                         onPressed: () {
                           setState(() {
@@ -132,7 +132,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
           new Builder(builder: (BuildContext context) {
             return new IconButton(
               icon: new Column(
-                children: <Widget>[new Icon(Icons.add_box), new Text("Add")],
+                children: <Widget>[const Icon(Icons.add_box), new Text("Add")],
               ),
               onPressed: () {
                 addItem(context);

@@ -39,18 +39,18 @@ class _DiscoverViewState extends State<DiscoverView> {
     _refreshIndicatorKey.currentState?.show();
     final Future<List<Item>> itemsLoaded =
         _itemsManager.getItems(force, _authManager.user?.id);
-    if (itemsLoaded != null) {
-      itemsLoaded.then((List<Item> data) {
-        if (!mounted) return;
-        setState(() {
-          _items = new List<Item>.from(data);
-          if (_mode != null) _items = _mode(_items);
-          _loading = false;
-        });
-      });
-      return true;
+    if (itemsLoaded == null) {
+      return false;
     }
-    return false;
+    itemsLoaded.then((List<Item> data) {
+      if (!mounted) return;
+      setState(() {
+        _items = new List<Item>.from(data);
+        if (_mode != null) _items = _mode(_items);
+        _loading = false;
+      });
+    });
+    return true;
   }
 
   Widget _buildDiscover() {

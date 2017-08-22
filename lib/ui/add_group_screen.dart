@@ -57,7 +57,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
           new Builder(builder: (BuildContext context) {
             return new IconButton(
               icon: new Column(
-                children: <Widget>[new Icon(Icons.add_box), new Text("Add")],
+                children: <Widget>[const Icon(Icons.add_box), new Text("Add")],
               ),
               onPressed: () {
                 addGroup(context);

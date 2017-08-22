@@ -17,15 +17,12 @@ class EditItemScreen extends StatefulWidget {
   EditItemScreen(this._authManager, this._itemsManager, this._itemId);
 
   @override
-  _EditItemScreenState createState() =>
-      new _EditItemScreenState(_authManager, _itemsManager, _itemId);
+  _EditItemScreenState createState() => new _EditItemScreenState(_itemId);
 }
 
 class _EditItemScreenState extends State<EditItemScreen> {
-  _EditItemScreenState(this._authManager, this._itemsManager, this._itemId);
+  _EditItemScreenState(this._itemId);
 
-  final AuthManager _authManager;
-  final ItemsManager _itemsManager;
   final String _itemId;
 
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
@@ -49,7 +46,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
   @override
   void initState() {
     super.initState();
-    _itemsManager.getItem(_itemId).then((Item data) {
+    widget._itemsManager.getItem(_itemId).then((Item data) {
       setState(() {
         item = data;
         if (item != null) {
@@ -105,7 +102,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                       children: <Widget>[
                         new IconButton(
                           color: const Color.fromARGB(255, 255, 255, 255),
-                          icon: new Icon(Icons.delete),
+                          icon: const Icon(Icons.delete),
                           tooltip: 'Delete this image',
                           onPressed: () {
                             setState(() {
@@ -129,7 +126,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                       children: <Widget>[
                         new IconButton(
                           color: const Color.fromARGB(255, 255, 255, 255),
-                          icon: new Icon(Icons.delete),
+                          icon: const Icon(Icons.delete),
                           tooltip: 'Delete this image',
                           onPressed: () {
                             setState(() {
@@ -156,14 +153,15 @@ class _EditItemScreenState extends State<EditItemScreen> {
     if (private) tracks.add('private');
     item.images.forEach((String f) => finalImages.add(f));
     images.forEach((String f) => finalImages.add(f));
-    if (_authManager.user != null && _authManager.user.id != null) {
-      final dynamic response = await _itemsManager.editItem(
+    if (widget._authManager.user != null &&
+        widget._authManager.user.id != null) {
+      final dynamic response = await widget._itemsManager.editItem(
           item.id,
           name,
           about,
-          _authManager.user.id,
-          _itemsManager.location['latitude'].toString(),
-          _itemsManager.location['longitude'].toString(),
+          widget._authManager.user.id,
+          widget._itemsManager.location['latitude'].toString(),
+          widget._itemsManager.location['longitude'].toString(),
           finalImages,
           location,
           tracks);
@@ -171,7 +169,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
           .of(context)
           .showSnackBar(new SnackBar(content: new Text(response['msg'])));
       if (response['success']) {
-        _itemsManager.getItems(true);
+        widget._itemsManager.getItems(true);
         Navigator.pushReplacementNamed(context, '/home');
         return true;
       }
@@ -191,7 +189,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
           actions: <Widget>[
             new Builder(builder: (BuildContext context) {
               return new IconButton(
-                icon: new Icon(Icons.save),
+                icon: const Icon(Icons.save),
                 onPressed: () {
                   editItem(context);
                 },
@@ -269,7 +267,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
       floatingActionButton: new FloatingActionButton(
         onPressed: getImage,
         tooltip: 'Pick Image',
-        child: new Icon(Icons.add_a_photo),
+        child: const Icon(Icons.add_a_photo),
       ),
     );
   }

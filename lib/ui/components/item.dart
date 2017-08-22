@@ -60,7 +60,7 @@ class _ItemsListItem extends StatelessWidget {
                 right: 15.0,
                 child: new IconButton(
                   color: const Color.fromARGB(255, 255, 255, 255),
-                  icon: new Icon(Icons.star_border),
+                  icon: const Icon(Icons.star_border),
                   tooltip: 'Fav this item',
                   onPressed: () {},
                 ),
@@ -77,7 +77,7 @@ class _ItemsListItem extends StatelessWidget {
                       child: new Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            new Icon(Icons.message, color: Colors.white),
+                            const Icon(Icons.message, color: Colors.white),
                             new Text(
                               ' 12',
                               style: theme.primaryTextTheme.subhead,

@@ -65,7 +65,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
       appBar: new AppBar(title: const Text('Edit Profile'), actions: <Widget>[
         new Builder(builder: (BuildContext context) {
           return new IconButton(
-            icon: new Icon(Icons.save),
+            icon: const Icon(Icons.save),
             onPressed: () {
               editUser(context);
             },

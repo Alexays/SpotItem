@@ -303,7 +303,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           ? null
           : <Widget>[
               new IconButton(
-                icon: new Icon(Icons.search),
+                icon: const Icon(Icons.search),
                 onPressed: _handleSearchBegin,
               ),
             ],

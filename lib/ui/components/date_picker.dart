@@ -21,7 +21,7 @@ class DayPickerBarState extends State<DayPickerBar> {
       child: new Row(
         children: <Widget>[
           new IconButton(
-            icon: new Icon(Icons.chevron_left),
+            icon: const Icon(Icons.chevron_left),
             onPressed: () {
               setState(() {
                 _displayedMonth = new DateTime(

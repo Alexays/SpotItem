@@ -66,9 +66,9 @@ class _ItemsViewState extends State<ItemsView> {
                               _myItems[index].tracks.length, (int i) {
                             switch (_myItems[index].tracks[i]) {
                               case 'private':
-                                return new Icon(Icons.lock);
+                                return const Icon(Icons.lock);
                               case 'gift':
-                                return new Icon(Icons.card_giftcard);
+                                return const Icon(Icons.card_giftcard);
                             }
                           })))
                 ],
