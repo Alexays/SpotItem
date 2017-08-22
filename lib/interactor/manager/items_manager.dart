@@ -21,7 +21,7 @@ class ItemsManager {
 
   List<Item> get myItems => _myItems;
 
-  final String _clientSecret = CLIENT_SECRET;
+  final String _clientSecret = clientSecret;
 
   final Location _location = new Location();
 
@@ -99,7 +99,7 @@ class ItemsManager {
       List<String> tracks) async {
     final Client _client = new Client();
     final Response response =
-        await _client.post(Uri.encodeFull('$API_URL/addItem'), headers: {
+        await _client.post(Uri.encodeFull('$apiUrl/addItem'), headers: {
       'Authorization': 'Basic $_clientSecret'
     }, body: {
       'name': name,
@@ -128,7 +128,7 @@ class ItemsManager {
       List<String> tracks) async {
     final Client _client = new Client();
     final Response response =
-        await _client.put(Uri.encodeFull('$API_URL/items/$id'), headers: {
+        await _client.put(Uri.encodeFull('$apiUrl/items/$id'), headers: {
       'Authorization': 'Basic $_clientSecret'
     }, body: {
       'name': name,
@@ -148,7 +148,7 @@ class ItemsManager {
   Future<dynamic> deleteItem(String id) async {
     final Client _client = new Client();
     final Response response = await _client
-        .delete(Uri.encodeFull('$API_URL/items/$id'), headers: {
+        .delete(Uri.encodeFull('$apiUrl/items/$id'), headers: {
       'Authorization': 'Basic $_clientSecret'
     }).whenComplete(_client.close);
     final dynamic bodyJson = JSON.decode(response.body);
@@ -172,11 +172,10 @@ class ItemsManager {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String token = prefs.getString(keyOauthToken);
       final Client _client = new Client();
-      final Response response = await _client.get(
-          '$API_URL${userId != null ? '/items/auth' : '/items'}',
-          headers: {
-            'Authorization': userId != null ? token : 'Basic $_clientSecret'
-          }).whenComplete(_client.close);
+      final Response response = await _client
+          .get('$apiUrl${userId != null ? '/items/auth' : '/items'}', headers: {
+        'Authorization': userId != null ? token : 'Basic $_clientSecret'
+      }).whenComplete(_client.close);
       if (response.statusCode == 200) {
         final dynamic itemJson = JSON.decode(response.body);
         _items = new List<Item>.generate(
@@ -189,8 +188,7 @@ class ItemsManager {
     return _items;
   }
 
-  Future<List<Item>> getItems(
-      [bool force = false, String userId = 'no']) async {
+  Future<List<Item>> getItems({bool force: false, String userId: 'no'}) async {
     if (force) {
       _items.clear();
     }
@@ -202,7 +200,7 @@ class ItemsManager {
       return null;
     }
     final Client _client = new Client();
-    final Response response = await _client.get('$API_URL/items/$itemId',
+    final Response response = await _client.get('$apiUrl/items/$itemId',
         headers: {
           'Authorization': 'Basic $_clientSecret'
         }).whenComplete(_client.close);
@@ -219,7 +217,7 @@ class ItemsManager {
       return null;
     }
     final Client _client = new Client();
-    final Response response = await _client.get('$API_URL/userItem/$userId',
+    final Response response = await _client.get('$apiUrl/userItem/$userId',
         headers: {
           'Authorization': 'Basic $_clientSecret'
         }).whenComplete(_client.close);

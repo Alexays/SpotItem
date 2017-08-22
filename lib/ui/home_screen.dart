@@ -232,14 +232,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           leading: const Icon(Icons.dvr),
                           title: const Text('Dump App to Console'),
                           onTap: () {
-                            try {
-                              debugDumpApp();
-                              debugDumpRenderTree();
-                              debugDumpLayerTree();
-                            } catch (e, stack) {
-                              debugPrint(
-                                  'Exception while dumping app:\n$e\n$stack');
-                            }
+                            debugDumpApp();
+                            debugDumpRenderTree();
+                            debugDumpLayerTree();
                           },
                         ),
                       ],

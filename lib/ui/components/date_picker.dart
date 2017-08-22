@@ -6,6 +6,7 @@ class DayPickerBar extends StatefulWidget {
 
   const DayPickerBar({this.selectedDate, this.onChanged});
 
+  @override
   _DayPickerBarState createState() => new _DayPickerBarState();
 }
 

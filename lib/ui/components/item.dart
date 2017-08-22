@@ -41,7 +41,7 @@ class _ItemsListItem extends StatelessWidget {
                   child: new FadeInImage(
                       placeholder: const AssetImage('assets/placeholder.png'),
                       image:
-                          new NetworkImage('$API_IMG_URL${item.images.first}'),
+                          new NetworkImage('$apiImgUrl${item.images.first}'),
                       fit: BoxFit.cover,
                       alignment: FractionalOffset.center)),
               item.dist != null

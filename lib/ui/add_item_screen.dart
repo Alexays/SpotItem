@@ -113,7 +113,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
           .of(context)
           .showSnackBar(new SnackBar(content: new Text(response['msg'])));
       if (response['success']) {
-        await _itemsManager.getItems(true);
+        await _itemsManager.getItems(force: true);
         await Navigator.pushReplacementNamed(context, '/home');
         return true;
       }

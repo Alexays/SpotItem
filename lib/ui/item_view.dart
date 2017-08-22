@@ -181,7 +181,7 @@ class OrderPageState extends State<OrderPage>
                           .deleteItem(item.id)
                           .then((dynamic resp) {
                         if (resp['success']) {
-                          widget.itemsManager.getItems(true);
+                          widget.itemsManager.getItems(force: true);
                           Navigator.pushReplacementNamed(context, '/home');
                         }
                       });
@@ -277,7 +277,7 @@ class OrderPageState extends State<OrderPage>
                                             placeholder: const AssetImage(
                                                 'assets/placeholder.png'),
                                             image: new NetworkImage(
-                                                '$API_IMG_URL${item.images[index]}'),
+                                                '$apiImgUrl${item.images[index]}'),
                                             fit: BoxFit.cover,
                                             alignment:
                                                 FractionalOffset.center));
@@ -355,7 +355,7 @@ class OrderPageState extends State<OrderPage>
                       ),
                       new Container(
                         child: new Image.network(
-                            'https://maps.googleapis.com/maps/api/staticmap?center=${item.lat},${item.lng}&markers=color:blue%7C${item.lat},${item.lng}&zoom=13&maptype=roadmap&size=${getWidth()}x250&key=$STATIC_API_KEY'),
+                            'https://maps.googleapis.com/maps/api/staticmap?center=${item.lat},${item.lng}&markers=color:blue%7C${item.lat},${item.lng}&zoom=13&maptype=roadmap&size=${getWidth()}x250&key=$staticApiKey'),
                       ),
                       new Stack(
                         children: <Widget>[

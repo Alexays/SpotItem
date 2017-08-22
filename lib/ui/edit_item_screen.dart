@@ -93,7 +93,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
           return new GridTile(
               child: new Stack(
             children: <Widget>[
-              new Image.network('$API_IMG_URL${item.images[index]}'),
+              new Image.network('$apiImgUrl${item.images[index]}'),
               new Positioned(
                   top: 5.0,
                   left: 5.0,
@@ -172,7 +172,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
           .of(context)
           .showSnackBar(new SnackBar(content: new Text(response['msg'])));
       if (response['success']) {
-        widget._itemsManager.getItems(true);
+        widget._itemsManager.getItems(force: true);
         Navigator.pushReplacementNamed(context, '/home');
         return true;
       }

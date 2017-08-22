@@ -18,7 +18,7 @@ class AuthManager {
 
   String get oauthClient => _oauthToken;
 
-  final String _clientSecret = CLIENT_SECRET;
+  final String _clientSecret = clientSecret;
 
   bool _initialized;
 
@@ -51,7 +51,7 @@ class AuthManager {
 
   Future<bool> login(String email, String password) async {
     final Client _client = new Client();
-    final Response response = await _client.post('$API_URL/login', headers: {
+    final Response response = await _client.post('$apiUrl/login', headers: {
       'Authorization': 'Basic $_clientSecret'
     }, body: {
       'email': email,
@@ -85,7 +85,7 @@ class AuthManager {
     userJson['groups'] = 'groups';
     userJson['password'] = password;
     final Response response = await _client
-        .post('$API_URL/signup',
+        .post('$apiUrl/signup',
             headers: {'Authorization': 'Basic $_clientSecret'}, body: userJson)
         .whenComplete(_client.close);
     final dynamic bodyJson = JSON.decode(response.body);
@@ -100,7 +100,7 @@ class AuthManager {
       userJson['password'] = password;
     }
     final Response response = await _client
-        .put('$API_URL/user/edit',
+        .put('$apiUrl/user/edit',
             headers: {'Authorization': _oauthToken}, body: userJson)
         .whenComplete(_client.close);
     final dynamic bodyJson = JSON.decode(response.body);
@@ -126,7 +126,7 @@ class AuthManager {
     groupJson['users'] = JSON.encode(users);
     groupJson['owner'] = user.id;
     final Response response = await _client
-        .post('$API_URL/groups',
+        .post('$apiUrl/groups',
             headers: {'Authorization': _oauthToken}, body: groupJson)
         .whenComplete(_client.close);
     final dynamic bodyJson = JSON.decode(response.body);
@@ -142,7 +142,7 @@ class AuthManager {
       return null;
     }
     final Client _client = new Client();
-    final Response response = await _client.get('$API_URL/groups',
+    final Response response = await _client.get('$apiUrl/groups',
         headers: {'Authorization': _oauthToken}).whenComplete(_client.close);
     if (response.statusCode == 200) {
       final dynamic groupJson = JSON.decode(response.body);
@@ -157,7 +157,7 @@ class AuthManager {
       return null;
     }
     final Client _client = new Client();
-    final Response response = await _client.get('$API_URL/groups/inv',
+    final Response response = await _client.get('$apiUrl/groups/inv',
         headers: {'Authorization': _oauthToken}).whenComplete(_client.close);
     if (response.statusCode == 200) {
       final dynamic groupJson = JSON.decode(response.body);
@@ -172,7 +172,7 @@ class AuthManager {
       return null;
     }
     final Client _client = new Client();
-    final Response response = await _client.delete('$API_URL/group/$groupId',
+    final Response response = await _client.delete('$apiUrl/group/$groupId',
         headers: {'Authorization': _oauthToken}).whenComplete(_client.close);
     final dynamic groupJson = JSON.decode(response.body);
     if (response.statusCode == 200) {
@@ -187,7 +187,7 @@ class AuthManager {
       return null;
     }
     final Client _client = new Client();
-    final Response response = await _client.put('$API_URL/group/$groupId',
+    final Response response = await _client.put('$apiUrl/group/$groupId',
         headers: {'Authorization': _oauthToken}).whenComplete(_client.close);
     final dynamic groupJson = JSON.decode(response.body);
     if (response.statusCode == 200) {
@@ -202,7 +202,7 @@ class AuthManager {
       return null;
     }
     final Client _client = new Client();
-    final Response response = await _client.get('$API_URL/group/$groupId/leave',
+    final Response response = await _client.get('$apiUrl/group/$groupId/leave',
         headers: {'Authorization': _oauthToken}).whenComplete(_client.close);
     final dynamic groupJson = JSON.decode(response.body);
     if (response.statusCode == 200) {

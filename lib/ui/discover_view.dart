@@ -39,7 +39,7 @@ class _DiscoverViewState extends State<DiscoverView> {
   Future<Null> _loadItems([bool force = false]) async {
     _refreshIndicatorKey.currentState?.show();
     final Future<List<Item>> itemsLoaded =
-        _itemsManager.getItems(force, _authManager.user?.id);
+        _itemsManager.getItems(force: force, userId: _authManager.user?.id);
     if (itemsLoaded == null) {
       return;
     }
