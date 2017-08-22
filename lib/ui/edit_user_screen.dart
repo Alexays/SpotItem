@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:spotitems/model/user.dart';
 import 'package:flutter/material.dart';
@@ -37,21 +39,23 @@ class _EditUserScreenState extends State<EditUserScreen> {
     _email = new TextEditingController(text: user.email);
   }
 
-  editUser(BuildContext context) async {
+  Future<bool> editUser(BuildContext context) async {
     final FormState form = _formKey.currentState;
     form.save();
     if (password != repeat) {
       Scaffold.of(context).showSnackBar(
           new SnackBar(content: new Text("Password don't match !")));
-      return;
+      return false;
     }
-    var response = await _authManager.updateUser(user, password);
+    final dynamic response = await _authManager.updateUser(user, password);
     Scaffold
         .of(context)
         .showSnackBar(new SnackBar(content: new Text(response['msg'])));
     if (response['success']) {
       Navigator.pop(context);
+      return true;
     }
+    return false;
   }
 
   @override

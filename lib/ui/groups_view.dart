@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
 import 'package:spotitems/ui/group_view.dart';
 import 'package:spotitems/model/group.dart';
+import 'package:spotitems/model/user.dart';
 
 class GroupsView extends StatefulWidget {
   final ItemsManager _itemsManager;
@@ -23,9 +26,9 @@ class _GroupsViewState extends State<GroupsView> {
 
   bool _loading = true;
 
-  List<Group> _myGroups = [];
+  List<Group> _myGroups = <Group>[];
 
-  List<Group> _myGroupsInv = [];
+  List<Group> _myGroupsInv = <Group>[];
 
   @override
   void initState() {
@@ -33,13 +36,13 @@ class _GroupsViewState extends State<GroupsView> {
     _loadGroups();
   }
 
-  _loadGroups() {
+  void _loadGroups() {
     setState(() {
       _loading = true;
     });
-    var loading = true;
+    bool loading = true;
     if (_authManager.loggedIn) {
-      _authManager.getGroups(_authManager.user.id).then((data) {
+      _authManager.getGroups(_authManager.user.id).then((List<Group> data) {
         setState(() {
           _myGroups = data;
           if (loading == false) {
@@ -48,7 +51,7 @@ class _GroupsViewState extends State<GroupsView> {
           loading = false;
         });
       });
-      _authManager.getGroupsInv(_authManager.user.id).then((data) {
+      _authManager.getGroupsInv(_authManager.user.id).then((List<Group> data) {
         setState(() {
           _myGroupsInv = data;
           if (loading == false) {
@@ -60,11 +63,14 @@ class _GroupsViewState extends State<GroupsView> {
     }
   }
 
-  _joinGroup(int index) async {
-    var response = await _authManager.joinGroup(_myGroupsInv[index].id);
+  Future<bool> _joinGroup(int index) async {
+    final dynamic response =
+        await _authManager.joinGroup(_myGroupsInv[index].id);
     if (response['success']) {
       Navigator.pushReplacementNamed(context, '/home');
+      return true;
     }
+    return false;
   }
 
   Widget getList() {
@@ -110,7 +116,7 @@ class _GroupsViewState extends State<GroupsView> {
                           new Text(
                             _myGroups[index - 1]
                                 .users
-                                .where((user) => user.groups
+                                .where((User user) => user.groups
                                     .contains(_myGroups[index - 1].id))
                                 .length
                                 .toString(),
@@ -130,7 +136,7 @@ class _GroupsViewState extends State<GroupsView> {
         });
   }
 
-  _buildInv() {
+  Widget _buildInv() {
     if (_myGroupsInv.length == 0) return new Container();
     return new Container(
       child: new ExpansionTile(
@@ -186,7 +192,7 @@ class _GroupsViewState extends State<GroupsView> {
                             new Text(
                               _myGroupsInv[index]
                                   .users
-                                  .where((user) => user.groups
+                                  .where((User user) => user.groups
                                       .contains(_myGroupsInv[index].id))
                                   .length
                                   .toString(),

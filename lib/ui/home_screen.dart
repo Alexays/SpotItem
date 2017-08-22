@@ -56,17 +56,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _homeScreenItems = [
+    _homeScreenItems = <HomeScreenItem>[
       new HomeScreenItem(
           icon: const Icon(Icons.explore),
           title: "Explorer",
-          sub: [
+          sub: <HomeScreenSubItem>[
             new HomeScreenSubItem("Discover",
                 new DiscoverView(_itemsManager, _authManager, null)),
             new HomeScreenSubItem(
                 "Nearest you",
-                new ExplorerView(_itemsManager, _authManager, (items) {
-                  items.sort((a, b) => a.dist.compareTo(b.dist));
+                new ExplorerView(_itemsManager, _authManager,
+                    (List<Item> items) {
+                  items.sort((Item a, Item b) => a.dist.compareTo(b.dist));
                   return items;
                 })),
             new HomeScreenSubItem(
@@ -104,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       new HomeScreenItem(
           icon: const Icon(Icons.nature_people),
           title: "Social",
-          sub: [
+          sub: <HomeScreenSubItem>[
             new HomeScreenSubItem(
               "Groups",
               new GroupsView(_itemsManager, _authManager),
@@ -279,7 +280,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  _buildAppBar() {
+  SliverAppBar _buildAppBar() {
     return new SliverAppBar(
       pinned: true,
       leading: _isSearching ? new BackButton() : null,
@@ -295,6 +296,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   hintStyle:
                       new TextStyle(color: Colors.white70, fontSize: 16.0),
                   hideDivider: true),
+              keyboardType: TextInputType.text,
             )
           : _homeScreenItems[_currentIndex].item.title,
       actions: _isSearching
@@ -309,7 +311,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  _buildFab() {
+  FloatingActionButton _buildFab() {
     if (_homeScreenItems[_currentIndex].fab == null) return null;
     return _homeScreenItems[_currentIndex].fab;
   }
@@ -323,7 +325,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         length: _homeScreenItems[_currentIndex].sub?.length,
         child: new NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return [
+            return <Widget>[
               new AnimatedBuilder(
                 animation: _bottomSize,
                 builder: (BuildContext context, Widget child) {
@@ -347,8 +349,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 }
 
-enum OverflowItem { Settings, LogOut }
-
 class HomeScreenItem {
   final BottomNavigationBarItem item;
   final List<Widget> content;
@@ -362,7 +362,7 @@ class HomeScreenItem {
             ? new List<Widget>.generate(sub.length, (int index) {
                 return sub[index].content;
               })
-            : [content];
+            : <Widget>[content];
 }
 
 class HomeScreenSubItem {

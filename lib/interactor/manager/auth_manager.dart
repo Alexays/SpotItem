@@ -7,8 +7,8 @@ import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthManager {
-  static const String KEY_USER = 'KEY_USER';
-  static const String KEY_OAUTH_TOKEN = 'KEY_AUTH_TOKEN';
+  static const String keyUser = 'KEY_USER';
+  static const String keyOauthToken = 'KEY_AUTH_TOKEN';
 
   bool get initialized => _initialized;
 
@@ -28,18 +28,18 @@ class AuthManager {
 
   String _oauthToken;
 
-  List<Group> _myGroups = [];
+  List<Group> _myGroups = <Group>[];
 
-  List<Group> _myGroupsInv = [];
+  List<Group> _myGroupsInv = <Group>[];
 
-  Future init() async {
+  Future<bool> init() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String userData = prefs.getString(KEY_USER);
+    String userData = prefs.getString(keyUser);
     if (userData == null) {
       userData = '{}';
     }
     User user = new User.fromJson(JSON.decode(userData));
-    String oauthToken = prefs.getString(KEY_OAUTH_TOKEN);
+    String oauthToken = prefs.getString(keyOauthToken);
 
     if (user == null || oauthToken == null) {
       _loggedIn = false;
@@ -49,21 +49,20 @@ class AuthManager {
       _user = user;
       _oauthToken = oauthToken;
     }
-
     _initialized = true;
+    return _initialized;
   }
 
   Future<bool> login(String email, String password) async {
     final Client _client = new Client();
-    final loginResponse = await _client.post(API_URL + '/login', headers: {
+    final Response response = await _client.post(API_URL + '/login', headers: {
       'Authorization': 'Basic ${_clientSecret}'
     }, body: {
       'email': email,
       'password': password
     }).whenComplete(_client.close);
-
-    if (loginResponse.statusCode == 200) {
-      final bodyJson = JSON.decode(loginResponse.body);
+    if (response.statusCode == 200) {
+      final dynamic bodyJson = JSON.decode(response.body);
       if (bodyJson['success']) {
         _user = new User.fromJson(bodyJson['user']);
         await _saveTokens(_user.toString(), bodyJson['token']);
@@ -77,36 +76,37 @@ class AuthManager {
     return _loggedIn;
   }
 
-  Future logout() async {
+  Future<bool> logout() async {
     await _saveTokens(null, null);
     _loggedIn = false;
+    return true;
   }
 
-  Future register(User user, String password) async {
+  Future<dynamic> register(User user, String password) async {
     final Client _client = new Client();
-    var userJson = JSON.decode(user.toString());
+    dynamic userJson = JSON.decode(user.toString());
     userJson['_id'] = 'null';
     userJson['groups'] = 'groups';
     userJson['password'] = password;
-    final response = await _client
+    final Response response = await _client
         .post(API_URL + '/signup',
             headers: {'Authorization': 'Basic ${_clientSecret}'},
             body: userJson)
         .whenComplete(_client.close);
-    final bodyJson = JSON.decode(response.body);
+    final dynamic bodyJson = JSON.decode(response.body);
     return bodyJson;
   }
 
-  Future updateUser(User user, String password) async {
+  Future<dynamic> updateUser(User user, String password) async {
     final Client _client = new Client();
-    var userJson = JSON.decode(user.toString());
+    dynamic userJson = JSON.decode(user.toString());
     userJson['groups'] = "groups";
     if (password != null) userJson['password'] = password;
-    final response = await _client
+    final Response response = await _client
         .put(API_URL + '/user/edit',
             headers: {'Authorization': _oauthToken}, body: userJson)
         .whenComplete(_client.close);
-    final bodyJson = JSON.decode(response.body);
+    final dynamic bodyJson = JSON.decode(response.body);
     if (response.statusCode == 200 && bodyJson['success']) {
       _user = new User.fromJson(bodyJson['user']);
       await _saveTokens(_user.toString(), bodyJson['token']);
@@ -114,24 +114,25 @@ class AuthManager {
     return bodyJson;
   }
 
-  Future _saveTokens(String user, String oauthToken) async {
+  Future<bool> _saveTokens(String user, String oauthToken) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(KEY_USER, user);
-    prefs.setString(KEY_OAUTH_TOKEN, oauthToken);
+    prefs.setString(keyUser, user);
+    prefs.setString(keyOauthToken, oauthToken);
     await prefs.commit();
     _oauthToken = oauthToken;
+    return true;
   }
 
-  Future addGroup(Group group, List<String> users) async {
+  Future<dynamic> addGroup(Group group, List<String> users) async {
     final Client _client = new Client();
-    var groupJson = JSON.decode(group.toString());
+    dynamic groupJson = JSON.decode(group.toString());
     groupJson['users'] = JSON.encode(users);
     groupJson['owner'] = user.id;
-    final response = await _client
+    final Response response = await _client
         .post(API_URL + '/groups',
             headers: {'Authorization': _oauthToken}, body: groupJson)
         .whenComplete(_client.close);
-    final bodyJson = JSON.decode(response.body);
+    final dynamic bodyJson = JSON.decode(response.body);
     if (bodyJson['success']) {
       user.groups.add(bodyJson['group']['_id'].toString());
       _saveTokens(user.toString(), bodyJson['token']);
@@ -139,13 +140,13 @@ class AuthManager {
     return bodyJson;
   }
 
-  Future getGroups(String userId) async {
+  Future<dynamic> getGroups(String userId) async {
     if (userId == null) return null;
     final Client _client = new Client();
-    final response = await _client.get(API_URL + '/groups',
+    final Response response = await _client.get(API_URL + '/groups',
         headers: {'Authorization': _oauthToken}).whenComplete(_client.close);
     if (response.statusCode == 200) {
-      var groupJson = JSON.decode(response.body);
+      final dynamic groupJson = JSON.decode(response.body);
       return _myGroups =
           new List<Group>.generate(groupJson.length, (int index) {
         return new Group.fromJson(groupJson[index]);
@@ -154,13 +155,13 @@ class AuthManager {
     return _myGroups;
   }
 
-  Future getGroupsInv(String userId) async {
+  Future<dynamic> getGroupsInv(String userId) async {
     if (userId == null) return null;
     final Client _client = new Client();
-    final response = await _client.get(API_URL + '/groups/inv',
+    final Response response = await _client.get(API_URL + '/groups/inv',
         headers: {'Authorization': _oauthToken}).whenComplete(_client.close);
     if (response.statusCode == 200) {
-      var groupJson = JSON.decode(response.body);
+      final dynamic groupJson = JSON.decode(response.body);
       return _myGroupsInv =
           new List<Group>.generate(groupJson.length, (int index) {
         return new Group.fromJson(groupJson[index]);
@@ -169,25 +170,26 @@ class AuthManager {
     return _myGroupsInv;
   }
 
-  Future delGroup(String groupId) async {
+  Future<dynamic> delGroup(String groupId) async {
     if (groupId == null) return null;
     final Client _client = new Client();
-    final response = await _client.delete(API_URL + '/group/' + groupId,
+    final Response response = await _client.delete(
+        API_URL + '/group/' + groupId,
         headers: {'Authorization': _oauthToken}).whenComplete(_client.close);
+    final dynamic groupJson = JSON.decode(response.body);
     if (response.statusCode == 200) {
-      var groupJson = JSON.decode(response.body);
-      user.groups.removeWhere((group) => group == groupId);
+      user.groups.removeWhere((String group) => group == groupId);
       _saveTokens(user.toString(), groupJson['token']);
     }
-    return _myGroups;
+    return groupJson;
   }
 
-  Future joinGroup(String groupId) async {
+  Future<dynamic> joinGroup(String groupId) async {
     if (groupId == null) return null;
     final Client _client = new Client();
-    final response = await _client.put(API_URL + '/group/' + groupId,
+    final Response response = await _client.put(API_URL + '/group/' + groupId,
         headers: {'Authorization': _oauthToken}).whenComplete(_client.close);
-    var groupJson = JSON.decode(response.body);
+    final dynamic groupJson = JSON.decode(response.body);
     if (response.statusCode == 200) {
       user.groups.add(groupId);
       _saveTokens(user.toString(), groupJson['token']);
@@ -195,14 +197,14 @@ class AuthManager {
     return groupJson;
   }
 
-  Future leaveGroup(String groupId) async {
+  Future<dynamic> leaveGroup(String groupId) async {
     if (groupId == null) return null;
     final Client _client = new Client();
-    final response = await _client.get('$API_URL/group/$groupId/leave',
+    final Response response = await _client.get('$API_URL/group/$groupId/leave',
         headers: {'Authorization': _oauthToken}).whenComplete(_client.close);
-    var groupJson = JSON.decode(response.body);
+    final dynamic groupJson = JSON.decode(response.body);
     if (response.statusCode == 200) {
-      user.groups.removeWhere((group) => group == groupId);
+      user.groups.removeWhere((String group) => group == groupId);
       _saveTokens(user.toString(), groupJson['token']);
     }
     return groupJson;

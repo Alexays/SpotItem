@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:convert';
+import 'dart:async';
 
 import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
@@ -22,46 +23,47 @@ class _AddItemScreenState extends State<AddItemScreen> {
   final ItemsManager _itemsManager;
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
-  List<File> _imageFile = [];
+  List<File> imageFile = <File>[];
 
   String name;
   String about;
   String location;
   bool gift = false;
   bool private = false;
-  List<String> images = [];
+  List<String> images = <String>[];
 
   @override
   void initState() {
     super.initState();
-    _imageFile.clear();
+    imageFile.clear();
     images.clear();
   }
 
-  getImage() async {
-    var _fileName = await ImagePicker.pickImage();
+  Future<bool> getImage() async {
+    File _fileName = await ImagePicker.pickImage();
     setState(() {
-      _imageFile.add(_fileName);
-      _fileName.readAsBytes().then((data) {
+      imageFile.add(_fileName);
+      _fileName.readAsBytes().then((List<int> data) {
         images.add('data:image/' +
             _fileName.path.split('.').last +
             ';base64,' +
             BASE64.encode(data));
       });
     });
+    return true;
   }
 
   Widget getImageGrid() {
-    if (_imageFile == null || _imageFile.length < 1) return new Center();
+    if (imageFile == null || imageFile.length < 1) return new Center();
     return new GridView.count(
       primary: false,
-      crossAxisCount: _imageFile.length,
+      crossAxisCount: imageFile.length,
       crossAxisSpacing: 10.0,
-      children: new List<Widget>.generate(_imageFile.length, (index) {
+      children: new List<Widget>.generate(imageFile.length, (int index) {
         return new GridTile(
             child: new Stack(
           children: <Widget>[
-            new Image.file(_imageFile[index]),
+            new Image.file(imageFile[index]),
             new Positioned(
                 top: 5.0,
                 left: 5.0,
@@ -74,7 +76,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                         tooltip: 'Delete this image',
                         onPressed: () {
                           setState(() {
-                            _imageFile.removeAt(index);
+                            imageFile.removeAt(index);
                             images.removeAt(index);
                           });
                         },
@@ -86,16 +88,16 @@ class _AddItemScreenState extends State<AddItemScreen> {
     );
   }
 
-  addItem(BuildContext context) async {
+  Future<bool> addItem(BuildContext context) async {
     final FormState form = _formKey.currentState;
     form.save();
-    List<String> tracks = [];
+    List<String> tracks = <String>[];
     if (gift) tracks.add('gift');
     if (private) tracks.add('private');
     if (_authManager.user != null &&
         _authManager.user.id != null &&
         _itemsManager.location != null) {
-      var response = await _itemsManager.addItem(
+      final dynamic response = await _itemsManager.addItem(
           name,
           about,
           _authManager.user.id,
@@ -110,11 +112,14 @@ class _AddItemScreenState extends State<AddItemScreen> {
       if (response['success']) {
         _itemsManager.getItems(true);
         Navigator.pushReplacementNamed(context, '/home');
+        return true;
       }
+      return false;
     } else {
       Scaffold
           .of(context)
           .showSnackBar(new SnackBar(content: new Text("Not Connected")));
+      return false;
     }
   }
 

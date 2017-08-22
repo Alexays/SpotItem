@@ -15,8 +15,8 @@ class _LoginScreenState extends State<LoginScreen> {
   _LoginScreenState(this._authManager);
 
   final AuthManager _authManager;
-  final _usernameController = new TextEditingController();
-  final _passwordController = new TextEditingController();
+  final TextEditingController _usernameController = new TextEditingController();
+  final TextEditingController _passwordController = new TextEditingController();
 
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
@@ -75,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       _authManager
                                           .login(_usernameController.text,
                                               _passwordController.text)
-                                          .then((success) {
+                                          .then((bool success) {
                                         if (success) {
                                           Navigator.pushReplacementNamed(
                                               context, "/home");

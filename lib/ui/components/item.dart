@@ -140,7 +140,7 @@ class ItemsList extends StatelessWidget {
 }
 
 Future<Null> _showItemPage(Item item, AuthManager authManager,
-    ItemsManager itemsManager, String hash, context) async {
+    ItemsManager itemsManager, String hash, BuildContext context) async {
   Navigator.push(context, new MaterialPageRoute<Null>(
     builder: (BuildContext context) {
       return new OrderPage(

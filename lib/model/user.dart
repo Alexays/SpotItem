@@ -9,9 +9,9 @@ class User {
   User(
       this.id, this.name, this.email, this.firstname, this.avatar, this.groups);
 
-  factory User.fromJson(json) {
+  factory User.fromJson(dynamic json) {
     if (json == null) return null;
-    var _groups = [];
+    List<String> _groups = <String>[];
     if (json['groups'] != null && json['groups'].length > 0) {
       _groups = new List<String>.generate(json['groups'].length, (int index) {
         return json['groups'][index].toString();
@@ -27,7 +27,7 @@ class User {
 
   @override
   String toString() {
-    var _groups;
+    List<String> _groups;
     if (groups != null) {
       _groups = new List<String>.generate(groups.length, (int index) {
         return '"' + groups[index] + '"';

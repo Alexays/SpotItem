@@ -131,7 +131,7 @@ class OrderPageState extends State<OrderPage>
       });
     }
     if (widget.item == null) {
-      itemsManager.getItem(_itemId).then((data) {
+      itemsManager.getItem(_itemId).then((Item data) {
         setState(() {
           item = data;
           if (item != null) {
@@ -150,8 +150,8 @@ class OrderPageState extends State<OrderPage>
     super.dispose();
   }
 
-  doButton() {
-    List<Widget> top = [];
+  List<Widget> doButton() {
+    List<Widget> top = <Widget>[];
     if (authManager.loggedIn &&
         item != null &&
         item.owner.id == authManager.user.id) {
@@ -181,7 +181,7 @@ class OrderPageState extends State<OrderPage>
                 new FlatButton(
                   child: new Text('Delete'),
                   onPressed: () {
-                    itemsManager.deleteItem(item.id).then((resp) {
+                    itemsManager.deleteItem(item.id).then((dynamic resp) {
                       if (resp['success']) {
                         itemsManager.getItems(true);
                         Navigator.pushReplacementNamed(context, '/home');

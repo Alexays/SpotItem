@@ -9,7 +9,7 @@ class Group {
 
   Group(this.id, this.name, this.about, this.users, this.owner);
 
-  factory Group.fromJson(json) {
+  factory Group.fromJson(dynamic json) {
     if (json == null) return null;
     return new Group(
         json['_id'],
@@ -27,7 +27,7 @@ class Group {
 
   @override
   String toString() {
-    List<String> usersId = [];
+    List<String> usersId = <String>[];
     if (users != null) {
       usersId = new List<String>.generate(users.length, (int index) {
         return users[index].id;

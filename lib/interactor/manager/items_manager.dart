@@ -11,7 +11,7 @@ import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ItemsManager {
-  static const String KEY_OAUTH_TOKEN = 'KEY_AUTH_TOKEN';
+  static const String keyOauthToken = 'KEY_AUTH_TOKEN';
 
   bool get initialized => _initialized;
 
@@ -23,7 +23,7 @@ class ItemsManager {
 
   final String _clientSecret = CLIENT_SECRET;
 
-  Location _location = new Location();
+  final Location _location = new Location();
 
   Map<String, double> location;
 
@@ -33,11 +33,11 @@ class ItemsManager {
 
   bool _loading = true;
 
-  List<Item> _items = [];
+  List<Item> _items = <Item>[];
 
-  List<Item> _myItems = [];
+  List<Item> _myItems = <Item>[];
 
-  Future init() async {
+  Future<bool> init() async {
     try {
       Map<String, double> tmp = await _location.getLocation
           .timeout(const Duration(milliseconds: 300), onTimeout: () {
@@ -55,12 +55,16 @@ class ItemsManager {
       print("Can't get location");
     }
     _initialized = true;
+    return _initialized;
   }
 
-  Future close() async {
+  Future<bool> close() async {
     if (_locationSubscription != null &&
-        await _location.onLocationChanged.isEmpty)
+        await _location.onLocationChanged.isEmpty) {
       _locationSubscription.cancel();
+      return true;
+    }
+    return false;
   }
 
   double getDist(double lat2, double lng2) {
@@ -81,7 +85,7 @@ class ItemsManager {
     return km;
   }
 
-  Future addItem(
+  Future<dynamic> addItem(
       String name,
       String about,
       String userId,
@@ -91,7 +95,7 @@ class ItemsManager {
       String location,
       List<String> tracks) async {
     final Client _client = new Client();
-    final response =
+    final Response response =
         await _client.post(Uri.encodeFull(API_URL + '/addItem'), headers: {
       'Authorization': 'Basic ${_clientSecret}'
     }, body: {
@@ -105,11 +109,11 @@ class ItemsManager {
       'location': location,
       'tracks': JSON.encode(tracks)
     }).whenComplete(_client.close);
-    final bodyJson = JSON.decode(response.body);
+    final dynamic bodyJson = JSON.decode(response.body);
     return bodyJson;
   }
 
-  Future editItem(
+  Future<dynamic> editItem(
       String id,
       String name,
       String about,
@@ -120,7 +124,7 @@ class ItemsManager {
       String location,
       List<String> tracks) async {
     final Client _client = new Client();
-    final response =
+    final Response response =
         await _client.put(Uri.encodeFull(API_URL + '/items/' + id), headers: {
       'Authorization': 'Basic ${_clientSecret}'
     }, body: {
@@ -134,21 +138,21 @@ class ItemsManager {
       'location': location,
       'tracks': JSON.encode(tracks)
     }).whenComplete(_client.close);
-    final bodyJson = JSON.decode(response.body);
+    final dynamic bodyJson = JSON.decode(response.body);
     return bodyJson;
   }
 
-  Future deleteItem(String id) async {
+  Future<dynamic> deleteItem(String id) async {
     final Client _client = new Client();
-    final response = await _client
+    final Response response = await _client
         .delete(Uri.encodeFull(API_URL + '/items/' + id), headers: {
       'Authorization': 'Basic ${_clientSecret}'
     }).whenComplete(_client.close);
-    final bodyJson = JSON.decode(response.body);
+    final dynamic bodyJson = JSON.decode(response.body);
     return bodyJson;
   }
 
-  Future loadItems(String userId) async {
+  Future<List<Item>> loadItems(String userId) async {
     if (_items.length == 0) {
       try {
         Map<String, double> tmp = await _location.getLocation
@@ -161,19 +165,14 @@ class ItemsManager {
         print("Can't get location");
       }
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      String token = prefs.getString(KEY_OAUTH_TOKEN);
+      String token = prefs.getString(keyOauthToken);
       final Client _client = new Client();
-      var response;
-      if (userId != null) {
-        response = await _client.get(API_URL + '/items/auth',
-            headers: {'Authorization': token}).whenComplete(_client.close);
-      } else {
-        response = await _client.get(API_URL + '/items', headers: {
-          'Authorization': 'Basic ${_clientSecret}'
-        }).whenComplete(_client.close);
-      }
+      Response response = await _client
+          .get(API_URL + (userId != null ? '/items/auth' : '/items'), headers: {
+        'Authorization': userId != null ? token : 'Basic ${_clientSecret}'
+      }).whenComplete(_client.close);
       if (response.statusCode == 200) {
-        var itemJson = JSON.decode(response.body);
+        final dynamic itemJson = JSON.decode(response.body);
         _items = new List<Item>.generate(itemJson.length, (int index) {
           return new Item.fromJson(itemJson[index],
               getDist(itemJson[index]['lat'], itemJson[index]['lng']));
@@ -190,30 +189,30 @@ class ItemsManager {
     return loadItems(userId);
   }
 
-  Future getItem(String itemId) async {
+  Future<Item> getItem(String itemId) async {
     if (itemId == null) return null;
     final Client _client = new Client();
-    final itemResponse = await _client.get(API_URL + '/items/' + itemId,
+    final Response response = await _client.get(API_URL + '/items/' + itemId,
         headers: {
           'Authorization': 'Basic ${_clientSecret}'
         }).whenComplete(_client.close);
-    if (itemResponse.statusCode == 200) {
-      var itemJson = JSON.decode(itemResponse.body);
+    if (response.statusCode == 200) {
+      final dynamic itemJson = JSON.decode(response.body);
       return new Item.fromJson(
           itemJson, getDist(itemJson['lat'], itemJson['lng']));
     }
     return null;
   }
 
-  Future getSelfItems(String userId) async {
+  Future<List<Item>> getSelfItems(String userId) async {
     if (userId == null) return null;
     final Client _client = new Client();
-    final itemResponse = await _client.get(API_URL + '/userItem/' + userId,
+    final Response response = await _client.get(API_URL + '/userItem/' + userId,
         headers: {
           'Authorization': 'Basic ${_clientSecret}'
         }).whenComplete(_client.close);
-    if (itemResponse.statusCode == 200) {
-      var itemJson = JSON.decode(itemResponse.body);
+    if (response.statusCode == 200) {
+      final dynamic itemJson = JSON.decode(response.body);
       _myItems = new List<Item>.generate(itemJson.length, (int index) {
         return new Item.fromJson(itemJson[index],
             getDist(itemJson[index]['lat'], itemJson[index]['lng']));

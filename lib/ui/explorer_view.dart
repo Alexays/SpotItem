@@ -24,7 +24,7 @@ class _ExplorerViewState extends State<ExplorerView> {
   final AuthManager _authManager;
   final Filter _mode;
   bool _loading = true;
-  List<Item> _items = [];
+  List<Item> _items = <Item>[];
   _ExplorerViewState(this._itemsManager, this._mode, this._authManager);
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
@@ -35,11 +35,12 @@ class _ExplorerViewState extends State<ExplorerView> {
     super.initState();
   }
 
-  Future _loadItems([bool force = false]) async {
+  Future<bool> _loadItems([bool force = false]) async {
     _refreshIndicatorKey.currentState?.show();
-    final itemsLoaded = _itemsManager.getItems(force, _authManager.user?.id);
+    final Future<List<Item>> itemsLoaded =
+        _itemsManager.getItems(force, _authManager.user?.id);
     if (itemsLoaded != null) {
-      itemsLoaded.then((data) {
+      itemsLoaded.then((List<Item> data) {
         if (!mounted) return;
         setState(() {
           _items = new List<Item>.from(data);
@@ -47,7 +48,9 @@ class _ExplorerViewState extends State<ExplorerView> {
           _loading = false;
         });
       });
+      return true;
     }
+    return false;
   }
 
   Widget _buildExplorer() {

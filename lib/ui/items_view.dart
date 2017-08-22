@@ -22,13 +22,13 @@ class _ItemsViewState extends State<ItemsView> {
 
   bool _loading = true;
 
-  List<Item> _myItems = [];
+  List<Item> _myItems = <Item>[];
 
   @override
   void initState() {
     super.initState();
     if (_authManager.loggedIn)
-      _itemsManager.getSelfItems(_authManager.user.id).then((data) {
+      _itemsManager.getSelfItems(_authManager.user.id).then((List<Item> data) {
         setState(() {
           _myItems = data;
           _loading = false;

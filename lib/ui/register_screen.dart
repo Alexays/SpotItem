@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitems/model/user.dart';
@@ -34,28 +36,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _email = new TextEditingController(text: user.email);
   }
 
-  addUser(BuildContext context) async {
+  Future<bool> addUser(BuildContext context) async {
     final FormState form = _formKey.currentState;
     form.save();
     if (password != repeat) {
       Scaffold.of(context).showSnackBar(
           new SnackBar(content: new Text("Password don't match !")));
-      return;
+      return false;
     }
     if (form.validate()) {
-      _authManager.register(user, password).then((data) {
+      _authManager.register(user, password).then((dynamic data) {
         if (data['success']) {
           Navigator.pushReplacementNamed(context, "/login");
-        } else {
-          Scaffold
-              .of(context)
-              .showSnackBar(new SnackBar(content: new Text(data['msg'])));
+          return true;
         }
+        Scaffold
+            .of(context)
+            .showSnackBar(new SnackBar(content: new Text(data['msg'])));
+        return false;
       });
-    } else {
-      Scaffold.of(context).showSnackBar(
-          new SnackBar(content: new Text('Form must be valid !')));
     }
+    Scaffold
+        .of(context)
+        .showSnackBar(new SnackBar(content: new Text('Form must be valid !')));
+    return false;
   }
 
   @override

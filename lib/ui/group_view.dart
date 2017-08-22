@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitems/model/group.dart';
+import 'package:spotitems/model/user.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
 import 'package:spotitems/interactor/manager/auth_manager.dart';
 
@@ -36,17 +39,22 @@ class _GroupPageState extends State<GroupPage>
   @override
   void initState() {
     super.initState();
-    group.users =
-        group.users.where((user) => user.groups.contains(group.id)).toList();
+    group.users = group.users
+        .where((User user) => user.groups.contains(group.id))
+        .toList();
   }
 
-  _leaveGroup() async {
-    await authManager.leaveGroup(group.id);
-    Navigator.pushReplacementNamed(context, '/home');
+  Future<bool> _leaveGroup() async {
+    bool leaved = await authManager.leaveGroup(group.id);
+    if (leaved) {
+      Navigator.pushReplacementNamed(context, '/home');
+      return true;
+    }
+    return false;
   }
 
-  doButton() {
-    List<Widget> top = [];
+  List<Widget> doButton() {
+    List<Widget> top = <Widget>[];
     top.add(new IconButton(
       icon: const Icon(Icons.exit_to_app),
       tooltip: 'Leave group',
@@ -130,7 +138,7 @@ class _GroupPageState extends State<GroupPage>
     return top;
   }
 
-  _buildUsers() {
+  Widget _buildUsers() {
     return new Flexible(
         child: new ListView.builder(
             scrollDirection: Axis.horizontal,

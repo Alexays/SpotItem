@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:convert';
+import 'dart:async';
 
 import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
@@ -33,14 +34,14 @@ class _EditItemScreenState extends State<EditItemScreen> {
   TextEditingController _about;
   TextEditingController _location;
 
-  List<File> _imageFile = [];
+  List<File> imageFile = <File>[];
 
   String name;
   String about;
   String location;
   bool gift = false;
   bool private = false;
-  List<String> images = [];
+  List<String> images = <String>[];
 
   Item item;
   bool _loading = true;
@@ -48,7 +49,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
   @override
   void initState() {
     super.initState();
-    _itemsManager.getItem(_itemId).then((data) {
+    _itemsManager.getItem(_itemId).then((Item data) {
       setState(() {
         item = data;
         if (item != null) {
@@ -66,27 +67,31 @@ class _EditItemScreenState extends State<EditItemScreen> {
     });
   }
 
-  getImage() async {
-    var _fileName = await ImagePicker.pickImage();
-    setState(() {
-      _imageFile.add(_fileName);
-      _fileName.readAsBytes().then((data) {
-        images.add('data:image/' +
-            _fileName.path.split('.').last +
-            ';base64,' +
-            BASE64.encode(data));
+  Future<bool> getImage() async {
+    final File _fileName = await ImagePicker.pickImage();
+    if (_fileName != null) {
+      setState(() {
+        imageFile.add(_fileName);
+        _fileName.readAsBytes().then((List<int> data) {
+          images.add('data:image/' +
+              _fileName.path.split('.').last +
+              ';base64,' +
+              BASE64.encode(data));
+        });
       });
-    });
+      return true;
+    }
+    return false;
   }
 
   Widget getImageGrid() {
-    if ((item.images.length + _imageFile.length) < 1) return new Center();
+    if ((item.images.length + imageFile.length) < 1) return new Center();
     return new GridView.count(
       primary: false,
-      crossAxisCount: (item.images.length + _imageFile.length),
+      crossAxisCount: (item.images.length + imageFile.length),
       crossAxisSpacing: 10.0,
       children: new List<Widget>.generate(
-          (item.images.length + _imageFile.length), (index) {
+          (item.images.length + imageFile.length), (int index) {
         if (index < item.images.length) {
           return new GridTile(
               child: new Stack(
@@ -115,7 +120,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
           return new GridTile(
               child: new Stack(
             children: <Widget>[
-              new Image.file(_imageFile[index - item.images.length]),
+              new Image.file(imageFile[index - item.images.length]),
               new Positioned(
                   top: 5.0,
                   left: 5.0,
@@ -128,7 +133,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                           tooltip: 'Delete this image',
                           onPressed: () {
                             setState(() {
-                              _imageFile.removeAt(index);
+                              imageFile.removeAt(index);
                               images.removeAt(index);
                             });
                           },
@@ -141,18 +146,18 @@ class _EditItemScreenState extends State<EditItemScreen> {
     );
   }
 
-  editItem(BuildContext context) async {
+  Future<bool> editItem(BuildContext context) async {
     final FormState form = _formKey.currentState;
-    List<String> finalImages = [];
-    List<String> tracks = [];
+    List<String> finalImages = <String>[];
+    List<String> tracks = <String>[];
 
     form.save();
     if (gift) tracks.add('gift');
     if (private) tracks.add('private');
-    item.images.forEach((f) => finalImages.add(f));
-    images.forEach((f) => finalImages.add(f));
+    item.images.forEach((String f) => finalImages.add(f));
+    images.forEach((String f) => finalImages.add(f));
     if (_authManager.user != null && _authManager.user.id != null) {
-      var response = await _itemsManager.editItem(
+      final dynamic response = await _itemsManager.editItem(
           item.id,
           name,
           about,
@@ -168,12 +173,14 @@ class _EditItemScreenState extends State<EditItemScreen> {
       if (response['success']) {
         _itemsManager.getItems(true);
         Navigator.pushReplacementNamed(context, '/home');
+        return true;
       }
-    } else {
-      Scaffold
-          .of(context)
-          .showSnackBar(new SnackBar(content: new Text("Not Connected")));
+      return false;
     }
+    Scaffold
+        .of(context)
+        .showSnackBar(new SnackBar(content: new Text("Not Connected")));
+    return false;
   }
 
   @override
