@@ -111,7 +111,6 @@ class AuthManager {
   }
 
   Future<bool> _saveTokens(String user, String oauthToken) async {
-    print(user);
     final SharedPreferences prefs = await SharedPreferences.getInstance()
       ..setString(keyUser, user)
       ..setString(keyOauthToken, oauthToken);
