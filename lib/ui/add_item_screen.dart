@@ -224,6 +224,7 @@ class _AddItemScreenState extends State<AddItemScreen>
                                     onSaved: (value) {
                                       location = value;
                                     }),
+                                const Divider(),
                                 new SwitchListTile(
                                     title: const Text('Donated Item'),
                                     value: gift,
