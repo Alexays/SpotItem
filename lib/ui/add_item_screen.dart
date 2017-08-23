@@ -45,7 +45,6 @@ class _AddItemScreenState extends State<AddItemScreen>
 
   @override
   void initState() {
-    super.initState();
     imageFile.clear();
     images.clear();
     _controller = new AnimationController(
@@ -66,6 +65,7 @@ class _AddItemScreenState extends State<AddItemScreen>
         _loading = false;
       });
     });
+    super.initState();
   }
 
   Future<bool> getImage() async {

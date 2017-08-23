@@ -26,7 +26,6 @@ class _ItemsViewState extends State<ItemsView> {
 
   @override
   void initState() {
-    super.initState();
     if (_authManager.loggedIn)
       _itemsManager.getSelfItems(_authManager.user.id).then((data) {
         setState(() {
@@ -34,6 +33,7 @@ class _ItemsViewState extends State<ItemsView> {
           _loading = false;
         });
       });
+    super.initState();
   }
 
   Widget getList() {

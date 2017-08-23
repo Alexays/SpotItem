@@ -45,7 +45,6 @@ class _EditItemScreenState extends State<EditItemScreen> {
 
   @override
   void initState() {
-    super.initState();
     widget._itemsManager.getItem(_itemId).then((data) {
       setState(() {
         item = data;
@@ -62,9 +61,10 @@ class _EditItemScreenState extends State<EditItemScreen> {
         }
       });
     });
+    super.initState();
   }
 
-  Future<bool> getImage() async {
+  Future<Null> getImage() async {
     final File _fileName = await ImagePicker.pickImage();
     if (_fileName != null) {
       setState(() {
@@ -74,9 +74,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
               'data:image/${_fileName.path.split('.').last};base64,${BASE64.encode(data)}');
         });
       });
-      return true;
     }
-    return false;
   }
 
   Widget getImageGrid() {

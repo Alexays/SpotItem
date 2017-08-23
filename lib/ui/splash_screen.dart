@@ -22,14 +22,14 @@ class _SplashState extends State<SplashScreen> {
 
   @override
   void initState() {
-    super.initState();
     _init();
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
     _itemsManager.close();
+    super.dispose();
   }
 
   Future<Null> _init() async {

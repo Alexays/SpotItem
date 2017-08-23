@@ -54,7 +54,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    super.initState();
     _homeScreenItems = <HomeScreenItem>[
       new HomeScreenItem(
           icon: const Icon(Icons.explore),
@@ -120,6 +119,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               })),
     ];
     initAnimation();
+    super.initState();
   }
 
   @override

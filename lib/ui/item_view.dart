@@ -117,7 +117,6 @@ class OrderPageState extends State<OrderPage>
 
   @override
   void initState() {
-    super.initState();
     if (item != null) {
       setState(() {
         _tabController =
@@ -137,6 +136,7 @@ class OrderPageState extends State<OrderPage>
         });
       });
     }
+    super.initState();
   }
 
   @override

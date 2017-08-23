@@ -33,9 +33,9 @@ class _GroupPageState extends State<GroupPage>
 
   @override
   void initState() {
-    super.initState();
     group.users =
         group.users.where((user) => user.groups.contains(group.id)).toList();
+    super.initState();
   }
 
   Future<Null> _leaveGroup() async {

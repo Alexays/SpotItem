@@ -27,8 +27,8 @@ class _GroupsViewState extends State<GroupsView> {
 
   @override
   void initState() {
-    super.initState();
     _loadGroups();
+    super.initState();
   }
 
   void _loadGroups() {

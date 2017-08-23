@@ -30,13 +30,13 @@ class _EditUserScreenState extends State<EditUserScreen> {
 
   @override
   void initState() {
-    super.initState();
     final User tmp = _authManager.user;
     user = new User(
         tmp.id, tmp.name, tmp.email, tmp.firstname, tmp.avatar, tmp.groups);
     _name = new TextEditingController(text: user.firstname);
     _lastname = new TextEditingController(text: user.name);
     _email = new TextEditingController(text: user.email);
+    super.initState();
   }
 
   Future<bool> editUser(BuildContext context) async {
