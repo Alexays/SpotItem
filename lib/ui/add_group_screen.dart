@@ -33,19 +33,15 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
     super.initState();
   }
 
-  Future<bool> addGroup(BuildContext context) async {
+  Future<Null> addGroup(BuildContext context) async {
     _formKey.currentState.save();
     final Group group =
         new Group(null, name, about, null, _authManager.user.id);
     final dynamic response = await _authManager.addGroup(group, email);
-    Scaffold
-        .of(context)
-        .showSnackBar(new SnackBar(content: new Text(response['msg'])));
+    showSnackBar(context, response['msg']);
     if (response['success']) {
-      await Navigator.pushReplacementNamed(context, '/home');
-      return true;
+      Navigator.pushReplacementNamed(context, '/home');
     }
-    return false;
   }
 
   void _addPeople() {
