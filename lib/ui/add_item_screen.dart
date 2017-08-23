@@ -82,12 +82,26 @@ class _AddItemScreenState extends State<AddItemScreen>
 
   Widget getImageGrid() {
     if (imageFile == null || imageFile.isEmpty) {
-      return const Center(child: const Text('No images'));
+      return new Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          const Text('No images'),
+          const Padding(
+            padding: const EdgeInsets.all(10.0),
+          ),
+          new RaisedButton(
+            child: const Text('Add image'),
+            onPressed: getImage,
+          )
+        ],
+      );
     }
     return new GridView.count(
       primary: false,
-      crossAxisCount: imageFile.length,
+      crossAxisCount: 3,
       crossAxisSpacing: 10.0,
+      mainAxisSpacing: 10.0,
       children: new List<Widget>.generate(
           imageFile.length,
           (index) => new GridTile(
@@ -95,23 +109,20 @@ class _AddItemScreenState extends State<AddItemScreen>
                 children: <Widget>[
                   new Image.file(imageFile[index]),
                   new Positioned(
-                      top: 5.0,
-                      left: 5.0,
-                      child: new Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            new IconButton(
-                              color: const Color.fromARGB(255, 255, 255, 255),
-                              icon: const Icon(Icons.delete),
-                              tooltip: 'Delete this image',
-                              onPressed: () {
-                                setState(() {
-                                  imageFile.removeAt(index);
-                                  images.removeAt(index);
-                                });
-                              },
-                            ),
-                          ])),
+                    top: 2.5,
+                    left: 2.5,
+                    child: new IconButton(
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      icon: const Icon(Icons.delete),
+                      tooltip: 'Delete this image',
+                      onPressed: () {
+                        setState(() {
+                          imageFile.removeAt(index);
+                          images.removeAt(index);
+                        });
+                      },
+                    ),
+                  ),
                 ],
               ))),
     );
@@ -178,7 +189,7 @@ class _AddItemScreenState extends State<AddItemScreen>
                                       }))
                             ],
                             bottom: new TabBar(tabs: <Tab>[
-                              const Tab(text: 'Information'),
+                              const Tab(text: 'Informations'),
                               const Tab(text: 'Images'),
                               const Tab(text: 'Groups')
                             ])))
@@ -196,7 +207,6 @@ class _AddItemScreenState extends State<AddItemScreen>
                                     key: const Key('name'),
                                     decoration: const InputDecoration.collapsed(
                                         hintText: 'Name'),
-                                    autofocus: true,
                                     onSaved: (value) {
                                       name = value;
                                     }),
