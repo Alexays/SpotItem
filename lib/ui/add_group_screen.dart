@@ -130,14 +130,13 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: new List<Widget>.generate(
                                       email.length,
-                                      (index) => new Flexible(
-                                          child: new Chip(
-                                              label: new Text(email[index]),
-                                              onDeleted: () {
-                                                setState(() {
-                                                  email.removeAt(index);
-                                                });
-                                              }))),
+                                      (index) => new Chip(
+                                          label: new Text(email[index]),
+                                          onDeleted: () {
+                                            setState(() {
+                                              email.removeAt(index);
+                                            });
+                                          })),
                                 ),
                                 const Divider(),
                                 new RaisedButton(
