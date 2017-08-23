@@ -72,7 +72,7 @@ class _GroupPageState extends State<GroupPage>
                 new FlatButton(
                   child: const Text('Leave'),
                   onPressed: () {
-                    _leaveGroup;
+                    _leaveGroup();
                   },
                 ),
               ],

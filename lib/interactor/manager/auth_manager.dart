@@ -72,10 +72,9 @@ class AuthManager {
     return _loggedIn;
   }
 
-  Future<bool> logout() async {
+  Future<Null> logout() async {
     await _saveTokens(null, null);
     _loggedIn = false;
-    return true;
   }
 
   Future<dynamic> register(User user, String password) async {
@@ -112,6 +111,7 @@ class AuthManager {
   }
 
   Future<bool> _saveTokens(String user, String oauthToken) async {
+    print(user);
     final SharedPreferences prefs = await SharedPreferences.getInstance()
       ..setString(keyUser, user)
       ..setString(keyOauthToken, oauthToken);
@@ -146,8 +146,8 @@ class AuthManager {
         headers: {'Authorization': _oauthToken}).whenComplete(_client.close);
     if (response.statusCode == 200) {
       final dynamic groupJson = JSON.decode(response.body);
-      return _myGroups = new List<Group>.generate(groupJson.length,
-          (index) => new Group.fromJson(groupJson[index]));
+      return _myGroups = new List<Group>.generate(
+          groupJson.length, (index) => new Group.fromJson(groupJson[index]));
     }
     return _myGroups;
   }
@@ -161,8 +161,8 @@ class AuthManager {
         headers: {'Authorization': _oauthToken}).whenComplete(_client.close);
     if (response.statusCode == 200) {
       final dynamic groupJson = JSON.decode(response.body);
-      return _myGroupsInv = new List<Group>.generate(groupJson.length,
-          (index) => new Group.fromJson(groupJson[index]));
+      return _myGroupsInv = new List<Group>.generate(
+          groupJson.length, (index) => new Group.fromJson(groupJson[index]));
     }
     return _myGroupsInv;
   }

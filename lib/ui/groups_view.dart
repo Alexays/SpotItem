@@ -68,6 +68,18 @@ class _GroupsViewState extends State<GroupsView> {
     }
   }
 
+  Future<Null> _showGroup(int index) async {
+    await Navigator.push(
+        context,
+        new MaterialPageRoute<Null>(
+          builder: (context) => new GroupPage(
+                group: _myGroups[index - 1],
+                authManager: widget._authManager,
+                itemsManager: widget._itemsManager,
+              ),
+        ));
+  }
+
   Widget getList() => new ListView.builder(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       itemCount: _myGroups.length + 1,
@@ -82,15 +94,7 @@ class _GroupsViewState extends State<GroupsView> {
         }
         return new GestureDetector(
           onTap: () {
-            Navigator.push(
-                context,
-                new MaterialPageRoute<Null>(
-                  builder: (context) => new GroupPage(
-                        group: _myGroups[index - 1],
-                        authManager: widget._authManager,
-                        itemsManager: widget._itemsManager,
-                      ),
-                ));
+            _showGroup(index);
           },
           child: new Card(
             child: new Column(
