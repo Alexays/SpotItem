@@ -46,7 +46,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
   @override
   void initState() {
     super.initState();
-    widget._itemsManager.getItem(_itemId).then((Item data) {
+    widget._itemsManager.getItem(_itemId).then((data) {
       setState(() {
         item = data;
         if (item != null) {
@@ -69,7 +69,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
     if (_fileName != null) {
       setState(() {
         imageFile.add(_fileName);
-        _fileName.readAsBytes().then((List<int> data) {
+        _fileName.readAsBytes().then((data) {
           images.add(
               'data:image/${_fileName.path.split('.').last};base64,${BASE64.encode(data)}');
         });
@@ -88,7 +88,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
       crossAxisCount: (item.images.length + imageFile.length),
       crossAxisSpacing: 10.0,
       children: new List<Widget>.generate(
-          (item.images.length + imageFile.length), (int index) {
+          (item.images.length + imageFile.length), (index) {
         if (index < item.images.length) {
           return new GridTile(
               child: new Stack(
@@ -154,8 +154,8 @@ class _EditItemScreenState extends State<EditItemScreen> {
     if (private) {
       tracks.add('private');
     }
-    item.images.forEach((String f) => finalImages.add);
-    images.forEach((String f) => finalImages.add);
+    item.images.forEach((f) => finalImages.add);
+    images.forEach((f) => finalImages.add);
     if (widget._authManager.user != null &&
         widget._authManager.user.id != null) {
       final dynamic response = await widget._itemsManager.editItem(
@@ -190,7 +190,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
             title: new Text(item != null ? 'Edit: ${item.name}' : 'Loading...'),
             actions: <Widget>[
               new Builder(
-                  builder: (BuildContext context) => new IconButton(
+                  builder: (context) => new IconButton(
                         icon: const Icon(Icons.save),
                         onPressed: () {
                           editItem(context);
@@ -213,7 +213,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                                   key: const Key('name'),
                                   decoration: const InputDecoration.collapsed(
                                       hintText: 'Name'),
-                                  onSaved: (String value) {
+                                  onSaved: (value) {
                                     name = value;
                                   },
                                   controller: _name,
@@ -222,7 +222,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                                   key: const Key('about'),
                                   decoration: const InputDecoration.collapsed(
                                       hintText: 'Description'),
-                                  onSaved: (String value) {
+                                  onSaved: (value) {
                                     about = value;
                                   },
                                   controller: _about,
@@ -231,7 +231,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                                   key: const Key('location'),
                                   decoration: const InputDecoration.collapsed(
                                       hintText: 'Location'),
-                                  onSaved: (String value) {
+                                  onSaved: (value) {
                                     location = value;
                                   },
                                   controller: _location,
@@ -239,7 +239,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                                 new SwitchListTile(
                                   title: const Text('Donated Item'),
                                   value: gift,
-                                  onChanged: (bool value) {
+                                  onChanged: (value) {
                                     setState(() {
                                       gift = value;
                                     });
@@ -249,7 +249,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                                 new SwitchListTile(
                                   title: const Text('Private Item'),
                                   value: private,
-                                  onChanged: (bool value) {
+                                  onChanged: (value) {
                                     setState(() {
                                       private = value;
                                     });

@@ -37,7 +37,7 @@ class _ExplorerViewState extends State<ExplorerView> {
     final Future<List<Item>> itemsLoaded = widget._itemsManager
         .getItems(force: force, userId: widget._authManager.user?.id);
     if (itemsLoaded != null) {
-      itemsLoaded.then((List<Item> data) {
+      itemsLoaded.then((data) {
         if (!mounted) {
           return;
         }

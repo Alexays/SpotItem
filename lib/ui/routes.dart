@@ -14,43 +14,37 @@ import 'package:flutter/material.dart';
 typedef Widget HandlerFunc(BuildContext context, Map<String, dynamic> params);
 
 HandlerFunc buildLoginHandler(AuthManager authManager) =>
-    (BuildContext context, Map<String, dynamic> params) =>
-        new LoginScreen(authManager);
+    (context, params) => new LoginScreen(authManager);
 
 HandlerFunc buildRegisterHandler(AuthManager authManager) =>
-    (BuildContext context, Map<String, dynamic> params) =>
-        new RegisterScreen(authManager);
+    (context, params) => new RegisterScreen(authManager);
 
 HandlerFunc buildHomeHandler(
         AuthManager authManager, ItemsManager itemsManager) =>
-    (BuildContext context, Map<String, dynamic> params) =>
-        new HomeScreen(authManager, itemsManager);
+    (context, params) => new HomeScreen(authManager, itemsManager);
 
 HandlerFunc buildEditUserHandler(AuthManager authManager) =>
-    (BuildContext context, Map<String, dynamic> params) =>
-        new EditUserScreen(authManager);
+    (context, params) => new EditUserScreen(authManager);
 
 HandlerFunc buildItemHandler(
         AuthManager authManager, ItemsManager itemsManager) =>
-    (BuildContext context, Map<String, dynamic> params) => new OrderPage(
+    (context, params) => new OrderPage(
         authManager: authManager,
         itemsManager: itemsManager,
         itemId: params['id']);
 
 HandlerFunc buildEditItemHandler(
         AuthManager authManager, ItemsManager itemsManager) =>
-    (BuildContext context, Map<String, dynamic> params) =>
+    (context, params) =>
         new EditItemScreen(authManager, itemsManager, params['id']);
 
 HandlerFunc buildAddItemHandler(
         AuthManager authManager, ItemsManager itemsManager) =>
-    (BuildContext context, Map<String, dynamic> params) =>
-        new AddItemScreen(authManager, itemsManager);
+    (context, params) => new AddItemScreen(authManager, itemsManager);
 
 HandlerFunc buildAddGroupHandler(
         AuthManager authManager, ItemsManager itemsManager) =>
-    (BuildContext context, Map<String, dynamic> params) =>
-        new AddGroupScreen(authManager, itemsManager);
+    (context, params) => new AddGroupScreen(authManager, itemsManager);
 
 void configureRouter(
     Router router, AuthManager authManager, ItemsManager itemsManager) {

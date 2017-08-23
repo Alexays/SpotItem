@@ -26,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
         title: const Text('Login'),
       ),
       body: new Builder(
-          builder: (BuildContext context) => new SingleChildScrollView(
+          builder: (context) => new SingleChildScrollView(
               child: new Container(
                   padding: const EdgeInsets.all(40.0),
                   child: new Column(
@@ -83,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           _authManager
                                               .login(_usernameController.text,
                                                   _passwordController.text)
-                                              .then((bool success) {
+                                              .then((success) {
                                             if (success) {
                                               Navigator.pushReplacementNamed(
                                                   context, '/home');

@@ -66,7 +66,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         title: const Text('Register'),
       ),
       body: new Builder(
-          builder: (BuildContext context) => new SingleChildScrollView(
+          builder: (context) => new SingleChildScrollView(
                 child: new Container(
                     padding: const EdgeInsets.all(40.0),
                     child: new Card(
@@ -82,7 +82,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 decoration: const InputDecoration(
                                     labelText: 'Firstname',
                                     hintText: 'Enter your firstname'),
-                                onSaved: (String value) {
+                                onSaved: (value) {
                                   user.firstname = value;
                                 },
                                 controller: _name,
@@ -93,7 +93,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 decoration: const InputDecoration(
                                     labelText: 'Lastname',
                                     hintText: 'Enter your lastname'),
-                                onSaved: (String value) {
+                                onSaved: (value) {
                                   user.name = value;
                                 },
                                 controller: _lastname,
@@ -105,7 +105,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   labelText: 'Email',
                                   hintText: 'Enter your email',
                                 ),
-                                onSaved: (String value) {
+                                onSaved: (value) {
                                   user.email = value;
                                 },
                                 validator: validateEmail,
@@ -115,7 +115,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 decoration: const InputDecoration(
                                     labelText: 'Password',
                                     hintText: '***********'),
-                                onSaved: (String value) {
+                                onSaved: (value) {
                                   password = value;
                                 },
                                 obscureText: true,
@@ -126,7 +126,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 decoration: const InputDecoration(
                                     labelText: 'Confirm password',
                                     hintText: '***********'),
-                                onSaved: (String value) {
+                                onSaved: (value) {
                                   repeat = value;
                                 },
                                 controller: _password,

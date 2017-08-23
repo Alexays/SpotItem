@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitems/model/group.dart';
-import 'package:spotitems/model/user.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
 import 'package:spotitems/interactor/manager/auth_manager.dart';
 
@@ -36,7 +35,7 @@ class _GroupPageState extends State<GroupPage>
   void initState() {
     super.initState();
     group.users = group.users
-        .where((User user) => user.groups.contains(group.id))
+        .where((user) => user.groups.contains(group.id))
         .toList();
   }
 
@@ -137,7 +136,7 @@ class _GroupPageState extends State<GroupPage>
           scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           itemCount: group.users.length,
-          itemBuilder: (BuildContext context, int index) => new GestureDetector(
+          itemBuilder: (context, index) => new GestureDetector(
               onTap: () {},
               child: new Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),

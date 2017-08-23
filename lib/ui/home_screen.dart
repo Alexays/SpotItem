@@ -5,7 +5,6 @@ import 'package:spotitems/ui/discover_view.dart';
 import 'package:spotitems/ui/map_view.dart';
 import 'package:spotitems/ui/items_view.dart';
 import 'package:spotitems/ui/groups_view.dart';
-import 'package:spotitems/model/item.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -66,8 +65,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             new HomeScreenSubItem(
                 'Nearest you',
                 new ExplorerView(_itemsManager, _authManager,
-                    (List<Item> items) {
-                  items.sort((Item a, Item b) => a.dist.compareTo(b.dist));
+                    (items) {
+                  items.sort((a, b) => a.dist.compareTo(b.dist));
                   return items;
                 })),
             new HomeScreenSubItem(
@@ -75,8 +74,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 new ExplorerView(
                     _itemsManager,
                     _authManager,
-                    (List<Item> items) => items
-                        .where((Item item) => item.tracks.contains('gift'))
+                    (items) => items
+                        .where((item) => item.tracks.contains('gift'))
                         .toList())),
           ],
           fab: new FloatingActionButton(
@@ -174,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return new TabBar(
       tabs: new List<Tab>.generate(
           _homeScreenItems[_currentIndex].sub?.length,
-          (int index) => new Tab(
+          (index) => new Tab(
                 text: _homeScreenItems[_currentIndex].sub[index].title,
               )),
     );
@@ -318,10 +317,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           length: _homeScreenItems[_currentIndex].sub?.length,
           child: new NestedScrollView(
             headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) => <Widget>[
+                (context, innerBoxIsScrolled) => <Widget>[
                       new AnimatedBuilder(
                         animation: _bottomSize,
-                        builder: (BuildContext context, Widget child) =>
+                        builder: (context, child) =>
                             _buildAppBar(),
                       ),
                     ],
@@ -333,7 +332,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         bottomNavigationBar: new BottomNavigationBar(
           currentIndex: _currentIndex,
           items:
-              _homeScreenItems.map((HomeScreenItem item) => item.item).toList(),
+              _homeScreenItems.map((item) => item.item).toList(),
           onTap: _navBarItemSelected,
         ),
       );
@@ -350,7 +349,7 @@ class HomeScreenItem {
       : item = new BottomNavigationBarItem(icon: icon, title: new Text(title)),
         content = sub != null
             ? new List<Widget>.generate(
-                sub.length, (int index) => sub[index].content)
+                sub.length, (index) => sub[index].content)
             : <Widget>[content];
 }
 

@@ -18,7 +18,7 @@ class Group {
         json['name'],
         json['about'],
         new List<User>.generate(json['users'].length,
-            (int index) => new User.fromJson(json['users'][index])),
+            (index) => new User.fromJson(json['users'][index])),
         json['owner']);
   }
 
@@ -28,8 +28,8 @@ class Group {
   String toString() {
     List<String> usersId = <String>[];
     if (users != null) {
-      usersId = new List<String>.generate(
-          users.length, (int index) => users[index].id);
+      usersId =
+          new List<String>.generate(users.length, (index) => users[index].id);
     }
     return '{"_id": "$id", "name": "$name", "about": "$about", "users": $usersId, "owner": "$owner"}';
   }

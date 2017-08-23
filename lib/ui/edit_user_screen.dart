@@ -63,7 +63,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
     return new Scaffold(
       appBar: new AppBar(title: const Text('Edit Profile'), actions: <Widget>[
         new Builder(
-            builder: (BuildContext context) => new IconButton(
+            builder: (context) => new IconButton(
                   icon: const Icon(Icons.save),
                   onPressed: () {
                     editUser(context);
@@ -85,7 +85,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
                             decoration: const InputDecoration(
                                 labelText: 'Firstname',
                                 hintText: 'Enter your firstname'),
-                            onSaved: (String value) {
+                            onSaved: (value) {
                               user.firstname = value;
                             },
                             controller: _name,
@@ -95,7 +95,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
                             decoration: const InputDecoration(
                                 labelText: 'Lastname',
                                 hintText: 'Enter your lastname'),
-                            onSaved: (String value) {
+                            onSaved: (value) {
                               user.name = value;
                             },
                             controller: _lastname,
@@ -117,7 +117,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
                             key: const Key('password'),
                             decoration: const InputDecoration(
                                 labelText: 'Password', hintText: '***********'),
-                            onSaved: (String value) {
+                            onSaved: (value) {
                               password = value;
                             },
                             obscureText: true,
@@ -127,7 +127,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
                             decoration: const InputDecoration(
                                 labelText: 'Confirm password',
                                 hintText: '***********'),
-                            onSaved: (String value) {
+                            onSaved: (value) {
                               repeat = value;
                             },
                             controller: _password,

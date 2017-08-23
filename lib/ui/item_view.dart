@@ -49,7 +49,7 @@ class _ContactItem extends StatelessWidget {
     final ThemeData themeData = Theme.of(context);
     final List<Widget> columnChildren = lines
         .sublist(0, lines.length - 1)
-        .map((String line) => new Text(line))
+        .map((line) => new Text(line))
         .toList()
           ..insert(0, new Text(lines.last, style: themeData.textTheme.caption));
 
@@ -126,7 +126,7 @@ class OrderPageState extends State<OrderPage>
       });
     }
     if (widget.item == null) {
-      widget.itemsManager.getItem(_itemId).then((Item data) {
+      widget.itemsManager.getItem(_itemId).then((data) {
         setState(() {
           item = data;
           if (item != null) {
@@ -238,7 +238,7 @@ class OrderPageState extends State<OrderPage>
                     actions: doButton(),
                     flexibleSpace: new GestureDetector(
                       behavior: HitTestBehavior.opaque,
-                      onHorizontalDragUpdate: (DragUpdateDetails details) {
+                      onHorizontalDragUpdate: (details) {
                         if (dragStopped == true &&
                             details.delta.dx < 0 &&
                             _tabController.index < item.images.length - 1) {
@@ -251,7 +251,7 @@ class OrderPageState extends State<OrderPage>
                           dragStopped = false;
                         }
                       },
-                      onHorizontalDragEnd: (DragEndDetails details) {
+                      onHorizontalDragEnd: (details) {
                         dragStopped = true;
                       },
                       child: new FlexibleSpaceBar(
@@ -267,7 +267,7 @@ class OrderPageState extends State<OrderPage>
                             new TabBarView(
                                 controller: _tabController,
                                 children: new List<Widget>.generate(
-                                    item.images.length, (int index) {
+                                    item.images.length, (index) {
                                   if (index == 0) {
                                     return new Hero(
                                         tag: '${item.id}_img_$hash',
@@ -359,7 +359,7 @@ class OrderPageState extends State<OrderPage>
                         children: <Widget>[
                           new DayPickerBar(
                             selectedDate: new DateTime.now(),
-                            onChanged: (DateTime date) {},
+                            onChanged: (date) {},
                           ),
                           new Positioned(
                             top: 15.0,

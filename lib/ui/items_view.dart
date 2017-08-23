@@ -28,7 +28,7 @@ class _ItemsViewState extends State<ItemsView> {
   void initState() {
     super.initState();
     if (_authManager.loggedIn)
-      _itemsManager.getSelfItems(_authManager.user.id).then((List<Item> data) {
+      _itemsManager.getSelfItems(_authManager.user.id).then((data) {
         setState(() {
           _myItems = data;
           _loading = false;
@@ -45,7 +45,7 @@ class _ItemsViewState extends State<ItemsView> {
     return new ListView.builder(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         itemCount: _myItems.length,
-        itemBuilder: (BuildContext context, int index) => new GestureDetector(
+        itemBuilder: (context, index) => new GestureDetector(
               onTap: () {
                 Navigator.of(context).pushNamed('/items/${_myItems[index].id}');
               },
@@ -62,7 +62,7 @@ class _ItemsViewState extends State<ItemsView> {
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: new List<Widget>.generate(
-                                _myItems[index].tracks.length, (int i) {
+                                _myItems[index].tracks.length, (i) {
                               switch (_myItems[index].tracks[i]) {
                                 case 'private':
                                   return const Icon(Icons.lock);

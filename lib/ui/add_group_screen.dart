@@ -54,7 +54,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
           title: const Text('Add Group'),
           actions: <Widget>[
             new Builder(
-                builder: (BuildContext context) => new IconButton(
+                builder: (context) => new IconButton(
                       icon: new Column(
                         children: <Widget>[
                           const Icon(Icons.add_box),
@@ -68,7 +68,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
           ],
         ),
         body: new Builder(
-            builder: (BuildContext context) => new SingleChildScrollView(
+            builder: (context) => new SingleChildScrollView(
                     child: new Container(
                   margin: const EdgeInsets.all(20.0),
                   child: new Column(
@@ -83,7 +83,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                                 decoration: const InputDecoration.collapsed(
                                     hintText: 'Name'),
                                 autofocus: true,
-                                onSaved: (String value) {
+                                onSaved: (value) {
                                   name = value;
                                 },
                               ),
@@ -91,7 +91,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                                 key: const Key('about'),
                                 decoration: const InputDecoration.collapsed(
                                     hintText: 'Description'),
-                                onSaved: (String value) {
+                                onSaved: (value) {
                                   about = value;
                                 },
                               ),
@@ -100,7 +100,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: new List<Widget>.generate(
                                     email.length,
-                                    (int index) => new Flexible(
+                                    (index) => new Flexible(
                                             child: new Chip(
                                           label: new Text(email[index]),
                                           onDeleted: () {
@@ -134,7 +134,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                                                       .collapsed(
                                                   hintText:
                                                       'ex: john.do@exemple.com'),
-                                              onSaved: (String value) {
+                                              onSaved: (value) {
                                                 _email = value;
                                               },
                                               validator: validateEmail,

@@ -124,7 +124,7 @@ class ItemsList extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           itemCount: _items?.length,
           itemExtent: 300.0,
-          itemBuilder: (BuildContext context, int index) => new _ItemsListItem(
+          itemBuilder: (context, index) => new _ItemsListItem(
               itemsManager: _itemsManager,
               item: _items[index],
               hash: _hash,
@@ -140,7 +140,7 @@ Future<Null> _showItemPage(Item item, AuthManager authManager,
   await Navigator.push(
       context,
       new MaterialPageRoute<Null>(
-        builder: (BuildContext context) => new OrderPage(
+        builder: (context) => new OrderPage(
               item: item,
               authManager: authManager,
               itemsManager: itemsManager,

@@ -47,7 +47,7 @@ class ItemsManager {
         location = tmp;
       else {
         _locationSubscription =
-            _location.onLocationChanged.listen((Map<String, double> result) {
+            _location.onLocationChanged.listen((result) {
           if (result != null) {
             location = result;
           }
@@ -180,7 +180,7 @@ class ItemsManager {
         final dynamic itemJson = JSON.decode(response.body);
         _items = new List<Item>.generate(
             itemJson.length,
-            (int index) => new Item.fromJson(itemJson[index],
+            (index) => new Item.fromJson(itemJson[index],
                 getDist(itemJson[index]['lat'], itemJson[index]['lng'])));
       }
       _loading = false;
@@ -225,7 +225,7 @@ class ItemsManager {
       final dynamic itemJson = JSON.decode(response.body);
       _myItems = new List<Item>.generate(
           itemJson.length,
-          (int index) => new Item.fromJson(itemJson[index],
+          (index) => new Item.fromJson(itemJson[index],
               getDist(itemJson[index]['lat'], itemJson[index]['lng'])));
     }
     return _myItems;

@@ -5,7 +5,6 @@ import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
 import 'package:spotitems/ui/group_view.dart';
 import 'package:spotitems/model/group.dart';
-import 'package:spotitems/model/user.dart';
 
 class GroupsView extends StatefulWidget {
   final ItemsManager _itemsManager;
@@ -38,9 +37,7 @@ class _GroupsViewState extends State<GroupsView> {
     });
     bool loading = true;
     if (widget._authManager.loggedIn) {
-      widget._authManager
-          .getGroups(widget._authManager.user.id)
-          .then((List<Group> data) {
+      widget._authManager.getGroups(widget._authManager.user.id).then((data) {
         setState(() {
           _myGroups = data;
           if (loading == false) {
@@ -51,7 +48,7 @@ class _GroupsViewState extends State<GroupsView> {
       });
       widget._authManager
           .getGroupsInv(widget._authManager.user.id)
-          .then((List<Group> data) {
+          .then((data) {
         setState(() {
           _myGroupsInv = data;
           if (loading == false) {
@@ -76,7 +73,7 @@ class _GroupsViewState extends State<GroupsView> {
   Widget getList() => new ListView.builder(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       itemCount: _myGroups.length + 1,
-      itemBuilder: (BuildContext context, int index) {
+      itemBuilder: (context, index) {
         if (index == 0) {
           if (_myGroupsInv.isNotEmpty) {
             return _buildInv();
@@ -90,7 +87,7 @@ class _GroupsViewState extends State<GroupsView> {
             Navigator.push(
                 context,
                 new MaterialPageRoute<Null>(
-                  builder: (BuildContext context) => new GroupPage(
+                  builder: (context) => new GroupPage(
                         group: _myGroups[index - 1],
                         authManager: widget._authManager,
                         itemsManager: widget._itemsManager,
@@ -115,7 +112,7 @@ class _GroupsViewState extends State<GroupsView> {
                         new Text(
                           _myGroups[index - 1]
                               .users
-                              .where((User user) =>
+                              .where((user) =>
                                   user.groups.contains(_myGroups[index - 1].id))
                               .length
                               .toString(),
@@ -145,7 +142,7 @@ class _GroupsViewState extends State<GroupsView> {
             'You have ${_myGroupsInv.length.toString()} invitation(s)'),
         children: new List<Widget>.generate(
             _myGroupsInv.length,
-            (int index) => new GestureDetector(
+            (index) => new GestureDetector(
                 onTap: () {
                   showDialog<Null>(
                     context: context,
@@ -193,7 +190,7 @@ class _GroupsViewState extends State<GroupsView> {
                               new Text(
                                 _myGroupsInv[index]
                                     .users
-                                    .where((User user) => user.groups
+                                    .where((user) => user.groups
                                         .contains(_myGroupsInv[index].id))
                                     .length
                                     .toString(),

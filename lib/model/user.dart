@@ -16,7 +16,7 @@ class User {
     List<String> _groups = <String>[];
     if (json['groups'] != null && json['groups'].length > 0) {
       _groups = new List<String>.generate(json['groups'].length,
-          (int index) => json['groups'][index].toString());
+          (index) => json['groups'][index].toString());
     }
     return new User(json['_id'], json['name'], json['email'], json['firstname'],
         json['avatar'], _groups);
@@ -29,7 +29,7 @@ class User {
     List<String> _groups;
     if (groups != null) {
       _groups = new List<String>.generate(
-          groups.length, (int index) => '"$groups[index]"');
+          groups.length, (index) => '"$groups[index]"');
     }
     return '{"_id": "$id", "name": "$name", "email": "$email", "firstname": "$firstname", "avatar": "$avatar", "groups": $_groups}';
   }

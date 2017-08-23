@@ -1,8 +1,16 @@
 analyzer:
-  strong-mode: true
   language:
-    enableAssertInitializer: true
+    enableStrictCallChecks: true
     enableSuperMixins: true
+    enableAssertInitializer: true
+  strong-mode: true
+  errors:
+    # treat missing required parameters as a warning (not a hint)
+    missing_required_param: warning
+    # treat missing returns as a warning (not a hint)
+    missing_return: warning
+    # allow having TODOs in the code
+    todo: ignore
 linter:
   # Full list available at http://dart-lang.github.io/linter/lints/options/options.html.
   rules:
@@ -27,7 +35,7 @@ linter:
     - avoid_returning_this
     - avoid_setters_without_getters
     - avoid_slow_async_io
-    # - avoid_types_on_closure_parameters
+    - avoid_types_on_closure_parameters
     - await_only_futures
     - camel_case_types
     - cancel_subscriptions

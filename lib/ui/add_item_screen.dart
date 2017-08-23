@@ -43,7 +43,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     final File _fileName = await ImagePicker.pickImage();
     setState(() {
       imageFile.add(_fileName);
-      _fileName.readAsBytes().then((List<int> data) {
+      _fileName.readAsBytes().then((data) {
         images.add(
             'data:image/${_fileName.path.split('.').last};base64,${BASE64.encode(data)}');
       });
@@ -61,7 +61,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       crossAxisSpacing: 10.0,
       children: new List<Widget>.generate(
           imageFile.length,
-          (int index) => new GridTile(
+          (index) => new GridTile(
                   child: new Stack(
                 children: <Widget>[
                   new Image.file(imageFile[index]),
@@ -132,7 +132,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
           title: const Text('Add Item'),
           actions: <Widget>[
             new Builder(
-                builder: (BuildContext context) => new IconButton(
+                builder: (context) => new IconButton(
                       icon: new Column(
                         children: <Widget>[
                           const Icon(Icons.add_box),
@@ -160,7 +160,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                         decoration:
                             const InputDecoration.collapsed(hintText: 'Name'),
                         autofocus: true,
-                        onSaved: (String value) {
+                        onSaved: (value) {
                           name = value;
                         },
                       ),
@@ -168,7 +168,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                         key: const Key('about'),
                         decoration: const InputDecoration.collapsed(
                             hintText: 'Description'),
-                        onSaved: (String value) {
+                        onSaved: (value) {
                           about = value;
                         },
                       ),
@@ -176,14 +176,14 @@ class _AddItemScreenState extends State<AddItemScreen> {
                         key: const Key('location'),
                         decoration: const InputDecoration.collapsed(
                             hintText: 'Location'),
-                        onSaved: (String value) {
+                        onSaved: (value) {
                           location = value;
                         },
                       ),
                       new SwitchListTile(
                         title: const Text('Donated Item'),
                         value: gift,
-                        onChanged: (bool value) {
+                        onChanged: (value) {
                           setState(() {
                             gift = value;
                           });
@@ -193,7 +193,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       new SwitchListTile(
                         title: const Text('Private Item'),
                         value: private,
-                        onChanged: (bool value) {
+                        onChanged: (value) {
                           setState(() {
                             private = value;
                           });

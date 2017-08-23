@@ -43,7 +43,7 @@ class _DiscoverViewState extends State<DiscoverView> {
     if (itemsLoaded == null) {
       return;
     }
-    itemsLoaded.then((List<Item> data) {
+    itemsLoaded.then((data) {
       if (!mounted) {
         return;
       }
@@ -59,7 +59,7 @@ class _DiscoverViewState extends State<DiscoverView> {
 
   Widget _buildDiscover() => new ListView.builder(
       itemCount: 2,
-      itemBuilder: (BuildContext context, int index) {
+      itemBuilder: (context, index) {
         switch (index) {
           case 0:
             return const Padding(
