@@ -361,10 +361,10 @@ class OrderPageState extends State<OrderPage>
                             selectedDate: new DateTime.now(),
                             onChanged: (date) {},
                           ),
-                          new Positioned(
+                          const Positioned(
                             top: 15.0,
                             left: 15.0,
-                            child: new Icon(Icons.today),
+                            child: const Icon(Icons.today),
                           )
                         ],
                       )

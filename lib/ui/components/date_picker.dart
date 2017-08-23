@@ -42,7 +42,7 @@ class _DayPickerBarState extends State<DayPickerBar> {
               ),
             ),
             new IconButton(
-              icon: new Icon(Icons.chevron_right),
+              icon: const Icon(Icons.chevron_right),
               onPressed: () {
                 setState(() {
                   _displayedMonth = new DateTime(

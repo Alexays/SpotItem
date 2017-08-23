@@ -213,7 +213,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
         floatingActionButton: new FloatingActionButton(
           onPressed: getImage,
           tooltip: 'Pick Image',
-          child: new Icon(Icons.add_a_photo),
+          child: const Icon(Icons.add_a_photo),
         ),
       );
 }
