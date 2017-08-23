@@ -284,7 +284,7 @@ class OrderPageState extends State<OrderPage>
                                         placeholder: const AssetImage(
                                             'assets/placeholder.png'),
                                         image: new NetworkImage(
-                                            item.images[index]),
+                                            '$apiImgUrl${item.images[index]}'),
                                         fit: BoxFit.cover,
                                         alignment: FractionalOffset.center);
                                   }
