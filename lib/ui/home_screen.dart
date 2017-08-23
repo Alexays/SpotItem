@@ -108,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               'Groups',
               new GroupsView(_itemsManager, _authManager),
             ),
-            new HomeScreenSubItem(
+            const HomeScreenSubItem(
               'Messages',
               const Center(
                 child: const Text('Comming soon'),
@@ -353,5 +353,5 @@ class HomeScreenSubItem {
   final String title;
   final Widget content;
 
-  HomeScreenSubItem(this.title, this.content);
+  const HomeScreenSubItem(this.title, this.content);
 }
