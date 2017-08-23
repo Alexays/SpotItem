@@ -17,11 +17,15 @@ class AddItemScreen extends StatefulWidget {
       new _AddItemScreenState(_authManager, _itemsManager);
 }
 
-class _AddItemScreenState extends State<AddItemScreen> {
+class _AddItemScreenState extends State<AddItemScreen>
+    with TickerProviderStateMixin {
   _AddItemScreenState(this._authManager, this._itemsManager);
   final AuthManager _authManager;
   final ItemsManager _itemsManager;
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+
+  AnimationController _controller;
+  Animation<Size> _bottomSize;
 
   List<File> imageFile = <File>[];
 
@@ -37,6 +41,18 @@ class _AddItemScreenState extends State<AddItemScreen> {
     super.initState();
     imageFile.clear();
     images.clear();
+    _controller = new AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+    _bottomSize = new SizeTween(
+      begin: new Size.fromHeight(kTextTabBarHeight + 40.0),
+      end: new Size.fromHeight(kTextTabBarHeight + 280.0),
+    )
+        .animate(new CurvedAnimation(
+      parent: _controller,
+      curve: Curves.ease,
+    ));
   }
 
   Future<bool> getImage() async {
@@ -53,7 +69,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   Widget getImageGrid() {
     if (imageFile == null || imageFile.isEmpty) {
-      return const Center();
+      return const Center(child: const Text('No images'));
     }
     return new GridView.count(
       primary: false,
@@ -128,88 +144,87 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-        appBar: new AppBar(
-          title: const Text('Add Item'),
-          actions: <Widget>[
-            new Builder(
-                builder: (context) => new IconButton(
-                      icon: new Column(
-                        children: <Widget>[
-                          const Icon(Icons.add_box),
-                          const Text('Add')
-                        ],
-                      ),
-                      onPressed: () {
-                        addItem(context);
-                      },
-                    ))
-          ],
+        body: new DefaultTabController(
+          length: 3,
+          child: new NestedScrollView(
+              headerSliverBuilder: (context, innerBoxIsScrolled) => <Widget>[
+                    new AnimatedBuilder(
+                        animation: _bottomSize,
+                        builder: (context, child) => new SliverAppBar(
+                            pinned: true,
+                            title: const Text('Add Item'),
+                            actions: <Widget>[
+                              new Builder(
+                                  builder: (context) => new IconButton(
+                                      icon: new Column(children: <Widget>[
+                                        const Icon(Icons.add_box),
+                                        const Text('Add')
+                                      ]),
+                                      onPressed: () {
+                                        addItem(context);
+                                      }))
+                            ],
+                            bottom: new TabBar(tabs: <Tab>[
+                              const Tab(text: 'Information'),
+                              const Tab(text: 'Images'),
+                              const Tab(text: 'Groups')
+                            ])))
+                  ],
+              body: new Container(
+                  margin: const EdgeInsets.all(20.0),
+                  child: new Form(
+                      key: _formKey,
+                      child: new TabBarView(children: <Widget>[
+                        new Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              new Column(children: <Widget>[
+                                new TextFormField(
+                                    key: const Key('name'),
+                                    decoration: const InputDecoration.collapsed(
+                                        hintText: 'Name'),
+                                    autofocus: true,
+                                    onSaved: (value) {
+                                      name = value;
+                                    }),
+                                new TextFormField(
+                                    key: const Key('about'),
+                                    decoration: const InputDecoration.collapsed(
+                                        hintText: 'Description'),
+                                    onSaved: (value) {
+                                      about = value;
+                                    }),
+                                new TextFormField(
+                                    key: const Key('location'),
+                                    decoration: const InputDecoration.collapsed(
+                                        hintText: 'Location'),
+                                    onSaved: (value) {
+                                      location = value;
+                                    }),
+                                new SwitchListTile(
+                                    title: const Text('Donated Item'),
+                                    value: gift,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        gift = value;
+                                      });
+                                    },
+                                    secondary: const Icon(Icons.card_giftcard)),
+                                new SwitchListTile(
+                                    title: const Text('Private Item'),
+                                    value: private,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        private = value;
+                                      });
+                                    },
+                                    secondary: const Icon(Icons.lock))
+                              ])
+                            ]),
+                        getImageGrid(),
+                        const Center(child: const Text('Comming soon !'))
+                      ])))),
         ),
-        body: new SingleChildScrollView(
-            child: new Container(
-          margin: const EdgeInsets.all(20.0),
-          child: new Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              new Form(
-                  key: _formKey,
-                  child: new Column(
-                    children: <Widget>[
-                      new TextFormField(
-                        key: const Key('name'),
-                        decoration:
-                            const InputDecoration.collapsed(hintText: 'Name'),
-                        autofocus: true,
-                        onSaved: (value) {
-                          name = value;
-                        },
-                      ),
-                      new TextFormField(
-                        key: const Key('about'),
-                        decoration: const InputDecoration.collapsed(
-                            hintText: 'Description'),
-                        onSaved: (value) {
-                          about = value;
-                        },
-                      ),
-                      new TextFormField(
-                        key: const Key('location'),
-                        decoration: const InputDecoration.collapsed(
-                            hintText: 'Location'),
-                        onSaved: (value) {
-                          location = value;
-                        },
-                      ),
-                      new SwitchListTile(
-                        title: const Text('Donated Item'),
-                        value: gift,
-                        onChanged: (value) {
-                          setState(() {
-                            gift = value;
-                          });
-                        },
-                        secondary: const Icon(Icons.card_giftcard),
-                      ),
-                      new SwitchListTile(
-                        title: const Text('Private Item'),
-                        value: private,
-                        onChanged: (value) {
-                          setState(() {
-                            private = value;
-                          });
-                        },
-                        secondary: const Icon(Icons.lock),
-                      )
-                    ],
-                  )),
-              new Container(
-                height: 300.0,
-                width: 300.0,
-                child: getImageGrid(),
-              ),
-            ],
-          ),
-        )),
         floatingActionButton: new FloatingActionButton(
           onPressed: getImage,
           tooltip: 'Pick Image',

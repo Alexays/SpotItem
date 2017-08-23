@@ -75,26 +75,24 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     _authManager,
                     (items) => items
                         .where((item) => item.tracks.contains('gift'))
-                        .toList())),
+                        .toList()))
           ],
           fab: new FloatingActionButton(
-            child: const Icon(Icons.add),
-            tooltip: 'Add new item',
-            onPressed: () {
-              Navigator.of(context).pushNamed('/item/add');
-            },
-          )),
+              child: const Icon(Icons.add),
+              tooltip: 'Add new item',
+              onPressed: () {
+                Navigator.of(context).pushNamed('/item/add');
+              })),
       new HomeScreenItem(
           icon: const Icon(Icons.work),
           title: 'Items',
           content: new ItemsView(_itemsManager, _authManager),
           fab: new FloatingActionButton(
-            child: const Icon(Icons.add),
-            tooltip: 'Add new item',
-            onPressed: () {
-              Navigator.of(context).pushNamed('/item/add');
-            },
-          )),
+              child: const Icon(Icons.add),
+              tooltip: 'Add new item',
+              onPressed: () {
+                Navigator.of(context).pushNamed('/item/add');
+              })),
       new HomeScreenItem(
         icon: const Icon(Icons.map),
         title: 'Maps',
@@ -109,19 +107,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               new GroupsView(_itemsManager, _authManager),
             ),
             const HomeScreenSubItem(
-              'Messages',
-              const Center(
-                child: const Text('Comming soon'),
-              ),
-            ),
+                'Messages',
+                const Center(
+                  child: const Text('Comming soon'),
+                ))
           ],
           fab: new FloatingActionButton(
-            child: const Icon(Icons.person_add),
-            tooltip: 'Add new groups',
-            onPressed: () {
-              Navigator.of(context).pushNamed('/groups/add');
-            },
-          )),
+              child: const Icon(Icons.person_add),
+              tooltip: 'Add new groups',
+              onPressed: () {
+                Navigator.of(context).pushNamed('/groups/add');
+              })),
     ];
     initAnimation();
   }
@@ -172,105 +168,89 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return new TabBar(
       tabs: new List<Tab>.generate(
           _homeScreenItems[_currentIndex].sub?.length,
-          (index) => new Tab(
-                text: _homeScreenItems[_currentIndex].sub[index].title,
-              )),
+          (index) =>
+              new Tab(text: _homeScreenItems[_currentIndex].sub[index].title)),
     );
   }
 
   Widget _buildDrawer(BuildContext context) => new Drawer(
-        child: new ListView(
-          children: <Widget>[
-            new UserAccountsDrawerHeader(
-              accountName: new Text(
-                  '${_authManager.user?.firstname} ${_authManager.user?.name}'),
-              accountEmail: new Text(_authManager.user?.email),
-              currentAccountPicture: new CircleAvatar(
-                  backgroundColor: Colors.grey,
-                  backgroundImage: _authManager.user?.avatar != 'null'
-                      ? new NetworkImage(_authManager.user?.avatar)
-                      : null,
-                  child: new Text(
-                      '${_authManager.user?.firstname[0]}${_authManager.user?.name[0]}')),
-              otherAccountsPictures: <Widget>[
-                new IconButton(
-                  icon: const Icon(Icons.settings),
-                  color: Colors.white,
-                  onPressed: () {},
-                ),
-              ],
-              onDetailsPressed: () {
-                _showDrawerContents = !_showDrawerContents;
-                if (_showDrawerContents)
-                  _controller.reverse();
-                else
-                  _controller.forward();
-              },
-            ),
-            new ClipRect(
-              child: new Stack(
-                children: <Widget>[
-                  new FadeTransition(
-                    opacity: _drawerContentsOpacity,
-                    child: new Column(
+          child: new ListView(children: <Widget>[
+        new UserAccountsDrawerHeader(
+            accountName: new Text(
+                '${_authManager.user?.firstname} ${_authManager.user?.name}'),
+            accountEmail: new Text(_authManager.user?.email),
+            currentAccountPicture: new CircleAvatar(
+                backgroundColor: Colors.grey,
+                backgroundImage: _authManager.user?.avatar != 'null'
+                    ? new NetworkImage(_authManager.user?.avatar)
+                    : null,
+                child: new Text(
+                    '${_authManager.user?.firstname[0]}${_authManager.user?.name[0]}')),
+            otherAccountsPictures: <Widget>[
+              new IconButton(
+                icon: const Icon(Icons.settings),
+                color: Colors.white,
+                onPressed: () {},
+              )
+            ],
+            onDetailsPressed: () {
+              _showDrawerContents = !_showDrawerContents;
+              if (_showDrawerContents)
+                _controller.reverse();
+              else
+                _controller.forward();
+            }),
+        new ClipRect(
+            child: new Stack(children: <Widget>[
+          new FadeTransition(
+              opacity: _drawerContentsOpacity,
+              child: new Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    const ListTile(
+                      leading: const Icon(Icons.home),
+                      title: const Text('Home'),
+                      selected: true,
+                    ),
+                    const ListTile(
+                      leading: const Icon(Icons.account_balance),
+                      title: const Text('test'),
+                      enabled: false,
+                    ),
+                    new ListTile(
+                        leading: const Icon(Icons.dvr),
+                        title: const Text('Dump App to Console'),
+                        onTap: () {
+                          debugDumpApp();
+                          debugDumpRenderTree();
+                          debugDumpLayerTree();
+                        })
+                  ])),
+          new SlideTransition(
+              position: _drawerDetailsPosition,
+              child: new FadeTransition(
+                  opacity: new ReverseAnimation(_drawerContentsOpacity),
+                  child: new Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        const ListTile(
-                          leading: const Icon(Icons.home),
-                          title: const Text('Home'),
-                          selected: true,
-                        ),
-                        const ListTile(
-                          leading: const Icon(Icons.account_balance),
-                          title: const Text('test'),
-                          enabled: false,
-                        ),
                         new ListTile(
-                          leading: const Icon(Icons.dvr),
-                          title: const Text('Dump App to Console'),
-                          onTap: () {
-                            debugDumpApp();
-                            debugDumpRenderTree();
-                            debugDumpLayerTree();
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  new SlideTransition(
-                    position: _drawerDetailsPosition,
-                    child: new FadeTransition(
-                      opacity: new ReverseAnimation(_drawerContentsOpacity),
-                      child: new Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          new ListTile(
                             leading: const Icon(Icons.edit),
                             title: const Text('Edit Profile'),
                             onTap: () {
                               Navigator.of(context).pushNamed('/user/edit');
-                            },
-                          ),
-                          new ListTile(
+                            }),
+                        new ListTile(
                             leading: const Icon(Icons.exit_to_app),
                             title: const Text('Logout'),
                             onTap: () {
                               _authManager.logout().then((_) => Navigator
                                   .pushReplacementNamed(context, '/login'));
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
+                            })
+                      ])))
+        ]))
+      ]));
 
   SliverAppBar _buildAppBar() => new SliverAppBar(
         pinned: true,
@@ -296,7 +276,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 new IconButton(
                   icon: const Icon(Icons.search),
                   onPressed: _handleSearchBegin,
-                ),
+                )
               ],
         bottom: _buildBottom(),
       );
@@ -310,28 +290,23 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-        drawer: _buildDrawer(context),
-        floatingActionButton: _buildFab(),
-        body: new DefaultTabController(
+      drawer: _buildDrawer(context),
+      floatingActionButton: _buildFab(),
+      body: new DefaultTabController(
           length: _homeScreenItems[_currentIndex].sub?.length,
           child: new NestedScrollView(
-            headerSliverBuilder: (context, innerBoxIsScrolled) => <Widget>[
-                  new AnimatedBuilder(
-                    animation: _bottomSize,
-                    builder: (context, child) => _buildAppBar(),
-                  ),
-                ],
-            body: new TabBarView(
-              children: _homeScreenItems[_currentIndex].content,
-            ),
-          ),
-        ),
-        bottomNavigationBar: new BottomNavigationBar(
-          currentIndex: _currentIndex,
-          items: _homeScreenItems.map((item) => item.item).toList(),
-          onTap: _navBarItemSelected,
-        ),
-      );
+              headerSliverBuilder: (context, innerBoxIsScrolled) => <Widget>[
+                    new AnimatedBuilder(
+                        animation: _bottomSize,
+                        builder: (context, child) => _buildAppBar())
+                  ],
+              body: new TabBarView(
+                  children: _homeScreenItems[_currentIndex].content))),
+      bottomNavigationBar: new BottomNavigationBar(
+        currentIndex: _currentIndex,
+        items: _homeScreenItems.map((item) => item.item).toList(),
+        onTap: _navBarItemSelected,
+      ));
 }
 
 class HomeScreenItem {
