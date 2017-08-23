@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
 import 'package:spotitems/interactor/utils.dart';
+import 'package:spotitems/model/group.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +24,7 @@ class _AddItemScreenState extends State<AddItemScreen>
   _AddItemScreenState(this._authManager, this._itemsManager);
   final AuthManager _authManager;
   final ItemsManager _itemsManager;
+
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   AnimationController _controller;
@@ -36,6 +38,10 @@ class _AddItemScreenState extends State<AddItemScreen>
   bool gift = false;
   bool private = false;
   List<String> images = <String>[];
+
+  bool _loading = true;
+
+  List<Group> _myGroups;
 
   @override
   void initState() {
@@ -54,6 +60,12 @@ class _AddItemScreenState extends State<AddItemScreen>
       parent: _controller,
       curve: Curves.ease,
     ));
+    _authManager.getGroups(widget._authManager.user.id).then((data) {
+      setState(() {
+        _myGroups = data;
+        _loading = false;
+      });
+    });
   }
 
   Future<bool> getImage() async {
@@ -136,6 +148,13 @@ class _AddItemScreenState extends State<AddItemScreen>
     }
   }
 
+  Widget getGroups() {
+    if (_loading) {
+      return const Center(child: const CircularProgressIndicator());
+    }
+    return const Center(child: const Text('Comming soon !'));
+  }
+
   @override
   Widget build(BuildContext context) => new Scaffold(
         body: new DefaultTabController(
@@ -216,7 +235,7 @@ class _AddItemScreenState extends State<AddItemScreen>
                               ])
                             ]),
                         getImageGrid(),
-                        const Center(child: const Text('Comming soon !'))
+                        getGroups(),
                       ])))),
         ),
         floatingActionButton: new FloatingActionButton(
