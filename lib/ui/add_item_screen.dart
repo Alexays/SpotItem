@@ -53,7 +53,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   Widget getImageGrid() {
     if (imageFile == null || imageFile.isEmpty) {
-      return new Center();
+      return const Center();
     }
     return new GridView.count(
       primary: false,

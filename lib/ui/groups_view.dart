@@ -88,7 +88,7 @@ class _GroupsViewState extends State<GroupsView> {
           if (_myGroupsInv.isNotEmpty) {
             return _buildInv();
           } else if (_myGroups.isEmpty) {
-            return new Center(child: const Text('No groups'));
+            return const Center(child: const Text('No groups'));
           }
           return new Container();
         }
@@ -215,7 +215,7 @@ class _GroupsViewState extends State<GroupsView> {
   Widget build(BuildContext context) => new Container(
         margin: const EdgeInsets.all(20.0),
         child: _loading
-            ? new Center(child: const CircularProgressIndicator())
+            ? const Center(child: const CircularProgressIndicator())
             : getList(),
       );
 }

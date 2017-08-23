@@ -229,7 +229,7 @@ class OrderPageState extends State<OrderPage>
   @override
   Widget build(BuildContext context) => new Scaffold(
         body: _loading
-            ? new Center(child: const CircularProgressIndicator())
+            ? const Center(child: const CircularProgressIndicator())
             : new CustomScrollView(
                 slivers: <Widget>[
                   new SliverAppBar(

@@ -64,8 +64,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 new DiscoverView(_itemsManager, _authManager, null)),
             new HomeScreenSubItem(
                 'Nearest you',
-                new ExplorerView(_itemsManager, _authManager,
-                    (items) {
+                new ExplorerView(_itemsManager, _authManager, (items) {
                   items.sort((a, b) => a.dist.compareTo(b.dist));
                   return items;
                 })),
@@ -111,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
             new HomeScreenSubItem(
               'Messages',
-              new Center(
+              const Center(
                 child: const Text('Comming soon'),
               ),
             ),
@@ -316,14 +315,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         body: new DefaultTabController(
           length: _homeScreenItems[_currentIndex].sub?.length,
           child: new NestedScrollView(
-            headerSliverBuilder:
-                (context, innerBoxIsScrolled) => <Widget>[
-                      new AnimatedBuilder(
-                        animation: _bottomSize,
-                        builder: (context, child) =>
-                            _buildAppBar(),
-                      ),
-                    ],
+            headerSliverBuilder: (context, innerBoxIsScrolled) => <Widget>[
+                  new AnimatedBuilder(
+                    animation: _bottomSize,
+                    builder: (context, child) => _buildAppBar(),
+                  ),
+                ],
             body: new TabBarView(
               children: _homeScreenItems[_currentIndex].content,
             ),
@@ -331,8 +328,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ),
         bottomNavigationBar: new BottomNavigationBar(
           currentIndex: _currentIndex,
-          items:
-              _homeScreenItems.map((item) => item.item).toList(),
+          items: _homeScreenItems.map((item) => item.item).toList(),
           onTap: _navBarItemSelected,
         ),
       );

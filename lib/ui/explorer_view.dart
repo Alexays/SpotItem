@@ -56,7 +56,7 @@ class _ExplorerViewState extends State<ExplorerView> {
   Widget build(BuildContext context) => new RefreshIndicator(
         onRefresh: () => _loadItems(true),
         child: _loading
-            ? new Center(child: const CircularProgressIndicator())
+            ? const Center(child: const CircularProgressIndicator())
             : new ItemsList(_items, widget._itemsManager, widget._authManager,
                 _mode.toString()),
       );

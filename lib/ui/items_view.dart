@@ -38,7 +38,7 @@ class _ItemsViewState extends State<ItemsView> {
 
   Widget getList() {
     if (_myItems.isEmpty) {
-      return new Center(
+      return const Center(
         child: const Text('No items'),
       );
     }
@@ -80,7 +80,7 @@ class _ItemsViewState extends State<ItemsView> {
   Widget build(BuildContext context) => new Container(
         margin: const EdgeInsets.all(20.0),
         child: _loading
-            ? new Center(child: const CircularProgressIndicator())
+            ? const Center(child: const CircularProgressIndicator())
             : getList(),
       );
 }

@@ -85,7 +85,7 @@ class _DiscoverViewState extends State<DiscoverView> {
   Widget build(BuildContext context) => new RefreshIndicator(
         onRefresh: () => _loadItems(true),
         child: _loading
-            ? new Center(child: const CircularProgressIndicator())
+            ? const Center(child: const CircularProgressIndicator())
             : _buildDiscover(),
       );
 }

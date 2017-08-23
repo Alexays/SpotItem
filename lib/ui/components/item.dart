@@ -40,8 +40,7 @@ class _ItemsListItem extends StatelessWidget {
                   tag: '${item.id}_img_$hash',
                   child: new FadeInImage(
                       placeholder: const AssetImage('assets/placeholder.png'),
-                      image:
-                          new NetworkImage('$apiImgUrl${item.images.first}'),
+                      image: new NetworkImage('$apiImgUrl${item.images.first}'),
                       fit: BoxFit.cover,
                       alignment: FractionalOffset.center)),
               item.dist != null
@@ -132,7 +131,7 @@ class ItemsList extends StatelessWidget {
                 _showItemPage(
                     _items[index], _authManager, _itemsManager, _hash, context);
               }))
-      : new Center(child: const Text('No items'));
+      : const Center(child: const Text('No items'));
 }
 
 Future<Null> _showItemPage(Item item, AuthManager authManager,

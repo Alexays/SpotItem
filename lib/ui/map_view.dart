@@ -21,7 +21,7 @@ class _MapViewState extends State<MapView> {
   }
 
   @override
-  Widget build(BuildContext context) => new Center(
+  Widget build(BuildContext context) => const Center(
         child: const Text('Comming soon'),
       );
 }

@@ -198,7 +198,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                       ))
             ]),
         body: _loading
-            ? new Center(child: const CircularProgressIndicator())
+            ? const Center(child: const CircularProgressIndicator())
             : new SingleChildScrollView(
                 child: new Container(
                     margin: const EdgeInsets.all(20.0),
