@@ -32,15 +32,14 @@ class _SplashState extends State<SplashScreen> {
     _itemsManager.close();
   }
 
-  Future<bool> _init() async {
+  Future<Null> _init() async {
     final bool auth = await _authManager.init();
     final bool items = await _itemsManager.init();
-    final String route = _authManager.loggedIn ? '/home' : '/login';
-    Navigator.pushReplacementNamed(context, route);
     if (auth && items) {
-      return true;
+      final String route = _authManager.loggedIn ? '/home' : '/login';
+      Navigator.pushReplacementNamed(context, route);
     }
-    return false;
+    //TODO show error page
   }
 
   @override
