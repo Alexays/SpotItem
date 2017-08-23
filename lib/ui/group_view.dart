@@ -34,18 +34,15 @@ class _GroupPageState extends State<GroupPage>
   @override
   void initState() {
     super.initState();
-    group.users = group.users
-        .where((user) => user.groups.contains(group.id))
-        .toList();
+    group.users =
+        group.users.where((user) => user.groups.contains(group.id)).toList();
   }
 
-  Future<bool> _leaveGroup() async {
-    final bool leaved = await widget.authManager.leaveGroup(group.id);
-    if (leaved) {
+  Future<Null> _leaveGroup() async {
+    final dynamic reponse = await widget.authManager.leaveGroup(group.id);
+    if (reponse['success']) {
       Navigator.pushReplacementNamed(context, '/home');
-      return true;
     }
-    return false;
   }
 
   List<Widget> _doButton() {
@@ -74,7 +71,9 @@ class _GroupPageState extends State<GroupPage>
                 ),
                 new FlatButton(
                   child: const Text('Leave'),
-                  onPressed: () => _leaveGroup,
+                  onPressed: () {
+                    _leaveGroup;
+                  },
                 ),
               ],
             ),

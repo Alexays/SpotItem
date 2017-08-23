@@ -60,14 +60,12 @@ class _GroupsViewState extends State<GroupsView> {
     }
   }
 
-  Future<bool> _joinGroup(int index) async {
+  Future<Null> _joinGroup(int index) async {
     final dynamic response =
         await widget._authManager.joinGroup(_myGroupsInv[index].id);
     if (response['success']) {
-      Navigator.pushReplacementNamed(context, '/home');
-      return true;
+      _loadGroups();
     }
-    return false;
   }
 
   Widget getList() => new ListView.builder(
@@ -167,6 +165,7 @@ class _GroupsViewState extends State<GroupsView> {
                           child: const Text('Join !'),
                           onPressed: () {
                             _joinGroup(index);
+                            Navigator.of(context).pop();
                           },
                         ),
                       ],
