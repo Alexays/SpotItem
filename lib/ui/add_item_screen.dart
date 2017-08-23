@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
+import 'package:spotitems/interactor/utils.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -104,7 +105,7 @@ class _AddItemScreenState extends State<AddItemScreen>
     );
   }
 
-  Future<bool> addItem(BuildContext context) async {
+  Future<Null> addItem(BuildContext context) async {
     _formKey.currentState.save();
     final List<String> tracks = <String>[];
     if (gift) {
@@ -125,20 +126,13 @@ class _AddItemScreenState extends State<AddItemScreen>
           images,
           location,
           tracks);
-      Scaffold
-          .of(context)
-          .showSnackBar(new SnackBar(content: new Text(response['msg'])));
+      showSnackBar(context, response['msg']);
       if (response['success']) {
         await _itemsManager.getItems(force: true);
         await Navigator.pushReplacementNamed(context, '/home');
-        return true;
       }
-      return false;
     } else {
-      Scaffold
-          .of(context)
-          .showSnackBar(new SnackBar(content: const Text('Not Connected')));
-      return false;
+      showSnackBar(context, 'Not Connected');
     }
   }
 

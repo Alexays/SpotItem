@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 final RegExp emailExp = new RegExp(r'[\w-]+@([\w-]+\.)+[\w-]+');
 final RegExp nameExp =
     new RegExp(r"^[A-Za-z]+((\s)?((\'|\-|\.)?([A-Za-z])+))*$");
@@ -37,4 +39,8 @@ String distString(double dist) {
     return '${(dist * 1000).toStringAsFixed(0)}m';
   }
   return '${dist.toStringAsFixed(2)}km';
+}
+
+void showSnackBar(BuildContext context, String text) {
+  Scaffold.of(context).showSnackBar(new SnackBar(content: new Text(text)));
 }
