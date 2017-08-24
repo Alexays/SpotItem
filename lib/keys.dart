@@ -1,4 +1,4 @@
-const String version = '1.0.0';
+const String version = '0.0.1';
 const String clientSecret = 'et+nWhUB>.Dg[c4z';
 const String apiUrl = 'http://217.182.65.67:1337/api';
 const String apiImgUrl = 'http://217.182.65.67:1337/img/';
