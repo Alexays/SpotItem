@@ -41,7 +41,7 @@ class _AddItemScreenState extends State<AddItemScreen>
 
   bool _loading = true;
 
-  List<double> _checked;
+  List<bool> _checked;
 
   List<Group> _myGroups;
 
@@ -64,7 +64,7 @@ class _AddItemScreenState extends State<AddItemScreen>
     _authManager.getGroups(widget._authManager.user.id).then((data) {
       setState(() {
         _myGroups = data;
-        _checked = new List<double>(_myGroups.length);
+        _checked = new List<bool>(_myGroups.length);
         _loading = false;
       });
     });
@@ -170,10 +170,10 @@ class _AddItemScreenState extends State<AddItemScreen>
       children: new List<Widget>.generate(_myGroups.length, (index) {
         return new CheckboxListTile(
           title: new Text(_myGroups[index].name),
-          value: _checked[index] == 1.0,
+          value: _checked[index] == false,
           onChanged: (value) {
             setState(() {
-              _checked[index] = value ? 1.0 : 20.0;
+              _checked[index] = !value;
             });
           },
           secondary: const Icon(Icons.people),
