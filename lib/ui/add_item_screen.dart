@@ -155,7 +155,7 @@ class _AddItemScreenState extends State<AddItemScreen>
       showSnackBar(context, response['msg']);
       if (response['success']) {
         await _itemsManager.getItems(force: true);
-        await Navigator.pushReplacementNamed(context, '/home');
+        Navigator.pushReplacementNamed(context, '/home');
       }
     } else {
       showSnackBar(context, 'Not Connected');
@@ -170,10 +170,10 @@ class _AddItemScreenState extends State<AddItemScreen>
       children: new List<Widget>.generate(_myGroups.length, (index) {
         return new CheckboxListTile(
           title: new Text(_myGroups[index].name),
-          value: _checked[index] != 1.0,
+          value: _checked[index] == 1.0,
           onChanged: (value) {
             setState(() {
-              _checked[index] = value ? 20.0 : 1.0;
+              _checked[index] = value ? 1.0 : 20.0;
             });
           },
           secondary: const Icon(Icons.people),
