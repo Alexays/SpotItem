@@ -27,8 +27,6 @@ class ItemsManager {
 
   Map<String, double> location;
 
-  StreamSubscription<Map<String, double>> _locationSubscription;
-
   bool _initialized;
 
   bool _loading = true;
@@ -46,8 +44,7 @@ class ItemsManager {
       if (tmp != null)
         location = tmp;
       else {
-        _locationSubscription =
-            _location.onLocationChanged.listen((result) {
+        _location.onLocationChanged.listen((result) {
           if (result != null) {
             location = result;
           }
@@ -57,15 +54,6 @@ class ItemsManager {
       print("Can't get location");
     }
     return _initialized = true;
-  }
-
-  Future<bool> close() async {
-    if (_locationSubscription != null &&
-        await _location.onLocationChanged.isEmpty) {
-      await _locationSubscription.cancel();
-      return true;
-    }
-    return false;
   }
 
   double getDist(double lat2, double lng2) {

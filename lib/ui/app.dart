@@ -1,16 +1,18 @@
 import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
 import 'package:spotitems/ui/routes.dart';
-import 'package:spotitems/ui/splash_screen.dart';
+import 'package:spotitems/ui/home_screen.dart';
+import 'package:spotitems/ui/login_screen.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
 class SpotItemsApp extends StatelessWidget {
   final Router router = new Router();
-  final AuthManager _authManager = new AuthManager();
-  final ItemsManager _itemsManager = new ItemsManager();
+  final AuthManager _authManager;
+  final ItemsManager _itemsManager;
+  final String route;
 
-  SpotItemsApp() {
+  SpotItemsApp(this._authManager, this._itemsManager, this.route) {
     configureRouter(router, _authManager, _itemsManager);
   }
 
@@ -20,7 +22,9 @@ class SpotItemsApp extends StatelessWidget {
         theme: new ThemeData(
           primarySwatch: Colors.teal,
         ),
-        home: new SplashScreen(_authManager, _itemsManager),
+        home: route == '/login'
+            ? new LoginScreen(_authManager)
+            : new HomeScreen(_authManager, _itemsManager),
         onGenerateRoute: router.generator,
       );
 }
