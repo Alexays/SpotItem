@@ -41,6 +41,8 @@ class _AddItemScreenState extends State<AddItemScreen>
 
   bool _loading = true;
 
+  List<double> _checked;
+
   List<Group> _myGroups;
 
   @override
@@ -62,6 +64,7 @@ class _AddItemScreenState extends State<AddItemScreen>
     _authManager.getGroups(widget._authManager.user.id).then((data) {
       setState(() {
         _myGroups = data;
+        _checked = new List<double>(_myGroups.length);
         _loading = false;
       });
     });
@@ -163,7 +166,20 @@ class _AddItemScreenState extends State<AddItemScreen>
     if (_loading) {
       return const Center(child: const CircularProgressIndicator());
     }
-    return const Center(child: const Text('Comming soon !'));
+    return new Column(
+      children: new List<Widget>.generate(_myGroups.length, (index) {
+        return new CheckboxListTile(
+          title: new Text(_myGroups[index].name),
+          value: _checked[index] != 1.0,
+          onChanged: (value) {
+            setState(() {
+              _checked[index] = value ? 20.0 : 1.0;
+            });
+          },
+          secondary: const Icon(Icons.people),
+        );
+      }),
+    );
   }
 
   @override
