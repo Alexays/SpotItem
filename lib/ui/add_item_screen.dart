@@ -134,6 +134,14 @@ class _AddItemScreenState extends State<AddItemScreen>
   Future<Null> addItem(BuildContext context) async {
     _formKey.currentState.save();
     final List<String> tracks = <String>[];
+    final List<String> groups = <String>[];
+    int i = 0;
+    _checked.forEach((f) {
+      if (f) {
+        groups.add(_myGroups[i].id);
+      }
+      i++;
+    });
     if (gift) {
       tracks.add('gift');
     }
@@ -151,7 +159,8 @@ class _AddItemScreenState extends State<AddItemScreen>
           _itemsManager.location['longitude'].toString(),
           images,
           location,
-          tracks);
+          tracks,
+          groups);
       showSnackBar(context, response['msg']);
       if (response['success']) {
         await _itemsManager.getItems(force: true);
@@ -167,18 +176,18 @@ class _AddItemScreenState extends State<AddItemScreen>
       return const Center(child: const CircularProgressIndicator());
     }
     return new Column(
-      children: new List<Widget>.generate(_myGroups.length, (index) {
-        return new CheckboxListTile(
-          title: new Text(_myGroups[index].name),
-          value: _checked[index] == false,
-          onChanged: (value) {
-            setState(() {
-              _checked[index] = !value;
-            });
-          },
-          secondary: const Icon(Icons.people),
-        );
-      }),
+      children: new List<Widget>.generate(
+          _myGroups.length,
+          (index) => new CheckboxListTile(
+                title: new Text(_myGroups[index].name),
+                value: _checked[index] == false,
+                onChanged: (value) {
+                  setState(() {
+                    _checked[index] = !value;
+                  });
+                },
+                secondary: const Icon(Icons.people),
+              )),
     );
   }
 
