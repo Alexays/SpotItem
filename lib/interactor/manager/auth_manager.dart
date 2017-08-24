@@ -84,8 +84,7 @@ class AuthManager {
     userJson['groups'] = 'groups';
     userJson['password'] = password;
     final Response response = await _client
-        .post('$apiUrl/signup',
-            headers: {'Authorization': 'Basic $_clientSecret'}, body: userJson)
+        .post('$apiUrl/signup', headers: getHeaders(), body: userJson)
         .whenComplete(_client.close);
     final dynamic bodyJson = JSON.decode(response.body);
     return bodyJson;
@@ -100,7 +99,7 @@ class AuthManager {
     }
     final Response response = await _client
         .put('$apiUrl/user/edit',
-            headers: {'Authorization': _oauthToken}, body: userJson)
+            headers: getHeaders(_oauthToken), body: userJson)
         .whenComplete(_client.close);
     final dynamic bodyJson = JSON.decode(response.body);
     if (response.statusCode == 200 && bodyJson['success']) {
@@ -126,7 +125,7 @@ class AuthManager {
     groupJson['owner'] = user.id;
     final Response response = await _client
         .post('$apiUrl/groups',
-            headers: {'Authorization': _oauthToken}, body: groupJson)
+            headers: getHeaders(_oauthToken), body: groupJson)
         .whenComplete(_client.close);
     final dynamic bodyJson = JSON.decode(response.body);
     if (bodyJson['success']) {
@@ -141,8 +140,9 @@ class AuthManager {
       return null;
     }
     final Client _client = new Client();
-    final Response response = await _client.get('$apiUrl/groups',
-        headers: {'Authorization': _oauthToken}).whenComplete(_client.close);
+    final Response response = await _client
+        .get('$apiUrl/groups', headers: getHeaders(_oauthToken))
+        .whenComplete(_client.close);
     if (response.statusCode == 200) {
       final dynamic groupJson = JSON.decode(response.body);
       return _myGroups = new List<Group>.generate(
@@ -156,8 +156,9 @@ class AuthManager {
       return null;
     }
     final Client _client = new Client();
-    final Response response = await _client.get('$apiUrl/groups/inv',
-        headers: {'Authorization': _oauthToken}).whenComplete(_client.close);
+    final Response response = await _client
+        .get('$apiUrl/groups/inv', headers: getHeaders(_oauthToken))
+        .whenComplete(_client.close);
     if (response.statusCode == 200) {
       final dynamic groupJson = JSON.decode(response.body);
       return _myGroupsInv = new List<Group>.generate(
@@ -171,8 +172,9 @@ class AuthManager {
       return null;
     }
     final Client _client = new Client();
-    final Response response = await _client.delete('$apiUrl/group/$groupId',
-        headers: {'Authorization': _oauthToken}).whenComplete(_client.close);
+    final Response response = await _client
+        .delete('$apiUrl/group/$groupId', headers: getHeaders(_oauthToken))
+        .whenComplete(_client.close);
     final dynamic groupJson = JSON.decode(response.body);
     if (response.statusCode == 200) {
       user.groups.removeWhere((group) => group == groupId);
@@ -186,8 +188,9 @@ class AuthManager {
       return null;
     }
     final Client _client = new Client();
-    final Response response = await _client.put('$apiUrl/group/$groupId',
-        headers: {'Authorization': _oauthToken}).whenComplete(_client.close);
+    final Response response = await _client
+        .put('$apiUrl/group/$groupId', headers: getHeaders(_oauthToken))
+        .whenComplete(_client.close);
     final dynamic groupJson = JSON.decode(response.body);
     if (response.statusCode == 200) {
       user.groups.add(groupId);
@@ -201,8 +204,9 @@ class AuthManager {
       return null;
     }
     final Client _client = new Client();
-    final Response response = await _client.get('$apiUrl/group/$groupId/leave',
-        headers: {'Authorization': _oauthToken}).whenComplete(_client.close);
+    final Response response = await _client
+        .get('$apiUrl/group/$groupId/leave', headers: getHeaders(_oauthToken))
+        .whenComplete(_client.close);
     final dynamic groupJson = JSON.decode(response.body);
     if (response.statusCode == 200) {
       user.groups.removeWhere((group) => group == groupId);

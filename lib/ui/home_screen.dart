@@ -35,7 +35,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   bool _showDrawerContents = true;
 
-  final TextEditingController _searchQuery = new TextEditingController();
+  final TextEditingController _searchController = new TextEditingController();
+  String _searchQuery = '';
   bool _isSearching = false;
 
   void _handleSearchBegin() {
@@ -43,7 +44,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       onRemove: () {
         setState(() {
           _isSearching = false;
-          _searchQuery.clear();
+          _searchQuery = '';
+          _searchController.clear();
         });
       },
     ));
@@ -119,6 +121,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               })),
     ];
     initAnimation();
+    _searchController.addListener(() {
+      setState(() {
+        _homeScreenItems.add(new HomeScreenItem(
+          icon: const Icon(Icons.map),
+          title: 'test',
+          content: new MapView(_itemsManager),
+        ));
+        _searchQuery = _searchController.text;
+      });
+    });
     super.initState();
   }
 
@@ -259,7 +271,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         title: _isSearching
             ? new TextField(
                 key: const Key('search'),
-                controller: _searchQuery,
+                controller: _searchController,
                 autofocus: true,
                 style: new TextStyle(color: Colors.white70, fontSize: 16.0),
                 decoration: new InputDecoration(

@@ -87,10 +87,8 @@ class ItemsManager {
       List<String> tracks,
       List<String> groups) async {
     final Client _client = new Client();
-    final Response response =
-        await _client.post(Uri.encodeFull('$apiUrl/addItem'), headers: {
-      'Authorization': 'Basic $_clientSecret'
-    }, body: {
+    final Response response = await _client
+        .post(Uri.encodeFull('$apiUrl/addItem'), headers: getHeaders(), body: {
       'name': name,
       'about': about,
       'owner': userId,
@@ -117,10 +115,8 @@ class ItemsManager {
       String location,
       List<String> tracks) async {
     final Client _client = new Client();
-    final Response response =
-        await _client.put(Uri.encodeFull('$apiUrl/items/$id'), headers: {
-      'Authorization': 'Basic $_clientSecret'
-    }, body: {
+    final Response response = await _client
+        .put(Uri.encodeFull('$apiUrl/items/$id'), headers: getHeaders(), body: {
       'name': name,
       'about': about,
       'owner': userId,
@@ -138,9 +134,8 @@ class ItemsManager {
   Future<dynamic> deleteItem(String id) async {
     final Client _client = new Client();
     final Response response = await _client
-        .delete(Uri.encodeFull('$apiUrl/items/$id'), headers: {
-      'Authorization': 'Basic $_clientSecret'
-    }).whenComplete(_client.close);
+        .delete(Uri.encodeFull('$apiUrl/items/$id'), headers: getHeaders())
+        .whenComplete(_client.close);
     final dynamic bodyJson = JSON.decode(response.body);
     return bodyJson;
   }
@@ -163,9 +158,10 @@ class ItemsManager {
       final String token = prefs.getString(keyOauthToken);
       final Client _client = new Client();
       final Response response = await _client
-          .get('$apiUrl${userId != null ? '/items/auth' : '/items'}', headers: {
-        'Authorization': userId != null ? token : 'Basic $_clientSecret'
-      }).whenComplete(_client.close);
+          .get('$apiUrl${userId != null ? '/items/auth' : '/items'}',
+              headers:
+                  getHeaders(userId != null ? token : 'Basic $_clientSecret'))
+          .whenComplete(_client.close);
       if (response.statusCode == 200) {
         final dynamic itemJson = JSON.decode(response.body);
         _items = new List<Item>.generate(
@@ -190,10 +186,9 @@ class ItemsManager {
       return null;
     }
     final Client _client = new Client();
-    final Response response = await _client.get('$apiUrl/items/$itemId',
-        headers: {
-          'Authorization': 'Basic $_clientSecret'
-        }).whenComplete(_client.close);
+    final Response response = await _client
+        .get('$apiUrl/items/$itemId', headers: getHeaders())
+        .whenComplete(_client.close);
     if (response.statusCode == 200) {
       final dynamic itemJson = JSON.decode(response.body);
       return new Item.fromJson(
@@ -207,10 +202,9 @@ class ItemsManager {
       return null;
     }
     final Client _client = new Client();
-    final Response response = await _client.get('$apiUrl/userItem/$userId',
-        headers: {
-          'Authorization': 'Basic $_clientSecret'
-        }).whenComplete(_client.close);
+    final Response response = await _client
+        .get('$apiUrl/userItem/$userId', headers: getHeaders())
+        .whenComplete(_client.close);
     if (response.statusCode == 200) {
       final dynamic itemJson = JSON.decode(response.body);
       _myItems = new List<Item>.generate(
