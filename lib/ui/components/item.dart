@@ -10,8 +10,8 @@ import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:spotitems/keys.dart';
 import 'package:spotitems/interactor/utils.dart';
 
-class _ItemsListItem extends StatelessWidget {
-  const _ItemsListItem(
+class ItemsListItem extends StatelessWidget {
+  const ItemsListItem(
       {@required this.itemsManager,
       @required this.item,
       Key key,
@@ -124,18 +124,18 @@ class ItemsList extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           itemCount: _items?.length,
           itemExtent: 300.0,
-          itemBuilder: (context, index) => new _ItemsListItem(
+          itemBuilder: (context, index) => new ItemsListItem(
               itemsManager: _itemsManager,
               item: _items[index],
               hash: _hash,
               onPressed: () {
-                _showItemPage(
+                showItemPage(
                     _items[index], _authManager, _itemsManager, _hash, context);
               }))
       : const Center(child: const Text('No items'));
 }
 
-Future<Null> _showItemPage(Item item, AuthManager authManager,
+Future<Null> showItemPage(Item item, AuthManager authManager,
     ItemsManager itemsManager, String hash, BuildContext context) async {
   await Navigator.push(
       context,

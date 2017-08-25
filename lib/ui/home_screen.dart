@@ -1,10 +1,12 @@
 import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
+import 'package:spotitems/ui/components/item.dart';
 import 'package:spotitems/ui/explorer_view.dart';
 import 'package:spotitems/ui/discover_view.dart';
 import 'package:spotitems/ui/map_view.dart';
 import 'package:spotitems/ui/items_view.dart';
 import 'package:spotitems/ui/groups_view.dart';
+import 'package:spotitems/model/item.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -36,15 +38,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   bool _showDrawerContents = true;
 
   final TextEditingController _searchController = new TextEditingController();
-  String _searchQuery = '';
   bool _isSearching = false;
+  String _searchQuery = '';
 
   void _handleSearchBegin() {
     ModalRoute.of(context).addLocalHistoryEntry(new LocalHistoryEntry(
       onRemove: () {
         setState(() {
           _isSearching = false;
-          _searchQuery = '';
           _searchController.clear();
         });
       },
@@ -123,12 +124,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     initAnimation();
     _searchController.addListener(() {
       setState(() {
-        _homeScreenItems.add(new HomeScreenItem(
-          icon: const Icon(Icons.map),
-          title: 'test',
-          content: new MapView(_itemsManager),
-        ));
-        _searchQuery = _searchController.text;
+        _searchQuery = _searchController.text.toLowerCase();
       });
     });
     super.initState();
@@ -267,7 +263,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   SliverAppBar _buildAppBar() => new SliverAppBar(
         pinned: true,
         leading: _isSearching ? const BackButton() : null,
-        floating: _homeScreenItems[_currentIndex].sub != null,
+        floating: _homeScreenItems[_currentIndex].sub != null && !_isSearching,
         title: _isSearching
             ? new TextField(
                 key: const Key('search'),
@@ -290,7 +286,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   onPressed: _handleSearchBegin,
                 )
               ],
-        bottom: _buildBottom(),
+        bottom: _isSearching ? null : _buildBottom(),
       );
 
   FloatingActionButton _buildFab() {
@@ -298,6 +294,20 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       return null;
     }
     return _homeScreenItems[_currentIndex].fab;
+  }
+
+  List<Widget> _buildChild() {
+    if (_isSearching) {
+      List<Item> search = new List<Item>.from(_itemsManager.items);
+      search = search
+          .where((item) => item.name.toLowerCase().contains(_searchQuery))
+          .toList();
+      return [
+        new ItemsList(
+            search, widget._itemsManager, widget._authManager, null.toString())
+      ];
+    }
+    return _homeScreenItems[_currentIndex].content;
   }
 
   @override
@@ -312,8 +322,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         animation: _bottomSize,
                         builder: (context, child) => _buildAppBar())
                   ],
-              body: new TabBarView(
-                  children: _homeScreenItems[_currentIndex].content))),
+              body: new TabBarView(children: _buildChild()))),
       bottomNavigationBar: new BottomNavigationBar(
         currentIndex: _currentIndex,
         items: _homeScreenItems.map((item) => item.item).toList(),

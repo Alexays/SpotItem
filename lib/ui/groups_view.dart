@@ -69,7 +69,7 @@ class _GroupsViewState extends State<GroupsView> {
   }
 
   Future<Null> _showGroup(int index) async {
-    await Navigator.push(
+    Navigator.push(
         context,
         new MaterialPageRoute<Null>(
           builder: (context) => new GroupPage(
