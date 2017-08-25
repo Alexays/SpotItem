@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
 import 'package:spotitems/model/item.dart';
+import 'package:spotitems/model/group.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
@@ -20,10 +21,14 @@ class EditItemScreen extends StatefulWidget {
   _EditItemScreenState createState() => new _EditItemScreenState(_itemId);
 }
 
-class _EditItemScreenState extends State<EditItemScreen> {
+class _EditItemScreenState extends State<EditItemScreen>
+    with TickerProviderStateMixin {
   _EditItemScreenState(this._itemId);
 
   final String _itemId;
+
+  AnimationController _controller;
+  Animation<Size> _bottomSize;
 
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
@@ -41,6 +46,11 @@ class _EditItemScreenState extends State<EditItemScreen> {
   List<String> images = <String>[];
 
   Item item;
+  List<String> _groups;
+  List<bool> _checked;
+
+  List<Group> _myGroups;
+
   bool _loading = true;
 
   @override
@@ -55,12 +65,38 @@ class _EditItemScreenState extends State<EditItemScreen> {
           _name = new TextEditingController(text: name);
           _about = new TextEditingController(text: about);
           _location = new TextEditingController(text: location);
+          _groups = item.groups;
           gift = item.tracks.contains('gift');
           private = item.tracks.contains('private');
-          _loading = false;
+          widget._authManager
+              .getGroups(widget._authManager.user.id)
+              .then((data) {
+            _myGroups = data;
+            _checked = new List<bool>.generate(_myGroups.length, (index) {
+              if (_groups.contains(_myGroups[index].id)) {
+                return true;
+              }
+              return false;
+            });
+            setState(() {
+              _loading = false;
+            });
+          });
         }
       });
     });
+    _controller = new AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+    _bottomSize = new SizeTween(
+      begin: new Size.fromHeight(kTextTabBarHeight + 40.0),
+      end: new Size.fromHeight(kTextTabBarHeight + 280.0),
+    )
+        .animate(new CurvedAnimation(
+      parent: _controller,
+      curve: Curves.ease,
+    ));
     super.initState();
   }
 
@@ -79,7 +115,20 @@ class _EditItemScreenState extends State<EditItemScreen> {
 
   Widget getImageGrid() {
     if ((item.images.length + imageFile.length) < 1) {
-      return new Container();
+      return new Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          const Text('No images'),
+          const Padding(
+            padding: const EdgeInsets.all(10.0),
+          ),
+          new RaisedButton(
+            child: const Text('Add image'),
+            onPressed: getImage,
+          )
+        ],
+      );
     }
     return new GridView.count(
       primary: false,
@@ -144,16 +193,23 @@ class _EditItemScreenState extends State<EditItemScreen> {
   Future<bool> editItem(BuildContext context) async {
     final List<String> finalImages = <String>[];
     final List<String> tracks = <String>[];
-
+    final List<String> groups = <String>[];
     _formKey.currentState.save();
+    int i = 0;
+    _checked.forEach((f) {
+      if (f) {
+        groups.add(_myGroups[i].id);
+      }
+      i++;
+    });
     if (gift) {
       tracks.add('gift');
     }
     if (private) {
       tracks.add('private');
     }
-    item.images.forEach((f) => finalImages.add);
-    images.forEach((f) => finalImages.add);
+    item.images.forEach((f) => finalImages.add(f));
+    images.forEach((f) => finalImages.add(f));
     if (widget._authManager.user != null &&
         widget._authManager.user.id != null) {
       final dynamic response = await widget._itemsManager.editItem(
@@ -165,7 +221,8 @@ class _EditItemScreenState extends State<EditItemScreen> {
           widget._itemsManager.location['longitude'].toString(),
           finalImages,
           location,
-          tracks);
+          tracks,
+          groups);
       Scaffold
           .of(context)
           .showSnackBar(new SnackBar(content: new Text(response['msg'])));
@@ -182,87 +239,121 @@ class _EditItemScreenState extends State<EditItemScreen> {
     return false;
   }
 
+  Widget getGroups() {
+    if (_loading) {
+      return const Center(child: const CircularProgressIndicator());
+    }
+    return new Column(
+      children: new List<Widget>.generate(_myGroups.length, (index) {
+        return new CheckboxListTile(
+          title: new Text(_myGroups[index].name),
+          value: _checked[index] == true,
+          onChanged: (value) {
+            setState(() {
+              _checked[index] = value;
+            });
+          },
+          secondary: const Icon(Icons.people),
+        );
+      }),
+    );
+  }
+
   @override
   Widget build(BuildContext context) => new Scaffold(
-        appBar: new AppBar(
-            title: new Text(item != null ? 'Edit: ${item.name}' : 'Loading...'),
-            actions: <Widget>[
-              new Builder(
-                  builder: (context) => new IconButton(
-                        icon: const Icon(Icons.save),
-                        onPressed: () {
-                          editItem(context);
-                        },
-                      ))
-            ]),
-        body: _loading
-            ? const Center(child: const CircularProgressIndicator())
-            : new SingleChildScrollView(
-                child: new Container(
-                    margin: const EdgeInsets.all(20.0),
-                    child: new Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        new Form(
-                            key: _formKey,
-                            child: new Column(
-                              children: <Widget>[
-                                new TextFormField(
-                                  key: const Key('name'),
-                                  decoration: const InputDecoration.collapsed(
-                                      hintText: 'Name'),
-                                  onSaved: (value) {
-                                    name = value;
-                                  },
-                                  controller: _name,
-                                ),
-                                new TextFormField(
-                                  key: const Key('about'),
-                                  decoration: const InputDecoration.collapsed(
-                                      hintText: 'Description'),
-                                  onSaved: (value) {
-                                    about = value;
-                                  },
-                                  controller: _about,
-                                ),
-                                new TextFormField(
-                                  key: const Key('location'),
-                                  decoration: const InputDecoration.collapsed(
-                                      hintText: 'Location'),
-                                  onSaved: (value) {
-                                    location = value;
-                                  },
-                                  controller: _location,
-                                ),
-                                new SwitchListTile(
-                                  title: const Text('Donated Item'),
-                                  value: gift,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      gift = value;
-                                    });
-                                  },
-                                  secondary: const Icon(Icons.card_giftcard),
-                                ),
-                                new SwitchListTile(
-                                  title: const Text('Private Item'),
-                                  value: private,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      private = value;
-                                    });
-                                  },
-                                  secondary: const Icon(Icons.lock),
-                                ),
+        body: new DefaultTabController(
+            length: 3,
+            child: new NestedScrollView(
+                headerSliverBuilder: (context, innerBoxIsScrolled) => <Widget>[
+                      new AnimatedBuilder(
+                          animation: _bottomSize,
+                          builder: (context, child) => new SliverAppBar(
+                              pinned: true,
+                              title: new Text(item != null
+                                  ? 'Edit: ${item.name}'
+                                  : 'Loading...'),
+                              actions: <Widget>[
+                                new Builder(
+                                    builder: (context) => new IconButton(
+                                        icon: new Column(children: <Widget>[
+                                          const Icon(Icons.save),
+                                          const Text('Save')
+                                        ]),
+                                        onPressed: () {
+                                          editItem(context);
+                                        }))
                               ],
-                            )),
-                        new Container(
-                          height: 300.0,
-                          width: 300.0,
-                          child: getImageGrid(),
-                        ),
-                      ],
-                    ))),
+                              bottom: new TabBar(tabs: <Tab>[
+                                const Tab(text: 'Informations'),
+                                const Tab(text: 'Images'),
+                                const Tab(text: 'Groups')
+                              ])))
+                    ],
+                body: _loading
+                    ? const Center(child: const CircularProgressIndicator())
+                    : new Container(
+                        margin: const EdgeInsets.all(20.0),
+                        child: new Form(
+                            key: _formKey,
+                            child: new TabBarView(children: <Widget>[
+                              new Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    new TextFormField(
+                                      key: const Key('name'),
+                                      decoration:
+                                          const InputDecoration.collapsed(
+                                              hintText: 'Name'),
+                                      onSaved: (value) {
+                                        name = value;
+                                      },
+                                      controller: _name,
+                                    ),
+                                    new TextFormField(
+                                      key: const Key('about'),
+                                      decoration:
+                                          const InputDecoration.collapsed(
+                                              hintText: 'Description'),
+                                      onSaved: (value) {
+                                        about = value;
+                                      },
+                                      controller: _about,
+                                    ),
+                                    new TextFormField(
+                                      key: const Key('location'),
+                                      decoration:
+                                          const InputDecoration.collapsed(
+                                              hintText: 'Location'),
+                                      onSaved: (value) {
+                                        location = value;
+                                      },
+                                      controller: _location,
+                                    ),
+                                    new SwitchListTile(
+                                      title: const Text('Donated Item'),
+                                      value: gift,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          gift = value;
+                                        });
+                                      },
+                                      secondary:
+                                          const Icon(Icons.card_giftcard),
+                                    ),
+                                    new SwitchListTile(
+                                      title: const Text('Private Item'),
+                                      value: private,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          private = value;
+                                        });
+                                      },
+                                      secondary: const Icon(Icons.lock),
+                                    ),
+                                  ]),
+                              getImageGrid(),
+                              getGroups()
+                            ]))))),
         floatingActionButton: new FloatingActionButton(
           onPressed: getImage,
           tooltip: 'Pick Image',

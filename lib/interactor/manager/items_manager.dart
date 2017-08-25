@@ -113,7 +113,8 @@ class ItemsManager {
       String lng,
       List<String> images,
       String location,
-      List<String> tracks) async {
+      List<String> tracks,
+      List<String> groups) async {
     final Client _client = new Client();
     final Response response = await _client
         .put(Uri.encodeFull('$apiUrl/items/$id'), headers: getHeaders(), body: {
@@ -125,7 +126,8 @@ class ItemsManager {
       'lng': lng,
       'images': JSON.encode(images),
       'location': location,
-      'tracks': JSON.encode(tracks)
+      'tracks': JSON.encode(tracks),
+      'groups': JSON.encode(groups),
     }).whenComplete(_client.close);
     final dynamic bodyJson = JSON.decode(response.body);
     return bodyJson;

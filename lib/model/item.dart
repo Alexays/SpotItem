@@ -12,6 +12,7 @@ class Item {
   double lng;
   double dist;
   List<String> tracks;
+  List<String> groups;
   User owner;
 
   Item(
@@ -26,6 +27,7 @@ class Item {
     this.lng,
     this.dist,
     this.tracks,
+    this.groups,
     this.owner,
   );
 
@@ -45,6 +47,7 @@ class Item {
       json['lng'],
       dist,
       json['tracks'],
+      json['groups'],
       new User.fromJson(json['owner']),
     );
   }
@@ -54,5 +57,5 @@ class Item {
 
   @override
   String toString() =>
-      'Item{id: $id, name: $name, about: $about, images: $images, lastGeo: $lastGeo, calendar: $calendar, location: $location, lat: $lat, lng: $lng, owner: $owner, tracks: $tracks}';
+      'Item{id: $id, name: $name, about: $about, images: $images, lastGeo: $lastGeo, calendar: $calendar, location: $location, lat: $lat, lng: $lng, owner: $owner, groups: groups, $tracks: $tracks}';
 }

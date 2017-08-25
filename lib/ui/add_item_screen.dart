@@ -180,10 +180,10 @@ class _AddItemScreenState extends State<AddItemScreen>
           _myGroups.length,
           (index) => new CheckboxListTile(
                 title: new Text(_myGroups[index].name),
-                value: _checked[index] == false,
+                value: _checked[index] == true,
                 onChanged: (value) {
                   setState(() {
-                    _checked[index] = !value;
+                    _checked[index] = value;
                   });
                 },
                 secondary: const Icon(Icons.people),
