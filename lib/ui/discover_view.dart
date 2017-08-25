@@ -72,10 +72,14 @@ class _DiscoverViewState extends State<DiscoverView> {
               ),
             );
           case 1:
+            final List<Item> recents = new List<Item>.from(_items);
+            if (recents.length > 10) {
+              recents.length = 10;
+            }
             return new Container(
               height: 250.0,
               width: MediaQuery.of(context).size.width,
-              child: new ItemsList(_items, _itemsManager, _authManager,
+              child: new ItemsList(recents, _itemsManager, _authManager,
                   _mode.toString(), Axis.horizontal),
             );
         }
