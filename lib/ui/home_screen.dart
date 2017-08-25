@@ -303,8 +303,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           .where((item) => item.name.toLowerCase().contains(_searchQuery))
           .toList();
       return [
-        new ItemsList(
-            search, widget._itemsManager, widget._authManager, null.toString())
+        new ItemsList(search, _itemsManager, _authManager, null.toString())
       ];
     }
     return _homeScreenItems[_currentIndex].content;
