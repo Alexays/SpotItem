@@ -324,7 +324,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               body: new TabBarView(children: _buildChild()))),
       bottomNavigationBar: new BottomNavigationBar(
         currentIndex: _currentIndex,
-        items: _homeScreenItems.map((item) => item.item).toList(),
+        items: _homeScreenItems.map((data) => data.item).toList(),
         onTap: _navBarItemSelected,
       ));
 }
