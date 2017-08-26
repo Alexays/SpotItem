@@ -230,8 +230,8 @@ class _AddItemScreenState extends State<AddItemScreen>
                               new Column(children: <Widget>[
                                 new TextFormField(
                                     key: const Key('name'),
-                                    decoration: const InputDecoration.collapsed(
-                                        hintText: 'Name'),
+                                    decoration:
+                                        const InputDecoration(hintText: 'Name'),
                                     onSaved: (value) {
                                       name = value;
                                     }),

@@ -301,9 +301,9 @@ class _EditItemScreenState extends State<EditItemScreen>
                                   children: <Widget>[
                                     new TextFormField(
                                       key: const Key('name'),
-                                      decoration:
-                                          const InputDecoration.collapsed(
-                                              hintText: 'Name'),
+                                      decoration: const InputDecoration(
+                                          hintText: 'Ex: Pencil',
+                                          labelText: 'Name'),
                                       onSaved: (value) {
                                         name = value;
                                       },
@@ -311,9 +311,9 @@ class _EditItemScreenState extends State<EditItemScreen>
                                     ),
                                     new TextFormField(
                                       key: const Key('about'),
-                                      decoration:
-                                          const InputDecoration.collapsed(
-                                              hintText: 'Description'),
+                                      decoration: const InputDecoration(
+                                          hintText: 'Ex: It\'s a pencil !',
+                                          labelText: 'Description'),
                                       onSaved: (value) {
                                         about = value;
                                       },
@@ -321,9 +321,9 @@ class _EditItemScreenState extends State<EditItemScreen>
                                     ),
                                     new TextFormField(
                                       key: const Key('location'),
-                                      decoration:
-                                          const InputDecoration.collapsed(
-                                              hintText: 'Location'),
+                                      decoration: const InputDecoration(
+                                          hintText: 'Ex: Nantes',
+                                          labelText: 'Location'),
                                       onSaved: (value) {
                                         location = value;
                                       },
