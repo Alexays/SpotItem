@@ -205,13 +205,12 @@ class ItemsManager {
     return null;
   }
 
-  Future<List<Item>> getSelfItems(String userId) async {
-    if (userId == null) {
-      return null;
-    }
+  Future<List<Item>> getSelfItems() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String token = prefs.getString(keyOauthToken);
     final Client _client = new Client();
     final Response response = await _client
-        .get('$apiUrl/userItem/$userId', headers: getHeaders())
+        .get('$apiUrl/items/user', headers: getHeaders(token))
         .whenComplete(_client.close);
     if (response.statusCode == 200) {
       final dynamic itemJson = JSON.decode(response.body);
