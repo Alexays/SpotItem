@@ -237,14 +237,14 @@ class _AddItemScreenState extends State<AddItemScreen>
                                     }),
                                 new TextFormField(
                                     key: const Key('about'),
-                                    decoration: const InputDecoration.collapsed(
+                                    decoration: const InputDecoration(
                                         hintText: 'Description'),
                                     onSaved: (value) {
                                       about = value;
                                     }),
                                 new TextFormField(
                                     key: const Key('location'),
-                                    decoration: const InputDecoration.collapsed(
+                                    decoration: const InputDecoration(
                                         hintText: 'Location'),
                                     onSaved: (value) {
                                       location = value;
