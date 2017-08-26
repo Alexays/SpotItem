@@ -39,8 +39,8 @@ class _GroupPageState extends State<GroupPage>
   }
 
   Future<Null> _leaveGroup() async {
-    final dynamic reponse = await widget.authManager.leaveGroup(group.id);
-    if (reponse['success']) {
+    final dynamic response = await widget.authManager.leaveGroup(group.id);
+    if (response['success']) {
       Navigator.pushReplacementNamed(context, '/home');
     }
   }
