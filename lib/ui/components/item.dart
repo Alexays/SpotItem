@@ -44,7 +44,7 @@ class ItemsListItem extends StatelessWidget {
                           '$apiImgUrl${item.images.first}?version=$version'),
                       fit: BoxFit.cover,
                       alignment: FractionalOffset.center)),
-              item.dist != null
+              item.dist >= 0
                   ? new Positioned(
                       top: 15.0,
                       left: 15.0,

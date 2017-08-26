@@ -219,12 +219,12 @@ class _AddItemScreenState extends State<AddItemScreen>
                               const Tab(text: 'Groups')
                             ])))
                   ],
-              body: new Container(
-                  margin: const EdgeInsets.all(20.0),
-                  child: new Form(
-                      key: _formKey,
-                      child: new TabBarView(children: <Widget>[
-                        new Column(
+              body: new Form(
+                  key: _formKey,
+                  child: new TabBarView(children: <Widget>[
+                    new Container(
+                        margin: const EdgeInsets.all(20.0),
+                        child: new Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               new Column(children: <Widget>[
@@ -269,10 +269,13 @@ class _AddItemScreenState extends State<AddItemScreen>
                                     },
                                     secondary: const Icon(Icons.lock))
                               ])
-                            ]),
-                        getImageGrid(),
-                        getGroups(),
-                      ])))),
+                            ])),
+                    new Container(
+                        margin: const EdgeInsets.all(20.0),
+                        child: getImageGrid()),
+                    new Container(
+                        margin: const EdgeInsets.all(20.0), child: getGroups()),
+                  ]))),
         ),
         floatingActionButton: new FloatingActionButton(
           onPressed: getImage,

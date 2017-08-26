@@ -244,18 +244,18 @@ class _EditItemScreenState extends State<EditItemScreen>
       return const Center(child: const CircularProgressIndicator());
     }
     return new Column(
-      children: new List<Widget>.generate(_myGroups.length, (index) {
-        return new CheckboxListTile(
-          title: new Text(_myGroups[index].name),
-          value: _checked[index] == true,
-          onChanged: (value) {
-            setState(() {
-              _checked[index] = value;
-            });
-          },
-          secondary: const Icon(Icons.people),
-        );
-      }),
+      children: new List<Widget>.generate(
+          _myGroups.length,
+          (index) => new CheckboxListTile(
+                title: new Text(_myGroups[index].name),
+                value: _checked[index] == true,
+                onChanged: (value) {
+                  setState(() {
+                    _checked[index] = value;
+                  });
+                },
+                secondary: const Icon(Icons.people),
+              )),
     );
   }
 
@@ -291,12 +291,12 @@ class _EditItemScreenState extends State<EditItemScreen>
                     ],
                 body: _loading
                     ? const Center(child: const CircularProgressIndicator())
-                    : new Container(
-                        margin: const EdgeInsets.all(20.0),
-                        child: new Form(
-                            key: _formKey,
-                            child: new TabBarView(children: <Widget>[
-                              new Column(
+                    : new Form(
+                        key: _formKey,
+                        child: new TabBarView(children: <Widget>[
+                          new Container(
+                              margin: const EdgeInsets.all(20.0),
+                              child: new Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     new TextFormField(
@@ -350,10 +350,14 @@ class _EditItemScreenState extends State<EditItemScreen>
                                       },
                                       secondary: const Icon(Icons.lock),
                                     ),
-                                  ]),
-                              getImageGrid(),
-                              getGroups()
-                            ]))))),
+                                  ])),
+                          new Container(
+                              margin: const EdgeInsets.all(20.0),
+                              child: getImageGrid()),
+                          new Container(
+                              margin: const EdgeInsets.all(20.0),
+                              child: getGroups()),
+                        ])))),
         floatingActionButton: new FloatingActionButton(
           onPressed: getImage,
           tooltip: 'Pick Image',

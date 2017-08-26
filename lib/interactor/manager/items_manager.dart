@@ -25,6 +25,8 @@ class ItemsManager {
 
   final Location _location = new Location();
 
+  StreamSubscription<Map<String, double>> _locationSubscription;
+
   Map<String, double> location;
 
   bool _initialized;
@@ -44,11 +46,15 @@ class ItemsManager {
       if (tmp != null)
         location = tmp;
       else {
-        _location.onLocationChanged.listen((result) {
+        _locationSubscription = _location.onLocationChanged.listen((result) {
           if (result != null) {
             location = result;
           }
         });
+      }
+      if (_locationSubscription != null) {
+        _locationSubscription.cancel();
+        _locationSubscription = null;
       }
     } on PlatformException {
       print("Can't get location");
