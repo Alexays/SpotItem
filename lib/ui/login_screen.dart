@@ -22,9 +22,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-      appBar: new AppBar(
-        title: const Text('Login'),
-      ),
       body: new Builder(
           builder: (context) => new SingleChildScrollView(
               child: new Container(

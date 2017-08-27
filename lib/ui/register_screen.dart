@@ -62,9 +62,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-      appBar: new AppBar(
-        title: const Text('Register'),
-      ),
       body: new Builder(
           builder: (context) => new SingleChildScrollView(
                 child: new Container(

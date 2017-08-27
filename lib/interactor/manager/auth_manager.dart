@@ -18,8 +18,6 @@ class AuthManager {
 
   String get oauthClient => _oauthToken;
 
-  final String _clientSecret = clientSecret;
-
   bool _initialized;
 
   bool _loggedIn;
