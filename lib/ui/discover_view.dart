@@ -58,7 +58,7 @@ class _DiscoverViewState extends State<DiscoverView> {
   }
 
   Widget _buildDiscover() => new ListView.builder(
-      itemCount: 2,
+      itemCount: 4,
       itemBuilder: (context, index) {
         switch (index) {
           case 0:
@@ -72,7 +72,10 @@ class _DiscoverViewState extends State<DiscoverView> {
               ),
             );
           case 1:
-            final List<Item> recents = new List<Item>.from(_items);
+            List<Item> recents = new List<Item>.from(_items);
+            recents = recents
+                .where((item) => !item.tracks.contains('group'))
+                .toList();
             if (recents.length > 10) {
               recents.length = 10;
             }
@@ -80,7 +83,30 @@ class _DiscoverViewState extends State<DiscoverView> {
               height: 250.0,
               width: MediaQuery.of(context).size.width,
               child: new ItemsList(recents, _itemsManager, _authManager,
-                  _mode.toString(), Axis.horizontal),
+                  'recents', Axis.horizontal),
+            );
+          case 2:
+            return const Padding(
+              padding:
+                  const EdgeInsets.only(left: 10.0, top: 10.0, bottom: 0.0),
+              child: const Text(
+                'From your groups',
+                style: const TextStyle(
+                    fontWeight: FontWeight.w400, fontSize: 20.0),
+              ),
+            );
+          case 3:
+            List<Item> groups = new List<Item>.from(_items);
+            groups =
+                groups.where((item) => item.tracks.contains('group')).toList();
+            if (groups.length > 10) {
+              groups.length = 10;
+            }
+            return new Container(
+              height: 250.0,
+              width: MediaQuery.of(context).size.width,
+              child: new ItemsList(groups, _itemsManager, _authManager, 'group',
+                  Axis.horizontal),
             );
         }
       });
