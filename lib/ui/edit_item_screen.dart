@@ -73,7 +73,7 @@ class _EditItemScreenState extends State<EditItemScreen>
               .then((data) {
             _myGroups = data;
             _checked = new List<bool>.generate(_myGroups.length, (index) {
-              if (_groups.contains(_myGroups[index].id)) {
+              if (_groups != null && _groups.contains(_myGroups[index].id)) {
                 return true;
               }
               return false;
