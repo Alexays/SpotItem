@@ -137,7 +137,7 @@ class _AddItemScreenState extends State<AddItemScreen>
     final List<String> groups = <String>[];
     int i = 0;
     _checked.forEach((f) {
-      if (f) {
+      if (f != null && f) {
         groups.add(_myGroups[i].id);
       }
       i++;

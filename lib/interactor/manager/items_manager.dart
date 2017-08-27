@@ -92,20 +92,24 @@ class ItemsManager {
       String location,
       List<String> tracks,
       List<String> groups) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String token = prefs.getString(keyOauthToken);
     final Client _client = new Client();
-    final Response response = await _client
-        .post(Uri.encodeFull('$apiUrl/addItem'), headers: getHeaders(), body: {
-      'name': name,
-      'about': about,
-      'owner': userId,
-      'holder': userId,
-      'lat': lat,
-      'lng': lng,
-      'images': JSON.encode(images),
-      'location': location,
-      'tracks': JSON.encode(tracks),
-      'groups': JSON.encode(groups),
-    }).whenComplete(_client.close);
+    final Response response = await _client.post(
+        Uri.encodeFull('$apiUrl/items'),
+        headers: getHeaders(token),
+        body: {
+          'name': name,
+          'about': about,
+          'owner': userId,
+          'holder': userId,
+          'lat': lat,
+          'lng': lng,
+          'images': JSON.encode(images),
+          'location': location,
+          'tracks': JSON.encode(tracks),
+          'groups': JSON.encode(groups),
+        }).whenComplete(_client.close);
     final dynamic bodyJson = JSON.decode(response.body);
     return bodyJson;
   }
