@@ -298,6 +298,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   List<Widget> _buildChild() {
     if (_isSearching) {
+      if (_searchQuery.isEmpty) {
+        return [new Container()];
+      }
       List<Item> search = new List<Item>.from(_itemsManager.items);
       search = search
           .where((item) => item.name.toLowerCase().contains(_searchQuery))

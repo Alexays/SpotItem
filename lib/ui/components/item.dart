@@ -48,7 +48,7 @@ class ItemsListItem extends StatelessWidget {
                       top: 15.0,
                       left: 15.0,
                       child: new RaisedButton(
-                          color: theme.primaryColor,
+                          color: theme.primaryColor.withOpacity(0.6),
                           child: new Text(
                             distString(item.dist),
                             style: theme.primaryTextTheme.subhead,
