@@ -58,32 +58,27 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void initState() {
     _homeScreenItems = <HomeScreenItem>[
       new HomeScreenItem(
-          icon: const Icon(Icons.explore),
-          title: 'Explorer',
-          sub: <HomeScreenSubItem>[
-            new HomeScreenSubItem('Discover',
-                new DiscoverView(_itemsManager, _authManager, null)),
-            new HomeScreenSubItem(
-                'Nearest you',
-                new ExplorerView(_itemsManager, _authManager, (items) {
-                  items.sort((a, b) => a.dist.compareTo(b.dist));
-                  return items;
-                })),
-            new HomeScreenSubItem(
-                'Donated',
-                new ExplorerView(
-                    _itemsManager,
-                    _authManager,
-                    (items) => items
-                        .where((item) => item.tracks.contains('gift'))
-                        .toList()))
-          ],
-          fab: new FloatingActionButton(
-              child: const Icon(Icons.add),
-              tooltip: 'Add new item',
-              onPressed: () {
-                Navigator.of(context).pushNamed('/item/add');
+        icon: const Icon(Icons.explore),
+        title: 'Explorer',
+        sub: <HomeScreenSubItem>[
+          new HomeScreenSubItem(
+              'Discover', new DiscoverView(_itemsManager, _authManager, null)),
+          new HomeScreenSubItem(
+              'Nearest you',
+              new ExplorerView(_itemsManager, _authManager, (items) {
+                items.sort((a, b) => a.dist.compareTo(b.dist));
+                return items;
               })),
+          new HomeScreenSubItem(
+              'Donated',
+              new ExplorerView(
+                  _itemsManager,
+                  _authManager,
+                  (items) => items
+                      .where((item) => item.tracks.contains('gift'))
+                      .toList()))
+        ],
+      ),
       new HomeScreenItem(
           icon: const Icon(Icons.work),
           title: 'Items',
