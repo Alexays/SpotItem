@@ -41,7 +41,7 @@ class _GroupPageState extends State<GroupPage>
   Future<Null> _leaveGroup() async {
     final dynamic response = await widget.authManager.leaveGroup(group.id);
     if (response['success']) {
-      Navigator.pushReplacementNamed(context, '/home');
+      Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
     }
   }
 
@@ -111,7 +111,9 @@ class _GroupPageState extends State<GroupPage>
                     child: const Text('Delete'),
                     onPressed: () {
                       widget.authManager.delGroup(group.id);
-                      Navigator.pushReplacementNamed(context, '/home');
+                      Navigator
+                          .of(context)
+                          .pushNamedAndRemoveUntil('/home', (route) => false);
                     },
                   ),
                 ],

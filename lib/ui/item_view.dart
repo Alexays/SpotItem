@@ -180,7 +180,8 @@ class OrderPageState extends State<OrderPage>
                       widget.itemsManager.deleteItem(item.id).then((resp) {
                         if (resp['success']) {
                           widget.itemsManager.getItems(force: true);
-                          Navigator.pushReplacementNamed(context, '/home');
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              '/home', (route) => false);
                         }
                       });
                     },

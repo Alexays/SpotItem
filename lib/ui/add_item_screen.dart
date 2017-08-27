@@ -164,7 +164,9 @@ class _AddItemScreenState extends State<AddItemScreen>
       showSnackBar(context, response['msg']);
       if (response['success']) {
         await _itemsManager.getItems(force: true);
-        Navigator.pushReplacementNamed(context, '/home');
+        Navigator
+            .of(context)
+            .pushNamedAndRemoveUntil('/home', (route) => false);
       }
     } else {
       showSnackBar(context, 'Not Connected');

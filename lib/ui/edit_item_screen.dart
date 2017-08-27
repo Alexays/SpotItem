@@ -228,7 +228,9 @@ class _EditItemScreenState extends State<EditItemScreen>
           .showSnackBar(new SnackBar(content: new Text(response['msg'])));
       if (response['success']) {
         widget._itemsManager.getItems(force: true);
-        Navigator.pushReplacementNamed(context, '/home');
+        Navigator
+            .of(context)
+            .pushNamedAndRemoveUntil('/home', (route) => false);
         return true;
       }
       return false;
