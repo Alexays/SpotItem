@@ -107,9 +107,9 @@ class _EditItemScreenState extends State<EditItemScreen>
       setState(() {
         imageFile.add(_fileName);
         _fileName.readAsBytes().then((data) {
-          return 'data:image/${_fileName.path.split('.').last};base64,${BASE64.encode(data)}';
+          images.add(
+              'data:image/${_fileName.path.split('.').last};base64,${BASE64.encode(data)}');
         });
-        //images.add(convertImage(_fileName));
       });
     }
   }

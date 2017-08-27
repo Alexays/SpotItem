@@ -76,9 +76,9 @@ class _AddItemScreenState extends State<AddItemScreen>
     setState(() {
       imageFile.add(_fileName);
       _fileName.readAsBytes().then((data) {
-        return 'data:image/${_fileName.path.split('.').last};base64,${BASE64.encode(data)}';
+        images.add(
+            'data:image/${_fileName.path.split('.').last};base64,${BASE64.encode(data)}');
       });
-      //images.add(convertImage(_fileName));
     });
   }
 
