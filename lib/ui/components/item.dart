@@ -122,7 +122,7 @@ class ItemsList extends StatelessWidget {
           scrollDirection: _dir,
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           itemCount: _items?.length,
-          itemExtent: 300.0,
+          itemExtent: 275.0,
           itemBuilder: (context, index) => new ItemsListItem(
               itemsManager: _itemsManager,
               item: _items[index],
