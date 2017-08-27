@@ -89,7 +89,7 @@ class ItemsListItem extends StatelessWidget {
                           color: theme.secondaryHeaderColor.withOpacity(0.6),
                           height: 40.0,
                           child: new Text(
-                            item.name,
+                            capitalize(item.name),
                             overflow: TextOverflow.ellipsis,
                             style: new TextStyle(
                               fontWeight: FontWeight.bold,

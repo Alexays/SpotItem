@@ -4,6 +4,8 @@ final RegExp emailExp = new RegExp(r'[\w-]+@([\w-]+\.)+[\w-]+');
 final RegExp nameExp =
     new RegExp(r"^[A-Za-z]+((\s)?((\'|\-|\.)?([A-Za-z])+))*$");
 
+String capitalize(String s) => '${s[0].toUpperCase()}${s.substring(1)}';
+
 String validateEmail(String value) {
   if (value.isEmpty) {
     return 'Email is required.';
