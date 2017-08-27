@@ -192,6 +192,20 @@ class _EditItemScreenState extends State<EditItemScreen>
     final List<String> tracks = <String>[];
     final List<String> groups = <String>[];
     _formKey.currentState.save();
+    showDialog<Null>(
+      context: context,
+      barrierDismissible: false,
+      child: new AlertDialog(
+        title: const Text('Loading...'),
+        content: new SingleChildScrollView(
+          child: new ListBody(
+            children: <Widget>[
+              const Center(child: const CircularProgressIndicator())
+            ],
+          ),
+        ),
+      ),
+    );
     int i = 0;
     _checked.forEach((f) {
       if (f) {
@@ -220,9 +234,8 @@ class _EditItemScreenState extends State<EditItemScreen>
           location,
           tracks,
           groups);
-      Scaffold
-          .of(context)
-          .showSnackBar(new SnackBar(content: new Text(response['msg'])));
+      Navigator.of(context).pop();
+      showSnackBar(context, response['msg']);
       if (response['success']) {
         widget._itemsManager.getItems(force: true);
         Navigator

@@ -130,6 +130,20 @@ class _AddItemScreenState extends State<AddItemScreen>
     _formKey.currentState.save();
     final List<String> tracks = <String>[];
     final List<String> groups = <String>[];
+    showDialog<Null>(
+      context: context,
+      barrierDismissible: false,
+      child: new AlertDialog(
+        title: const Text('Loading...'),
+        content: new SingleChildScrollView(
+          child: new ListBody(
+            children: <Widget>[
+              const Center(child: const CircularProgressIndicator())
+            ],
+          ),
+        ),
+      ),
+    );
     int i = 0;
     _checked.forEach((f) {
       if (f != null && f) {
@@ -156,6 +170,7 @@ class _AddItemScreenState extends State<AddItemScreen>
           location,
           tracks,
           groups);
+      Navigator.of(context).pop();
       showSnackBar(context, response['msg']);
       if (response['success']) {
         await _itemsManager.getItems(force: true);
