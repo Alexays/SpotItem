@@ -40,9 +40,9 @@ String validatePassword(String value) {
 
 String distString(double dist) {
   if (dist < 1) {
-    return '${(dist * 1000).toStringAsFixed(0)}m';
+    return '< 1km';
   }
-  return '${dist.toStringAsFixed(2)}km';
+  return '${dist.toStringAsFixed(1)}km';
 }
 
 void showSnackBar(BuildContext context, String text) {
