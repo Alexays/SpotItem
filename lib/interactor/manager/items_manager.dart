@@ -49,12 +49,12 @@ class ItemsManager {
         _locationSubscription = _location.onLocationChanged.listen((result) {
           if (result != null) {
             location = result;
+            if (_locationSubscription != null) {
+              _locationSubscription.cancel();
+              _locationSubscription = null;
+            }
           }
         });
-      }
-      if (_locationSubscription != null) {
-        _locationSubscription.cancel();
-        _locationSubscription = null;
       }
     } on PlatformException {
       print("Can't get location");
