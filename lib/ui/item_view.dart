@@ -26,7 +26,7 @@ class _ContactCategory extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   new Container(
-                      padding: const EdgeInsets.symmetric(vertical: 24.0),
+                      padding: const EdgeInsets.symmetric(vertical: 14.0),
                       width: 72.0,
                       child: new Icon(icon, color: themeData.primaryColor)),
                   new Expanded(child: new Column(children: children))
@@ -69,7 +69,7 @@ class _ContactItem extends StatelessWidget {
     }
     return new MergeSemantics(
       child: new Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          padding: const EdgeInsets.symmetric(vertical: 6.0),
           child: new Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: rowChildren)),
