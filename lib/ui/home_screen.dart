@@ -46,7 +46,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       onRemove: () {
         setState(() {
           _isSearching = false;
-          _searchController.clear();
         });
       },
     ));
