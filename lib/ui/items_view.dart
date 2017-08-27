@@ -43,7 +43,7 @@ class _ItemsViewState extends State<ItemsView> {
       );
     }
     return new ListView.builder(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        padding: const EdgeInsets.all(20.0),
         itemCount: _myItems.length,
         itemBuilder: (context, index) => new GestureDetector(
               onTap: () {
@@ -81,10 +81,7 @@ class _ItemsViewState extends State<ItemsView> {
   }
 
   @override
-  Widget build(BuildContext context) => new Container(
-        margin: const EdgeInsets.all(20.0),
-        child: _loading
-            ? const Center(child: const CircularProgressIndicator())
-            : getList(),
-      );
+  Widget build(BuildContext context) => _loading
+      ? const Center(child: const CircularProgressIndicator())
+      : getList();
 }
