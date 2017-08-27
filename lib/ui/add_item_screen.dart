@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:spotitems/interactor/manager/auth_manager.dart';
@@ -74,7 +75,10 @@ class _AddItemScreenState extends State<AddItemScreen>
     final File _fileName = await ImagePicker.pickImage();
     setState(() {
       imageFile.add(_fileName);
-      images.add(convertImage(_fileName));
+      _fileName.readAsBytes().then((data) {
+        return 'data:image/${_fileName.path.split('.').last};base64,${BASE64.encode(data)}';
+      });
+      //images.add(convertImage(_fileName));
     });
   }
 

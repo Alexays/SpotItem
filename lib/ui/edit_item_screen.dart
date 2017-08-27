@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:spotitems/interactor/manager/auth_manager.dart';
@@ -105,7 +106,10 @@ class _EditItemScreenState extends State<EditItemScreen>
     if (_fileName != null) {
       setState(() {
         imageFile.add(_fileName);
-        images.add(convertImage(_fileName));
+        _fileName.readAsBytes().then((data) {
+          return 'data:image/${_fileName.path.split('.').last};base64,${BASE64.encode(data)}';
+        });
+        //images.add(convertImage(_fileName));
       });
     }
   }
