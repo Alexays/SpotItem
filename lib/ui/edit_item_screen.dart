@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
+import 'package:spotitems/interactor/utils.dart';
 import 'package:spotitems/model/item.dart';
 import 'package:spotitems/model/group.dart';
 
@@ -105,10 +105,7 @@ class _EditItemScreenState extends State<EditItemScreen>
     if (_fileName != null) {
       setState(() {
         imageFile.add(_fileName);
-        _fileName.readAsBytes().then((data) {
-          images.add(
-              'data:image/${_fileName.path.split('.').last};base64,${BASE64.encode(data)}');
-        });
+        images.add(convertImage(_fileName));
       });
     }
   }

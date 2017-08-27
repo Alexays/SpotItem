@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:spotitems/interactor/manager/auth_manager.dart';
@@ -71,16 +70,12 @@ class _AddItemScreenState extends State<AddItemScreen>
     super.initState();
   }
 
-  Future<bool> getImage() async {
+  Future<Null> getImage() async {
     final File _fileName = await ImagePicker.pickImage();
     setState(() {
       imageFile.add(_fileName);
-      _fileName.readAsBytes().then((data) {
-        images.add(
-            'data:image/${_fileName.path.split('.').last};base64,${BASE64.encode(data)}');
-      });
+      images.add(convertImage(_fileName));
     });
-    return true;
   }
 
   Widget getImageGrid() {

@@ -1,4 +1,8 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image/image.dart' as img;
 
 final RegExp emailExp = new RegExp(r'[\w-]+@([\w-]+\.)+[\w-]+');
 final RegExp nameExp =
@@ -43,4 +47,11 @@ String distString(double dist) {
 
 void showSnackBar(BuildContext context, String text) {
   Scaffold.of(context).showSnackBar(new SnackBar(content: new Text(text)));
+}
+
+String convertImage(File filePath) {
+  final img.Image image = img.decodeImage(filePath.readAsBytesSync());
+  final img.Image thumbnail = img.copyResize(image, 720);
+  final List<int> data = img.encodeJpg(thumbnail);
+  return 'data:image/${filePath.path.split('.').last};base64,${BASE64.encode(data)}';
 }
