@@ -86,7 +86,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
                                 labelText: 'Firstname',
                                 hintText: 'Enter your firstname'),
                             onSaved: (value) {
-                              user.firstname = value;
+                              user.firstname = value.trim();
                             },
                             controller: _name,
                           ),
@@ -96,7 +96,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
                                 labelText: 'Lastname',
                                 hintText: 'Enter your lastname'),
                             onSaved: (value) {
-                              user.name = value;
+                              user.name = value.trim();
                             },
                             controller: _lastname,
                           ),

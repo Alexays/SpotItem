@@ -312,7 +312,7 @@ class _EditItemScreenState extends State<EditItemScreen>
                                           hintText: 'Ex: Pencil',
                                           labelText: 'Name'),
                                       onSaved: (value) {
-                                        name = value;
+                                        name = value.trim();
                                       },
                                       controller: _name,
                                     ),
@@ -322,7 +322,7 @@ class _EditItemScreenState extends State<EditItemScreen>
                                           hintText: 'Ex: It\'s a pencil !',
                                           labelText: 'Description'),
                                       onSaved: (value) {
-                                        about = value;
+                                        about = value.trim();
                                       },
                                       controller: _about,
                                     ),
@@ -332,7 +332,7 @@ class _EditItemScreenState extends State<EditItemScreen>
                                           hintText: 'Ex: Nantes',
                                           labelText: 'Location'),
                                       onSaved: (value) {
-                                        location = value;
+                                        location = value.trim();
                                       },
                                       controller: _location,
                                     ),

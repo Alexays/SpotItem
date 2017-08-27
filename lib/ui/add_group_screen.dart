@@ -62,7 +62,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                         decoration: const InputDecoration.collapsed(
                             hintText: 'ex: john.do@exemple.com'),
                         onSaved: (value) {
-                          _email = value;
+                          _email = value.trim();
                         },
                         validator: validateEmail,
                       )
@@ -116,14 +116,14 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                                     decoration: const InputDecoration.collapsed(
                                         hintText: 'Name'),
                                     onSaved: (value) {
-                                      name = value;
+                                      name = value.trim();
                                     }),
                                 new TextFormField(
                                     key: const Key('about'),
                                     decoration: const InputDecoration.collapsed(
                                         hintText: 'Description'),
                                     onSaved: (value) {
-                                      about = value;
+                                      about = value.trim();
                                     }),
                                 const Divider(),
                                 new Row(

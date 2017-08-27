@@ -245,21 +245,21 @@ class _AddItemScreenState extends State<AddItemScreen>
                                     decoration:
                                         const InputDecoration(hintText: 'Name'),
                                     onSaved: (value) {
-                                      name = value;
+                                      name = value.trim();
                                     }),
                                 new TextFormField(
                                     key: const Key('about'),
                                     decoration: const InputDecoration(
                                         hintText: 'Description'),
                                     onSaved: (value) {
-                                      about = value;
+                                      about = value.trim();
                                     }),
                                 new TextFormField(
                                     key: const Key('location'),
                                     decoration: const InputDecoration(
                                         hintText: 'Location'),
                                     onSaved: (value) {
-                                      location = value;
+                                      location = value.trim();
                                     }),
                                 const Divider(),
                                 new SwitchListTile(
