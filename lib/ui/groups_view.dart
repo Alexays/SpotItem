@@ -81,7 +81,7 @@ class _GroupsViewState extends State<GroupsView> {
   }
 
   Widget getList() => new ListView.builder(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.all(28.0),
       itemCount: _myGroups.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {
@@ -212,10 +212,7 @@ class _GroupsViewState extends State<GroupsView> {
   }
 
   @override
-  Widget build(BuildContext context) => new Container(
-        margin: const EdgeInsets.all(20.0),
-        child: _loading
-            ? const Center(child: const CircularProgressIndicator())
-            : getList(),
-      );
+  Widget build(BuildContext context) => _loading
+      ? const Center(child: const CircularProgressIndicator())
+      : getList();
 }
