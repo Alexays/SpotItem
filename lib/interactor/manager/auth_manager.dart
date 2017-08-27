@@ -51,12 +51,12 @@ class AuthManager {
 
   Future<bool> login(String email, String password) async {
     final Client _client = new Client();
-    final Response response = await _client.post('$apiUrl/login', headers: {
-      'Authorization': 'Basic $_clientSecret'
-    }, body: {
-      'email': email,
-      'password': password
-    }).whenComplete(_client.close);
+    final Response response = await _client.post('$apiUrl/login',
+        headers: getHeaders(),
+        body: {
+          'email': email,
+          'password': password
+        }).whenComplete(_client.close);
     if (response.statusCode == 200) {
       final dynamic bodyJson = JSON.decode(response.body);
       if (bodyJson['success']) {
