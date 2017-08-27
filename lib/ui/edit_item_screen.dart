@@ -187,7 +187,7 @@ class _EditItemScreenState extends State<EditItemScreen>
     );
   }
 
-  Future<bool> editItem(BuildContext context) async {
+  Future<Null> editItem(BuildContext context) async {
     final List<String> finalImages = <String>[];
     final List<String> tracks = <String>[];
     final List<String> groups = <String>[];
@@ -241,14 +241,9 @@ class _EditItemScreenState extends State<EditItemScreen>
         Navigator
             .of(context)
             .pushNamedAndRemoveUntil('/home', (route) => false);
-        return true;
       }
-      return false;
     }
-    Scaffold
-        .of(context)
-        .showSnackBar(new SnackBar(content: const Text('Not Connected')));
-    return false;
+    showSnackBar(context, 'Not Connected');
   }
 
   Widget getGroups() {
