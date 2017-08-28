@@ -28,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final ItemsManager _itemsManager;
 
   AnimationController _controller;
+  AnimationController _filterController;
   Animation<double> _drawerContentsOpacity;
   Animation<FractionalOffset> _drawerDetailsPosition;
   Animation<Size> _bottomFilterSize;
@@ -45,19 +46,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final TextEditingController _searchController = new TextEditingController();
   bool _isSearching = false;
   String _searchQuery = '';
-
-  void _handleSearchBegin() {
-    ModalRoute.of(context).addLocalHistoryEntry(new LocalHistoryEntry(
-      onRemove: () {
-        setState(() {
-          _isSearching = false;
-        });
-      },
-    ));
-    setState(() {
-      _isSearching = true;
-    });
-  }
 
   @override
   void initState() {
@@ -120,6 +108,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   void dispose() {
     _controller.dispose();
+    _filterController.dispose();
     super.dispose();
   }
 
@@ -128,12 +117,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       vsync: this,
       duration: const Duration(milliseconds: 200),
     );
+    _filterController = new AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
     _bottomFilterSize = new SizeTween(
       begin: new Size.fromHeight(kTextTabBarHeight + 40.0),
       end: new Size.fromHeight(kTextTabBarHeight + 180.0),
     )
         .animate(new CurvedAnimation(
-      parent: _controller,
+      parent: _filterController,
       curve: Curves.ease,
     ));
     _bottomSize = new SizeTween(
@@ -158,6 +151,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     ));
   }
 
+  void _handleSearchBegin() {
+    ModalRoute.of(context).addLocalHistoryEntry(new LocalHistoryEntry(
+      onRemove: () {
+        setState(() {
+          _isSearching = false;
+        });
+      },
+    ));
+    setState(() {
+      _isSearching = true;
+    });
+  }
+
   void _navBarItemSelected(int selected) {
     setState(() {
       _currentIndex = selected;
@@ -179,13 +185,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       bottom
         ..add(new FilterBar(
           onExpandedChanged: (value) async {
-            if (value && _controller.isDismissed) {
-              await _controller.forward();
+            if (value && _filterController.isDismissed) {
+              await _filterController.forward();
               setState(() {
                 _isExpanded = true;
               });
-            } else if (!value && _controller.isCompleted) {
-              await _controller.reverse();
+            } else if (!value && _filterController.isCompleted) {
+              await _filterController.reverse();
               setState(() {
                 _isExpanded = false;
               });
@@ -358,7 +364,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           child: new NestedScrollView(
               headerSliverBuilder: (context, innerBoxIsScrolled) => <Widget>[
                     new AnimatedBuilder(
-                        animation: _bottomSize,
+                        animation: _filterController,
                         builder: (context, child) => _buildAppBar())
                   ],
               body: new TabBarView(children: _buildChild()))),
