@@ -1,6 +1,5 @@
 import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
-import 'package:spotitems/ui/components/date_picker.dart';
 import 'package:spotitems/ui/components/item.dart';
 import 'package:spotitems/ui/components/filter.dart';
 import 'package:spotitems/ui/explorer_view.dart';
@@ -26,6 +25,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   final AuthManager _authManager;
   final ItemsManager _itemsManager;
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   AnimationController _controller;
   AnimationController _filterController;
@@ -123,18 +124,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
     _bottomFilterSize = new SizeTween(
       begin: new Size.fromHeight(kTextTabBarHeight + 40.0),
-      end: new Size.fromHeight(kTextTabBarHeight + 180.0),
+      end: new Size.fromHeight(kTextTabBarHeight + 40.0),
     )
         .animate(new CurvedAnimation(
       parent: _filterController,
       curve: Curves.ease,
     ));
     _bottomSize = new SizeTween(
-      begin: new Size.fromHeight(kTextTabBarHeight + 0.0),
-      end: new Size.fromHeight(kTextTabBarHeight + 180.0),
+      begin: new Size.fromHeight(kTextTabBarHeight),
+      end: new Size.fromHeight(kTextTabBarHeight),
     )
         .animate(new CurvedAnimation(
-      parent: _controller,
+      parent: _filterController,
       curve: Curves.ease,
     ));
     _drawerContentsOpacity = new CurvedAnimation(
@@ -149,6 +150,55 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       parent: _controller,
       curve: Curves.fastOutSlowIn,
     ));
+  }
+
+  void _showBottomSheet() {
+    showModalBottomSheet<Null>(
+        context: context,
+        builder: (context) {
+          return new Container(
+              child: new Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              new Container(
+                height: 75.0,
+                child: new ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.all(20.0),
+                    itemCount: _itemsManager.categories.length,
+                    itemExtent: 75.0,
+                    itemBuilder: (context, index) => new FlatButton(
+                          child: new Image.asset(
+                              'assets/${_itemsManager.categories[index]}.png'),
+                          onPressed: () {
+                            print('test');
+                          },
+                        )),
+              ),
+              new SwitchListTile(
+                title: const Text('From your groups only'),
+                value: true,
+                onChanged: (value) {
+                  setState(() {});
+                },
+                secondary: const Icon(Icons.lock),
+              ),
+              new SwitchListTile(
+                title: const Text('Donated items only'),
+                value: true,
+                onChanged: (value) {
+                  setState(() {});
+                },
+                secondary: const Icon(Icons.card_giftcard),
+              ),
+            ],
+          ));
+        }).then((data) {
+      setState(() {
+        _isExpanded = false;
+      });
+    });
   }
 
   void _handleSearchBegin() {
@@ -182,39 +232,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 text: _homeScreenItems[_currentIndex].sub[index].title)),
       ));
     if (isMain) {
-      bottom
-        ..add(new FilterBar(
-          onExpandedChanged: (value) async {
-            if (value && _filterController.isDismissed) {
-              await _filterController.forward();
-              setState(() {
-                _isExpanded = true;
-              });
-            } else if (!value && _filterController.isCompleted) {
-              await _filterController.reverse();
-              setState(() {
-                _isExpanded = false;
-              });
-            }
-          },
-          isExpanded: _isExpanded,
-        ))
-        ..add(new Flexible(
-            child: new Container(
-                color: Theme.of(context).canvasColor,
-                child: new ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.all(20.0),
-                  itemCount: _itemsManager.categories.length,
-                  itemExtent: 75.0,
-                  itemBuilder: (context, index) => new FlatButton(
-                        child: new Image.asset(
-                            'assets/${_itemsManager.categories[index]}.png'),
-                        onPressed: () {
-                          print('test');
-                        },
-                      ),
-                ))));
+      bottom.add(new FilterBar(
+        onExpandedChanged: (value) async {
+          if (value) {
+            setState(() {
+              _isExpanded = true;
+              _showBottomSheet();
+            });
+          } else if (!value) {
+            setState(() {
+              _isExpanded = false;
+            });
+          }
+        },
+        isExpanded: _isExpanded,
+      ));
     }
     return new PreferredSize(
       child: new SizedBox(
@@ -357,16 +389,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) => new Scaffold(
+      key: _scaffoldKey,
       drawer: _buildDrawer(context),
       floatingActionButton: _buildFab(),
       body: new DefaultTabController(
           length: _homeScreenItems[_currentIndex].sub?.length,
           child: new NestedScrollView(
-              headerSliverBuilder: (context, innerBoxIsScrolled) => <Widget>[
-                    new AnimatedBuilder(
-                        animation: _filterController,
-                        builder: (context, child) => _buildAppBar())
-                  ],
+              headerSliverBuilder: (context, innerBoxIsScrolled) =>
+                  <Widget>[_buildAppBar()],
               body: new TabBarView(children: _buildChild()))),
       bottomNavigationBar: _isSearching
           ? null
