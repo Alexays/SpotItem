@@ -30,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   AnimationController _controller;
   Animation<double> _drawerContentsOpacity;
   Animation<FractionalOffset> _drawerDetailsPosition;
+  Animation<Size> _bottomFilterSize;
   Animation<Size> _bottomSize;
 
   int _currentIndex = 0;
@@ -127,8 +128,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       vsync: this,
       duration: const Duration(milliseconds: 200),
     );
-    _bottomSize = new SizeTween(
+    _bottomFilterSize = new SizeTween(
       begin: new Size.fromHeight(kTextTabBarHeight + 40.0),
+      end: new Size.fromHeight(kTextTabBarHeight + 180.0),
+    )
+        .animate(new CurvedAnimation(
+      parent: _controller,
+      curve: Curves.ease,
+    ));
+    _bottomSize = new SizeTween(
+      begin: new Size.fromHeight(kTextTabBarHeight + 0.0),
       end: new Size.fromHeight(kTextTabBarHeight + 180.0),
     )
         .animate(new CurvedAnimation(
@@ -159,72 +168,55 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     if (_homeScreenItems[_currentIndex].sub == null) {
       return null;
     }
+    final bool isMain = _currentIndex == 0;
+    final List<Widget> bottom = []..add(new TabBar(
+        tabs: new List<Tab>.generate(
+            _homeScreenItems[_currentIndex].sub?.length,
+            (index) => new Tab(
+                text: _homeScreenItems[_currentIndex].sub[index].title)),
+      ));
+    if (isMain) {
+      bottom
+        ..add(new FilterBar(
+          onExpandedChanged: (value) async {
+            if (value && _controller.isDismissed) {
+              await _controller.forward();
+              setState(() {
+                _isExpanded = true;
+              });
+            } else if (!value && _controller.isCompleted) {
+              await _controller.reverse();
+              setState(() {
+                _isExpanded = false;
+              });
+            }
+          },
+          isExpanded: _isExpanded,
+        ))
+        ..add(new Flexible(
+            child: new Container(
+                color: Theme.of(context).canvasColor,
+                child: new ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.all(20.0),
+                  itemCount: _itemsManager.categories.length,
+                  itemExtent: 75.0,
+                  itemBuilder: (context, index) => new FlatButton(
+                        child: new Image.asset(
+                            'assets/${_itemsManager.categories[index]}.png'),
+                        onPressed: () {
+                          print('test');
+                        },
+                      ),
+                ))));
+    }
     return new PreferredSize(
       child: new SizedBox(
-        height: _bottomSize.value.height,
-        child: new Column(
-          children: <Widget>[
-            new TabBar(
-              tabs: new List<Tab>.generate(
-                  _homeScreenItems[_currentIndex].sub?.length,
-                  (index) => new Tab(
-                      text: _homeScreenItems[_currentIndex].sub[index].title)),
-            ),
-            new FilterBar(
-              onExpandedChanged: (value) async {
-                if (value && _controller.isDismissed) {
-                  await _controller.forward();
-                  setState(() {
-                    _isExpanded = true;
-                  });
-                } else if (!value && _controller.isCompleted) {
-                  await _controller.reverse();
-                  setState(() {
-                    _isExpanded = false;
-                  });
-                }
-              },
-              isExpanded: _isExpanded,
-            ),
-            new Flexible(
-                child: new Container(
-                    color: Theme.of(context).canvasColor,
-                    child: new ListView.builder(
-                      
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.all(20.0),
-                      itemCount: _itemsManager.categories.length,
-                      itemExtent: 75.0,
-                      itemBuilder: (context, index) => new FlatButton(
-                            child: new Image.asset(
-                                'assets/${_itemsManager.categories[index]}.png'),
-                            onPressed: () {
-                              print('test');
-                            },
-                          ),
-                    ))),
-            // new Flexible(
-            //   child: new Stack(
-            //     overflow: Overflow.clip,
-            //     children: <Widget>[
-            //       new Positioned(
-            //         top: 0.0,
-            //         left: 0.0,
-            //         right: 0.0,
-            //         child: new DayPickerBar(
-            //           onChanged: (DateTime value) {
-            //             setState(() {});
-            //           },
-            //           selectedDate: new DateTime.now(),
-            //         ),
-            //       )
-            //     ],
-            //   ),
-            // ),
-          ],
-        ),
+        height:
+            isMain ? _bottomFilterSize.value.height : _bottomSize.value.height,
+        child: new Column(children: bottom),
       ),
-      preferredSize: _bottomSize.value,
+      preferredSize: isMain ? _bottomFilterSize.value : _bottomSize.value,
     );
   }
 
