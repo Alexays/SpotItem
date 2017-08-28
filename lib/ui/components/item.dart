@@ -89,34 +89,176 @@ class ItemsListItem extends StatelessWidget {
   }
 }
 
+const int _childrenPerBlock = 8;
+const int _rowsPerBlock = 5;
+
+int _minIndexInRow(int rowIndex) {
+  final int blockIndex = rowIndex ~/ _rowsPerBlock;
+  return const <int>[0, 2, 4, 6, 7][rowIndex % _rowsPerBlock] +
+      blockIndex * _childrenPerBlock;
+}
+
+int _maxIndexInRow(int rowIndex) {
+  final int blockIndex = rowIndex ~/ _rowsPerBlock;
+  return const <int>[1, 3, 5, 6, 7][rowIndex % _rowsPerBlock] +
+      blockIndex * _childrenPerBlock;
+}
+
+int _rowAtIndex(int index) {
+  final int blockCount = index ~/ _childrenPerBlock;
+  return const <int>[
+        0,
+        0,
+        1,
+        1,
+        2,
+        2,
+        3,
+        4
+      ][index - blockCount * _childrenPerBlock] +
+      blockCount * _rowsPerBlock;
+}
+
+int _columnAtIndex(int index) =>
+    const <int>[0, 1, 0, 1, 0, 1, 0, 0][index % _childrenPerBlock];
+
+int _columnSpanAtIndex(int index) =>
+    const <int>[1, 1, 1, 1, 1, 1, 2, 2][index % _childrenPerBlock];
+
+class _GridLayout extends SliverGridLayout {
+  const _GridLayout({
+    @required this.rowStride,
+    @required this.columnStride,
+    @required this.tileHeight,
+    @required this.tileWidth,
+  });
+
+  final double rowStride;
+  final double columnStride;
+  final double tileHeight;
+  final double tileWidth;
+
+  @override
+  int getMinChildIndexForScrollOffset(double scrollOffset) =>
+      _minIndexInRow(scrollOffset ~/ rowStride);
+
+  @override
+  int getMaxChildIndexForScrollOffset(double scrollOffset) =>
+      _maxIndexInRow(scrollOffset ~/ rowStride);
+
+  @override
+  SliverGridGeometry getGeometryForChildIndex(int index) {
+    final int row = _rowAtIndex(index);
+    final int column = _columnAtIndex(index);
+    final int columnSpan = _columnSpanAtIndex(index);
+    return new SliverGridGeometry(
+      scrollOffset: row * rowStride,
+      crossAxisOffset: column * columnStride,
+      mainAxisExtent: tileHeight,
+      crossAxisExtent: tileWidth + (columnSpan - 1) * columnStride,
+    );
+  }
+
+  @override
+  double estimateMaxScrollOffset(int childCount) {
+    if (childCount == null) {
+      return null;
+    }
+    if (childCount == 0) {
+      return 0.0;
+    }
+    final int rowCount = _rowAtIndex(childCount - 1) + 1;
+    final double rowSpacing = rowStride - tileHeight;
+    return rowStride * rowCount - rowSpacing;
+  }
+}
+
+class _GridDelegate extends SliverGridDelegate {
+  static const double _kSpacing = 8.0;
+
+  @override
+  SliverGridLayout getLayout(SliverConstraints constraints) {
+    final double tileWidth = (constraints.crossAxisExtent - _kSpacing) / 2.0;
+    final double tileHeight = 40.0 + 144.0 + 40.0;
+    return new _GridLayout(
+      tileWidth: tileWidth,
+      tileHeight: tileHeight,
+      rowStride: tileHeight + _kSpacing,
+      columnStride: tileWidth + _kSpacing,
+    );
+  }
+
+  @override
+  bool shouldRelayout(covariant SliverGridDelegate oldDelegate) => false;
+}
+
 class ItemsList extends StatelessWidget {
-  final List<Item> _items;
+  final List<SpotListItem> _content;
   final ItemsManager _itemsManager;
   final AuthManager _authManager;
   final String _hash;
-  final Axis _dir;
 
   const ItemsList(
-      this._items, this._itemsManager, this._authManager, this._hash,
-      [this._dir = Axis.vertical]);
+      this._content, this._itemsManager, this._authManager, this._hash);
+
+  static final _GridDelegate gridDelegate = new _GridDelegate();
 
   @override
-  Widget build(BuildContext context) => _items.isNotEmpty
-      ? new ListView.builder(
-          physics: const AlwaysScrollableScrollPhysics(),
-          scrollDirection: _dir,
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          itemCount: _items?.length,
-          itemExtent: 275.0,
-          itemBuilder: (context, index) => new ItemsListItem(
-              itemsManager: _itemsManager,
-              item: _items[index],
-              hash: _hash,
-              onPressed: () {
-                showItemPage(
-                    _items[index], _authManager, _itemsManager, _hash, context);
-              }))
-      : const Center(child: const Text('No items'));
+  Widget build(BuildContext context) {
+    final List<Widget> sliversList = [];
+    _content.forEach((f) {
+      if (f.title != null) {
+        sliversList.add(new SliverToBoxAdapter(
+          child: new Padding(
+            padding: const EdgeInsets.only(left: 10.0, top: 10.0, bottom: 0.0),
+            child: new Text(
+              f.title,
+              style:
+                  const TextStyle(fontWeight: FontWeight.w400, fontSize: 20.0),
+            ),
+          ),
+        ));
+      }
+      sliversList.add(new SliverPadding(
+        padding: const EdgeInsets.all(16.0),
+        sliver: new SliverGrid(
+          gridDelegate: gridDelegate,
+          delegate: new SliverChildListDelegate(
+            f.content
+                .map((item) => new ItemsListItem(
+                      itemsManager: _itemsManager,
+                      item: item,
+                      hash: _hash,
+                      onPressed: () {
+                        showItemPage(
+                            item, _authManager, _itemsManager, _hash, context);
+                      },
+                    ))
+                .toList(),
+          ),
+        ),
+      ));
+    });
+    return _content.isNotEmpty
+        ? new CustomScrollView(
+            slivers: sliversList,
+          )
+        // new ListView.builder(
+        //     physics: const AlwaysScrollableScrollPhysics(),
+        //     scrollDirection: _dir,
+        //     padding: const EdgeInsets.symmetric(vertical: 8.0),
+        //     itemCount: _items?.length,
+        //     itemExtent: 275.0,
+        //     itemBuilder: (context, index) => new ItemsListItem(
+        //         itemsManager: _itemsManager,
+        //         item: _items[index],
+        //         hash: _hash,
+        //         onPressed: () {
+        //           showItemPage(
+        //               _items[index], _authManager, _itemsManager, _hash, context);
+        //         }))
+        : const Center(child: const Text('No items'));
+  }
 }
 
 Future<Null> showItemPage(Item item, AuthManager authManager,
@@ -131,4 +273,11 @@ Future<Null> showItemPage(Item item, AuthManager authManager,
               hash: hash,
             ),
       ));
+}
+
+class SpotListItem {
+  final String title;
+  final List<Item> content;
+
+  const SpotListItem(this.title, this.content);
 }

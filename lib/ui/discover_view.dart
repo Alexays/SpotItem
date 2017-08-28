@@ -57,70 +57,27 @@ class _DiscoverViewState extends State<DiscoverView> {
     });
   }
 
-  Widget _buildDiscover() => new ListView.builder(
-      itemCount: 2,
-      itemBuilder: (context, index) {
-        switch (index) {
-          case 0:
-            List<Item> recents = new List<Item>.from(_items);
-            recents = recents
-                .where((item) => !item.tracks.contains('group'))
-                .toList();
-            if (recents.length > 10) {
-              recents.length = 10;
-            }
-            return new Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                const Padding(
-                  padding:
-                      const EdgeInsets.only(left: 10.0, top: 10.0, bottom: 0.0),
-                  child: const Text(
-                    'Recents items',
-                    style: const TextStyle(
-                        fontWeight: FontWeight.w400, fontSize: 20.0),
-                  ),
-                ),
-                new Container(
-                  height: 250.0,
-                  width: MediaQuery.of(context).size.width,
-                  child: new ItemsList(recents, _itemsManager, _authManager,
-                      'recents', Axis.horizontal),
-                ),
-              ],
-            );
-          case 1:
-            List<Item> groups = new List<Item>.from(_items);
-            groups =
-                groups.where((item) => item.tracks.contains('group')).toList();
-            if (groups.isEmpty) {
-              return new Container();
-            }
-            if (groups.length > 10) {
-              groups.length = 10;
-            }
-            return new Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                const Padding(
-                  padding:
-                      const EdgeInsets.only(left: 10.0, top: 10.0, bottom: 0.0),
-                  child: const Text(
-                    'From your groups',
-                    style: const TextStyle(
-                        fontWeight: FontWeight.w400, fontSize: 20.0),
-                  ),
-                ),
-                new Container(
-                  height: 250.0,
-                  width: MediaQuery.of(context).size.width,
-                  child: new ItemsList(groups, _itemsManager, _authManager,
-                      'group', Axis.horizontal),
-                )
-              ],
-            );
-        }
-      });
+  Widget _buildDiscover() {
+    List<Item> recents = new List<Item>.from(_items);
+    recents = recents.where((item) => !item.tracks.contains('group')).toList();
+    if (recents.length > 10) {
+      recents.length = 10;
+    }
+    List<Item> groups = new List<Item>.from(_items);
+    groups = groups.where((item) => item.tracks.contains('group')).toList();
+    if (groups.isEmpty) {
+      return new Container();
+    }
+    if (groups.length > 10) {
+      groups.length = 10;
+    }
+    final List<SpotListItem> _spotListItem = [
+      new SpotListItem('Recents items', recents),
+      new SpotListItem('From your groups', groups),
+    ];
+    return new ItemsList(
+        _spotListItem, _itemsManager, _authManager, 'discover');
+  }
 
   @override
   Widget build(BuildContext context) => new RefreshIndicator(
