@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:spotitems/model/item.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
 import 'package:spotitems/interactor/manager/auth_manager.dart';
+import 'package:spotitems/interactor/utils.dart';
 import 'package:spotitems/keys.dart';
 import 'package:spotitems/ui/components/date_picker.dart';
 
@@ -257,7 +258,7 @@ class OrderPageState extends State<OrderPage>
                       },
                       child: new FlexibleSpaceBar(
                         title: new Text(
-                          item.name,
+                          capitalize(item.name),
                           overflow: TextOverflow.ellipsis,
                         ),
                         centerTitle: false,
