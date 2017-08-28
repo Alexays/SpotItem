@@ -57,27 +57,70 @@ class _DiscoverViewState extends State<DiscoverView> {
     });
   }
 
-  Widget _buildDiscover() {
-    List<Item> recents = new List<Item>.from(_items);
-    recents = recents.where((item) => !item.tracks.contains('group')).toList();
-    if (recents.length > 10) {
-      recents.length = 10;
-    }
-    List<Item> groups = new List<Item>.from(_items);
-    groups = groups.where((item) => item.tracks.contains('group')).toList();
-    if (groups.isEmpty) {
-      return new Container();
-    }
-    if (groups.length > 10) {
-      groups.length = 10;
-    }
-    final List<SpotListItem> _spotListItem = [
-      new SpotListItem('Recents items', recents),
-      new SpotListItem('From your groups', groups),
-    ];
-    return new ItemsList(
-        _spotListItem, _itemsManager, _authManager, 'discover');
-  }
+  Widget _buildDiscover() => new ListView.builder(
+      itemCount: 2,
+      itemBuilder: (context, index) {
+        switch (index) {
+          case 0:
+            List<Item> recents = new List<Item>.from(_items);
+            recents = recents
+                .where((item) => !item.tracks.contains('group'))
+                .toList();
+            if (recents.length > 10) {
+              recents.length = 10;
+            }
+            return new Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const Padding(
+                  padding:
+                      const EdgeInsets.only(left: 10.0, top: 10.0, bottom: 0.0),
+                  child: const Text(
+                    'Recents items',
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w400, fontSize: 20.0),
+                  ),
+                ),
+                new Container(
+                  height: 200.0,
+                  width: MediaQuery.of(context).size.width,
+                  child: new DiscoverList(
+                      recents, _itemsManager, _authManager, 'recents'),
+                ),
+              ],
+            );
+          case 1:
+            List<Item> groups = new List<Item>.from(_items);
+            groups =
+                groups.where((item) => item.tracks.contains('group')).toList();
+            if (groups.isEmpty) {
+              return new Container();
+            }
+            if (groups.length > 10) {
+              groups.length = 10;
+            }
+            return new Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const Padding(
+                  padding:
+                      const EdgeInsets.only(left: 10.0, top: 10.0, bottom: 0.0),
+                  child: const Text(
+                    'From your groups',
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w400, fontSize: 20.0),
+                  ),
+                ),
+                new Container(
+                  height: 200.0,
+                  width: MediaQuery.of(context).size.width,
+                  child: new DiscoverList(
+                      groups, _itemsManager, _authManager, 'group'),
+                )
+              ],
+            );
+        }
+      });
 
   @override
   Widget build(BuildContext context) => new RefreshIndicator(
@@ -86,4 +129,32 @@ class _DiscoverViewState extends State<DiscoverView> {
             ? const Center(child: const CircularProgressIndicator())
             : _buildDiscover(),
       );
+}
+
+class DiscoverList extends StatelessWidget {
+  final List<Item> _items;
+  final ItemsManager _itemsManager;
+  final AuthManager _authManager;
+  final String _hash;
+
+  const DiscoverList(
+      this._items, this._itemsManager, this._authManager, this._hash);
+
+  @override
+  Widget build(BuildContext context) => _items.isNotEmpty
+      ? new ListView.builder(
+          physics: const AlwaysScrollableScrollPhysics(),
+          scrollDirection: Axis.horizontal,
+          padding: const EdgeInsets.all(8.0),
+          itemCount: _items?.length,
+          itemExtent: 250.0,
+          itemBuilder: (context, index) => new ItemsListItem(
+              itemsManager: _itemsManager,
+              item: _items[index],
+              hash: _hash,
+              onPressed: () {
+                showItemPage(
+                    _items[index], _authManager, _itemsManager, _hash, context);
+              }))
+      : const Center(child: const Text('No items'));
 }

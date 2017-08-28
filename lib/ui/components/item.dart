@@ -161,10 +161,7 @@ class _GridLayout extends SliverGridLayout {
 
   @override
   double estimateMaxScrollOffset(int childCount) {
-    if (childCount == null) {
-      return null;
-    }
-    if (childCount == 0) {
+    if (childCount == null || childCount == 0) {
       return 0.0;
     }
     final int rowCount = _rowAtIndex(childCount - 1) + 1;
@@ -193,72 +190,40 @@ class _GridDelegate extends SliverGridDelegate {
 }
 
 class ItemsList extends StatelessWidget {
-  final List<SpotListItem> _content;
+  final List<Item> _items;
   final ItemsManager _itemsManager;
   final AuthManager _authManager;
   final String _hash;
 
   const ItemsList(
-      this._content, this._itemsManager, this._authManager, this._hash);
+      this._items, this._itemsManager, this._authManager, this._hash);
 
   static final _GridDelegate gridDelegate = new _GridDelegate();
 
   @override
-  Widget build(BuildContext context) {
-    final List<Widget> sliversList = [];
-    _content.forEach((f) {
-      if (f.title != null) {
-        sliversList.add(new SliverToBoxAdapter(
-          child: new Padding(
-            padding: const EdgeInsets.only(left: 10.0, top: 10.0, bottom: 0.0),
-            child: new Text(
-              f.title,
-              style:
-                  const TextStyle(fontWeight: FontWeight.w400, fontSize: 20.0),
+  Widget build(BuildContext context) => _items.isNotEmpty
+      ? new CustomScrollView(slivers: <Widget>[
+          new SliverPadding(
+            padding: const EdgeInsets.all(16.0),
+            sliver: new SliverGrid(
+              gridDelegate: gridDelegate,
+              delegate: new SliverChildListDelegate(
+                _items
+                    .map((item) => new ItemsListItem(
+                          itemsManager: _itemsManager,
+                          item: item,
+                          hash: _hash,
+                          onPressed: () {
+                            showItemPage(item, _authManager, _itemsManager,
+                                _hash, context);
+                          },
+                        ))
+                    .toList(),
+              ),
             ),
           ),
-        ));
-      }
-      sliversList.add(new SliverPadding(
-        padding: const EdgeInsets.all(16.0),
-        sliver: new SliverGrid(
-          gridDelegate: gridDelegate,
-          delegate: new SliverChildListDelegate(
-            f.content
-                .map((item) => new ItemsListItem(
-                      itemsManager: _itemsManager,
-                      item: item,
-                      hash: _hash,
-                      onPressed: () {
-                        showItemPage(
-                            item, _authManager, _itemsManager, _hash, context);
-                      },
-                    ))
-                .toList(),
-          ),
-        ),
-      ));
-    });
-    return _content.isNotEmpty
-        ? new CustomScrollView(
-            slivers: sliversList,
-          )
-        // new ListView.builder(
-        //     physics: const AlwaysScrollableScrollPhysics(),
-        //     scrollDirection: _dir,
-        //     padding: const EdgeInsets.symmetric(vertical: 8.0),
-        //     itemCount: _items?.length,
-        //     itemExtent: 275.0,
-        //     itemBuilder: (context, index) => new ItemsListItem(
-        //         itemsManager: _itemsManager,
-        //         item: _items[index],
-        //         hash: _hash,
-        //         onPressed: () {
-        //           showItemPage(
-        //               _items[index], _authManager, _itemsManager, _hash, context);
-        //         }))
-        : const Center(child: const Text('No items'));
-  }
+        ])
+      : const Center(child: const Text('No items'));
 }
 
 Future<Null> showItemPage(Item item, AuthManager authManager,
@@ -273,11 +238,4 @@ Future<Null> showItemPage(Item item, AuthManager authManager,
               hash: hash,
             ),
       ));
-}
-
-class SpotListItem {
-  final String title;
-  final List<Item> content;
-
-  const SpotListItem(this.title, this.content);
 }

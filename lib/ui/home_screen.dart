@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               new ExplorerView(_itemsManager, _authManager, (items) {
                 items.sort((a, b) => a.dist.compareTo(b.dist));
                 return items;
-              })),
+              }, 'near')),
           new HomeScreenSubItem(
               'Donated',
               new ExplorerView(
@@ -76,7 +76,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   _authManager,
                   (items) => items
                       .where((item) => item.tracks.contains('gift'))
-                      .toList()))
+                      .toList(),
+                  'gift'))
         ],
       ),
       new HomeScreenItem(
@@ -299,10 +300,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       search = search
           .where((item) => item.name.toLowerCase().contains(_searchQuery))
           .toList();
-      return [
-        new ItemsList([new SpotListItem(null, search)], _itemsManager,
-            _authManager, null.toString())
-      ];
+      return [new ItemsList(search, _itemsManager, _authManager, 'search')];
     }
     return _homeScreenItems[_currentIndex].content;
   }

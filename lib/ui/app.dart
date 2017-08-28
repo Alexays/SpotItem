@@ -29,7 +29,6 @@ class SpotItemsApp extends StatelessWidget {
         800: const Color(0xFF027BAB),
         900: const Color(0xFF016A9E)
       });
-
   @override
   Widget build(BuildContext context) => new MaterialApp(
         title: 'SpotItems',

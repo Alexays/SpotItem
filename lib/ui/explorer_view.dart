@@ -12,17 +12,22 @@ class ExplorerView extends StatefulWidget {
   final ItemsManager _itemsManager;
   final AuthManager _authManager;
   final Filter _mode;
-  const ExplorerView(this._itemsManager, this._authManager, this._mode);
+  final String _hash;
+  const ExplorerView(
+      this._itemsManager, this._authManager, this._mode, this._hash);
 
   @override
-  State<StatefulWidget> createState() => new _ExplorerViewState(_mode);
+  State<StatefulWidget> createState() => new _ExplorerViewState(_mode, _hash);
 }
 
 class _ExplorerViewState extends State<ExplorerView> {
+  _ExplorerViewState(this._mode, this._hash);
+
   final Filter _mode;
+  final String _hash;
+
   bool _loading = true;
   List<Item> _items = <Item>[];
-  _ExplorerViewState(this._mode);
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
 
@@ -57,7 +62,7 @@ class _ExplorerViewState extends State<ExplorerView> {
         onRefresh: () => _loadItems(true),
         child: _loading
             ? const Center(child: const CircularProgressIndicator())
-            : new ItemsList([new SpotListItem(null, _items)],
-                widget._itemsManager, widget._authManager, _mode.toString()),
+            : new ItemsList(
+                _items, widget._itemsManager, widget._authManager, _hash),
       );
 }
