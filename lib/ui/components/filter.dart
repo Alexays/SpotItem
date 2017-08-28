@@ -37,7 +37,7 @@ class FilterBar extends StatelessWidget {
               color: _kFilterColor,
               borderRadius: new BorderRadius.circular(16.0),
             ),
-            padding: const EdgeInsets.all(6.0),
+            padding: const EdgeInsets.all(8.0),
             child: new Text(
               'All items',
               style: theme.primaryTextTheme.button,
@@ -48,7 +48,7 @@ class FilterBar extends StatelessWidget {
               color: _kFilterColor,
               shape: BoxShape.circle,
             ),
-            padding: const EdgeInsets.all(6.0),
+            padding: const EdgeInsets.all(8.0),
             margin: const EdgeInsets.symmetric(horizontal: 6.0),
             child: new Text(
               ' + ',

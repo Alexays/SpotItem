@@ -12,6 +12,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ItemsManager {
   static const String keyOauthToken = 'KEY_AUTH_TOKEN';
+  final List<String> _categories = [
+    'jeux',
+    'bebe_jeunesse',
+    'fete',
+    'garage',
+    'objet',
+    'cuisine',
+    'jardin'
+  ];
+
+  List<String> get categories => _categories;
 
   bool get initialized => _initialized;
 

@@ -187,23 +187,40 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               isExpanded: _isExpanded,
             ),
             new Flexible(
-              child: new Stack(
-                overflow: Overflow.clip,
-                children: <Widget>[
-                  new Positioned(
-                    top: 0.0,
-                    left: 0.0,
-                    right: 0.0,
-                    child: new DayPickerBar(
-                      onChanged: (DateTime value) {
-                        setState(() {});
-                      },
-                      selectedDate: new DateTime.now(),
-                    ),
-                  )
-                ],
-              ),
-            ),
+                child: new Container(
+                    color: Theme.of(context).canvasColor,
+                    child: new ListView.builder(
+                      
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.all(20.0),
+                      itemCount: _itemsManager.categories.length,
+                      itemExtent: 75.0,
+                      itemBuilder: (context, index) => new FlatButton(
+                            child: new Image.asset(
+                                'assets/${_itemsManager.categories[index]}.png'),
+                            onPressed: () {
+                              print('test');
+                            },
+                          ),
+                    ))),
+            // new Flexible(
+            //   child: new Stack(
+            //     overflow: Overflow.clip,
+            //     children: <Widget>[
+            //       new Positioned(
+            //         top: 0.0,
+            //         left: 0.0,
+            //         right: 0.0,
+            //         child: new DayPickerBar(
+            //           onChanged: (DateTime value) {
+            //             setState(() {});
+            //           },
+            //           selectedDate: new DateTime.now(),
+            //         ),
+            //       )
+            //     ],
+            //   ),
+            // ),
           ],
         ),
       ),

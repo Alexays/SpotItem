@@ -15,3 +15,10 @@ flutter:
   assets:
     - assets/placeholder.png
     - assets/logo.png
+    - assets/jeux.png
+    - assets/bebe_jeunesse.png
+    - assets/cuisine.png
+    - assets/garage.png
+    - assets/jardin.png
+    - assets/objet.png
+    - assets/fete.png
