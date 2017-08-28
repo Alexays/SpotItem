@@ -1,6 +1,8 @@
 import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:spotitems/interactor/manager/items_manager.dart';
+import 'package:spotitems/ui/components/date_picker.dart';
 import 'package:spotitems/ui/components/item.dart';
+import 'package:spotitems/ui/components/filter.dart';
 import 'package:spotitems/ui/explorer_view.dart';
 import 'package:spotitems/ui/discover_view.dart';
 import 'package:spotitems/ui/map_view.dart';
@@ -35,6 +37,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   Size size;
 
+  bool _isExpanded = false;
+
   bool _showDrawerContents = true;
 
   final TextEditingController _searchController = new TextEditingController();
@@ -63,21 +67,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         sub: <HomeScreenSubItem>[
           new HomeScreenSubItem(
               'Discover', new DiscoverView(_itemsManager, _authManager, null)),
-          new HomeScreenSubItem(
-              'Nearest you',
-              new ExplorerView(_itemsManager, _authManager, (items) {
-                items.sort((a, b) => a.dist.compareTo(b.dist));
-                return items;
-              }, 'near')),
-          new HomeScreenSubItem(
-              'Donated',
-              new ExplorerView(
-                  _itemsManager,
-                  _authManager,
-                  (items) => items
-                      .where((item) => item.tracks.contains('gift'))
-                      .toList(),
-                  'gift'))
+          new HomeScreenSubItem('Explore',
+              new ExplorerView(_itemsManager, _authManager, null, 'plus')),
         ],
       ),
       new HomeScreenItem(
@@ -138,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
     _bottomSize = new SizeTween(
       begin: new Size.fromHeight(kTextTabBarHeight + 40.0),
-      end: new Size.fromHeight(kTextTabBarHeight + 280.0),
+      end: new Size.fromHeight(kTextTabBarHeight + 180.0),
     )
         .animate(new CurvedAnimation(
       parent: _controller,
@@ -168,11 +159,55 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     if (_homeScreenItems[_currentIndex].sub == null) {
       return null;
     }
-    return new TabBar(
-      tabs: new List<Tab>.generate(
-          _homeScreenItems[_currentIndex].sub?.length,
-          (index) =>
-              new Tab(text: _homeScreenItems[_currentIndex].sub[index].title)),
+    return new PreferredSize(
+      child: new SizedBox(
+        height: _bottomSize.value.height,
+        child: new Column(
+          children: <Widget>[
+            new TabBar(
+              tabs: new List<Tab>.generate(
+                  _homeScreenItems[_currentIndex].sub?.length,
+                  (index) => new Tab(
+                      text: _homeScreenItems[_currentIndex].sub[index].title)),
+            ),
+            new FilterBar(
+              onExpandedChanged: (value) async {
+                if (value && _controller.isDismissed) {
+                  await _controller.forward();
+                  setState(() {
+                    _isExpanded = true;
+                  });
+                } else if (!value && _controller.isCompleted) {
+                  await _controller.reverse();
+                  setState(() {
+                    _isExpanded = false;
+                  });
+                }
+              },
+              isExpanded: _isExpanded,
+            ),
+            new Flexible(
+              child: new Stack(
+                overflow: Overflow.clip,
+                children: <Widget>[
+                  new Positioned(
+                    top: 0.0,
+                    left: 0.0,
+                    right: 0.0,
+                    child: new DayPickerBar(
+                      onChanged: (DateTime value) {
+                        setState(() {});
+                      },
+                      selectedDate: new DateTime.now(),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      preferredSize: _bottomSize.value,
     );
   }
 

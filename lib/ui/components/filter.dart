@@ -15,6 +15,7 @@ class FilterBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return new Container(
+      padding: const EdgeInsets.all(2.0),
       color: Theme.of(context).canvasColor,
       child: new Row(
         children: <Widget>[
@@ -23,7 +24,7 @@ class FilterBar extends StatelessWidget {
             textColor: theme.primaryColor,
             child: new Row(
               children: <Widget>[
-                const Text('Watch Today'),
+                const Text('Filter'),
                 new Icon(isExpanded ? Icons.expand_less : Icons.expand_more),
               ],
             ),
