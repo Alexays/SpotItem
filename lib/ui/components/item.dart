@@ -43,18 +43,6 @@ class ItemsListItem extends StatelessWidget {
                       image: new NetworkImage('$apiImgUrl${item.images.first}'),
                       fit: BoxFit.cover,
                       alignment: FractionalOffset.center)),
-              item.dist >= 0
-                  ? new Positioned(
-                      top: 15.0,
-                      left: 15.0,
-                      child: new RaisedButton(
-                          color: theme.primaryColor.withOpacity(0.6),
-                          child: new Text(
-                            distString(item.dist),
-                            style: theme.primaryTextTheme.subhead,
-                          ),
-                          onPressed: () {}))
-                  : new Container(),
               new Positioned(
                 top: 15.0,
                 right: 15.0,
@@ -70,24 +58,11 @@ class ItemsListItem extends StatelessWidget {
                 left: 0.0,
                 right: 0.0,
                 child: new Row(children: <Widget>[
-                  new Container(
-                      padding: const EdgeInsets.all(10.0),
-                      color: theme.primaryColor.withOpacity(0.6),
-                      height: 40.0,
-                      child: new Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            const Icon(Icons.message, color: Colors.white),
-                            new Text(
-                              ' 12',
-                              style: theme.primaryTextTheme.subhead,
-                            )
-                          ])),
                   new Expanded(
                       child: new Container(
-                          padding: const EdgeInsets.all(12.0),
-                          color: theme.secondaryHeaderColor.withOpacity(0.6),
-                          height: 40.0,
+                          padding: const EdgeInsets.all(11.0),
+                          color: theme.secondaryHeaderColor.withOpacity(0.5),
+                          height: 37.5,
                           child: new Text(
                             capitalize(item.name),
                             overflow: TextOverflow.ellipsis,
@@ -95,7 +70,17 @@ class ItemsListItem extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
                             ),
-                          )))
+                          ))),
+                  item.dist >= 0
+                      ? new Container(
+                          padding: const EdgeInsets.all(10.0),
+                          color: theme.primaryColor.withOpacity(0.4),
+                          height: 37.5,
+                          child: new Text(
+                            distString(item.dist),
+                            style: theme.primaryTextTheme.subhead,
+                          ))
+                      : new Container(),
                 ]),
               ),
             ],
