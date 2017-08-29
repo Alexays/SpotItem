@@ -55,8 +55,7 @@ class _DiscoverViewState extends State<DiscoverView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 const Padding(
-                  padding:
-                      const EdgeInsets.only(left: 10.0, top: 10.0, bottom: 0.0),
+                  padding: const EdgeInsets.only(left: 10.0, top: 10.0),
                   child: const Text(
                     'Recents items',
                     style: const TextStyle(
@@ -83,8 +82,7 @@ class _DiscoverViewState extends State<DiscoverView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 const Padding(
-                  padding:
-                      const EdgeInsets.only(left: 10.0, top: 10.0, bottom: 0.0),
+                  padding: const EdgeInsets.only(left: 10.0, top: 10.0),
                   child: const Text(
                     'From your groups',
                     style: const TextStyle(
