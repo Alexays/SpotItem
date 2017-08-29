@@ -83,17 +83,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               })),
     ];
     initAnimation();
-    _searchController.addListener(() {
-      setState(() {
-        _searchQuery = _searchController.text.toLowerCase();
-      });
-    });
     super.initState();
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -160,16 +156,27 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     });
   }
 
+  void _searchCallback() {
+    setState(() {
+      _searchQuery = _searchController.text.toLowerCase();
+    });
+  }
+
   void _handleSearchBegin() {
     ModalRoute.of(context).addLocalHistoryEntry(new LocalHistoryEntry(
       onRemove: () {
         setState(() {
           _isSearching = false;
+          if (!mounted) {
+            return;
+          }
+          _searchController.removeListener(_searchCallback);
         });
       },
     ));
     setState(() {
       _isSearching = true;
+      _searchController.addListener(_searchCallback);
     });
   }
 
