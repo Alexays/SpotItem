@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:spotitems/keys.dart';
-import 'package:spotitems/model/item.dart';
+import 'package:spotitem/keys.dart';
+import 'package:spotitem/model/item.dart';
 import 'package:http/http.dart';
 import 'package:flutter/services.dart';
 import 'package:location/location.dart';

@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:spotitems/interactor/services/services.dart';
-import 'package:spotitems/model/user.dart';
+import 'package:spotitem/interactor/services/services.dart';
+import 'package:spotitem/model/user.dart';
 import 'package:flutter/material.dart';
 
 class EditUserScreen extends StatefulWidget {

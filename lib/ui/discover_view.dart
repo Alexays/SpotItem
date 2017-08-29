@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:spotitems/model/item.dart';
-import 'package:spotitems/ui/components/item.dart';
-import 'package:spotitems/interactor/services/services.dart';
+import 'package:spotitem/model/item.dart';
+import 'package:spotitem/ui/components/item.dart';
+import 'package:spotitem/interactor/services/services.dart';
 import 'package:flutter/material.dart';
 
 class DiscoverView extends StatefulWidget {

@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:spotitems/interactor/services/items_manager.dart';
-import 'package:spotitems/interactor/services/auth_manager.dart';
+import 'package:spotitem/interactor/services/items_manager.dart';
+import 'package:spotitem/interactor/services/auth_manager.dart';
 
 class Services {
   static final Services _singleton = new Services._internal();
@@ -18,6 +18,6 @@ class Services {
     _singleton._itemsManager = itemsManager;
     final bool auth = await _singleton._authManager.init();
     final bool items = await _singleton._itemsManager.init();
-    return auth && items;
+    return auth && items && _singleton._authManager.loggedIn;
   }
 }

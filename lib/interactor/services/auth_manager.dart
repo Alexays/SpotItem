@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:spotitems/keys.dart';
-import 'package:spotitems/model/user.dart';
-import 'package:spotitems/model/group.dart';
+import 'package:spotitem/keys.dart';
+import 'package:spotitem/model/user.dart';
+import 'package:spotitem/model/group.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:spotitems/model/group.dart';
-import 'package:spotitems/interactor/services/services.dart';
+import 'package:spotitem/model/group.dart';
+import 'package:spotitem/interactor/services/services.dart';
 
 class GroupPage extends StatefulWidget {
   const GroupPage({

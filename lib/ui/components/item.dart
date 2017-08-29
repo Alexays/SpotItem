@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
-import 'package:spotitems/model/item.dart';
-import 'package:spotitems/ui/item_view.dart';
-import 'package:spotitems/keys.dart';
-import 'package:spotitems/interactor/utils.dart';
+import 'package:spotitem/model/item.dart';
+import 'package:spotitem/ui/item_view.dart';
+import 'package:spotitem/keys.dart';
+import 'package:spotitem/interactor/utils.dart';
 
 class ItemsListItem extends StatelessWidget {
   const ItemsListItem({@required this.item, Key key, this.hash, this.onPressed})

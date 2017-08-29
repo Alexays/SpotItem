@@ -1,14 +1,14 @@
-import 'package:spotitems/ui/routes.dart';
-import 'package:spotitems/ui/home_screen.dart';
-import 'package:spotitems/ui/login_screen.dart';
+import 'package:spotitem/ui/routes.dart';
+import 'package:spotitem/ui/home_screen.dart';
+import 'package:spotitem/ui/login_screen.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
-class SpotItemsApp extends MaterialApp {
+class SpotItemApp extends MaterialApp {
   static final Router router = configureRouter(new Router());
   final bool init;
 
-  SpotItemsApp(this.init)
+  SpotItemApp(this.init)
       : super(
           debugShowCheckedModeBanner: false,
           title: 'SpotItem',

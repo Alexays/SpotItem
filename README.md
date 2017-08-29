@@ -1,4 +1,4 @@
-# spotitems
+# spotitem
 
 A new Flutter project.
 

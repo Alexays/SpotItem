@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:spotitems/model/item.dart';
-import 'package:spotitems/interactor/services/services.dart';
-import 'package:spotitems/interactor/utils.dart';
-import 'package:spotitems/keys.dart';
-import 'package:spotitems/ui/components/date_picker.dart';
+import 'package:spotitem/model/item.dart';
+import 'package:spotitem/interactor/services/services.dart';
+import 'package:spotitem/interactor/utils.dart';
+import 'package:spotitem/keys.dart';
+import 'package:spotitem/ui/components/date_picker.dart';
 
 class _ContactCategory extends StatelessWidget {
   const _ContactCategory({Key key, this.icon, this.children}) : super(key: key);

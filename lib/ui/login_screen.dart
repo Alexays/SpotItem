@@ -1,6 +1,6 @@
-import 'package:spotitems/interactor/services/services.dart';
+import 'package:spotitem/interactor/services/services.dart';
 import 'package:flutter/material.dart';
-import 'package:spotitems/interactor/utils.dart';
+import 'package:spotitem/interactor/utils.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen();

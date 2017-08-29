@@ -1,12 +1,12 @@
-import 'package:spotitems/interactor/services/services.dart';
-import 'package:spotitems/ui/components/item.dart';
-import 'package:spotitems/ui/components/filter.dart';
-import 'package:spotitems/ui/explorer_view.dart';
-import 'package:spotitems/ui/discover_view.dart';
-import 'package:spotitems/ui/map_view.dart';
-import 'package:spotitems/ui/items_view.dart';
-import 'package:spotitems/ui/groups_view.dart';
-import 'package:spotitems/model/item.dart';
+import 'package:spotitem/interactor/services/services.dart';
+import 'package:spotitem/ui/components/item.dart';
+import 'package:spotitem/ui/components/filter.dart';
+import 'package:spotitem/ui/explorer_view.dart';
+import 'package:spotitem/ui/discover_view.dart';
+import 'package:spotitem/ui/map_view.dart';
+import 'package:spotitem/ui/items_view.dart';
+import 'package:spotitem/ui/groups_view.dart';
+import 'package:spotitem/model/item.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {

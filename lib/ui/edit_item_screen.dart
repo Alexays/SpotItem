@@ -2,14 +2,14 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:spotitems/interactor/services/services.dart';
-import 'package:spotitems/interactor/utils.dart';
-import 'package:spotitems/model/item.dart';
-import 'package:spotitems/model/group.dart';
+import 'package:spotitem/interactor/services/services.dart';
+import 'package:spotitem/interactor/utils.dart';
+import 'package:spotitem/model/item.dart';
+import 'package:spotitem/model/group.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:spotitems/keys.dart';
+import 'package:spotitem/keys.dart';
 
 class EditItemScreen extends StatefulWidget {
   final String _itemId;
