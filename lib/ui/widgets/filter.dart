@@ -22,7 +22,7 @@ class FilterBar extends StatelessWidget {
             child: new Row(
               children: <Widget>[
                 const Text('Filter'),
-                new Icon(isExpanded ? Icons.expand_less : Icons.expand_more),
+                new Icon(isExpanded ? Icons.expand_more : Icons.expand_less),
               ],
             ),
           ),
