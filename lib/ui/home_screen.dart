@@ -122,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         builder: (context) => new Column(
               children: <Widget>[
                 new Container(
-                  height: 75.0,
+                  height: 100.0,
                   child: new ListView.builder(
                       scrollDirection: Axis.horizontal,
                       padding: const EdgeInsets.all(15.0),
