@@ -119,16 +119,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void _showFilter() {
     showModalBottomSheet<Null>(
         context: context,
-        builder: (context) => new Container(
-                child: new Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
+        builder: (context) => new Column(
               children: <Widget>[
                 new Container(
                   height: 75.0,
                   child: new ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(15.0),
                       itemCount: Services.itemsManager.categories.length,
                       itemExtent: 75.0,
                       itemBuilder: (context, index) => new FlatButton(
@@ -156,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   secondary: const Icon(Icons.card_giftcard),
                 ),
               ],
-            ))).then((data) {
+            )).then((data) {
       setState(() {
         _isExpanded = false;
       });
