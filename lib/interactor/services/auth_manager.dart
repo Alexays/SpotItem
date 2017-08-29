@@ -7,9 +7,6 @@ import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthManager {
-  static const String keyUser = 'KEY_USER';
-  static const String keyOauthToken = 'KEY_AUTH_TOKEN';
-
   bool get initialized => _initialized;
 
   bool get loggedIn => _loggedIn;

@@ -1,3 +1,5 @@
+const String keyUser = 'KEY_USER';
+const String keyOauthToken = 'KEY_AUTH_TOKEN';
 const String version = '0.0.3';
 const String clientSecret = 'et+nWhUB>.Dg[c4z';
 const String apiUrl = 'http://217.182.65.67:1337/api';

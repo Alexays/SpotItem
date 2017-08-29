@@ -11,7 +11,6 @@ import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ItemsManager {
-  static const String keyOauthToken = 'KEY_AUTH_TOKEN';
   final List<String> _categories = [
     'jeux',
     'bebe_jeunesse',
