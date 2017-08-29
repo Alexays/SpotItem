@@ -1,5 +1,5 @@
-import 'package:spotitem/services/auth_manager.dart';
-import 'package:spotitem/services/items_manager.dart';
+import 'package:spotitem/services/auth.dart';
+import 'package:spotitem/services/items.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/ui/app.dart';
 import 'package:flutter/material.dart';

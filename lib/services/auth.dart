@@ -33,13 +33,13 @@ class AuthManager {
     userData ??= '{}';
     final User user = new User.fromJson(JSON.decode(userData));
     final String oauthToken = prefs.getString(keyOauthToken);
-    if (user == null || oauthToken == null) {
+    if (user == null || user.id == null || oauthToken == null) {
       _loggedIn = false;
       await logout();
     } else {
-      _loggedIn = true;
       _user = user;
       _oauthToken = oauthToken;
+      _loggedIn = true;
     }
     return _initialized = true;
   }
