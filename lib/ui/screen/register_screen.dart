@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:spotitem/interactor/services/services.dart';
+import 'package:spotitem/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/model/user.dart';
-import 'package:spotitem/interactor/utils.dart';
+import 'package:spotitem/utils.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen();

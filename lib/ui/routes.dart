@@ -1,11 +1,11 @@
-import 'package:spotitem/ui/home_screen.dart';
-import 'package:spotitem/ui/login_screen.dart';
-import 'package:spotitem/ui/register_screen.dart';
-import 'package:spotitem/ui/add_item_screen.dart';
-import 'package:spotitem/ui/edit_item_screen.dart';
-import 'package:spotitem/ui/edit_user_screen.dart';
-import 'package:spotitem/ui/add_group_screen.dart';
-import 'package:spotitem/ui/item_view.dart';
+import 'package:spotitem/ui/screen/home_screen.dart';
+import 'package:spotitem/ui/screen/login_screen.dart';
+import 'package:spotitem/ui/screen/register_screen.dart';
+import 'package:spotitem/ui/screen/add_item_screen.dart';
+import 'package:spotitem/ui/screen/edit_item_screen.dart';
+import 'package:spotitem/ui/screen/edit_user_screen.dart';
+import 'package:spotitem/ui/screen/add_group_screen.dart';
+import 'package:spotitem/ui/view/item_view.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +22,7 @@ HandlerFunc buildEditUserHandler() =>
     (context, params) => const EditUserScreen();
 
 HandlerFunc buildItemHandler() =>
-    (context, params) => new OrderPage(itemId: params['id']);
+    (context, params) => new ItemPage(itemId: params['id']);
 
 HandlerFunc buildEditItemHandler() =>
     (context, params) => new EditItemScreen(params['id']);

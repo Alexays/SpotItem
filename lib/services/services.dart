@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:spotitem/interactor/services/items_manager.dart';
-import 'package:spotitem/interactor/services/auth_manager.dart';
+import 'package:spotitem/services/items_manager.dart';
+import 'package:spotitem/services/auth_manager.dart';
 
 class Services {
   static final Services _singleton = new Services._internal();

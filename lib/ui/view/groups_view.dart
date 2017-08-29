@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:spotitem/interactor/services/services.dart';
-import 'package:spotitem/ui/group_view.dart';
+import 'package:spotitem/services/services.dart';
+import 'package:spotitem/ui/view/group_view.dart';
 import 'package:spotitem/model/group.dart';
 
 class GroupsView extends StatefulWidget {

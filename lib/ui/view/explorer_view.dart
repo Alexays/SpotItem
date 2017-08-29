@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:spotitem/model/item.dart';
-import 'package:spotitem/ui/components/item.dart';
-import 'package:spotitem/interactor/services/services.dart';
+import 'package:spotitem/ui/widget/item.dart';
+import 'package:spotitem/services/services.dart';
 import 'package:flutter/material.dart';
 
 class ExplorerView extends StatefulWidget {

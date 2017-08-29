@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:spotitem/interactor/services/services.dart';
-import 'package:spotitem/interactor/utils.dart';
+import 'package:spotitem/services/services.dart';
+import 'package:spotitem/utils.dart';
 import 'package:spotitem/model/group.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';

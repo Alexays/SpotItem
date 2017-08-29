@@ -1,13 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/model/item.dart';
-import 'package:spotitem/interactor/services/services.dart';
-import 'package:spotitem/interactor/utils.dart';
+import 'package:spotitem/services/services.dart';
+import 'package:spotitem/utils.dart';
 import 'package:spotitem/keys.dart';
-import 'package:spotitem/ui/components/date_picker.dart';
+import 'package:spotitem/ui/widget/date_picker.dart';
 
-class _ContactCategory extends StatelessWidget {
-  const _ContactCategory({Key key, this.icon, this.children}) : super(key: key);
+class _Category extends StatelessWidget {
+  const _Category({Key key, this.icon, this.children}) : super(key: key);
 
   final IconData icon;
   final List<Widget> children;
@@ -34,8 +34,8 @@ class _ContactCategory extends StatelessWidget {
   }
 }
 
-class _ContactItem extends StatelessWidget {
-  _ContactItem({Key key, this.icon, this.lines, this.tooltip, this.onPressed})
+class _ListItem extends StatelessWidget {
+  _ListItem({Key key, this.icon, this.lines, this.tooltip, this.onPressed})
       : assert(lines.length > 1),
         super(key: key);
 
@@ -77,8 +77,8 @@ class _ContactItem extends StatelessWidget {
   }
 }
 
-class OrderPage extends StatefulWidget {
-  const OrderPage({
+class ItemPage extends StatefulWidget {
+  const ItemPage({
     Key key,
     this.item,
     this.itemId,
@@ -90,12 +90,12 @@ class OrderPage extends StatefulWidget {
   final String hash;
 
   @override
-  OrderPageState createState() => new OrderPageState(itemId, item, hash);
+  _ItemPageState createState() => new _ItemPageState(itemId, item, hash);
 }
 
-class OrderPageState extends State<OrderPage>
+class _ItemPageState extends State<ItemPage>
     with SingleTickerProviderStateMixin {
-  OrderPageState(this._itemId, this.item, this.hash);
+  _ItemPageState(this._itemId, this.item, this.hash);
 
   final String _itemId;
   final String hash;
@@ -207,10 +207,10 @@ class OrderPageState extends State<OrderPage>
     if (!item.tracks.contains('gift')) {
       return new Container();
     }
-    return new _ContactCategory(
+    return new _Category(
       icon: Icons.card_giftcard,
       children: <Widget>[
-        new _ContactItem(
+        new _ListItem(
           lines: <String>[
             'It\'s a gift !',
             'Yeah !',
@@ -308,10 +308,10 @@ class OrderPageState extends State<OrderPage>
                   new SliverList(
                     delegate: new SliverChildListDelegate(<Widget>[
                       giftCard(),
-                      new _ContactCategory(
+                      new _Category(
                         icon: Icons.info,
                         children: <Widget>[
-                          new _ContactItem(
+                          new _ListItem(
                             lines: <String>[
                               item.about,
                               'About',
@@ -319,10 +319,10 @@ class OrderPageState extends State<OrderPage>
                           ),
                         ],
                       ),
-                      new _ContactCategory(
+                      new _Category(
                         icon: Icons.contact_mail,
                         children: <Widget>[
-                          new _ContactItem(
+                          new _ListItem(
                             icon: Icons.sms,
                             tooltip: 'Send personal e-mail',
                             onPressed: () {},
@@ -333,10 +333,10 @@ class OrderPageState extends State<OrderPage>
                           ),
                         ],
                       ),
-                      new _ContactCategory(
+                      new _Category(
                         icon: Icons.location_on,
                         children: <Widget>[
-                          new _ContactItem(
+                          new _ListItem(
                             icon: Icons.map,
                             tooltip: 'Open map',
                             onPressed: () {},

@@ -4,9 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/model/item.dart';
-import 'package:spotitem/ui/item_view.dart';
+import 'package:spotitem/ui/view/item_view.dart';
 import 'package:spotitem/keys.dart';
-import 'package:spotitem/interactor/utils.dart';
+import 'package:spotitem/utils.dart';
 
 class ItemsListItem extends StatelessWidget {
   const ItemsListItem({@required this.item, Key key, this.hash, this.onPressed})
@@ -215,7 +215,7 @@ Future<Null> showItemPage(Item item, String hash, BuildContext context) async {
   await Navigator.push(
       context,
       new MaterialPageRoute<Null>(
-        builder: (context) => new OrderPage(
+        builder: (context) => new ItemPage(
               item: item,
               hash: hash,
             ),

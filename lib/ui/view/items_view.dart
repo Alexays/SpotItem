@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spotitem/interactor/services/services.dart';
+import 'package:spotitem/services/services.dart';
 import 'package:spotitem/model/item.dart';
 
 class ItemsView extends StatefulWidget {
