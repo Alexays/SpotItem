@@ -13,7 +13,6 @@ class FilterBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return new Container(
-      height: 40.0,
       color: Theme.of(context).canvasColor,
       child: new Row(
         children: <Widget>[

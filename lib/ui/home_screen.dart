@@ -210,11 +210,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
     return new PreferredSize(
       child: new SizedBox(
-        height: kTextTabBarHeight + (isMain ? 40.0 : 0),
+        height: kTextTabBarHeight + (isMain ? 36.0 : 0),
         child: new Column(children: bottom),
       ),
       preferredSize: isMain
-          ? new Size.fromHeight(kTextTabBarHeight + 40.0)
+          ? new Size.fromHeight(kTextTabBarHeight + 36.0)
           : new Size.fromHeight(kTextTabBarHeight),
     );
   }
