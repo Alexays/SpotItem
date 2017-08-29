@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spotitem/services/services.dart';
-import 'package:spotitem/model/item.dart';
+import 'package:spotitem/models/item.dart';
 
 class ItemsView extends StatefulWidget {
   const ItemsView();

@@ -1,6 +1,6 @@
 import 'package:spotitem/ui/routes.dart';
-import 'package:spotitem/ui/screen/home_screen.dart';
-import 'package:spotitem/ui/screen/login_screen.dart';
+import 'package:spotitem/ui/screens/home_screen.dart';
+import 'package:spotitem/ui/screens/login_screen.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:spotitem/keys.dart';
-import 'package:spotitem/model/item.dart';
+import 'package:spotitem/models/item.dart';
 import 'package:http/http.dart';
 import 'package:flutter/services.dart';
 import 'package:location/location.dart';

@@ -1,11 +1,11 @@
-import 'package:spotitem/ui/screen/home_screen.dart';
-import 'package:spotitem/ui/screen/login_screen.dart';
-import 'package:spotitem/ui/screen/register_screen.dart';
-import 'package:spotitem/ui/screen/add_item_screen.dart';
-import 'package:spotitem/ui/screen/edit_item_screen.dart';
-import 'package:spotitem/ui/screen/edit_user_screen.dart';
-import 'package:spotitem/ui/screen/add_group_screen.dart';
-import 'package:spotitem/ui/view/item_view.dart';
+import 'package:spotitem/ui/screens/home_screen.dart';
+import 'package:spotitem/ui/screens/login_screen.dart';
+import 'package:spotitem/ui/screens/register_screen.dart';
+import 'package:spotitem/ui/screens/add_item_screen.dart';
+import 'package:spotitem/ui/screens/edit_item_screen.dart';
+import 'package:spotitem/ui/screens/edit_user_screen.dart';
+import 'package:spotitem/ui/screens/add_group_screen.dart';
+import 'package:spotitem/ui/views/item_view.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
