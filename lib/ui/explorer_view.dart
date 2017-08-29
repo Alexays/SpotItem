@@ -5,23 +5,14 @@ import 'package:spotitem/ui/components/item.dart';
 import 'package:spotitem/interactor/services/services.dart';
 import 'package:flutter/material.dart';
 
-typedef List<Item> Filter(List<Item> items);
-
 class ExplorerView extends StatefulWidget {
-  final Filter _mode;
-  final String _hash;
-  const ExplorerView(this._mode, this._hash);
+  const ExplorerView();
 
   @override
-  State<StatefulWidget> createState() => new _ExplorerViewState(_mode, _hash);
+  State<StatefulWidget> createState() => new _ExplorerViewState();
 }
 
 class _ExplorerViewState extends State<ExplorerView> {
-  _ExplorerViewState(this._mode, this._hash);
-
-  final Filter _mode;
-  final String _hash;
-
   bool _loading = true;
   List<Item> _items = <Item>[];
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
@@ -44,9 +35,6 @@ class _ExplorerViewState extends State<ExplorerView> {
         }
         setState(() {
           _items = new List<Item>.from(data);
-          if (_mode != null) {
-            _items = _mode(_items);
-          }
           _loading = false;
         });
       });
@@ -58,6 +46,6 @@ class _ExplorerViewState extends State<ExplorerView> {
         onRefresh: () => _loadItems(true),
         child: _loading
             ? const Center(child: const CircularProgressIndicator())
-            : new ItemsList(_items, _hash),
+            : new ItemsList(_items, toString()),
       );
 }
