@@ -1,6 +1,6 @@
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/ui/widgets/item.dart';
-import 'package:spotitem/ui/widgets/filter.dart';
+import 'package:spotitem/ui/widgets/filter_bar.dart';
 import 'package:spotitem/ui/views/explorer_view.dart';
 import 'package:spotitem/ui/views/discover_view.dart';
 import 'package:spotitem/ui/views/map_view.dart';
