@@ -1,20 +1,15 @@
-import 'package:spotitems/interactor/manager/auth_manager.dart';
+import 'package:spotitems/interactor/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitems/interactor/utils.dart';
 
 class LoginScreen extends StatefulWidget {
-  final AuthManager _authManager;
-
-  const LoginScreen(this._authManager);
+  const LoginScreen();
 
   @override
-  State createState() => new _LoginScreenState(_authManager);
+  State createState() => new _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  _LoginScreenState(this._authManager);
-
-  final AuthManager _authManager;
   final TextEditingController _usernameController = new TextEditingController();
   final TextEditingController _passwordController = new TextEditingController();
 
@@ -77,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         final FormState form =
                                             _formKey.currentState;
                                         if (form.validate()) {
-                                          _authManager
+                                          Services.authManager
                                               .login(_usernameController.text,
                                                   _passwordController.text)
                                               .then((success) {

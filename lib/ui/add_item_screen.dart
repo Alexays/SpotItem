@@ -2,29 +2,21 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:spotitems/interactor/manager/auth_manager.dart';
-import 'package:spotitems/interactor/manager/items_manager.dart';
+import 'package:spotitems/interactor/services/services.dart';
 import 'package:spotitems/interactor/utils.dart';
 import 'package:spotitems/model/group.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 
 class AddItemScreen extends StatefulWidget {
-  final AuthManager _authManager;
-  final ItemsManager _itemsManager;
-  const AddItemScreen(this._authManager, this._itemsManager);
+  const AddItemScreen();
 
   @override
-  _AddItemScreenState createState() =>
-      new _AddItemScreenState(_authManager, _itemsManager);
+  _AddItemScreenState createState() => new _AddItemScreenState();
 }
 
 class _AddItemScreenState extends State<AddItemScreen>
     with TickerProviderStateMixin {
-  _AddItemScreenState(this._authManager, this._itemsManager);
-  final AuthManager _authManager;
-  final ItemsManager _itemsManager;
-
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   AnimationController _controller;
@@ -61,7 +53,7 @@ class _AddItemScreenState extends State<AddItemScreen>
       parent: _controller,
       curve: Curves.ease,
     ));
-    _authManager.getGroups(widget._authManager.user.id).then((data) {
+    Services.authManager.getGroups(Services.authManager.user.id).then((data) {
       setState(() {
         _myGroups = data;
         _checked = new List<bool>(_myGroups.length);
@@ -161,15 +153,15 @@ class _AddItemScreenState extends State<AddItemScreen>
     if (private) {
       tracks.add('private');
     }
-    if (_authManager.user != null &&
-        _authManager.user.id != null &&
-        _itemsManager.location != null) {
-      final dynamic response = await _itemsManager.addItem(
+    if (Services.authManager.user != null &&
+        Services.authManager.user.id != null &&
+        Services.itemsManager.location != null) {
+      final dynamic response = await Services.itemsManager.addItem(
           name,
           about,
-          _authManager.user.id,
-          _itemsManager.location['latitude'].toString(),
-          _itemsManager.location['longitude'].toString(),
+          Services.authManager.user.id,
+          Services.itemsManager.location['latitude'].toString(),
+          Services.itemsManager.location['longitude'].toString(),
           images,
           location,
           tracks,
@@ -177,7 +169,7 @@ class _AddItemScreenState extends State<AddItemScreen>
       Navigator.of(context).pop();
       showSnackBar(context, response['msg']);
       if (response['success']) {
-        await _itemsManager.getItems(force: true);
+        await Services.itemsManager.getItems(force: true);
         Navigator
             .of(context)
             .pushNamedAndRemoveUntil('/home', (route) => false);

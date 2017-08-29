@@ -5,24 +5,14 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitems/model/item.dart';
 import 'package:spotitems/ui/item_view.dart';
-import 'package:spotitems/interactor/manager/items_manager.dart';
-import 'package:spotitems/interactor/manager/auth_manager.dart';
 import 'package:spotitems/keys.dart';
 import 'package:spotitems/interactor/utils.dart';
 
 class ItemsListItem extends StatelessWidget {
-  const ItemsListItem(
-      {@required this.itemsManager,
-      @required this.item,
-      Key key,
-      this.hash,
-      this.authManager,
-      this.onPressed})
+  const ItemsListItem({@required this.item, Key key, this.hash, this.onPressed})
       : assert(item != null),
         super(key: key);
 
-  final ItemsManager itemsManager;
-  final AuthManager authManager;
   final String hash;
   final Item item;
   final VoidCallback onPressed;
@@ -191,12 +181,9 @@ class _GridDelegate extends SliverGridDelegate {
 
 class ItemsList extends StatelessWidget {
   final List<Item> _items;
-  final ItemsManager _itemsManager;
-  final AuthManager _authManager;
   final String _hash;
 
-  const ItemsList(
-      this._items, this._itemsManager, this._authManager, this._hash);
+  const ItemsList(this._items, this._hash);
 
   static final _GridDelegate gridDelegate = new _GridDelegate();
 
@@ -210,12 +197,10 @@ class ItemsList extends StatelessWidget {
               delegate: new SliverChildListDelegate(
                 _items
                     .map((item) => new ItemsListItem(
-                          itemsManager: _itemsManager,
                           item: item,
                           hash: _hash,
                           onPressed: () {
-                            showItemPage(item, _authManager, _itemsManager,
-                                _hash, context);
+                            showItemPage(item, _hash, context);
                           },
                         ))
                     .toList(),
@@ -226,15 +211,12 @@ class ItemsList extends StatelessWidget {
       : const Center(child: const Text('No items'));
 }
 
-Future<Null> showItemPage(Item item, AuthManager authManager,
-    ItemsManager itemsManager, String hash, BuildContext context) async {
+Future<Null> showItemPage(Item item, String hash, BuildContext context) async {
   await Navigator.push(
       context,
       new MaterialPageRoute<Null>(
         builder: (context) => new OrderPage(
               item: item,
-              authManager: authManager,
-              itemsManager: itemsManager,
               hash: hash,
             ),
       ));

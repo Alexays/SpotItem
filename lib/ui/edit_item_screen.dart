@@ -2,8 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:spotitems/interactor/manager/auth_manager.dart';
-import 'package:spotitems/interactor/manager/items_manager.dart';
+import 'package:spotitems/interactor/services/services.dart';
 import 'package:spotitems/interactor/utils.dart';
 import 'package:spotitems/model/item.dart';
 import 'package:spotitems/model/group.dart';
@@ -13,10 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:spotitems/keys.dart';
 
 class EditItemScreen extends StatefulWidget {
-  final AuthManager _authManager;
-  final ItemsManager _itemsManager;
   final String _itemId;
-  const EditItemScreen(this._authManager, this._itemsManager, this._itemId);
+  const EditItemScreen(this._itemId);
 
   @override
   _EditItemScreenState createState() => new _EditItemScreenState(_itemId);
@@ -56,7 +53,7 @@ class _EditItemScreenState extends State<EditItemScreen>
 
   @override
   void initState() {
-    widget._itemsManager.getItem(_itemId).then((data) {
+    Services.itemsManager.getItem(_itemId).then((data) {
       setState(() {
         item = data;
         if (item != null) {
@@ -69,8 +66,8 @@ class _EditItemScreenState extends State<EditItemScreen>
           _groups = item.groups;
           gift = item.tracks.contains('gift');
           private = item.tracks.contains('private');
-          widget._authManager
-              .getGroups(widget._authManager.user.id)
+          Services.authManager
+              .getGroups(Services.authManager.user.id)
               .then((data) {
             _myGroups = data;
             _checked = new List<bool>.generate(_myGroups.length, (index) {
@@ -225,15 +222,15 @@ class _EditItemScreenState extends State<EditItemScreen>
     }
     item.images.forEach((f) => finalImages.add(f));
     images.forEach((f) => finalImages.add(f));
-    if (widget._authManager.user != null &&
-        widget._authManager.user.id != null) {
-      final dynamic response = await widget._itemsManager.editItem(
+    if (Services.authManager.user != null &&
+        Services.authManager.user.id != null) {
+      final dynamic response = await Services.itemsManager.editItem(
           item.id,
           name,
           about,
-          widget._authManager.user.id,
-          widget._itemsManager.location['latitude'].toString(),
-          widget._itemsManager.location['longitude'].toString(),
+          Services.authManager.user.id,
+          Services.itemsManager.location['latitude'].toString(),
+          Services.itemsManager.location['longitude'].toString(),
           finalImages,
           location,
           tracks,
@@ -241,7 +238,7 @@ class _EditItemScreenState extends State<EditItemScreen>
       Navigator.of(context).pop();
       showSnackBar(context, response['msg']);
       if (response['success']) {
-        widget._itemsManager.getItems(force: true);
+        Services.itemsManager.getItems(force: true);
         Navigator
             .of(context)
             .pushNamedAndRemoveUntil('/home', (route) => false);

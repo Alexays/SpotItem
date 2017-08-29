@@ -1,22 +1,16 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitems/model/group.dart';
-import 'package:spotitems/interactor/manager/items_manager.dart';
-import 'package:spotitems/interactor/manager/auth_manager.dart';
+import 'package:spotitems/interactor/services/services.dart';
 
 class GroupPage extends StatefulWidget {
   const GroupPage({
-    @required this.itemsManager,
-    @required this.authManager,
     Key key,
     this.group,
   })
       : super(key: key);
 
-  final AuthManager authManager;
-  final ItemsManager itemsManager;
   final Group group;
 
   @override
@@ -39,7 +33,7 @@ class _GroupPageState extends State<GroupPage>
   }
 
   Future<Null> _leaveGroup() async {
-    final dynamic response = await widget.authManager.leaveGroup(group.id);
+    final dynamic response = await Services.authManager.leaveGroup(group.id);
     if (response['success']) {
       Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
     }
@@ -80,9 +74,9 @@ class _GroupPageState extends State<GroupPage>
           );
         },
       ));
-    if (widget.authManager.loggedIn &&
+    if (Services.authManager.loggedIn &&
         group != null &&
-        group.owner == widget.authManager.user.id) {
+        group.owner == Services.authManager.user.id) {
       top
         ..add(new IconButton(
           icon: const Icon(Icons.delete),
@@ -110,7 +104,7 @@ class _GroupPageState extends State<GroupPage>
                   new FlatButton(
                     child: const Text('Delete'),
                     onPressed: () {
-                      widget.authManager.delGroup(group.id);
+                      Services.authManager.delGroup(group.id);
                       Navigator
                           .of(context)
                           .pushNamedAndRemoveUntil('/home', (route) => false);

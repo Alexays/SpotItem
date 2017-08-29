@@ -1,22 +1,18 @@
 import 'dart:async';
 
-import 'package:spotitems/interactor/manager/auth_manager.dart';
+import 'package:spotitems/interactor/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitems/model/user.dart';
 import 'package:spotitems/interactor/utils.dart';
 
 class RegisterScreen extends StatefulWidget {
-  final AuthManager _authManager;
-
-  const RegisterScreen(this._authManager);
+  const RegisterScreen();
 
   @override
-  State createState() => new _RegisterScreenState(_authManager);
+  State createState() => new _RegisterScreenState();
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  _RegisterScreenState(this._authManager);
-  final AuthManager _authManager;
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   TextEditingController _name;
   TextEditingController _lastname;
@@ -44,7 +40,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       return false;
     }
     if (form.validate()) {
-      _authManager.register(user, password).then((data) {
+      Services.authManager.register(user, password).then((data) {
         if (data['success']) {
           Navigator.pushReplacementNamed(context, '/login');
           return true;

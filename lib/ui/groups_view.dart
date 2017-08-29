@@ -1,16 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:spotitems/interactor/manager/auth_manager.dart';
-import 'package:spotitems/interactor/manager/items_manager.dart';
+import 'package:spotitems/interactor/services/services.dart';
 import 'package:spotitems/ui/group_view.dart';
 import 'package:spotitems/model/group.dart';
 
 class GroupsView extends StatefulWidget {
-  final ItemsManager _itemsManager;
-  final AuthManager _authManager;
-
-  const GroupsView(this._itemsManager, this._authManager);
+  const GroupsView();
 
   @override
   State<StatefulWidget> createState() => new _GroupsViewState();
@@ -36,8 +32,8 @@ class _GroupsViewState extends State<GroupsView> {
       _loading = true;
     });
     bool loading = true;
-    if (widget._authManager.loggedIn) {
-      widget._authManager.getGroups(widget._authManager.user.id).then((data) {
+    if (Services.authManager.loggedIn) {
+      Services.authManager.getGroups(Services.authManager.user.id).then((data) {
         setState(() {
           _myGroups = data;
           if (loading == false) {
@@ -46,8 +42,8 @@ class _GroupsViewState extends State<GroupsView> {
           loading = false;
         });
       });
-      widget._authManager
-          .getGroupsInv(widget._authManager.user.id)
+      Services.authManager
+          .getGroupsInv(Services.authManager.user.id)
           .then((data) {
         setState(() {
           _myGroupsInv = data;
@@ -62,7 +58,7 @@ class _GroupsViewState extends State<GroupsView> {
 
   Future<Null> _joinGroup(int index) async {
     final dynamic response =
-        await widget._authManager.joinGroup(_myGroupsInv[index].id);
+        await Services.authManager.joinGroup(_myGroupsInv[index].id);
     if (response['success']) {
       _loadGroups();
     }
@@ -72,11 +68,7 @@ class _GroupsViewState extends State<GroupsView> {
     Navigator.push(
         context,
         new MaterialPageRoute<Null>(
-          builder: (context) => new GroupPage(
-                group: _myGroups[index - 1],
-                authManager: widget._authManager,
-                itemsManager: widget._itemsManager,
-              ),
+          builder: (context) => new GroupPage(group: _myGroups[index - 1]),
         ));
   }
 

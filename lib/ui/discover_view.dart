@@ -2,31 +2,19 @@ import 'dart:async';
 
 import 'package:spotitems/model/item.dart';
 import 'package:spotitems/ui/components/item.dart';
-import 'package:spotitems/interactor/manager/items_manager.dart';
-import 'package:spotitems/interactor/manager/auth_manager.dart';
+import 'package:spotitems/interactor/services/services.dart';
 import 'package:flutter/material.dart';
 
-typedef List<Item> Filter(List<Item> items);
-
 class DiscoverView extends StatefulWidget {
-  final ItemsManager _itemsManager;
-  final AuthManager _authManager;
-  final Filter _mode;
-
-  const DiscoverView(this._itemsManager, this._authManager, this._mode);
+  const DiscoverView();
 
   @override
-  State<StatefulWidget> createState() =>
-      new _DiscoverViewState(_itemsManager, _mode, _authManager);
+  State<StatefulWidget> createState() => new _DiscoverViewState();
 }
 
 class _DiscoverViewState extends State<DiscoverView> {
-  final ItemsManager _itemsManager;
-  final AuthManager _authManager;
-  final Filter _mode;
   bool _loading = true;
   List<Item> _items = <Item>[];
-  _DiscoverViewState(this._itemsManager, this._mode, this._authManager);
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
 
@@ -38,8 +26,8 @@ class _DiscoverViewState extends State<DiscoverView> {
 
   Future<Null> _loadItems([bool force = false]) async {
     _refreshIndicatorKey.currentState?.show();
-    final Future<List<Item>> itemsLoaded =
-        _itemsManager.getItems(force: force, userId: _authManager.user?.id);
+    final Future<List<Item>> itemsLoaded = Services.itemsManager
+        .getItems(force: force, userId: Services.authManager.user?.id);
     if (itemsLoaded == null) {
       return;
     }
@@ -48,10 +36,7 @@ class _DiscoverViewState extends State<DiscoverView> {
         return;
       }
       setState(() {
-        _items = new List<Item>.from(data);
-        if (_mode != null) {
-          _items = _mode(_items);
-        }
+        _items = data;
         _loading = false;
       });
     });
@@ -83,9 +68,7 @@ class _DiscoverViewState extends State<DiscoverView> {
                 ),
                 new Container(
                   height: 200.0,
-                  width: MediaQuery.of(context).size.width,
-                  child: new DiscoverList(
-                      recents, _itemsManager, _authManager, 'recents'),
+                  child: new DiscoverList(recents, 'recents'),
                 ),
               ],
             );
@@ -113,9 +96,7 @@ class _DiscoverViewState extends State<DiscoverView> {
                 ),
                 new Container(
                   height: 200.0,
-                  width: MediaQuery.of(context).size.width,
-                  child: new DiscoverList(
-                      groups, _itemsManager, _authManager, 'group'),
+                  child: new DiscoverList(groups, 'group'),
                 )
               ],
             );
@@ -133,12 +114,9 @@ class _DiscoverViewState extends State<DiscoverView> {
 
 class DiscoverList extends StatelessWidget {
   final List<Item> _items;
-  final ItemsManager _itemsManager;
-  final AuthManager _authManager;
   final String _hash;
 
-  const DiscoverList(
-      this._items, this._itemsManager, this._authManager, this._hash);
+  const DiscoverList(this._items, this._hash);
 
   @override
   Widget build(BuildContext context) => _items.isNotEmpty
@@ -149,12 +127,10 @@ class DiscoverList extends StatelessWidget {
           itemCount: _items?.length,
           itemExtent: 250.0,
           itemBuilder: (context, index) => new ItemsListItem(
-              itemsManager: _itemsManager,
               item: _items[index],
               hash: _hash,
               onPressed: () {
-                showItemPage(
-                    _items[index], _authManager, _itemsManager, _hash, context);
+                showItemPage(_items[index], _hash, context);
               }))
       : const Center(child: const Text('No items'));
 }

@@ -2,19 +2,15 @@ import 'dart:async';
 
 import 'package:spotitems/model/item.dart';
 import 'package:spotitems/ui/components/item.dart';
-import 'package:spotitems/interactor/manager/items_manager.dart';
-import 'package:spotitems/interactor/manager/auth_manager.dart';
+import 'package:spotitems/interactor/services/services.dart';
 import 'package:flutter/material.dart';
 
 typedef List<Item> Filter(List<Item> items);
 
 class ExplorerView extends StatefulWidget {
-  final ItemsManager _itemsManager;
-  final AuthManager _authManager;
   final Filter _mode;
   final String _hash;
-  const ExplorerView(
-      this._itemsManager, this._authManager, this._mode, this._hash);
+  const ExplorerView(this._mode, this._hash);
 
   @override
   State<StatefulWidget> createState() => new _ExplorerViewState(_mode, _hash);
@@ -39,8 +35,8 @@ class _ExplorerViewState extends State<ExplorerView> {
 
   Future<Null> _loadItems([bool force = false]) async {
     _refreshIndicatorKey.currentState?.show();
-    final Future<List<Item>> itemsLoaded = widget._itemsManager
-        .getItems(force: force, userId: widget._authManager.user?.id);
+    final Future<List<Item>> itemsLoaded = Services.itemsManager
+        .getItems(force: force, userId: Services.authManager.user?.id);
     if (itemsLoaded != null) {
       itemsLoaded.then((data) {
         if (!mounted) {
@@ -62,7 +58,6 @@ class _ExplorerViewState extends State<ExplorerView> {
         onRefresh: () => _loadItems(true),
         child: _loading
             ? const Center(child: const CircularProgressIndicator())
-            : new ItemsList(
-                _items, widget._itemsManager, widget._authManager, _hash),
+            : new ItemsList(_items, _hash),
       );
 }

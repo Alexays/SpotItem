@@ -1,5 +1,4 @@
-import 'package:spotitems/interactor/manager/auth_manager.dart';
-import 'package:spotitems/interactor/manager/items_manager.dart';
+import 'package:spotitems/interactor/services/services.dart';
 import 'package:spotitems/ui/components/item.dart';
 import 'package:spotitems/ui/components/filter.dart';
 import 'package:spotitems/ui/explorer_view.dart';
@@ -11,23 +10,17 @@ import 'package:spotitems/model/item.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
-  final AuthManager _authManager;
-  final ItemsManager _itemsManager;
-
-  const HomeScreen(this._authManager, this._itemsManager);
+  const HomeScreen();
 
   @override
-  State createState() => new _HomeScreenState(_authManager, _itemsManager);
+  State createState() => new _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  _HomeScreenState(this._authManager, this._itemsManager);
-
-  final AuthManager _authManager;
-  final ItemsManager _itemsManager;
-
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  static List<HomeScreenItem> _homeScreenItems;
 
+  // Animation
   AnimationController _controller;
   AnimationController _filterController;
   Animation<double> _drawerContentsOpacity;
@@ -35,17 +28,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Animation<Size> _bottomFilterSize;
   Animation<Size> _bottomSize;
 
-  int _currentIndex = 0;
-  List<HomeScreenItem> _homeScreenItems;
-
-  Size size;
-
+  // Bool
   bool _isExpanded = false;
-
   bool _showDrawerContents = true;
-
-  final TextEditingController _searchController = new TextEditingController();
   bool _isSearching = false;
+  int _currentIndex = 0;
+
+  // Search
+  final TextEditingController _searchController = new TextEditingController();
   String _searchQuery = '';
 
   @override
@@ -55,16 +45,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         icon: const Icon(Icons.explore),
         title: 'Explorer',
         sub: <HomeScreenSubItem>[
-          new HomeScreenSubItem(
-              'Discover', new DiscoverView(_itemsManager, _authManager, null)),
-          new HomeScreenSubItem('Explore',
-              new ExplorerView(_itemsManager, _authManager, null, 'plus')),
+          const HomeScreenSubItem('Discover', const DiscoverView()),
+          const HomeScreenSubItem('Explore', const ExplorerView(null, 'plus')),
         ],
       ),
       new HomeScreenItem(
           icon: const Icon(Icons.work),
           title: 'Items',
-          content: new ItemsView(_itemsManager, _authManager),
+          content: const ItemsView(),
           fab: new FloatingActionButton(
               child: const Icon(Icons.add),
               tooltip: 'Add new item',
@@ -74,15 +62,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       new HomeScreenItem(
         icon: const Icon(Icons.map),
         title: 'Maps',
-        content: new MapView(_itemsManager),
+        content: const MapView(),
       ),
       new HomeScreenItem(
           icon: const Icon(Icons.nature_people),
           title: 'Social',
           sub: <HomeScreenSubItem>[
-            new HomeScreenSubItem(
+            const HomeScreenSubItem(
               'Groups',
-              new GroupsView(_itemsManager, _authManager),
+              const GroupsView(),
             ),
             const HomeScreenSubItem(
                 'Messages',
@@ -152,49 +140,47 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     ));
   }
 
-  void _showBottomSheet() {
+  void _showFilter() {
     showModalBottomSheet<Null>(
         context: context,
-        builder: (context) {
-          return new Container(
-              child: new Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              new Container(
-                height: 75.0,
-                child: new ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.all(20.0),
-                    itemCount: _itemsManager.categories.length,
-                    itemExtent: 75.0,
-                    itemBuilder: (context, index) => new FlatButton(
-                          child: new Image.asset(
-                              'assets/${_itemsManager.categories[index]}.png'),
-                          onPressed: () {
-                            print('test');
-                          },
-                        )),
-              ),
-              new SwitchListTile(
-                title: const Text('From your groups only'),
-                value: true,
-                onChanged: (value) {
-                  setState(() {});
-                },
-                secondary: const Icon(Icons.lock),
-              ),
-              new SwitchListTile(
-                title: const Text('Donated items only'),
-                value: true,
-                onChanged: (value) {
-                  setState(() {});
-                },
-                secondary: const Icon(Icons.card_giftcard),
-              ),
-            ],
-          ));
-        }).then((data) {
+        builder: (context) => new Container(
+                child: new Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                new Container(
+                  height: 75.0,
+                  child: new ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.all(20.0),
+                      itemCount: Services.itemsManager.categories.length,
+                      itemExtent: 75.0,
+                      itemBuilder: (context, index) => new FlatButton(
+                            child: new Image.asset(
+                                'assets/${Services.itemsManager.categories[index]}.png'),
+                            onPressed: () {
+                              print('test');
+                            },
+                          )),
+                ),
+                new SwitchListTile(
+                  title: const Text('From your groups only'),
+                  value: true,
+                  onChanged: (value) {
+                    setState(() {});
+                  },
+                  secondary: const Icon(Icons.lock),
+                ),
+                new SwitchListTile(
+                  title: const Text('Donated items only'),
+                  value: true,
+                  onChanged: (value) {
+                    setState(() {});
+                  },
+                  secondary: const Icon(Icons.card_giftcard),
+                ),
+              ],
+            ))).then((data) {
       setState(() {
         _isExpanded = false;
       });
@@ -237,7 +223,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           if (value) {
             setState(() {
               _isExpanded = true;
-              _showBottomSheet();
+              _showFilter();
             });
           } else if (!value) {
             setState(() {
@@ -262,15 +248,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           child: new ListView(children: <Widget>[
         new UserAccountsDrawerHeader(
             accountName: new Text(
-                '${_authManager.user?.firstname} ${_authManager.user?.name}'),
-            accountEmail: new Text(_authManager.user?.email),
+                '${Services.authManager.user?.firstname} ${Services.authManager.user?.name}'),
+            accountEmail: new Text(Services.authManager.user?.email),
             currentAccountPicture: new CircleAvatar(
                 backgroundColor: Colors.grey,
-                backgroundImage: _authManager.user?.avatar != 'null'
-                    ? new NetworkImage(_authManager.user?.avatar)
+                backgroundImage: Services.authManager.user?.avatar != 'null'
+                    ? new NetworkImage(Services.authManager.user?.avatar)
                     : null,
                 child: new Text(
-                    '${_authManager.user?.firstname[0]}${_authManager.user?.name[0]}')),
+                    '${Services.authManager.user?.firstname[0]}${Services.authManager.user?.name[0]}')),
             otherAccountsPictures: <Widget>[
               new IconButton(
                 icon: const Icon(Icons.settings),
@@ -330,8 +316,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             leading: const Icon(Icons.exit_to_app),
                             title: const Text('Logout'),
                             onTap: () {
-                              _authManager.logout().then((_) => Navigator
-                                  .pushReplacementNamed(context, '/login'));
+                              Services.authManager.logout().then((_) =>
+                                  Navigator.of(context).pushNamedAndRemoveUntil(
+                                      '/login', (route) => false));
                             })
                       ])))
         ]))
@@ -378,11 +365,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       if (_searchQuery.isEmpty) {
         return [new Container()];
       }
-      List<Item> search = new List<Item>.from(_itemsManager.items);
+      List<Item> search = new List<Item>.from(Services.itemsManager.items);
       search = search
           .where((item) => item.name.toLowerCase().contains(_searchQuery))
           .toList();
-      return [new ItemsList(search, _itemsManager, _authManager, 'search')];
+      return [new ItemsList(search, 'search')];
     }
     return _homeScreenItems[_currentIndex].content;
   }

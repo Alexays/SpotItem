@@ -1,33 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:spotitems/interactor/manager/auth_manager.dart';
-import 'package:spotitems/interactor/manager/items_manager.dart';
+import 'package:spotitems/interactor/services/services.dart';
 import 'package:spotitems/model/item.dart';
 
 class ItemsView extends StatefulWidget {
-  final ItemsManager _itemsManager;
-  final AuthManager _authManager;
-
-  const ItemsView(this._itemsManager, this._authManager);
+  const ItemsView();
 
   @override
-  State<StatefulWidget> createState() =>
-      new _ItemsViewState(_itemsManager, _authManager);
+  State<StatefulWidget> createState() => new _ItemsViewState();
 }
 
 class _ItemsViewState extends State<ItemsView> {
-  _ItemsViewState(this._itemsManager, this._authManager);
-
-  final AuthManager _authManager;
-  final ItemsManager _itemsManager;
-
   bool _loading = true;
 
   List<Item> _myItems = <Item>[];
 
   @override
   void initState() {
-    if (_authManager.loggedIn)
-      _itemsManager.getSelfItems().then((data) {
+    if (Services.authManager.loggedIn)
+      Services.itemsManager.getSelfItems().then((data) {
         setState(() {
           _myItems = data;
           _loading = false;

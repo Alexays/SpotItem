@@ -1,25 +1,18 @@
 import 'dart:async';
 
-import 'package:spotitems/interactor/manager/auth_manager.dart';
-import 'package:spotitems/interactor/manager/items_manager.dart';
+import 'package:spotitems/interactor/services/services.dart';
 import 'package:spotitems/model/group.dart';
 import 'package:spotitems/interactor/utils.dart';
 import 'package:flutter/material.dart';
 
 class AddGroupScreen extends StatefulWidget {
-  final AuthManager _authManager;
-  final ItemsManager _itemsManager;
-  const AddGroupScreen(this._authManager, this._itemsManager);
+  const AddGroupScreen();
 
   @override
-  _AddGroupScreenState createState() =>
-      new _AddGroupScreenState(_authManager, _itemsManager);
+  _AddGroupScreenState createState() => new _AddGroupScreenState();
 }
 
 class _AddGroupScreenState extends State<AddGroupScreen> {
-  _AddGroupScreenState(this._authManager, this._itemsManager);
-  final AuthManager _authManager;
-  final ItemsManager _itemsManager;
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final GlobalKey<FormState> _formKeyEmail = new GlobalKey<FormState>();
 
@@ -36,8 +29,8 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
   Future<Null> addGroup(BuildContext context) async {
     _formKey.currentState.save();
     final Group group =
-        new Group(null, name, about, null, _authManager.user.id);
-    final dynamic response = await _authManager.addGroup(group, email);
+        new Group(null, name, about, null, Services.authManager.user.id);
+    final dynamic response = await Services.authManager.addGroup(group, email);
     showSnackBar(context, response['msg']);
     if (response['success']) {
       Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);

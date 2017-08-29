@@ -1,8 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitems/model/item.dart';
-import 'package:spotitems/interactor/manager/items_manager.dart';
-import 'package:spotitems/interactor/manager/auth_manager.dart';
+import 'package:spotitems/interactor/services/services.dart';
 import 'package:spotitems/interactor/utils.dart';
 import 'package:spotitems/keys.dart';
 import 'package:spotitems/ui/components/date_picker.dart';
@@ -80,17 +79,12 @@ class _ContactItem extends StatelessWidget {
 
 class OrderPage extends StatefulWidget {
   const OrderPage({
-    @required this.itemsManager,
-    @required this.authManager,
     Key key,
     this.item,
     this.itemId,
     this.hash = 'n',
   })
       : super(key: key);
-
-  final AuthManager authManager;
-  final ItemsManager itemsManager;
   final String itemId;
   final Item item;
   final String hash;
@@ -126,7 +120,7 @@ class OrderPageState extends State<OrderPage>
       });
     }
     if (widget.item == null) {
-      widget.itemsManager.getItem(_itemId).then((data) {
+      Services.itemsManager.getItem(_itemId).then((data) {
         setState(() {
           item = data;
           if (item != null) {
@@ -148,9 +142,9 @@ class OrderPageState extends State<OrderPage>
 
   List<Widget> doButton() {
     final List<Widget> top = <Widget>[];
-    if (widget.authManager.loggedIn &&
+    if (Services.authManager.loggedIn &&
         item != null &&
-        item.owner.id == widget.authManager.user.id) {
+        item.owner.id == Services.authManager.user.id) {
       top
         ..add(new IconButton(
           icon: const Icon(Icons.delete),
@@ -178,9 +172,9 @@ class OrderPageState extends State<OrderPage>
                   new FlatButton(
                     child: const Text('Delete'),
                     onPressed: () {
-                      widget.itemsManager.deleteItem(item.id).then((resp) {
+                      Services.itemsManager.deleteItem(item.id).then((resp) {
                         if (resp['success']) {
-                          widget.itemsManager.getItems(force: true);
+                          Services.itemsManager.getItems(force: true);
                           Navigator.of(context).pushNamedAndRemoveUntil(
                               '/home', (route) => false);
                         }
