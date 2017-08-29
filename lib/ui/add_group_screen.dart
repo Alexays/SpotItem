@@ -33,7 +33,9 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
     final dynamic response = await Services.authManager.addGroup(group, email);
     showSnackBar(context, response['msg']);
     if (response['success']) {
-      Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
+      await Navigator
+          .of(context)
+          .pushNamedAndRemoveUntil('/home', (route) => false);
     }
   }
 

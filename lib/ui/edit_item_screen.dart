@@ -238,8 +238,8 @@ class _EditItemScreenState extends State<EditItemScreen>
       Navigator.of(context).pop();
       showSnackBar(context, response['msg']);
       if (response['success']) {
-        Services.itemsManager.getItems(force: true);
-        Navigator
+        await Services.itemsManager.getItems(force: true);
+        await Navigator
             .of(context)
             .pushNamedAndRemoveUntil('/home', (route) => false);
       }

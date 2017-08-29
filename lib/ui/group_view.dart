@@ -35,7 +35,9 @@ class _GroupPageState extends State<GroupPage>
   Future<Null> _leaveGroup() async {
     final dynamic response = await Services.authManager.leaveGroup(group.id);
     if (response['success']) {
-      Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
+      await Navigator
+          .of(context)
+          .pushNamedAndRemoveUntil('/home', (route) => false);
     }
   }
 

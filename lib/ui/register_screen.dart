@@ -40,7 +40,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       return false;
     }
     if (form.validate()) {
-      Services.authManager.register(user, password).then((data) {
+      await Services.authManager.register(user, password).then((data) {
         if (data['success']) {
           Navigator.pushReplacementNamed(context, '/login');
           return true;

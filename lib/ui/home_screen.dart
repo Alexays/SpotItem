@@ -200,12 +200,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     });
   }
 
-  void _navBarItemSelected(int selected) {
-    setState(() {
-      _currentIndex = selected;
-    });
-  }
-
   Widget _buildBottom() {
     if (_homeScreenItems[_currentIndex].sub == null) {
       return null;
@@ -390,7 +384,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           : new BottomNavigationBar(
               currentIndex: _currentIndex,
               items: _homeScreenItems.map((data) => data.item).toList(),
-              onTap: _navBarItemSelected,
+              onTap: (index) {
+                setState(() {
+                  _currentIndex = index;
+                });
+              },
             ));
 }
 

@@ -170,7 +170,7 @@ class _AddItemScreenState extends State<AddItemScreen>
       showSnackBar(context, response['msg']);
       if (response['success']) {
         await Services.itemsManager.getItems(force: true);
-        Navigator
+        await Navigator
             .of(context)
             .pushNamedAndRemoveUntil('/home', (route) => false);
       }
