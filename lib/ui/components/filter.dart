@@ -9,13 +9,11 @@ class FilterBar extends StatelessWidget {
 
   const FilterBar({this.isExpanded, this.onExpandedChanged});
 
-  static const Color _kFilterColor = Colors.deepOrangeAccent;
-
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return new Container(
-      padding: const EdgeInsets.all(2.0),
+      height: 40.0,
       color: Theme.of(context).canvasColor,
       child: new Row(
         children: <Widget>[
@@ -34,21 +32,21 @@ class FilterBar extends StatelessWidget {
           ),
           new Container(
             decoration: new BoxDecoration(
-              color: _kFilterColor,
+              color: Theme.of(context).primaryColor,
               borderRadius: new BorderRadius.circular(16.0),
             ),
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(7.0),
             child: new Text(
               'All items',
               style: theme.primaryTextTheme.button,
             ),
           ),
           new Container(
-            decoration: const BoxDecoration(
-              color: _kFilterColor,
+            decoration: new BoxDecoration(
+              color: Theme.of(context).primaryColor,
               shape: BoxShape.circle,
             ),
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(7.0),
             margin: const EdgeInsets.symmetric(horizontal: 6.0),
             child: new Text(
               ' + ',
