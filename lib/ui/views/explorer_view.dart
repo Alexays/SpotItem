@@ -34,7 +34,11 @@ class _ExplorerViewState extends State<ExplorerView> {
         }
         setState(() {
           _items = new List<Item>.from(data);
-          _items = _items.where((item) => item.tracks.contains(widget._tracks));
+          if (widget._tracks.isNotEmpty) {
+            _items = _items
+                .where((item) => item.tracks.contains(widget._tracks))
+                .toList();
+          }
           _loading = false;
         });
       });
