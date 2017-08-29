@@ -13,10 +13,8 @@ class ExplorerView extends StatefulWidget {
 }
 
 class _ExplorerViewState extends State<ExplorerView> {
-  bool _loading = true;
   List<Item> _items = <Item>[];
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      new GlobalKey<RefreshIndicatorState>();
+  bool _loading = true;
 
   @override
   void initState() {
@@ -25,7 +23,6 @@ class _ExplorerViewState extends State<ExplorerView> {
   }
 
   Future<Null> _loadItems([bool force = false]) async {
-    _refreshIndicatorKey.currentState?.show();
     final Future<List<Item>> itemsLoaded = Services.itemsManager
         .getItems(force: force, userId: Services.authManager.user?.id);
     if (itemsLoaded != null) {
