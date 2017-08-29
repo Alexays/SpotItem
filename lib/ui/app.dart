@@ -13,14 +13,11 @@ class SpotItemApp extends MaterialApp {
           debugShowCheckedModeBanner: false,
           title: 'SpotItem',
           home: init ? const HomeScreen() : const LoginScreen(),
-          theme: new ThemeData(
-            primarySwatch: Colors.pink,
-          ),
+          theme: _spotTheme,
           onGenerateRoute: router.generator,
         );
 }
 
-final _twitchTheme = new ThemeData(
-  primaryColor: const Color.fromRGBO(0x67, 0x3A, 0xB7, 1.0),
-  accentColor: const Color.fromRGBO(0x9E, 0x9E, 0x9E, 1.0),
+final _spotTheme = new ThemeData(
+  primarySwatch: Colors.pink,
 );
