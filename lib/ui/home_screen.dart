@@ -327,11 +327,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 key: const Key('search'),
                 controller: _searchController,
                 autofocus: true,
-                style: new TextStyle(color: Colors.white70, fontSize: 16.0),
+                style: new TextStyle(
+                  color: Colors.white,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.normal,
+                ),
                 decoration: new InputDecoration(
                     hintText: 'Search...',
-                    hintStyle:
-                        new TextStyle(color: Colors.white70, fontSize: 16.0),
+                    hintStyle: new TextStyle(
+                      color: const Color.fromARGB(120, 255, 255, 255),
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.normal,
+                    ),
                     hideDivider: true),
                 keyboardType: TextInputType.text,
               )
