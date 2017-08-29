@@ -31,6 +31,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   bool _isSearching = false;
   int _currentIndex = 0;
 
+  // Explorer
+  List<String> _tracks = [];
+
   // Search
   final TextEditingController _searchController = new TextEditingController();
   String _searchQuery = '';
@@ -43,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         title: 'Explorer',
         sub: <HomeScreenSubItem>[
           const HomeScreenSubItem('Discover', const DiscoverView()),
-          const HomeScreenSubItem('Explore', const ExplorerView()),
+          new HomeScreenSubItem('Explore', new ExplorerView(_tracks)),
         ],
       ),
       new HomeScreenItem(
@@ -134,17 +137,29 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ),
                 new SwitchListTile(
                   title: const Text('From your groups only'),
-                  value: true,
+                  value: _tracks.contains('group'),
                   onChanged: (value) {
-                    setState(() {});
+                    setState(() {
+                      if (value) {
+                        _tracks.add('group');
+                      } else {
+                        _tracks.remove('group');
+                      }
+                    });
                   },
                   secondary: const Icon(Icons.lock),
                 ),
                 new SwitchListTile(
                   title: const Text('Donated items only'),
-                  value: true,
+                  value: _tracks.contains('gift'),
                   onChanged: (value) {
-                    setState(() {});
+                    setState(() {
+                      if (value) {
+                        _tracks.add('gift');
+                      } else {
+                        _tracks.remove('gift');
+                      }
+                    });
                   },
                   secondary: const Icon(Icons.card_giftcard),
                 ),

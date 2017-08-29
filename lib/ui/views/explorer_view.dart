@@ -6,7 +6,9 @@ import 'package:spotitem/services/services.dart';
 import 'package:flutter/material.dart';
 
 class ExplorerView extends StatefulWidget {
-  const ExplorerView();
+  const ExplorerView(this._tracks);
+
+  final List<String> _tracks;
 
   @override
   State<StatefulWidget> createState() => new _ExplorerViewState();
@@ -32,6 +34,7 @@ class _ExplorerViewState extends State<ExplorerView> {
         }
         setState(() {
           _items = new List<Item>.from(data);
+          _items = _items.where((item) => item.tracks.contains(widget._tracks));
           _loading = false;
         });
       });
