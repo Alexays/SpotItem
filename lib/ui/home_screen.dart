@@ -22,11 +22,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   // Animation
   AnimationController _controller;
-  AnimationController _filterController;
   Animation<double> _drawerContentsOpacity;
   Animation<FractionalOffset> _drawerDetailsPosition;
-  Animation<Size> _bottomFilterSize;
-  Animation<Size> _bottomSize;
 
   // Bool
   bool _isExpanded = false;
@@ -97,7 +94,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   void dispose() {
     _controller.dispose();
-    _filterController.dispose();
     super.dispose();
   }
 
@@ -106,26 +102,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       vsync: this,
       duration: const Duration(milliseconds: 200),
     );
-    _filterController = new AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 200),
-    );
-    _bottomFilterSize = new SizeTween(
-      begin: new Size.fromHeight(kTextTabBarHeight + 40.0),
-      end: new Size.fromHeight(kTextTabBarHeight + 40.0),
-    )
-        .animate(new CurvedAnimation(
-      parent: _filterController,
-      curve: Curves.ease,
-    ));
-    _bottomSize = new SizeTween(
-      begin: new Size.fromHeight(kTextTabBarHeight),
-      end: new Size.fromHeight(kTextTabBarHeight),
-    )
-        .animate(new CurvedAnimation(
-      parent: _filterController,
-      curve: Curves.ease,
-    ));
     _drawerContentsOpacity = new CurvedAnimation(
       parent: new ReverseAnimation(_controller),
       curve: Curves.fastOutSlowIn,
@@ -230,11 +206,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
     return new PreferredSize(
       child: new SizedBox(
-        height:
-            isMain ? _bottomFilterSize.value.height : _bottomSize.value.height,
+        height: kTextTabBarHeight + (isMain ? 40.0 : 0),
         child: new Column(children: bottom),
       ),
-      preferredSize: isMain ? _bottomFilterSize.value : _bottomSize.value,
+      preferredSize: isMain
+          ? new Size.fromHeight(kTextTabBarHeight + 40.0)
+          : new Size.fromHeight(kTextTabBarHeight),
     );
   }
 
