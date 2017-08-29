@@ -345,7 +345,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   List<Widget> _buildChild() {
     if (_isSearching) {
       if (_searchQuery.isEmpty) {
-        return [new Container()];
+        return [
+          new Container(
+              child: const Center(
+            child: const Text('Type something to search...'),
+          ))
+        ];
       }
       List<Item> search = new List<Item>.from(Services.itemsManager.items);
       search = search
