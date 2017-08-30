@@ -20,18 +20,24 @@ class _ExplorerViewState extends State<ExplorerView> {
   @override
   void initState() {
     _loadItems().then((res) {
-      Services.itemsManager.tracks.addListener(() {
-        getTracks();
-      });
+      Services.itemsManager.tracks.addListener(getTracks);
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    Services.itemsManager.tracks.removeListener(getTracks);
+    super.dispose();
   }
 
   void getTracks() {
     _items = new List<Item>.from(backup);
     final List<String> _tracks = Services.itemsManager.tracks.value;
     setState(() {
-      print(_tracks);
+      if (!mounted) {
+        return;
+      }
       if (_tracks.isNotEmpty) {
         _items = _items
             .where(
@@ -53,6 +59,7 @@ class _ExplorerViewState extends State<ExplorerView> {
         backup = data;
         setState(() {
           _items = new List<Item>.from(data);
+          getTracks();
           _loading = false;
         });
       });
