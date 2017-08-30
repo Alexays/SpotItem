@@ -31,6 +31,7 @@ class _ExplorerViewState extends State<ExplorerView> {
     _items = new List<Item>.from(backup);
     final List<String> _tracks = Services.itemsManager.tracks.value;
     setState(() {
+      print(_tracks);
       if (_tracks.isNotEmpty) {
         _items = _items
             .where(

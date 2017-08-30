@@ -134,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ),
                 new StatefulBuilder(builder: (context, switchSetState) {
                   return new SwitchListTile(
-                    title: const Text('From your groups only'),
+                    title: const Text('From your groups'),
                     value: Services.itemsManager.tracks.value.contains('group'),
                     onChanged: (value) {
                       setState(() {
@@ -152,20 +152,26 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     secondary: const Icon(Icons.lock),
                   );
                 }),
-                new SwitchListTile(
-                  title: const Text('Donated items only'),
-                  value: Services.itemsManager.tracks.value.contains('gift'),
-                  onChanged: (value) {
-                    setState(() {
-                      if (value) {
-                        Services.itemsManager.tracks.value.add('gift');
-                      } else {
-                        Services.itemsManager.tracks.value.remove('gift');
-                      }
-                    });
-                  },
-                  secondary: const Icon(Icons.card_giftcard),
-                ),
+                new StatefulBuilder(builder: (context, switchSetState) {
+                  return new SwitchListTile(
+                    title: const Text('Donated items'),
+                    value: Services.itemsManager.tracks.value.contains('gift'),
+                    onChanged: (value) {
+                      setState(() {
+                        if (value) {
+                          Services.itemsManager.tracks.value.add('gift');
+                        } else {
+                          Services.itemsManager.tracks.value.remove('gift');
+                        }
+                        Services.itemsManager.tracks.value =
+                            new List<String>.from(
+                                Services.itemsManager.tracks.value);
+                        switchSetState(() {});
+                      });
+                    },
+                    secondary: const Icon(Icons.card_giftcard),
+                  );
+                })
               ],
             )).then((data) {
       setState(() {
