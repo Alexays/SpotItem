@@ -265,16 +265,18 @@ class _ItemPageState extends State<ItemPage>
                                 children: new List<Widget>.generate(
                                     item.images.length, (index) {
                                   if (index == 0) {
-                                    return new Hero(
-                                        tag: '${item.id}_img_$hash',
-                                        child: new FadeInImage(
-                                            placeholder: const AssetImage(
-                                                'assets/placeholder.png'),
-                                            image: new NetworkImage(
-                                                '$apiImgUrl${item.images[index]}'),
-                                            fit: BoxFit.cover,
-                                            alignment:
-                                                FractionalOffset.center));
+                                    return new Container(
+                                        color: Theme.of(context).canvasColor,
+                                        child: new Hero(
+                                            tag: '${item.id}_img_$hash',
+                                            child: new FadeInImage(
+                                                placeholder: const AssetImage(
+                                                    'assets/placeholder.png'),
+                                                image: new NetworkImage(
+                                                    '$apiImgUrl${item.images[index]}'),
+                                                fit: BoxFit.cover,
+                                                alignment:
+                                                    FractionalOffset.center)));
                                   } else {
                                     return new FadeInImage(
                                         placeholder: const AssetImage(
