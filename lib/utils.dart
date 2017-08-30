@@ -46,3 +46,16 @@ String distString(double dist) {
 void showSnackBar(BuildContext context, String text) {
   Scaffold.of(context).showSnackBar(new SnackBar(content: new Text(text)));
 }
+
+Widget getIcon(String tracks, [Color color]) {
+  switch (tracks) {
+    case 'private':
+      return new Icon(Icons.lock, color: color);
+    case 'gift':
+      return new Icon(Icons.card_giftcard, color: color);
+    case 'group':
+      return new Icon(Icons.group, color: color);
+    default:
+      return const Text('');
+  }
+}

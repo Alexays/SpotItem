@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/models/item.dart';
+import 'package:spotitem/utils.dart';
 
 class ItemsView extends StatefulWidget {
   const ItemsView();
@@ -53,16 +54,7 @@ class _ItemsViewState extends State<ItemsView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: new List<Widget>.generate(
                                 _myItems[index].tracks.length, (i) {
-                              switch (_myItems[index].tracks[i]) {
-                                case 'private':
-                                  return const Icon(Icons.lock);
-                                case 'gift':
-                                  return const Icon(Icons.card_giftcard);
-                                case 'group':
-                                  return const Icon(Icons.people);
-                                default:
-                                  return const Text('');
-                              }
+                              return getIcon(_myItems[index].tracks[i]);
                             })))
                   ],
                 ),

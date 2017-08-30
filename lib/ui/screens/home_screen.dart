@@ -231,7 +231,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return new PreferredSize(
       child: new Column(children: bottom),
       preferredSize: isMain
-          ? const Size.fromHeight(kTextTabBarHeight + 36.0)
+          ? const Size.fromHeight(kTextTabBarHeight + 40.0)
           : const Size.fromHeight(kTextTabBarHeight),
     );
   }

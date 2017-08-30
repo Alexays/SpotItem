@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:spotitem/services/services.dart';
+import 'package:spotitem/utils.dart';
 
 class FilterBar extends StatelessWidget {
   /// Whether this filter bar is showing the day picker or not
@@ -9,51 +11,50 @@ class FilterBar extends StatelessWidget {
 
   const FilterBar({this.isExpanded, this.onExpandedChanged});
 
+  List<Widget> _buildBar(ThemeData theme) {
+    final List<Widget> toBuild = []
+      ..add(new FlatButton(
+        onPressed: () => onExpandedChanged(!isExpanded),
+        textColor: theme.primaryColor,
+        child: new Row(
+          children: <Widget>[
+            const Text('Filter'),
+            new Icon(isExpanded ? Icons.expand_more : Icons.expand_less),
+          ],
+        ),
+      ))
+      ..add(new Expanded(
+        child: new Container(),
+      ));
+    Services.itemsManager.tracks.value.forEach((track) {
+      toBuild.add(
+        new Container(
+            margin: const EdgeInsets.symmetric(horizontal: 2.5),
+            decoration: new BoxDecoration(
+              color: theme.primaryColor,
+              borderRadius: new BorderRadius.circular(16.0),
+            ),
+            padding: const EdgeInsets.all(5.0),
+            child: new Row(children: <Widget>[
+              getIcon(track, theme.canvasColor),
+              const Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 2.5)),
+              new Text(
+                capitalize(track),
+                style: theme.primaryTextTheme.button,
+              )
+            ])),
+      );
+    });
+    return toBuild;
+  }
+
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return new Container(
       color: Theme.of(context).canvasColor,
-      child: new Row(
-        children: <Widget>[
-          new FlatButton(
-            onPressed: () => onExpandedChanged(!isExpanded),
-            textColor: theme.primaryColor,
-            child: new Row(
-              children: <Widget>[
-                const Text('Filter'),
-                new Icon(isExpanded ? Icons.expand_more : Icons.expand_less),
-              ],
-            ),
-          ),
-          new Expanded(
-            child: new Container(),
-          ),
-          new Container(
-            decoration: new BoxDecoration(
-              color: Theme.of(context).primaryColor,
-              borderRadius: new BorderRadius.circular(16.0),
-            ),
-            padding: const EdgeInsets.all(7.0),
-            child: new Text(
-              'All items',
-              style: theme.primaryTextTheme.button,
-            ),
-          ),
-          new Container(
-            decoration: new BoxDecoration(
-              color: Theme.of(context).primaryColor,
-              shape: BoxShape.circle,
-            ),
-            padding: const EdgeInsets.all(7.0),
-            margin: const EdgeInsets.symmetric(horizontal: 6.0),
-            child: new Text(
-              ' + ',
-              style: theme.primaryTextTheme.button,
-            ),
-          ),
-        ],
-      ),
+      child: new Row(children: _buildBar(theme)),
     );
   }
 }
