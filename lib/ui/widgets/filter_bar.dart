@@ -34,7 +34,7 @@ class FilterBar extends StatelessWidget {
               color: theme.primaryColor,
               borderRadius: new BorderRadius.circular(16.0),
             ),
-            padding: const EdgeInsets.all(5.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 3.0),
             child: new Row(children: <Widget>[
               getIcon(track, theme.canvasColor),
               const Padding(
