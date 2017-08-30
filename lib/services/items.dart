@@ -6,6 +6,7 @@ import 'package:spotitem/keys.dart';
 import 'package:spotitem/models/item.dart';
 import 'package:http/http.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,6 +33,9 @@ class ItemsManager {
   List<Item> get myItems => _myItems;
 
   final String _clientSecret = clientSecret;
+
+  final ValueNotifier<List<String>> tracks =
+      new ValueNotifier<List<String>>([]);
 
   final Location _location = new Location();
 

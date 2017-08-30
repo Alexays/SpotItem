@@ -6,9 +6,7 @@ import 'package:spotitem/services/services.dart';
 import 'package:flutter/material.dart';
 
 class ExplorerView extends StatefulWidget {
-  const ExplorerView(this._tracks);
-
-  final List<String> _tracks;
+  const ExplorerView();
 
   @override
   State<StatefulWidget> createState() => new _ExplorerViewState();
@@ -16,12 +14,31 @@ class ExplorerView extends StatefulWidget {
 
 class _ExplorerViewState extends State<ExplorerView> {
   List<Item> _items = <Item>[];
+  List<Item> backup = <Item>[];
   bool _loading = true;
 
   @override
   void initState() {
-    _loadItems();
+    _loadItems().then((res) {
+      Services.itemsManager.tracks.addListener(() {
+        getTracks();
+      });
+    });
     super.initState();
+  }
+
+  void getTracks() {
+    _items = new List<Item>.from(backup);
+    final List<String> _tracks = Services.itemsManager.tracks.value;
+    setState(() {
+      if (_tracks.isNotEmpty) {
+        _items = _items
+            .where(
+                (item) => item.tracks.any((track) => _tracks.contains(track)))
+            .toList();
+      }
+      _loading = false;
+    });
   }
 
   Future<Null> _loadItems([bool force = false]) async {
@@ -32,13 +49,9 @@ class _ExplorerViewState extends State<ExplorerView> {
         if (!mounted) {
           return;
         }
+        backup = data;
         setState(() {
           _items = new List<Item>.from(data);
-          if (widget._tracks.isNotEmpty) {
-            _items = _items
-                .where((item) => item.tracks.contains(widget._tracks))
-                .toList();
-          }
           _loading = false;
         });
       });

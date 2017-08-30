@@ -31,9 +31,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   bool _isSearching = false;
   int _currentIndex = 0;
 
-  // Explorer
-  List<String> _tracks = [];
-
   // Search
   final TextEditingController _searchController = new TextEditingController();
   String _searchQuery = '';
@@ -46,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         title: 'Explorer',
         sub: <HomeScreenSubItem>[
           const HomeScreenSubItem('Discover', const DiscoverView()),
-          new HomeScreenSubItem('Explore', new ExplorerView(_tracks)),
+          const HomeScreenSubItem('Explore', const ExplorerView()),
         ],
       ),
       new HomeScreenItem(
@@ -135,29 +132,35 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             },
                           )),
                 ),
-                new SwitchListTile(
-                  title: const Text('From your groups only'),
-                  value: _tracks.contains('group'),
-                  onChanged: (value) {
-                    setState(() {
-                      if (value) {
-                        _tracks.add('group');
-                      } else {
-                        _tracks.remove('group');
-                      }
-                    });
-                  },
-                  secondary: const Icon(Icons.lock),
-                ),
+                new StatefulBuilder(builder: (context, switchSetState) {
+                  return new SwitchListTile(
+                    title: const Text('From your groups only'),
+                    value: Services.itemsManager.tracks.value.contains('group'),
+                    onChanged: (value) {
+                      setState(() {
+                        if (value) {
+                          Services.itemsManager.tracks.value.add('group');
+                        } else {
+                          Services.itemsManager.tracks.value.remove('group');
+                        }
+                        Services.itemsManager.tracks.value =
+                            new List<String>.from(
+                                Services.itemsManager.tracks.value);
+                        switchSetState(() {});
+                      });
+                    },
+                    secondary: const Icon(Icons.lock),
+                  );
+                }),
                 new SwitchListTile(
                   title: const Text('Donated items only'),
-                  value: _tracks.contains('gift'),
+                  value: Services.itemsManager.tracks.value.contains('gift'),
                   onChanged: (value) {
                     setState(() {
                       if (value) {
-                        _tracks.add('gift');
+                        Services.itemsManager.tracks.value.add('gift');
                       } else {
-                        _tracks.remove('gift');
+                        Services.itemsManager.tracks.value.remove('gift');
                       }
                     });
                   },
