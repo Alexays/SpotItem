@@ -69,10 +69,7 @@ class _GroupPageState extends State<GroupPage>
       child: new Text('${owner?.email}'),
     );
     if (owner != null) {
-      return new Container(
-        color: theme.primaryColor,
-        padding: const EdgeInsets.all(28.0),
-        child: new Row(
+      final List<Widget> _toBuild = []..add(new Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
@@ -108,10 +105,28 @@ class _GroupPageState extends State<GroupPage>
                 style: theme.primaryTextTheme.body1,
                 child: const Text('Owner'),
               )
-            ]),
-      );
+            ]));
+      if (group.about.isNotEmpty) {
+        _toBuild
+          ..add(const Padding(padding: const EdgeInsets.all(8.0)))
+          ..add(new DefaultTextStyle(
+            style: theme.primaryTextTheme.body2,
+            child: const Text('About'),
+          ))
+          ..add(new DefaultTextStyle(
+            style: theme.primaryTextTheme.body1,
+            child: new Text('${group.about}'),
+          ));
+      }
+      return new Container(
+          color: theme.primaryColor,
+          padding: const EdgeInsets.all(28.0),
+          child: new Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: _toBuild,
+          ));
     } else {
-      return new Container();
+      return const Center(child: const CircularProgressIndicator());
     }
   }
 
@@ -277,7 +292,6 @@ class _GroupPageState extends State<GroupPage>
           children: <Widget>[
             _buildHeader(),
             _buildUsers(),
-            new Text(group.about)
           ],
         ),
       );
