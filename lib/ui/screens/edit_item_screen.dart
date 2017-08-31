@@ -49,8 +49,6 @@ class _EditItemScreenState extends State<EditItemScreen>
 
   List<Group> _myGroups;
 
-  bool _loading = true;
-
   @override
   void initState() {
     Services.itemsManager.getItem(_itemId).then((data) {
@@ -66,21 +64,18 @@ class _EditItemScreenState extends State<EditItemScreen>
           _groups = item.groups;
           gift = item.tracks.contains('gift');
           private = item.tracks.contains('private');
-          Services.authManager
-              .getGroups(Services.authManager.user.id)
-              .then((data) {
-            _myGroups = data;
-            _checked = new List<bool>.generate(_myGroups.length, (index) {
-              if (_groups != null && _groups.contains(_myGroups[index].id)) {
-                return true;
-              }
-              return false;
-            });
-            setState(() {
-              _loading = false;
-            });
-          });
         }
+      });
+    });
+    Services.authManager.getGroups(Services.authManager.user.id).then((data) {
+      setState(() {
+        _myGroups = data;
+        _checked = new List<bool>.generate(_myGroups.length, (index) {
+          if (_groups != null && _groups.contains(_myGroups[index].id)) {
+            return true;
+          }
+          return false;
+        });
       });
     });
     _controller = new AnimationController(
@@ -248,7 +243,7 @@ class _EditItemScreenState extends State<EditItemScreen>
   }
 
   Widget getGroups() {
-    if (_loading) {
+    if (_myGroups == null) {
       return const Center(child: const CircularProgressIndicator());
     }
     return new Column(
@@ -297,7 +292,7 @@ class _EditItemScreenState extends State<EditItemScreen>
                                 const Tab(text: 'Groups')
                               ])))
                     ],
-                body: _loading
+                body: item == null || _myGroups == null
                     ? const Center(child: const CircularProgressIndicator())
                     : new Form(
                         key: _formKey,

@@ -11,9 +11,7 @@ class ItemsView extends StatefulWidget {
 }
 
 class _ItemsViewState extends State<ItemsView> {
-  bool _loading = true;
-
-  List<Item> _myItems = <Item>[];
+  List<Item> _myItems;
 
   @override
   void initState() {
@@ -21,7 +19,6 @@ class _ItemsViewState extends State<ItemsView> {
       Services.itemsManager.getSelfItems().then((data) {
         setState(() {
           _myItems = data;
-          _loading = false;
         });
       });
     super.initState();
@@ -62,7 +59,7 @@ class _ItemsViewState extends State<ItemsView> {
   }
 
   @override
-  Widget build(BuildContext context) => _loading
+  Widget build(BuildContext context) => _myItems == null
       ? const Center(child: const CircularProgressIndicator())
       : getList();
 }

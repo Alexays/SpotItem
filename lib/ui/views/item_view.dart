@@ -100,8 +100,6 @@ class _ItemPageState extends State<ItemPage>
   final String _itemId;
   final String hash;
 
-  bool _loading = true;
-
   TabController _tabController;
 
   Item item;
@@ -116,7 +114,6 @@ class _ItemPageState extends State<ItemPage>
       setState(() {
         _tabController =
             new TabController(vsync: this, length: item.images.length);
-        _loading = false;
       });
     }
     if (widget.item == null) {
@@ -126,7 +123,6 @@ class _ItemPageState extends State<ItemPage>
           if (item != null) {
             _tabController =
                 new TabController(vsync: this, length: item.images.length);
-            _loading = false;
           }
         });
       });
@@ -224,7 +220,7 @@ class _ItemPageState extends State<ItemPage>
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-        body: _loading
+        body: item == null
             ? const Center(child: const CircularProgressIndicator())
             : new CustomScrollView(
                 slivers: <Widget>[

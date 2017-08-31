@@ -13,8 +13,7 @@ class DiscoverView extends StatefulWidget {
 }
 
 class _DiscoverViewState extends State<DiscoverView> {
-  List<Item> _items = <Item>[];
-  bool _loading = true;
+  List<Item> _items;
 
   @override
   void initState() {
@@ -34,7 +33,6 @@ class _DiscoverViewState extends State<DiscoverView> {
       }
       setState(() {
         _items = data;
-        _loading = false;
       });
     });
   }
@@ -101,7 +99,7 @@ class _DiscoverViewState extends State<DiscoverView> {
   @override
   Widget build(BuildContext context) => new RefreshIndicator(
         onRefresh: () => _loadItems(true),
-        child: _loading
+        child: _items == null
             ? const Center(child: const CircularProgressIndicator())
             : _buildDiscover(),
       );

@@ -26,8 +26,6 @@ class ItemsManager {
 
   bool get initialized => _initialized;
 
-  bool get loading => _loading;
-
   List<Item> get items => _items;
 
   List<Item> get myItems => _myItems;
@@ -44,8 +42,6 @@ class ItemsManager {
   Map<String, double> location;
 
   bool _initialized;
-
-  bool _loading = true;
 
   List<Item> _items = <Item>[];
 
@@ -195,7 +191,6 @@ class ItemsManager {
             (index) => new Item.fromJson(itemJson[index],
                 getDist(itemJson[index]['lat'], itemJson[index]['lng'])));
       }
-      _loading = false;
     }
     return _items;
   }

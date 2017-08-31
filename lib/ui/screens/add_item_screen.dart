@@ -31,8 +31,6 @@ class _AddItemScreenState extends State<AddItemScreen>
   bool private = false;
   List<String> images = <String>[];
 
-  bool _loading = true;
-
   List<bool> _checked;
 
   List<Group> _myGroups;
@@ -57,7 +55,6 @@ class _AddItemScreenState extends State<AddItemScreen>
       setState(() {
         _myGroups = data;
         _checked = new List<bool>(_myGroups.length);
-        _loading = false;
       });
     });
     super.initState();
@@ -180,7 +177,7 @@ class _AddItemScreenState extends State<AddItemScreen>
   }
 
   Widget getGroups() {
-    if (_loading) {
+    if (_myGroups == null) {
       return const Center(child: const CircularProgressIndicator());
     }
     return new Column(

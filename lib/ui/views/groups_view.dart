@@ -15,11 +15,8 @@ class GroupsView extends StatefulWidget {
 class _GroupsViewState extends State<GroupsView> {
   _GroupsViewState();
 
-  bool _loading = true;
-
-  List<Group> _myGroups = <Group>[];
-
-  List<Group> _myGroupsInv = <Group>[];
+  List<Group> _myGroups;
+  List<Group> _myGroupsInv;
 
   @override
   void initState() {
@@ -28,18 +25,10 @@ class _GroupsViewState extends State<GroupsView> {
   }
 
   void _loadGroups() {
-    setState(() {
-      _loading = true;
-    });
-    bool loading = true;
     if (Services.authManager.loggedIn) {
       Services.authManager.getGroups(Services.authManager.user.id).then((data) {
         setState(() {
           _myGroups = data;
-          if (loading == false) {
-            _loading = false;
-          }
-          loading = false;
         });
       });
       Services.authManager
@@ -47,10 +36,6 @@ class _GroupsViewState extends State<GroupsView> {
           .then((data) {
         setState(() {
           _myGroupsInv = data;
-          if (loading == false) {
-            _loading = false;
-          }
-          loading = false;
         });
       });
     }
@@ -207,7 +192,8 @@ class _GroupsViewState extends State<GroupsView> {
   }
 
   @override
-  Widget build(BuildContext context) => _loading
-      ? const Center(child: const CircularProgressIndicator())
-      : getList();
+  Widget build(BuildContext context) =>
+      _myGroups == null || _myGroupsInv == null
+          ? const Center(child: const CircularProgressIndicator())
+          : getList();
 }

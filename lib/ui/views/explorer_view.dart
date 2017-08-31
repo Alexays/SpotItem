@@ -13,9 +13,8 @@ class ExplorerView extends StatefulWidget {
 }
 
 class _ExplorerViewState extends State<ExplorerView> {
-  List<Item> _items = <Item>[];
-  List<Item> backup = <Item>[];
-  bool _loading = true;
+  List<Item> _items;
+  List<Item> backup;
 
   @override
   void initState() {
@@ -44,7 +43,6 @@ class _ExplorerViewState extends State<ExplorerView> {
                 (item) => item.tracks.any((track) => _tracks.contains(track)))
             .toList();
       }
-      _loading = false;
     });
   }
 
@@ -60,7 +58,6 @@ class _ExplorerViewState extends State<ExplorerView> {
         setState(() {
           _items = new List<Item>.from(data);
           getTracks();
-          _loading = false;
         });
       });
     }
@@ -69,7 +66,7 @@ class _ExplorerViewState extends State<ExplorerView> {
   @override
   Widget build(BuildContext context) => new RefreshIndicator(
         onRefresh: () => _loadItems(true),
-        child: _loading
+        child: _items == null
             ? const Center(child: const CircularProgressIndicator())
             : new ItemsList(_items, toString()),
       );
