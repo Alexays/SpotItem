@@ -224,4 +224,16 @@ class AuthManager {
     }
     return groupJson;
   }
+
+  Future<dynamic> kickUser(String groupId, String userId) async {
+    if (groupId == null) {
+      return null;
+    }
+    final Client _client = new Client();
+    final Response response = await _client
+        .delete('$apiUrl/group/$groupId/$userId', headers: getHeaders(_oauthToken))
+        .whenComplete(_client.close);
+    final dynamic groupJson = JSON.decode(response.body);
+    return groupJson;
+  }
 }

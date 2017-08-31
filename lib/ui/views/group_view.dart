@@ -47,6 +47,17 @@ class _GroupPageState extends State<GroupPage>
     }
   }
 
+  Future<Null> _kickUser(String userId) async {
+    final dynamic response =
+        await Services.authManager.kickUser(group.id, userId);
+    if (response['success']) {
+      setState(() {
+        group.users = group.users.where((user) => user.id == userId).toList();
+      });
+      Navigator.of(context).pop();
+    }
+  }
+
   Widget _buildHeader() {
     final ThemeData theme = Theme.of(context);
     final Widget accountNameLine = new DefaultTextStyle(
@@ -193,15 +204,14 @@ class _GroupPageState extends State<GroupPage>
 
   Widget _buildUsers() => new Flexible(
       child: new ListView.builder(
-          scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.all(20.0),
           itemCount: group.users.length,
           itemBuilder: (context, index) => new GestureDetector(
               onTap: () {},
               child: new Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: new Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: new Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       new CircleAvatar(
@@ -210,10 +220,48 @@ class _GroupPageState extends State<GroupPage>
                             '${group.users[index].firstname[0]}${group.users[index].name[0]}'),
                       ),
                       const Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4.0),
-                      ),
+                          padding: const EdgeInsets.symmetric(horizontal: 4.0)),
                       new Text(
-                          '${group.users[index].firstname}.${group.users[index].name[0]}')
+                          '${group.users[index].firstname} ${group.users[index].name}'),
+                      new Expanded(child: new Container()),
+                      group.owner == Services.authManager.user.id &&
+                              group.users[index].id !=
+                                  Services.authManager.user.id
+                          ? new IconButton(
+                              icon: const Icon(Icons.remove_circle_outline),
+                              onPressed: () {
+                                showDialog<Null>(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  child: new AlertDialog(
+                                    title: const Text('Kick confirmation'),
+                                    content: new SingleChildScrollView(
+                                      child: new ListBody(
+                                        children: <Widget>[
+                                          new Text(
+                                              'Are you sure to kick ${group.users[index].firstname} ${group.users[index].name} ?'),
+                                        ],
+                                      ),
+                                    ),
+                                    actions: <Widget>[
+                                      new FlatButton(
+                                        child: const Text('Cancel'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      new FlatButton(
+                                        child: const Text('Kick'),
+                                        onPressed: () {
+                                          _kickUser(group.users[index].id);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            )
+                          : new Container()
                     ],
                   )))));
 
