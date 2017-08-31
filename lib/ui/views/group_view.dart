@@ -87,7 +87,7 @@ class _GroupPageState extends State<GroupPage>
                 child: new Container(),
               ),
               new Icon(
-                Icons.star,
+                Icons.chevron_left,
                 color: theme.canvasColor,
               ),
               const Padding(
