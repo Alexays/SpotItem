@@ -29,6 +29,8 @@ class _GroupPageState extends State<GroupPage>
 
   bool dragStopped = true;
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     Services.authManager.getUser(group.owner).then((data) {
@@ -127,7 +129,7 @@ class _GroupPageState extends State<GroupPage>
             children: _toBuild,
           ));
     } else {
-      return const Center(child: const CircularProgressIndicator());
+      return new Container();
     }
   }
 
@@ -259,12 +261,12 @@ class _GroupPageState extends State<GroupPage>
                         if (res['success']) {
                           Navigator.of(context).pop();
                         } else {
-                          Scaffold.of(context).showSnackBar(new SnackBar(
-                              content: const Text('Error occured')));
+                          _scaffoldKey.currentState.showSnackBar(
+                              new SnackBar(content: new Text(res['msg'])));
                         }
                       });
                     } else {
-                      Scaffold.of(context).showSnackBar(new SnackBar(
+                      _scaffoldKey.currentState.showSnackBar(const SnackBar(
                           content: const Text('Enter valid email')));
                     }
                   }),
@@ -336,6 +338,7 @@ class _GroupPageState extends State<GroupPage>
 
   @override
   Widget build(BuildContext context) => new Scaffold(
+        key: _scaffoldKey,
         appBar: new AppBar(
           title: new Text('Group: ${group.name}'),
           actions: _doButton(),
