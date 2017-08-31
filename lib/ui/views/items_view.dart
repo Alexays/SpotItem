@@ -53,9 +53,8 @@ class _ItemsViewState extends State<ItemsView> {
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: new List<Widget>.generate(
-                                _myItems[index].tracks.length, (i) {
-                              return getIcon(_myItems[index].tracks[i]);
-                            })))
+                                _myItems[index].tracks.length,
+                                (i) => getIcon(_myItems[index].tracks[i]))))
                   ],
                 ),
               ),
