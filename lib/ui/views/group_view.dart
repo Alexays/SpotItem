@@ -34,7 +34,9 @@ class _GroupPageState extends State<GroupPage>
   @override
   void initState() {
     Services.authManager.getUser(group.owner).then((data) {
-      owner = data;
+      setState(() {
+        owner = data;
+      });
     });
     group.users =
         group.users.where((user) => user.groups.contains(group.id)).toList();
