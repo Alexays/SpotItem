@@ -140,7 +140,7 @@ class _GroupsViewState extends State<GroupsView> {
                 onTap: () {
                   showDialog<Null>(
                     context: context,
-                    barrierDismissible: false, // user must tap button!
+                    barrierDismissible: false,
                     child: new AlertDialog(
                       title: new Text('Join ${_myGroupsInv[index].name} ?'),
                       content: new SingleChildScrollView(
@@ -193,6 +193,9 @@ class _GroupsViewState extends State<GroupsView> {
                                     fontWeight: FontWeight.w400,
                                     fontSize: 15.0),
                               ),
+                              const Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 2.0)),
                               const Icon(Icons.people)
                             ],
                           ))
