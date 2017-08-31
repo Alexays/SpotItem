@@ -12,20 +12,7 @@ class FilterBar extends StatelessWidget {
   const FilterBar({this.isExpanded, this.onExpandedChanged});
 
   List<Widget> _buildBar(ThemeData theme) {
-    final List<Widget> toBuild = []
-      ..add(new FlatButton(
-        onPressed: () => onExpandedChanged(!isExpanded),
-        textColor: theme.primaryColor,
-        child: new Row(
-          children: <Widget>[
-            const Text('Filter'),
-            new Icon(isExpanded ? Icons.expand_more : Icons.expand_less),
-          ],
-        ),
-      ))
-      ..add(new Expanded(
-        child: new Container(),
-      ));
+    final List<Widget> toBuild = [];
     Services.itemsManager.tracks.value.forEach((track) {
       toBuild.add(
         new Container(
@@ -46,6 +33,20 @@ class FilterBar extends StatelessWidget {
             ])),
       );
     });
+    toBuild
+      ..add(new Expanded(
+        child: new Container(),
+      ))
+      ..add(new FlatButton(
+        onPressed: () => onExpandedChanged(!isExpanded),
+        textColor: theme.primaryColor,
+        child: new Row(
+          children: <Widget>[
+            const Text('Filter'),
+            new Icon(isExpanded ? Icons.expand_more : Icons.expand_less),
+          ],
+        ),
+      ));
     return toBuild;
   }
 

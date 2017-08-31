@@ -35,6 +35,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final TextEditingController _searchController = new TextEditingController();
   String _searchQuery = '';
 
+  //Explore
+  static const Widget discover = const DiscoverView();
+  static const Widget explore = const ExplorerView();
+
   @override
   void initState() {
     _homeScreenItems = <HomeScreenItem>[
@@ -42,8 +46,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         icon: const Icon(Icons.explore),
         title: 'Explorer',
         sub: <HomeScreenSubItem>[
-          const HomeScreenSubItem('Discover', const DiscoverView()),
-          const HomeScreenSubItem('Explore', const ExplorerView()),
+          const HomeScreenSubItem('Discover', discover),
+          const HomeScreenSubItem('Explore', explore),
         ],
       ),
       new HomeScreenItem(
