@@ -33,16 +33,16 @@ class ItemsListItem extends StatelessWidget {
                       image: new NetworkImage('$apiImgUrl${item.images.first}'),
                       fit: BoxFit.cover,
                       alignment: FractionalOffset.center)),
-              new Positioned(
-                top: 15.0,
-                right: 15.0,
-                child: new IconButton(
-                  color: const Color.fromARGB(255, 255, 255, 255),
-                  icon: const Icon(Icons.star_border),
-                  tooltip: 'Fav this item',
-                  onPressed: () {},
-                ),
-              ),
+              // new Positioned(
+              //   top: 15.0,
+              //   right: 15.0,
+              //   child: new IconButton(
+              //     color: const Color.fromARGB(255, 255, 255, 255),
+              //     icon: const Icon(Icons.star_border),
+              //     tooltip: 'Fav this item',
+              //     onPressed: () {},
+              //   ),
+              // ),
               new Positioned(
                 bottom: 0.0,
                 left: 0.0,
