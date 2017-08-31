@@ -130,6 +130,21 @@ class AuthManager {
     return bodyJson;
   }
 
+  Future<dynamic> getUser(String userId) async {
+    if (userId == null) {
+      return null;
+    }
+    final Client _client = new Client();
+    final Response response = await _client
+        .get('$apiUrl/user/$userId', headers: getHeaders(_oauthToken))
+        .whenComplete(_client.close);
+    if (response.statusCode == 200) {
+      final dynamic userJson = JSON.decode(response.body);
+      return new User.fromJson(userJson);
+    }
+    return null;
+  }
+
   Future<dynamic> getGroups(String userId) async {
     if (userId == null) {
       return null;

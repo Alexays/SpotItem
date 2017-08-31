@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:spotitem/models/group.dart';
+import 'package:spotitem/models/user.dart';
 import 'package:spotitem/services/services.dart';
 
 class GroupPage extends StatefulWidget {
@@ -23,10 +24,15 @@ class _GroupPageState extends State<GroupPage>
 
   Group group;
 
+  User owner;
+
   bool dragStopped = true;
 
   @override
   void initState() {
+    Services.authManager.getUser(group.owner).then((data) {
+      owner = data;
+    });
     group.users =
         group.users.where((user) => user.groups.contains(group.id)).toList();
     super.initState();
@@ -41,6 +47,63 @@ class _GroupPageState extends State<GroupPage>
     }
   }
 
+  Widget _buildHeader() {
+    final ThemeData theme = Theme.of(context);
+    final Widget accountNameLine = new DefaultTextStyle(
+      style: theme.primaryTextTheme.body2,
+      child: new Text('${owner?.firstname} ${owner?.name}'),
+    );
+    final Widget accountEmailLine = new DefaultTextStyle(
+      style: theme.primaryTextTheme.body1,
+      child: new Text('${owner?.email}'),
+    );
+    if (owner != null) {
+      return new Container(
+        color: Colors.pink,
+        padding: const EdgeInsets.all(28.0),
+        child: new Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              new CircleAvatar(
+                  radius: 30.0,
+                  backgroundColor: Colors.grey,
+                  backgroundImage: owner?.avatar != 'null'
+                      ? new NetworkImage(owner?.avatar)
+                      : null,
+                  child: new Text('${owner?.firstname[0]}${owner?.name[0]}')),
+              new Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
+                child: new Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children:
+                        (accountEmailLine != null && accountNameLine != null)
+                            ? <Widget>[accountNameLine, accountEmailLine]
+                            : <Widget>[accountNameLine ?? accountEmailLine]),
+              ),
+              new Expanded(
+                child: new Container(),
+              ),
+              new Icon(
+                Icons.star,
+                color: theme.canvasColor,
+              ),
+              const Padding(
+                padding: const EdgeInsets.all(1.0),
+              ),
+              new DefaultTextStyle(
+                style: theme.primaryTextTheme.body1,
+                child: const Text('Owner'),
+              )
+            ]),
+      );
+    } else {
+      return new Container();
+    }
+  }
+
   List<Widget> _doButton() {
     final List<Widget> top = <Widget>[]..add(new IconButton(
         icon: const Icon(Icons.exit_to_app),
@@ -48,7 +111,7 @@ class _GroupPageState extends State<GroupPage>
         onPressed: () {
           showDialog<Null>(
             context: context,
-            barrierDismissible: false, // user must tap button!
+            barrierDismissible: false,
             child: new AlertDialog(
               title: const Text('Leave confirmation'),
               content: new SingleChildScrollView(
@@ -131,7 +194,7 @@ class _GroupPageState extends State<GroupPage>
   Widget _buildUsers() => new Flexible(
       child: new ListView.builder(
           scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          padding: const EdgeInsets.all(20.0),
           itemCount: group.users.length,
           itemBuilder: (context, index) => new GestureDetector(
               onTap: () {},
@@ -156,16 +219,18 @@ class _GroupPageState extends State<GroupPage>
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-      appBar: new AppBar(
-        title: new Text('Group: ${group.name}'),
-        actions: _doButton(),
-      ),
-      body: new Container(
-        margin: const EdgeInsets.all(20.0),
-        child: new Row(
+        appBar: new AppBar(
+          title: new Text('Group: ${group.name}'),
+          actions: _doButton(),
+        ),
+        body: new Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[_buildUsers(), new Text(group.about)],
+          children: <Widget>[
+            _buildHeader(),
+            _buildUsers(),
+            new Text(group.about)
+          ],
         ),
-      ));
+      );
 }
