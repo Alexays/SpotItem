@@ -349,7 +349,9 @@ class _GroupPageState extends State<GroupPage>
                 padding: const EdgeInsets.all(10.0),
                 child: new Center(
                     child: new RaisedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _addPeople();
+                  },
                   child: const Text('Add a user'),
                 ))),
             _buildUsers(),
