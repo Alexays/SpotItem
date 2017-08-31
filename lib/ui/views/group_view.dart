@@ -59,7 +59,7 @@ class _GroupPageState extends State<GroupPage>
     );
     if (owner != null) {
       return new Container(
-        color: Colors.pink,
+        color: theme.primaryColor,
         padding: const EdgeInsets.all(28.0),
         child: new Row(
             crossAxisAlignment: CrossAxisAlignment.center,
