@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:spotitem/models/group.dart';
 import 'package:spotitem/models/user.dart';
 import 'package:spotitem/services/services.dart';
+import 'package:spotitem/utils.dart';
 
 class GroupPage extends StatefulWidget {
   const GroupPage({
@@ -217,9 +218,62 @@ class _GroupPageState extends State<GroupPage>
     return top;
   }
 
+  void _addPeople() {
+    String _email;
+    final GlobalKey<FormState> _formKeyEmail = new GlobalKey<FormState>();
+    showDialog<Null>(
+        context: context,
+        barrierDismissible: false,
+        child: new AlertDialog(
+            title: const Text('Add someone'),
+            content: new SingleChildScrollView(
+                child: new Form(
+                    key: _formKeyEmail,
+                    autovalidate: true,
+                    child: new ListBody(children: <Widget>[
+                      const Text('Enter email of user.'),
+                      new TextFormField(
+                        key: const Key('email'),
+                        decoration: const InputDecoration.collapsed(
+                            hintText: 'ex: john.do@exemple.com'),
+                        onSaved: (value) {
+                          _email = value.trim();
+                        },
+                        validator: validateEmail,
+                      )
+                    ]))),
+            actions: <Widget>[
+              new FlatButton(
+                  child: const Text('Cancel'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  }),
+              new FlatButton(
+                  child: const Text('Add'),
+                  onPressed: () {
+                    _formKeyEmail.currentState.save();
+                    if (_email != null && emailExp.hasMatch(_email)) {
+                      Services.authManager
+                          .addUserToGroup(group.id, _email)
+                          .then((res) {
+                        if (res['success']) {
+                          Navigator.of(context).pop();
+                        } else {
+                          Scaffold.of(context).showSnackBar(new SnackBar(
+                              content: const Text('Error occured')));
+                        }
+                      });
+                    } else {
+                      Scaffold.of(context).showSnackBar(new SnackBar(
+                          content: const Text('Enter valid email')));
+                    }
+                  }),
+            ]));
+  }
+
   Widget _buildUsers() => new Flexible(
       child: new ListView.builder(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
           itemCount: group.users.length,
           itemBuilder: (context, index) => new GestureDetector(
               onTap: () {},
@@ -291,6 +345,13 @@ class _GroupPageState extends State<GroupPage>
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             _buildHeader(),
+            new Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: new Center(
+                    child: new RaisedButton(
+                  onPressed: () {},
+                  child: const Text('Add a user'),
+                ))),
             _buildUsers(),
           ],
         ),
