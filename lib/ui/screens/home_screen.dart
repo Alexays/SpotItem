@@ -184,13 +184,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   void _handleSearchBegin() {
+    if (!mounted) {
+      return;
+    }
     ModalRoute.of(context).addLocalHistoryEntry(new LocalHistoryEntry(
       onRemove: () {
         setState(() {
           _isSearching = false;
-          if (!mounted) {
-            return;
-          }
           _searchController.removeListener(_searchCallback);
         });
       },
@@ -215,16 +215,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     if (isMain) {
       bottom.add(new FilterBar(
         onExpandedChanged: (value) async {
-          if (value) {
-            setState(() {
+          setState(() {
+            if (value) {
               _isExpanded = true;
               _showFilter();
-            });
-          } else if (!value) {
-            setState(() {
+            } else if (!value) {
               _isExpanded = false;
-            });
-          }
+            }
+          });
         },
         isExpanded: _isExpanded,
       ));
