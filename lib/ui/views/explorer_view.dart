@@ -14,7 +14,7 @@ class ExplorerView extends StatefulWidget {
 
 class _ExplorerViewState extends State<ExplorerView> {
   List<Item> _items;
-  List<Item> backup;
+  List<Item> backup = [];
 
   @override
   void initState() {
