@@ -18,6 +18,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final Key _searchKey = const Key('search');
   static List<HomeScreenItem> _homeScreenItems;
 
   // Animation
@@ -211,6 +212,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
     final bool isMain = _currentIndex == 0;
     final List<Widget> bottom = []..add(new TabBar(
+        indicatorColor: Colors.white,
+        indicatorWeight: 4.0,
         tabs: new List<Tab>.generate(
             _homeScreenItems[_currentIndex].sub?.length,
             (index) => new Tab(
@@ -234,7 +237,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return new PreferredSize(
       child: new Column(children: bottom),
       preferredSize: isMain
-          ? const Size.fromHeight(kTextTabBarHeight + 36.0)
+          ? const Size.fromHeight(kTextTabBarHeight + 40.0)
           : const Size.fromHeight(kTextTabBarHeight),
     );
   }
@@ -321,37 +324,59 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   SliverAppBar _buildAppBar() => new SliverAppBar(
         pinned: true,
-        leading: _isSearching ? const BackButton() : null,
+        automaticallyImplyLeading: false,
         floating: _homeScreenItems[_currentIndex].sub != null && !_isSearching,
-        title: _isSearching
-            ? new TextField(
-                key: const Key('search'),
-                controller: _searchController,
-                autofocus: true,
-                style: new TextStyle(
-                  color: Colors.white,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.normal,
-                ),
-                decoration: new InputDecoration(
-                    hintText: 'Search...',
-                    hintStyle: new TextStyle(
-                      color: const Color.fromARGB(120, 255, 255, 255),
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.normal,
+        title: new Container(
+            decoration: new BoxDecoration(
+                color: Theme.of(context).accentColor,
+                borderRadius:
+                    const BorderRadius.all(const Radius.circular(3.0))),
+            margin: const EdgeInsets.symmetric(vertical: 5.0),
+            child: new Row(children: <Widget>[
+              _isSearching
+                  ? const BackButton()
+                  : new IconButton(
+                      iconSize: 26.0,
+                      icon: const Icon(Icons.menu),
+                      onPressed: () {
+                        _scaffoldKey.currentState.openDrawer();
+                      },
                     ),
-                    hideDivider: true),
-                keyboardType: TextInputType.text,
-              )
-            : _homeScreenItems[_currentIndex].item.title,
-        actions: _isSearching
-            ? null
-            : <Widget>[
-                new IconButton(
-                  icon: const Icon(Icons.search),
-                  onPressed: _handleSearchBegin,
-                )
-              ],
+              new Flexible(
+                child: new TextField(
+                  onChanged: (data) {
+                    if (data.isNotEmpty) {
+                      _handleSearchBegin();
+                    }
+                  },
+                  key: _searchKey,
+                  controller: _searchController,
+                  style: new TextStyle(
+                    height: 1.0,
+                    color: Colors.white,
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  decoration: new InputDecoration(
+                      isDense: true,
+                      hintText: 'Search...',
+                      hintStyle: new TextStyle(
+                        color: const Color.fromARGB(150, 255, 255, 255),
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      hideDivider: true),
+                  keyboardType: TextInputType.text,
+                ),
+              ),
+              new Expanded(child: new Container()),
+              _isSearching
+                  ? const Text('')
+                  : new IconButton(
+                      icon: const Icon(Icons.search),
+                      onPressed: _handleSearchBegin,
+                    )
+            ])),
         bottom: _isSearching ? null : _buildBottom(),
       );
 
@@ -387,6 +412,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       drawer: _buildDrawer(context),
       floatingActionButton: _buildFab(),
       body: new DefaultTabController(
+          key: new Key(_homeScreenItems[_currentIndex].title),
           length: _homeScreenItems[_currentIndex].sub?.length,
           child: new NestedScrollView(
               headerSliverBuilder: (context, innerBoxIsScrolled) =>
@@ -410,9 +436,9 @@ class HomeScreenItem {
   final List<Widget> content;
   final List<HomeScreenSubItem> sub;
   final FloatingActionButton fab;
+  final String title;
 
-  HomeScreenItem(
-      {Widget icon, String title, Widget content, this.sub, this.fab})
+  HomeScreenItem({Widget icon, this.title, Widget content, this.sub, this.fab})
       : item = new BottomNavigationBarItem(icon: icon, title: new Text(title)),
         content = sub != null
             ? new List<Widget>.generate(

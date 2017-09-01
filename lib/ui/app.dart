@@ -17,6 +17,5 @@ class SpotItemApp extends MaterialApp {
         );
 }
 
-final _spotTheme = new ThemeData(
-  primarySwatch: Colors.pink,
-);
+final _spotTheme =
+    new ThemeData(primarySwatch: Colors.pink, accentColor: Colors.pinkAccent);
