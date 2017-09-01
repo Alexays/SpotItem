@@ -14,6 +14,7 @@ class SpotItemApp extends MaterialApp {
           home: init ? const HomeScreen() : const LoginScreen(),
           theme: _spotTheme,
           onGenerateRoute: router.generator,
+          showPerformanceOverlay: false,
         );
 }
 
