@@ -116,7 +116,7 @@ class DiscoverList extends StatelessWidget {
       ? new ListView.builder(
           physics: const AlwaysScrollableScrollPhysics(),
           scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
           itemCount: _items?.length,
           itemExtent: 250.0,
           itemBuilder: (context, index) => new ItemsListItem(
