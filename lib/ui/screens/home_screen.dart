@@ -374,7 +374,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ? const Text('')
                   : new IconButton(
                       icon: const Icon(Icons.search),
-                      onPressed: _handleSearchBegin,
+                      onPressed: () {},
                     )
             ])),
         bottom: _isSearching ? null : _buildBottom(),
@@ -407,28 +407,31 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   @override
-  Widget build(BuildContext context) => new Scaffold(
-      key: _scaffoldKey,
-      drawer: _buildDrawer(context),
-      floatingActionButton: _buildFab(),
-      body: new DefaultTabController(
-          key: new Key(_homeScreenItems[_currentIndex].title),
-          length: _homeScreenItems[_currentIndex].sub?.length,
-          child: new NestedScrollView(
-              headerSliverBuilder: (context, innerBoxIsScrolled) =>
-                  <Widget>[_buildAppBar()],
-              body: new TabBarView(children: _buildChild()))),
-      bottomNavigationBar: _isSearching
-          ? null
-          : new BottomNavigationBar(
-              currentIndex: _currentIndex,
-              items: _homeScreenItems.map((data) => data.item).toList(),
-              onTap: (index) {
-                setState(() {
-                  _currentIndex = index;
-                });
-              },
-            ));
+  Widget build(BuildContext context) {
+    final cur = _homeScreenItems[_currentIndex];
+    return new Scaffold(
+        key: _scaffoldKey,
+        drawer: _buildDrawer(context),
+        floatingActionButton: _buildFab(),
+        body: new DefaultTabController(
+            key: cur.sub != null ? new Key(cur.title) : null,
+            length: cur.sub != null ? cur.sub.length : 1,
+            child: new NestedScrollView(
+                headerSliverBuilder: (context, innerBoxIsScrolled) =>
+                    <Widget>[_buildAppBar()],
+                body: new TabBarView(children: _buildChild()))),
+        bottomNavigationBar: _isSearching
+            ? null
+            : new BottomNavigationBar(
+                currentIndex: _currentIndex,
+                items: _homeScreenItems.map((data) => data.item).toList(),
+                onTap: (index) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                },
+              ));
+  }
 }
 
 class HomeScreenItem {
