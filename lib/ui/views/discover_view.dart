@@ -13,7 +13,7 @@ class DiscoverView extends StatefulWidget {
 }
 
 class _DiscoverViewState extends State<DiscoverView> {
-  List<Item> _items;
+  static List<Item> _items;
 
   @override
   void initState() {

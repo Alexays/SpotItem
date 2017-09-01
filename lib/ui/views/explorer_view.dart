@@ -13,7 +13,7 @@ class ExplorerView extends StatefulWidget {
 }
 
 class _ExplorerViewState extends State<ExplorerView> {
-  List<Item> _items;
+  static List<Item> _items;
   List<Item> backup = [];
 
   @override
@@ -40,7 +40,7 @@ class _ExplorerViewState extends State<ExplorerView> {
       if (_tracks.isNotEmpty) {
         _items = _items
             .where(
-                (item) => item.tracks.any((track) => _tracks.contains(track)))
+                (item) => _tracks.every((track) => item.tracks.contains(track)))
             .toList();
       }
     });
