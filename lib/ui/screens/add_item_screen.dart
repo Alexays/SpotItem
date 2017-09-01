@@ -51,7 +51,7 @@ class _AddItemScreenState extends State<AddItemScreen>
       parent: _controller,
       curve: Curves.ease,
     ));
-    Services.authManager.getGroups(Services.authManager.user.id).then((data) {
+    Services.authManager.getGroups().then((data) {
       setState(() {
         _myGroups = data;
         _checked = new List<bool>(_myGroups.length);

@@ -34,3 +34,4 @@ class Group {
     return '{"_id": "$id", "name": "$name", "about": "$about", "users": $usersId, "owner": "$owner"}';
   }
 }
+  

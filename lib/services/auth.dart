@@ -130,6 +130,19 @@ class AuthManager {
     return bodyJson;
   }
 
+  Future<dynamic> editGroup(Group group) async {
+    final Client _client = new Client();
+    group.users = null;
+    final dynamic groupJson = JSON.decode(group.toString());
+    groupJson['users'] = '';
+    final Response response = await _client
+        .post('$apiUrl/group/${group.id}',
+            headers: getHeaders(_oauthToken), body: groupJson)
+        .whenComplete(_client.close);
+    final dynamic bodyJson = JSON.decode(response.body);
+    return bodyJson;
+  }
+
   Future<dynamic> getUser(String userId) async {
     if (userId == null) {
       return null;
@@ -145,10 +158,7 @@ class AuthManager {
     return null;
   }
 
-  Future<dynamic> getGroups(String userId) async {
-    if (userId == null) {
-      return null;
-    }
+  Future<dynamic> getGroups() async {
     final Client _client = new Client();
     final Response response = await _client
         .get('$apiUrl/groups', headers: getHeaders(_oauthToken))
@@ -159,6 +169,18 @@ class AuthManager {
           groupJson.length, (index) => new Group.fromJson(groupJson[index]));
     }
     return _myGroups;
+  }
+
+  Future<dynamic> getGroup(String groupId) async {
+    if (groupId == null) {
+      return null;
+    }
+    final Client _client = new Client();
+    final Response response = await _client
+        .get('$apiUrl/group/$groupId', headers: getHeaders(_oauthToken))
+        .whenComplete(_client.close);
+    final dynamic groupJson = JSON.decode(response.body);
+    return groupJson;
   }
 
   Future<dynamic> getGroupsInv(String userId) async {

@@ -67,7 +67,7 @@ class _EditItemScreenState extends State<EditItemScreen>
         }
       });
     });
-    Services.authManager.getGroups(Services.authManager.user.id).then((data) {
+    Services.authManager.getGroups().then((data) {
       setState(() {
         _myGroups = data;
         _checked = new List<bool>.generate(_myGroups.length, (index) {

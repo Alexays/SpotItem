@@ -26,7 +26,7 @@ class _GroupsViewState extends State<GroupsView> {
 
   void _loadGroups() {
     if (Services.authManager.loggedIn) {
-      Services.authManager.getGroups(Services.authManager.user.id).then((data) {
+      Services.authManager.getGroups().then((data) {
         setState(() {
           _myGroups = data;
         });

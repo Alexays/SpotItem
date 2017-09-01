@@ -215,7 +215,7 @@ class _GroupPageState extends State<GroupPage>
           icon: const Icon(Icons.create),
           tooltip: 'Edit',
           onPressed: () {
-            //Navigator.of(context).pushNamed('/groups/${group.id}/edit');
+            Navigator.of(context).pushNamed('/groups/${group.id}/edit');
           },
         ));
     }
