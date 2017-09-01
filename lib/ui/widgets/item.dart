@@ -56,7 +56,7 @@ class ItemsListItem extends StatelessWidget {
                           child: new Text(
                             capitalize(item.name),
                             overflow: TextOverflow.ellipsis,
-                            style: new TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
                             ),
