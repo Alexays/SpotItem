@@ -195,14 +195,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     ModalRoute.of(context).addLocalHistoryEntry(new LocalHistoryEntry(
       onRemove: () {
         setState(() {
-          _isSearching = false;
           _searchController.removeListener(_searchCallback);
+          _isSearching = false;
         });
       },
     ));
     setState(() {
-      _isSearching = true;
       _searchController.addListener(_searchCallback);
+      _isSearching = true;
     });
   }
 
@@ -344,10 +344,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ),
               new Expanded(
                 child: new TextField(
-                  onChanged: (data) {
-                    if (data.isNotEmpty) {
-                      _handleSearchBegin();
-                    }
+                  onSubmitted: (data) {
+                    _handleSearchBegin();
                   },
                   key: _searchKey,
                   controller: _searchController,
@@ -373,7 +371,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ? const Text('')
                   : new IconButton(
                       icon: const Icon(Icons.search),
-                      onPressed: () {},
+                      onPressed: () {
+                        _handleSearchBegin();
+                      },
                     )
             ])),
         bottom: _isSearching ? null : _buildBottom(),
