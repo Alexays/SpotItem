@@ -232,7 +232,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return new PreferredSize(
       child: new Column(children: bottom),
       preferredSize: isMain
-          ? const Size.fromHeight(kTextTabBarHeight + 36.0)
+          ? const Size.fromHeight(kTextTabBarHeight + 34.0)
           : const Size.fromHeight(kTextTabBarHeight),
     );
   }
@@ -407,8 +407,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         drawer: _buildDrawer(context),
         floatingActionButton: _buildFab(),
         body: new DefaultTabController(
-            key: cur.sub != null ? new Key(cur.title) : null,
-            length: cur.sub != null ? cur.sub.length : 1,
+            key: new Key(cur.title),
+            length: cur.sub?.length ?? 1,
             child: new NestedScrollView(
                 headerSliverBuilder: (context, innerBoxIsScrolled) =>
                     <Widget>[_buildAppBar()],

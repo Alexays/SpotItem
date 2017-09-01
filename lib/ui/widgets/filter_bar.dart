@@ -30,7 +30,6 @@ class FilterBar extends StatelessWidget {
         child: new Container(),
       ))
       ..add(new MaterialButton(
-        height: 34.0,
         onPressed: () => onExpandedChanged(!isExpanded),
         textColor: theme.primaryColor,
         child: new Row(
@@ -47,6 +46,7 @@ class FilterBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return new Container(
+      height: 34.0,
       color: Theme.of(context).canvasColor,
       child: new Row(children: _buildBar(theme)),
     );
