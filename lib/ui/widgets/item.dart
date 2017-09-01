@@ -191,7 +191,7 @@ class ItemsList extends StatelessWidget {
   Widget build(BuildContext context) => _items.isNotEmpty
       ? new CustomScrollView(slivers: <Widget>[
           new SliverPadding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
             sliver: new SliverGrid(
               gridDelegate: gridDelegate,
               delegate: new SliverChildListDelegate(
