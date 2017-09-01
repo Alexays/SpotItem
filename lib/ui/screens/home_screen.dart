@@ -140,18 +140,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 new StatefulBuilder(
                     builder: (context, switchSetState) => new SwitchListTile(
                           title: const Text('From your groups'),
-                          value: Services.items.tracks.value
-                              .contains('group'),
+                          value: Services.items.tracks.value.contains('group'),
                           onChanged: (value) {
                             if (value) {
                               Services.items.tracks.value.add('group');
                             } else {
-                              Services.items.tracks.value
-                                  .remove('group');
+                              Services.items.tracks.value.remove('group');
                             }
-                            Services.items.tracks.value =
-                                new List<String>.from(
-                                    Services.items.tracks.value);
+                            Services.items.tracks.value = new List<String>.from(
+                                Services.items.tracks.value);
                             switchSetState(() {});
                           },
                           secondary: const Icon(Icons.lock),
@@ -159,17 +156,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 new StatefulBuilder(
                     builder: (context, switchSetState) => new SwitchListTile(
                           title: const Text('Donated items'),
-                          value: Services.items.tracks.value
-                              .contains('gift'),
+                          value: Services.items.tracks.value.contains('gift'),
                           onChanged: (value) {
                             if (value) {
                               Services.items.tracks.value.add('gift');
                             } else {
                               Services.items.tracks.value.remove('gift');
                             }
-                            Services.items.tracks.value =
-                                new List<String>.from(
-                                    Services.items.tracks.value);
+                            Services.items.tracks.value = new List<String>.from(
+                                Services.items.tracks.value);
                             switchSetState(() {});
                           },
                           secondary: const Icon(Icons.card_giftcard),
@@ -237,7 +232,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return new PreferredSize(
       child: new Column(children: bottom),
       preferredSize: isMain
-          ? const Size.fromHeight(kTextTabBarHeight + 40.0)
+          ? const Size.fromHeight(kTextTabBarHeight + 36.0)
           : const Size.fromHeight(kTextTabBarHeight),
     );
   }
@@ -315,8 +310,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             leading: const Icon(Icons.exit_to_app),
                             title: const Text('Logout'),
                             onTap: () {
-                              Services.auth.logout().then((_) =>
-                                  Navigator.of(context).pushNamedAndRemoveUntil(
+                              Services.auth.logout().then((_) => Navigator
+                                  .of(context)
+                                  .pushNamedAndRemoveUntil(
                                       '/login', (route) => false));
                             })
                       ])))
@@ -337,7 +333,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               _isSearching
                   ? const BackButton()
                   : new IconButton(
-                      iconSize: 26.0,
                       icon: const Icon(Icons.menu),
                       onPressed: () {
                         _scaffoldKey.currentState.openDrawer();
@@ -350,16 +345,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   },
                   key: _searchKey,
                   controller: _searchController,
-                  style: new TextStyle(
-                    height: 1.25,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18.0,
                     fontWeight: FontWeight.w500,
                   ),
-                  decoration: new InputDecoration(
+                  decoration: const InputDecoration(
                       isDense: true,
                       hintText: 'Search...',
-                      hintStyle: new TextStyle(
+                      hintStyle: const TextStyle(
                         color: const Color.fromARGB(150, 255, 255, 255),
                         fontSize: 18.0,
                         fontWeight: FontWeight.w500,

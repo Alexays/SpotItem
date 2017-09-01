@@ -29,7 +29,8 @@ class FilterBar extends StatelessWidget {
       ..add(new Expanded(
         child: new Container(),
       ))
-      ..add(new FlatButton(
+      ..add(new MaterialButton(
+        height: 34.0,
         onPressed: () => onExpandedChanged(!isExpanded),
         textColor: theme.primaryColor,
         child: new Row(
