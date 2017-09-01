@@ -350,7 +350,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   key: _searchKey,
                   controller: _searchController,
                   style: new TextStyle(
-                    height: 1.0,
+                    height: 1.25,
                     color: Colors.white,
                     fontSize: 18.0,
                     fontWeight: FontWeight.w500,
