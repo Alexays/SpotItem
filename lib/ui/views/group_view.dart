@@ -294,10 +294,15 @@ class _GroupPageState extends State<GroupPage>
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           new CircleAvatar(
-                            radius: 30.0,
-                            child: new Text(
-                                '${group.users[index].firstname[0]}${group.users[index].name[0]}'),
-                          ),
+                              radius: 30.0,
+                              backgroundColor: Colors.grey,
+                              backgroundImage: group.users[index].avatar !=
+                                          null &&
+                                      group.users[index].avatar != 'null'
+                                  ? new NetworkImage(group.users[index].avatar)
+                                  : null,
+                              child: new Text(
+                                  '${group.users[index].firstname[0]}${group.users[index].name[0]}')),
                           const Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 4.0)),
