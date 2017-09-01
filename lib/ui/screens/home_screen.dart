@@ -250,7 +250,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             accountEmail: new Text(Services.authManager.user?.email),
             currentAccountPicture: new CircleAvatar(
                 backgroundColor: Colors.grey,
-                backgroundImage: Services.authManager.user?.avatar != 'null'
+                backgroundImage: Services.authManager.user?.avatar != null &&
+                        Services.authManager.user?.avatar != 'null'
                     ? new NetworkImage(Services.authManager.user?.avatar)
                     : null,
                 child: new Text(
