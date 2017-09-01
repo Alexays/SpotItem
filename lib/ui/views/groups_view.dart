@@ -15,8 +15,8 @@ class GroupsView extends StatefulWidget {
 class _GroupsViewState extends State<GroupsView> {
   _GroupsViewState();
 
-  List<Group> _myGroups;
-  List<Group> _myGroupsInv;
+  static List<Group> _myGroups;
+  static List<Group> _myGroupsInv;
 
   @override
   void initState() {
