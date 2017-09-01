@@ -342,7 +342,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         _scaffoldKey.currentState.openDrawer();
                       },
                     ),
-              new Flexible(
+              new Expanded(
                 child: new TextField(
                   onChanged: (data) {
                     if (data.isNotEmpty) {
@@ -369,7 +369,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   keyboardType: TextInputType.text,
                 ),
               ),
-              new Expanded(child: new Container()),
               _isSearching
                   ? const Text('')
                   : new IconButton(
