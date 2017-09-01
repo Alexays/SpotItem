@@ -72,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         final FormState form =
                                             _formKey.currentState;
                                         if (form.validate()) {
-                                          Services.authManager
+                                          Services.auth
                                               .login(_usernameController.text,
                                                   _passwordController.text)
                                               .then((success) {

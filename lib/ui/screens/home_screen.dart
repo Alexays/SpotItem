@@ -127,11 +127,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   child: new ListView.builder(
                       scrollDirection: Axis.horizontal,
                       padding: const EdgeInsets.all(15.0),
-                      itemCount: Services.itemsManager.categories.length,
+                      itemCount: Services.items.categories.length,
                       itemExtent: 75.0,
                       itemBuilder: (context, index) => new FlatButton(
                             child: new Image.asset(
-                                'assets/${Services.itemsManager.categories[index]}.png'),
+                                'assets/${Services.items.categories[index]}.png'),
                             onPressed: () {
                               print('test');
                             },
@@ -140,18 +140,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 new StatefulBuilder(
                     builder: (context, switchSetState) => new SwitchListTile(
                           title: const Text('From your groups'),
-                          value: Services.itemsManager.tracks.value
+                          value: Services.items.tracks.value
                               .contains('group'),
                           onChanged: (value) {
                             if (value) {
-                              Services.itemsManager.tracks.value.add('group');
+                              Services.items.tracks.value.add('group');
                             } else {
-                              Services.itemsManager.tracks.value
+                              Services.items.tracks.value
                                   .remove('group');
                             }
-                            Services.itemsManager.tracks.value =
+                            Services.items.tracks.value =
                                 new List<String>.from(
-                                    Services.itemsManager.tracks.value);
+                                    Services.items.tracks.value);
                             switchSetState(() {});
                           },
                           secondary: const Icon(Icons.lock),
@@ -159,17 +159,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 new StatefulBuilder(
                     builder: (context, switchSetState) => new SwitchListTile(
                           title: const Text('Donated items'),
-                          value: Services.itemsManager.tracks.value
+                          value: Services.items.tracks.value
                               .contains('gift'),
                           onChanged: (value) {
                             if (value) {
-                              Services.itemsManager.tracks.value.add('gift');
+                              Services.items.tracks.value.add('gift');
                             } else {
-                              Services.itemsManager.tracks.value.remove('gift');
+                              Services.items.tracks.value.remove('gift');
                             }
-                            Services.itemsManager.tracks.value =
+                            Services.items.tracks.value =
                                 new List<String>.from(
-                                    Services.itemsManager.tracks.value);
+                                    Services.items.tracks.value);
                             switchSetState(() {});
                           },
                           secondary: const Icon(Icons.card_giftcard),
@@ -246,16 +246,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           child: new ListView(children: <Widget>[
         new UserAccountsDrawerHeader(
             accountName: new Text(
-                '${Services.authManager.user?.firstname} ${Services.authManager.user?.name}'),
-            accountEmail: new Text(Services.authManager.user?.email),
+                '${Services.auth.user?.firstname} ${Services.auth.user?.name}'),
+            accountEmail: new Text(Services.auth.user?.email),
             currentAccountPicture: new CircleAvatar(
                 backgroundColor: Colors.grey,
-                backgroundImage: Services.authManager.user?.avatar != null &&
-                        Services.authManager.user?.avatar != 'null'
-                    ? new NetworkImage(Services.authManager.user?.avatar)
+                backgroundImage: Services.auth.user?.avatar != null &&
+                        Services.auth.user?.avatar != 'null'
+                    ? new NetworkImage(Services.auth.user?.avatar)
                     : null,
                 child: new Text(
-                    '${Services.authManager.user?.firstname[0]}${Services.authManager.user?.name[0]}')),
+                    '${Services.auth.user?.firstname[0]}${Services.auth.user?.name[0]}')),
             otherAccountsPictures: <Widget>[
               new IconButton(
                 icon: const Icon(Icons.settings),
@@ -315,7 +315,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             leading: const Icon(Icons.exit_to_app),
                             title: const Text('Logout'),
                             onTap: () {
-                              Services.authManager.logout().then((_) =>
+                              Services.auth.logout().then((_) =>
                                   Navigator.of(context).pushNamedAndRemoveUntil(
                                       '/login', (route) => false));
                             })
@@ -396,7 +396,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           )
         ];
       }
-      List<Item> search = new List<Item>.from(Services.itemsManager.items);
+      List<Item> search = new List<Item>.from(Services.items.items);
       search = search
           .where((item) => item.name.toLowerCase().contains(_searchQuery))
           .toList();

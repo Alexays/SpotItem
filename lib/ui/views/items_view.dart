@@ -15,8 +15,8 @@ class _ItemsViewState extends State<ItemsView> {
 
   @override
   void initState() {
-    if (Services.authManager.loggedIn)
-      Services.itemsManager.getSelfItems().then((data) {
+    if (Services.auth.loggedIn)
+      Services.items.getSelfItems().then((data) {
         setState(() {
           _myItems = data;
         });

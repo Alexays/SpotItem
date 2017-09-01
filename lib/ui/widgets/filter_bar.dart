@@ -13,7 +13,7 @@ class FilterBar extends StatelessWidget {
 
   List<Widget> _buildBar(ThemeData theme) {
     final List<Widget> toBuild = [];
-    Services.itemsManager.tracks.value.forEach((track) {
+    Services.items.tracks.value.forEach((track) {
       toBuild
         ..add(
             const Padding(padding: const EdgeInsets.symmetric(horizontal: 2.5)))

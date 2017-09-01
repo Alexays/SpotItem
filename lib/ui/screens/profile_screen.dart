@@ -19,7 +19,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
-    Services.authManager.getUser(_userId).then((user) {
+    Services.users.getUser(_userId).then((user) {
       _user = user;
     });
     super.initState();

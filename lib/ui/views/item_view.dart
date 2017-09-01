@@ -117,7 +117,7 @@ class _ItemPageState extends State<ItemPage>
       });
     }
     if (widget.item == null) {
-      Services.itemsManager.getItem(_itemId).then((data) {
+      Services.items.getItem(_itemId).then((data) {
         setState(() {
           item = data;
           if (item != null) {
@@ -138,9 +138,9 @@ class _ItemPageState extends State<ItemPage>
 
   List<Widget> doButton() {
     final List<Widget> top = <Widget>[];
-    if (Services.authManager.loggedIn &&
+    if (Services.auth.loggedIn &&
         item != null &&
-        item.owner.id == Services.authManager.user.id) {
+        item.owner.id == Services.auth.user.id) {
       top
         ..add(new IconButton(
           icon: const Icon(Icons.delete),
@@ -168,9 +168,9 @@ class _ItemPageState extends State<ItemPage>
                   new FlatButton(
                     child: const Text('Delete'),
                     onPressed: () {
-                      Services.itemsManager.deleteItem(item.id).then((resp) {
+                      Services.items.deleteItem(item.id).then((resp) {
                         if (resp['success']) {
-                          Services.itemsManager.getItems(force: true);
+                          Services.items.getItems(force: true);
                           Navigator.of(context).pushNamedAndRemoveUntil(
                               '/home', (route) => false);
                         }

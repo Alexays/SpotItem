@@ -29,8 +29,8 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
   Future<Null> addGroup(BuildContext context) async {
     _formKey.currentState.save();
     final Group group =
-        new Group(null, name, about, null, Services.authManager.user.id);
-    final dynamic response = await Services.authManager.addGroup(group, email);
+        new Group(null, name, about, null, Services.auth.user.id);
+    final dynamic response = await Services.groups.addGroup(group, email);
     showSnackBar(context, response['msg']);
     if (response['success']) {
       await Navigator

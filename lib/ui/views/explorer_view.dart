@@ -19,20 +19,20 @@ class _ExplorerViewState extends State<ExplorerView> {
   @override
   void initState() {
     _loadItems().then((res) {
-      Services.itemsManager.tracks.addListener(getTracks);
+      Services.items.tracks.addListener(getTracks);
     });
     super.initState();
   }
 
   @override
   void dispose() {
-    Services.itemsManager.tracks.removeListener(getTracks);
+    Services.items.tracks.removeListener(getTracks);
     super.dispose();
   }
 
   void getTracks() {
     _items = new List<Item>.from(backup);
-    final List<String> _tracks = Services.itemsManager.tracks.value;
+    final List<String> _tracks = Services.items.tracks.value;
     if (!mounted) {
       return;
     }
@@ -47,8 +47,8 @@ class _ExplorerViewState extends State<ExplorerView> {
   }
 
   Future<Null> _loadItems([bool force = false]) async {
-    final Future<List<Item>> itemsLoaded = Services.itemsManager
-        .getItems(force: force, userId: Services.authManager.user?.id);
+    final Future<List<Item>> itemsLoaded = Services.items
+        .getItems(force: force, userId: Services.auth.user?.id);
     if (itemsLoaded != null) {
       itemsLoaded.then((data) {
         if (!mounted) {

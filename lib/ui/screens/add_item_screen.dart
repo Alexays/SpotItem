@@ -51,7 +51,7 @@ class _AddItemScreenState extends State<AddItemScreen>
       parent: _controller,
       curve: Curves.ease,
     ));
-    Services.authManager.getGroups().then((data) {
+    Services.groups.getGroups().then((data) {
       setState(() {
         _myGroups = data;
         _checked = new List<bool>(_myGroups.length);
@@ -150,15 +150,15 @@ class _AddItemScreenState extends State<AddItemScreen>
     if (private) {
       tracks.add('private');
     }
-    if (Services.authManager.user != null &&
-        Services.authManager.user.id != null &&
-        Services.itemsManager.location != null) {
-      final dynamic response = await Services.itemsManager.addItem(
+    if (Services.auth.user != null &&
+        Services.auth.user.id != null &&
+        Services.items.location != null) {
+      final dynamic response = await Services.items.addItem(
           name,
           about,
-          Services.authManager.user.id,
-          Services.itemsManager.location['latitude'].toString(),
-          Services.itemsManager.location['longitude'].toString(),
+          Services.auth.user.id,
+          Services.items.location['latitude'].toString(),
+          Services.items.location['longitude'].toString(),
           images,
           location,
           tracks,
@@ -166,7 +166,7 @@ class _AddItemScreenState extends State<AddItemScreen>
       Navigator.of(context).pop();
       showSnackBar(context, response['msg']);
       if (response['success']) {
-        await Services.itemsManager.getItems(force: true);
+        await Services.items.getItems(force: true);
         await Navigator
             .of(context)
             .pushNamedAndRemoveUntil('/home', (route) => false);

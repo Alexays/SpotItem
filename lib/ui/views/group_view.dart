@@ -33,7 +33,7 @@ class _GroupPageState extends State<GroupPage>
 
   @override
   void initState() {
-    Services.authManager.getUser(group.owner).then((data) {
+    Services.users.getUser(group.owner).then((data) {
       setState(() {
         owner = data;
       });
@@ -44,7 +44,7 @@ class _GroupPageState extends State<GroupPage>
   }
 
   Future<Null> _leaveGroup() async {
-    final dynamic response = await Services.authManager.leaveGroup(group.id);
+    final dynamic response = await Services.groups.leaveGroup(group.id);
     if (response['success']) {
       await Navigator
           .of(context)
@@ -53,8 +53,7 @@ class _GroupPageState extends State<GroupPage>
   }
 
   Future<Null> _kickUser(String userId) async {
-    final dynamic response =
-        await Services.authManager.kickUser(group.id, userId);
+    final dynamic response = await Services.groups.kickUser(group.id, userId);
     if (response['success']) {
       setState(() {
         group.users = group.users.where((user) => user.id == userId).toList();
@@ -170,9 +169,9 @@ class _GroupPageState extends State<GroupPage>
           );
         },
       ));
-    if (Services.authManager.loggedIn &&
+    if (Services.auth.loggedIn &&
         group != null &&
-        group.owner == Services.authManager.user.id) {
+        group.owner == Services.auth.user.id) {
       top
         ..add(new IconButton(
           icon: const Icon(Icons.delete),
@@ -200,7 +199,7 @@ class _GroupPageState extends State<GroupPage>
                   new FlatButton(
                     child: const Text('Delete'),
                     onPressed: () {
-                      Services.authManager.delGroup(group.id);
+                      Services.groups.delGroup(group.id);
                       Navigator
                           .of(context)
                           .pushNamedAndRemoveUntil('/home', (route) => false);
@@ -257,7 +256,7 @@ class _GroupPageState extends State<GroupPage>
                   onPressed: () {
                     _formKeyEmail.currentState.save();
                     if (_email != null && emailExp.hasMatch(_email)) {
-                      Services.authManager
+                      Services.groups
                           .addUserToGroup(group.id, _email)
                           .then((res) {
                         if (res['success']) {
@@ -309,9 +308,8 @@ class _GroupPageState extends State<GroupPage>
                           new Text(
                               '${group.users[index].firstname} ${group.users[index].name}'),
                           new Expanded(child: new Container()),
-                          group.owner == Services.authManager.user.id &&
-                                  group.users[index].id !=
-                                      Services.authManager.user.id
+                          group.owner == Services.auth.user.id &&
+                                  group.users[index].id != Services.auth.user.id
                               ? new IconButton(
                                   icon: const Icon(Icons.remove_circle_outline),
                                   onPressed: () {

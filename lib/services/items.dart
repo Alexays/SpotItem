@@ -8,10 +8,10 @@ import 'package:http/http.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+import 'package:spotitem/services/basic.dart';
+import 'package:spotitem/services/services.dart';
 
-import 'package:shared_preferences/shared_preferences.dart';
-
-class ItemsManager {
+class ItemsManager extends BasicService {
   final List<String> _categories = [
     'jeux',
     'bebe_jeunesse',
@@ -23,8 +23,6 @@ class ItemsManager {
   ];
 
   List<String> get categories => _categories;
-
-  bool get initialized => _initialized;
 
   List<Item> get items => _items;
 
@@ -41,12 +39,11 @@ class ItemsManager {
 
   Map<String, double> location;
 
-  bool _initialized;
-
   List<Item> _items = <Item>[];
 
   List<Item> _myItems = <Item>[];
 
+  @override
   Future<bool> init() async {
     try {
       final Map<String, double> tmp = await _location.getLocation
@@ -69,7 +66,7 @@ class ItemsManager {
     } on PlatformException {
       print("Can't get location");
     }
-    return _initialized = true;
+    return true;
   }
 
   double getDist(double lat2, double lng2) {
@@ -102,12 +99,10 @@ class ItemsManager {
       String location,
       List<String> tracks,
       List<String> groups) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String token = prefs.getString(keyOauthToken);
     final Client _client = new Client();
     final Response response = await _client.post(
         Uri.encodeFull('$apiUrl/items'),
-        headers: getHeaders(token),
+        headers: getHeaders(Services.auth.oauthToken),
         body: {
           'name': name,
           'about': about,
@@ -176,13 +171,12 @@ class ItemsManager {
       } on PlatformException {
         print("Can't get location");
       }
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String token = prefs.getString(keyOauthToken);
       final Client _client = new Client();
       final Response response = await _client
           .get('$apiUrl${userId != null ? '/items/auth' : '/items'}',
-              headers:
-                  getHeaders(userId != null ? token : 'Basic $_clientSecret'))
+              headers: getHeaders(userId != null
+                  ? Services.auth.oauthToken
+                  : 'Basic $_clientSecret'))
           .whenComplete(_client.close);
       if (response.statusCode == 200) {
         final dynamic itemJson = JSON.decode(response.body);
@@ -219,11 +213,10 @@ class ItemsManager {
   }
 
   Future<List<Item>> getSelfItems() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String token = prefs.getString(keyOauthToken);
     final Client _client = new Client();
     final Response response = await _client
-        .get('$apiUrl/items/user', headers: getHeaders(token))
+        .get('$apiUrl/items/user',
+            headers: getHeaders(Services.auth.oauthToken))
         .whenComplete(_client.close);
     if (response.statusCode == 200) {
       final dynamic itemJson = JSON.decode(response.body);

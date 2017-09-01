@@ -22,8 +22,8 @@ class _DiscoverViewState extends State<DiscoverView> {
   }
 
   Future<Null> _loadItems([bool force = false]) async {
-    final Future<List<Item>> itemsLoaded = Services.itemsManager
-        .getItems(force: force, userId: Services.authManager.user?.id);
+    final Future<List<Item>> itemsLoaded = Services.items
+        .getItems(force: force, userId: Services.auth.user?.id);
     if (itemsLoaded == null) {
       return;
     }

@@ -25,7 +25,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
 
   @override
   void initState() {
-    final User tmp = Services.authManager.user;
+    final User tmp = Services.auth.user;
     user = new User(
         tmp.id, tmp.name, tmp.email, tmp.firstname, tmp.avatar, tmp.groups);
     _name = new TextEditingController(text: user.firstname);
@@ -41,8 +41,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
           new SnackBar(content: const Text('Password don\t match !')));
       return false;
     }
-    final dynamic response =
-        await Services.authManager.updateUser(user, password);
+    final dynamic response = await Services.users.updateUser(user, password);
     Scaffold
         .of(context)
         .showSnackBar(new SnackBar(content: new Text(response['msg'])));

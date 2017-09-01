@@ -27,7 +27,7 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
 
   @override
   void initState() {
-    Services.authManager.getGroup(_groupId).then((data) {
+    Services.groups.getGroup(_groupId).then((data) {
       setState(() {
         _group = new Group.fromJson(data);
         nameCtrl = new TextEditingController.fromValue(
@@ -41,7 +41,7 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
 
   Future<Null> editGroup(BuildContext context) async {
     _formKey.currentState.save();
-    final dynamic response = await Services.authManager.editGroup(_group);
+    final dynamic response = await Services.groups.editGroup(_group);
     showSnackBar(context, response['msg']);
     if (response['success']) {
       await Navigator

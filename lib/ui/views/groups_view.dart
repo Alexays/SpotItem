@@ -25,15 +25,13 @@ class _GroupsViewState extends State<GroupsView> {
   }
 
   void _loadGroups() {
-    if (Services.authManager.loggedIn) {
-      Services.authManager.getGroups().then((data) {
+    if (Services.auth.loggedIn) {
+      Services.groups.getGroups().then((data) {
         setState(() {
           _myGroups = data;
         });
       });
-      Services.authManager
-          .getGroupsInv(Services.authManager.user.id)
-          .then((data) {
+      Services.groups.getGroupsInv(Services.auth.user.id).then((data) {
         setState(() {
           _myGroupsInv = data;
         });
@@ -43,7 +41,7 @@ class _GroupsViewState extends State<GroupsView> {
 
   Future<Null> _joinGroup(int index) async {
     final dynamic response =
-        await Services.authManager.joinGroup(_myGroupsInv[index].id);
+        await Services.groups.joinGroup(_myGroupsInv[index].id);
     if (response['success']) {
       _loadGroups();
     }

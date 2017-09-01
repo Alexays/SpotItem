@@ -51,7 +51,7 @@ class _EditItemScreenState extends State<EditItemScreen>
 
   @override
   void initState() {
-    Services.itemsManager.getItem(_itemId).then((data) {
+    Services.items.getItem(_itemId).then((data) {
       setState(() {
         item = data;
         if (item != null) {
@@ -67,7 +67,7 @@ class _EditItemScreenState extends State<EditItemScreen>
         }
       });
     });
-    Services.authManager.getGroups().then((data) {
+    Services.groups.getGroups().then((data) {
       setState(() {
         _myGroups = data;
         _checked = new List<bool>.generate(_myGroups.length, (index) {
@@ -217,15 +217,14 @@ class _EditItemScreenState extends State<EditItemScreen>
     }
     item.images.forEach((f) => finalImages.add(f));
     images.forEach((f) => finalImages.add(f));
-    if (Services.authManager.user != null &&
-        Services.authManager.user.id != null) {
-      final dynamic response = await Services.itemsManager.editItem(
+    if (Services.auth.user != null && Services.auth.user.id != null) {
+      final dynamic response = await Services.items.editItem(
           item.id,
           name,
           about,
-          Services.authManager.user.id,
-          Services.itemsManager.location['latitude'].toString(),
-          Services.itemsManager.location['longitude'].toString(),
+          Services.auth.user.id,
+          Services.items.location['latitude'].toString(),
+          Services.items.location['longitude'].toString(),
           finalImages,
           location,
           tracks,
@@ -233,7 +232,7 @@ class _EditItemScreenState extends State<EditItemScreen>
       Navigator.of(context).pop();
       showSnackBar(context, response['msg']);
       if (response['success']) {
-        await Services.itemsManager.getItems(force: true);
+        await Services.items.getItems(force: true);
         await Navigator
             .of(context)
             .pushNamedAndRemoveUntil('/home', (route) => false);
