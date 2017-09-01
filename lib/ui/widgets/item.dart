@@ -29,10 +29,10 @@ class ItemsListItem extends StatelessWidget {
               new Hero(
                   tag: '${item.id}_img_$hash',
                   child: new FadeInImage(
-                      placeholder: const AssetImage('assets/placeholder.png'),
-                      image: new NetworkImage('$apiImgUrl${item.images.first}'),
-                      fit: BoxFit.cover,
-                      alignment: FractionalOffset.center)),
+                    placeholder: const AssetImage('assets/placeholder.png'),
+                    image: new NetworkImage('$apiImgUrl${item.images.first}'),
+                    fit: BoxFit.cover,
+                  )),
               // new Positioned(
               //   top: 15.0,
               //   right: 15.0,

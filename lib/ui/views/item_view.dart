@@ -266,13 +266,12 @@ class _ItemPageState extends State<ItemPage>
                                         child: new Hero(
                                             tag: '${item.id}_img_$hash',
                                             child: new FadeInImage(
-                                                placeholder: const AssetImage(
-                                                    'assets/placeholder.png'),
-                                                image: new NetworkImage(
-                                                    '$apiImgUrl${item.images[index]}'),
-                                                fit: BoxFit.cover,
-                                                alignment:
-                                                    FractionalOffset.center)));
+                                              placeholder: const AssetImage(
+                                                  'assets/placeholder.png'),
+                                              image: new NetworkImage(
+                                                  '$apiImgUrl${item.images[index]}'),
+                                              fit: BoxFit.cover,
+                                            )));
                                   } else {
                                     return new FadeInImage(
                                         placeholder: const AssetImage(

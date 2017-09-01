@@ -14,24 +14,16 @@ class FilterBar extends StatelessWidget {
   List<Widget> _buildBar(ThemeData theme) {
     final List<Widget> toBuild = [];
     Services.itemsManager.tracks.value.forEach((track) {
-      toBuild.add(
-        new Container(
-            margin: const EdgeInsets.symmetric(horizontal: 2.5),
-            decoration: new BoxDecoration(
-              color: theme.primaryColor,
-              borderRadius: new BorderRadius.circular(16.0),
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 3.0),
-            child: new Row(children: <Widget>[
-              getIcon(track, theme.canvasColor),
-              const Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 2.5)),
-              new Text(
-                capitalize(track),
-                style: theme.primaryTextTheme.button,
-              )
-            ])),
-      );
+      toBuild
+        ..add(
+            const Padding(padding: const EdgeInsets.symmetric(horizontal: 2.5)))
+        ..add(new Chip(
+          avatar: new CircleAvatar(
+            backgroundColor: theme.primaryColor,
+            child: getIcon(track, theme.canvasColor),
+          ),
+          label: new Text(capitalize(track)),
+        ));
     });
     toBuild
       ..add(new Expanded(
