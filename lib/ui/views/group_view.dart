@@ -281,62 +281,69 @@ class _GroupPageState extends State<GroupPage>
           itemCount: group.users.length,
           itemBuilder: (context, index) => new GestureDetector(
               onTap: () {},
-              child: new Container(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: new Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      new CircleAvatar(
-                        radius: 30.0,
-                        child: new Text(
-                            '${group.users[index].firstname[0]}${group.users[index].name[0]}'),
-                      ),
-                      const Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 4.0)),
-                      new Text(
-                          '${group.users[index].firstname} ${group.users[index].name}'),
-                      new Expanded(child: new Container()),
-                      group.owner == Services.authManager.user.id &&
-                              group.users[index].id !=
-                                  Services.authManager.user.id
-                          ? new IconButton(
-                              icon: const Icon(Icons.remove_circle_outline),
-                              onPressed: () {
-                                showDialog<Null>(
-                                  context: context,
-                                  barrierDismissible: false,
-                                  child: new AlertDialog(
-                                    title: const Text('Kick confirmation'),
-                                    content: new SingleChildScrollView(
-                                      child: new ListBody(
-                                        children: <Widget>[
-                                          new Text(
-                                              'Are you sure to kick ${group.users[index].firstname} ${group.users[index].name} ?'),
+              child: new GestureDetector(
+                  onTap: () {
+                    Navigator
+                        .of(context)
+                        .pushNamed('/user/${group.users[index].id}');
+                  },
+                  child: new Container(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: new Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          new CircleAvatar(
+                            radius: 30.0,
+                            child: new Text(
+                                '${group.users[index].firstname[0]}${group.users[index].name[0]}'),
+                          ),
+                          const Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 4.0)),
+                          new Text(
+                              '${group.users[index].firstname} ${group.users[index].name}'),
+                          new Expanded(child: new Container()),
+                          group.owner == Services.authManager.user.id &&
+                                  group.users[index].id !=
+                                      Services.authManager.user.id
+                              ? new IconButton(
+                                  icon: const Icon(Icons.remove_circle_outline),
+                                  onPressed: () {
+                                    showDialog<Null>(
+                                      context: context,
+                                      barrierDismissible: false,
+                                      child: new AlertDialog(
+                                        title: const Text('Kick confirmation'),
+                                        content: new SingleChildScrollView(
+                                          child: new ListBody(
+                                            children: <Widget>[
+                                              new Text(
+                                                  'Are you sure to kick ${group.users[index].firstname} ${group.users[index].name} ?'),
+                                            ],
+                                          ),
+                                        ),
+                                        actions: <Widget>[
+                                          new FlatButton(
+                                            child: const Text('Cancel'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                          new FlatButton(
+                                            child: const Text('Kick'),
+                                            onPressed: () {
+                                              _kickUser(group.users[index].id);
+                                            },
+                                          ),
                                         ],
                                       ),
-                                    ),
-                                    actions: <Widget>[
-                                      new FlatButton(
-                                        child: const Text('Cancel'),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                      new FlatButton(
-                                        child: const Text('Kick'),
-                                        onPressed: () {
-                                          _kickUser(group.users[index].id);
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            )
-                          : new Container()
-                    ],
-                  )))));
+                                    );
+                                  },
+                                )
+                              : new Container()
+                        ],
+                      ))))));
 
   @override
   Widget build(BuildContext context) => new Scaffold(

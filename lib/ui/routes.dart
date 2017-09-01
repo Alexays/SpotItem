@@ -3,6 +3,7 @@ import 'package:spotitem/ui/screens/login_screen.dart';
 import 'package:spotitem/ui/screens/register_screen.dart';
 import 'package:spotitem/ui/screens/add_item_screen.dart';
 import 'package:spotitem/ui/screens/edit_item_screen.dart';
+import 'package:spotitem/ui/screens/profile_screen.dart';
 import 'package:spotitem/ui/screens/edit_user_screen.dart';
 import 'package:spotitem/ui/screens/add_group_screen.dart';
 import 'package:spotitem/ui/screens/edit_group_screen.dart';
@@ -20,6 +21,9 @@ Router configureRouter(Router router) {
     ..define('/home',
         handler:
             new Handler(handlerFunc: (context, params) => const HomeScreen()))
+    ..define('/user/:id',
+        handler: new Handler(
+            handlerFunc: (context, params) => new ProfileScreen(params['id'])))
     ..define('/user/edit',
         handler: new Handler(
             handlerFunc: (context, params) => const EditUserScreen()))
