@@ -22,8 +22,8 @@ class _DiscoverViewState extends State<DiscoverView> {
   }
 
   Future<Null> _loadItems([bool force = false]) async {
-    final Future<List<Item>> itemsLoaded = Services.items
-        .getItems(force: force, userId: Services.auth.user?.id);
+    final Future<List<Item>> itemsLoaded =
+        Services.items.getItems(force: force, userId: Services.auth.user?.id);
     if (itemsLoaded == null) {
       return;
     }
@@ -53,7 +53,7 @@ class _DiscoverViewState extends State<DiscoverView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 const Padding(
-                  padding: const EdgeInsets.only(left: 10.0, top: 10.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: const Text(
                     'Recents items',
                     style: const TextStyle(
@@ -80,7 +80,7 @@ class _DiscoverViewState extends State<DiscoverView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 const Padding(
-                  padding: const EdgeInsets.only(left: 10.0, top: 10.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: const Text(
                     'From your groups',
                     style: const TextStyle(
