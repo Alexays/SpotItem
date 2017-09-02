@@ -43,6 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 autofocus: true,
                                 controller: _usernameController,
                                 validator: validateEmail,
+                                keyboardType: TextInputType.emailAddress,
                               ),
                               new TextFormField(
                                 decoration:

@@ -94,6 +94,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                               new TextFormField(
                                 controller: _email,
+                                keyboardType: TextInputType.emailAddress,
                                 decoration: const InputDecoration(
                                   labelText: 'Email',
                                   hintText: 'Enter your email',
