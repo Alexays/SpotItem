@@ -230,11 +230,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       ));
     }
     return new PreferredSize(
-      child: new Column(children: bottom),
-      preferredSize: isMain
-          ? const Size.fromHeight(kTextTabBarHeight + 34.0)
-          : const Size.fromHeight(kTextTabBarHeight),
-    );
+        child: new Column(children: bottom),
+        preferredSize:
+            new Size.fromHeight(kTextTabBarHeight + (isMain ? 34.0 : 0)));
   }
 
   Widget _buildDrawer(BuildContext context) => new Drawer(
