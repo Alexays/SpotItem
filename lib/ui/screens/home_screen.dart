@@ -42,12 +42,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   static const Widget discover = const DiscoverView();
   static const Widget explore = const ExplorerView();
   bool _filterAvailable = false;
-  TabController _tab;
 
   @override
   void initState() {
     _homeScreenItems = <HomeScreenItem>[
       new HomeScreenItem(
+        parent: this,
         icon: const Icon(Icons.explore),
         title: 'Explorer',
         sub: <HomeScreenSubItem>[
@@ -56,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ],
       ),
       new HomeScreenItem(
+          parent: this,
           icon: const Icon(Icons.work),
           title: 'Items',
           content: const ItemsView(),
@@ -66,11 +67,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 Navigator.of(context).pushNamed('/item/add');
               })),
       new HomeScreenItem(
+        parent: this,
         icon: const Icon(Icons.map),
         title: 'Maps',
         content: const MapView(),
       ),
       new HomeScreenItem(
+          parent: this,
           icon: const Icon(Icons.nature_people),
           title: 'Social',
           sub: <HomeScreenSubItem>[
@@ -99,9 +102,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void dispose() {
     _controller.dispose();
     _searchController.dispose();
-    if (_tab != null) {
-      _tab.dispose();
-    }
     super.dispose();
   }
 
@@ -213,6 +213,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       return null;
     }
     final List<Widget> bottom = []..add(new TabBar(
+        controller: _homeScreenItems[_currentIndex].tab,
         indicatorColor: Colors.white,
         indicatorWeight: 4.0,
         tabs: new List<Tab>.generate(
@@ -341,91 +342,85 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       return;
     }
     setState(() {
-      _filterAvailable = (_currentIndex == 0 && _tab.index == 1);
+      _filterAvailable = (_currentIndex == 0 &&
+          _homeScreenItems[_currentIndex].tab.index == 1);
     });
   }
 
   Widget _buildAppBar() {
-    return new Builder(
-      builder: (context) {
-        if (_currentIndex == 0)
-          _tab = DefaultTabController.of(context)..addListener(_checkFilter);
-        else if (_tab != null) {
-          _tab.removeListener(_checkFilter);
-          _tab = null;
-        }
-        return new SliverAppBar(
-          pinned: true,
-          automaticallyImplyLeading: false,
-          floating:
-              _homeScreenItems[_currentIndex].sub != null && !_isSearching,
-          title: new Container(
-              decoration: new BoxDecoration(
-                  color: Theme.of(context).accentColor,
-                  borderRadius:
-                      const BorderRadius.all(const Radius.circular(3.0))),
-              margin: const EdgeInsets.symmetric(vertical: 5.0),
-              child: new Row(children: <Widget>[
-                _isSearching
-                    ? const BackButton()
-                    : new IconButton(
-                        icon: const Icon(Icons.menu),
-                        onPressed: () {
-                          _scaffoldKey.currentState.openDrawer();
-                        },
-                      ),
-                new Expanded(
-                  child: new TextField(
-                    onSubmitted: (data) {
-                      _handleSearchBegin();
+    if (_currentIndex == 0)
+      _homeScreenItems[_currentIndex].tab.addListener(_checkFilter);
+    else {
+      _homeScreenItems[_currentIndex].tab.removeListener(_checkFilter);
+    }
+    return new SliverAppBar(
+      pinned: true,
+      automaticallyImplyLeading: false,
+      floating: _homeScreenItems[_currentIndex].sub != null && !_isSearching,
+      title: new Container(
+          decoration: new BoxDecoration(
+              color: Theme.of(context).accentColor,
+              borderRadius: const BorderRadius.all(const Radius.circular(3.0))),
+          margin: const EdgeInsets.symmetric(vertical: 5.0),
+          child: new Row(children: <Widget>[
+            _isSearching
+                ? const BackButton()
+                : new IconButton(
+                    icon: const Icon(Icons.menu),
+                    onPressed: () {
+                      _scaffoldKey.currentState.openDrawer();
                     },
-                    key: _searchKey,
-                    controller: _searchController,
-                    style: const TextStyle(
-                      color: Colors.white,
+                  ),
+            new Expanded(
+              child: new TextField(
+                onSubmitted: (data) {
+                  _handleSearchBegin();
+                },
+                key: _searchKey,
+                controller: _searchController,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w500,
+                ),
+                decoration: const InputDecoration(
+                    isDense: true,
+                    hintText: 'Search...',
+                    hintStyle: const TextStyle(
+                      color: const Color.fromARGB(150, 255, 255, 255),
                       fontSize: 18.0,
                       fontWeight: FontWeight.w500,
                     ),
-                    decoration: const InputDecoration(
-                        isDense: true,
-                        hintText: 'Search...',
-                        hintStyle: const TextStyle(
-                          color: const Color.fromARGB(150, 255, 255, 255),
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        hideDivider: true),
-                    keyboardType: TextInputType.text,
-                  ),
-                ),
-                _filterAvailable || _isSearching
-                    ? new Container(
-                        child: new FilterBar(
-                        onExpandedChanged: (value) async {
-                          setState(() {
-                            if (value) {
-                              _isExpanded = true;
-                              _showFilter();
-                            } else if (!value) {
-                              _isExpanded = false;
-                            }
-                          });
-                        },
-                        isExpanded: _isExpanded,
-                      ))
-                    : new Container(),
-                _isSearching
-                    ? const Text('')
-                    : new IconButton(
-                        icon: const Icon(Icons.search),
-                        onPressed: () {
-                          _handleSearchBegin();
-                        },
-                      )
-              ])),
-          bottom: _isSearching ? null : _buildBottom(),
-        );
-      },
+                    hideDivider: true),
+                keyboardType: TextInputType.text,
+              ),
+            ),
+            _filterAvailable || _isSearching
+                ? new Container(
+                    child: new FilterBar(
+                    onExpandedChanged: (value) async {
+                      setState(() {
+                        if (value) {
+                          _isExpanded = true;
+                          _showFilter();
+                        } else if (!value) {
+                          _isExpanded = false;
+                        }
+                      });
+                    },
+                    isExpanded: _isExpanded,
+                  ))
+                : new Container(),
+            _isSearching
+                ? const Text('')
+                : new IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: () {
+                      _handleSearchBegin();
+                    },
+                  )
+          ])),
+      bottom: _isSearching ? null : _buildBottom(),
     );
   }
 
@@ -465,13 +460,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           key: _scaffoldKey,
           drawer: _buildDrawer(context),
           floatingActionButton: _buildFab(),
-          body: new DefaultTabController(
-              key: new Key(cur.title),
-              length: cur.sub?.length ?? 1,
-              child: new NestedScrollView(
-                  headerSliverBuilder: (context, innerBoxIsScrolled) =>
-                      <Widget>[_buildAppBar()],
-                  body: new TabBarView(children: _buildChild()))),
+          body: new NestedScrollView(
+              headerSliverBuilder: (context, innerBoxIsScrolled) =>
+                  <Widget>[_buildAppBar()],
+              body: new TabBarView(
+                  key: new Key(cur.title),
+                  controller: cur.tab,
+                  children: _buildChild())),
           bottomNavigationBar: _isSearching
               ? null
               : new BottomNavigationBar(
@@ -497,13 +492,22 @@ class HomeScreenItem {
   final List<HomeScreenSubItem> sub;
   final FloatingActionButton fab;
   final String title;
+  final TabController tab;
 
-  HomeScreenItem({Widget icon, this.title, Widget content, this.sub, this.fab})
+  HomeScreenItem(
+      {_HomeScreenState parent,
+      Widget icon,
+      this.title,
+      Widget content,
+      this.sub,
+      this.fab})
       : item = new BottomNavigationBarItem(icon: icon, title: new Text(title)),
         content = sub != null
             ? new List<Widget>.generate(
                 sub.length, (index) => sub[index].content)
-            : <Widget>[content];
+            : <Widget>[content],
+        tab = new TabController(
+            vsync: parent, length: sub != null ? sub.length : 1);
 }
 
 class HomeScreenSubItem {
