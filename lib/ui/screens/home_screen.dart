@@ -212,18 +212,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     if (_homeScreenItems[_currentIndex].sub == null) {
       return null;
     }
-    final List<Widget> bottom = []..add(new TabBar(
-        controller: _homeScreenItems[_currentIndex].tab,
-        indicatorColor: Colors.white,
-        indicatorWeight: 4.0,
-        tabs: new List<Tab>.generate(
-            _homeScreenItems[_currentIndex].sub?.length,
-            (index) => new Tab(
-                text: _homeScreenItems[_currentIndex].sub[index].title)),
-      ));
-    return new PreferredSize(
-        child: new Column(children: bottom),
-        preferredSize: const Size.fromHeight(kTextTabBarHeight));
+    return new TabBar(
+      controller: _homeScreenItems[_currentIndex].tab,
+      indicatorColor: Colors.white,
+      indicatorWeight: 4.0,
+      tabs: new List<Tab>.generate(
+          _homeScreenItems[_currentIndex].sub?.length,
+          (index) =>
+              new Tab(text: _homeScreenItems[_currentIndex].sub[index].title)),
+    );
   }
 
   Widget _buildDrawer(BuildContext context) => new Drawer(
