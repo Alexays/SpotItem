@@ -341,11 +341,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       return;
     }
     setState(() {
-      if (_currentIndex == 0 && _tab.index == 1) {
-        _filterAvailable = true;
-      } else {
-        _filterAvailable = false;
-      }
+      _filterAvailable = (_currentIndex == 0 && _tab.index == 1);
     });
   }
 
