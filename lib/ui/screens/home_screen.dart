@@ -389,8 +389,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ];
       }
       List<Item> search = new List<Item>.from(Services.items.items);
+      final _searchWord =
+          _searchQuery.split(' ').where((f) => f.trim().isNotEmpty);
       search = search
-          .where((item) => item.name.toLowerCase().contains(_searchQuery))
+          .where((item) =>
+              _searchWord.any((f) => item.name.toLowerCase().contains(f)))
           .toList();
       return [new ItemsList(search, 'search')];
     }
@@ -400,28 +403,34 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final cur = _homeScreenItems[_currentIndex];
-    return new Scaffold(
-        key: _scaffoldKey,
-        drawer: _buildDrawer(context),
-        floatingActionButton: _buildFab(),
-        body: new DefaultTabController(
-            key: new Key(cur.title),
-            length: cur.sub?.length ?? 1,
-            child: new NestedScrollView(
-                headerSliverBuilder: (context, innerBoxIsScrolled) =>
-                    <Widget>[_buildAppBar()],
-                body: new TabBarView(children: _buildChild()))),
-        bottomNavigationBar: _isSearching
-            ? null
-            : new BottomNavigationBar(
-                currentIndex: _currentIndex,
-                items: _homeScreenItems.map((data) => data.item).toList(),
-                onTap: (index) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                },
-              ));
+    return new Stack(fit: StackFit.expand, children: <Widget>[
+      new Scaffold(
+          key: _scaffoldKey,
+          drawer: _buildDrawer(context),
+          floatingActionButton: _buildFab(),
+          body: new DefaultTabController(
+              key: new Key(cur.title),
+              length: cur.sub?.length ?? 1,
+              child: new NestedScrollView(
+                  headerSliverBuilder: (context, innerBoxIsScrolled) =>
+                      <Widget>[_buildAppBar()],
+                  body: new TabBarView(children: _buildChild()))),
+          bottomNavigationBar: _isSearching
+              ? null
+              : new BottomNavigationBar(
+                  currentIndex: _currentIndex,
+                  items: _homeScreenItems.map((data) => data.item).toList(),
+                  onTap: (index) {
+                    setState(() {
+                      _currentIndex = index;
+                    });
+                  },
+                )),
+      const Banner(
+        message: 'Beta test',
+        location: BannerLocation.topRight,
+      ),
+    ]);
   }
 }
 
