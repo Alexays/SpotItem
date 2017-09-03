@@ -52,7 +52,7 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-        appBar: new AppBar(title: const Text('Add Group'), actions: <Widget>[
+        appBar: new AppBar(title: const Text('Edit Group'), actions: <Widget>[
           new Builder(
               builder: (context) => new IconButton(
                   icon: new Column(children: <Widget>[
@@ -78,7 +78,8 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
                                     new TextFormField(
                                         key: const Key('name'),
                                         decoration: const InputDecoration(
-                                            hintText: 'Name'),
+                                            hintText: 'Enter name',
+                                            labelText: 'Name'),
                                         controller: nameCtrl,
                                         onSaved: (value) {
                                           _group.name = value.trim();
@@ -86,7 +87,8 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
                                     new TextFormField(
                                         key: const Key('about'),
                                         decoration: const InputDecoration(
-                                            hintText: 'Description'),
+                                            hintText: 'Enter description',
+                                            labelText: 'Description'),
                                         controller: aboutCtrl,
                                         onSaved: (value) {
                                           _group.about = value.trim();

@@ -108,15 +108,17 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                               child: new Column(children: <Widget>[
                                 new TextFormField(
                                     key: const Key('name'),
-                                    decoration:
-                                        const InputDecoration(hintText: 'Name'),
+                                    decoration: const InputDecoration(
+                                        hintText: 'Enter name',
+                                        labelText: 'Name'),
                                     onSaved: (value) {
                                       name = value.trim();
                                     }),
                                 new TextFormField(
                                     key: const Key('about'),
                                     decoration: const InputDecoration(
-                                        hintText: 'Description'),
+                                        hintText: 'Enter description',
+                                        labelText: 'Description'),
                                     onSaved: (value) {
                                       about = value.trim();
                                     }),
