@@ -402,7 +402,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     keyboardType: TextInputType.text,
                   ),
                 ),
-                _filterAvailable
+                _filterAvailable || _isSearching
                     ? new Container(
                         child: new FilterBar(
                         onExpandedChanged: (value) async {
