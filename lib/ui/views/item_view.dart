@@ -310,6 +310,12 @@ class _ItemPageState extends State<ItemPage>
                         children: <Widget>[
                           new _ListItem(
                             lines: <String>[
+                              capitalize(item.name),
+                              'Name',
+                            ],
+                          ),
+                          new _ListItem(
+                            lines: <String>[
                               item.about,
                               'About',
                             ],
