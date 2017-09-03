@@ -6,6 +6,8 @@ import 'package:spotitem/ui/views/discover_view.dart';
 import 'package:spotitem/ui/views/map_view.dart';
 import 'package:spotitem/ui/views/items_view.dart';
 import 'package:spotitem/ui/views/groups_view.dart';
+import 'package:spotitem/utils.dart';
+import 'package:spotitem/keys.dart';
 import 'package:spotitem/models/item.dart';
 import 'package:flutter/material.dart';
 
@@ -288,7 +290,36 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           debugDumpApp();
                           debugDumpRenderTree();
                           debugDumpLayerTree();
-                        })
+                        }),
+                    new AboutListTile(
+                        icon: const Icon(Icons.info),
+                        applicationVersion: version,
+                        applicationIcon: const Icon(Icons.info),
+                        applicationLegalese: '© 2017 Alexis Rouillard',
+                        aboutBoxChildren: <Widget>[
+                          new Padding(
+                              padding: const EdgeInsets.only(top: 24.0),
+                              child: new RichText(
+                                  text: new TextSpan(children: <TextSpan>[
+                                new TextSpan(
+                                    style: Theme.of(context).textTheme.body2,
+                                    text:
+                                        'Spotitem est un outil de pret de matériels/biens entre amis.\n'
+                                        'En savoir plus a propos de Spotitem sur '),
+                                new LinkTextSpan(
+                                    style: Theme
+                                        .of(context)
+                                        .textTheme
+                                        .body2
+                                        .copyWith(
+                                            color:
+                                                Theme.of(context).accentColor),
+                                    url: 'https://spotitem.fr'),
+                                new TextSpan(
+                                    style: Theme.of(context).textTheme.body2,
+                                    text: '.')
+                              ])))
+                        ])
                   ])),
           new SlideTransition(
               position: _drawerDetailsPosition,
