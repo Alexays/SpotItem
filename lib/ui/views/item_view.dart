@@ -251,7 +251,6 @@ class _ItemPageState extends State<ItemPage>
                           capitalize(item.name),
                           overflow: TextOverflow.ellipsis,
                         ),
-                        centerTitle: false,
                         background: new Stack(
                           alignment: FractionalOffset.center,
                           fit: StackFit.expand,
@@ -266,20 +265,17 @@ class _ItemPageState extends State<ItemPage>
                                         child: new Hero(
                                             tag: '${item.id}_img_$hash',
                                             child: new FadeInImage(
-                                              placeholder: const AssetImage(
-                                                  'assets/placeholder.png'),
+                                              placeholder: placeholder,
                                               image: new NetworkImage(
                                                   '$apiImgUrl${item.images[index]}'),
                                               fit: BoxFit.cover,
                                             )));
                                   } else {
                                     return new FadeInImage(
-                                        placeholder: const AssetImage(
-                                            'assets/placeholder.png'),
+                                        placeholder: placeholder,
                                         image: new NetworkImage(
                                             '$apiImgUrl${item.images[index]}'),
-                                        fit: BoxFit.cover,
-                                        alignment: FractionalOffset.center);
+                                        fit: BoxFit.cover);
                                   }
                                 })),
 

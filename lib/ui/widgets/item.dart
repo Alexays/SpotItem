@@ -29,7 +29,7 @@ class ItemsListItem extends StatelessWidget {
               new Hero(
                   tag: '${item.id}_img_$hash',
                   child: new FadeInImage(
-                    placeholder: const AssetImage('assets/placeholder.png'),
+                    placeholder: placeholder,
                     image: new NetworkImage('$apiImgUrl${item.images.first}'),
                     fit: BoxFit.cover,
                   )),
