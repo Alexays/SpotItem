@@ -41,6 +41,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   //Explore
   static const Widget discover = const DiscoverView();
   static const Widget explore = const ExplorerView();
+  bool _filterAvailable = false;
+  TabController _tab;
 
   @override
   void initState() {
@@ -97,6 +99,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void dispose() {
     _controller.dispose();
     _searchController.dispose();
+    if (_tab != null) {
+      _tab.dispose();
+    }
     super.dispose();
   }
 
@@ -331,76 +336,102 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ]))
       ]));
 
-  SliverAppBar _buildAppBar() => new SliverAppBar(
-        pinned: true,
-        automaticallyImplyLeading: false,
-        floating: _homeScreenItems[_currentIndex].sub != null && !_isSearching,
-        title: new Container(
-            decoration: new BoxDecoration(
-                color: Theme.of(context).accentColor,
-                borderRadius:
-                    const BorderRadius.all(const Radius.circular(3.0))),
-            margin: const EdgeInsets.symmetric(vertical: 5.0),
-            child: new Row(children: <Widget>[
-              _isSearching
-                  ? const BackButton()
-                  : new IconButton(
-                      icon: const Icon(Icons.menu),
-                      onPressed: () {
-                        _scaffoldKey.currentState.openDrawer();
-                      },
-                    ),
-              new Expanded(
-                child: new TextField(
-                  onSubmitted: (data) {
-                    _handleSearchBegin();
-                  },
-                  key: _searchKey,
-                  controller: _searchController,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  decoration: const InputDecoration(
-                      isDense: true,
-                      hintText: 'Search...',
-                      hintStyle: const TextStyle(
-                        color: const Color.fromARGB(150, 255, 255, 255),
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w500,
+  void _checkFilter() {
+    if (!mounted) {
+      return;
+    }
+    setState(() {
+      if (_currentIndex == 0 && _tab.index == 1) {
+        _filterAvailable = true;
+      } else {
+        _filterAvailable = false;
+      }
+    });
+  }
+
+  Widget _buildAppBar() {
+    return new Builder(
+      builder: (context) {
+        if (_currentIndex == 0)
+          _tab = DefaultTabController.of(context)..addListener(_checkFilter);
+        else if (_tab != null) {
+          _tab.removeListener(_checkFilter);
+          _tab = null;
+        }
+        return new SliverAppBar(
+          pinned: true,
+          automaticallyImplyLeading: false,
+          floating:
+              _homeScreenItems[_currentIndex].sub != null && !_isSearching,
+          title: new Container(
+              decoration: new BoxDecoration(
+                  color: Theme.of(context).accentColor,
+                  borderRadius:
+                      const BorderRadius.all(const Radius.circular(3.0))),
+              margin: const EdgeInsets.symmetric(vertical: 5.0),
+              child: new Row(children: <Widget>[
+                _isSearching
+                    ? const BackButton()
+                    : new IconButton(
+                        icon: const Icon(Icons.menu),
+                        onPressed: () {
+                          _scaffoldKey.currentState.openDrawer();
+                        },
                       ),
-                      hideDivider: true),
-                  keyboardType: TextInputType.text,
+                new Expanded(
+                  child: new TextField(
+                    onSubmitted: (data) {
+                      _handleSearchBegin();
+                    },
+                    key: _searchKey,
+                    controller: _searchController,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    decoration: const InputDecoration(
+                        isDense: true,
+                        hintText: 'Search...',
+                        hintStyle: const TextStyle(
+                          color: const Color.fromARGB(150, 255, 255, 255),
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        hideDivider: true),
+                    keyboardType: TextInputType.text,
+                  ),
                 ),
-              ),
-              _currentIndex == 0
-                  ? new Container(
-                      child: new FilterBar(
-                      onExpandedChanged: (value) async {
-                        setState(() {
-                          if (value) {
-                            _isExpanded = true;
-                            _showFilter();
-                          } else if (!value) {
-                            _isExpanded = false;
-                          }
-                        });
-                      },
-                      isExpanded: _isExpanded,
-                    ))
-                  : new Container(),
-              _isSearching
-                  ? const Text('')
-                  : new IconButton(
-                      icon: const Icon(Icons.search),
-                      onPressed: () {
-                        _handleSearchBegin();
-                      },
-                    )
-            ])),
-        bottom: _isSearching ? null : _buildBottom(),
-      );
+                _filterAvailable
+                    ? new Container(
+                        child: new FilterBar(
+                        onExpandedChanged: (value) async {
+                          setState(() {
+                            if (value) {
+                              _isExpanded = true;
+                              _showFilter();
+                            } else if (!value) {
+                              _isExpanded = false;
+                            }
+                          });
+                        },
+                        isExpanded: _isExpanded,
+                      ))
+                    : new Container(),
+                _isSearching
+                    ? const Text('')
+                    : new IconButton(
+                        icon: const Icon(Icons.search),
+                        onPressed: () {
+                          _handleSearchBegin();
+                        },
+                      )
+              ])),
+          bottom: _isSearching ? null : _buildBottom(),
+        );
+      },
+    );
+  }
 
   FloatingActionButton _buildFab() {
     if (_homeScreenItems[_currentIndex].fab == null) {
