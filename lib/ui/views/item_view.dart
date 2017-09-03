@@ -225,6 +225,10 @@ class _ItemPageState extends State<ItemPage>
             : new CustomScrollView(
                 slivers: <Widget>[
                   new SliverAppBar(
+                    title: new Text(
+                      capitalize(item.name),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     expandedHeight: _appBarHeight,
                     pinned: true,
                     actions: doButton(),
@@ -247,10 +251,10 @@ class _ItemPageState extends State<ItemPage>
                         dragStopped = true;
                       },
                       child: new FlexibleSpaceBar(
-                        title: new Text(
-                          capitalize(item.name),
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                        // title: new Text(
+                        //   capitalize(item.name),
+                        //   overflow: TextOverflow.ellipsis,
+                        // ),
                         background: new Stack(
                           alignment: FractionalOffset.center,
                           fit: StackFit.expand,

@@ -207,7 +207,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     if (_homeScreenItems[_currentIndex].sub == null) {
       return null;
     }
-    final bool isMain = _currentIndex == 0;
     final List<Widget> bottom = []..add(new TabBar(
         indicatorColor: Colors.white,
         indicatorWeight: 4.0,
@@ -216,25 +215,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             (index) => new Tab(
                 text: _homeScreenItems[_currentIndex].sub[index].title)),
       ));
-    if (isMain) {
-      bottom.add(new FilterBar(
-        onExpandedChanged: (value) async {
-          setState(() {
-            if (value) {
-              _isExpanded = true;
-              _showFilter();
-            } else if (!value) {
-              _isExpanded = false;
-            }
-          });
-        },
-        isExpanded: _isExpanded,
-      ));
-    }
     return new PreferredSize(
         child: new Column(children: bottom),
-        preferredSize:
-            new Size.fromHeight(kTextTabBarHeight + (isMain ? 34.0 : 0)));
+        preferredSize: const Size.fromHeight(kTextTabBarHeight));
   }
 
   Widget _buildDrawer(BuildContext context) => new Drawer(
@@ -391,6 +374,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   keyboardType: TextInputType.text,
                 ),
               ),
+              _currentIndex == 0
+                  ? new Container(
+                      child: new FilterBar(
+                      onExpandedChanged: (value) async {
+                        setState(() {
+                          if (value) {
+                            _isExpanded = true;
+                            _showFilter();
+                          } else if (!value) {
+                            _isExpanded = false;
+                          }
+                        });
+                      },
+                      isExpanded: _isExpanded,
+                    ))
+                  : new Container(),
               _isSearching
                   ? const Text('')
                   : new IconButton(

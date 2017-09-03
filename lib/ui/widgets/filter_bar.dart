@@ -28,16 +28,6 @@ class FilterBar extends StatelessWidget {
     toBuild
       ..add(new Expanded(
         child: new Container(),
-      ))
-      ..add(new MaterialButton(
-        onPressed: () => onExpandedChanged(!isExpanded),
-        textColor: theme.primaryColor,
-        child: new Row(
-          children: <Widget>[
-            const Text('Filter'),
-            new Icon(isExpanded ? Icons.expand_more : Icons.expand_less),
-          ],
-        ),
       ));
     return toBuild;
   }
@@ -45,10 +35,15 @@ class FilterBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    return new Container(
-      height: 34.0,
-      color: Theme.of(context).canvasColor,
-      child: new Row(children: _buildBar(theme)),
+    return new MaterialButton(
+      onPressed: () => onExpandedChanged(!isExpanded),
+      textColor: Colors.white,
+      child: new Row(
+        children: <Widget>[
+          const Text('Filter'),
+          new Icon(isExpanded ? Icons.expand_more : Icons.expand_less),
+        ],
+      ),
     );
   }
 }
