@@ -56,8 +56,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   new RaisedButton(
-                                    child:
-                                        const Text('Don\'t have an account ?'),
+                                    child: const Text(
+                                        'Don\'t have\n an account ?'),
                                     onPressed: () {
                                       Navigator.pushReplacementNamed(
                                           context, '/register');
@@ -81,17 +81,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                               Navigator.pushReplacementNamed(
                                                   context, '/home');
                                             } else {
-                                              Scaffold.of(context).showSnackBar(
-                                                  new SnackBar(
-                                                      content: const Text(
-                                                          'Invalid credentials !')));
+                                              showSnackBar(context,
+                                                  'Invalid credentials !');
                                             }
                                           });
                                         } else {
-                                          Scaffold.of(context).showSnackBar(
-                                              new SnackBar(
-                                                  content: const Text(
-                                                      'Form must be valid !')));
+                                          showSnackBar(
+                                              context, 'Form must be valid !');
                                         }
                                       })
                                 ],
