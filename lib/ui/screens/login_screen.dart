@@ -20,7 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: new Builder(
           builder: (context) => new SingleChildScrollView(
               child: new Container(
-                  padding: const EdgeInsets.all(40.0),
+                  padding: const EdgeInsets.all(20.0),
                   child: new Column(
                     children: <Widget>[
                       new Image.asset(
@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const Divider(),
                       new Card(
                           child: new Container(
-                        margin: const EdgeInsets.all(20.0),
+                        margin: const EdgeInsets.all(15.0),
                         child: new Form(
                           key: _formKey,
                           child: new Column(
