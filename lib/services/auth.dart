@@ -32,7 +32,7 @@ class AuthManager extends BasicService {
       _loggedIn = true;
     }
     final channel = new IOWebSocketChannel.connect('ws://217.182.65.67:1337');
-    channel.sink.add('connected!');
+    channel.sink.add(JSON.encode({'type': 1, 'userId': user.id}));
     channel.stream.listen((message) {
       print(message);
     });
