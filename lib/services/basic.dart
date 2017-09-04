@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:spotitem/keys.dart';
 import 'package:spotitem/services/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_socket_channel/io.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BasicService {
   bool get initialized => _initialized;
@@ -20,8 +20,11 @@ class BasicService {
     Services.auth.oauthToken = oauthToken;
   }
 
-  void handleWsData(data) {
-    print(data);
+  void handleWsData(res) {
+    final dynamic data = JSON.decode(res);
+    if (data['type'] == 'NOTIFICATION') {
+      print(data['data']);
+    }
   }
 
   void connectWs() {
