@@ -18,7 +18,8 @@ class HomeScreen extends StatefulWidget {
   State createState() => new _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen>
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final Key _searchKey = const Key('search');
   static List<HomeScreenItem> _homeScreenItems;
@@ -95,6 +96,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               })),
     ];
     initAnimation();
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
   }
 
@@ -102,7 +104,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void dispose() {
     _controller.dispose();
     _searchController.dispose();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.inactive) {
+      print('background');
+    } else if (state == AppLifecycleState.resumed) {
+      print('foreground');
+    }
   }
 
   void initAnimation() {
