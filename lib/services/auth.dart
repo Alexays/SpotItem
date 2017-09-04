@@ -4,7 +4,6 @@ import 'package:http/http.dart';
 import 'package:spotitem/keys.dart';
 import 'package:spotitem/models/user.dart';
 import 'package:spotitem/services/basic.dart';
-import 'package:web_socket_channel/io.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthManager extends BasicService {
@@ -33,14 +32,6 @@ class AuthManager extends BasicService {
       connectWs();
     }
     return true;
-  }
-
-  void connectWs() {
-    final channel = new IOWebSocketChannel.connect('ws://217.182.65.67:1337');
-    channel.sink.add(JSON.encode({'type': 1, 'userId': user.id}));
-    channel.stream.listen((message) {
-      print(message);
-    });
   }
 
   Future<bool> login(String email, String password) async {
