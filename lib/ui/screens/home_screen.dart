@@ -405,30 +405,29 @@ class _HomeScreenState extends State<HomeScreen>
                 keyboardType: TextInputType.text,
               ),
             ),
-            _filterAvailable || _isSearching
-                ? new Container(
-                    child: new FilterBar(
-                    onExpandedChanged: (value) async {
-                      setState(() {
-                        if (value) {
-                          _isExpanded = true;
-                          _showFilter();
-                        } else if (!value) {
-                          _isExpanded = false;
-                        }
-                      });
-                    },
-                    isExpanded: _isExpanded,
-                  ))
-                : new Container(),
             _isSearching
                 ? const Text('')
                 : new IconButton(
+                    alignment: _filterAvailable || _isSearching
+                        ? FractionalOffset.centerRight
+                        : FractionalOffset.center,
+                    padding: const EdgeInsets.all(0.0),
                     icon: const Icon(Icons.search),
                     onPressed: () {
                       _handleSearchBegin();
                     },
+                  ),
+            _filterAvailable || _isSearching
+                ? new IconButton(
+                    padding: const EdgeInsets.all(0.0),
+                    icon: const Icon(Icons.filter_list),
+                    onPressed: () {
+                      setState(() {
+                        _showFilter();
+                      });
+                    },
                   )
+                : const Text(''),
           ])),
       bottom: _isSearching ? null : _buildBottom(),
     );
