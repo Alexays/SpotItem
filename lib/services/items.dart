@@ -177,7 +177,10 @@ class ItemsManager extends BasicService {
               headers: getHeaders(userId != null
                   ? Services.auth.oauthToken
                   : 'Basic $_clientSecret'))
-          .whenComplete(_client.close);
+          .whenComplete(_client.close)
+          .catchError(() {
+        print('Unable to get items');
+      });
       if (response.statusCode == 200) {
         final dynamic itemJson = JSON.decode(response.body);
         _items = new List<Item>.generate(
