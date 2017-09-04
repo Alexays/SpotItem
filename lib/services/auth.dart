@@ -30,13 +30,17 @@ class AuthManager extends BasicService {
       user = _user;
       oauthToken = _oauthToken;
       _loggedIn = true;
+      connectWs();
     }
+    return true;
+  }
+
+  void connectWs() {
     final channel = new IOWebSocketChannel.connect('ws://217.182.65.67:1337');
     channel.sink.add(JSON.encode({'type': 1, 'userId': user.id}));
     channel.stream.listen((message) {
       print(message);
     });
-    return true;
   }
 
   Future<bool> login(String email, String password) async {
@@ -53,6 +57,7 @@ class AuthManager extends BasicService {
         user = new User.fromJson(bodyJson['user']);
         await saveTokens(user.toString(), bodyJson['token']);
         _loggedIn = true;
+        connectWs();
       } else {
         _loggedIn = false;
       }
