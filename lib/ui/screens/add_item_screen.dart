@@ -218,11 +218,14 @@ class _AddItemScreenState extends State<AddItemScreen>
                                         addItem(context);
                                       }))
                             ],
-                            bottom: new TabBar(tabs: <Tab>[
-                              const Tab(text: 'Informations'),
-                              const Tab(text: 'Images'),
-                              const Tab(text: 'Groups')
-                            ])))
+                            bottom: new TabBar(
+                                indicatorColor: Colors.white,
+                                indicatorWeight: 4.0,
+                                tabs: <Tab>[
+                                  const Tab(text: 'Informations'),
+                                  const Tab(text: 'Images'),
+                                  const Tab(text: 'Groups')
+                                ])))
                   ],
               body: new Form(
                   key: _formKey,

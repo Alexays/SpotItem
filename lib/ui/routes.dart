@@ -22,11 +22,11 @@ class Routes {
       ..define('/home',
           handler:
               new Handler(handlerFunc: (context, params) => const HomeScreen()))
-      ..define('/user/:id',
+      ..define('/profile/:id',
           handler: new Handler(
               handlerFunc: (context, params) =>
                   new ProfileScreen(params['id'])))
-      ..define('/user/edit',
+      ..define('/profile/edit/',
           handler: new Handler(
               handlerFunc: (context, params) => const EditUserScreen()))
       ..define('/items/:id',

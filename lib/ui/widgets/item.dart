@@ -51,7 +51,7 @@ class ItemsListItem extends StatelessWidget {
                   new Expanded(
                       child: new Container(
                           padding: const EdgeInsets.all(11.0),
-                          color: theme.secondaryHeaderColor.withOpacity(0.5),
+                          color: theme.secondaryHeaderColor.withOpacity(0.75),
                           height: 37.5,
                           child: new Text(
                             capitalize(item.name),
@@ -64,7 +64,7 @@ class ItemsListItem extends StatelessWidget {
                   item.dist >= 0
                       ? new Container(
                           padding: const EdgeInsets.all(10.0),
-                          color: theme.primaryColor.withOpacity(0.4),
+                          color: theme.primaryColor.withOpacity(0.75),
                           height: 37.5,
                           child: new Text(
                             distString(item.dist),

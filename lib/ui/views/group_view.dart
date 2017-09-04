@@ -284,7 +284,7 @@ class _GroupPageState extends State<GroupPage>
                   onTap: () {
                     Navigator
                         .of(context)
-                        .pushNamed('/user/${group.users[index].id}');
+                        .pushNamed('/profile/${group.users[index].id}');
                   },
                   child: new Container(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),

@@ -332,7 +332,7 @@ class _HomeScreenState extends State<HomeScreen>
                             leading: const Icon(Icons.edit),
                             title: const Text('Edit Profile'),
                             onTap: () {
-                              Navigator.of(context).pushNamed('/user/edit');
+                              Navigator.of(context).pushNamed('/profile/edit/');
                             }),
                         new ListTile(
                             leading: const Icon(Icons.exit_to_app),
@@ -489,7 +489,7 @@ class _HomeScreenState extends State<HomeScreen>
                   },
                 )),
       const Banner(
-        message: 'Beta test',
+        message: 'BETA TEST',
         location: BannerLocation.bottomLeft,
       ),
     ]);
