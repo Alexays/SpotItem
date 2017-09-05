@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:spotitem/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/utils.dart';
@@ -10,10 +11,20 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _usernameController = new TextEditingController();
-  final TextEditingController _passwordController = new TextEditingController();
+  final TextEditingController _usernameCtrl = new TextEditingController();
+  final TextEditingController _passwordCtrl = new TextEditingController();
 
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+
+  Future<Null> doLogin() async {
+    final bool success =
+        await Services.auth.login(_usernameCtrl.text, _passwordCtrl.text);
+    if (success) {
+      Navigator.pushReplacementNamed(context, '/home');
+    } else {
+      showSnackBar(context, 'Invalid credentials !');
+    }
+  }
 
   @override
   Widget build(BuildContext context) => new Scaffold(
@@ -41,14 +52,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                 decoration:
                                     const InputDecoration(hintText: 'Email'),
                                 autofocus: true,
-                                controller: _usernameController,
+                                controller: _usernameCtrl,
                                 validator: validateEmail,
                                 keyboardType: TextInputType.emailAddress,
                               ),
                               new TextFormField(
                                 decoration:
                                     const InputDecoration(hintText: 'Password'),
-                                controller: _passwordController,
+                                controller: _passwordCtrl,
                                 obscureText: true,
                                 validator: validatePassword,
                               ),
@@ -75,18 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         final FormState form =
                                             _formKey.currentState;
                                         if (form.validate()) {
-                                          Services.auth
-                                              .login(_usernameController.text,
-                                                  _passwordController.text)
-                                              .then((success) {
-                                            if (success) {
-                                              Navigator.pushReplacementNamed(
-                                                  context, '/home');
-                                            } else {
-                                              showSnackBar(context,
-                                                  'Invalid credentials !');
-                                            }
-                                          });
+                                          doLogin();
                                         } else {
                                           showSnackBar(
                                               context, 'Form must be valid !');
