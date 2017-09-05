@@ -32,7 +32,7 @@ class AuthManager extends BasicService {
     final User _user = new User(JSON.decode(userData));
     final String _oauthToken = prefs.getString(keyOauthToken);
     _googleUser = await _googleSignIn.signInSilently();
-    if (_user == null || _oauthToken == null) {
+    if (!_user.isValid() || _oauthToken == null) {
       _loggedIn = false;
       await logout();
     } else {

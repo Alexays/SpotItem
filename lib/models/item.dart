@@ -13,11 +13,7 @@ class Item {
         lng = data['lng'],
         tracks = data['tracks'],
         groups = data['groups'],
-        owner = new User(data['owner']) {
-    assert(id != null);
-    assert(owner != null);
-    assert(name != null);
-  }
+        owner = new User(data['owner']);
 
   final String id;
   final User owner;
@@ -34,6 +30,8 @@ class Item {
   List<String> groups;
 
   factory Item.from(item) => new Item(item.toString(), item.dist);
+
+  bool isValid() => id != null && name != null && owner != null;
 
   @override
   String toString() =>

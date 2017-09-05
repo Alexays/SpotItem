@@ -7,11 +7,7 @@ class Group {
         about = data['about'],
         users = new List<User>.generate(
             data['users'].length, (index) => new User(data['users'][index])),
-        owner = data['owner'] {
-    assert(id != null);
-    assert(name != null);
-    assert(owner != null);
-  }
+        owner = data['owner'];
 
   final String id;
   String name;
@@ -20,6 +16,8 @@ class Group {
   String owner;
 
   factory Group.from(group) => new Group(group.toString());
+
+  bool isValid() => id != null && name != null;
 
   @override
   String toString() {
