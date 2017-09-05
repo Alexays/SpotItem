@@ -100,6 +100,9 @@ class AuthManager extends BasicService {
   }
 
   Future<Null> logout() async {
+    if (provider == 'google') {
+      await _googleSignIn.signOut();
+    }
     await saveTokens(null, null, null);
     _loggedIn = false;
   }
