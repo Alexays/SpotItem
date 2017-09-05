@@ -21,7 +21,8 @@ class UsersManager extends BasicService {
     final dynamic bodyJson = JSON.decode(response.body);
     if (response.statusCode == 200 && bodyJson['success']) {
       Services.auth.user = new User(bodyJson['user']);
-      await saveTokens(Services.auth.user.toString(), bodyJson['token']);
+      await saveTokens(Services.auth.user.toString(), bodyJson['token'],
+          Services.auth.provider);
     }
     return bodyJson;
   }

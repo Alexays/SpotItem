@@ -99,7 +99,16 @@ class _LoginScreenState extends State<LoginScreen> {
                               new RaisedButton(
                                 child: const Text('Google'),
                                 onPressed: () {
-                                  Services.auth.handleGoogleSignIn();
+                                  Services.auth
+                                      .handleGoogleSignIn()
+                                      .then((success) {
+                                    if (success) {
+                                      Navigator.pushReplacementNamed(
+                                          context, '/home');
+                                    } else {
+                                      showSnackBar(context, 'Error !');
+                                    }
+                                  });
                                 },
                               )
                             ],

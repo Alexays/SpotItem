@@ -23,7 +23,8 @@ class GroupsManager extends BasicService {
     final dynamic bodyJson = JSON.decode(response.body);
     if (bodyJson['success']) {
       Services.auth.user.groups.add(bodyJson['group']['_id'].toString());
-      await saveTokens(Services.auth.user.toString(), bodyJson['token']);
+      await saveTokens(Services.auth.user.toString(), bodyJson['token'],
+          Services.auth.provider);
     }
     return bodyJson;
   }
@@ -96,7 +97,8 @@ class GroupsManager extends BasicService {
     final dynamic groupJson = JSON.decode(response.body);
     if (response.statusCode == 200) {
       Services.auth.user.groups.removeWhere((group) => group == groupId);
-      await saveTokens(Services.auth.user.toString(), groupJson['token']);
+      await saveTokens(Services.auth.user.toString(), groupJson['token'],
+          Services.auth.provider);
     }
     return groupJson;
   }
@@ -113,7 +115,8 @@ class GroupsManager extends BasicService {
     final dynamic groupJson = JSON.decode(response.body);
     if (response.statusCode == 200) {
       Services.auth.user.groups.add(groupId);
-      await saveTokens(Services.auth.user.toString(), groupJson['token']);
+      await saveTokens(Services.auth.user.toString(), groupJson['token'],
+          Services.auth.provider);
     }
     return groupJson;
   }
@@ -130,7 +133,8 @@ class GroupsManager extends BasicService {
     final dynamic groupJson = JSON.decode(response.body);
     if (response.statusCode == 200) {
       Services.auth.user.groups.removeWhere((group) => group == groupId);
-      await saveTokens(Services.auth.user.toString(), groupJson['token']);
+      await saveTokens(Services.auth.user.toString(), groupJson['token'],
+          Services.auth.provider);
     }
     return groupJson;
   }

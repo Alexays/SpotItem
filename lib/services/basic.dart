@@ -12,10 +12,12 @@ class BasicService {
 
   Future<bool> init() async => true;
 
-  Future<Null> saveTokens(String user, String oauthToken) async {
+  Future<Null> saveTokens(
+      String user, String oauthToken, String provider) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance()
       ..setString(keyUser, user)
-      ..setString(keyOauthToken, oauthToken);
+      ..setString(keyOauthToken, oauthToken)
+      ..setString(keyProvider, provider);
     await prefs.commit();
     Services.auth.oauthToken = oauthToken;
   }
