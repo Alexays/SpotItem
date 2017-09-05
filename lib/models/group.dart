@@ -1,28 +1,25 @@
 import 'package:spotitem/models/user.dart';
 
 class Group {
-  String id;
+  Group(data)
+      : id = data['_id'],
+        name = data['name'],
+        about = data['about'],
+        users = new List<User>.generate(
+            data['users'].length, (index) => new User(data['users'][index])),
+        owner = data['owner'] {
+    assert(id != null);
+    assert(name != null);
+    assert(owner != null);
+  }
+
+  final String id;
   String name;
   String about;
   List<User> users;
   String owner;
 
-  Group(this.id, this.name, this.about, this.users, this.owner);
-
-  factory Group.fromJson(json) {
-    if (json == null) {
-      return null;
-    }
-    return new Group(
-        json['_id'],
-        json['name'],
-        json['about'],
-        new List<User>.generate(
-            json['users'].length, (index) => new User(json['users'][index])),
-        json['owner']);
-  }
-
-  bool isValid() => name != null;
+  factory Group.from(group) => new Group(group.toString());
 
   @override
   String toString() {

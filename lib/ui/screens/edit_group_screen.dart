@@ -29,7 +29,7 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
   void initState() {
     Services.groups.getGroup(_groupId).then((data) {
       setState(() {
-        _group = new Group.fromJson(data);
+        _group = new Group(data);
         nameCtrl = new TextEditingController.fromValue(
             new TextEditingValue(text: _group.name));
         aboutCtrl = new TextEditingController.fromValue(

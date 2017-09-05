@@ -49,7 +49,7 @@ class GroupsManager extends BasicService {
     if (response.statusCode == 200) {
       final dynamic groupJson = JSON.decode(response.body);
       return _myGroups = new List<Group>.generate(
-          groupJson.length, (index) => new Group.fromJson(groupJson[index]));
+          groupJson.length, (index) => new Group(groupJson[index]));
     }
     return _myGroups;
   }
@@ -79,7 +79,7 @@ class GroupsManager extends BasicService {
     if (response.statusCode == 200) {
       final dynamic groupJson = JSON.decode(response.body);
       return _myGroupsInv = new List<Group>.generate(
-          groupJson.length, (index) => new Group.fromJson(groupJson[index]));
+          groupJson.length, (index) => new Group(groupJson[index]));
     }
     return _myGroupsInv;
   }
