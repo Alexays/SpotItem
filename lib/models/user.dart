@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class User {
   User(data)
       : id = data['_id'],
@@ -16,7 +18,7 @@ class User {
   String avatar;
   List<String> groups;
 
-  factory User.from(user) => new User(user.toString());
+  factory User.from(user) => new User(JSON.decode(user.toString()));
 
   bool isValid() => id != null && name != null && email != null;
 
