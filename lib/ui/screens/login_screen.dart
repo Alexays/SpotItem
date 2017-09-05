@@ -57,7 +57,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 children: <Widget>[
                                   new RaisedButton(
                                     child: const Text(
-                                        'Don\'t have\n an account ?'),
+                                      'Don\'t have\n an account ?',
+                                      textAlign: TextAlign.center,
+                                    ),
                                     onPressed: () {
                                       Navigator.pushReplacementNamed(
                                           context, '/register');
