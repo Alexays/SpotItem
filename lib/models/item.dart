@@ -48,12 +48,12 @@ class Item {
       dist,
       json['tracks'],
       json['groups'],
-      new User.fromJson(json['owner']),
+      new User(json['owner']),
     );
   }
 
   bool isValid() =>
-      name != null && about != null && images != null && owner.isValid();
+      name != null && about != null && images != null && owner != null;
 
   @override
   String toString() =>

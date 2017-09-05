@@ -26,8 +26,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
   @override
   void initState() {
     final User tmp = Services.auth.user;
-    user = new User(
-        tmp.id, tmp.name, tmp.email, tmp.firstname, tmp.avatar, tmp.groups);
+    user = new User.from(tmp);
     _name = new TextEditingController(text: user.firstname);
     _lastname = new TextEditingController(text: user.name);
     _email = new TextEditingController(text: user.email);

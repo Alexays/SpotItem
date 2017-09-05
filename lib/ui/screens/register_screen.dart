@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:spotitem/services/services.dart';
 import 'package:flutter/material.dart';
-import 'package:spotitem/models/user.dart';
 import 'package:spotitem/utils.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -19,17 +18,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController _email;
   TextEditingController _password;
 
-  User user;
+  dynamic user;
   String password;
   String repeat;
 
   @override
   void initState() {
     super.initState();
-    user = new User(null, null, null, null, null, null);
-    _name = new TextEditingController(text: user.firstname);
-    _lastname = new TextEditingController(text: user.name);
-    _email = new TextEditingController(text: user.email);
+    _name = new TextEditingController(text: user['firstname']);
+    _lastname = new TextEditingController(text: user['name']);
+    _email = new TextEditingController(text: user['email']);
   }
 
   Future<bool> doRegister(BuildContext context) async {
@@ -71,7 +69,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     labelText: 'Firstname',
                                     hintText: 'Enter your firstname'),
                                 onSaved: (value) {
-                                  user.firstname = value;
+                                  user['firstname'] = value;
                                 },
                                 controller: _name,
                                 validator: validateName,
@@ -82,7 +80,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     labelText: 'Lastname',
                                     hintText: 'Enter your lastname'),
                                 onSaved: (value) {
-                                  user.name = value;
+                                  user['name'] = value;
                                 },
                                 controller: _lastname,
                                 validator: validateName,
@@ -95,7 +93,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   hintText: 'Enter your email',
                                 ),
                                 onSaved: (value) {
-                                  user.email = value;
+                                  user['email'] = value;
                                 },
                                 validator: validateEmail,
                               ),

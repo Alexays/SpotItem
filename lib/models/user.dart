@@ -1,29 +1,25 @@
 class User {
-  String id;
-  String email;
+  User(data)
+      : id = data['_id'],
+        email = data['email'],
+        firstname = data['firstname'],
+        name = data['name'],
+        avatar = data['avatar'],
+        groups = new List<String>.generate(data['groups']?.length,
+            (index) => (data['groups'][index]).toString()) {
+    assert(id != null);
+    assert(email != null);
+    assert(firstname != null);
+  }
+
+  final String id;
+  final String email;
   String firstname;
   String name;
   String avatar;
   List<String> groups;
 
-  User(
-      this.id, this.name, this.email, this.firstname, this.avatar, this.groups);
-
-  factory User.fromJson(json) {
-    if (json == null) {
-      return null;
-    }
-    List<String> _groups = <String>[];
-    if (json['groups'] != null && json['groups'].length > 0) {
-      _groups = new List<String>.generate(
-          json['groups'].length, (index) => (json['groups'][index]).toString());
-    }
-    return new User(json['_id'], json['name'], json['email'], json['firstname'],
-        json['avatar'], _groups);
-  }
-
-  bool isValid() =>
-      id != null && name != null && email != null && firstname != null;
+  factory User.from(user) => new User(user.toString());
 
   @override
   String toString() {

@@ -29,10 +29,10 @@ class AuthManager extends BasicService {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String userData = prefs.getString(keyUser);
     userData ??= '{}';
-    final User _user = new User.fromJson(JSON.decode(userData));
+    final User _user = new User(JSON.decode(userData));
     final String _oauthToken = prefs.getString(keyOauthToken);
     _googleUser = await _googleSignIn.signInSilently();
-    if (!_user.isValid() || _oauthToken == null) {
+    if (_user == null || _oauthToken == null) {
       _loggedIn = false;
       await logout();
     } else {
@@ -64,7 +64,7 @@ class AuthManager extends BasicService {
     if (response.statusCode == 200) {
       final dynamic bodyJson = JSON.decode(response.body);
       if (bodyJson['success']) {
-        user = new User.fromJson(bodyJson['user']);
+        user = new User(bodyJson['user']);
         await saveTokens(user.toString(), bodyJson['token']);
         _loggedIn = true;
         connectWs();
@@ -78,14 +78,13 @@ class AuthManager extends BasicService {
     _loggedIn = false;
   }
 
-  Future<dynamic> register(User user, String password) async {
+  Future<dynamic> register(user, String password) async {
     final Client _client = new Client();
-    final dynamic userJson = JSON.decode(user.toString());
-    userJson['_id'] = 'null';
-    userJson['groups'] = 'groups';
-    userJson['password'] = password;
+    user['_id'] = 'null';
+    user['groups'] = 'groups';
+    user['password'] = password;
     final Response response = await _client
-        .post('$apiUrl/signup', headers: getHeaders(), body: userJson)
+        .post('$apiUrl/signup', headers: getHeaders(), body: user)
         .whenComplete(_client.close);
     final dynamic bodyJson = JSON.decode(response.body);
     return bodyJson;

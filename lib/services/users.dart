@@ -20,7 +20,7 @@ class UsersManager extends BasicService {
         .whenComplete(_client.close);
     final dynamic bodyJson = JSON.decode(response.body);
     if (response.statusCode == 200 && bodyJson['success']) {
-      Services.auth.user = new User.fromJson(bodyJson['user']);
+      Services.auth.user = new User(bodyJson['user']);
       await saveTokens(Services.auth.user.toString(), bodyJson['token']);
     }
     return bodyJson;
@@ -37,7 +37,7 @@ class UsersManager extends BasicService {
         .whenComplete(_client.close);
     if (response.statusCode == 200) {
       final dynamic userJson = JSON.decode(response.body);
-      return new User.fromJson(userJson);
+      return new User(userJson);
     }
     return null;
   }

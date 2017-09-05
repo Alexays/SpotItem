@@ -17,8 +17,8 @@ class Group {
         json['_id'],
         json['name'],
         json['about'],
-        new List<User>.generate(json['users'].length,
-            (index) => new User.fromJson(json['users'][index])),
+        new List<User>.generate(
+            json['users'].length, (index) => new User(json['users'][index])),
         json['owner']);
   }
 
@@ -34,4 +34,3 @@ class Group {
     return '{"_id": "$id", "name": "$name", "about": "$about", "users": $usersId, "owner": "$owner"}';
   }
 }
-  
