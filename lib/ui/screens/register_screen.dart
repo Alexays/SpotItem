@@ -32,27 +32,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _email = new TextEditingController(text: user.email);
   }
 
-  Future<bool> addUser(BuildContext context) async {
+  Future<bool> doRegister(BuildContext context) async {
     final FormState form = _formKey.currentState..save();
     if (password != repeat) {
-      Scaffold.of(context).showSnackBar(
-          new SnackBar(content: const Text('Password don\'t match !')));
+      showSnackBar(context, 'Password don\'t match !');
       return false;
     }
     if (form.validate()) {
-      await Services.auth.register(user, password).then((data) {
-        if (data['success']) {
-          Navigator.pushReplacementNamed(context, '/login');
-          return true;
-        }
-        Scaffold
-            .of(context)
-            .showSnackBar(new SnackBar(content: new Text(data['msg'])));
-        return false;
-      });
+      final dynamic data = await Services.auth.register(user, password);
+      if (data['success']) {
+        Navigator.pushReplacementNamed(context, '/login');
+        return true;
+      }
+      showSnackBar(context, data['msg']);
+      return false;
     }
-    Scaffold.of(context).showSnackBar(
-        new SnackBar(content: const Text('Form must be valid !')));
+    showSnackBar(context, 'Form must be valid !');
     return false;
   }
 
@@ -143,7 +138,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     new RaisedButton(
                                         child: const Text('Register'),
                                         onPressed: () {
-                                          addUser(context);
+                                          doRegister(context);
                                         })
                                   ]),
                             ],
