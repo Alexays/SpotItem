@@ -54,6 +54,10 @@ class AuthManager extends BasicService {
       if (signIn) {
         _googleUser = await _googleSignIn.signIn();
       }
+      if (_googleUser == null) {
+        logout();
+        return false;
+      }
       final Client _client = new Client();
       final Response response = await _client
           .post('$apiUrl/login/google', headers: getHeaders(), body: {
