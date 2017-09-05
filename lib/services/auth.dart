@@ -32,7 +32,7 @@ class AuthManager extends BasicService {
     final User _user = new User.fromJson(JSON.decode(userData));
     final String _oauthToken = prefs.getString(keyOauthToken);
     _googleUser = await _googleSignIn.signInSilently();
-    if (_user == null || _user.id == null || _oauthToken == null) {
+    if (!_user.isValid() || _oauthToken == null) {
       _loggedIn = false;
       await logout();
     } else {
@@ -44,6 +44,14 @@ class AuthManager extends BasicService {
     return true;
   }
 
+  Future<Null> handleGoogleSignIn() async {
+    try {
+      _googleUser = await _googleSignIn.signIn();
+    } catch (error) {
+      print(error);
+    }
+  }
+
   Future<bool> login(String email, String password) async {
     final Client _client = new Client();
     final Response response = await _client.post('$apiUrl/login',
@@ -52,6 +60,7 @@ class AuthManager extends BasicService {
           'email': email,
           'password': password
         }).whenComplete(_client.close);
+    _loggedIn = false;
     if (response.statusCode == 200) {
       final dynamic bodyJson = JSON.decode(response.body);
       if (bodyJson['success']) {
@@ -59,11 +68,7 @@ class AuthManager extends BasicService {
         await saveTokens(user.toString(), bodyJson['token']);
         _loggedIn = true;
         connectWs();
-      } else {
-        _loggedIn = false;
       }
-    } else {
-      _loggedIn = false;
     }
     return _loggedIn;
   }

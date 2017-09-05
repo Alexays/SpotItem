@@ -22,7 +22,8 @@ class User {
         json['avatar'], _groups);
   }
 
-  bool isValid() => name != null && email != null && firstname != null;
+  bool isValid() =>
+      id != null && name != null && email != null && firstname != null;
 
   @override
   String toString() {

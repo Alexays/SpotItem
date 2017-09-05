@@ -95,6 +95,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                         }
                                       })
                                 ],
+                              ),
+                              new RaisedButton(
+                                child: const Text('Google'),
+                                onPressed: () {
+                                  Services.auth.handleGoogleSignIn();
+                                },
                               )
                             ],
                           ),
