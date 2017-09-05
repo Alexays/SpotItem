@@ -4,7 +4,15 @@ import 'package:http/http.dart';
 import 'package:spotitem/keys.dart';
 import 'package:spotitem/models/user.dart';
 import 'package:spotitem/services/basic.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+GoogleSignIn _googleSignIn = new GoogleSignIn(
+  scopes: <String>[
+    'email',
+    'https://www.googleapis.com/auth/contacts.readonly',
+  ],
+);
 
 class AuthManager extends BasicService {
   bool get loggedIn => _loggedIn;
@@ -12,6 +20,7 @@ class AuthManager extends BasicService {
   String oauthToken;
 
   User user;
+  GoogleSignInAccount _googleUser;
 
   bool _loggedIn;
 
@@ -22,6 +31,7 @@ class AuthManager extends BasicService {
     userData ??= '{}';
     final User _user = new User.fromJson(JSON.decode(userData));
     final String _oauthToken = prefs.getString(keyOauthToken);
+    _googleUser = await _googleSignIn.signInSilently();
     if (_user == null || _user.id == null || _oauthToken == null) {
       _loggedIn = false;
       await logout();
