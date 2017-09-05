@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:spotitem/models/user.dart';
 
 class Item {
@@ -29,7 +30,7 @@ class Item {
   List<String> tracks;
   List<String> groups;
 
-  factory Item.from(item) => new Item(item.toString(), item.dist);
+  factory Item.from(item) => new Item(JSON.decode(item.toString()), item.dist);
 
   bool isValid() => id != null && name != null && owner != null;
 

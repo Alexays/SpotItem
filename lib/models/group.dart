@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:spotitem/models/user.dart';
 
 class Group {
@@ -15,7 +16,7 @@ class Group {
   List<User> users;
   String owner;
 
-  factory Group.from(group) => new Group(group.toString());
+  factory Group.from(group) => new Group(JSON.decode(group.toString()));
 
   bool isValid() => id != null && name != null;
 
