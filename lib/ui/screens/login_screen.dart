@@ -49,16 +49,18 @@ class _LoginScreenState extends State<LoginScreen> {
                             children: <Widget>[
                               new TextFormField(
                                 key: const Key('email'),
-                                decoration:
-                                    const InputDecoration(hintText: 'Email'),
+                                decoration: const InputDecoration(
+                                    hintText: 'Enter email',
+                                    labelText: 'Email'),
                                 autofocus: true,
                                 controller: _usernameCtrl,
                                 validator: validateEmail,
                                 keyboardType: TextInputType.emailAddress,
                               ),
                               new TextFormField(
-                                decoration:
-                                    const InputDecoration(hintText: 'Password'),
+                                decoration: const InputDecoration(
+                                    hintText: 'Enter password',
+                                    labelText: 'Password'),
                                 controller: _passwordCtrl,
                                 obscureText: true,
                                 validator: validatePassword,
