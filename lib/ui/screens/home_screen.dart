@@ -1,6 +1,5 @@
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/ui/widgets/item.dart';
-import 'package:spotitem/ui/widgets/filter_bar.dart';
 import 'package:spotitem/ui/views/explorer_view.dart';
 import 'package:spotitem/ui/views/discover_view.dart';
 import 'package:spotitem/ui/views/map_view.dart';
@@ -30,7 +29,6 @@ class _HomeScreenState extends State<HomeScreen>
   Animation<FractionalOffset> _drawerDetailsPosition;
 
   // Bool
-  bool _isExpanded = false;
   bool _showDrawerContents = true;
   bool _isSearching = false;
   int _currentIndex = 0;
@@ -190,11 +188,7 @@ class _HomeScreenState extends State<HomeScreen>
                           secondary: const Icon(Icons.card_giftcard),
                         ))
               ],
-            )).then((data) {
-      setState(() {
-        _isExpanded = false;
-      });
-    });
+            ));
   }
 
   void _searchCallback() {
