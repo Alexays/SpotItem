@@ -1,7 +1,26 @@
 import 'package:spotitem/models/user.dart';
 
 class Item {
-  String id;
+  Item(data, this.dist)
+      : id = data['_id'],
+        name = data['name'],
+        about = data['about'],
+        images = data['images'],
+        lastGeo = data['lastGeo'],
+        calendar = data['calendar'],
+        location = data['location'],
+        lat = data['lat'],
+        lng = data['lng'],
+        tracks = data['tracks'],
+        groups = data['groups'],
+        owner = new User(data['owner']) {
+    assert(id != null);
+    assert(owner != null);
+    assert(name != null);
+  }
+
+  final String id;
+  final User owner;
   String name;
   String about;
   List<String> images;
@@ -13,47 +32,6 @@ class Item {
   double dist;
   List<String> tracks;
   List<String> groups;
-  User owner;
-
-  Item(
-    this.id,
-    this.name,
-    this.about,
-    this.images,
-    this.lastGeo,
-    this.calendar,
-    this.location,
-    this.lat,
-    this.lng,
-    this.dist,
-    this.tracks,
-    this.groups,
-    this.owner,
-  );
-
-  factory Item.fromJson(json, double dist) {
-    if (json == null) {
-      return null;
-    }
-    return new Item(
-      json['_id'],
-      json['name'],
-      json['about'],
-      json['images'],
-      json['lastGeo'],
-      json['calendar'],
-      json['location'],
-      json['lat'],
-      json['lng'],
-      dist,
-      json['tracks'],
-      json['groups'],
-      new User(json['owner']),
-    );
-  }
-
-  bool isValid() =>
-      name != null && about != null && images != null && owner != null;
 
   @override
   String toString() =>

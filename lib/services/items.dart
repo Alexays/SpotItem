@@ -184,7 +184,7 @@ class ItemsManager extends BasicService {
         final dynamic itemJson = JSON.decode(response.body);
         _items = new List<Item>.generate(
             itemJson.length,
-            (index) => new Item.fromJson(itemJson[index],
+            (index) => new Item(itemJson[index],
                 getDist(itemJson[index]['lat'], itemJson[index]['lng'])));
       }
     }
@@ -208,8 +208,7 @@ class ItemsManager extends BasicService {
         .whenComplete(_client.close);
     if (response.statusCode == 200) {
       final dynamic itemJson = JSON.decode(response.body);
-      return new Item.fromJson(
-          itemJson, getDist(itemJson['lat'], itemJson['lng']));
+      return new Item(itemJson, getDist(itemJson['lat'], itemJson['lng']));
     }
     return null;
   }
@@ -224,7 +223,7 @@ class ItemsManager extends BasicService {
       final dynamic itemJson = JSON.decode(response.body);
       _myItems = new List<Item>.generate(
           itemJson.length,
-          (index) => new Item.fromJson(itemJson[index],
+          (index) => new Item(itemJson[index],
               getDist(itemJson[index]['lat'], itemJson[index]['lng'])));
     }
     return _myItems;
