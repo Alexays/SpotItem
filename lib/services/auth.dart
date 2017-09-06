@@ -53,10 +53,14 @@ class AuthManager extends BasicService {
     return true;
   }
 
-  Future<Null> verifyToken(String url) async {
+  Future<String> verifyToken(String url, String token) async {
+    if (token == null || token != accessToken) {
+      return null;
+    }
     if (loggedIn && url != '/check' && new DateTime.now().isAfter(exp)) {
       await getAccessToken();
     }
+    return accessToken;
   }
 
   Future<Null> getAccessToken() async {
@@ -65,7 +69,8 @@ class AuthManager extends BasicService {
       final dynamic bodyJson = JSON.decode(response.body);
       if (bodyJson['success']) {
         accessToken = bodyJson['access_token'];
-        exp = new DateTime.fromMillisecondsSinceEpoch(bodyJson['exp'] * 1000);
+        exp = new DateTime.fromMillisecondsSinceEpoch(
+            (bodyJson['exp'] * 1000) - 30);
         return;
       }
     }

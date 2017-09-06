@@ -14,37 +14,37 @@ class BasicService {
   Future<bool> init() async => true;
 
   Future<Response> iget(String url, [String token]) async {
-    await Services.auth.verifyToken(url);
+    final String verifiedToken = await Services.auth.verifyToken(url, token);
     final Client _client = new Client();
     final Response response = await _client
-        .get('$apiUrl$url', headers: getHeaders(token))
+        .get('$apiUrl$url', headers: getHeaders(verifiedToken))
         .whenComplete(_client.close);
     return response;
   }
 
   Future<Response> ipost(String url, payload, [String token]) async {
-    await Services.auth.verifyToken(url);
+    final String verifiedToken = await Services.auth.verifyToken(url, token);
     final Client _client = new Client();
     final Response response = await _client
-        .post('$apiUrl$url', headers: getHeaders(token), body: payload)
+        .post('$apiUrl$url', headers: getHeaders(verifiedToken), body: payload)
         .whenComplete(_client.close);
     return response;
   }
 
   Future<Response> iput(String url, payload, [String token]) async {
-    await Services.auth.verifyToken(url);
+    final String verifiedToken = await Services.auth.verifyToken(url, token);
     final Client _client = new Client();
     final Response response = await _client
-        .put('$apiUrl$url', headers: getHeaders(token), body: payload)
+        .put('$apiUrl$url', headers: getHeaders(verifiedToken), body: payload)
         .whenComplete(_client.close);
     return response;
   }
 
   Future<Response> idelete(String url, [String token]) async {
-    await Services.auth.verifyToken(url);
+    final String verifiedToken = await Services.auth.verifyToken(url, token);
     final Client _client = new Client();
     final Response response = await _client
-        .delete('$apiUrl$url', headers: getHeaders(token))
+        .delete('$apiUrl$url', headers: getHeaders(verifiedToken))
         .whenComplete(_client.close);
     return response;
   }
