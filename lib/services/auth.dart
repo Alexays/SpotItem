@@ -53,7 +53,7 @@ class AuthManager extends BasicService {
     return true;
   }
 
-  Future<String> verifyToken(String url, String token) async {
+  Future<String> verifyToken(String token) async {
     if (token == null) {
       return null;
     }
