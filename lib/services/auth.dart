@@ -33,14 +33,16 @@ class AuthManager extends BasicService {
     final String _provider = prefs.getString(keyProvider);
     final User _user = new User(JSON.decode(_userData));
     final String _refreshToken = prefs.getString(keyOauthToken);
-    if (_provider == 'google') {
-      _googleUser = await _googleSignIn.signInSilently();
-      await handleGoogleSignIn(false);
-    }
     if (!_user.isValid() || _refreshToken == null || _provider == null) {
       _loggedIn = false;
       await logout();
     } else {
+      if (_provider == 'google') {
+        _googleUser = await _googleSignIn.signInSilently();
+        await handleGoogleSignIn(false);
+      } else {
+        await getAccessToken();
+      }
       user = _user;
       refreshToken = _refreshToken;
       provider = _provider;
@@ -48,6 +50,17 @@ class AuthManager extends BasicService {
       connectWs();
     }
     return true;
+  }
+
+  Future<Null> getAccessToken() async {
+    final Response response = await iget('/check', refreshToken);
+    if (response.statusCode == 200) {
+      final dynamic bodyJson = JSON.decode(response.body);
+      if (bodyJson['success']) {
+        accessToken = bodyJson['access_token'];
+      }
+    }
+    logout();
   }
 
   Future<bool> handleGoogleSignIn([signIn = true]) async {

@@ -47,8 +47,8 @@ class _ExplorerViewState extends State<ExplorerView> {
   }
 
   Future<Null> _loadItems([bool force = false]) async {
-    final Future<List<Item>> itemsLoaded = Services.items
-        .getItems(force: force, userId: Services.auth.user?.id);
+    final Future<List<Item>> itemsLoaded =
+        Services.items.getItems(force: force);
     if (itemsLoaded != null) {
       itemsLoaded.then((data) {
         if (!mounted) {

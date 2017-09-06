@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:spotitem/keys.dart';
 import 'package:spotitem/models/item.dart';
 import 'package:http/http.dart';
 import 'package:flutter/services.dart';
@@ -98,7 +97,7 @@ class ItemsManager extends BasicService {
       List<String> tracks,
       List<String> groups) async {
     final Response response = await ipost(
-        '$apiUrl/items',
+        '/items',
         {
           'name': name,
           'about': about,
@@ -128,7 +127,7 @@ class ItemsManager extends BasicService {
       List<String> tracks,
       List<String> groups) async {
     final Response response = await iput(
-        '/items/items/$id',
+        '/items/$id',
         {
           'name': name,
           'about': about,
@@ -148,12 +147,12 @@ class ItemsManager extends BasicService {
 
   Future<dynamic> deleteItem(String id) async {
     final Response response =
-        await idelete('/items/items/$id', Services.auth.accessToken);
+        await idelete('/items/$id', Services.auth.accessToken);
     final dynamic bodyJson = JSON.decode(response.body);
     return bodyJson;
   }
 
-  Future<List<Item>> loadItems(String userId) async {
+  Future<List<Item>> loadItems() async {
     if (_items.isEmpty) {
       try {
         final Map<String, double> tmp = await _location.getLocation
@@ -168,8 +167,8 @@ class ItemsManager extends BasicService {
         print("Can't get location");
       }
       final Response response = await iget(
-          '/items/${userId != null ? '/items/auth' : '/items'}',
-          userId != null ? Services.auth.accessToken : null);
+          '${Services.auth.loggedIn != null ? '/items/auth' : '/items'}',
+          Services.auth.loggedIn ? Services.auth.accessToken : null);
       if (response.statusCode == 200) {
         final dynamic itemJson = JSON.decode(response.body);
         _items = new List<Item>.generate(
@@ -181,11 +180,11 @@ class ItemsManager extends BasicService {
     return _items;
   }
 
-  Future<List<Item>> getItems({bool force: false, String userId: 'no'}) async {
+  Future<List<Item>> getItems({bool force: false}) async {
     if (force) {
       _items.clear();
     }
-    return loadItems(userId);
+    return loadItems();
   }
 
   Future<Item> getItem(String itemId) async {
