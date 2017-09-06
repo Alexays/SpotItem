@@ -54,7 +54,7 @@ class AuthManager extends BasicService {
   }
 
   Future<Null> verifyToken(String url) async {
-    if (loggedIn && url != '/check' && !new DateTime.now().isAfter(exp)) {
+    if (loggedIn && url != '/check' && new DateTime.now().isAfter(exp)) {
       await getAccessToken();
     }
   }
@@ -69,7 +69,7 @@ class AuthManager extends BasicService {
         return;
       }
     }
-    logout();
+    await logout();
   }
 
   Future<bool> handleGoogleSignIn([signIn = true]) async {
