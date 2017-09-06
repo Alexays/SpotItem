@@ -108,7 +108,7 @@ class AuthManager extends BasicService {
         user = new User(bodyJson['user']);
         accessToken = bodyJson['access_token'];
         exp = new DateTime.fromMillisecondsSinceEpoch(bodyJson['exp'] * 1000);
-        await saveTokens(user.toString(), bodyJson['refresh_token'], 'local');
+        await saveTokens(user.toString(), bodyJson['refresh_token'], _provider);
         _loggedIn = true;
         connectWs();
       }
