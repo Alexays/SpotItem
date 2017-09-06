@@ -7,6 +7,7 @@ import 'package:spotitem/ui/screens/profile_screen.dart';
 import 'package:spotitem/ui/screens/edit_user_screen.dart';
 import 'package:spotitem/ui/screens/add_group_screen.dart';
 import 'package:spotitem/ui/screens/edit_group_screen.dart';
+import 'package:spotitem/ui/screens/debug_screen.dart';
 import 'package:spotitem/ui/views/item_view.dart';
 import 'package:fluro/fluro.dart';
 
@@ -46,6 +47,9 @@ class Routes {
       ..define('/groups/:id/edit',
           handler: new Handler(
               handlerFunc: (context, params) =>
-                  new EditGroupScreen(params['id'])));
+                  new EditGroupScreen(params['id'])))
+      ..define('/debug',
+          handler: new Handler(
+              handlerFunc: (context, params) => const DebugScreen()));
   }
 }

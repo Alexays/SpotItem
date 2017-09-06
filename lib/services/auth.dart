@@ -80,6 +80,7 @@ class AuthManager extends BasicService {
   }
 
   Future<bool> handleGoogleSignIn([signIn = true]) async {
+    print('HANDLE_GOOGLE');
     try {
       _googleUser = signIn
           ? await _googleSignIn.signIn()

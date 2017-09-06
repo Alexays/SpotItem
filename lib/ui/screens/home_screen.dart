@@ -285,6 +285,12 @@ class _HomeScreenState extends State<HomeScreen>
                           debugDumpRenderTree();
                           debugDumpLayerTree();
                         }),
+                    new ListTile(
+                        leading: const Icon(Icons.developer_board),
+                        title: const Text('Debug'),
+                        onTap: () {
+                          Navigator.of(context).pushNamed('/debug');
+                        }),
                     new AboutListTile(
                         icon: const Icon(Icons.info),
                         applicationVersion: version,
