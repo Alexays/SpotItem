@@ -60,7 +60,7 @@ class _GroupsViewState extends State<GroupsView> {
       itemCount: _myGroups.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {
-          if (_myGroupsInv.isNotEmpty) {
+          if (_myGroupsInv != null && _myGroupsInv.isNotEmpty) {
             return _buildInv();
           } else if (_myGroups.isEmpty) {
             return const Center(child: const Text('No groups'));
@@ -190,8 +190,7 @@ class _GroupsViewState extends State<GroupsView> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      _myGroups == null || _myGroupsInv == null
-          ? const Center(child: const CircularProgressIndicator())
-          : getList();
+  Widget build(BuildContext context) => _myGroups == null
+      ? const Center(child: const CircularProgressIndicator())
+      : getList();
 }
