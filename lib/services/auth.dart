@@ -53,10 +53,8 @@ class AuthManager extends BasicService {
     return true;
   }
 
-  Future<Null> verifyToken() async {
-    print(exp);
-    print(new DateTime.now());
-    if (!new DateTime.now().isAfter(exp)) {
+  Future<Null> verifyToken(String url) async {
+    if (loggedIn && url != '/check' && !new DateTime.now().isAfter(exp)) {
       await getAccessToken();
     }
   }

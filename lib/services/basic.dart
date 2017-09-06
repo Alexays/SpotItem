@@ -14,9 +14,7 @@ class BasicService {
   Future<bool> init() async => true;
 
   Future<Response> iget(String url, [String token]) async {
-    if (Services.auth.loggedIn && url != '/check') {
-      await Services.auth.verifyToken();
-    }
+    await Services.auth.verifyToken(url);
     final Client _client = new Client();
     final Response response = await _client
         .get('$apiUrl$url', headers: getHeaders(token))
@@ -25,9 +23,7 @@ class BasicService {
   }
 
   Future<Response> ipost(String url, payload, [String token]) async {
-    if (Services.auth.loggedIn) {
-      await Services.auth.verifyToken();
-    }
+    await Services.auth.verifyToken(url);
     final Client _client = new Client();
     final Response response = await _client
         .post('$apiUrl$url', headers: getHeaders(token), body: payload)
@@ -36,9 +32,7 @@ class BasicService {
   }
 
   Future<Response> iput(String url, payload, [String token]) async {
-    if (Services.auth.loggedIn) {
-      await Services.auth.verifyToken();
-    }
+    await Services.auth.verifyToken(url);
     final Client _client = new Client();
     final Response response = await _client
         .put('$apiUrl$url', headers: getHeaders(token), body: payload)
@@ -47,9 +41,7 @@ class BasicService {
   }
 
   Future<Response> idelete(String url, [String token]) async {
-    if (Services.auth.loggedIn) {
-      await Services.auth.verifyToken();
-    }
+    await Services.auth.verifyToken(url);
     final Client _client = new Client();
     final Response response = await _client
         .delete('$apiUrl$url', headers: getHeaders(token))
