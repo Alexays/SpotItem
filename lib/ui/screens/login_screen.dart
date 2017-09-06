@@ -17,8 +17,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   Future<Null> doLogin(BuildContext context) async {
-    final bool success =
-        await Services.auth.login(_usernameCtrl.text, _passwordCtrl.text);
+    final bool success = await Services.auth.login(
+        {'email': _usernameCtrl.text, 'password': _passwordCtrl.text}, 'local');
     if (success) {
       Navigator.pushReplacementNamed(context, '/home');
     } else {

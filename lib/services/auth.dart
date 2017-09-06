@@ -43,9 +43,8 @@ class AuthManager extends BasicService {
       provider = _provider;
       if (_provider == 'google') {
         await handleGoogleSignIn(false);
-      } else {
-        await getAccessToken();
       }
+      await getAccessToken();
       _loggedIn = true;
       connectWs();
     }
@@ -56,6 +55,10 @@ class AuthManager extends BasicService {
     if (token != accessToken) {
       return token;
     }
+    if (exp == null) {
+      await logout();
+      return null;
+    }
     if (loggedIn && new DateTime.now().isAfter(exp)) {
       await getAccessToken();
     }
@@ -63,7 +66,7 @@ class AuthManager extends BasicService {
   }
 
   Future<Null> getAccessToken() async {
-    final Response response = await iget('/check', refreshToken);
+    final Response response = await iget('/check/$provider', refreshToken);
     if (response.statusCode == 200) {
       final dynamic bodyJson = JSON.decode(response.body);
       if (bodyJson['success']) {
@@ -85,32 +88,20 @@ class AuthManager extends BasicService {
         logout();
         return false;
       }
-      _loggedIn = false;
-      final Response response = await ipost('/login/google', {
+      return login({
         'token': (await _googleUser.authentication).accessToken,
         'user':
             '{"id": "${_googleUser.id}", "name": "${_googleUser.displayName}", "email": "${_googleUser.email}", "avatar": "${_googleUser.photoUrl}"}',
-      });
-      if (response.statusCode == 200) {
-        final dynamic bodyJson = JSON.decode(response.body);
-        print(bodyJson);
-        if (bodyJson['success']) {
-          user = new User(bodyJson['user']);
-          await saveTokens(user.toString(), bodyJson['token'], 'google');
-          _loggedIn = true;
-          connectWs();
-        }
-      }
-    } catch (error) {
+      }, 'google');
+    } on Exception {
       _loggedIn = false;
     }
     return _loggedIn;
   }
 
-  Future<bool> login(String email, String password) async {
+  Future<bool> login(payload, String _provider) async {
     _loggedIn = false;
-    final Response response =
-        await ipost('/login', {'email': email, 'password': password});
+    final Response response = await ipost('/login/$_provider', payload);
     if (response.statusCode == 200) {
       final dynamic bodyJson = JSON.decode(response.body);
       if (bodyJson['success']) {
