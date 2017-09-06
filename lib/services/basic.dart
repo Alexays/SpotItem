@@ -13,38 +13,46 @@ class BasicService {
 
   Future<bool> init() async => true;
 
-  Future<Response> iget(String url, [String tokken]) async {
-    await Services.auth.verifyToken();
+  Future<Response> iget(String url, [String token]) async {
+    if (Services.auth.loggedIn && url != '/check') {
+      await Services.auth.verifyToken();
+    }
     final Client _client = new Client();
     final Response response = await _client
-        .get('$apiUrl$url', headers: getHeaders(tokken))
+        .get('$apiUrl$url', headers: getHeaders(token))
         .whenComplete(_client.close);
     return response;
   }
 
-  Future<Response> ipost(String url, payload, [String tokken]) async {
-    await Services.auth.verifyToken();
+  Future<Response> ipost(String url, payload, [String token]) async {
+    if (Services.auth.loggedIn) {
+      await Services.auth.verifyToken();
+    }
     final Client _client = new Client();
     final Response response = await _client
-        .post('$apiUrl$url', headers: getHeaders(tokken), body: payload)
+        .post('$apiUrl$url', headers: getHeaders(token), body: payload)
         .whenComplete(_client.close);
     return response;
   }
 
-  Future<Response> iput(String url, payload, [String tokken]) async {
-    await Services.auth.verifyToken();
+  Future<Response> iput(String url, payload, [String token]) async {
+    if (Services.auth.loggedIn) {
+      await Services.auth.verifyToken();
+    }
     final Client _client = new Client();
     final Response response = await _client
-        .put('$apiUrl$url', headers: getHeaders(tokken), body: payload)
+        .put('$apiUrl$url', headers: getHeaders(token), body: payload)
         .whenComplete(_client.close);
     return response;
   }
 
-  Future<Response> idelete(String url, [String tokken]) async {
-    await Services.auth.verifyToken();
+  Future<Response> idelete(String url, [String token]) async {
+    if (Services.auth.loggedIn) {
+      await Services.auth.verifyToken();
+    }
     final Client _client = new Client();
     final Response response = await _client
-        .delete('$apiUrl$url', headers: getHeaders(tokken))
+        .delete('$apiUrl$url', headers: getHeaders(token))
         .whenComplete(_client.close);
     return response;
   }

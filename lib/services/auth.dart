@@ -25,7 +25,7 @@ class AuthManager extends BasicService {
   User user;
   GoogleSignInAccount _googleUser;
 
-  bool _loggedIn;
+  bool _loggedIn = false;
 
   @override
   Future<bool> init() async {
@@ -54,6 +54,8 @@ class AuthManager extends BasicService {
   }
 
   Future<Null> verifyToken() async {
+    print(exp);
+    print(new DateTime.now());
     if (!new DateTime.now().isAfter(exp)) {
       await getAccessToken();
     }
