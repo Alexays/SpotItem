@@ -149,7 +149,8 @@ class _HomeScreenState extends State<HomeScreen>
                       itemExtent: 75.0,
                       itemBuilder: (context, index) => new FlatButton(
                             child: new Image.asset(
-                                'assets/${Services.items.categories[index]}.png'),
+                                'assets/${Services.items.categories[index]}.png',
+                                package: 'spotitem'),
                             onPressed: () {
                               print('test');
                             },

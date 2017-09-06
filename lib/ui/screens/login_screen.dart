@@ -16,7 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
-  Future<Null> doLogin() async {
+  Future<Null> doLogin(BuildContext context) async {
     final bool success =
         await Services.auth.login(_usernameCtrl.text, _passwordCtrl.text);
     if (success) {
@@ -34,10 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: const EdgeInsets.all(20.0),
                   child: new Column(
                     children: <Widget>[
-                      new Image.asset(
-                        'assets/logo.png',
-                        width: 200.0,
-                      ),
+                      new Image.asset('assets/logo.png', width: 200.0),
                       const Divider(),
                       new Card(
                           child: new Container(
@@ -88,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         final FormState form =
                                             _formKey.currentState;
                                         if (form.validate()) {
-                                          doLogin();
+                                          doLogin(context);
                                         } else {
                                           showSnackBar(
                                               context, 'Form must be valid !');

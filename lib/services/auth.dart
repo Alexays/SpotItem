@@ -102,7 +102,8 @@ class AuthManager extends BasicService {
       final dynamic bodyJson = JSON.decode(response.body);
       if (bodyJson['success']) {
         user = new User(bodyJson['user']);
-        await saveTokens(user.toString(), bodyJson['token'], 'local');
+        accessToken = bodyJson['access_token'];
+        await saveTokens(user.toString(), bodyJson['refresh_token'], 'local');
         _loggedIn = true;
         connectWs();
       }
