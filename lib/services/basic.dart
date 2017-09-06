@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:http/http.dart';
 import 'package:spotitem/keys.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:web_socket_channel/io.dart';
@@ -12,6 +13,38 @@ class BasicService {
 
   Future<bool> init() async => true;
 
+  Future<Response> iget(String url, [String tokken]) async {
+    final Client _client = new Client();
+    final Response response = await _client
+        .get('$apiUrl$url', headers: getHeaders(tokken))
+        .whenComplete(_client.close);
+    return response;
+  }
+
+  Future<Response> ipost(String url, payload, [String tokken]) async {
+    final Client _client = new Client();
+    final Response response = await _client
+        .post('$apiUrl$url', headers: getHeaders(tokken), body: payload)
+        .whenComplete(_client.close);
+    return response;
+  }
+
+  Future<Response> iput(String url, payload, [String tokken]) async {
+    final Client _client = new Client();
+    final Response response = await _client
+        .put('$apiUrl$url', headers: getHeaders(tokken), body: payload)
+        .whenComplete(_client.close);
+    return response;
+  }
+
+  Future<Response> idelete(String url, [String tokken]) async {
+    final Client _client = new Client();
+    final Response response = await _client
+        .delete('$apiUrl$url', headers: getHeaders(tokken))
+        .whenComplete(_client.close);
+    return response;
+  }
+
   Future<Null> saveTokens(
       String user, String oauthToken, String provider) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance()
@@ -19,7 +52,7 @@ class BasicService {
       ..setString(keyOauthToken, oauthToken)
       ..setString(keyProvider, provider);
     await prefs.commit();
-    Services.auth.oauthToken = oauthToken;
+    Services.auth.refreshToken = oauthToken;
   }
 
   void handleWsData(res) {

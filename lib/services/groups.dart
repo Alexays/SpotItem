@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart';
-import 'package:spotitem/keys.dart';
 import 'package:spotitem/models/group.dart';
 import 'package:spotitem/services/basic.dart';
 import 'package:spotitem/services/services.dart';
@@ -12,14 +11,11 @@ class GroupsManager extends BasicService {
   List<Group> _myGroupsInv = <Group>[];
 
   Future<dynamic> addGroup(Group group, List<String> users) async {
-    final Client _client = new Client();
     final dynamic groupJson = JSON.decode(group.toString());
     groupJson['users'] = JSON.encode(users);
     groupJson['owner'] = Services.auth.user.id;
-    final Response response = await _client
-        .post('$apiUrl/groups',
-            headers: getHeaders(Services.auth.oauthToken), body: groupJson)
-        .whenComplete(_client.close);
+    final Response response =
+        await ipost('/groups', groupJson, Services.auth.accessToken);
     final dynamic bodyJson = JSON.decode(response.body);
     if (bodyJson['success']) {
       Services.auth.user.groups.add(bodyJson['group']['_id'].toString());
@@ -30,23 +26,17 @@ class GroupsManager extends BasicService {
   }
 
   Future<dynamic> editGroup(Group group) async {
-    final Client _client = new Client();
     group.users = null;
     final dynamic groupJson = JSON.decode(group.toString());
     groupJson['users'] = '';
-    final Response response = await _client
-        .post('$apiUrl/group/${group.id}',
-            headers: getHeaders(Services.auth.oauthToken), body: groupJson)
-        .whenComplete(_client.close);
+    final Response response =
+        await ipost('/group/${group.id}', groupJson, Services.auth.accessToken);
     final dynamic bodyJson = JSON.decode(response.body);
     return bodyJson;
   }
 
   Future<dynamic> getGroups() async {
-    final Client _client = new Client();
-    final Response response = await _client
-        .get('$apiUrl/groups', headers: getHeaders(Services.auth.oauthToken))
-        .whenComplete(_client.close);
+    final Response response = await iget('/groups', Services.auth.accessToken);
     if (response.statusCode == 200) {
       final dynamic groupJson = JSON.decode(response.body);
       return _myGroups = new List<Group>.generate(
@@ -59,11 +49,8 @@ class GroupsManager extends BasicService {
     if (groupId == null) {
       return null;
     }
-    final Client _client = new Client();
-    final Response response = await _client
-        .get('$apiUrl/group/$groupId',
-            headers: getHeaders(Services.auth.oauthToken))
-        .whenComplete(_client.close);
+    final Response response =
+        await iget('/group/$groupId', Services.auth.accessToken);
     final dynamic groupJson = JSON.decode(response.body);
     return groupJson;
   }
@@ -72,11 +59,8 @@ class GroupsManager extends BasicService {
     if (userId == null) {
       return null;
     }
-    final Client _client = new Client();
-    final Response response = await _client
-        .get('$apiUrl/groups/inv',
-            headers: getHeaders(Services.auth.oauthToken))
-        .whenComplete(_client.close);
+    final Response response =
+        await iget('/groups/inv', Services.auth.accessToken);
     if (response.statusCode == 200) {
       final dynamic groupJson = JSON.decode(response.body);
       return _myGroupsInv = new List<Group>.generate(
@@ -89,11 +73,8 @@ class GroupsManager extends BasicService {
     if (groupId == null) {
       return null;
     }
-    final Client _client = new Client();
-    final Response response = await _client
-        .delete('$apiUrl/group/$groupId',
-            headers: getHeaders(Services.auth.oauthToken))
-        .whenComplete(_client.close);
+    final Response response =
+        await idelete('/group/$groupId', Services.auth.accessToken);
     final dynamic groupJson = JSON.decode(response.body);
     if (response.statusCode == 200) {
       Services.auth.user.groups.removeWhere((group) => group == groupId);
@@ -107,11 +88,8 @@ class GroupsManager extends BasicService {
     if (groupId == null) {
       return null;
     }
-    final Client _client = new Client();
-    final Response response = await _client
-        .put('$apiUrl/group/$groupId',
-            headers: getHeaders(Services.auth.oauthToken))
-        .whenComplete(_client.close);
+    final Response response =
+        await iput('/group/$groupId', null, Services.auth.accessToken);
     final dynamic groupJson = JSON.decode(response.body);
     if (response.statusCode == 200) {
       Services.auth.user.groups.add(groupId);
@@ -125,11 +103,8 @@ class GroupsManager extends BasicService {
     if (groupId == null) {
       return null;
     }
-    final Client _client = new Client();
-    final Response response = await _client
-        .get('$apiUrl/group/$groupId/leave',
-            headers: getHeaders(Services.auth.oauthToken))
-        .whenComplete(_client.close);
+    final Response response =
+        await iget('/group/$groupId/leave', Services.auth.accessToken);
     final dynamic groupJson = JSON.decode(response.body);
     if (response.statusCode == 200) {
       Services.auth.user.groups.removeWhere((group) => group == groupId);
@@ -143,11 +118,8 @@ class GroupsManager extends BasicService {
     if (groupId == null) {
       return null;
     }
-    final Client _client = new Client();
-    final Response response = await _client
-        .delete('$apiUrl/group/$groupId/$userId',
-            headers: getHeaders(Services.auth.oauthToken))
-        .whenComplete(_client.close);
+    final Response response =
+        await idelete('/group/$groupId/$userId', Services.auth.accessToken);
     final dynamic groupJson = JSON.decode(response.body);
     return groupJson;
   }
@@ -156,11 +128,8 @@ class GroupsManager extends BasicService {
     if (groupId == null) {
       return null;
     }
-    final Client _client = new Client();
-    final Response response = await _client
-        .put('$apiUrl/group/$groupId/$userId',
-            headers: getHeaders(Services.auth.oauthToken))
-        .whenComplete(_client.close);
+    final Response response =
+        await iput('/group/$groupId/$userId', null, Services.auth.accessToken);
     final dynamic groupJson = JSON.decode(response.body);
     return groupJson;
   }

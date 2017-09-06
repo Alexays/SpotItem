@@ -28,8 +28,6 @@ class ItemsManager extends BasicService {
 
   List<Item> get myItems => _myItems;
 
-  final String _clientSecret = clientSecret;
-
   final ValueNotifier<List<String>> tracks =
       new ValueNotifier<List<String>>([]);
 
@@ -99,11 +97,9 @@ class ItemsManager extends BasicService {
       String location,
       List<String> tracks,
       List<String> groups) async {
-    final Client _client = new Client();
-    final Response response = await _client.post(
-        Uri.encodeFull('$apiUrl/items'),
-        headers: getHeaders(Services.auth.oauthToken),
-        body: {
+    final Response response = await ipost(
+        '$apiUrl/items',
+        {
           'name': name,
           'about': about,
           'owner': userId,
@@ -114,7 +110,8 @@ class ItemsManager extends BasicService {
           'location': location,
           'tracks': JSON.encode(tracks),
           'groups': JSON.encode(groups),
-        }).whenComplete(_client.close);
+        },
+        Services.auth.accessToken);
     final dynamic bodyJson = JSON.decode(response.body);
     return bodyJson;
   }
@@ -130,29 +127,28 @@ class ItemsManager extends BasicService {
       String location,
       List<String> tracks,
       List<String> groups) async {
-    final Client _client = new Client();
-    final Response response = await _client
-        .put(Uri.encodeFull('$apiUrl/items/$id'), headers: getHeaders(), body: {
-      'name': name,
-      'about': about,
-      'owner': userId,
-      'holder': userId,
-      'lat': lat,
-      'lng': lng,
-      'images': JSON.encode(images),
-      'location': location,
-      'tracks': JSON.encode(tracks),
-      'groups': JSON.encode(groups),
-    }).whenComplete(_client.close);
+    final Response response = await iput(
+        '/items/items/$id',
+        {
+          'name': name,
+          'about': about,
+          'owner': userId,
+          'holder': userId,
+          'lat': lat,
+          'lng': lng,
+          'images': JSON.encode(images),
+          'location': location,
+          'tracks': JSON.encode(tracks),
+          'groups': JSON.encode(groups),
+        },
+        Services.auth.accessToken);
     final dynamic bodyJson = JSON.decode(response.body);
     return bodyJson;
   }
 
   Future<dynamic> deleteItem(String id) async {
-    final Client _client = new Client();
-    final Response response = await _client
-        .delete(Uri.encodeFull('$apiUrl/items/$id'), headers: getHeaders())
-        .whenComplete(_client.close);
+    final Response response =
+        await idelete('/items/items/$id', Services.auth.accessToken);
     final dynamic bodyJson = JSON.decode(response.body);
     return bodyJson;
   }
@@ -171,15 +167,9 @@ class ItemsManager extends BasicService {
       } on PlatformException {
         print("Can't get location");
       }
-      final Client _client = new Client();
-      final Response response = await _client
-          .get('$apiUrl${userId != null ? '/items/auth' : '/items'}',
-              headers: getHeaders(userId != null
-                  ? Services.auth.oauthToken
-                  : 'Basic $_clientSecret'))
-          .catchError(() {
-        print('Unable to get items');
-      }).whenComplete(_client.close);
+      final Response response = await iget(
+          '/items/${userId != null ? '/items/auth' : '/items'}',
+          userId != null ? Services.auth.accessToken : null);
       if (response.statusCode == 200) {
         final dynamic itemJson = JSON.decode(response.body);
         _items = new List<Item>.generate(
@@ -202,10 +192,7 @@ class ItemsManager extends BasicService {
     if (itemId == null) {
       return null;
     }
-    final Client _client = new Client();
-    final Response response = await _client
-        .get('$apiUrl/items/$itemId', headers: getHeaders())
-        .whenComplete(_client.close);
+    final Response response = await iget('/items/$itemId');
     if (response.statusCode == 200) {
       final dynamic itemJson = JSON.decode(response.body);
       return new Item(itemJson, getDist(itemJson['lat'], itemJson['lng']));
@@ -214,11 +201,8 @@ class ItemsManager extends BasicService {
   }
 
   Future<List<Item>> getSelfItems() async {
-    final Client _client = new Client();
-    final Response response = await _client
-        .get('$apiUrl/items/user',
-            headers: getHeaders(Services.auth.oauthToken))
-        .whenComplete(_client.close);
+    final Response response =
+        await iget('/items/user', Services.auth.accessToken);
     if (response.statusCode == 200) {
       final dynamic itemJson = JSON.decode(response.body);
       _myItems = new List<Item>.generate(

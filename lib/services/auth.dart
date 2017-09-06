@@ -17,7 +17,8 @@ GoogleSignIn _googleSignIn = new GoogleSignIn(
 class AuthManager extends BasicService {
   bool get loggedIn => _loggedIn;
 
-  String oauthToken;
+  String accessToken;
+  String refreshToken;
   String provider;
 
   User user;
@@ -31,17 +32,17 @@ class AuthManager extends BasicService {
     final String _userData = prefs.getString(keyUser) ?? '{}';
     final String _provider = prefs.getString(keyProvider);
     final User _user = new User(JSON.decode(_userData));
-    final String _oauthToken = prefs.getString(keyOauthToken);
+    final String _refreshToken = prefs.getString(keyOauthToken);
     if (_provider == 'google') {
       _googleUser = await _googleSignIn.signInSilently();
       await handleGoogleSignIn(false);
     }
-    if (!_user.isValid() || _oauthToken == null || _provider == null) {
+    if (!_user.isValid() || _refreshToken == null || _provider == null) {
       _loggedIn = false;
       await logout();
     } else {
       user = _user;
-      oauthToken = _oauthToken;
+      refreshToken = _refreshToken;
       provider = _provider;
       _loggedIn = true;
       connectWs();
@@ -58,14 +59,12 @@ class AuthManager extends BasicService {
         logout();
         return false;
       }
-      final Client _client = new Client();
-      final Response response = await _client
-          .post('$apiUrl/login/google', headers: getHeaders(), body: {
+      _loggedIn = false;
+      final Response response = await ipost('/login/google', {
         'token': (await _googleUser.authentication).accessToken,
         'user':
             '{"id": "${_googleUser.id}", "name": "${_googleUser.displayName}", "email": "${_googleUser.email}", "avatar": "${_googleUser.photoUrl}"}',
-      }).whenComplete(_client.close);
-      _loggedIn = false;
+      });
       if (response.statusCode == 200) {
         final dynamic bodyJson = JSON.decode(response.body);
         print(bodyJson);
@@ -83,14 +82,9 @@ class AuthManager extends BasicService {
   }
 
   Future<bool> login(String email, String password) async {
-    final Client _client = new Client();
-    final Response response = await _client.post('$apiUrl/login',
-        headers: getHeaders(),
-        body: {
-          'email': email,
-          'password': password
-        }).whenComplete(_client.close);
     _loggedIn = false;
+    final Response response =
+        await ipost('/login', {'email': email, 'password': password});
     if (response.statusCode == 200) {
       final dynamic bodyJson = JSON.decode(response.body);
       if (bodyJson['success']) {
@@ -112,13 +106,10 @@ class AuthManager extends BasicService {
   }
 
   Future<dynamic> register(user, String password) async {
-    final Client _client = new Client();
     user['_id'] = 'null';
     user['groups'] = 'groups';
     user['password'] = password;
-    final Response response = await _client
-        .post('$apiUrl/signup', headers: getHeaders(), body: user)
-        .whenComplete(_client.close);
+    final Response response = await ipost('/signup', user);
     final dynamic bodyJson = JSON.decode(response.body);
     return bodyJson;
   }
