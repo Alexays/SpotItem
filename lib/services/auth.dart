@@ -42,7 +42,6 @@ class AuthManager extends BasicService {
       refreshToken = _refreshToken;
       provider = _provider;
       if (_provider == 'google') {
-        _googleUser = await _googleSignIn.signInSilently();
         await handleGoogleSignIn(false);
       } else {
         await getAccessToken();
@@ -79,9 +78,9 @@ class AuthManager extends BasicService {
 
   Future<bool> handleGoogleSignIn([signIn = true]) async {
     try {
-      if (signIn) {
-        _googleUser = await _googleSignIn.signIn();
-      }
+      _googleUser = signIn
+          ? await _googleSignIn.signIn()
+          : await _googleSignIn.signInSilently();
       if (_googleUser == null) {
         logout();
         return false;
