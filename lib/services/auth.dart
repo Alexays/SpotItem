@@ -59,7 +59,7 @@ class AuthManager extends BasicService {
       final dynamic bodyJson = JSON.decode(response.body);
       if (bodyJson['success']) {
         accessToken = bodyJson['access_token'];
-        exp = new DateTime(bodyJson['exp']);
+        exp = new DateTime.fromMillisecondsSinceEpoch(bodyJson['exp'] * 1000);
         return;
       }
     }
@@ -106,7 +106,7 @@ class AuthManager extends BasicService {
       if (bodyJson['success']) {
         user = new User(bodyJson['user']);
         accessToken = bodyJson['access_token'];
-        exp = new DateTime(bodyJson['exp']);
+        exp = new DateTime.fromMillisecondsSinceEpoch(bodyJson['exp'] * 1000);
         await saveTokens(user.toString(), bodyJson['refresh_token'], 'local');
         _loggedIn = true;
         connectWs();
