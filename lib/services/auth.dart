@@ -37,15 +37,15 @@ class AuthManager extends BasicService {
       _loggedIn = false;
       await logout();
     } else {
+      user = _user;
+      refreshToken = _refreshToken;
+      provider = _provider;
       if (_provider == 'google') {
         _googleUser = await _googleSignIn.signInSilently();
         await handleGoogleSignIn(false);
       } else {
         await getAccessToken();
       }
-      user = _user;
-      refreshToken = _refreshToken;
-      provider = _provider;
       _loggedIn = true;
       connectWs();
     }
@@ -58,6 +58,7 @@ class AuthManager extends BasicService {
       final dynamic bodyJson = JSON.decode(response.body);
       if (bodyJson['success']) {
         accessToken = bodyJson['access_token'];
+        return;
       }
     }
     logout();

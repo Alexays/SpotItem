@@ -8,8 +8,7 @@ final RegExp nameExp =
 
 String capitalize(String s) => '${s[0].toUpperCase()}${s.substring(1)}';
 
-const AssetImage placeholder =
-    const AssetImage('assets/placeholder.png', package: 'spotitem');
+const AssetImage placeholder = const AssetImage('assets/placeholder.png');
 
 String validateEmail(String value) {
   if (value.isEmpty) {
