@@ -57,7 +57,7 @@ class AuthManager extends BasicService {
     if (token == null) {
       return null;
     }
-    if (token != accessToken || url != '/check') {
+    if (token != accessToken) {
       return token;
     }
     if (loggedIn && new DateTime.now().isAfter(exp)) {

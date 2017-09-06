@@ -30,10 +30,10 @@ class _GroupsViewState extends State<GroupsView> {
         setState(() {
           _myGroups = data;
         });
-      });
-      Services.groups.getGroupsInv(Services.auth.user.id).then((data) {
-        setState(() {
-          _myGroupsInv = data;
+        Services.groups.getGroupsInv(Services.auth.user.id).then((data) {
+          setState(() {
+            _myGroupsInv = data;
+          });
         });
       });
     }
