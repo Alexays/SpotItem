@@ -53,6 +53,12 @@ class AuthManager extends BasicService {
     return true;
   }
 
+  Future<Null> verifyToken() async {
+    if (!new DateTime.now().isAfter(exp)) {
+      await getAccessToken();
+    }
+  }
+
   Future<Null> getAccessToken() async {
     final Response response = await iget('/check', refreshToken);
     if (response.statusCode == 200) {
