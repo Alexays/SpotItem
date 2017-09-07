@@ -47,7 +47,9 @@ class AuthManager extends BasicService {
     final String _provider = prefs.getString(keyProvider);
     final User _user = new User(JSON.decode(_userData));
     final String _refreshToken = prefs.getString(keyOauthToken);
-    if (!_user.isValid() || _refreshToken == null || _provider == null) {
+    if (!_user.isValid() ||
+        _refreshToken == null ||
+        providers.contains(_provider)) {
       await logout();
     } else {
       user = _user;
@@ -152,7 +154,7 @@ class AuthManager extends BasicService {
     if (provider == 'google') {
       await _googleSignIn.signOut();
     }
-    if (provider != null && refreshToken != null) {
+    if (providers.contains(provider) && refreshToken != null) {
       await iget('/logout/$provider', refreshToken);
     }
     await saveTokens(null, null, null);
