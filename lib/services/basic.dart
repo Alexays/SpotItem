@@ -86,6 +86,7 @@ class BasicService {
       ..setString(keyOauthToken, oauthToken)
       ..setString(keyProvider, provider);
     await prefs.commit();
+    Services.auth.provider = provider;
     Services.auth.refreshToken = oauthToken;
   }
 
