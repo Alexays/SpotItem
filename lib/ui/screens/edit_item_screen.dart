@@ -218,17 +218,19 @@ class _EditItemScreenState extends State<EditItemScreen>
     item.images.forEach((f) => finalImages.add(f));
     images.forEach((f) => finalImages.add(f));
     if (Services.auth.user != null && Services.auth.user.id != null) {
-      final dynamic response = await Services.items.editItem(
-          item.id,
-          name,
-          about,
-          Services.auth.user.id,
-          Services.items.location['latitude'].toString(),
-          Services.items.location['longitude'].toString(),
-          finalImages,
-          location,
-          tracks,
-          groups);
+      final dynamic response = await Services.items.editItem({
+        'id': item.id,
+        'name': name,
+        'about': about,
+        'owner': Services.auth.user.id,
+        'holder': Services.auth.user.id,
+        'lat': Services.items.location['latitude'].toString(),
+        'lng': Services.items.location['longitude'].toString(),
+        'images': JSON.encode(finalImages),
+        'location': location,
+        'tracks': JSON.encode(tracks),
+        'groups': JSON.encode(groups)
+      });
       Navigator.of(context).pop();
       showSnackBar(context, response['msg']);
       if (response['success']) {

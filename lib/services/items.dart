@@ -78,61 +78,16 @@ class ItemsManager extends BasicService {
     return km;
   }
 
-  Future<dynamic> addItem(
-      String name,
-      String about,
-      String userId,
-      String lat,
-      String lng,
-      List<String> images,
-      String location,
-      List<String> tracks,
-      List<String> groups) async {
-    final Response response = await ipost(
-        '/items',
-        {
-          'name': name,
-          'about': about,
-          'owner': userId,
-          'holder': userId,
-          'lat': lat,
-          'lng': lng,
-          'images': JSON.encode(images),
-          'location': location,
-          'tracks': JSON.encode(tracks),
-          'groups': JSON.encode(groups),
-        },
-        Services.auth.accessToken);
+  Future<dynamic> addItem(payload) async {
+    final Response response =
+        await ipost('/items', payload, Services.auth.accessToken);
     final dynamic bodyJson = JSON.decode(response.body);
     return bodyJson;
   }
 
-  Future<dynamic> editItem(
-      String id,
-      String name,
-      String about,
-      String userId,
-      String lat,
-      String lng,
-      List<String> images,
-      String location,
-      List<String> tracks,
-      List<String> groups) async {
+  Future<dynamic> editItem(payload) async {
     final Response response = await iput(
-        '/items/$id',
-        {
-          'name': name,
-          'about': about,
-          'owner': userId,
-          'holder': userId,
-          'lat': lat,
-          'lng': lng,
-          'images': JSON.encode(images),
-          'location': location,
-          'tracks': JSON.encode(tracks),
-          'groups': JSON.encode(groups),
-        },
-        Services.auth.accessToken);
+        '/items/${payload['id']}', payload, Services.auth.accessToken);
     final dynamic bodyJson = JSON.decode(response.body);
     return bodyJson;
   }

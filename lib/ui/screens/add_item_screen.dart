@@ -30,9 +30,7 @@ class _AddItemScreenState extends State<AddItemScreen>
   bool gift = false;
   bool private = false;
   List<String> images = <String>[];
-
   List<bool> _checked;
-
   List<Group> _myGroups;
 
   @override
@@ -153,16 +151,18 @@ class _AddItemScreenState extends State<AddItemScreen>
     if (Services.auth.user != null &&
         Services.auth.user.id != null &&
         Services.items.location != null) {
-      final dynamic response = await Services.items.addItem(
-          name,
-          about,
-          Services.auth.user.id,
-          Services.items.location['latitude'].toString(),
-          Services.items.location['longitude'].toString(),
-          images,
-          location,
-          tracks,
-          groups);
+      final dynamic response = await Services.items.addItem({
+        'name': name,
+        'about': about,
+        'owner': Services.auth.user.id,
+        'holder': Services.auth.user.id,
+        'lat': Services.items.location['latitude'].toString(),
+        'lng': Services.items.location['longitude'].toString(),
+        'images': JSON.encode(images),
+        'location': location,
+        'tracks': JSON.encode(tracks),
+        'groups': JSON.encode(groups)
+      });
       Navigator.of(context).pop();
       showSnackBar(context, response['msg']);
       if (response['success']) {
