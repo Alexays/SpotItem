@@ -48,7 +48,6 @@ class AuthManager extends BasicService {
     final User _user = new User(JSON.decode(_userData));
     final String _refreshToken = prefs.getString(keyOauthToken);
     if (!_user.isValid() || _refreshToken == null || _provider == null) {
-      _loggedIn = false;
       await logout();
     } else {
       user = _user;
