@@ -6,7 +6,8 @@ dependencies:
   fluro: '>=1.1.0'
   shared_preferences: '>=0.2.5'
   image_picker: '>=0.1.1'
-  location: '>=1.1.2'
+  location:
+    path: '../flutterlocation'
   url_launcher: '>=0.4.0'
   web_socket_channel: '>=1.0.5'
   google_sign_in: '>=0.3.1'

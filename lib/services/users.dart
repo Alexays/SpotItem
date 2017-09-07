@@ -17,12 +17,7 @@ class UsersManager extends BasicService {
 
   @override
   Future<bool> init() async {
-    try {
-      location = await _location.getLocation;
-    } on PlatformException {
-      location = null;
-    }
-    getLocation();
+    await getLocation();
     return true;
   }
 
@@ -33,7 +28,11 @@ class UsersManager extends BasicService {
     if (!force && location != null) {
       return;
     }
-    location = await _location.onLocationChanged.single;
+    try {
+      location = await _location.getLocation;
+    } on PlatformException {
+      location = null;
+    }
     print(location);
   }
 
