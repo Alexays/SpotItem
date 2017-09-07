@@ -147,7 +147,6 @@ class AuthManager extends BasicService {
 
   /// Logout an user.
   ///
-  /// TO-DO send to api to unset token
   Future<Null> logout() async {
     if (provider == 'google') {
       await _googleSignIn.signOut();
