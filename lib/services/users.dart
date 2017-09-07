@@ -34,6 +34,7 @@ class UsersManager extends BasicService {
     } on PlatformException {
       location = null;
     }
+    location = await _location.onLocationChanged.single;
     print(location);
   }
 
