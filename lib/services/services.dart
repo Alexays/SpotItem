@@ -22,12 +22,12 @@ class Services {
 
   Services._internal();
 
-  static Future<bool> setup(
-      AuthManager authManager,
-      ItemsManager itemsManager,
-      GroupsManager groupsManager,
-      UsersManager usersManager,
-      Router router) async {
+  static Future<bool> setup() async {
+    final AuthManager authManager = new AuthManager();
+    final ItemsManager itemsManager = new ItemsManager();
+    final GroupsManager groupsManager = new GroupsManager();
+    final UsersManager usersManager = new UsersManager();
+    final Router router = new Router();
     _singleton._authManager = authManager;
     _singleton._itemsManager = itemsManager;
     _singleton._groupsManager = groupsManager;
