@@ -49,7 +49,7 @@ class AuthManager extends BasicService {
     final String _refreshToken = prefs.getString(keyOauthToken);
     if (!_user.isValid() ||
         _refreshToken == null ||
-        providers.contains(_provider)) {
+        !providers.contains(_provider)) {
       await logout();
     } else {
       user = _user;
