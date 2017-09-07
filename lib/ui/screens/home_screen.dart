@@ -151,9 +151,7 @@ class _HomeScreenState extends State<HomeScreen>
                             child: new Image.asset(
                                 'assets/${Services.items.categories[index]}.png',
                                 package: 'spotitem'),
-                            onPressed: () {
-                              print('test');
-                            },
+                            onPressed: () {},
                           )),
                 ),
                 new StatefulBuilder(

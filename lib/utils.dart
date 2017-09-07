@@ -64,6 +64,13 @@ Widget getIcon(String tracks, [Color color]) {
   }
 }
 
+String limitString(String str, int lenght) {
+  if (str.length > lenght) {
+    return '${str.substring(0, lenght)}...';
+  }
+  return str;
+}
+
 class LinkTextSpan extends TextSpan {
   // Beware!
   //

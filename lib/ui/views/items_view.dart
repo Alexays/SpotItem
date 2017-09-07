@@ -45,7 +45,8 @@ class _ItemsViewState extends State<ItemsView> {
                     new ListTile(
                         leading: const Icon(Icons.event_available),
                         title: new Text(_myItems[index].name),
-                        subtitle: new Text(_myItems[index].about),
+                        subtitle:
+                            new Text(limitString(_myItems[index].about, 50)),
                         trailing: new Row(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
