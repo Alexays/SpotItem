@@ -150,14 +150,14 @@ class _AddItemScreenState extends State<AddItemScreen>
     }
     if (Services.auth.user != null &&
         Services.auth.user.id != null &&
-        Services.items.location != null) {
+        Services.users.location != null) {
       final dynamic response = await Services.items.addItem({
         'name': name,
         'about': about,
         'owner': Services.auth.user.id,
         'holder': Services.auth.user.id,
-        'lat': Services.items.location['latitude'].toString(),
-        'lng': Services.items.location['longitude'].toString(),
+        'lat': Services.users.location['latitude'].toString(),
+        'lng': Services.users.location['longitude'].toString(),
         'images': JSON.encode(images),
         'location': location,
         'tracks': JSON.encode(tracks),

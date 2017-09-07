@@ -6,10 +6,21 @@ import 'package:spotitem/services/basic.dart';
 import 'package:spotitem/services/services.dart';
 
 class GroupsManager extends BasicService {
-  List<Group> _myGroups = <Group>[];
+  /// User groups data
+  List<Group> get groups => _groups;
 
-  List<Group> _myGroupsInv = <Group>[];
+  /// User groups invitation data
+  List<Group> get groupsInv => _groupsInv;
 
+  /// Define private variables
+  List<Group> _groups = <Group>[];
+  List<Group> _groupsInv = <Group>[];
+
+  /// Add group and push group to owner groups.
+  ///
+  /// @param group Group payload
+  /// @param users Users list to add
+  /// @returns Api body response
   Future<dynamic> addGroup(Group group, List<String> users) async {
     final dynamic groupJson = JSON.decode(group.toString());
     groupJson['users'] = JSON.encode(users);
@@ -23,6 +34,10 @@ class GroupsManager extends BasicService {
     return bodyJson;
   }
 
+  /// Edit group, not users in group.
+  ///
+  /// @param group Group payload
+  /// @returns Api body response
   Future<dynamic> editGroup(Group group) async {
     group.users = null;
     final dynamic groupJson = JSON.decode(group.toString());
@@ -33,16 +48,23 @@ class GroupsManager extends BasicService {
     return bodyJson;
   }
 
+  /// Get user groups.
+  ///
+  /// @returns Groups list
   Future<dynamic> getGroups() async {
     final Response response = await iget('/groups', Services.auth.accessToken);
     if (response.statusCode == 200) {
       final dynamic groupJson = JSON.decode(response.body);
-      return _myGroups = new List<Group>.generate(
+      return _groups = new List<Group>.generate(
           groupJson.length, (index) => new Group(groupJson[index]));
     }
-    return _myGroups;
+    return _groups;
   }
 
+  /// Get a group by id.
+  ///
+  /// @param groupId Group id
+  /// @returns Api body response
   Future<dynamic> getGroup(String groupId) async {
     if (groupId == null) {
       return null;
@@ -53,6 +75,10 @@ class GroupsManager extends BasicService {
     return groupJson;
   }
 
+  /// Get user groups invitation.
+  ///
+  /// @param userId User id
+  /// @returns Invitation groups list
   Future<dynamic> getGroupsInv(String userId) async {
     if (userId == null) {
       return null;
@@ -61,12 +87,16 @@ class GroupsManager extends BasicService {
         await iget('/groups/inv', Services.auth.accessToken);
     if (response.statusCode == 200) {
       final dynamic groupJson = JSON.decode(response.body);
-      return _myGroupsInv = new List<Group>.generate(
+      return _groupsInv = new List<Group>.generate(
           groupJson.length, (index) => new Group(groupJson[index]));
     }
-    return _myGroupsInv;
+    return _groupsInv;
   }
 
+  /// Delete a group by id.
+  ///
+  /// @param groupId Group id
+  /// @returns Api body response
   Future<dynamic> delGroup(String groupId) async {
     if (groupId == null) {
       return null;
@@ -80,6 +110,10 @@ class GroupsManager extends BasicService {
     return groupJson;
   }
 
+  /// Join group by id.
+  ///
+  /// @param groupId Group id
+  /// @returns Api body response
   Future<dynamic> joinGroup(String groupId) async {
     if (groupId == null) {
       return null;
@@ -93,6 +127,10 @@ class GroupsManager extends BasicService {
     return groupJson;
   }
 
+  /// Leave a group by id.
+  ///
+  /// @param groupId Group id
+  /// @returns Api body response
   Future<dynamic> leaveGroup(String groupId) async {
     if (groupId == null) {
       return null;
@@ -106,6 +144,11 @@ class GroupsManager extends BasicService {
     return groupJson;
   }
 
+  /// Kick user of group by id's.
+  ///
+  /// @param groupId Group id
+  /// @param userId User id
+  /// @returns Api body response
   Future<dynamic> kickUser(String groupId, String userId) async {
     if (groupId == null) {
       return null;
@@ -116,6 +159,11 @@ class GroupsManager extends BasicService {
     return groupJson;
   }
 
+  /// Add a user to group by id's
+  ///
+  /// @param groupId Group id
+  /// @param userId User id
+  /// @returns Api body response
   Future<dynamic> addUserToGroup(String groupId, String userId) async {
     if (groupId == null) {
       return null;

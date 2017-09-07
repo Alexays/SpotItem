@@ -37,7 +37,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       return false;
     }
     if (form.validate()) {
-      final dynamic data = await Services.auth.register(user, password);
+      user['password'] = password;
+      final dynamic data = await Services.auth.register(user);
       if (data['success']) {
         Navigator.pushReplacementNamed(context, '/login');
         return true;

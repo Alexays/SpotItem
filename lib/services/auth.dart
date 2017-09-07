@@ -15,28 +15,28 @@ GoogleSignIn _googleSignIn = new GoogleSignIn(
 );
 
 class AuthManager extends BasicService {
-  // Check if user is logged in
+  /// Check if user is logged in
   bool get loggedIn => _loggedIn;
 
-  // Token to access API data
+  /// Token to access API data
   String get accessToken => _accessToken;
 
-  // Token to regenerate access_token
+  /// Token to regenerate access_token
   String refreshToken;
 
-  // Date of expiration of access_token
+  /// Date of expiration of access_token
   DateTime exp;
 
-  // Login provider (google, local)
+  /// Login provider (google, local)
   String provider;
 
-  // User data
+  /// User data
   User user;
 
-  // Google user data
+  /// Google user data
   GoogleSignInAccount _googleUser;
 
-  // Define private variables
+  /// Define private variables
   bool _loggedIn = false;
   String _accessToken;
 
@@ -64,7 +64,10 @@ class AuthManager extends BasicService {
     return true;
   }
 
-  // Check if access_token is expired and regenerate it if expired
+  /// Check if access_token is expired and regenerate it if expired.
+  ///
+  /// @param token Token will be user to access API
+  /// @returns Valid token
   Future<String> verifyToken(String token) async {
     if (token != accessToken) {
       return token;
@@ -79,7 +82,8 @@ class AuthManager extends BasicService {
     return accessToken;
   }
 
-  // Regenerate access_token
+  /// Regenerate access_token.
+  ///
   Future<Null> getAccessToken() async {
     final Response response = await iget('/check/$provider', refreshToken);
     if (response.statusCode == 200) {
@@ -94,7 +98,10 @@ class AuthManager extends BasicService {
     await logout();
   }
 
-  // Pre login with google account
+  /// Pre login with google account.
+  ///
+  /// @param signIn Login/re-login
+  /// @returns Logged or not
   Future<bool> handleGoogleSignIn([signIn = true]) async {
     try {
       _googleUser = signIn
@@ -116,7 +123,11 @@ class AuthManager extends BasicService {
     return _loggedIn;
   }
 
-  // Login with a special provider (google, local)
+  /// Login to api with special provider.
+  ///
+  /// @param payload User payload
+  /// @param _provider Login provider
+  /// @returns Logged or not
   Future<bool> login(payload, String _provider) async {
     _loggedIn = false;
     final Response response = await ipost('/login/$_provider', payload);
@@ -134,8 +145,9 @@ class AuthManager extends BasicService {
     return _loggedIn;
   }
 
-  // Logout user
-  // TO-DO send to api to unset token
+  /// Logout an user.
+  ///
+  /// TO-DO send to api to unset token
   Future<Null> logout() async {
     if (provider == 'google') {
       await _googleSignIn.signOut();
@@ -144,12 +156,14 @@ class AuthManager extends BasicService {
     _loggedIn = false;
   }
 
-  // Register an user
-  Future<dynamic> register(user, String password) async {
-    user['_id'] = 'null';
-    user['groups'] = 'groups';
-    user['password'] = password;
-    final Response response = await ipost('/signup', user);
+  /// Regiser an user.
+  ///
+  /// @param payload User payload
+  /// @returns Api response
+  Future<dynamic> register(payload) async {
+    payload['_id'] = '';
+    payload['groups'] = '';
+    final Response response = await ipost('/signup', payload);
     final dynamic bodyJson = JSON.decode(response.body);
     return bodyJson;
   }
