@@ -6,9 +6,9 @@ import 'package:spotitem/models/item.dart';
 import 'package:http/http.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'package:location/location.dart';
 import 'package:spotitem/services/basic.dart';
 import 'package:spotitem/services/services.dart';
+import 'package:location/location.dart';
 
 class ItemsManager extends BasicService {
   final List<String> _categories = [
@@ -27,39 +27,34 @@ class ItemsManager extends BasicService {
 
   List<Item> get myItems => _myItems;
 
-  final ValueNotifier<List<String>> tracks =
-      new ValueNotifier<List<String>>([]);
+  StreamSubscription<Map<String, double>> _streamSubscription;
 
   final Location _location = new Location();
 
-  StreamSubscription<Map<String, double>> _locationSubscription;
-
   Map<String, double> location;
+
+  final ValueNotifier<List<String>> tracks =
+      new ValueNotifier<List<String>>([]);
 
   List<Item> _items = <Item>[];
 
   List<Item> _myItems = <Item>[];
 
+  Future<Null> getLocation([bool force = false]) async {
+    if (!force && location != null) {
+      return;
+    }
+    try {
+      location = await _location.getLocation;
+    } on PlatformException {
+      location = null;
+    }
+    print(location);
+  }
+
   @override
   Future<bool> init() async {
-    try {
-      final Map<String, double> tmp = await _location.getLocation;
-      if (tmp != null) {
-        location = tmp;
-      } else if (location == null) {
-        _locationSubscription = _location.onLocationChanged.listen((result) {
-          if (result != null) {
-            location = result;
-            if (_locationSubscription != null) {
-              _locationSubscription.cancel();
-              _locationSubscription = null;
-            }
-          }
-        });
-      }
-    } on PlatformException {
-      print("Can't get location");
-    }
+    await getLocation();
     return true;
   }
 
@@ -151,18 +146,7 @@ class ItemsManager extends BasicService {
 
   Future<List<Item>> loadItems() async {
     if (_items.isEmpty) {
-      try {
-        final Map<String, double> tmp = await _location.getLocation
-            .timeout(const Duration(milliseconds: 300), onTimeout: () {
-          location = null;
-        });
-        if (tmp != null) {
-          location = tmp;
-        }
-        print(location);
-      } on PlatformException {
-        print("Can't get location");
-      }
+      await getLocation();
       final Response response = await iget(
           '${Services.auth.loggedIn != null ? '/items/auth' : '/items'}',
           Services.auth.loggedIn ? Services.auth.accessToken : null);
