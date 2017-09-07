@@ -42,33 +42,23 @@ class ItemsManager extends BasicService {
 
   @override
   Future<bool> init() async {
-    bool debug = false;
-    assert(() {
-      debug = true;
-      return true;
-    });
-    if (!debug) {
-      try {
-        Map<String, double> tmp;
-        _location.getLocation.then((data) {
-          tmp = data;
-        });
-        if (tmp != null) {
-          location = tmp;
-        } else if (location == null) {
-          _locationSubscription = _location.onLocationChanged.listen((result) {
-            if (result != null) {
-              location = result;
-              if (_locationSubscription != null) {
-                _locationSubscription.cancel();
-                _locationSubscription = null;
-              }
+    try {
+      final Map<String, double> tmp = await _location.getLocation;
+      if (tmp != null) {
+        location = tmp;
+      } else if (location == null) {
+        _locationSubscription = _location.onLocationChanged.listen((result) {
+          if (result != null) {
+            location = result;
+            if (_locationSubscription != null) {
+              _locationSubscription.cancel();
+              _locationSubscription = null;
             }
-          });
-        }
-      } on PlatformException {
-        print("Can't get location");
+          }
+        });
       }
+    } on PlatformException {
+      print("Can't get location");
     }
     return true;
   }
