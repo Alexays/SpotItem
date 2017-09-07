@@ -15,17 +15,30 @@ GoogleSignIn _googleSignIn = new GoogleSignIn(
 );
 
 class AuthManager extends BasicService {
+  // Check if user is logged in
   bool get loggedIn => _loggedIn;
 
-  String accessToken;
+  // Token to access API data
+  String get accessToken => _accessToken;
+
+  // Token to regenerate access_token
   String refreshToken;
+
+  // Date of expiration of access_token
   DateTime exp;
+
+  // Login provider (google, local)
   String provider;
 
+  // User data
   User user;
+
+  // Google user data
   GoogleSignInAccount _googleUser;
 
+  // Define private variables
   bool _loggedIn = false;
+  String _accessToken;
 
   @override
   Future<bool> init() async {
@@ -51,6 +64,7 @@ class AuthManager extends BasicService {
     return true;
   }
 
+  // Check if access_token is expired and regenerate it if expired
   Future<String> verifyToken(String token) async {
     if (token != accessToken) {
       return token;
@@ -65,12 +79,13 @@ class AuthManager extends BasicService {
     return accessToken;
   }
 
+  // Regenerate access_token
   Future<Null> getAccessToken() async {
     final Response response = await iget('/check/$provider', refreshToken);
     if (response.statusCode == 200) {
       final dynamic bodyJson = JSON.decode(response.body);
       if (bodyJson['success']) {
-        accessToken = bodyJson['access_token'];
+        _accessToken = bodyJson['access_token'];
         exp = new DateTime.fromMillisecondsSinceEpoch(
             (bodyJson['exp'] * 1000) - 30);
         return;
@@ -79,8 +94,8 @@ class AuthManager extends BasicService {
     await logout();
   }
 
+  // Pre login with google account
   Future<bool> handleGoogleSignIn([signIn = true]) async {
-    print('HANDLE_GOOGLE');
     try {
       _googleUser = signIn
           ? await _googleSignIn.signIn()
@@ -95,11 +110,13 @@ class AuthManager extends BasicService {
             '{"id": "${_googleUser.id}", "name": "${_googleUser.displayName}", "email": "${_googleUser.email}", "avatar": "${_googleUser.photoUrl}"}',
       }, 'google');
     } on Exception {
+      _googleUser = null;
       _loggedIn = false;
     }
     return _loggedIn;
   }
 
+  // Login with a special provider (google, local)
   Future<bool> login(payload, String _provider) async {
     _loggedIn = false;
     final Response response = await ipost('/login/$_provider', payload);
@@ -107,7 +124,7 @@ class AuthManager extends BasicService {
       final dynamic bodyJson = JSON.decode(response.body);
       if (bodyJson['success']) {
         user = new User(bodyJson['user']);
-        accessToken = bodyJson['access_token'];
+        _accessToken = bodyJson['access_token'];
         exp = new DateTime.fromMillisecondsSinceEpoch(bodyJson['exp'] * 1000);
         await saveTokens(user.toString(), bodyJson['refresh_token'], _provider);
         _loggedIn = true;
@@ -117,6 +134,8 @@ class AuthManager extends BasicService {
     return _loggedIn;
   }
 
+  // Logout user
+  // TO-DO send to api to unset token
   Future<Null> logout() async {
     if (provider == 'google') {
       await _googleSignIn.signOut();
@@ -125,6 +144,7 @@ class AuthManager extends BasicService {
     _loggedIn = false;
   }
 
+  // Register an user
   Future<dynamic> register(user, String password) async {
     user['_id'] = 'null';
     user['groups'] = 'groups';
