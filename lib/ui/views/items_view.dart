@@ -26,37 +26,40 @@ class _ItemsViewState extends State<ItemsView> {
 
   Widget getList() {
     if (_myItems.isEmpty) {
-      return const Center(
-        child: const Text('No items'),
-      );
+      return const Center(child: const Text('No items'));
     }
     return new ListView.builder(
-        padding: const EdgeInsets.all(20.0),
-        itemCount: _myItems.length,
-        itemBuilder: (context, index) => new GestureDetector(
-              onTap: () {
-                Navigator.of(context).pushNamed('/items/${_myItems[index].id}');
-              },
-              child: new Card(
-                child: new Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    new ListTile(
-                        leading: const Icon(Icons.event_available),
-                        title: new Text(_myItems[index].name),
-                        subtitle:
-                            new Text(limitString(_myItems[index].about, 50)),
-                        trailing: new Row(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: new List<Widget>.generate(
-                                _myItems[index].tracks.length,
-                                (i) => getIcon(_myItems[index].tracks[i]))))
-                  ],
-                ),
+      padding: const EdgeInsets.all(20.0),
+      itemCount: _myItems.length,
+      itemBuilder: (context, index) => new GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed('/items/${_myItems[index].id}');
+            },
+            child: new Card(
+              child: new Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  new ListTile(
+                    leading: const Icon(Icons.event_available),
+                    title: new Text(_myItems[index].name),
+                    subtitle: new Text(limitString(_myItems[index].about, 50)),
+                    trailing: new Row(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: new List<Widget>.generate(
+                        _myItems[index].tracks.length,
+                        (i) => getIcon(
+                              _myItems[index].tracks[i],
+                            ),
+                      ),
+                    ),
+                  )
+                ],
               ),
-            ));
+            ),
+          ),
+    );
   }
 
   @override
