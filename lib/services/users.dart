@@ -13,12 +13,16 @@ class UsersManager extends BasicService {
   Map<String, double> location;
 
   /// Define private variables
-  StreamSubscription<Map<String, double>> _streamSubscription;
   final Location _location = new Location();
 
   @override
   Future<bool> init() async {
-    await getLocation();
+    try {
+      location = await _location.getLocation;
+    } on PlatformException {
+      location = null;
+    }
+    getLocation();
     return true;
   }
 
@@ -28,11 +32,6 @@ class UsersManager extends BasicService {
   Future<Null> getLocation([bool force = false]) async {
     if (!force && location != null) {
       return;
-    }
-    try {
-      location = await _location.getLocation;
-    } on PlatformException {
-      location = null;
     }
     location = await _location.onLocationChanged.single;
     print(location);
