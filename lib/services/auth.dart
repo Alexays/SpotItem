@@ -56,9 +56,10 @@ class AuthManager extends BasicService {
       if (_provider == 'google') {
         await handleGoogleSignIn(false);
       }
-      await getAccessToken();
-      _loggedIn = true;
-      connectWs();
+      if (await getAccessToken()) {
+        _loggedIn = true;
+        connectWs();
+      }
     }
     return true;
   }
@@ -68,7 +69,7 @@ class AuthManager extends BasicService {
   /// @param token Token will be user to access API
   /// @returns Valid token
   Future<String> verifyToken(String token) async {
-    if (token != accessToken) {
+    if (token == null || token != accessToken) {
       return token;
     }
     if (exp == null) {
@@ -83,7 +84,7 @@ class AuthManager extends BasicService {
 
   /// Regenerate access_token.
   ///
-  Future<Null> getAccessToken() async {
+  Future<bool> getAccessToken() async {
     final Response response = await iget('/check/$provider', refreshToken);
     if (response.statusCode == 200) {
       final dynamic bodyJson = JSON.decode(response.body);
@@ -91,10 +92,11 @@ class AuthManager extends BasicService {
         _accessToken = bodyJson['access_token'];
         exp = new DateTime.fromMillisecondsSinceEpoch(
             (bodyJson['exp'] * 1000) - 30);
-        return;
+        return true;
       }
     }
     await logout();
+    return false;
   }
 
   /// Pre login with google account.
@@ -107,10 +109,10 @@ class AuthManager extends BasicService {
           ? await _googleSignIn.signIn()
           : await _googleSignIn.signInSilently();
       if (_googleUser == null) {
-        logout();
+        await logout();
         return false;
       }
-      return login({
+      return await login({
         'token': (await _googleUser.authentication).accessToken,
         'user':
             '{"id": "${_googleUser.id}", "name": "${_googleUser.displayName}", "email": "${_googleUser.email}", "avatar": "${_googleUser.photoUrl}"}',
@@ -150,7 +152,7 @@ class AuthManager extends BasicService {
     if (provider == 'google') {
       await _googleSignIn.signOut();
     }
-    await iget('/logout/$provider', accessToken);
+    await iget('/logout/$provider', refreshToken);
     await saveTokens(null, null, null);
     _accessToken = null;
     exp = null;
