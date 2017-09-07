@@ -152,6 +152,11 @@ class AuthManager extends BasicService {
     }
     await iget('/logout/$provider', accessToken);
     await saveTokens(null, null, null);
+    _accessToken = null;
+    exp = null;
+    provider = null;
+    user = null;
+    _googleUser = null;
     _loggedIn = false;
   }
 
