@@ -152,7 +152,9 @@ class AuthManager extends BasicService {
     if (provider == 'google') {
       await _googleSignIn.signOut();
     }
-    await iget('/logout/$provider', refreshToken);
+    if (provider != null && refreshToken != null) {
+      await iget('/logout/$provider', refreshToken);
+    }
     await saveTokens(null, null, null);
     _accessToken = null;
     exp = null;
