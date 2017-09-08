@@ -22,6 +22,7 @@ class UsersManager extends BasicService {
   @override
   Future<bool> init() async {
     await getLocation();
+    _handleGetContact();
     return true;
   }
 
@@ -110,15 +111,17 @@ class UsersManager extends BasicService {
   /// Get contact of user.
   ///
   Future<Null> _handleGetContact() async {
-    final http.Response response = await http.get(
-      'https://people.googleapis.com/v1/people/me/connections'
-          '?requestMask.includeField=person.names',
-      headers: await Services.auth.googleUser.authHeaders,
-    );
-    if (response.statusCode != 200) {
-      print('People API ${response.statusCode} response: ${response.body}');
-      return;
+    if (Services.auth.provider == 'google') {
+      final http.Response response = await http.get(
+        'https://people.googleapis.com/v1/people/me/connections'
+            '?requestMask.includeField=person.names',
+        headers: await Services.auth.googleUser.authHeaders,
+      );
+      if (response.statusCode != 200) {
+        print('People API ${response.statusCode} response: ${response.body}');
+        return;
+      }
+      final Map<String, dynamic> data = JSON.decode(response.body);
     }
-    final Map<String, dynamic> data = JSON.decode(response.body);
   }
 }
