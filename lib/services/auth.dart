@@ -106,6 +106,7 @@ class AuthManager extends BasicService {
   ///
   /// @param signIn Login/re-login
   /// @returns Logged or not
+  /// TO-DO don't send user data, just get it on API with access_token
   Future<bool> handleGoogleSignIn([signIn = true]) async {
     try {
       _googleUser = signIn
