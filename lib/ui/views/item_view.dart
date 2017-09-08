@@ -238,13 +238,17 @@ class _ItemPageState extends State<ItemPage>
                         if (dragStopped == true &&
                             details.delta.dx < 0 &&
                             _tabController.index < item.images.length - 1) {
-                          _tabController.index = _tabController.index + 1;
-                          dragStopped = false;
+                          setState(() {
+                            _tabController.index = _tabController.index + 1;
+                            dragStopped = false;
+                          });
                         } else if (dragStopped == true &&
                             details.delta.dx > 0 &&
                             _tabController.index > 0) {
-                          _tabController.index = _tabController.index - 1;
-                          dragStopped = false;
+                          setState(() {
+                            _tabController.index = _tabController.index - 1;
+                            dragStopped = false;
+                          });
                         }
                       },
                       onHorizontalDragEnd: (details) {
@@ -282,7 +286,23 @@ class _ItemPageState extends State<ItemPage>
                                         fit: BoxFit.cover);
                                   }
                                 })),
-
+                            new Positioned(
+                              bottom: 15.0,
+                              left: 15.0,
+                              width: MediaQuery.of(context).size.width,
+                              child: new Center(
+                                  child: new Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: new List<Widget>.generate(
+                                    item.images.length, (index) {
+                                  return new Icon(Icons.brightness_1,
+                                      size: 8.0,
+                                      color: _tabController.index == index
+                                          ? Colors.white
+                                          : Colors.white.withAlpha(50));
+                                }),
+                              )),
+                            ),
                             // This gradient ensures that the toolbar icons are distinct
                             // against the background image.
                             const DecoratedBox(
