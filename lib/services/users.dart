@@ -108,10 +108,11 @@ class UsersManager extends BasicService {
     return null;
   }
 
-  /// Get contact of user.
+  /// Get contact of user by provider.
   ///
   Future<Null> _handleGetContact() async {
-    if (Services.auth.provider == 'google') {
+    final String provider = Services.auth.provider;
+    if (provider == 'google') {
       final http.Response response = await http.get(
         'https://people.googleapis.com/v1/people/me/connections'
             '?requestMask.includeField=person.names',
@@ -122,6 +123,8 @@ class UsersManager extends BasicService {
         return;
       }
       final Map<String, dynamic> data = JSON.decode(response.body);
+    } else if (provider == 'local') {
+      // TO-DO Maybe get member of user groups
     }
   }
 }
