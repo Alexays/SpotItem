@@ -488,7 +488,7 @@ class _HomeScreenState extends State<HomeScreen>
                 )),
       const Banner(
         message: 'BETA TEST',
-        location: BannerLocation.bottomLeft,
+        location: BannerLocation.bottomStart,
       ),
     ]);
   }

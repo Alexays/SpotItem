@@ -29,7 +29,10 @@ class UsersManager extends BasicService {
       return;
     }
     try {
-      location = await _location.getLocation;
+      location = await _location.getLocation
+          .timeout(const Duration(milliseconds: 200), onTimeout: () {
+        location = null;
+      });
     } on PlatformException {
       location = null;
     }
