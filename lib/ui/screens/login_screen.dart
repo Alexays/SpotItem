@@ -55,6 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 keyboardType: TextInputType.emailAddress,
                               ),
                               new TextFormField(
+                                key: const Key('password'),
                                 decoration: const InputDecoration(
                                     hintText: 'Enter password',
                                     labelText: 'Password'),
@@ -80,6 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         horizontal: 5.0),
                                   ),
                                   new RaisedButton(
+                                      key: const Key('login'),
                                       child: const Text('Login'),
                                       onPressed: () {
                                         final FormState form =
