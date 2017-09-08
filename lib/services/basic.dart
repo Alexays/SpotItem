@@ -10,7 +10,7 @@ class BasicService {
   /// Check if service is initialized
   bool get initialized => _initialized;
 
-  /// Define private variables
+  /// Private variables
   bool _initialized;
 
   /// Default init function of services

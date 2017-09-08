@@ -12,7 +12,7 @@ class UsersManager extends BasicService {
   /// Location of user
   Map<String, double> location;
 
-  /// Define private variables
+  /// Private variables
   final Location _location = new Location();
 
   @override

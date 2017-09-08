@@ -36,7 +36,7 @@ class AuthManager extends BasicService {
   /// Google user data
   GoogleSignInAccount _googleUser;
 
-  /// Define private variables
+  /// Private variables
   bool _loggedIn = false;
   String _accessToken;
 

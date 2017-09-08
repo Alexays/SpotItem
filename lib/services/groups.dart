@@ -12,7 +12,7 @@ class GroupsManager extends BasicService {
   /// User groups invitation data
   List<Group> get groupsInv => _groupsInv;
 
-  /// Define private variables
+  /// Private variables
   List<Group> _groups = <Group>[];
   List<Group> _groupsInv = <Group>[];
 

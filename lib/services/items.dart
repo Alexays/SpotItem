@@ -21,7 +21,7 @@ class ItemsManager extends BasicService {
   final ValueNotifier<List<String>> tracks =
       new ValueNotifier<List<String>>([]);
 
-  /// Define private variables
+  /// Private variables
   List<Item> _items = <Item>[];
   List<Item> _myItems = <Item>[];
   final List<String> _categories = [
