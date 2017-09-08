@@ -16,7 +16,7 @@ class SpotItemApp extends MaterialApp {
               scaffoldBackgroundColor: Colors.white,
               primaryColor: _spotTheme(),
               backgroundColor: Colors.white),
-          onGenerateRoute: Services.router.generator,
+          onGenerateRoute: Services.router?.generator,
           showPerformanceOverlay: false,
         );
 }
