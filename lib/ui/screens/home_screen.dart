@@ -365,6 +365,7 @@ class _HomeScreenState extends State<HomeScreen>
     return new SliverAppBar(
       pinned: true,
       automaticallyImplyLeading: false,
+      centerTitle: true,
       floating: _homeScreenItems[_currentIndex].sub != null && !_isSearching,
       title: new Container(
           decoration: new BoxDecoration(
