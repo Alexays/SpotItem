@@ -49,9 +49,7 @@ class _ItemsViewState extends State<ItemsView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: new List<Widget>.generate(
                         _myItems[index].tracks.length,
-                        (i) => getIcon(
-                              _myItems[index].tracks[i],
-                            ),
+                        (i) => getIcon(_myItems[index].tracks[i]),
                       ),
                     ),
                   )
