@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 import 'package:spotitem/keys.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:web_socket_channel/io.dart';
@@ -21,12 +21,10 @@ class BasicService {
   /// @param url Get url
   /// @param token Token to use to authentificate
   /// @returns Api response
-  Future<Response> iget(String url, [String token]) async {
+  Future<http.Response> iget(String url, [String token]) async {
     final String verifiedToken = await Services.auth.verifyToken(token);
-    final Client _client = new Client();
-    final Response response = await _client
-        .get('$apiUrl$url', headers: getHeaders(verifiedToken))
-        .whenComplete(_client.close);
+    final http.Response response =
+        await http.get('$apiUrl$url', headers: getHeaders(verifiedToken));
     return response;
   }
 
@@ -36,12 +34,10 @@ class BasicService {
   /// @param payload The payload
   /// @param token Token to use to authentificate
   /// @returns Api response
-  Future<Response> ipost(String url, payload, [String token]) async {
+  Future<http.Response> ipost(String url, payload, [String token]) async {
     final String verifiedToken = await Services.auth.verifyToken(token);
-    final Client _client = new Client();
-    final Response response = await _client
-        .post('$apiUrl$url', headers: getHeaders(verifiedToken), body: payload)
-        .whenComplete(_client.close);
+    final http.Response response = await http.post('$apiUrl$url',
+        headers: getHeaders(verifiedToken), body: payload);
     return response;
   }
 
@@ -51,12 +47,10 @@ class BasicService {
   /// @param payload The payload
   /// @param token Token to use to authentificate
   /// @returns Api response
-  Future<Response> iput(String url, payload, [String token]) async {
+  Future<http.Response> iput(String url, payload, [String token]) async {
     final String verifiedToken = await Services.auth.verifyToken(token);
-    final Client _client = new Client();
-    final Response response = await _client
-        .put('$apiUrl$url', headers: getHeaders(verifiedToken), body: payload)
-        .whenComplete(_client.close);
+    final http.Response response = await http.put('$apiUrl$url',
+        headers: getHeaders(verifiedToken), body: payload);
     return response;
   }
 
@@ -65,12 +59,10 @@ class BasicService {
   /// @param url Delete url
   /// @param token Token to use to authentificate
   /// @returns Api response
-  Future<Response> idelete(String url, [String token]) async {
+  Future<http.Response> idelete(String url, [String token]) async {
     final String verifiedToken = await Services.auth.verifyToken(token);
-    final Client _client = new Client();
-    final Response response = await _client
-        .delete('$apiUrl$url', headers: getHeaders(verifiedToken))
-        .whenComplete(_client.close);
+    final http.Response response =
+        await http.delete('$apiUrl$url', headers: getHeaders(verifiedToken));
     return response;
   }
 

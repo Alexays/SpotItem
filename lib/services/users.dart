@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
 import 'package:spotitem/models/user.dart';
 import 'package:spotitem/services/basic.dart';
@@ -12,8 +12,12 @@ class UsersManager extends BasicService {
   /// Location of user
   Map<String, double> location;
 
+  /// Contact of user
+  Map<String, dynamic> get contact => _contact;
+
   /// Private variables
   final Location _location = new Location();
+  Map<String, dynamic> _contact;
 
   @override
   Future<bool> init() async {
@@ -75,7 +79,7 @@ class UsersManager extends BasicService {
     if (password != null) {
       userJson['password'] = password;
     }
-    final Response response =
+    final http.Response response =
         await iput('/user/edit', userJson, Services.auth.accessToken);
     final dynamic bodyJson = JSON.decode(response.body);
     if (response.statusCode == 200 && bodyJson['success']) {
@@ -94,12 +98,27 @@ class UsersManager extends BasicService {
     if (userId == null) {
       return null;
     }
-    final Response response =
+    final http.Response response =
         await iget('/user/$userId', Services.auth.accessToken);
     if (response.statusCode == 200) {
       final dynamic userJson = JSON.decode(response.body);
       return new User(userJson);
     }
     return null;
+  }
+
+  /// Get contact of user.
+  ///
+  Future<Null> _handleGetContact() async {
+    final http.Response response = await http.get(
+      'https://people.googleapis.com/v1/people/me/connections'
+          '?requestMask.includeField=person.names',
+      headers: await Services.auth.googleUser.authHeaders,
+    );
+    if (response.statusCode != 200) {
+      print('People API ${response.statusCode} response: ${response.body}');
+      return;
+    }
+    final Map<String, dynamic> data = JSON.decode(response.body);
   }
 }

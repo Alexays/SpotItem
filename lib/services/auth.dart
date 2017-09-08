@@ -34,11 +34,12 @@ class AuthManager extends BasicService {
   User user;
 
   /// Google user data
-  GoogleSignInAccount _googleUser;
+  GoogleSignInAccount get googleUser => _googleUser;
 
   /// Private variables
   bool _loggedIn = false;
   String _accessToken;
+  GoogleSignInAccount _googleUser;
 
   @override
   Future<bool> init() async {
