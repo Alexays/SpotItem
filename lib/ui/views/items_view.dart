@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/models/item.dart';
+import 'package:spotitem/ui/views/item_view.dart';
 import 'package:spotitem/utils.dart';
 
 class ItemsView extends StatefulWidget {
@@ -33,7 +34,7 @@ class _ItemsViewState extends State<ItemsView> {
       itemCount: _myItems.length,
       itemBuilder: (context, index) => new GestureDetector(
             onTap: () {
-              Navigator.of(context).pushNamed('/items/${_myItems[index].id}');
+              showItemPage(_myItems[index], null, context);
             },
             child: new Card(
               child: new Column(

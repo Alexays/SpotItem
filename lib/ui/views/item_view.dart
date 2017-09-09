@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/models/item.dart';
@@ -390,4 +391,15 @@ class _ItemPageState extends State<ItemPage>
                 ],
               ),
       );
+}
+
+Future<Null> showItemPage(Item item, String hash, BuildContext context) async {
+  await Navigator.push(
+      context,
+      new MaterialPageRoute<Null>(
+        builder: (context) => new ItemPage(
+              item: item,
+              hash: hash,
+            ),
+      ));
 }

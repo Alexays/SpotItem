@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:spotitem/models/item.dart';
 import 'package:spotitem/ui/widgets/item.dart';
+import 'package:spotitem/ui/views/item_view.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:flutter/material.dart';
 
