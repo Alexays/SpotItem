@@ -293,13 +293,12 @@ class _ItemPageState extends State<ItemPage>
                                   child: new Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: new List<Widget>.generate(
-                                    item.images.length, (index) {
-                                  return new Icon(Icons.brightness_1,
-                                      size: 8.0,
-                                      color: _tabController.index == index
-                                          ? Colors.white
-                                          : Colors.white.withAlpha(75));
-                                }),
+                                    item.images.length,
+                                    (index) => new Icon(Icons.brightness_1,
+                                        size: 8.0,
+                                        color: _tabController.index == index
+                                            ? Colors.white
+                                            : Colors.white.withAlpha(75))),
                               )),
                             ),
                             // This gradient ensures that the toolbar icons are distinct

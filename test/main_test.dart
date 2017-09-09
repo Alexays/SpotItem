@@ -3,11 +3,6 @@ import 'package:spotitem/main.dart' as app;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
-Future<String> mockUpdateUrlFetcher() {
-  // A real implementation would connect to the network to retrieve this value
-  return new Future<String>.value('http://www.example.com/');
-}
-
 void main() {
   SharedPreferences.setMockInitialValues({});
   final TestWidgetsFlutterBinding binding =
@@ -15,7 +10,7 @@ void main() {
   if (binding is LiveTestWidgetsFlutterBinding)
     binding.framePolicy = LiveTestWidgetsFlutterBindingFramePolicy.fullyLive;
 
-  testWidgets('App launch and show login', (WidgetTester tester) async {
+  testWidgets('App launch and show login', (tester) async {
     app.main(); // builds the app and schedules a frame but doesn't trigger one
     await tester.pump(); // see https://github.com/flutter/flutter/issues/1865
     await tester.pump(); // triggers a frame
