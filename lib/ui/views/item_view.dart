@@ -298,7 +298,7 @@ class _ItemPageState extends State<ItemPage>
                                       size: 8.0,
                                       color: _tabController.index == index
                                           ? Colors.white
-                                          : Colors.white.withAlpha(50));
+                                          : Colors.white.withAlpha(75));
                                 }),
                               )),
                             ),
