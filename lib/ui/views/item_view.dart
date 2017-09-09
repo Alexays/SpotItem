@@ -288,7 +288,6 @@ class _ItemPageState extends State<ItemPage>
                                 })),
                             new Positioned(
                               bottom: 15.0,
-                              left: 15.0,
                               width: MediaQuery.of(context).size.width,
                               child: new Center(
                                   child: new Row(
