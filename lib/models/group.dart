@@ -6,8 +6,8 @@ class Group {
       : id = data['_id'],
         name = data['name'],
         about = data['about'],
-        users = new List<User>.generate(
-            data['users'].length, (index) => new User(data['users'][index])),
+        users = new List<User>.generate(data['users']?.length ?? 0,
+            (index) => new User(data['users'][index])),
         owner = data['owner'];
 
   final String id;

@@ -7,8 +7,7 @@ class User {
         firstname = data['firstname'],
         name = data['name'],
         avatar = data['avatar'],
-        groups = new List<String>.generate(
-            data['groups'] != null ? data['groups'].length : 0,
+        groups = new List<String>.generate(data['groups']?.length ?? 0,
             (index) => (data['groups'][index]).toString());
 
   final String id;
