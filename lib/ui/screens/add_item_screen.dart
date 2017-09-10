@@ -172,7 +172,7 @@ class _AddItemScreenState extends State<AddItemScreen>
             .pushNamedAndRemoveUntil('/home', (route) => false);
       }
     } else {
-      showSnackBar(context, 'Not Connected');
+      showSnackBar(context, 'Auth error !');
     }
   }
 

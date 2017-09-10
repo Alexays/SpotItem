@@ -217,7 +217,9 @@ class _EditItemScreenState extends State<EditItemScreen>
     }
     item.images.forEach((f) => finalImages.add(f));
     images.forEach((f) => finalImages.add(f));
-    if (Services.auth.user != null && Services.auth.user.id != null) {
+    if (Services.auth.user != null &&
+        Services.auth.user.id != null &&
+        Services.users.location != null) {
       final dynamic response = await Services.items.editItem({
         'id': item.id,
         'name': name,
