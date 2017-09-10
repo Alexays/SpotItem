@@ -10,7 +10,7 @@ import 'package:location/location.dart';
 
 class UsersManager extends BasicService {
   /// Location of user
-  Map<String, double> location;
+  Map<String, double> location = {};
 
   /// Contact of user
   Map<String, dynamic> get contact => _contact;
@@ -21,6 +21,10 @@ class UsersManager extends BasicService {
 
   @override
   Future<bool> init() async {
+    await _location.onLocationChanged.single
+        .timeout(const Duration(milliseconds: 200), onTimeout: () {
+      print('Can\'t get location');
+    });
     await getLocation();
     _handleGetContact();
     return true;
@@ -30,12 +34,7 @@ class UsersManager extends BasicService {
   ///
   /// @param force Retrieve user location
   Future<Null> getLocation([bool force = false]) async {
-    bool debug = false;
-    assert(() {
-      debug = true;
-      return true;
-    });
-    if (debug || (!force && location != null)) {
+    if (!force && location.isNotEmpty) {
       return;
     }
     try {
@@ -55,7 +54,7 @@ class UsersManager extends BasicService {
   /// @param lng2 Second Longitude point
   /// @returns Distance in km
   double getDist(double lat2, double lng2) {
-    if (location == null) {
+    if (location == null || location.isEmpty) {
       return -1.0;
     }
     final double pi80 = PI / 180;
