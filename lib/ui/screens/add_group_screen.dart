@@ -142,7 +142,8 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                                 new RaisedButton(
                                     child: const Text('Add someone'),
                                     onPressed: () {
-                                      _addPeople();
+                                      Navigator.pushNamed(context, '/contacts');
+                                      //_addPeople();
                                     })
                               ]))
                         ])))),

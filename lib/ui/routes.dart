@@ -8,6 +8,7 @@ import 'package:spotitem/ui/screens/edit_user_screen.dart';
 import 'package:spotitem/ui/screens/add_group_screen.dart';
 import 'package:spotitem/ui/screens/edit_group_screen.dart';
 import 'package:spotitem/ui/screens/debug_screen.dart';
+import 'package:spotitem/ui/screens/contact_screen.dart';
 import 'package:spotitem/ui/views/item_view.dart';
 import 'package:fluro/fluro.dart';
 
@@ -48,6 +49,9 @@ class Routes {
           handler: new Handler(
               handlerFunc: (context, params) =>
                   new EditGroupScreen(params['id'])))
+      ..define('/contacts',
+          handler: new Handler(
+              handlerFunc: (context, params) => const ContactScreen()))
       ..define('/debug',
           handler: new Handler(
               handlerFunc: (context, params) => const DebugScreen()));

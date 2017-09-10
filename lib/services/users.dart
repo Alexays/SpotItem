@@ -127,8 +127,7 @@ class UsersManager extends BasicService {
         print('People API ${response.statusCode} response: ${response.body}');
         return;
       }
-      final Map<String, dynamic> data = JSON.decode(response.body);
-      print(data);
+      _contact = JSON.decode(response.body);
     } else if (provider == 'local') {
       // TO-DO Maybe get member of user groups
     }
