@@ -239,8 +239,9 @@ class _EditItemScreenState extends State<EditItemScreen>
             .of(context)
             .pushNamedAndRemoveUntil('/home', (route) => false);
       }
+    } else {
+      showSnackBar(context, 'Auth error !');
     }
-    showSnackBar(context, 'Not Connected');
   }
 
   Widget getGroups() {
