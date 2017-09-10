@@ -28,7 +28,7 @@ class GroupsManager extends BasicService {
     final Response response =
         await ipost('/groups', groupJson, Services.auth.accessToken);
     final dynamic bodyJson = JSON.decode(response.body);
-    if (bodyJson['success']) {
+    if (bodyJson['success'] && bodyJson['group'] != null) {
       Services.auth.user.groups.add(bodyJson['group']['_id'].toString());
     }
     return bodyJson;
