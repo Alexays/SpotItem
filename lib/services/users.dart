@@ -120,7 +120,7 @@ class UsersManager extends BasicService {
     if (provider == 'google') {
       final http.Response response = await http.get(
         'https://people.googleapis.com/v1/people/me/connections'
-            '?requestMask.includeField=person.names',
+            '?personFields=names,emailAddresses',
         headers: await Services.auth.googleUser.authHeaders,
       );
       if (response.statusCode != 200) {
@@ -128,6 +128,7 @@ class UsersManager extends BasicService {
         return;
       }
       final Map<String, dynamic> data = JSON.decode(response.body);
+      print(data);
     } else if (provider == 'local') {
       // TO-DO Maybe get member of user groups
     }

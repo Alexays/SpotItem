@@ -95,6 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       })
                                 ],
                               ),
+                              const Padding(padding: const EdgeInsets.all(5.0)),
                               new RaisedButton(
                                 child: const Text('Google'),
                                 onPressed: () {
