@@ -11,15 +11,13 @@ String capitalize(String s) => '${s[0].toUpperCase()}${s.substring(1)}';
 
 const AssetImage placeholder = const AssetImage('assets/placeholder.png');
 
-Widget getAvatar(User user) {
-  return new CircleAvatar(
-      radius: 30.0,
-      backgroundColor: Colors.grey,
-      backgroundImage: user.avatar != null && user.avatar != 'null'
-          ? new NetworkImage(user.avatar)
-          : null,
-      child: new Text('${user.firstname[0]}${user.name[0]}'));
-}
+Widget getAvatar(User user) => new CircleAvatar(
+    radius: 30.0,
+    backgroundColor: Colors.grey,
+    backgroundImage: user.avatar != null && user.avatar != 'null'
+        ? new NetworkImage(user.avatar)
+        : null,
+    child: new Text('${user.firstname[0]}${user.name[0]}'));
 
 void showLoading(BuildContext context) {
   showDialog<Null>(
