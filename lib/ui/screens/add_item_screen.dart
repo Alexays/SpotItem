@@ -139,12 +139,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   Future<Null> addItem(BuildContext context) async {
     _formKey.currentState.save();
+    showLoading(context);
     _imagesFile.forEach((f) {
       final List<int> imageBytes = f.readAsBytesSync();
       _images.add(
           'data:image/${f.path.split('.').last};base64,${BASE64.encode(imageBytes)}');
     });
-    showLoading(context);
     if (Services.auth.user != null &&
         Services.auth.user.id != null &&
         Services.users.location != null) {
