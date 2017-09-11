@@ -10,7 +10,10 @@ class ErrorScreen extends StatelessWidget {
       prefs.clear();
     });
     return new Scaffold(
-      appBar: new AppBar(title: const Text('Error :(')),
+      appBar: new AppBar(
+        title: const Text('Error :('),
+        centerTitle: true,
+      ),
       body: new Builder(
           builder: (context) => new SingleChildScrollView(
               child: new Container(
@@ -19,7 +22,7 @@ class ErrorScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       const Text(
-                          'Error while loading Spotitem, to try fix this problem we disconnect you from ur server, so close app and relaunch it :)'),
+                          'Error while loading Spotitem, to try fix this problem we disconnect you from our server, so close app and relaunch it :)'),
                     ],
                   )))),
     );
