@@ -102,8 +102,8 @@ class _HomeScreenState extends State<HomeScreen>
   void dispose() {
     _controller.dispose();
     _searchController.dispose();
-    WidgetsBinding.instance.removeObserver(this);
     _homeScreenItems[_currentIndex].tab.removeListener(_checkFilter);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -235,14 +235,7 @@ class _HomeScreenState extends State<HomeScreen>
             accountName: new Text(
                 '${Services.auth.user?.firstname} ${Services.auth.user?.name}'),
             accountEmail: new Text(Services.auth.user?.email),
-            currentAccountPicture: new CircleAvatar(
-                backgroundColor: Colors.grey,
-                backgroundImage: Services.auth.user?.avatar != null &&
-                        Services.auth.user?.avatar != 'null'
-                    ? new NetworkImage(Services.auth.user?.avatar)
-                    : null,
-                child: new Text(
-                    '${Services.auth.user?.firstname[0]}${Services.auth.user?.name[0]}')),
+            currentAccountPicture: getAvatar(Services.auth.user),
             otherAccountsPictures: <Widget>[
               new IconButton(
                 icon: const Icon(Icons.settings),

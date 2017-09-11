@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/models/user.dart';
+import 'package:spotitem/utils.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen(this._userId);
@@ -38,16 +39,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         margin: const EdgeInsets.all(20.0),
                         child: new Column(
                           children: <Widget>[
-                            new Center(
-                                child: new CircleAvatar(
-                                    radius: 40.0,
-                                    backgroundColor: Colors.grey,
-                                    backgroundImage: _user.avatar != null &&
-                                            _user.avatar != 'null'
-                                        ? new NetworkImage(_user.avatar)
-                                        : null,
-                                    child: new Text(
-                                        '${_user.firstname[0]}${_user.name[0]}'))),
+                            new Center(child: getAvatar(_user)),
                             const Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 10.0)),

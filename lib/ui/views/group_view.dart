@@ -77,13 +77,7 @@ class _GroupPageState extends State<GroupPage>
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              new CircleAvatar(
-                  radius: 30.0,
-                  backgroundColor: Colors.grey,
-                  backgroundImage: owner?.avatar != 'null'
-                      ? new NetworkImage(owner?.avatar)
-                      : null,
-                  child: new Text('${owner?.firstname[0]}${owner?.name[0]}')),
+              getAvatar(owner),
               new Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
@@ -292,16 +286,7 @@ class _GroupPageState extends State<GroupPage>
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          new CircleAvatar(
-                              radius: 30.0,
-                              backgroundColor: Colors.grey,
-                              backgroundImage: group.users[index].avatar !=
-                                          null &&
-                                      group.users[index].avatar != 'null'
-                                  ? new NetworkImage(group.users[index].avatar)
-                                  : null,
-                              child: new Text(
-                                  '${group.users[index].firstname[0]}${group.users[index].name[0]}')),
+                          getAvatar(group.users[index]),
                           const Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 4.0)),

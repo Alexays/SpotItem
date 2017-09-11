@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:spotitem/models/user.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final RegExp emailExp = new RegExp(r'[\w-]+@([\w-]+\.)+[\w-]+');
@@ -9,6 +10,16 @@ final RegExp nameExp =
 String capitalize(String s) => '${s[0].toUpperCase()}${s.substring(1)}';
 
 const AssetImage placeholder = const AssetImage('assets/placeholder.png');
+
+Widget getAvatar(User user) {
+  return new CircleAvatar(
+      radius: 30.0,
+      backgroundColor: Colors.grey,
+      backgroundImage: user.avatar != null && user.avatar != 'null'
+          ? new NetworkImage(user.avatar)
+          : null,
+      child: new Text('${user.firstname[0]}${user.name[0]}'));
+}
 
 String validateEmail(String value) {
   if (value.isEmpty) {
