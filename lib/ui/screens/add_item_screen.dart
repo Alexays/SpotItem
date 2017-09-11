@@ -139,6 +139,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   Future<Null> addItem(BuildContext context) async {
     _formKey.currentState.save();
+    if (!_formKey.currentState.validate()) {
+      showSnackBar(context, 'Please correct error !');
+      return;
+    }
     showLoading(context);
     _images.clear();
     _imagesFile.forEach((f) {
@@ -195,6 +199,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                         key: const Key('name'),
                                         decoration: const InputDecoration(
                                             hintText: 'Name'),
+                                        validator: validateName,
                                         onSaved: (value) {
                                           _name = value.trim();
                                         }),
@@ -209,6 +214,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                         key: const Key('location'),
                                         decoration: const InputDecoration(
                                             hintText: 'Location'),
+                                        validator: validateString,
                                         onSaved: (value) {
                                           _location = value.trim();
                                         }),

@@ -58,6 +58,13 @@ String validateName(String value) {
   return null;
 }
 
+String validateString(String value) {
+  if (value.isEmpty) {
+    return 'Value is required.';
+  }
+  return null;
+}
+
 String validatePassword(String value) {
   if (value == null || value.isEmpty) {
     return 'Please choose a password.';
