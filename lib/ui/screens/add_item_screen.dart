@@ -61,11 +61,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
   ///
   Future<Null> getImage() async {
     final File _fileName = await ImagePicker.pickImage();
-    List<int> imageBytes = await _fileName.readAsBytes();
     setState(() {
       _imagesFile.add(_fileName);
-      // _images.add(
-      //     'data:image/${_fileName.path.split('.').last};base64,${BASE64.encode(imageBytes)}');
     });
   }
 
@@ -142,6 +139,11 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   Future<Null> addItem(BuildContext context) async {
     _formKey.currentState.save();
+    _imagesFile.forEach((f) {
+      final List<int> imageBytes = f.readAsBytesSync();
+      _images.add(
+          'data:image/${f.path.split('.').last};base64,${BASE64.encode(imageBytes)}');
+    });
     showLoading(context);
     if (Services.auth.user != null &&
         Services.auth.user.id != null &&
