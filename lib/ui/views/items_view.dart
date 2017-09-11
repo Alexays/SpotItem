@@ -64,10 +64,7 @@ class _ItemsViewState extends State<ItemsView> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    Services.context = context;
-    return _myItems == null
-        ? const Center(child: const CircularProgressIndicator())
-        : getList();
-  }
+  Widget build(BuildContext context) => _myItems == null
+      ? const Center(child: const CircularProgressIndicator())
+      : getList();
 }

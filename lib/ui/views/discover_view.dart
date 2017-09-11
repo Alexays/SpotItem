@@ -100,15 +100,12 @@ class _DiscoverViewState extends State<DiscoverView> {
       });
 
   @override
-  Widget build(BuildContext context) {
-    Services.context = context;
-    return new RefreshIndicator(
-      onRefresh: () => _loadItems(true),
-      child: _items == null
-          ? const Center(child: const CircularProgressIndicator())
-          : _buildDiscover(),
-    );
-  }
+  Widget build(BuildContext context) => new RefreshIndicator(
+        onRefresh: () => _loadItems(true),
+        child: _items == null
+            ? const Center(child: const CircularProgressIndicator())
+            : _buildDiscover(),
+      );
 }
 
 /// Discover list class

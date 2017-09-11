@@ -66,13 +66,10 @@ class _ExplorerViewState extends State<ExplorerView> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    Services.context = context;
-    return new RefreshIndicator(
-      onRefresh: () => _loadItems(true),
-      child: _items == null
-          ? const Center(child: const CircularProgressIndicator())
-          : new ItemsList(_items, toString()),
-    );
-  }
+  Widget build(BuildContext context) => new RefreshIndicator(
+        onRefresh: () => _loadItems(true),
+        child: _items == null
+            ? const Center(child: const CircularProgressIndicator())
+            : new ItemsList(_items, toString()),
+      );
 }
