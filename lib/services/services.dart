@@ -23,16 +23,11 @@ class Services {
   Services._internal();
 
   static Future<bool> setup() async {
-    final AuthManager authManager = new AuthManager();
-    final ItemsManager itemsManager = new ItemsManager();
-    final GroupsManager groupsManager = new GroupsManager();
-    final UsersManager usersManager = new UsersManager();
-    final Router router = new Router();
-    _singleton._authManager = authManager;
-    _singleton._itemsManager = itemsManager;
-    _singleton._groupsManager = groupsManager;
-    _singleton._usersManager = usersManager;
-    _singleton._router = router;
+    _singleton._authManager = new AuthManager();
+    _singleton._itemsManager = new ItemsManager();
+    _singleton._groupsManager = new GroupsManager();
+    _singleton._usersManager = new UsersManager();
+    _singleton._router = new Router();
     final bool auth = await _singleton._authManager.init();
     final bool items = await _singleton._itemsManager.init();
     final bool groups = await _singleton._groupsManager.init();
