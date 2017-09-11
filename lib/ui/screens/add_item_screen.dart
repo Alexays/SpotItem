@@ -140,6 +140,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
   Future<Null> addItem(BuildContext context) async {
     _formKey.currentState.save();
     if (!_formKey.currentState.validate()) {
+      setState(() {
+        _currentStep = 0;
+      });
       showSnackBar(context, 'Please correct error !');
       return;
     }
