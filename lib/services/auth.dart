@@ -57,7 +57,11 @@ class AuthManager extends BasicService {
       refreshToken = _refreshToken;
       provider = _provider;
       if (_provider == 'google') {
-        await handleGoogleSignIn(false);
+        try {
+          await handleGoogleSignIn(false);
+        } on Exception {
+          return false;
+        }
       }
       _loggedIn = true;
       connectWs();

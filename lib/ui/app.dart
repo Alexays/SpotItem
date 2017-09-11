@@ -1,5 +1,6 @@
 import 'package:spotitem/ui/screens/home_screen.dart';
 import 'package:spotitem/ui/screens/login_screen.dart';
+import 'package:spotitem/ui/screens/error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/services/services.dart';
 
@@ -9,7 +10,11 @@ class SpotItemApp extends MaterialApp {
   SpotItemApp(this.init)
       : super(
           title: 'SpotItem',
-          home: init ? const HomeScreen() : const LoginScreen(),
+          home: init
+              ? (Services.auth.loggedIn
+                  ? const HomeScreen()
+                  : const LoginScreen())
+              : const ErrorScreen(),
           theme: new ThemeData(
               primarySwatch: _spotTheme(),
               accentColor: const Color(0xFF06A6D2),

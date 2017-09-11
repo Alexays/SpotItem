@@ -38,6 +38,6 @@ class Services {
     final bool groups = await _singleton._groupsManager.init();
     final bool users = await _singleton._usersManager.init();
     Routes.configureRoutes(_singleton._router);
-    return auth && items && _singleton._authManager.loggedIn && groups && users;
+    return auth && items && groups && users;
   }
 }
