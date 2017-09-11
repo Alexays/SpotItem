@@ -6,6 +6,8 @@ import 'package:spotitem/models/user.dart';
 import 'package:spotitem/services/basic.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:spotitem/services/services.dart';
+import 'package:flutter/material.dart';
 
 GoogleSignIn _googleSignIn = new GoogleSignIn(
   scopes: <String>[
@@ -14,6 +16,7 @@ GoogleSignIn _googleSignIn = new GoogleSignIn(
   ],
 );
 
+/// Auth class manager
 class AuthManager extends BasicService {
   /// Check if user is logged in
   bool get loggedIn => _loggedIn;
@@ -78,7 +81,11 @@ class AuthManager extends BasicService {
       return token;
     }
     if (loggedIn && (exp == null || new DateTime.now().isAfter(exp))) {
-      await getAccessToken();
+      if (!await getAccessToken()) {
+        Navigator
+            .of(Services.context)
+            .pushNamedAndRemoveUntil('/login', (route) => false);
+      }
     }
     return accessToken;
   }
@@ -105,7 +112,7 @@ class AuthManager extends BasicService {
   /// @param signIn Login/re-login
   /// @returns Logged or not
   /// TO-DO don't send user data, just get it on API with access_token
-  Future<bool> handleGoogleSignIn([signIn = true]) async {
+  Future<bool> handleGoogleSignIn([bool signIn = true]) async {
     try {
       _googleUser = signIn
           ? await _googleSignIn.signIn()
@@ -114,11 +121,13 @@ class AuthManager extends BasicService {
         await logout();
         return false;
       }
-      return await login({
-        'token': (await _googleUser.authentication).accessToken,
-        'user':
-            '{"id": "${_googleUser.id}", "name": "${_googleUser.displayName}", "email": "${_googleUser.email}", "avatar": "${_googleUser.photoUrl}"}',
-      }, 'google');
+      if (signIn) {
+        return await login({
+          'token': (await _googleUser.authentication).accessToken,
+          'user':
+              '{"id": "${_googleUser.id}", "name": "${_googleUser.displayName}", "email": "${_googleUser.email}", "avatar": "${_googleUser.photoUrl}"}',
+        }, 'google');
+      }
     } on Exception {
       _googleUser = null;
       _loggedIn = false;

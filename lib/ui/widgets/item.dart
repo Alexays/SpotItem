@@ -6,13 +6,20 @@ import 'package:spotitem/ui/views/item_view.dart';
 import 'package:spotitem/keys.dart';
 import 'package:spotitem/utils.dart';
 
+/// Items list item
 class ItemsListItem extends StatelessWidget {
+  /// Items list item initializer
   const ItemsListItem({@required this.item, Key key, this.hash, this.onPressed})
       : assert(item != null),
         super(key: key);
 
+  /// Hash for hero animation
   final String hash;
+
+  /// Item data
   final Item item;
+
+  /// Callback when item is pressed
   final VoidCallback onPressed;
 
   @override
@@ -177,13 +184,16 @@ class _GridDelegate extends SliverGridDelegate {
   bool shouldRelayout(covariant SliverGridDelegate oldDelegate) => false;
 }
 
+/// Items list class
 class ItemsList extends StatelessWidget {
-  final List<Item> _items;
-  final String _hash;
-
+  /// Items list initializer
   const ItemsList(this._items, this._hash);
 
-  static final _GridDelegate gridDelegate = new _GridDelegate();
+  final List<Item> _items;
+
+  final String _hash;
+
+  static final _GridDelegate _gridDelegate = new _GridDelegate();
 
   @override
   Widget build(BuildContext context) => _items.isNotEmpty
@@ -191,7 +201,7 @@ class ItemsList extends StatelessWidget {
           new SliverPadding(
             padding: const EdgeInsets.all(8.0),
             sliver: new SliverGrid(
-              gridDelegate: gridDelegate,
+              gridDelegate: _gridDelegate,
               delegate: new SliverChildListDelegate(
                 _items
                     .map((item) => new ItemsListItem(

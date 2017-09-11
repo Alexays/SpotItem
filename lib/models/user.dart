@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+/// User model
 class User {
+  /// User class initializer
   User(data)
       : id = data['_id'],
         email = data['email'],
@@ -10,15 +12,28 @@ class User {
         groups = new List<String>.generate(data['groups']?.length ?? 0,
             (index) => (data['groups'][index]).toString());
 
+  /// User id
   final String id;
+
+  /// User email
   final String email;
+
+  /// User firstname
   String firstname;
+
+  /// User lastname
   String name;
+
+  /// User avatar
   String avatar;
+
+  /// User groups
   List<String> groups;
 
+  /// Create user fron JSON object
   factory User.from(user) => new User(JSON.decode(user.toString()));
 
+  /// Check if user is valid
   bool isValid() => id != null && name != null && email != null;
 
   @override

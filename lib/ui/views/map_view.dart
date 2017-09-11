@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+/// Map view class
 class MapView extends StatefulWidget {
+  /// Map view initializer
   const MapView();
 
   @override

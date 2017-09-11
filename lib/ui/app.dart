@@ -4,9 +4,12 @@ import 'package:spotitem/ui/screens/error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/services/services.dart';
 
+/// SpotitemApp class
 class SpotItemApp extends MaterialApp {
+  /// Services is Init
   final bool init;
 
+  ///SpotItemApp initlializer
   SpotItemApp(this.init)
       : super(
           title: 'SpotItem',

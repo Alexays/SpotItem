@@ -5,7 +5,9 @@ import 'package:spotitem/models/group.dart';
 import 'package:spotitem/utils.dart';
 import 'package:flutter/material.dart';
 
+/// Edit group screen class
 class EditGroupScreen extends StatefulWidget {
+  /// Edit group screen initalizer
   const EditGroupScreen(this._groupId);
 
   final String _groupId;
@@ -51,49 +53,52 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => new Scaffold(
-        appBar: new AppBar(title: const Text('Edit Group'), actions: <Widget>[
-          new Builder(
-              builder: (context) => new IconButton(
-                  icon: new Column(children: <Widget>[
-                    const Icon(Icons.add_box),
-                    const Text('Edit')
-                  ]),
-                  onPressed: () {
-                    editGroup(context);
-                  }))
-        ]),
-        body: new Builder(
-            builder: (context) => _group == null
-                ? const Center(child: const CircularProgressIndicator())
-                : new SingleChildScrollView(
-                    child: new Container(
-                        margin: const EdgeInsets.all(20.0),
-                        child: new Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              new Form(
-                                  key: _formKey,
-                                  child: new Column(children: <Widget>[
-                                    new TextFormField(
-                                        key: const Key('name'),
-                                        decoration: const InputDecoration(
-                                            hintText: 'Enter name',
-                                            labelText: 'Name'),
-                                        controller: nameCtrl,
-                                        onSaved: (value) {
-                                          _group.name = value.trim();
-                                        }),
-                                    new TextFormField(
-                                        key: const Key('about'),
-                                        decoration: const InputDecoration(
-                                            hintText: 'Enter description',
-                                            labelText: 'Description'),
-                                        controller: aboutCtrl,
-                                        onSaved: (value) {
-                                          _group.about = value.trim();
-                                        }),
-                                  ]))
-                            ])))),
-      );
+  Widget build(BuildContext context) {
+    Services.context = context;
+    return new Scaffold(
+      appBar: new AppBar(title: const Text('Edit Group'), actions: <Widget>[
+        new Builder(
+            builder: (context) => new IconButton(
+                icon: new Column(children: <Widget>[
+                  const Icon(Icons.add_box),
+                  const Text('Edit')
+                ]),
+                onPressed: () {
+                  editGroup(context);
+                }))
+      ]),
+      body: new Builder(
+          builder: (context) => _group == null
+              ? const Center(child: const CircularProgressIndicator())
+              : new SingleChildScrollView(
+                  child: new Container(
+                      margin: const EdgeInsets.all(20.0),
+                      child: new Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            new Form(
+                                key: _formKey,
+                                child: new Column(children: <Widget>[
+                                  new TextFormField(
+                                      key: const Key('name'),
+                                      decoration: const InputDecoration(
+                                          hintText: 'Enter name',
+                                          labelText: 'Name'),
+                                      controller: nameCtrl,
+                                      onSaved: (value) {
+                                        _group.name = value.trim();
+                                      }),
+                                  new TextFormField(
+                                      key: const Key('about'),
+                                      decoration: const InputDecoration(
+                                          hintText: 'Enter description',
+                                          labelText: 'Description'),
+                                      controller: aboutCtrl,
+                                      onSaved: (value) {
+                                        _group.about = value.trim();
+                                      }),
+                                ]))
+                          ])))),
+    );
+  }
 }

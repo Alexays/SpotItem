@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
+/// Filter bar class
 class FilterBar extends StatelessWidget {
+  /// Filter bar initializer
+  const FilterBar({this.isExpanded, this.onExpandedChanged});
+
   /// Whether this filter bar is showing the day picker or not
   final bool isExpanded;
 
   /// Called when the user toggles expansion
   final ValueChanged<bool> onExpandedChanged;
-
-  const FilterBar({this.isExpanded, this.onExpandedChanged});
 
   @override
   Widget build(BuildContext context) => new MaterialButton(

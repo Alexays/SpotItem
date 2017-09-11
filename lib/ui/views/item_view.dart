@@ -15,6 +15,7 @@ class _Category extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Services.context = context;
     final ThemeData themeData = Theme.of(context);
     return new Container(
         padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -47,6 +48,7 @@ class _ListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Services.context = context;
     final ThemeData themeData = Theme.of(context);
     final List<Widget> columnChildren = lines
         .sublist(0, lines.length - 1)
@@ -78,7 +80,9 @@ class _ListItem extends StatelessWidget {
   }
 }
 
+/// Item page class
 class ItemPage extends StatefulWidget {
+  /// Item page initializer
   const ItemPage({
     Key key,
     this.item,
@@ -86,8 +90,14 @@ class ItemPage extends StatefulWidget {
     this.hash = 'n',
   })
       : super(key: key);
+
+  /// Item id
   final String itemId;
+
+  /// Item data
   final Item item;
+
+  /// Hash for hero animation
   final String hash;
 
   @override
@@ -220,179 +230,183 @@ class _ItemPageState extends State<ItemPage>
   String getWidth() => MediaQuery.of(context).size.width.toInt().toString();
 
   @override
-  Widget build(BuildContext context) => new Scaffold(
-        body: item == null
-            ? const Center(child: const CircularProgressIndicator())
-            : new CustomScrollView(
-                slivers: <Widget>[
-                  new SliverAppBar(
-                    title: new Text(
-                      capitalize(item.name),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    expandedHeight: _appBarHeight,
-                    pinned: true,
-                    actions: doButton(),
-                    flexibleSpace: new GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onHorizontalDragUpdate: (details) {
-                        if (dragStopped == true &&
-                            details.delta.dx < 0 &&
-                            _tabController.index < item.images.length - 1) {
-                          setState(() {
-                            _tabController.index = _tabController.index + 1;
-                            dragStopped = false;
-                          });
-                        } else if (dragStopped == true &&
-                            details.delta.dx > 0 &&
-                            _tabController.index > 0) {
-                          setState(() {
-                            _tabController.index = _tabController.index - 1;
-                            dragStopped = false;
-                          });
-                        }
-                      },
-                      onHorizontalDragEnd: (details) {
-                        dragStopped = true;
-                      },
-                      child: new FlexibleSpaceBar(
-                        // title: new Text(
-                        //   capitalize(item.name),
-                        //   overflow: TextOverflow.ellipsis,
-                        // ),
-                        background: new Stack(
-                          alignment: FractionalOffset.center,
-                          fit: StackFit.expand,
-                          children: <Widget>[
-                            new TabBarView(
-                                controller: _tabController,
-                                children: new List<Widget>.generate(
-                                    item.images.length, (index) {
-                                  if (index == 0) {
-                                    return new Container(
-                                        color: Theme.of(context).canvasColor,
-                                        child: new Hero(
-                                            tag: '${item.id}_img_$hash',
-                                            child: new FadeInImage(
-                                              placeholder: placeholder,
-                                              image: new NetworkImage(
-                                                  '$apiImgUrl${item.images[index]}'),
-                                              fit: BoxFit.cover,
-                                            )));
-                                  } else {
-                                    return new FadeInImage(
-                                        placeholder: placeholder,
-                                        image: new NetworkImage(
-                                            '$apiImgUrl${item.images[index]}'),
-                                        fit: BoxFit.cover);
-                                  }
-                                })),
-                            new Positioned(
-                              bottom: 15.0,
-                              width: MediaQuery.of(context).size.width,
-                              child: new Center(
-                                  child: new Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: new List<Widget>.generate(
-                                    item.images.length,
-                                    (index) => new Icon(Icons.brightness_1,
-                                        size: 8.0,
-                                        color: _tabController.index == index
-                                            ? Colors.white
-                                            : Colors.white.withAlpha(75))),
-                              )),
-                            ),
-                            // This gradient ensures that the toolbar icons are distinct
-                            // against the background image.
-                            const DecoratedBox(
-                              decoration: const BoxDecoration(
-                                gradient: const LinearGradient(
-                                  begin: const FractionalOffset(0.5, 0.0),
-                                  end: const FractionalOffset(0.5, 0.30),
-                                  colors: const <Color>[
-                                    const Color(0x60000000),
-                                    const Color(0x00000000)
-                                  ],
-                                ),
+  Widget build(BuildContext context) {
+    Services.context = context;
+    return new Scaffold(
+      body: item == null
+          ? const Center(child: const CircularProgressIndicator())
+          : new CustomScrollView(
+              slivers: <Widget>[
+                new SliverAppBar(
+                  title: new Text(
+                    capitalize(item.name),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  expandedHeight: _appBarHeight,
+                  pinned: true,
+                  actions: doButton(),
+                  flexibleSpace: new GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onHorizontalDragUpdate: (details) {
+                      if (dragStopped == true &&
+                          details.delta.dx < 0 &&
+                          _tabController.index < item.images.length - 1) {
+                        setState(() {
+                          _tabController.index = _tabController.index + 1;
+                          dragStopped = false;
+                        });
+                      } else if (dragStopped == true &&
+                          details.delta.dx > 0 &&
+                          _tabController.index > 0) {
+                        setState(() {
+                          _tabController.index = _tabController.index - 1;
+                          dragStopped = false;
+                        });
+                      }
+                    },
+                    onHorizontalDragEnd: (details) {
+                      dragStopped = true;
+                    },
+                    child: new FlexibleSpaceBar(
+                      // title: new Text(
+                      //   capitalize(item.name),
+                      //   overflow: TextOverflow.ellipsis,
+                      // ),
+                      background: new Stack(
+                        alignment: FractionalOffset.center,
+                        fit: StackFit.expand,
+                        children: <Widget>[
+                          new TabBarView(
+                              controller: _tabController,
+                              children: new List<Widget>.generate(
+                                  item.images.length, (index) {
+                                if (index == 0) {
+                                  return new Container(
+                                      color: Theme.of(context).canvasColor,
+                                      child: new Hero(
+                                          tag: '${item.id}_img_$hash',
+                                          child: new FadeInImage(
+                                            placeholder: placeholder,
+                                            image: new NetworkImage(
+                                                '$apiImgUrl${item.images[index]}'),
+                                            fit: BoxFit.cover,
+                                          )));
+                                } else {
+                                  return new FadeInImage(
+                                      placeholder: placeholder,
+                                      image: new NetworkImage(
+                                          '$apiImgUrl${item.images[index]}'),
+                                      fit: BoxFit.cover);
+                                }
+                              })),
+                          new Positioned(
+                            bottom: 15.0,
+                            width: MediaQuery.of(context).size.width,
+                            child: new Center(
+                                child: new Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: new List<Widget>.generate(
+                                  item.images.length,
+                                  (index) => new Icon(Icons.brightness_1,
+                                      size: 8.0,
+                                      color: _tabController.index == index
+                                          ? Colors.white
+                                          : Colors.white.withAlpha(75))),
+                            )),
+                          ),
+                          // This gradient ensures that the toolbar icons are distinct
+                          // against the background image.
+                          const DecoratedBox(
+                            decoration: const BoxDecoration(
+                              gradient: const LinearGradient(
+                                begin: const FractionalOffset(0.5, 0.0),
+                                end: const FractionalOffset(0.5, 0.30),
+                                colors: const <Color>[
+                                  const Color(0x60000000),
+                                  const Color(0x00000000)
+                                ],
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                  new SliverList(
-                    delegate: new SliverChildListDelegate(<Widget>[
-                      giftCard(),
-                      new _Category(
-                        icon: Icons.info,
-                        children: <Widget>[
-                          new _ListItem(
-                            lines: <String>[
-                              capitalize(item.name),
-                              'Name',
-                            ],
-                          ),
-                          new _ListItem(
-                            lines: <String>[
-                              item.about,
-                              'About',
-                            ],
-                          ),
-                        ],
-                      ),
-                      new _Category(
-                        icon: Icons.contact_mail,
-                        children: <Widget>[
-                          new _ListItem(
-                            icon: Icons.sms,
-                            tooltip: 'Send personal e-mail',
-                            onPressed: () {},
-                            lines: <String>[
-                              '${item.owner.firstname} ${item.owner.name}',
-                              'Owner',
-                            ],
-                          ),
-                        ],
-                      ),
-                      new _Category(
-                        icon: Icons.location_on,
-                        children: <Widget>[
-                          new _ListItem(
-                            icon: Icons.map,
-                            tooltip: 'Open map',
-                            onPressed: () {},
-                            lines: <String>[
-                              item.location,
-                              'Location',
-                            ],
-                          ),
-                        ],
-                      ),
-                      new Container(
-                        child: new Image.network(
-                            'https://maps.googleapis.com/maps/api/staticmap?center=${item.lat},${item.lng}&markers=color:blue%7C${item.lat},${item.lng}&zoom=13&maptype=roadmap&size=${getWidth()}x250&key=$staticApiKey'),
-                      ),
-                      new Stack(
-                        children: <Widget>[
-                          new DayPickerBar(
-                            selectedDate: new DateTime.now(),
-                            onChanged: (date) {},
-                          ),
-                          const Positioned(
-                            top: 15.0,
-                            left: 15.0,
-                            child: const Icon(Icons.today),
-                          )
-                        ],
-                      )
-                    ]),
-                  ),
-                ],
-              ),
-      );
+                ),
+                new SliverList(
+                  delegate: new SliverChildListDelegate(<Widget>[
+                    giftCard(),
+                    new _Category(
+                      icon: Icons.info,
+                      children: <Widget>[
+                        new _ListItem(
+                          lines: <String>[
+                            capitalize(item.name),
+                            'Name',
+                          ],
+                        ),
+                        new _ListItem(
+                          lines: <String>[
+                            item.about,
+                            'About',
+                          ],
+                        ),
+                      ],
+                    ),
+                    new _Category(
+                      icon: Icons.contact_mail,
+                      children: <Widget>[
+                        new _ListItem(
+                          icon: Icons.sms,
+                          tooltip: 'Send personal e-mail',
+                          onPressed: () {},
+                          lines: <String>[
+                            '${item.owner.firstname} ${item.owner.name}',
+                            'Owner',
+                          ],
+                        ),
+                      ],
+                    ),
+                    new _Category(
+                      icon: Icons.location_on,
+                      children: <Widget>[
+                        new _ListItem(
+                          icon: Icons.map,
+                          tooltip: 'Open map',
+                          onPressed: () {},
+                          lines: <String>[
+                            item.location,
+                            'Location',
+                          ],
+                        ),
+                      ],
+                    ),
+                    new Container(
+                      child: new Image.network(
+                          'https://maps.googleapis.com/maps/api/staticmap?center=${item.lat},${item.lng}&markers=color:blue%7C${item.lat},${item.lng}&zoom=13&maptype=roadmap&size=${getWidth()}x250&key=$staticApiKey'),
+                    ),
+                    new Stack(
+                      children: <Widget>[
+                        new DayPickerBar(
+                          selectedDate: new DateTime.now(),
+                          onChanged: (date) {},
+                        ),
+                        const Positioned(
+                          top: 15.0,
+                          left: 15.0,
+                          child: const Icon(Icons.today),
+                        )
+                      ],
+                    )
+                  ]),
+                ),
+              ],
+            ),
+    );
+  }
 }
 
+/// Pop a Page with item details
 Future<Null> showItemPage(Item item, String hash, BuildContext context) async {
   await Navigator.push(
       context,

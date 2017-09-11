@@ -3,14 +3,19 @@ import 'package:flutter/gestures.dart';
 import 'package:spotitem/models/user.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+/// Email RegExp
 final RegExp emailExp = new RegExp(r'[\w-]+@([\w-]+\.)+[\w-]+');
-final RegExp nameExp =
-    new RegExp(r"^[A-Za-z]+((\s)?((\'|\-|\.)?([A-Za-z])+))*$");
 
+/// Name RegExp
+final RegExp nameExp = new RegExp(r'^[A-Za-z ]+$');
+
+/// Capitalize first letter of String
 String capitalize(String s) => '${s[0].toUpperCase()}${s.substring(1)}';
 
+/// Placeholder of item
 const AssetImage placeholder = const AssetImage('assets/placeholder.png');
 
+/// Return Circle avatar of images or initial
 Widget getAvatar(User user) => new CircleAvatar(
     radius: 30.0,
     backgroundColor: Colors.grey,
@@ -19,6 +24,7 @@ Widget getAvatar(User user) => new CircleAvatar(
         : null,
     child: new Text('${user.firstname[0]}${user.name[0]}'));
 
+/// Show a loading popup
 void showLoading(BuildContext context) {
   showDialog<Null>(
     context: context,
@@ -36,6 +42,7 @@ void showLoading(BuildContext context) {
   );
 }
 
+/// Validate Email input
 String validateEmail(String value) {
   if (value.isEmpty) {
     return 'Email is required.';
@@ -46,6 +53,7 @@ String validateEmail(String value) {
   return null;
 }
 
+/// Validate Name input
 String validateName(String value) {
   if (value.isEmpty) {
     return 'Name is required.';
@@ -56,6 +64,7 @@ String validateName(String value) {
   return null;
 }
 
+/// Validate other required input
 String validateString(String value) {
   if (value.isEmpty) {
     return 'Value is required.';
@@ -63,6 +72,7 @@ String validateString(String value) {
   return null;
 }
 
+/// Validate password input
 String validatePassword(String value) {
   if (value == null || value.isEmpty) {
     return 'Please choose a password.';
@@ -73,6 +83,7 @@ String validatePassword(String value) {
   return null;
 }
 
+/// Return a String of provided double dist
 String distString(double dist) {
   if (dist < 1) {
     return '< 1km';
@@ -80,10 +91,12 @@ String distString(double dist) {
   return '${dist.toStringAsFixed(1)}km';
 }
 
+/// Show a snackbar in current context with text
 void showSnackBar(BuildContext context, String text) {
   Scaffold.of(context).showSnackBar(new SnackBar(content: new Text(text)));
 }
 
+/// Return icon tracks
 Widget getIcon(String tracks, [Color color]) {
   switch (tracks) {
     case 'private':
@@ -97,6 +110,7 @@ Widget getIcon(String tracks, [Color color]) {
   }
 }
 
+/// Limit length of string
 String limitString(String str, int lenght) {
   if (str.length > lenght) {
     return '${str.substring(0, lenght)}...';
@@ -104,20 +118,9 @@ String limitString(String str, int lenght) {
   return str;
 }
 
+/// Clickable link
 class LinkTextSpan extends TextSpan {
-  // Beware!
-  //
-  // This class is only safe because the TapGestureRecognizer is not
-  // given a deadline and therefore never allocates any resources.
-  //
-  // In any other situation -- setting a deadline, using any of the less trivial
-  // recognizers, etc -- you would have to manage the gesture recognizer's
-  // lifetime and call dispose() when the TextSpan was no longer being rendered.
-  //
-  // Since TextSpan itself is @immutable, this means that you would have to
-  // manage the recognizer from outside the TextSpan, e.g. in the State of a
-  // stateful widget that then hands the recognizer to the TextSpan.
-
+  /// LinkTextSpan initializer
   LinkTextSpan({TextStyle style, String url, String text})
       : super(
             style: style,

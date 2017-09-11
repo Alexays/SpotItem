@@ -12,7 +12,9 @@ import 'package:spotitem/ui/screens/contact_screen.dart';
 import 'package:spotitem/ui/views/item_view.dart';
 import 'package:fluro/fluro.dart';
 
+/// Routes Class
 class Routes {
+  /// Configure all routes
   static void configureRoutes(Router router) {
     router
       ..define('/login',

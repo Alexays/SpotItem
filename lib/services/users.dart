@@ -8,6 +8,7 @@ import 'package:spotitem/services/basic.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:location/location.dart';
 
+/// User class manager
 class UsersManager extends BasicService {
   /// Location of user
   Map<String, double> location = {};

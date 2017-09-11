@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
+/// Day picker bar class
 class DayPickerBar extends StatefulWidget {
-  final DateTime selectedDate;
-  final ValueChanged<DateTime> onChanged;
-
+  /// Dau picker bar initalizer
   const DayPickerBar({this.selectedDate, this.onChanged});
+
+  /// Selected day in picker
+  final DateTime selectedDate;
+
+  /// Provider a listener when value change
+  final ValueChanged<DateTime> onChanged;
 
   @override
   _DayPickerBarState createState() => new _DayPickerBarState();

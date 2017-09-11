@@ -6,7 +6,9 @@ import 'package:spotitem/ui/views/item_view.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:flutter/material.dart';
 
+/// Discover view class
 class DiscoverView extends StatefulWidget {
+  /// Discoverview initializer
   const DiscoverView();
 
   @override
@@ -98,18 +100,23 @@ class _DiscoverViewState extends State<DiscoverView> {
       });
 
   @override
-  Widget build(BuildContext context) => new RefreshIndicator(
-        onRefresh: () => _loadItems(true),
-        child: _items == null
-            ? const Center(child: const CircularProgressIndicator())
-            : _buildDiscover(),
-      );
+  Widget build(BuildContext context) {
+    Services.context = context;
+    return new RefreshIndicator(
+      onRefresh: () => _loadItems(true),
+      child: _items == null
+          ? const Center(child: const CircularProgressIndicator())
+          : _buildDiscover(),
+    );
+  }
 }
 
+/// Discover list class
 class DiscoverList extends StatelessWidget {
   final List<Item> _items;
   final String _hash;
 
+  /// Discover list initializer
   const DiscoverList(this._items, this._hash);
 
   @override

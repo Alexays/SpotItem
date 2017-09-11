@@ -6,6 +6,7 @@ import 'package:spotitem/services/services.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// Basic Service
 class BasicService {
   /// Check if service is initialized
   bool get initialized => _initialized;

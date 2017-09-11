@@ -8,7 +8,9 @@ import 'package:spotitem/models/group.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 
+/// Add item screen class
 class AddItemScreen extends StatefulWidget {
+  /// Add item screen initializer
   const AddItemScreen();
 
   @override
@@ -193,114 +195,116 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => new Scaffold(
-        appBar: new AppBar(title: const Text('Add Item')),
-        body: new Builder(
-            builder: (context) => new Container(
-                child: new Form(
-                    key: _formKey,
-                    child: new Stepper(
-                      currentStep: _currentStep,
-                      steps: [
-                        new Step(
-                            title: const Text('Informations'),
-                            state: StepState.indexed,
-                            content: new Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  new Column(children: <Widget>[
-                                    new TextFormField(
-                                        key: const Key('name'),
-                                        decoration: const InputDecoration(
-                                            hintText: 'Name'),
-                                        validator: validateName,
-                                        onSaved: (value) {
-                                          _name = value.trim();
-                                        }),
-                                    new TextFormField(
-                                        key: const Key('about'),
-                                        decoration: const InputDecoration(
-                                            hintText: 'Description'),
-                                        onSaved: (value) {
-                                          _about = value.trim();
-                                        }),
-                                    new TextFormField(
-                                        key: const Key('location'),
-                                        decoration: const InputDecoration(
-                                            hintText: 'Location'),
-                                        validator: validateString,
-                                        onSaved: (value) {
-                                          _location = value.trim();
-                                        }),
-                                    const Divider(),
-                                    new SwitchListTile(
-                                        title: const Text('Donated Item'),
-                                        value: _tracks.contains('gift'),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            if (value) {
-                                              _tracks.add('gift');
-                                            } else {
-                                              _tracks.remove('gift');
-                                            }
-                                          });
-                                        },
-                                        secondary:
-                                            const Icon(Icons.card_giftcard)),
-                                    new SwitchListTile(
-                                        title: const Text('Private Item'),
-                                        value: _tracks.contains('private'),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            if (value) {
-                                              _tracks.add('private');
-                                            } else {
-                                              _tracks.remove('private');
-                                            }
-                                          });
-                                        },
-                                        secondary: const Icon(Icons.lock))
-                                  ])
-                                ]),
-                            isActive: true),
-                        new Step(
-                            title: const Text('Images'),
-                            content: new Container(
-                                height: 120 +
-                                    320 *
-                                        (_imagesFile.length / 3)
-                                            .floorToDouble(),
-                                child: getImageGrid()),
-                            isActive: true),
-                        new Step(
-                            title: const Text('Groups'),
-                            content: getGroups(),
-                            isActive: true),
-                      ],
-                      type: StepperType.vertical,
-                      onStepTapped: (step) {
-                        setState(() {
-                          _currentStep = step;
-                        });
-                      },
-                      onStepCancel: () {
-                        setState(() {
-                          if (_currentStep > 0) {
-                            _currentStep = _currentStep - 1;
-                          } else {
-                            _currentStep = 0;
-                          }
-                        });
-                      },
-                      onStepContinue: () {
-                        setState(() {
-                          if (_currentStep < _stepLength - 1) {
-                            _currentStep = _currentStep + 1;
-                          } else {
-                            addItem(context);
-                          }
-                        });
-                      },
-                    )))),
-      );
+  Widget build(BuildContext context) {
+    Services.context = context;
+    return new Scaffold(
+      appBar: new AppBar(title: const Text('Add Item')),
+      body: new Builder(
+          builder: (context) => new Container(
+              child: new Form(
+                  key: _formKey,
+                  child: new Stepper(
+                    currentStep: _currentStep,
+                    steps: [
+                      new Step(
+                          title: const Text('Informations'),
+                          state: StepState.indexed,
+                          content: new Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                new Column(children: <Widget>[
+                                  new TextFormField(
+                                      key: const Key('name'),
+                                      decoration: const InputDecoration(
+                                          hintText: 'Name'),
+                                      validator: validateName,
+                                      onSaved: (value) {
+                                        _name = value.trim();
+                                      }),
+                                  new TextFormField(
+                                      key: const Key('about'),
+                                      decoration: const InputDecoration(
+                                          hintText: 'Description'),
+                                      onSaved: (value) {
+                                        _about = value.trim();
+                                      }),
+                                  new TextFormField(
+                                      key: const Key('location'),
+                                      decoration: const InputDecoration(
+                                          hintText: 'Location'),
+                                      validator: validateString,
+                                      onSaved: (value) {
+                                        _location = value.trim();
+                                      }),
+                                  const Divider(),
+                                  new SwitchListTile(
+                                      title: const Text('Donated Item'),
+                                      value: _tracks.contains('gift'),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          if (value) {
+                                            _tracks.add('gift');
+                                          } else {
+                                            _tracks.remove('gift');
+                                          }
+                                        });
+                                      },
+                                      secondary:
+                                          const Icon(Icons.card_giftcard)),
+                                  new SwitchListTile(
+                                      title: const Text('Private Item'),
+                                      value: _tracks.contains('private'),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          if (value) {
+                                            _tracks.add('private');
+                                          } else {
+                                            _tracks.remove('private');
+                                          }
+                                        });
+                                      },
+                                      secondary: const Icon(Icons.lock))
+                                ])
+                              ]),
+                          isActive: true),
+                      new Step(
+                          title: const Text('Images'),
+                          content: new Container(
+                              height: 120 +
+                                  320 *
+                                      (_imagesFile.length / 3).floorToDouble(),
+                              child: getImageGrid()),
+                          isActive: true),
+                      new Step(
+                          title: const Text('Groups'),
+                          content: getGroups(),
+                          isActive: true),
+                    ],
+                    type: StepperType.vertical,
+                    onStepTapped: (step) {
+                      setState(() {
+                        _currentStep = step;
+                      });
+                    },
+                    onStepCancel: () {
+                      setState(() {
+                        if (_currentStep > 0) {
+                          _currentStep = _currentStep - 1;
+                        } else {
+                          _currentStep = 0;
+                        }
+                      });
+                    },
+                    onStepContinue: () {
+                      setState(() {
+                        if (_currentStep < _stepLength - 1) {
+                          _currentStep = _currentStep + 1;
+                        } else {
+                          addItem(context);
+                        }
+                      });
+                    },
+                  )))),
+    );
+  }
 }

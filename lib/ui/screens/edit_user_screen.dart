@@ -5,7 +5,9 @@ import 'package:spotitem/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/utils.dart';
 
+/// Edit user screen class
 class EditUserScreen extends StatefulWidget {
+  /// Edit user screen initializer
   const EditUserScreen();
 
   @override
@@ -54,6 +56,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Services.context = context;
     final ThemeData theme = Theme.of(context);
     return new Scaffold(
       appBar: new AppBar(title: const Text('Edit Profile'), actions: <Widget>[

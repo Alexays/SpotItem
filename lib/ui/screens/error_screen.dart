@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// Error screen class
 class ErrorScreen extends StatelessWidget {
+  /// Error screen initializer
   const ErrorScreen();
 
   @override

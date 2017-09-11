@@ -6,13 +6,16 @@ import 'package:spotitem/models/user.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/utils.dart';
 
+/// Group page class
 class GroupPage extends StatefulWidget {
+  /// Group page initializer
   const GroupPage({
     Key key,
     this.group,
   })
       : super(key: key);
 
+  /// Group data
   final Group group;
 
   @override
@@ -334,28 +337,31 @@ class _GroupPageState extends State<GroupPage>
                       ))))));
 
   @override
-  Widget build(BuildContext context) => new Scaffold(
-        key: _scaffoldKey,
-        appBar: new AppBar(
-          title: new Text('Group: ${group.name}'),
-          actions: _doButton(),
-        ),
-        body: new Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            _buildHeader(),
-            new Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: new Center(
-                    child: new RaisedButton(
-                  onPressed: () {
-                    _addPeople();
-                  },
-                  child: const Text('Add a user'),
-                ))),
-            _buildUsers(),
-          ],
-        ),
-      );
+  Widget build(BuildContext context) {
+    Services.context = context;
+    return new Scaffold(
+      key: _scaffoldKey,
+      appBar: new AppBar(
+        title: new Text('Group: ${group.name}'),
+        actions: _doButton(),
+      ),
+      body: new Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          _buildHeader(),
+          new Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: new Center(
+                  child: new RaisedButton(
+                onPressed: () {
+                  _addPeople();
+                },
+                child: const Text('Add a user'),
+              ))),
+          _buildUsers(),
+        ],
+      ),
+    );
+  }
 }

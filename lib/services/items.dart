@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:spotitem/services/basic.dart';
 import 'package:spotitem/services/services.dart';
 
+/// Items class manager
 class ItemsManager extends BasicService {
   /// Get items categories
   List<String> get categories => _categories;

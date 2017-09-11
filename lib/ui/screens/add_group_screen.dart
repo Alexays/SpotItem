@@ -5,7 +5,9 @@ import 'package:spotitem/models/group.dart';
 import 'package:spotitem/utils.dart';
 import 'package:flutter/material.dart';
 
+/// Add Group screen class
 class AddGroupScreen extends StatefulWidget {
+  /// Add Group screen initalizer
   const AddGroupScreen();
 
   @override
@@ -87,65 +89,68 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => new Scaffold(
-        appBar: new AppBar(title: const Text('Add Group'), actions: <Widget>[
-          new Builder(
-              builder: (context) => new IconButton(
-                  icon: new Column(children: <Widget>[
-                    const Icon(Icons.add_box),
-                    const Text('Add')
-                  ]),
-                  onPressed: () {
-                    addGroup(context);
-                  }))
-        ]),
-        body: new Builder(
-            builder: (context) => new SingleChildScrollView(
-                child: new Container(
-                    margin: const EdgeInsets.all(20.0),
-                    child: new Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          new Form(
-                              key: _formKey,
-                              child: new Column(children: <Widget>[
-                                new TextFormField(
-                                    key: const Key('name'),
-                                    decoration: const InputDecoration(
-                                        hintText: 'Enter name',
-                                        labelText: 'Name'),
-                                    onSaved: (value) {
-                                      name = value.trim();
-                                    }),
-                                new TextFormField(
-                                    key: const Key('about'),
-                                    decoration: const InputDecoration(
-                                        hintText: 'Enter description',
-                                        labelText: 'Description'),
-                                    onSaved: (value) {
-                                      about = value.trim();
-                                    }),
-                                const Divider(),
-                                new Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: new List<Widget>.generate(
-                                      email.length,
-                                      (index) => new Chip(
-                                          label: new Text(email[index]),
-                                          onDeleted: () {
-                                            setState(() {
-                                              email.removeAt(index);
-                                            });
-                                          })),
-                                ),
-                                const Divider(),
-                                new RaisedButton(
-                                    child: const Text('Add someone'),
-                                    onPressed: () {
-                                      Navigator.pushNamed(context, '/contacts');
-                                      //_addPeople();
-                                    })
-                              ]))
-                        ])))),
-      );
+  Widget build(BuildContext context) {
+    Services.context = context;
+    return new Scaffold(
+      appBar: new AppBar(title: const Text('Add Group'), actions: <Widget>[
+        new Builder(
+            builder: (context) => new IconButton(
+                icon: new Column(children: <Widget>[
+                  const Icon(Icons.add_box),
+                  const Text('Add')
+                ]),
+                onPressed: () {
+                  addGroup(context);
+                }))
+      ]),
+      body: new Builder(
+          builder: (context) => new SingleChildScrollView(
+              child: new Container(
+                  margin: const EdgeInsets.all(20.0),
+                  child: new Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        new Form(
+                            key: _formKey,
+                            child: new Column(children: <Widget>[
+                              new TextFormField(
+                                  key: const Key('name'),
+                                  decoration: const InputDecoration(
+                                      hintText: 'Enter name',
+                                      labelText: 'Name'),
+                                  onSaved: (value) {
+                                    name = value.trim();
+                                  }),
+                              new TextFormField(
+                                  key: const Key('about'),
+                                  decoration: const InputDecoration(
+                                      hintText: 'Enter description',
+                                      labelText: 'Description'),
+                                  onSaved: (value) {
+                                    about = value.trim();
+                                  }),
+                              const Divider(),
+                              new Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: new List<Widget>.generate(
+                                    email.length,
+                                    (index) => new Chip(
+                                        label: new Text(email[index]),
+                                        onDeleted: () {
+                                          setState(() {
+                                            email.removeAt(index);
+                                          });
+                                        })),
+                              ),
+                              const Divider(),
+                              new RaisedButton(
+                                  child: const Text('Add someone'),
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/contacts');
+                                    //_addPeople();
+                                  })
+                            ]))
+                      ])))),
+    );
+  }
 }

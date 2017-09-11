@@ -5,6 +5,7 @@ import 'package:spotitem/models/group.dart';
 import 'package:spotitem/services/basic.dart';
 import 'package:spotitem/services/services.dart';
 
+/// Groups class manager
 class GroupsManager extends BasicService {
   /// User groups data
   List<Group> get groups => _groups;

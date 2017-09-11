@@ -5,7 +5,9 @@ import 'package:spotitem/services/services.dart';
 import 'package:spotitem/ui/views/group_view.dart';
 import 'package:spotitem/models/group.dart';
 
+/// Groups view class
 class GroupsView extends StatefulWidget {
+  /// Groups view initializer
   const GroupsView();
 
   @override
@@ -190,7 +192,10 @@ class _GroupsViewState extends State<GroupsView> {
   }
 
   @override
-  Widget build(BuildContext context) => _myGroups == null
-      ? const Center(child: const CircularProgressIndicator())
-      : getList();
+  Widget build(BuildContext context) {
+    Services.context = context;
+    return _myGroups == null
+        ? const Center(child: const CircularProgressIndicator())
+        : getList();
+  }
 }

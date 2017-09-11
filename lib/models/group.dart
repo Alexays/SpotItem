@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:spotitem/models/user.dart';
 
+/// Group model
 class Group {
+  /// Group class initializer
   Group(data)
       : id = data['_id'],
         name = data['name'],
@@ -10,14 +12,25 @@ class Group {
             (index) => new User(data['users'][index])),
         owner = data['owner'];
 
+  /// Group id
   final String id;
+
+  /// Group name
   String name;
+
+  /// Group description
   String about;
+
+  /// Group users
   List<User> users;
+
+  /// Group owner
   String owner;
 
+  /// Create a group from JSON object
   factory Group.from(group) => new Group(JSON.decode(group.toString()));
 
+  /// Check if a group is valid
   bool isValid() => id != null && name != null;
 
   @override

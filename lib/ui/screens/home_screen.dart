@@ -10,7 +10,9 @@ import 'package:spotitem/keys.dart';
 import 'package:spotitem/models/item.dart';
 import 'package:flutter/material.dart';
 
+/// Home screen class
 class HomeScreen extends StatefulWidget {
+  /// Home screen initializer
   const HomeScreen();
 
   @override
@@ -456,6 +458,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
+    Services.context = context;
     final cur = _homeScreenItems[_currentIndex];
     return new Stack(fit: StackFit.expand, children: <Widget>[
       new Scaffold(
@@ -488,14 +491,27 @@ class _HomeScreenState extends State<HomeScreen>
   }
 }
 
+/// Home screen item
 class HomeScreenItem {
+  /// Home screen item
   final BottomNavigationBarItem item;
+
+  /// Home screen item content
   final List<Widget> content;
+
+  /// Home screen item tabs
   final List<HomeScreenSubItem> sub;
+
+  /// Home screen item fab
   final FloatingActionButton fab;
+
+  /// Home screen item title
   final String title;
+
+  /// Home screen item Tab controller
   final TabController tab;
 
+  /// Home screen item initalizer
   HomeScreenItem(
       {_HomeScreenState parent,
       Widget icon,
@@ -512,9 +528,14 @@ class HomeScreenItem {
             vsync: parent, length: sub != null ? sub.length : 1);
 }
 
+/// Home screen sub item
 class HomeScreenSubItem {
+  /// Home screen sub item title
   final String title;
+
+  /// Home screen sub item content
   final Widget content;
 
+  /// Home screen sub item initializer
   const HomeScreenSubItem(this.title, this.content);
 }

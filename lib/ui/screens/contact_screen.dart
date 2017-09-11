@@ -3,7 +3,9 @@ import 'package:spotitem/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/utils.dart';
 
+/// Contact screen class
 class ContactScreen extends StatefulWidget {
+  /// Contact screen initalizer
   const ContactScreen();
 
   @override
@@ -20,17 +22,20 @@ class _ContactScreenState extends State<ContactScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => new Scaffold(
-      appBar: new AppBar(title: const Text('Add Contacts')),
-      body: new Builder(
-          builder: (context) => new ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              itemCount: _contact?.length ?? 0,
-              itemExtent: 250.0,
-              itemBuilder: (context, index) => new CheckboxListTile(
-                    title: new Text(_contact[index].name),
-                    value: _contact[index] == true,
-                    onChanged: (value) {},
-                    secondary: const Icon(Icons.people),
-                  ))));
+  Widget build(BuildContext context) {
+    Services.context = context;
+    return new Scaffold(
+        appBar: new AppBar(title: const Text('Add Contacts')),
+        body: new Builder(
+            builder: (context) => new ListView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                itemCount: _contact?.length ?? 0,
+                itemExtent: 250.0,
+                itemBuilder: (context, index) => new CheckboxListTile(
+                      title: new Text(_contact[index].name),
+                      value: _contact[index] == true,
+                      onChanged: (value) {},
+                      secondary: const Icon(Icons.people),
+                    ))));
+  }
 }

@@ -4,7 +4,9 @@ import 'package:spotitem/models/item.dart';
 import 'package:spotitem/ui/views/item_view.dart';
 import 'package:spotitem/utils.dart';
 
+/// Items view class
 class ItemsView extends StatefulWidget {
+  /// Items view initializer
   const ItemsView();
 
   @override
@@ -62,7 +64,10 @@ class _ItemsViewState extends State<ItemsView> {
   }
 
   @override
-  Widget build(BuildContext context) => _myItems == null
-      ? const Center(child: const CircularProgressIndicator())
-      : getList();
+  Widget build(BuildContext context) {
+    Services.context = context;
+    return _myItems == null
+        ? const Center(child: const CircularProgressIndicator())
+        : getList();
+  }
 }
