@@ -133,22 +133,19 @@ class _EditItemScreenState extends State<EditItemScreen>
             children: <Widget>[
               new Image.network('$apiImgUrl${item.images[index]}'),
               new Positioned(
-                  top: 5.0,
-                  left: 5.0,
-                  child: new Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        new IconButton(
-                          color: const Color.fromARGB(255, 255, 255, 255),
-                          icon: const Icon(Icons.delete),
-                          tooltip: 'Delete this image',
-                          onPressed: () {
-                            setState(() {
-                              item.images.removeAt(index);
-                            });
-                          },
-                        ),
-                      ])),
+                top: 2.5,
+                left: 2.5,
+                child: new IconButton(
+                  color: const Color.fromARGB(255, 255, 255, 255),
+                  icon: const Icon(Icons.delete),
+                  tooltip: 'Delete this image',
+                  onPressed: () {
+                    setState(() {
+                      item.images.removeAt(index);
+                    });
+                  },
+                ),
+              ),
             ],
           ));
         } else {
@@ -157,23 +154,20 @@ class _EditItemScreenState extends State<EditItemScreen>
             children: <Widget>[
               new Image.file(_imagesFile[index - item.images.length]),
               new Positioned(
-                  top: 5.0,
-                  left: 5.0,
-                  child: new Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        new IconButton(
-                          color: const Color.fromARGB(255, 255, 255, 255),
-                          icon: const Icon(Icons.delete),
-                          tooltip: 'Delete this image',
-                          onPressed: () {
-                            setState(() {
-                              _imagesFile.removeAt(index);
-                              _images.removeAt(index);
-                            });
-                          },
-                        ),
-                      ])),
+                top: 2.5,
+                left: 2.5,
+                child: new IconButton(
+                  color: const Color.fromARGB(255, 255, 255, 255),
+                  icon: const Icon(Icons.delete),
+                  tooltip: 'Delete this image',
+                  onPressed: () {
+                    setState(() {
+                      _imagesFile.removeAt(index);
+                      _images.removeAt(index);
+                    });
+                  },
+                ),
+              ),
             ],
           ));
         }
