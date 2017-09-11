@@ -29,7 +29,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   String _location;
 
   /// Tracks of item
-  List<String> _tracks = [];
+  final List<String> _tracks = [];
 
   /// Images taken from gallery
   final List<File> _imagesFile = [];
@@ -41,7 +41,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   List<Group> _groups;
 
   /// Check groups id
-  List<String> _groupsId = [];
+  final List<String> _groupsId = [];
 
   /// Stepper
   final int _stepLength = 3;

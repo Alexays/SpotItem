@@ -30,24 +30,32 @@ class _EditItemScreenState extends State<EditItemScreen>
 
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
+  /// Item name
   TextEditingController _name;
+
+  /// Item Description
   TextEditingController _about;
+
+  /// Item location
   TextEditingController _location;
 
-  List<File> imageFile = <File>[];
+  /// Images file
+  List<File> _imagesFile = [];
 
-  String name;
-  String about;
-  String location;
-  bool gift = false;
-  bool private = false;
-  List<String> images = <String>[];
+  /// Item tracks
+  List<String> _tracks = [];
 
+  /// Base64 images
+  List<String> _images = [];
+
+  /// Item data
   Item item;
-  List<String> _groups;
-  List<bool> _checked;
 
-  List<Group> _myGroups;
+  /// User groups
+  List<Group> _groups;
+
+  /// Item groups
+  List<String> _groupsId;
 
   @override
   void initState() {
@@ -55,27 +63,17 @@ class _EditItemScreenState extends State<EditItemScreen>
       setState(() {
         item = data;
         if (item != null) {
-          name = item.name;
-          about = item.about;
-          location = item.location;
-          _name = new TextEditingController(text: name);
-          _about = new TextEditingController(text: about);
-          _location = new TextEditingController(text: location);
-          _groups = item.groups;
-          gift = item.tracks.contains('gift');
-          private = item.tracks.contains('private');
+          _name = new TextEditingController(text: item.name);
+          _about = new TextEditingController(text: item.about);
+          _location = new TextEditingController(text: item.location);
+          _groupsId = item.groups;
+          _tracks = item.tracks;
         }
       });
     });
     Services.groups.getGroups().then((data) {
       setState(() {
-        _myGroups = data;
-        _checked = new List<bool>.generate(_myGroups.length, (index) {
-          if (_groups != null && _groups.contains(_myGroups[index].id)) {
-            return true;
-          }
-          return false;
-        });
+        _groups = data;
       });
     });
     _controller = new AnimationController(
@@ -97,9 +95,9 @@ class _EditItemScreenState extends State<EditItemScreen>
     final File _fileName = await ImagePicker.pickImage();
     if (_fileName != null) {
       setState(() {
-        imageFile.add(_fileName);
+        _imagesFile.add(_fileName);
         _fileName.readAsBytes().then((data) {
-          images.add(
+          _images.add(
               'data:image/${_fileName.path.split('.').last};base64,${BASE64.encode(data)}');
         });
       });
@@ -107,7 +105,7 @@ class _EditItemScreenState extends State<EditItemScreen>
   }
 
   Widget getImageGrid() {
-    if ((item.images.length + imageFile.length) < 1) {
+    if ((item.images.length + _imagesFile.length) < 1) {
       return new Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -125,10 +123,10 @@ class _EditItemScreenState extends State<EditItemScreen>
     }
     return new GridView.count(
       primary: false,
-      crossAxisCount: (item.images.length + imageFile.length),
+      crossAxisCount: (item.images.length + _imagesFile.length),
       crossAxisSpacing: 10.0,
       children: new List<Widget>.generate(
-          (item.images.length + imageFile.length), (index) {
+          (item.images.length + _imagesFile.length), (index) {
         if (index < item.images.length) {
           return new GridTile(
               child: new Stack(
@@ -157,7 +155,7 @@ class _EditItemScreenState extends State<EditItemScreen>
           return new GridTile(
               child: new Stack(
             children: <Widget>[
-              new Image.file(imageFile[index - item.images.length]),
+              new Image.file(_imagesFile[index - item.images.length]),
               new Positioned(
                   top: 5.0,
                   left: 5.0,
@@ -170,8 +168,8 @@ class _EditItemScreenState extends State<EditItemScreen>
                           tooltip: 'Delete this image',
                           onPressed: () {
                             setState(() {
-                              imageFile.removeAt(index);
-                              images.removeAt(index);
+                              _imagesFile.removeAt(index);
+                              _images.removeAt(index);
                             });
                           },
                         ),
@@ -185,52 +183,29 @@ class _EditItemScreenState extends State<EditItemScreen>
 
   Future<Null> editItem(BuildContext context) async {
     final List<String> finalImages = <String>[];
-    final List<String> tracks = <String>[];
     final List<String> groups = <String>[];
     _formKey.currentState.save();
-    showDialog<Null>(
-      context: context,
-      barrierDismissible: false,
-      child: new AlertDialog(
-        title: const Text('Loading...'),
-        content: new SingleChildScrollView(
-          child: new ListBody(
-            children: <Widget>[
-              const Center(child: const CircularProgressIndicator())
-            ],
-          ),
-        ),
-      ),
-    );
-    int i = 0;
-    _checked.forEach((f) {
-      if (f) {
-        groups.add(_myGroups[i].id);
-      }
-      i++;
-    });
-    if (gift) {
-      tracks.add('gift');
+    if (!_formKey.currentState.validate()) {
+      showSnackBar(context, 'Please correct error !');
+      return;
     }
-    if (private) {
-      tracks.add('private');
-    }
+    showLoading(context);
     item.images.forEach((f) => finalImages.add(f));
-    images.forEach((f) => finalImages.add(f));
+    _images.forEach((f) => finalImages.add(f));
     if (Services.auth.user != null &&
         Services.auth.user.id != null &&
         Services.users.location != null) {
       final dynamic response = await Services.items.editItem({
         'id': item.id,
-        'name': name,
-        'about': about,
+        'name': _name.value,
+        'about': _about.value,
         'owner': Services.auth.user.id,
         'holder': Services.auth.user.id,
         'lat': Services.users.location['latitude'].toString(),
         'lng': Services.users.location['longitude'].toString(),
         'images': JSON.encode(finalImages),
-        'location': location,
-        'tracks': JSON.encode(tracks),
+        'location': _location.value,
+        'tracks': JSON.encode(_tracks),
         'groups': JSON.encode(groups)
       });
       Navigator.of(context).pop();
@@ -247,18 +222,22 @@ class _EditItemScreenState extends State<EditItemScreen>
   }
 
   Widget getGroups() {
-    if (_myGroups == null) {
+    if (_groups == null) {
       return const Center(child: const CircularProgressIndicator());
     }
     return new Column(
       children: new List<Widget>.generate(
-          _myGroups.length,
+          _groups.length,
           (index) => new CheckboxListTile(
-                title: new Text(_myGroups[index].name),
-                value: _checked[index] == true,
+                title: new Text(_groups[index].name),
+                value: _groupsId.contains(_groups[index].id),
                 onChanged: (value) {
                   setState(() {
-                    _checked[index] = value;
+                    if (value) {
+                      _groupsId.add(_groups[index].id);
+                    } else {
+                      _groupsId.remove(_groups[index].id);
+                    }
                   });
                 },
                 secondary: const Icon(Icons.people),
@@ -296,7 +275,7 @@ class _EditItemScreenState extends State<EditItemScreen>
                                 const Tab(text: 'Groups')
                               ])))
                     ],
-                body: item == null || _myGroups == null
+                body: item == null || _groups == null
                     ? const Center(child: const CircularProgressIndicator())
                     : new Form(
                         key: _formKey,
@@ -311,9 +290,7 @@ class _EditItemScreenState extends State<EditItemScreen>
                                       decoration: const InputDecoration(
                                           hintText: 'Ex: Pencil',
                                           labelText: 'Name'),
-                                      onSaved: (value) {
-                                        name = value.trim();
-                                      },
+                                      validator: validateName,
                                       controller: _name,
                                     ),
                                     new TextFormField(
@@ -321,9 +298,6 @@ class _EditItemScreenState extends State<EditItemScreen>
                                       decoration: const InputDecoration(
                                           hintText: 'Ex: It\'s a pencil !',
                                           labelText: 'Description'),
-                                      onSaved: (value) {
-                                        about = value.trim();
-                                      },
                                       controller: _about,
                                     ),
                                     new TextFormField(
@@ -331,17 +305,19 @@ class _EditItemScreenState extends State<EditItemScreen>
                                       decoration: const InputDecoration(
                                           hintText: 'Ex: Nantes',
                                           labelText: 'Location'),
-                                      onSaved: (value) {
-                                        location = value.trim();
-                                      },
+                                      validator: validateString,
                                       controller: _location,
                                     ),
                                     new SwitchListTile(
                                       title: const Text('Donated Item'),
-                                      value: gift,
+                                      value: _tracks.contains('gift'),
                                       onChanged: (value) {
                                         setState(() {
-                                          gift = value;
+                                          if (value) {
+                                            _tracks.add('gift');
+                                          } else {
+                                            _tracks.remove('gift');
+                                          }
                                         });
                                       },
                                       secondary:
@@ -349,10 +325,14 @@ class _EditItemScreenState extends State<EditItemScreen>
                                     ),
                                     new SwitchListTile(
                                       title: const Text('Private Item'),
-                                      value: private,
+                                      value: _tracks.contains('private'),
                                       onChanged: (value) {
                                         setState(() {
-                                          private = value;
+                                          if (value) {
+                                            _tracks.add('private');
+                                          } else {
+                                            _tracks.remove('private');
+                                          }
                                         });
                                       },
                                       secondary: const Icon(Icons.lock),
