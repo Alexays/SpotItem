@@ -140,6 +140,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   Future<Null> addItem(BuildContext context) async {
     _formKey.currentState.save();
     showLoading(context);
+    _images.clear();
     _imagesFile.forEach((f) {
       final List<int> imageBytes = f.readAsBytesSync();
       _images.add(
