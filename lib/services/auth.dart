@@ -59,10 +59,8 @@ class AuthManager extends BasicService {
       if (_provider == 'google') {
         await handleGoogleSignIn(false);
       }
-      if (await getAccessToken()) {
-        _loggedIn = true;
-        connectWs();
-      }
+      _loggedIn = true;
+      connectWs();
     }
     return true;
   }
@@ -72,14 +70,10 @@ class AuthManager extends BasicService {
   /// @param token Token will be user to access API
   /// @returns Valid token
   Future<String> verifyToken(String token) async {
-    if (token == null || token != accessToken) {
+    if ((token == null && accessToken != null) || token != accessToken) {
       return token;
     }
-    if (exp == null) {
-      await logout();
-      return null;
-    }
-    if (loggedIn && new DateTime.now().isAfter(exp)) {
+    if (loggedIn && (exp == null || new DateTime.now().isAfter(exp))) {
       await getAccessToken();
     }
     return accessToken;
