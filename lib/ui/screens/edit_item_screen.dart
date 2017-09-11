@@ -40,13 +40,13 @@ class _EditItemScreenState extends State<EditItemScreen>
   TextEditingController _location;
 
   /// Images file
-  List<File> _imagesFile = [];
+  final List<File> _imagesFile = [];
 
   /// Item tracks
   List<String> _tracks = [];
 
   /// Base64 images
-  List<String> _images = [];
+  final List<String> _images = [];
 
   /// Item data
   Item item;

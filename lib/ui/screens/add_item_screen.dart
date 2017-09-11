@@ -97,9 +97,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
         crossAxisSpacing: 10.0,
         mainAxisSpacing: 10.0,
         children: new List<Widget>.generate(
-            _imagesFile.length,
-            (index) => new GridTile(
-                    child: new Stack(
+          _imagesFile.length,
+          (index) => new GridTile(
+                child: new Stack(
                   children: <Widget>[
                     new Image.file(_imagesFile[index]),
                     new Positioned(
@@ -117,7 +117,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       ),
                     ),
                   ],
-                ))),
+                ),
+              ),
+        ),
       ))
     ]);
   }
