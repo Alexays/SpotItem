@@ -21,6 +21,23 @@ Widget getAvatar(User user) {
       child: new Text('${user.firstname[0]}${user.name[0]}'));
 }
 
+void showLoading(BuildContext context) {
+  showDialog<Null>(
+    context: context,
+    barrierDismissible: false,
+    child: new AlertDialog(
+      title: const Text('Loading...'),
+      content: new SingleChildScrollView(
+        child: new ListBody(
+          children: <Widget>[
+            const Center(child: const CircularProgressIndicator())
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
 String validateEmail(String value) {
   if (value.isEmpty) {
     return 'Email is required.';
