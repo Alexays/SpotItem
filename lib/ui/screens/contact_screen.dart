@@ -30,9 +30,10 @@ class _ContactScreenState extends State<ContactScreen> {
             builder: (context) => new ListView.builder(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 itemCount: _contact?.length ?? 0,
-                itemExtent: 250.0,
+                //itemExtent: 250.0,
                 itemBuilder: (context, index) => new CheckboxListTile(
-                      title: new Text(_contact[index].name),
+                      title:
+                          new Text(_contact[index]['names'][0]['displayName']),
                       value: _contact[index] == true,
                       onChanged: (value) {},
                       secondary: const Icon(Icons.people),
