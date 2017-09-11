@@ -83,34 +83,43 @@ class _AddItemScreenState extends State<AddItemScreen> {
         ],
       );
     }
-    return new GridView.count(
-      primary: false,
-      crossAxisCount: 3,
-      crossAxisSpacing: 10.0,
-      mainAxisSpacing: 10.0,
-      children: new List<Widget>.generate(
-          _imagesFile.length,
-          (index) => new GridTile(
-                  child: new Stack(
-                children: <Widget>[
-                  new Image.file(_imagesFile[index]),
-                  new Positioned(
-                    top: 2.5,
-                    left: 2.5,
-                    child: new IconButton(
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                      icon: const Icon(Icons.delete),
-                      tooltip: 'Delete this image',
-                      onPressed: () {
-                        setState(() {
-                          _imagesFile.removeAt(index);
-                        });
-                      },
+    return new Column(children: <Widget>[
+      new Center(
+          child: new RaisedButton(
+        child: const Text('Add image'),
+        onPressed: getImage,
+      )),
+      const Divider(),
+      new Flexible(
+          child: new GridView.count(
+        primary: false,
+        crossAxisCount: 3,
+        crossAxisSpacing: 10.0,
+        mainAxisSpacing: 10.0,
+        children: new List<Widget>.generate(
+            _imagesFile.length,
+            (index) => new GridTile(
+                    child: new Stack(
+                  children: <Widget>[
+                    new Image.file(_imagesFile[index]),
+                    new Positioned(
+                      top: 2.5,
+                      left: 2.5,
+                      child: new IconButton(
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                        icon: const Icon(Icons.delete),
+                        tooltip: 'Delete this image',
+                        onPressed: () {
+                          setState(() {
+                            _imagesFile.removeAt(index);
+                          });
+                        },
+                      ),
                     ),
-                  ),
-                ],
-              ))),
-    );
+                  ],
+                ))),
+      ))
+    ]);
   }
 
   Widget getGroups() {
