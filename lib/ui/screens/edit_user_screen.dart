@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/models/user.dart';
 import 'package:flutter/material.dart';
+import 'package:spotitem/utils.dart';
 
 class EditUserScreen extends StatefulWidget {
   const EditUserScreen();
@@ -82,6 +83,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
                             onSaved: (value) {
                               user.firstname = value.trim();
                             },
+                            validator: validateString,
                             controller: _name,
                           ),
                           new TextFormField(
@@ -92,6 +94,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
                             onSaved: (value) {
                               user.name = value.trim();
                             },
+                            validator: validateString,
                             controller: _lastname,
                           ),
                           new FocusScope(
@@ -105,6 +108,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
                                 labelText: 'Email',
                                 hintText: 'Enter your email',
                               ),
+                              validator: validateEmail,
                             ),
                           ),
                           new TextFormField(
