@@ -5,7 +5,7 @@ import 'package:spotitem/models/item.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/utils.dart';
 import 'package:spotitem/keys.dart';
-import 'package:spotitem/ui/widgets/date_picker.dart';
+import 'package:spotitem/ui/widgets/date_picker_bar.dart';
 
 class _Category extends StatelessWidget {
   const _Category({Key key, this.icon, this.children}) : super(key: key);
