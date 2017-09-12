@@ -7,12 +7,11 @@ class DebugScreen extends StatelessWidget {
   const DebugScreen();
 
   @override
-  Widget build(BuildContext context) {
-    Services.context = context;
-    return new Scaffold(
-      appBar: new AppBar(title: const Text('Debug')),
-      body: new Builder(
-          builder: (context) => new SingleChildScrollView(
+  Widget build(BuildContext context) => new Scaffold(
+        appBar: new AppBar(title: const Text('Debug')),
+        body: new Builder(builder: (context) {
+          Services.context = context;
+          return new SingleChildScrollView(
               child: new Container(
                   margin: const EdgeInsets.all(20.0),
                   child: new Column(
@@ -32,7 +31,7 @@ class DebugScreen extends StatelessWidget {
                       new Text(
                           'Nb User Items loaded => ${Services.items.myItems.length}'),
                     ],
-                  )))),
-    );
-  }
+                  )));
+        }),
+      );
 }

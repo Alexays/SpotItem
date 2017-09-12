@@ -29,16 +29,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    Services.context = context;
-    return new Scaffold(
-      appBar: new AppBar(
-          title: _user != null
-              ? new Text('${_user.firstname} ${_user.name}')
-              : const Text('Loading...')),
-      body: _user != null
-          ? new Builder(
-              builder: (context) => new SingleChildScrollView(
+  Widget build(BuildContext context) => new Scaffold(
+        appBar: new AppBar(
+            title: _user != null
+                ? new Text('${_user.firstname} ${_user.name}')
+                : const Text('Loading...')),
+        body: new Builder(builder: (context) {
+          Services.context = context;
+          return _user != null
+              ? new SingleChildScrollView(
                   child: new Container(
                       margin: const EdgeInsets.all(20.0),
                       child: new Column(
@@ -49,8 +48,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   const EdgeInsets.symmetric(vertical: 10.0)),
                           new Text('${_user.firstname} ${_user.name}'),
                         ],
-                      ))))
-          : const Center(child: const CircularProgressIndicator()),
-    );
-  }
+                      )))
+              : const Center(child: const CircularProgressIndicator());
+        }),
+      );
 }

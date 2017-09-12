@@ -458,20 +458,22 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    Services.context = context;
     final cur = _homeScreenItems[_currentIndex];
     return new Stack(fit: StackFit.expand, children: <Widget>[
       new Scaffold(
           key: _scaffoldKey,
           drawer: _buildDrawer(context),
           floatingActionButton: _buildFab(),
-          body: new NestedScrollView(
-              headerSliverBuilder: (context, innerBoxIsScrolled) =>
-                  <Widget>[_buildAppBar()],
-              body: new TabBarView(
-                  key: new Key(cur.title),
-                  controller: cur.tab,
-                  children: _buildChild())),
+          body: new Builder(builder: (context) {
+            Services.context = context;
+            return new NestedScrollView(
+                headerSliverBuilder: (context, innerBoxIsScrolled) =>
+                    <Widget>[_buildAppBar()],
+                body: new TabBarView(
+                    key: new Key(cur.title),
+                    controller: cur.tab,
+                    children: _buildChild()));
+          }),
           bottomNavigationBar: _isSearching
               ? null
               : new BottomNavigationBar(

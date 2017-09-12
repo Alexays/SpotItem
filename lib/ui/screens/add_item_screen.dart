@@ -195,12 +195,11 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    Services.context = context;
-    return new Scaffold(
-      appBar: new AppBar(title: const Text('Add Item')),
-      body: new Builder(
-          builder: (context) => new Container(
+  Widget build(BuildContext context) => new Scaffold(
+        appBar: new AppBar(title: const Text('Add Item')),
+        body: new Builder(builder: (context) {
+          Services.context = context;
+          return new Container(
               child: new Form(
                   key: _formKey,
                   child: new Stepper(
@@ -304,7 +303,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                         }
                       });
                     },
-                  )))),
-    );
-  }
+                  )));
+        }),
+      );
 }

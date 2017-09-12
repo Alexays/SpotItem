@@ -36,18 +36,15 @@ class _EditUserScreenState extends State<EditUserScreen> {
     super.initState();
   }
 
-  Future<bool> editUser(BuildContext context) async {
+  Future<bool> editUser() async {
     _formKey.currentState.save();
     if (password != repeat) {
-      Scaffold.of(context).showSnackBar(
-          new SnackBar(content: const Text('Password don\t match !')));
+      showSnackBar(Services.context, 'Password don\t match !');
       return false;
     }
-    final dynamic response = await Services.users.updateUser(user, password);
-    Scaffold
-        .of(context)
-        .showSnackBar(new SnackBar(content: new Text(response['msg'])));
-    if (response['success']) {
+    final dynamic res = await Services.users.updateUser(user, password);
+    showSnackBar(Services.context, res['msg']);
+    if (res['success']) {
       Navigator.pop(context);
       return true;
     }
@@ -55,89 +52,112 @@ class _EditUserScreenState extends State<EditUserScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    Services.context = context;
-    final ThemeData theme = Theme.of(context);
-    return new Scaffold(
-      appBar: new AppBar(title: const Text('Edit Profile'), actions: <Widget>[
-        new Builder(
-            builder: (context) => new IconButton(
-                  icon: const Icon(Icons.save),
-                  onPressed: () {
-                    editUser(context);
-                  },
-                ))
-      ]),
-      body: new SingleChildScrollView(
-          child: new Container(
-              margin: const EdgeInsets.all(20.0),
-              child: new Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  new Form(
-                      key: _formKey,
-                      child: new Column(
+  Widget build(BuildContext context) => new Scaffold(
+        appBar: new AppBar(title: const Text('Edit Profile')),
+        body: new Builder(builder: (context) {
+          Services.context = context;
+          final ThemeData theme = Theme.of(context);
+          new Column(children: <Widget>[
+            new Expanded(
+                child: new SingleChildScrollView(
+                    child: new Container(
+                        margin: const EdgeInsets.all(20.0),
+                        child: new Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            new Form(
+                                key: _formKey,
+                                child: new Column(
+                                  children: <Widget>[
+                                    new TextFormField(
+                                      key: const Key('name'),
+                                      decoration: const InputDecoration(
+                                          labelText: 'Firstname',
+                                          hintText: 'Enter your firstname'),
+                                      onSaved: (value) {
+                                        user.firstname = value.trim();
+                                      },
+                                      validator: validateString,
+                                      controller: _name,
+                                    ),
+                                    new TextFormField(
+                                      key: const Key('lastname'),
+                                      decoration: const InputDecoration(
+                                          labelText: 'Lastname',
+                                          hintText: 'Enter your lastname'),
+                                      onSaved: (value) {
+                                        user.name = value.trim();
+                                      },
+                                      validator: validateString,
+                                      controller: _lastname,
+                                    ),
+                                    new FocusScope(
+                                      node: new FocusScopeNode(),
+                                      child: new TextFormField(
+                                        controller: _email,
+                                        style: theme.textTheme.subhead.copyWith(
+                                          color: theme.disabledColor,
+                                        ),
+                                        decoration: const InputDecoration(
+                                          labelText: 'Email',
+                                          hintText: 'Enter your email',
+                                        ),
+                                        validator: validateEmail,
+                                      ),
+                                    ),
+                                    new TextFormField(
+                                      key: const Key('password'),
+                                      decoration: const InputDecoration(
+                                          labelText: 'Password',
+                                          hintText: '***********'),
+                                      onSaved: (value) {
+                                        password = value;
+                                      },
+                                      obscureText: true,
+                                    ),
+                                    new TextFormField(
+                                      key: const Key('repeat'),
+                                      decoration: const InputDecoration(
+                                          labelText: 'Confirm password',
+                                          hintText: '***********'),
+                                      onSaved: (value) {
+                                        repeat = value;
+                                      },
+                                      controller: _password,
+                                      obscureText: true,
+                                    ),
+                                  ],
+                                )),
+                          ],
+                        )))),
+            new Container(
+              margin:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+              child: new ConstrainedBox(
+                constraints: const BoxConstraints.tightFor(height: 48.0),
+                child: new Builder(
+                  builder: (context) => new Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          new TextFormField(
-                            key: const Key('name'),
-                            decoration: const InputDecoration(
-                                labelText: 'Firstname',
-                                hintText: 'Enter your firstname'),
-                            onSaved: (value) {
-                              user.firstname = value.trim();
+                          new FlatButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
                             },
-                            validator: validateString,
-                            controller: _name,
+                            textTheme: ButtonTextTheme.normal,
+                            child: const Text('CANCEL'),
                           ),
-                          new TextFormField(
-                            key: const Key('lastname'),
-                            decoration: const InputDecoration(
-                                labelText: 'Lastname',
-                                hintText: 'Enter your lastname'),
-                            onSaved: (value) {
-                              user.name = value.trim();
+                          new RaisedButton(
+                            onPressed: () {
+                              editUser();
                             },
-                            validator: validateString,
-                            controller: _lastname,
-                          ),
-                          new FocusScope(
-                            node: new FocusScopeNode(),
-                            child: new TextFormField(
-                              controller: _email,
-                              style: theme.textTheme.subhead.copyWith(
-                                color: theme.disabledColor,
-                              ),
-                              decoration: const InputDecoration(
-                                labelText: 'Email',
-                                hintText: 'Enter your email',
-                              ),
-                              validator: validateEmail,
-                            ),
-                          ),
-                          new TextFormField(
-                            key: const Key('password'),
-                            decoration: const InputDecoration(
-                                labelText: 'Password', hintText: '***********'),
-                            onSaved: (value) {
-                              password = value;
-                            },
-                            obscureText: true,
-                          ),
-                          new TextFormField(
-                            key: const Key('repeat'),
-                            decoration: const InputDecoration(
-                                labelText: 'Confirm password',
-                                hintText: '***********'),
-                            onSaved: (value) {
-                              repeat = value;
-                            },
-                            controller: _password,
-                            obscureText: true,
-                          ),
+                            child: const Text('SAVE'),
+                          )
                         ],
-                      )),
-                ],
-              ))),
-    );
-  }
+                      ),
+                ),
+              ),
+            )
+          ]);
+        }),
+      );
 }

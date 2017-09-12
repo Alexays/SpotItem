@@ -16,17 +16,16 @@ class ErrorScreen extends StatelessWidget {
         title: const Text('Error :('),
         centerTitle: true,
       ),
-      body: new Builder(
-          builder: (context) => new SingleChildScrollView(
-              child: new Container(
-                  margin: const EdgeInsets.all(20.0),
-                  child: new Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      const Text(
-                          'Error while loading Spotitem, to try fix this problem we disconnect you from our server, so close app and relaunch it :)'),
-                    ],
-                  )))),
+      body: new SingleChildScrollView(
+          child: new Container(
+              margin: const EdgeInsets.all(20.0),
+              child: new Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const Text(
+                      'Error while loading Spotitem, to try fix this problem we disconnect you from our server, so close app and relaunch it :)'),
+                ],
+              ))),
     );
   }
 }
