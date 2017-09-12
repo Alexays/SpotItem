@@ -8,7 +8,7 @@ const String keyOauthToken = 'KEY_AUTH_TOKEN';
 const String keyProvider = 'KEY_AUTH_PROVIDER';
 
 /// Spotitem version
-const String version = '0.1.0';
+const String version = '0.1.1';
 
 /// Api secret
 const String clientSecret = 'et+nWhUB>.Dg[c4z';
