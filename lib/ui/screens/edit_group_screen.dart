@@ -54,51 +54,80 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Services.context = context;
     return new Scaffold(
-      appBar: new AppBar(title: const Text('Edit Group'), actions: <Widget>[
-        new Builder(
-            builder: (context) => new IconButton(
-                icon: new Column(children: <Widget>[
-                  const Icon(Icons.add_box),
-                  const Text('Edit')
-                ]),
-                onPressed: () {
-                  editGroup(context);
-                }))
-      ]),
-      body: new Builder(
-          builder: (context) => _group == null
+        appBar: new AppBar(title: const Text('Edit Group')),
+        body: new Builder(builder: (context) {
+          Services.context = context;
+          return _group == null
               ? const Center(child: const CircularProgressIndicator())
-              : new SingleChildScrollView(
-                  child: new Container(
-                      margin: const EdgeInsets.all(20.0),
-                      child: new Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            new Form(
-                                key: _formKey,
-                                child: new Column(children: <Widget>[
-                                  new TextFormField(
-                                      key: const Key('name'),
-                                      decoration: const InputDecoration(
-                                          hintText: 'Enter name',
-                                          labelText: 'Name'),
-                                      controller: nameCtrl,
-                                      onSaved: (value) {
-                                        _group.name = value.trim();
-                                      }),
-                                  new TextFormField(
-                                      key: const Key('about'),
-                                      decoration: const InputDecoration(
-                                          hintText: 'Enter description',
-                                          labelText: 'Description'),
-                                      controller: aboutCtrl,
-                                      onSaved: (value) {
-                                        _group.about = value.trim();
-                                      }),
-                                ]))
-                          ])))),
-    );
+              : new Column(
+                  children: <Widget>[
+                    new Expanded(
+                        child: new SingleChildScrollView(
+                            child: new Container(
+                                margin: const EdgeInsets.all(20.0),
+                                child: new Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      new Form(
+                                          key: _formKey,
+                                          child: new Column(children: <Widget>[
+                                            new TextFormField(
+                                                key: const Key('name'),
+                                                decoration:
+                                                    const InputDecoration(
+                                                        hintText: 'Enter name',
+                                                        labelText: 'Name'),
+                                                controller: nameCtrl,
+                                                onSaved: (value) {
+                                                  _group.name = value.trim();
+                                                }),
+                                            new TextFormField(
+                                                key: const Key('about'),
+                                                decoration:
+                                                    const InputDecoration(
+                                                        hintText:
+                                                            'Enter description',
+                                                        labelText:
+                                                            'Description'),
+                                                controller: aboutCtrl,
+                                                onSaved: (value) {
+                                                  _group.about = value.trim();
+                                                }),
+                                          ]))
+                                    ])))),
+                    new Container(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 4.0),
+                      child: new ConstrainedBox(
+                        constraints:
+                            const BoxConstraints.tightFor(height: 48.0),
+                        child: new Builder(
+                          builder: (context) => new Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  new FlatButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    textTheme: ButtonTextTheme.normal,
+                                    child: const Text('CANCEL'),
+                                  ),
+                                  new RaisedButton(
+                                    onPressed: () {
+                                      editGroup(context);
+                                    },
+                                    child: const Text('SAVE GROUP'),
+                                  )
+                                ],
+                              ),
+                        ),
+                      ),
+                    )
+                  ],
+                );
+        }));
   }
 }

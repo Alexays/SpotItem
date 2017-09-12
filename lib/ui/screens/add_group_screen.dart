@@ -49,71 +49,94 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
       setState(() {
         email.add(_email);
       });
+    } else {
+      showSnackBar(Services.context, 'Already added !');
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    Services.context = context;
     return new Scaffold(
-      appBar: new AppBar(title: const Text('Add Group'), actions: <Widget>[
-        new Builder(
-            builder: (context) => new IconButton(
-                icon: new Column(children: <Widget>[
-                  const Icon(Icons.add_box),
-                  const Text('Add')
-                ]),
-                onPressed: () {
-                  addGroup(context);
-                }))
-      ]),
-      body: new Builder(
-          builder: (context) => new SingleChildScrollView(
-              child: new Container(
-                  margin: const EdgeInsets.all(20.0),
-                  child: new Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+      appBar: new AppBar(title: const Text('Add Group')),
+      body: new Builder(builder: (context) {
+        Services.context = context;
+        return new Column(children: <Widget>[
+          new Expanded(
+              child: new SingleChildScrollView(
+                  child: new Container(
+                      margin: const EdgeInsets.all(20.0),
+                      child: new Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            new Form(
+                                key: _formKey,
+                                child: new Column(children: <Widget>[
+                                  new TextFormField(
+                                      key: const Key('name'),
+                                      decoration: const InputDecoration(
+                                          hintText: 'Enter name',
+                                          labelText: 'Name'),
+                                      onSaved: (value) {
+                                        name = value.trim();
+                                      }),
+                                  new TextFormField(
+                                      key: const Key('about'),
+                                      decoration: const InputDecoration(
+                                          hintText: 'Enter description',
+                                          labelText: 'Description'),
+                                      onSaved: (value) {
+                                        about = value.trim();
+                                      }),
+                                  const Divider(),
+                                  new Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: new List<Widget>.generate(
+                                        email.length,
+                                        (index) => new Chip(
+                                            label: new Text(email[index]),
+                                            onDeleted: () {
+                                              setState(() {
+                                                email.removeAt(index);
+                                              });
+                                            })),
+                                  ),
+                                  const Divider(),
+                                  new RaisedButton(
+                                      child: const Text('Add someone'),
+                                      onPressed: () {
+                                        _addPeople();
+                                      })
+                                ]))
+                          ])))),
+          new Container(
+            margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+            child: new ConstrainedBox(
+              constraints: const BoxConstraints.tightFor(height: 48.0),
+              child: new Builder(
+                builder: (context) => new Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        new Form(
-                            key: _formKey,
-                            child: new Column(children: <Widget>[
-                              new TextFormField(
-                                  key: const Key('name'),
-                                  decoration: const InputDecoration(
-                                      hintText: 'Enter name',
-                                      labelText: 'Name'),
-                                  onSaved: (value) {
-                                    name = value.trim();
-                                  }),
-                              new TextFormField(
-                                  key: const Key('about'),
-                                  decoration: const InputDecoration(
-                                      hintText: 'Enter description',
-                                      labelText: 'Description'),
-                                  onSaved: (value) {
-                                    about = value.trim();
-                                  }),
-                              const Divider(),
-                              new Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: new List<Widget>.generate(
-                                    email.length,
-                                    (index) => new Chip(
-                                        label: new Text(email[index]),
-                                        onDeleted: () {
-                                          setState(() {
-                                            email.removeAt(index);
-                                          });
-                                        })),
-                              ),
-                              const Divider(),
-                              new RaisedButton(
-                                  child: const Text('Add someone'),
-                                  onPressed: () {
-                                    _addPeople();
-                                  })
-                            ]))
-                      ])))),
+                        new FlatButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          textTheme: ButtonTextTheme.normal,
+                          child: const Text('CANCEL'),
+                        ),
+                        new RaisedButton(
+                          onPressed: () {
+                            addGroup(context);
+                          },
+                          child: const Text('ADD GROUP'),
+                        )
+                      ],
+                    ),
+              ),
+            ),
+          )
+        ]);
+      }),
     );
   }
 }
