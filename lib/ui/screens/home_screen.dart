@@ -9,6 +9,7 @@ import 'package:spotitem/utils.dart';
 import 'package:spotitem/keys.dart';
 import 'package:spotitem/models/item.dart';
 import 'package:flutter/material.dart';
+import 'package:spotitem/ui/spot_strings.dart';
 
 /// Home screen class
 class HomeScreen extends StatefulWidget {
@@ -46,6 +47,9 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   void initState() {
+    initAnimation();
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
     _homeScreenItems = <HomeScreenItem>[
       new HomeScreenItem(
         parent: this,
@@ -95,9 +99,6 @@ class _HomeScreenState extends State<HomeScreen>
                 Navigator.of(context).pushNamed('/groups/add');
               })),
     ];
-    initAnimation();
-    WidgetsBinding.instance.addObserver(this);
-    super.initState();
   }
 
   @override
@@ -260,9 +261,10 @@ class _HomeScreenState extends State<HomeScreen>
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    const ListTile(
+                    new ListTile(
                       leading: const Icon(Icons.home),
-                      title: const Text('Home'),
+                      title:
+                          new Text(SpotStrings.of(context).title()), //'Home'),
                       selected: true,
                     ),
                     const ListTile(

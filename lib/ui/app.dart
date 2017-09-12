@@ -1,8 +1,18 @@
+import 'dart:async';
 import 'package:spotitem/ui/screens/home_screen.dart';
 import 'package:spotitem/ui/screens/login_screen.dart';
 import 'package:spotitem/ui/screens/error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/services/services.dart';
+import 'package:spotitem/ui/spot_strings.dart';
+
+class _SpotLocalizationsDelegate extends LocalizationsDelegate<SpotStrings> {
+  @override
+  Future<SpotStrings> load(Locale locale) => SpotStrings.load(locale);
+
+  @override
+  bool shouldReload(_SpotLocalizationsDelegate old) => false;
+}
 
 /// SpotitemApp class
 class SpotItemApp extends MaterialApp {
@@ -26,6 +36,12 @@ class SpotItemApp extends MaterialApp {
               backgroundColor: Colors.white),
           onGenerateRoute: Services.router?.generator,
           showPerformanceOverlay: false,
+          localizationsDelegates: <_SpotLocalizationsDelegate>[
+            new _SpotLocalizationsDelegate(),
+          ],
+          supportedLocales: const <Locale>[
+            const Locale('en', 'US'),
+          ],
         );
 }
 
