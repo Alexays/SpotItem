@@ -97,16 +97,9 @@ class BasicService {
   /// Connect to web socket
   ///
   void connectWs() {
-    bool debug = false;
-    assert(() {
-      debug = true;
-      return true;
-    });
-    if (!debug) {
-      final channel = new IOWebSocketChannel.connect('ws://217.182.65.67:1337');
-      channel.sink.add(
-          JSON.encode({'type': 'CONNECTION', 'userId': Services.auth.user.id}));
-      channel.stream.listen(handleWsData);
-    }
+    final channel = new IOWebSocketChannel.connect('ws://217.182.65.67:1337');
+    channel.sink.add(
+        JSON.encode({'type': 'CONNECTION', 'userId': Services.auth.user.id}));
+    channel.stream.listen(handleWsData);
   }
 }
