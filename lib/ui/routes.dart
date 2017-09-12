@@ -9,7 +9,7 @@ import 'package:spotitem/ui/screens/add_group_screen.dart';
 import 'package:spotitem/ui/screens/edit_group_screen.dart';
 import 'package:spotitem/ui/screens/debug_screen.dart';
 import 'package:spotitem/ui/screens/contact_screen.dart';
-import 'package:spotitem/ui/views/item_view.dart';
+import 'package:spotitem/ui/screens/item_screen.dart';
 import 'package:fluro/fluro.dart';
 
 /// Routes Class

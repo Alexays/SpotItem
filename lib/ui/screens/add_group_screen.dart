@@ -16,7 +16,6 @@ class AddGroupScreen extends StatefulWidget {
 
 class _AddGroupScreenState extends State<AddGroupScreen> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-  final GlobalKey<FormState> _formKeyEmail = new GlobalKey<FormState>();
 
   String name;
   String about;
@@ -44,48 +43,10 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
     }
   }
 
-  void _addPeople() {
-    String _email;
-    showDialog<Null>(
-        context: context,
-        barrierDismissible: false,
-        child: new AlertDialog(
-            title: const Text('Add someone'),
-            content: new SingleChildScrollView(
-                child: new Form(
-                    autovalidate: true,
-                    key: _formKeyEmail,
-                    child: new ListBody(children: <Widget>[
-                      const Text('Enter email of user.'),
-                      new TextFormField(
-                        key: const Key('email'),
-                        decoration: const InputDecoration.collapsed(
-                            hintText: 'ex: john.do@exemple.com'),
-                        onSaved: (value) {
-                          _email = value.trim();
-                        },
-                        validator: validateEmail,
-                      )
-                    ]))),
-            actions: <Widget>[
-              new FlatButton(
-                  child: const Text('Cancel'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  }),
-              new FlatButton(
-                  child: const Text('Add'),
-                  onPressed: () {
-                    _formKeyEmail.currentState.save();
-                    if (_email != null && emailExp.hasMatch(_email)) {
-                      email.add(_email);
-                      Navigator.of(context).pop();
-                    } else {
-                      Scaffold.of(context).showSnackBar(new SnackBar(
-                          content: const Text('Enter valid email')));
-                    }
-                  }),
-            ]));
+  Future<Null> _addPeople() async {
+    Navigator.pushNamed(context, '/contacts').then((data) {
+      print(data);
+    });
   }
 
   @override
@@ -146,8 +107,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                               new RaisedButton(
                                   child: const Text('Add someone'),
                                   onPressed: () {
-                                    Navigator.pushNamed(context, '/contacts');
-                                    //_addPeople();
+                                    _addPeople();
                                   })
                             ]))
                       ])))),

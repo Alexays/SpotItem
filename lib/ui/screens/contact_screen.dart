@@ -22,6 +22,15 @@ class _ContactScreenState extends State<ContactScreen> {
     super.initState();
   }
 
+  Future<Null> _handleEmail() async {
+    final String res = validateEmail(_email);
+    if (res != null) {
+      showSnackBar(context, res);
+    } else {
+      Navigator.pop(context, true);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Services.context = context;
@@ -53,12 +62,7 @@ class _ContactScreenState extends State<ContactScreen> {
                           ),
                           onSubmitted: (value) {
                             _email = value.trim();
-                            final String res = validateEmail(_email);
-                            if (res != null) {
-                              showSnackBar(context, res);
-                            } else {
-                              Navigator.of(context).pop(_email);
-                            }
+                            _handleEmail();
                           },
                         ),
                       )),
@@ -76,12 +80,7 @@ class _ContactScreenState extends State<ContactScreen> {
                                     onTap: () {
                                       _email = _contact[index]['emailAddresses']
                                           [0]['value'];
-                                      final String res = validateEmail(_email);
-                                      if (res != null) {
-                                        showSnackBar(context, res);
-                                      } else {
-                                        Navigator.of(context).pop(_email);
-                                      }
+                                      _handleEmail();
                                     },
                                   )))
                       : const Text('No contacts'),

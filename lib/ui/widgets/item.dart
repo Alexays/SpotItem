@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/models/item.dart';
-import 'package:spotitem/ui/views/item_view.dart';
+import 'package:spotitem/ui/screens/item_screen.dart';
 import 'package:spotitem/keys.dart';
 import 'package:spotitem/utils.dart';
 
