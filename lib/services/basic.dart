@@ -5,6 +5,7 @@ import 'package:spotitem/keys.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:spotitem/utils.dart';
 
 /// Basic Service
 class BasicService {
@@ -87,9 +88,9 @@ class BasicService {
   ///
   /// @param res Api ws data
   void handleWsData(res) {
-    final dynamic data = JSON.decode(res);
-    if (data['type'] == 'NOTIFICATION') {
-      print(data['data']);
+    final dynamic decoded = JSON.decode(res);
+    if (decoded['type'] == 'NOTIFICATION') {
+      showSnackBar(Services.context, decoded['data']);
     }
   }
 
