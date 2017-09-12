@@ -32,8 +32,6 @@ class _GroupPageState extends State<GroupPage>
 
   bool dragStopped = true;
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
   @override
   void initState() {
     Services.users.getUser(group.owner).then((data) {
@@ -62,6 +60,16 @@ class _GroupPageState extends State<GroupPage>
         group.users = group.users.where((user) => user.id == userId).toList();
       });
       Navigator.of(context).pop();
+    }
+  }
+
+  Future<Null> _addPeople() async {
+    final String _email = await Navigator.pushNamed(context, '/contacts');
+    final res = await Services.groups.addUserToGroup(group.id, _email);
+    if (res['success']) {
+      Navigator.of(context).pop();
+    } else {
+      showSnackBar(Services.context, res['msg']);
     }
   }
 
@@ -218,59 +226,6 @@ class _GroupPageState extends State<GroupPage>
     return top;
   }
 
-  void _addPeople() {
-    String _email;
-    final GlobalKey<FormState> _formKeyEmail = new GlobalKey<FormState>();
-    showDialog<Null>(
-        context: context,
-        barrierDismissible: false,
-        child: new AlertDialog(
-            title: const Text('Add someone'),
-            content: new SingleChildScrollView(
-                child: new Form(
-                    key: _formKeyEmail,
-                    autovalidate: true,
-                    child: new ListBody(children: <Widget>[
-                      const Text('Enter email of user.'),
-                      new TextFormField(
-                        key: const Key('email'),
-                        decoration: const InputDecoration.collapsed(
-                            hintText: 'ex: john.do@exemple.com'),
-                        onSaved: (value) {
-                          _email = value.trim();
-                        },
-                        validator: validateEmail,
-                      )
-                    ]))),
-            actions: <Widget>[
-              new FlatButton(
-                  child: const Text('Cancel'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  }),
-              new FlatButton(
-                  child: const Text('Add'),
-                  onPressed: () {
-                    _formKeyEmail.currentState.save();
-                    if (_email != null && emailExp.hasMatch(_email)) {
-                      Services.groups
-                          .addUserToGroup(group.id, _email)
-                          .then((res) {
-                        if (res['success']) {
-                          Navigator.of(context).pop();
-                        } else {
-                          _scaffoldKey.currentState.showSnackBar(
-                              new SnackBar(content: new Text(res['msg'])));
-                        }
-                      });
-                    } else {
-                      _scaffoldKey.currentState.showSnackBar(const SnackBar(
-                          content: const Text('Enter valid email')));
-                    }
-                  }),
-            ]));
-  }
-
   Widget _buildUsers() => new Flexible(
       child: new ListView.builder(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -338,12 +293,13 @@ class _GroupPageState extends State<GroupPage>
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-        key: _scaffoldKey,
-        appBar: new AppBar(
-          title: new Text('Group: ${group.name}'),
-          actions: _doButton(),
-        ),
-        body: new Column(
+      appBar: new AppBar(
+        title: new Text('Group: ${group.name}'),
+        actions: _doButton(),
+      ),
+      body: new Builder(builder: (context) {
+        Services.context = context;
+        return new Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
@@ -359,6 +315,6 @@ class _GroupPageState extends State<GroupPage>
                 ))),
             _buildUsers(),
           ],
-        ),
-      );
+        );
+      }));
 }

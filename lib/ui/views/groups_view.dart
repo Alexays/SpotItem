@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:spotitem/services/services.dart';
-import 'package:spotitem/ui/views/group_view.dart';
+import 'package:spotitem/ui/screens/group_screen.dart';
 import 'package:spotitem/models/group.dart';
 
 /// Groups view class
