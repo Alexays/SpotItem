@@ -45,7 +45,11 @@ class _ItemsViewState extends State<ItemsView> {
                 children: <Widget>[
                   new ListTile(
                     leading: const Icon(Icons.event_available),
-                    title: new Text(_myItems[index].name),
+                    title: new Text(
+                      _myItems[index].name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     subtitle: new Text(limitString(_myItems[index].about, 50)),
                     trailing: new Row(
                       mainAxisSize: MainAxisSize.min,
