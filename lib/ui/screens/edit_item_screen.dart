@@ -358,25 +358,23 @@ class _EditItemScreenState extends State<EditItemScreen>
                   const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
               child: new ConstrainedBox(
                 constraints: const BoxConstraints.tightFor(height: 48.0),
-                child: new Builder(
-                  builder: (context) => new Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          new FlatButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            textTheme: ButtonTextTheme.normal,
-                            child: const Text('CANCEL'),
-                          ),
-                          new RaisedButton(
-                            onPressed: () {
-                              editItem(context);
-                            },
-                            child: const Text('SAVE ITEM'),
-                          )
-                        ],
-                      ),
+                child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    new FlatButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      textTheme: ButtonTextTheme.normal,
+                      child: const Text('CANCEL'),
+                    ),
+                    new RaisedButton(
+                      onPressed: () {
+                        editItem(context);
+                      },
+                      child: const Text('SAVE ITEM'),
+                    )
+                  ],
                 ),
               ),
             )
