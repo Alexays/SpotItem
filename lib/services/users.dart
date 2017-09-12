@@ -128,9 +128,9 @@ class UsersManager extends BasicService {
         return;
       }
       _contact = JSON.decode(response.body)['connections'];
-      _contact = _contact.where((contact) {
-        return contact['emailAddresses'] != null;
-      }).toList();
+      _contact = _contact
+          .where((contact) => contact['emailAddresses'] != null)
+          .toList();
       print(_contact);
     } else if (provider == 'local') {
       // TO-DO Maybe get member of user groups
