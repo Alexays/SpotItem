@@ -42,6 +42,9 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
 
   Future<Null> _addPeople() async {
     final String _email = await Navigator.pushNamed(context, '/contacts');
+    if (_email == null) {
+      return;
+    }
     if (!email.contains(_email)) {
       setState(() {
         email.add(_email);

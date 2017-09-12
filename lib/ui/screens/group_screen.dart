@@ -65,6 +65,9 @@ class _GroupPageState extends State<GroupPage>
 
   Future<Null> _addPeople() async {
     final String _email = await Navigator.pushNamed(context, '/contacts');
+    if (_email == null) {
+      return;
+    }
     final res = await Services.groups.addUserToGroup(group.id, _email);
     if (res['success']) {
       Navigator.of(context).pop();
