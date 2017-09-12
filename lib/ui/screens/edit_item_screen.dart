@@ -58,10 +58,10 @@ class _EditItemScreenState extends State<EditItemScreen>
   Item item;
 
   /// User groups
-  List<Group> _groups;
+  List<Group> _groups = [];
 
   /// Item groups
-  List<String> _groupsId;
+  List<String> _groupsId = [];
 
   @override
   void initState() {

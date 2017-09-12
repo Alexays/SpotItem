@@ -40,7 +40,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   final List<String> _images = [];
 
   /// Groups of user
-  List<Group> _groups;
+  List<Group> _groups = [];
 
   /// Check groups id
   final List<String> _groupsId = [];

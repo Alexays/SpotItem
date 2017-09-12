@@ -35,7 +35,7 @@ class UsersManager extends BasicService {
   ///
   /// @param force Retrieve user location
   Future<Null> getLocation([bool force = false]) async {
-    if (!force && location.isNotEmpty) {
+    if (!force && location != null && location.isNotEmpty) {
       return;
     }
     try {
@@ -120,7 +120,7 @@ class UsersManager extends BasicService {
     if (provider == 'google') {
       final http.Response response = await http.get(
         'https://people.googleapis.com/v1/people/me/connections'
-            '?personFields=names,emailAddresses',
+            '?personFields=names,emailAddresses&pageSize=2000',
         headers: await Services.auth.googleUser.authHeaders,
       );
       if (response.statusCode != 200) {
