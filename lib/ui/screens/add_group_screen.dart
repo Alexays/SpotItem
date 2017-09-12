@@ -27,7 +27,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
     super.initState();
   }
 
-  Future<Null> addGroup(BuildContext context) async {
+  Future<Null> addGroup() async {
     _formKey.currentState.save();
     final Group group = new Group(<String, String>{
       'name': name,
@@ -35,10 +35,10 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
       'owner': Services.auth.user.id
     });
     final dynamic response = await Services.groups.addGroup(group, email);
-    showSnackBar(context, response['msg']);
+    showSnackBar(Services.context, response['msg']);
     if (response['success']) {
       await Navigator
-          .of(context)
+          .of(Services.context)
           .pushNamedAndRemoveUntil('/home', (route) => false);
     }
   }
@@ -126,7 +126,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                         ),
                         new RaisedButton(
                           onPressed: () {
-                            addGroup(context);
+                            addGroup();
                           },
                           child: const Text('ADD GROUP'),
                         )
