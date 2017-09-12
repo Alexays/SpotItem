@@ -76,7 +76,12 @@ class _ContactScreenState extends State<ContactScreen> {
                                     onTap: () {
                                       _email = _contact[index]['emailAddresses']
                                           [0]['value'];
-                                      Navigator.of(context).pop(_email);
+                                      final String res = validateEmail(_email);
+                                      if (res != null) {
+                                        showSnackBar(context, res);
+                                      } else {
+                                        Navigator.of(context).pop(_email);
+                                      }
                                     },
                                   )))
                       : const Text('No contacts'),
