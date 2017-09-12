@@ -34,13 +34,16 @@ class _EditItemScreenState extends State<EditItemScreen>
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   /// Item name
-  TextEditingController _name;
+  String _name;
+  TextEditingController _nameCtrl;
 
   /// Item Description
-  TextEditingController _about;
+  String _about;
+  TextEditingController _aboutCtrl;
 
   /// Item location
-  TextEditingController _location;
+  String _location;
+  TextEditingController _locationCtrl;
 
   /// Images file
   final List<File> _imagesFile = [];
@@ -66,9 +69,9 @@ class _EditItemScreenState extends State<EditItemScreen>
       setState(() {
         item = data;
         if (item != null) {
-          _name = new TextEditingController(text: item.name);
-          _about = new TextEditingController(text: item.about);
-          _location = new TextEditingController(text: item.location);
+          _nameCtrl = new TextEditingController(text: item.name);
+          _aboutCtrl = new TextEditingController(text: item.about);
+          _locationCtrl = new TextEditingController(text: item.location);
           _groupsId = item.groups;
           _tracks = item.tracks;
         }
@@ -194,14 +197,14 @@ class _EditItemScreenState extends State<EditItemScreen>
         Services.users.location != null) {
       final dynamic response = await Services.items.editItem({
         'id': item.id,
-        'name': _name.value.toString(),
-        'about': _about.value.toString(),
+        'name': _name,
+        'about': _about,
         'owner': Services.auth.user.id,
         'holder': Services.auth.user.id,
         'lat': Services.users.location['latitude'].toString(),
         'lng': Services.users.location['longitude'].toString(),
         'images': JSON.encode(finalImages),
-        'location': _location.value.toString(),
+        'location': _location,
         'tracks': JSON.encode(_tracks),
         'groups': JSON.encode(groups)
       });
@@ -285,7 +288,10 @@ class _EditItemScreenState extends State<EditItemScreen>
                                                 hintText: 'Ex: Pencil',
                                                 labelText: 'Name'),
                                             validator: validateName,
-                                            controller: _name,
+                                            controller: _nameCtrl,
+                                            onSaved: (data) {
+                                              _name = data;
+                                            },
                                           ),
                                           new TextFormField(
                                             key: const Key('about'),
@@ -293,7 +299,10 @@ class _EditItemScreenState extends State<EditItemScreen>
                                                 hintText:
                                                     'Ex: It\'s a pencil !',
                                                 labelText: 'Description'),
-                                            controller: _about,
+                                            controller: _aboutCtrl,
+                                            onSaved: (data) {
+                                              _about = data;
+                                            },
                                           ),
                                           new TextFormField(
                                             key: const Key('location'),
@@ -301,7 +310,10 @@ class _EditItemScreenState extends State<EditItemScreen>
                                                 hintText: 'Ex: Nantes',
                                                 labelText: 'Location'),
                                             validator: validateString,
-                                            controller: _location,
+                                            controller: _locationCtrl,
+                                            onSaved: (data) {
+                                              _location = data;
+                                            },
                                           ),
                                           new SwitchListTile(
                                             title: const Text('Donated Item'),
