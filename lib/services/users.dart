@@ -131,7 +131,7 @@ class UsersManager extends BasicService {
       _contact = _contact
           .where((contact) => contact['emailAddresses'] != null)
           .toList();
-      print(_contact);
+      // TO-DO convert to custom format
     } else if (provider == 'local') {
       // TO-DO Maybe get member of user groups
     }

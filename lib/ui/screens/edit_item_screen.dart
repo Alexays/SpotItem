@@ -194,14 +194,14 @@ class _EditItemScreenState extends State<EditItemScreen>
         Services.users.location != null) {
       final dynamic response = await Services.items.editItem({
         'id': item.id,
-        'name': _name.value,
-        'about': _about.value,
+        'name': _name.value.toString(),
+        'about': _about.value.toString(),
         'owner': Services.auth.user.id,
         'holder': Services.auth.user.id,
         'lat': Services.users.location['latitude'].toString(),
         'lng': Services.users.location['longitude'].toString(),
         'images': JSON.encode(finalImages),
-        'location': _location.value,
+        'location': _location.value.toString(),
         'tracks': JSON.encode(_tracks),
         'groups': JSON.encode(groups)
       });
@@ -246,107 +246,127 @@ class _EditItemScreenState extends State<EditItemScreen>
   Widget build(BuildContext context) {
     Services.context = context;
     return new Scaffold(
-      body: new DefaultTabController(
-          length: 3,
-          child: new NestedScrollView(
-              headerSliverBuilder: (context, innerBoxIsScrolled) => <Widget>[
-                    new AnimatedBuilder(
-                        animation: _bottomSize,
-                        builder: (context, child) => new SliverAppBar(
-                            pinned: true,
-                            title: new Text(item != null
-                                ? 'Edit: ${item.name}'
-                                : 'Loading...'),
-                            actions: <Widget>[
-                              new Builder(
-                                  builder: (context) => new IconButton(
-                                      icon: new Column(children: <Widget>[
-                                        const Icon(Icons.save),
-                                        const Text('Save')
-                                      ]),
-                                      onPressed: () {
-                                        editItem(context);
-                                      }))
-                            ],
-                            bottom: new TabBar(tabs: <Tab>[
-                              const Tab(text: 'Informations'),
-                              const Tab(text: 'Images'),
-                              const Tab(text: 'Groups')
-                            ])))
-                  ],
-              body: item == null || _groups == null
-                  ? const Center(child: const CircularProgressIndicator())
-                  : new Form(
-                      key: _formKey,
-                      child: new TabBarView(children: <Widget>[
-                        new Container(
-                            margin: const EdgeInsets.all(20.0),
-                            child: new Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  new TextFormField(
-                                    key: const Key('name'),
-                                    decoration: const InputDecoration(
-                                        hintText: 'Ex: Pencil',
-                                        labelText: 'Name'),
-                                    validator: validateName,
-                                    controller: _name,
-                                  ),
-                                  new TextFormField(
-                                    key: const Key('about'),
-                                    decoration: const InputDecoration(
-                                        hintText: 'Ex: It\'s a pencil !',
-                                        labelText: 'Description'),
-                                    controller: _about,
-                                  ),
-                                  new TextFormField(
-                                    key: const Key('location'),
-                                    decoration: const InputDecoration(
-                                        hintText: 'Ex: Nantes',
-                                        labelText: 'Location'),
-                                    validator: validateString,
-                                    controller: _location,
-                                  ),
-                                  new SwitchListTile(
-                                    title: const Text('Donated Item'),
-                                    value: _tracks.contains('gift'),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        if (value) {
-                                          _tracks.add('gift');
-                                        } else {
-                                          _tracks.remove('gift');
-                                        }
-                                      });
-                                    },
-                                    secondary: const Icon(Icons.card_giftcard),
-                                  ),
-                                  new SwitchListTile(
-                                    title: const Text('Private Item'),
-                                    value: _tracks.contains('private'),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        if (value) {
-                                          _tracks.add('private');
-                                        } else {
-                                          _tracks.remove('private');
-                                        }
-                                      });
-                                    },
-                                    secondary: const Icon(Icons.lock),
-                                  ),
-                                ])),
-                        new Container(
-                            margin: const EdgeInsets.all(20.0),
-                            child: getImageGrid()),
-                        new Container(
-                            margin: const EdgeInsets.all(20.0),
-                            child: getGroups()),
-                      ])))),
-      floatingActionButton: new FloatingActionButton(
-        onPressed: getImage,
-        tooltip: 'Pick Image',
-        child: const Icon(Icons.add_a_photo),
+      body: new Column(
+        children: <Widget>[
+          new Expanded(
+              child: new DefaultTabController(
+                  length: 3,
+                  child: new NestedScrollView(
+                      headerSliverBuilder: (context, innerBoxIsScrolled) =>
+                          <Widget>[
+                            new AnimatedBuilder(
+                                animation: _bottomSize,
+                                builder: (context, child) => new SliverAppBar(
+                                    pinned: true,
+                                    title: new Text(item != null
+                                        ? 'Edit: ${item.name}'
+                                        : 'Loading...'),
+                                    bottom: new TabBar(tabs: <Tab>[
+                                      const Tab(text: 'Informations'),
+                                      const Tab(text: 'Images'),
+                                      const Tab(text: 'Groups')
+                                    ])))
+                          ],
+                      body: item == null || _groups == null
+                          ? const Center(
+                              child: const CircularProgressIndicator())
+                          : new Form(
+                              key: _formKey,
+                              child: new TabBarView(children: <Widget>[
+                                new Container(
+                                    margin: const EdgeInsets.all(20.0),
+                                    child: new Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          new TextFormField(
+                                            key: const Key('name'),
+                                            decoration: const InputDecoration(
+                                                hintText: 'Ex: Pencil',
+                                                labelText: 'Name'),
+                                            validator: validateName,
+                                            controller: _name,
+                                          ),
+                                          new TextFormField(
+                                            key: const Key('about'),
+                                            decoration: const InputDecoration(
+                                                hintText:
+                                                    'Ex: It\'s a pencil !',
+                                                labelText: 'Description'),
+                                            controller: _about,
+                                          ),
+                                          new TextFormField(
+                                            key: const Key('location'),
+                                            decoration: const InputDecoration(
+                                                hintText: 'Ex: Nantes',
+                                                labelText: 'Location'),
+                                            validator: validateString,
+                                            controller: _location,
+                                          ),
+                                          new SwitchListTile(
+                                            title: const Text('Donated Item'),
+                                            value: _tracks.contains('gift'),
+                                            onChanged: (value) {
+                                              setState(() {
+                                                if (value) {
+                                                  _tracks.add('gift');
+                                                } else {
+                                                  _tracks.remove('gift');
+                                                }
+                                              });
+                                            },
+                                            secondary:
+                                                const Icon(Icons.card_giftcard),
+                                          ),
+                                          new SwitchListTile(
+                                            title: const Text('Private Item'),
+                                            value: _tracks.contains('private'),
+                                            onChanged: (value) {
+                                              setState(() {
+                                                if (value) {
+                                                  _tracks.add('private');
+                                                } else {
+                                                  _tracks.remove('private');
+                                                }
+                                              });
+                                            },
+                                            secondary: const Icon(Icons.lock),
+                                          ),
+                                        ])),
+                                new Container(
+                                    margin: const EdgeInsets.all(20.0),
+                                    child: getImageGrid()),
+                                new Container(
+                                    margin: const EdgeInsets.all(20.0),
+                                    child: getGroups()),
+                              ]))))),
+          new Container(
+            margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+            child: new ConstrainedBox(
+              constraints: const BoxConstraints.tightFor(height: 48.0),
+              child: new Builder(
+                builder: (context) => new Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        new FlatButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          textTheme: ButtonTextTheme.normal,
+                          child: const Text('CANCEL'),
+                        ),
+                        new RaisedButton(
+                          onPressed: () {
+                            editItem(context);
+                          },
+                          child: const Text('SAVE ITEM'),
+                        )
+                      ],
+                    ),
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
