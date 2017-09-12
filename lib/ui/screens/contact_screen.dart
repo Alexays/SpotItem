@@ -13,7 +13,9 @@ class ContactScreen extends StatefulWidget {
 }
 
 class _ContactScreenState extends State<ContactScreen> {
-  Map<String, dynamic> _contact;
+  List<dynamic> _contact;
+  final GlobalKey<FormState> _formKeyEmail = new GlobalKey<FormState>();
+  String _email;
 
   @override
   void initState() {
@@ -27,16 +29,34 @@ class _ContactScreenState extends State<ContactScreen> {
     return new Scaffold(
         appBar: new AppBar(title: const Text('Add Contacts')),
         body: new Builder(
-            builder: (context) => new ListView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                itemCount: _contact?.length ?? 0,
-                //itemExtent: 250.0,
-                itemBuilder: (context, index) => new CheckboxListTile(
-                      title:
-                          new Text(_contact[index]['names'][0]['displayName']),
-                      value: _contact[index] == true,
-                      onChanged: (value) {},
-                      secondary: const Icon(Icons.people),
-                    ))));
+            builder: (context) => new Column(children: <Widget>[
+                  new Form(
+                      key: _formKeyEmail,
+                      autovalidate: true,
+                      child: new ListBody(children: <Widget>[
+                        const Text('Enter email of user.'),
+                        new TextFormField(
+                          key: const Key('email'),
+                          decoration: const InputDecoration.collapsed(
+                              hintText: 'ex: john.do@exemple.com'),
+                          onSaved: (value) {
+                            _email = value.trim();
+                          },
+                          validator: validateEmail,
+                        )
+                      ])),
+                  new ListView.builder(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      itemCount: _contact?.length ?? 0,
+                      itemBuilder: (context, index) => new ListTile(
+                            title: new Text(
+                                _contact[index]['names'][0]['displayName']),
+                            leading: const Icon(Icons.people),
+                            onTap: () {
+                              _email =
+                                  _contact[index]['emailAddresses'][0]['value'];
+                            },
+                          ))
+                ])));
   }
 }
