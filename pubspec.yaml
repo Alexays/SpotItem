@@ -3,7 +3,8 @@ dependencies:
   flutter:
     sdk: flutter
   http: '>=0.11.3+14'
-  fluro: '>=1.1.0'
+  fluro: 
+    path: '../fluro'
   shared_preferences: '>=0.2.5'
   image_picker: '>=0.1.1'
   location:

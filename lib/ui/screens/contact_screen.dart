@@ -27,7 +27,7 @@ class _ContactScreenState extends State<ContactScreen> {
     if (res != null) {
       showSnackBar(Services.context, res);
     } else {
-      Navigator.pop(context, true);
+      Navigator.pop(context, _email);
     }
   }
 
