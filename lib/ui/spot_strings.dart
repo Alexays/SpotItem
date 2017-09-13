@@ -43,10 +43,6 @@ class SpotL {
   String discover() =>
       Intl.message('<discover>', name: 'discover', locale: _localeName);
 
-  /// Edit Profile title
-  String editProfile() =>
-      Intl.message('<editProfile>', name: 'editProfile', locale: _localeName);
-
   /// Items title
   String items() => Intl.message('<items>', name: 'items', locale: _localeName);
 
@@ -64,4 +60,8 @@ class SpotL {
   /// Messages title
   String messages() =>
       Intl.message('<messages>', name: 'messages', locale: _localeName);
+
+  /// Edit Profile title
+  String editProfile() =>
+      Intl.message('<editProfile>', name: 'editProfile', locale: _localeName);
 }
