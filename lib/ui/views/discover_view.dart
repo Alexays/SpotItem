@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:spotitem/models/item.dart';
 import 'package:spotitem/ui/widgets/item.dart';
 import 'package:spotitem/ui/screens/item_screen.dart';

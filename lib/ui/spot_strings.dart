@@ -102,4 +102,8 @@ class SpotL {
   /// No items title
   String noItems() =>
       Intl.message('<noItems>', name: 'noItems', locale: _localeName);
+
+  /// No groups title
+  String noGroups() =>
+      Intl.message('<noGroups>', name: 'noGroups', locale: _localeName);
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/ui/screens/group_screen.dart';
 import 'package:spotitem/models/group.dart';
+import 'package:spotitem/ui/spot_strings.dart';
 
 /// Groups view class
 class GroupsView extends StatefulWidget {
@@ -17,8 +18,8 @@ class GroupsView extends StatefulWidget {
 class _GroupsViewState extends State<GroupsView> {
   _GroupsViewState();
 
-  static List<Group> _myGroups;
-  static List<Group> _myGroupsInv;
+  static List<Group> _groups;
+  static List<Group> _groupsInv;
 
   @override
   void initState() {
@@ -30,11 +31,11 @@ class _GroupsViewState extends State<GroupsView> {
     if (Services.auth.loggedIn) {
       Services.groups.getGroups().then((data) {
         setState(() {
-          _myGroups = data;
+          _groups = data;
         });
         Services.groups.getGroupsInv(Services.auth.user.id).then((data) {
           setState(() {
-            _myGroupsInv = data;
+            _groupsInv = data;
           });
         });
       });
@@ -43,7 +44,7 @@ class _GroupsViewState extends State<GroupsView> {
 
   Future<Null> _joinGroup(int index) async {
     final dynamic response =
-        await Services.groups.joinGroup(_myGroupsInv[index].id);
+        await Services.groups.joinGroup(_groupsInv[index].id);
     if (response['success']) {
       _loadGroups();
     }
@@ -53,19 +54,19 @@ class _GroupsViewState extends State<GroupsView> {
     await Navigator.push(
         context,
         new MaterialPageRoute<Null>(
-          builder: (context) => new GroupPage(group: _myGroups[index - 1]),
+          builder: (context) => new GroupPage(group: _groups[index - 1]),
         ));
   }
 
   Widget getList() => new ListView.builder(
       padding: const EdgeInsets.all(20.0),
-      itemCount: _myGroups.length + 1,
+      itemCount: _groups.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {
-          if (_myGroupsInv != null && _myGroupsInv.isNotEmpty) {
+          if (_groupsInv != null && _groupsInv.isNotEmpty) {
             return _buildInv();
-          } else if (_myGroups.isEmpty) {
-            return const Center(child: const Text('No groups'));
+          } else if (_groups.isEmpty) {
+            return new Center(child: new Text(SpotL.of(context).noGroups()));
           }
           return new Container();
         }
@@ -81,18 +82,18 @@ class _GroupsViewState extends State<GroupsView> {
                 new ListTile(
                     leading: new CircleAvatar(
                         backgroundColor: Colors.grey,
-                        child: new Text(_myGroups[index - 1].name[0])),
-                    title: new Text(_myGroups[index - 1].name),
-                    subtitle: new Text(_myGroups[index - 1].about),
+                        child: new Text(_groups[index - 1].name[0])),
+                    title: new Text(_groups[index - 1].name),
+                    subtitle: new Text(_groups[index - 1].about),
                     trailing: new Row(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         new Text(
-                          _myGroups[index - 1]
+                          _groups[index - 1]
                               .users
                               .where((user) =>
-                                  user.groups.contains(_myGroups[index - 1].id))
+                                  user.groups.contains(_groups[index - 1].id))
                               .length
                               .toString(),
                           style: new TextStyle(
@@ -111,23 +112,23 @@ class _GroupsViewState extends State<GroupsView> {
       });
 
   Widget _buildInv() {
-    if (_myGroupsInv.isEmpty) {
+    if (_groupsInv.isEmpty) {
       return new Container();
     }
     return new Container(
       child: new ExpansionTile(
         leading: const Icon(Icons.mail),
-        title: new Text(
-            'You have ${_myGroupsInv.length.toString()} invitation(s)'),
+        title:
+            new Text('You have ${_groupsInv.length.toString()} invitation(s)'),
         children: new List<Widget>.generate(
-            _myGroupsInv.length,
+            _groupsInv.length,
             (index) => new GestureDetector(
                 onTap: () {
                   showDialog<Null>(
                     context: context,
                     barrierDismissible: false,
                     child: new AlertDialog(
-                      title: new Text('Join ${_myGroupsInv[index].name} ?'),
+                      title: new Text('Join ${_groupsInv[index].name} ?'),
                       content: new SingleChildScrollView(
                         child: new ListBody(
                           children: <Widget>[
@@ -160,18 +161,18 @@ class _GroupsViewState extends State<GroupsView> {
                     children: <Widget>[
                       new ListTile(
                           leading: new CircleAvatar(
-                              child: new Text(_myGroupsInv[index].name[0])),
-                          title: new Text(_myGroupsInv[index]?.name),
-                          subtitle: new Text(_myGroupsInv[index]?.about),
+                              child: new Text(_groupsInv[index].name[0])),
+                          title: new Text(_groupsInv[index]?.name),
+                          subtitle: new Text(_groupsInv[index]?.about),
                           trailing: new Row(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               new Text(
-                                _myGroupsInv[index]
+                                _groupsInv[index]
                                     .users
                                     .where((user) => user.groups
-                                        .contains(_myGroupsInv[index].id))
+                                        .contains(_groupsInv[index].id))
                                     .length
                                     .toString(),
                                 style: new TextStyle(
@@ -192,7 +193,7 @@ class _GroupsViewState extends State<GroupsView> {
   }
 
   @override
-  Widget build(BuildContext context) => _myGroups == null
+  Widget build(BuildContext context) => _groups == null
       ? const Center(child: const CircularProgressIndicator())
       : getList();
 }

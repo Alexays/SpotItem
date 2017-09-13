@@ -130,5 +130,11 @@
     "description": "No items title",
     "type": "text",
     "placeholders": {}
+  },
+  "noGroups": "Pas de groupes",
+  "@noGroups": {
+    "description": "No groups title",
+    "type": "text",
+    "placeholders": {}
   }
 }

@@ -3,6 +3,7 @@ import 'package:spotitem/services/services.dart';
 import 'package:spotitem/models/item.dart';
 import 'package:spotitem/ui/screens/item_screen.dart';
 import 'package:spotitem/utils.dart';
+import 'package:spotitem/ui/spot_strings.dart';
 
 /// Items view class
 class ItemsView extends StatefulWidget {
@@ -29,7 +30,7 @@ class _ItemsViewState extends State<ItemsView> {
 
   Widget getList() {
     if (_myItems.isEmpty) {
-      return const Center(child: const Text('No items'));
+      return new Center(child: new Text(SpotL.of(context).noItems()));
     }
     return new ListView.builder(
       padding: const EdgeInsets.all(20.0),

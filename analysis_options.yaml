@@ -12,7 +12,7 @@ analyzer:
     # allow having TODOs in the code
     todo: ignore
   exclude:
-    - lib/i18n/*.dart
+    - lib/i18n/**
 linter:
   # Full list available at http://dart-lang.github.io/linter/lints/options/options.html.
   rules:
