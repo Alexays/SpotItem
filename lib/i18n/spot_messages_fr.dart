@@ -23,6 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "addSomeone" : MessageLookupByLibrary.simpleMessage("Ajoutez quelqu\'un"),
     "alreadyAdded" : MessageLookupByLibrary.simpleMessage("Déjà ajouté !"),
     "discover" : MessageLookupByLibrary.simpleMessage("Découvrir"),
+    "editGroup" : MessageLookupByLibrary.simpleMessage("Modifiez le groupe"),
     "editProfile" : MessageLookupByLibrary.simpleMessage("Editer mon profil"),
     "explore" : MessageLookupByLibrary.simpleMessage("Explore"),
     "fromYourGroups" : MessageLookupByLibrary.simpleMessage("De vos groupes"),

@@ -141,4 +141,8 @@ class SpotL {
   /// No contacts title
   String noContacts() =>
       Intl.message('<noContacts>', name: 'noContacts', locale: _localeName);
+
+  /// Edit group title
+  String editGroup() =>
+      Intl.message('<editGroup>', name: 'editGroup', locale: _localeName);
 }

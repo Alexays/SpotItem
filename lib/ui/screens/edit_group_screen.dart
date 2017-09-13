@@ -4,6 +4,7 @@ import 'package:spotitem/services/services.dart';
 import 'package:spotitem/models/group.dart';
 import 'package:spotitem/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:spotitem/ui/spot_strings.dart';
 
 /// Edit group screen class
 class EditGroupScreen extends StatefulWidget {
@@ -54,7 +55,7 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-      appBar: new AppBar(title: const Text('Edit Group')),
+      appBar: new AppBar(title: new Text(SpotL.of(context).editGroup())),
       body: new Builder(builder: (context) {
         Services.context = context;
         return _group == null
@@ -73,18 +74,25 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
                                         child: new Column(children: <Widget>[
                                           new TextFormField(
                                               key: const Key('name'),
-                                              decoration: const InputDecoration(
-                                                  hintText: 'Enter name',
-                                                  labelText: 'Name'),
+                                              decoration: new InputDecoration(
+                                                  hintText: SpotL
+                                                      .of(context)
+                                                      .namePh(),
+                                                  labelText:
+                                                      SpotL.of(context).name()),
                                               controller: nameCtrl,
                                               onSaved: (value) {
                                                 _group.name = value.trim();
                                               }),
                                           new TextFormField(
                                               key: const Key('about'),
-                                              decoration: const InputDecoration(
-                                                  hintText: 'Enter description',
-                                                  labelText: 'Description'),
+                                              decoration: new InputDecoration(
+                                                  hintText: SpotL
+                                                      .of(context)
+                                                      .aboutPh(),
+                                                  labelText: SpotL
+                                                      .of(context)
+                                                      .about()),
                                               controller: aboutCtrl,
                                               onSaved: (value) {
                                                 _group.about = value.trim();
@@ -96,24 +104,13 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
                         horizontal: 8.0, vertical: 4.0),
                     child: new ConstrainedBox(
                       constraints: const BoxConstraints.tightFor(height: 48.0),
-                      child: new Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          new FlatButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            textTheme: ButtonTextTheme.normal,
-                            child: const Text('CANCEL'),
-                          ),
-                          new RaisedButton(
-                            onPressed: () {
-                              editGroup(context);
-                            },
-                            child: const Text('SAVE GROUP'),
-                          )
-                        ],
-                      ),
+                      child: new Center(
+                          child: new RaisedButton(
+                        onPressed: () {
+                          editGroup(context);
+                        },
+                        child: const Text('SAVE GROUP'),
+                      )),
                     ),
                   )
                 ],

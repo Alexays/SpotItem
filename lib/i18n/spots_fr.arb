@@ -190,5 +190,11 @@
     "description": "No contacts title",
     "type": "text",
     "placeholders": {}
+  },
+  "editGroup": "Modifiez le groupe",
+  "@editGroup": {
+    "description": "Edit group title",
+    "type": "text",
+    "placeholders": {}
   }
 }

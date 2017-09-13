@@ -5,6 +5,7 @@ import 'package:spotitem/models/group.dart';
 import 'package:spotitem/models/user.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/utils.dart';
+import 'package:spotitem/ui/spot_strings.dart';
 
 /// Group page class
 class GroupPage extends StatefulWidget {
@@ -297,7 +298,7 @@ class _GroupPageState extends State<GroupPage>
   @override
   Widget build(BuildContext context) => new Scaffold(
       appBar: new AppBar(
-        title: new Text('Group: ${group.name}'),
+        title: new Text('${group.name}'),
         actions: _doButton(),
       ),
       body: new Builder(builder: (context) {
@@ -314,7 +315,7 @@ class _GroupPageState extends State<GroupPage>
                   onPressed: () {
                     _addPeople();
                   },
-                  child: const Text('Add a user'),
+                  child: new Text(SpotL.of(context).addSomeone()),
                 ))),
             _buildUsers(),
           ],
