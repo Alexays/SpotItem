@@ -50,6 +50,55 @@ class _HomeScreenState extends State<HomeScreen>
     initAnimation();
     WidgetsBinding.instance.addObserver(this);
     super.initState();
+    _homeScreenItems = [
+      new HomeScreenItem(
+        parent: this,
+        icon: const Icon(Icons.explore),
+        title: 'Explore',
+        sub: <HomeScreenSubItem>[
+          new HomeScreenSubItem('Discover', discover),
+          new HomeScreenSubItem('Explore', explore),
+        ],
+      ),
+      new HomeScreenItem(
+          parent: this,
+          icon: const Icon(Icons.work),
+          title: 'Items',
+          content: const ItemsView(),
+          fab: new FloatingActionButton(
+              child: const Icon(Icons.add),
+              tooltip: 'Add new item',
+              onPressed: () {
+                Navigator.of(context).pushNamed('/item/add');
+              })),
+      new HomeScreenItem(
+        parent: this,
+        icon: const Icon(Icons.map),
+        title: 'Map',
+        content: const MapView(),
+      ),
+      new HomeScreenItem(
+          parent: this,
+          icon: const Icon(Icons.nature_people),
+          title: 'Social',
+          sub: <HomeScreenSubItem>[
+            new HomeScreenSubItem(
+              'Groups',
+              const GroupsView(),
+            ),
+            new HomeScreenSubItem(
+                'Messages',
+                const Center(
+                  child: const Text('Comming soon'),
+                ))
+          ],
+          fab: new FloatingActionButton(
+              child: const Icon(Icons.person_add),
+              tooltip: 'Add new groups',
+              onPressed: () {
+                Navigator.of(context).pushNamed('/groups/add');
+              })),
+    ];
   }
 
   @override
@@ -410,55 +459,6 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    _homeScreenItems = <HomeScreenItem>[
-      new HomeScreenItem(
-        parent: this,
-        icon: const Icon(Icons.explore),
-        title: SpotL.of(context).explore(),
-        sub: <HomeScreenSubItem>[
-          new HomeScreenSubItem(SpotL.of(context).discover(), discover),
-          new HomeScreenSubItem(SpotL.of(context).explore(), explore),
-        ],
-      ),
-      new HomeScreenItem(
-          parent: this,
-          icon: const Icon(Icons.work),
-          title: SpotL.of(context).items(),
-          content: const ItemsView(),
-          fab: new FloatingActionButton(
-              child: const Icon(Icons.add),
-              tooltip: 'Add new item',
-              onPressed: () {
-                Navigator.of(context).pushNamed('/item/add');
-              })),
-      new HomeScreenItem(
-        parent: this,
-        icon: const Icon(Icons.map),
-        title: SpotL.of(context).map(),
-        content: const MapView(),
-      ),
-      new HomeScreenItem(
-          parent: this,
-          icon: const Icon(Icons.nature_people),
-          title: SpotL.of(context).social(),
-          sub: <HomeScreenSubItem>[
-            new HomeScreenSubItem(
-              SpotL.of(context).groups(),
-              const GroupsView(),
-            ),
-            new HomeScreenSubItem(
-                SpotL.of(context).messages(),
-                const Center(
-                  child: const Text('Comming soon'),
-                ))
-          ],
-          fab: new FloatingActionButton(
-              child: const Icon(Icons.person_add),
-              tooltip: 'Add new groups',
-              onPressed: () {
-                Navigator.of(context).pushNamed('/groups/add');
-              })),
-    ];
     final cur = _homeScreenItems[_currentIndex];
     return new Stack(fit: StackFit.expand, children: <Widget>[
       new Scaffold(
