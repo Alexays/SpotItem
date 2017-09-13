@@ -23,6 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "discover" : MessageLookupByLibrary.simpleMessage("Discover"),
     "editProfile" : MessageLookupByLibrary.simpleMessage("Edit profile"),
     "explore" : MessageLookupByLibrary.simpleMessage("Explore"),
+    "fromYourGroups" : MessageLookupByLibrary.simpleMessage("From your groups"),
     "groups" : MessageLookupByLibrary.simpleMessage("Groups"),
     "home" : MessageLookupByLibrary.simpleMessage("Home"),
     "items" : MessageLookupByLibrary.simpleMessage("Items"),
@@ -31,6 +32,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "messages" : MessageLookupByLibrary.simpleMessage("Messages"),
     "name" : MessageLookupByLibrary.simpleMessage("Name"),
     "namePh" : MessageLookupByLibrary.simpleMessage("Enter name"),
+    "noItems" : MessageLookupByLibrary.simpleMessage("No items"),
+    "recentItems" : MessageLookupByLibrary.simpleMessage("Recent items"),
     "search" : MessageLookupByLibrary.simpleMessage("Search..."),
     "searchDialog" : MessageLookupByLibrary.simpleMessage("Type something to search..."),
     "social" : MessageLookupByLibrary.simpleMessage("Social")

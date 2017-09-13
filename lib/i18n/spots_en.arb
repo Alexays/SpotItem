@@ -112,5 +112,23 @@
     "description": "Add someone title",
     "type": "text",
     "placeholders": {}
+  },
+  "recentItems": "Recent items",
+  "@recentItems": {
+    "description": "Recent items title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "fromYourGroups": "From your groups",
+  "@fromYourGroups": {
+    "description": "From your groups title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "noItems": "No items",
+  "@noItems": {
+    "description": "No items title",
+    "type": "text",
+    "placeholders": {}
   }
 }

@@ -5,6 +5,7 @@ import 'package:spotitem/ui/widgets/item.dart';
 import 'package:spotitem/ui/screens/item_screen.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:flutter/material.dart';
+import 'package:spotitem/ui/spot_strings.dart';
 
 /// Discover view class
 class DiscoverView extends StatefulWidget {
@@ -55,10 +56,10 @@ class _DiscoverViewState extends State<DiscoverView> {
             return new Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const Padding(
+                new Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: const Text(
-                    'Recents items',
+                  child: new Text(
+                    SpotL.of(context).recentItems(),
                     style: const TextStyle(
                         fontWeight: FontWeight.w400, fontSize: 20.0),
                   ),
@@ -82,10 +83,10 @@ class _DiscoverViewState extends State<DiscoverView> {
             return new Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const Padding(
+                new Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: const Text(
-                    'From your groups',
+                  child: new Text(
+                    SpotL.of(context).fromYourGroups(),
                     style: const TextStyle(
                         fontWeight: FontWeight.w400, fontSize: 20.0),
                   ),
@@ -119,7 +120,6 @@ class DiscoverList extends StatelessWidget {
   @override
   Widget build(BuildContext context) => _items.isNotEmpty
       ? new ListView.builder(
-          //physics: const AlwaysScrollableScrollPhysics(),
           scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           itemCount: _items?.length,
@@ -130,5 +130,5 @@ class DiscoverList extends StatelessWidget {
               onPressed: () {
                 showItemPage(_items[index], _hash, context);
               }))
-      : const Center(child: const Text('No items'));
+      : new Center(child: new Text(SpotL.of(context).noItems()));
 }

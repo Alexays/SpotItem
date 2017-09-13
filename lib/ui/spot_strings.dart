@@ -90,4 +90,16 @@ class SpotL {
   /// Add someone title
   String addSomeone() =>
       Intl.message('<addSomeone>', name: 'addSomeone', locale: _localeName);
+
+  /// Recent items title
+  String recentItems() =>
+      Intl.message('<recentItems>', name: 'recentItems', locale: _localeName);
+
+  /// From your groups title
+  String fromYourGroups() => Intl.message('<fromYourGroups>',
+      name: 'fromYourGroups', locale: _localeName);
+
+  /// No items title
+  String noItems() =>
+      Intl.message('<noItems>', name: 'noItems', locale: _localeName);
 }
