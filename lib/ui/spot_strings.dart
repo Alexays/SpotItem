@@ -23,5 +23,22 @@ class SpotL {
     return Localizations.of<SpotL>(context, SpotL);
   }
 
+  /// Home title
   String home() => Intl.message('<home>', name: 'home', locale: _localeName);
+
+  /// Logout title
+  String logout() =>
+      Intl.message('<logout>', name: 'logout', locale: _localeName);
+
+  /// Explorer title
+  String explore() =>
+      Intl.message('<explore>', name: 'explore', locale: _localeName);
+
+  /// Discover title
+  String discover() =>
+      Intl.message('<discover>', name: 'discover', locale: _localeName);
+
+  /// Edit Profile title
+  String editProfile() =>
+      Intl.message('<editProfile>', name: 'editProfile', locale: _localeName);
 }

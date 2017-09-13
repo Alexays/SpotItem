@@ -15,6 +15,10 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => {
-    "home" : MessageLookupByLibrary.simpleMessage("Home")
+    "discover" : MessageLookupByLibrary.simpleMessage("Discover"),
+    "editProfile" : MessageLookupByLibrary.simpleMessage("Edit profile"),
+    "explorer" : MessageLookupByLibrary.simpleMessage("Explorer"),
+    "home" : MessageLookupByLibrary.simpleMessage("Home"),
+    "logout" : MessageLookupByLibrary.simpleMessage("Logout")
   };
 }

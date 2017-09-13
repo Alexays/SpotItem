@@ -50,55 +50,6 @@ class _HomeScreenState extends State<HomeScreen>
     initAnimation();
     WidgetsBinding.instance.addObserver(this);
     super.initState();
-    _homeScreenItems = <HomeScreenItem>[
-      new HomeScreenItem(
-        parent: this,
-        icon: const Icon(Icons.explore),
-        title: 'Explorer',
-        sub: <HomeScreenSubItem>[
-          const HomeScreenSubItem('Discover', discover),
-          const HomeScreenSubItem('Explore', explore),
-        ],
-      ),
-      new HomeScreenItem(
-          parent: this,
-          icon: const Icon(Icons.work),
-          title: 'Items',
-          content: const ItemsView(),
-          fab: new FloatingActionButton(
-              child: const Icon(Icons.add),
-              tooltip: 'Add new item',
-              onPressed: () {
-                Navigator.of(context).pushNamed('/item/add');
-              })),
-      new HomeScreenItem(
-        parent: this,
-        icon: const Icon(Icons.map),
-        title: 'Maps',
-        content: const MapView(),
-      ),
-      new HomeScreenItem(
-          parent: this,
-          icon: const Icon(Icons.nature_people),
-          title: 'Social',
-          sub: <HomeScreenSubItem>[
-            const HomeScreenSubItem(
-              'Groups',
-              const GroupsView(),
-            ),
-            const HomeScreenSubItem(
-                'Messages',
-                const Center(
-                  child: const Text('Comming soon'),
-                ))
-          ],
-          fab: new FloatingActionButton(
-              child: const Icon(Icons.person_add),
-              tooltip: 'Add new groups',
-              onPressed: () {
-                Navigator.of(context).pushNamed('/groups/add');
-              })),
-    ];
   }
 
   @override
@@ -325,13 +276,13 @@ class _HomeScreenState extends State<HomeScreen>
                       children: <Widget>[
                         new ListTile(
                             leading: const Icon(Icons.edit),
-                            title: const Text('Edit Profile'),
+                            title: new Text(SpotL.of(context).editProfile()),
                             onTap: () {
                               Navigator.of(context).pushNamed('/profile/edit/');
                             }),
                         new ListTile(
                             leading: const Icon(Icons.exit_to_app),
-                            title: const Text('Logout'),
+                            title: new Text(SpotL.of(context).logout()),
                             onTap: () {
                               Services.auth.logout().then((_) => Navigator
                                   .of(context)
@@ -459,6 +410,55 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
+    _homeScreenItems = <HomeScreenItem>[
+      new HomeScreenItem(
+        parent: this,
+        icon: const Icon(Icons.explore),
+        title: SpotL.of(context).explore(),
+        sub: <HomeScreenSubItem>[
+          new HomeScreenSubItem(SpotL.of(context).discover(), discover),
+          new HomeScreenSubItem(SpotL.of(context).explore(), explore),
+        ],
+      ),
+      new HomeScreenItem(
+          parent: this,
+          icon: const Icon(Icons.work),
+          title: 'Items',
+          content: const ItemsView(),
+          fab: new FloatingActionButton(
+              child: const Icon(Icons.add),
+              tooltip: 'Add new item',
+              onPressed: () {
+                Navigator.of(context).pushNamed('/item/add');
+              })),
+      new HomeScreenItem(
+        parent: this,
+        icon: const Icon(Icons.map),
+        title: 'Maps',
+        content: const MapView(),
+      ),
+      new HomeScreenItem(
+          parent: this,
+          icon: const Icon(Icons.nature_people),
+          title: 'Social',
+          sub: <HomeScreenSubItem>[
+            const HomeScreenSubItem(
+              'Groups',
+              const GroupsView(),
+            ),
+            const HomeScreenSubItem(
+                'Messages',
+                const Center(
+                  child: const Text('Comming soon'),
+                ))
+          ],
+          fab: new FloatingActionButton(
+              child: const Icon(Icons.person_add),
+              tooltip: 'Add new groups',
+              onPressed: () {
+                Navigator.of(context).pushNamed('/groups/add');
+              })),
+    ];
     final cur = _homeScreenItems[_currentIndex];
     return new Stack(fit: StackFit.expand, children: <Widget>[
       new Scaffold(

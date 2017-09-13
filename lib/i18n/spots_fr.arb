@@ -4,5 +4,29 @@
     "description": "Home",
     "type": "text",
     "placeholders": {}
+  },
+  "logout": "Déconnection",
+  "@logout": {
+    "description": "Logout title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "explore": "Explore",
+  "@explore": {
+    "description": "Explore title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "discover": "Découvrir",
+  "@discover": {
+    "description": "Discover title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "editProfile": "Editer mon profil",
+  "@editProfile": {
+    "description": "Edit profile title",
+    "type": "text",
+    "placeholders": {}
   }
 }
