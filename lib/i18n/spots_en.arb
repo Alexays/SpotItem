@@ -17,6 +17,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "searchDialog": "Type something to search...",
+  "@searchDialog": {
+    "description": "Search dialog",
+    "type": "text",
+    "placeholders": {}
+  },
   "explore": "Explore",
   "@explore": {
     "description": "Explore title",

@@ -391,8 +391,8 @@ class _HomeScreenState extends State<HomeScreen>
     if (_isSearching) {
       if (_searchQuery.isEmpty) {
         return [
-          const Center(
-            child: const Text('Type something to search...'),
+          new Center(
+            child: new Text(SpotL.of(context).searchDialog()),
           )
         ];
       }

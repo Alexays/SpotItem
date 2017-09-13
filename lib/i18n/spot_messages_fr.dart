@@ -25,6 +25,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "map" : MessageLookupByLibrary.simpleMessage("Carte"),
     "messages" : MessageLookupByLibrary.simpleMessage("Messages"),
     "search" : MessageLookupByLibrary.simpleMessage("Rechercher..."),
+    "searchDialog" : MessageLookupByLibrary.simpleMessage("Taper quelque chose pour rechercher..."),
     "social" : MessageLookupByLibrary.simpleMessage("Social")
   };
 }

@@ -5,23 +5,20 @@ import 'package:flutter/widgets.dart';
 
 import 'package:spotitem/i18n/spot_messages_all.dart';
 
-// Information about how this file relates to i18n/stock_messages_all.dart and how the i18n files
-// were generated can be found in i18n/regenerate.md.
-
+/// Spotitem localization class
 class SpotL {
+  /// Spotitem localization initializer
   SpotL(Locale locale) : _localeName = locale.toString();
 
   final String _localeName;
 
-  static Future<SpotL> load(Locale locale) {
-    return initializeMessages(locale.toString()).then((Null _) {
-      return new SpotL(locale);
-    });
-  }
+  /// Load langs files
+  static Future<SpotL> load(Locale locale) =>
+      initializeMessages(locale.toString()).then((_) => new SpotL(locale));
 
-  static SpotL of(BuildContext context) {
-    return Localizations.of<SpotL>(context, SpotL);
-  }
+  /// Context
+  static SpotL of(BuildContext context) =>
+      Localizations.of<SpotL>(context, SpotL);
 
   /// Home title
   String home() => Intl.message('<home>', name: 'home', locale: _localeName);
@@ -33,6 +30,10 @@ class SpotL {
   /// Search placeholder
   String search() =>
       Intl.message('<search>', name: 'search', locale: _localeName);
+
+  /// Search dialog
+  String searchDialog() =>
+      Intl.message('<searchDialog>', name: 'searchDialog', locale: _localeName);
 
   /// Explorer title
   String explore() =>
