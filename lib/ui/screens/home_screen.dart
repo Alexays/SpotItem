@@ -423,7 +423,7 @@ class _HomeScreenState extends State<HomeScreen>
       new HomeScreenItem(
           parent: this,
           icon: const Icon(Icons.work),
-          title: 'Items',
+          title: SpotL.of(context).items(),
           content: const ItemsView(),
           fab: new FloatingActionButton(
               child: const Icon(Icons.add),

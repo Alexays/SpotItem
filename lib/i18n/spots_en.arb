@@ -28,5 +28,11 @@
     "description": "Edit profile title",
     "type": "text",
     "placeholders": {}
+  },
+  "items": "Items",
+  "@items": {
+    "description": "Items title",
+    "type": "text",
+    "placeholders": {}
   }
 }

@@ -41,4 +41,7 @@ class SpotL {
   /// Edit Profile title
   String editProfile() =>
       Intl.message('<editProfile>', name: 'editProfile', locale: _localeName);
+
+  /// Items title
+  String items() => Intl.message('<items>', name: 'items', locale: _localeName);
 }

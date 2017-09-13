@@ -10,8 +10,7 @@ Rebuilding everything requires two steps.
 With the `examples/stocks` as the current directory, generate
 `intl_messages.arb` from `lib/stock_strings.dart`:
 ```
-flutter pub pub run intl_translation:extract_to_arb --output-dir=lib/i18n 
-lib/stock_strings.dart
+flutter pub pub run intl_translation:extract_to_arb --output-dir=lib/i18n lib/ui/spot_strings.dart
 ```
 The `intl_messages.arb` file is a JSON format map with one entry for
 each `Intl.message()` function defined in `stock_strings.dart`. This
@@ -26,7 +25,7 @@ With the `examples/stocks` as the current directory, generate a
 `stock_messages_all.dart`, which imports all of the messages files:
 ```
 flutter pub pub run intl_translation:generate_from_arb --output-dir=lib/i18n \
-   --generated-file-prefix=stock_ --no-use-deferred-loading lib/*.dart lib/i18n/stocks_*.arb
+   --generated-file-prefix=spot_ --no-use-deferred-loading lib/ui/*.dart lib/i18n/spots_*.arb
 ```
 
 The `StockStrings` class uses the generated `initializeMessages()`

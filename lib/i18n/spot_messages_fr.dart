@@ -17,8 +17,9 @@ class MessageLookup extends MessageLookupByLibrary {
   static _notInlinedMessages(_) => {
     "discover" : MessageLookupByLibrary.simpleMessage("Découvrir"),
     "editProfile" : MessageLookupByLibrary.simpleMessage("Editer mon profil"),
-    "explorer" : MessageLookupByLibrary.simpleMessage("Explorer"),
+    "explore" : MessageLookupByLibrary.simpleMessage("Explore"),
     "home" : MessageLookupByLibrary.simpleMessage("Accueil"),
+    "items" : MessageLookupByLibrary.simpleMessage("Objets"),
     "logout" : MessageLookupByLibrary.simpleMessage("Déconnection")
   };
 }
