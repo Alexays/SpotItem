@@ -367,7 +367,6 @@ class _HomeScreenState extends State<HomeScreen>
           decoration: new BoxDecoration(
               color: Theme.of(context).accentColor,
               borderRadius: const BorderRadius.all(const Radius.circular(3.0))),
-          margin: const EdgeInsets.symmetric(vertical: 5.0),
           child: new Row(children: <Widget>[
             _isSearching
                 ? const BackButton()
