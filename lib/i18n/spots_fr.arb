@@ -70,5 +70,47 @@
     "description": "Messages title",
     "type": "text",
     "placeholders": {}
+  },
+  "addGroup": "Ajouter un groupe",
+  "@addGroup": {
+    "description": "Add Group title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "alreadyAdded": "Déjà ajouté !",
+  "@alreadyAdded": {
+    "description": "Already added message",
+    "type": "text",
+    "placeholders": {}
+  },
+  "name": "Nom",
+  "@name": {
+    "description": "Name title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "namePh": "Entrez un nom",
+  "@namePh": {
+    "description": "Name placeholder",
+    "type": "text",
+    "placeholders": {}
+  },
+  "about": "À propos",
+  "@about": {
+    "description": "About title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "aboutPh": "Entrez une description",
+  "@aboutPh": {
+    "description": "About placeholder",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addSomeone": "Ajoutez quelqu'un",
+  "@addSomeone": {
+    "description": "Add someone title",
+    "type": "text",
+    "placeholders": {}
   }
 }

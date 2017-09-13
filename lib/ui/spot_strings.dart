@@ -64,4 +64,30 @@ class SpotL {
   /// Edit Profile title
   String editProfile() =>
       Intl.message('<editProfile>', name: 'editProfile', locale: _localeName);
+
+  /// Add Group title
+  String addGroup() =>
+      Intl.message('<addGroup>', name: 'addGroup', locale: _localeName);
+
+  /// Already added message
+  String alreadyAdded() =>
+      Intl.message('<alreadyAdded>', name: 'alreadyAdded', locale: _localeName);
+
+  /// Name title
+  String name() => Intl.message('<name>', name: 'name', locale: _localeName);
+
+  /// Name placeholder
+  String namePh() =>
+      Intl.message('<namePh>', name: 'namePh', locale: _localeName);
+
+  /// About title
+  String about() => Intl.message('<about>', name: 'about', locale: _localeName);
+
+  /// About placeholder
+  String aboutPh() =>
+      Intl.message('<aboutPh>', name: 'aboutPh', locale: _localeName);
+
+  /// Add someone title
+  String addSomeone() =>
+      Intl.message('<addSomeone>', name: 'addSomeone', locale: _localeName);
 }

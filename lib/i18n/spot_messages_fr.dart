@@ -15,6 +15,11 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => {
+    "about" : MessageLookupByLibrary.simpleMessage("À propos"),
+    "aboutPh" : MessageLookupByLibrary.simpleMessage("Entrez une description"),
+    "addGroup" : MessageLookupByLibrary.simpleMessage("Ajouter un groupe"),
+    "addSomeone" : MessageLookupByLibrary.simpleMessage("Ajoutez quelqu\'un"),
+    "alreadyAdded" : MessageLookupByLibrary.simpleMessage("Déjà ajouté !"),
     "discover" : MessageLookupByLibrary.simpleMessage("Découvrir"),
     "editProfile" : MessageLookupByLibrary.simpleMessage("Editer mon profil"),
     "explore" : MessageLookupByLibrary.simpleMessage("Explore"),
@@ -24,6 +29,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "logout" : MessageLookupByLibrary.simpleMessage("Déconnection"),
     "map" : MessageLookupByLibrary.simpleMessage("Carte"),
     "messages" : MessageLookupByLibrary.simpleMessage("Messages"),
+    "name" : MessageLookupByLibrary.simpleMessage("Nom"),
+    "namePh" : MessageLookupByLibrary.simpleMessage("Entrez un nom"),
     "search" : MessageLookupByLibrary.simpleMessage("Rechercher..."),
     "searchDialog" : MessageLookupByLibrary.simpleMessage("Taper quelque chose pour rechercher..."),
     "social" : MessageLookupByLibrary.simpleMessage("Social")

@@ -15,6 +15,11 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => {
+    "about" : MessageLookupByLibrary.simpleMessage("About"),
+    "aboutPh" : MessageLookupByLibrary.simpleMessage("Enter description"),
+    "addGroup" : MessageLookupByLibrary.simpleMessage("Add group"),
+    "addSomeone" : MessageLookupByLibrary.simpleMessage("Add someone"),
+    "alreadyAdded" : MessageLookupByLibrary.simpleMessage("Already added !"),
     "discover" : MessageLookupByLibrary.simpleMessage("Discover"),
     "editProfile" : MessageLookupByLibrary.simpleMessage("Edit profile"),
     "explore" : MessageLookupByLibrary.simpleMessage("Explore"),
@@ -24,6 +29,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "logout" : MessageLookupByLibrary.simpleMessage("Logout"),
     "map" : MessageLookupByLibrary.simpleMessage("Map"),
     "messages" : MessageLookupByLibrary.simpleMessage("Messages"),
+    "name" : MessageLookupByLibrary.simpleMessage("Name"),
+    "namePh" : MessageLookupByLibrary.simpleMessage("Enter name"),
     "search" : MessageLookupByLibrary.simpleMessage("Search..."),
     "searchDialog" : MessageLookupByLibrary.simpleMessage("Type something to search..."),
     "social" : MessageLookupByLibrary.simpleMessage("Social")

@@ -5,6 +5,8 @@ import 'package:spotitem/models/group.dart';
 import 'package:spotitem/utils.dart';
 import 'package:flutter/material.dart';
 
+import 'package:spotitem/ui/spot_strings.dart';
+
 /// Add Group screen class
 class AddGroupScreen extends StatefulWidget {
   /// Add Group screen initalizer
@@ -50,13 +52,13 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
         email.add(_email);
       });
     } else {
-      showSnackBar(Services.context, 'Already added !');
+      showSnackBar(Services.context, SpotL.of(context).alreadyAdded());
     }
   }
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-        appBar: new AppBar(title: const Text('Add Group')),
+        appBar: new AppBar(title: new Text(SpotL.of(context).addGroup())),
         body: new Builder(builder: (context) {
           Services.context = context;
           return new Column(children: <Widget>[
@@ -72,17 +74,21 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                                   child: new Column(children: <Widget>[
                                     new TextFormField(
                                         key: const Key('name'),
-                                        decoration: const InputDecoration(
-                                            hintText: 'Enter name',
-                                            labelText: 'Name'),
+                                        decoration: new InputDecoration(
+                                            hintText:
+                                                SpotL.of(context).namePh(),
+                                            labelText:
+                                                SpotL.of(context).name()),
                                         onSaved: (value) {
                                           name = value.trim();
                                         }),
                                     new TextFormField(
                                         key: const Key('about'),
-                                        decoration: const InputDecoration(
-                                            hintText: 'Enter description',
-                                            labelText: 'Description'),
+                                        decoration: new InputDecoration(
+                                            hintText:
+                                                SpotL.of(context).aboutPh(),
+                                            labelText:
+                                                SpotL.of(context).about()),
                                         onSaved: (value) {
                                           about = value.trim();
                                         }),
@@ -102,7 +108,8 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                                     ),
                                     const Divider(),
                                     new RaisedButton(
-                                        child: const Text('Add someone'),
+                                        child: new Text(
+                                            SpotL.of(context).addSomeone()),
                                         onPressed: () {
                                           _addPeople();
                                         })
@@ -118,7 +125,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                   onPressed: () {
                     addGroup();
                   },
-                  child: const Text('ADD GROUP'),
+                  child: new Text(SpotL.of(context).addGroup().toUpperCase()),
                 )),
               ),
             )
