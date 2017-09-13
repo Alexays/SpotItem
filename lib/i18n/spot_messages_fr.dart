@@ -18,8 +18,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "discover" : MessageLookupByLibrary.simpleMessage("Découvrir"),
     "editProfile" : MessageLookupByLibrary.simpleMessage("Editer mon profil"),
     "explore" : MessageLookupByLibrary.simpleMessage("Explore"),
+    "groups" : MessageLookupByLibrary.simpleMessage("Groupes"),
     "home" : MessageLookupByLibrary.simpleMessage("Accueil"),
     "items" : MessageLookupByLibrary.simpleMessage("Objets"),
-    "logout" : MessageLookupByLibrary.simpleMessage("Déconnection")
+    "logout" : MessageLookupByLibrary.simpleMessage("Déconnection"),
+    "map" : MessageLookupByLibrary.simpleMessage("Carte"),
+    "messages" : MessageLookupByLibrary.simpleMessage("Messages"),
+    "search" : MessageLookupByLibrary.simpleMessage("Rechercher..."),
+    "social" : MessageLookupByLibrary.simpleMessage("Social")
   };
 }

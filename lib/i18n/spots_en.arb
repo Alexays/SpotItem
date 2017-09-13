@@ -11,6 +11,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "search": "Search...",
+  "@search": {
+    "description": "Search placeholder",
+    "type": "text",
+    "placeholders": {}
+  },
   "explore": "Explore",
   "@explore": {
     "description": "Explore title",
@@ -32,6 +38,30 @@
   "items": "Items",
   "@items": {
     "description": "Items title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "map": "Map",
+  "@map": {
+    "description": "Map title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "social": "Social",
+  "@social": {
+    "description": "Social title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "groups": "Groups",
+  "@groups": {
+    "description": "Groups title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "messages": "Messages",
+  "@messages": {
+    "description": "Messages title",
     "type": "text",
     "placeholders": {}
   }

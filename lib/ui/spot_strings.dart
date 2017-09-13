@@ -30,6 +30,10 @@ class SpotL {
   String logout() =>
       Intl.message('<logout>', name: 'logout', locale: _localeName);
 
+  /// Search placeholder
+  String search() =>
+      Intl.message('<search>', name: 'search', locale: _localeName);
+
   /// Explorer title
   String explore() =>
       Intl.message('<explore>', name: 'explore', locale: _localeName);
@@ -44,4 +48,19 @@ class SpotL {
 
   /// Items title
   String items() => Intl.message('<items>', name: 'items', locale: _localeName);
+
+  /// Map title
+  String map() => Intl.message('<map>', name: 'map', locale: _localeName);
+
+  /// Map title
+  String social() =>
+      Intl.message('<social>', name: 'social', locale: _localeName);
+
+  /// Groups title
+  String groups() =>
+      Intl.message('<groups>', name: 'groups', locale: _localeName);
+
+  /// Messages title
+  String messages() =>
+      Intl.message('<messages>', name: 'messages', locale: _localeName);
 }

@@ -340,9 +340,9 @@ class _HomeScreenState extends State<HomeScreen>
                   fontSize: 18.0,
                   fontWeight: FontWeight.w500,
                 ),
-                decoration: const InputDecoration(
+                decoration: new InputDecoration(
                     isDense: true,
-                    hintText: 'Search...',
+                    hintText: SpotL.of(context).search(),
                     hintStyle: const TextStyle(
                       color: const Color.fromARGB(150, 255, 255, 255),
                       fontSize: 18.0,
@@ -434,20 +434,20 @@ class _HomeScreenState extends State<HomeScreen>
       new HomeScreenItem(
         parent: this,
         icon: const Icon(Icons.map),
-        title: 'Maps',
+        title: SpotL.of(context).map(),
         content: const MapView(),
       ),
       new HomeScreenItem(
           parent: this,
           icon: const Icon(Icons.nature_people),
-          title: 'Social',
+          title: SpotL.of(context).social(),
           sub: <HomeScreenSubItem>[
-            const HomeScreenSubItem(
-              'Groups',
+            new HomeScreenSubItem(
+              SpotL.of(context).groups(),
               const GroupsView(),
             ),
-            const HomeScreenSubItem(
-                'Messages',
+            new HomeScreenSubItem(
+                SpotL.of(context).messages(),
                 const Center(
                   child: const Text('Comming soon'),
                 ))
