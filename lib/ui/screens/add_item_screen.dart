@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/utils.dart';
 import 'package:spotitem/models/group.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:spotitem/ui/spot_strings.dart';
 
 /// Add item screen class
 class AddItemScreen extends StatefulWidget {
@@ -74,12 +74,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          const Text('No images'),
+          new Text(SpotL.of(context).noImages()),
           const Padding(
             padding: const EdgeInsets.all(10.0),
           ),
           new RaisedButton(
-            child: const Text('Add image'),
+            child: new Text(SpotL.of(context).addImage()),
             onPressed: getImage,
           )
         ],
@@ -88,7 +88,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     return new Column(children: <Widget>[
       new Center(
           child: new RaisedButton(
-        child: const Text('Add image'),
+        child: new Text(SpotL.of(context).addImage()),
         onPressed: getImage,
       )),
       const Divider(),
@@ -196,7 +196,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-        appBar: new AppBar(title: const Text('Add Item')),
+        appBar: new AppBar(title: new Text(SpotL.of(context).addItem())),
         body: new Builder(builder: (context) {
           Services.context = context;
           return new Container(
@@ -206,7 +206,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     currentStep: _currentStep,
                     steps: [
                       new Step(
-                          title: const Text('Informations'),
+                          title: new Text(SpotL.of(context).about()),
                           state: StepState.indexed,
                           content: new Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -214,30 +214,35 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                 new Column(children: <Widget>[
                                   new TextFormField(
                                       key: const Key('name'),
-                                      decoration: const InputDecoration(
-                                          hintText: 'Name'),
+                                      decoration: new InputDecoration(
+                                          hintText: SpotL.of(context).namePh(),
+                                          labelText: SpotL.of(context).name()),
                                       validator: validateName,
                                       onSaved: (value) {
                                         _name = value.trim();
                                       }),
                                   new TextFormField(
                                       key: const Key('about'),
-                                      decoration: const InputDecoration(
-                                          hintText: 'Description'),
+                                      decoration: new InputDecoration(
+                                          hintText: SpotL.of(context).aboutPh(),
+                                          labelText: SpotL.of(context).about()),
                                       onSaved: (value) {
                                         _about = value.trim();
                                       }),
                                   new TextFormField(
                                       key: const Key('location'),
-                                      decoration: const InputDecoration(
-                                          hintText: 'Location'),
+                                      decoration: new InputDecoration(
+                                          hintText:
+                                              SpotL.of(context).locationPh(),
+                                          labelText:
+                                              SpotL.of(context).location()),
                                       validator: validateString,
                                       onSaved: (value) {
                                         _location = value.trim();
                                       }),
                                   const Divider(),
                                   new SwitchListTile(
-                                      title: const Text('Donated Item'),
+                                      title: new Text(SpotL.of(context).gift()),
                                       value: _tracks.contains('gift'),
                                       onChanged: (value) {
                                         setState(() {
@@ -251,7 +256,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                       secondary:
                                           const Icon(Icons.card_giftcard)),
                                   new SwitchListTile(
-                                      title: const Text('Private Item'),
+                                      title:
+                                          new Text(SpotL.of(context).private()),
                                       value: _tracks.contains('private'),
                                       onChanged: (value) {
                                         setState(() {
@@ -267,7 +273,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                               ]),
                           isActive: true),
                       new Step(
-                          title: const Text('Images'),
+                          title: new Text(SpotL.of(context).images()),
                           content: new Container(
                               height: 120 +
                                   320 *
@@ -275,7 +281,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                               child: getImageGrid()),
                           isActive: true),
                       new Step(
-                          title: const Text('Groups'),
+                          title: new Text(SpotL.of(context).groups()),
                           content: getGroups(),
                           isActive: true),
                     ],

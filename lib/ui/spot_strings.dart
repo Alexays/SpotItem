@@ -106,4 +106,39 @@ class SpotL {
   /// No groups title
   String noGroups() =>
       Intl.message('<noGroups>', name: 'noGroups', locale: _localeName);
+
+  /// No images title
+  String noImages() =>
+      Intl.message('<noImages>', name: 'noImages', locale: _localeName);
+
+  /// Add image title
+  String addImage() =>
+      Intl.message('<addImage>', name: 'addImage', locale: _localeName);
+
+  /// Images title
+  String images() =>
+      Intl.message('<images>', name: 'images', locale: _localeName);
+
+  /// Location title
+  String location() =>
+      Intl.message('<location>', name: 'location', locale: _localeName);
+
+  /// Location placeholder
+  String locationPh() =>
+      Intl.message('<locationPh>', name: 'locationPh', locale: _localeName);
+
+  /// Add item title
+  String addItem() =>
+      Intl.message('<addItem>', name: 'addItem', locale: _localeName);
+
+  /// Private title
+  String private() =>
+      Intl.message('<private>', name: 'private', locale: _localeName);
+
+  /// Donated title
+  String gift() => Intl.message('<gift>', name: 'gift', locale: _localeName);
+
+  /// No contacts title
+  String noContacts() =>
+      Intl.message('<noContacts>', name: 'noContacts', locale: _localeName);
 }

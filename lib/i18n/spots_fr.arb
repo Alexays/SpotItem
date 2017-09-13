@@ -71,7 +71,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "addGroup": "Ajouter un groupe",
+  "addGroup": "Ajoutez un groupe",
   "@addGroup": {
     "description": "Add Group title",
     "type": "text",
@@ -134,6 +134,60 @@
   "noGroups": "Pas de groupes",
   "@noGroups": {
     "description": "No groups title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "noImages": "Pas d'images",
+  "@noImages": {
+    "description": "No images title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addImage": "Ajoutez une image",
+  "@addImage": {
+    "description": "Add image title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "images": "Images",
+  "@images": {
+    "description": "images title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "location": "Emplacement",
+  "@location": {
+    "description": "location title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "locationPh": "Entrez un emplacement",
+  "@locationPh": {
+    "description": "location title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addItem": "Ajoutez un objet",
+  "@addItem": {
+    "description": "Add item title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "private": "Privé",
+  "@private": {
+    "description": "Private title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "gift": "Cadeau",
+  "@gift": {
+    "description": "Gift title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "noContacts": "Aucun contact",
+  "@noContacts": {
+    "description": "No contacts title",
     "type": "text",
     "placeholders": {}
   }

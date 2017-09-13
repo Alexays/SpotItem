@@ -136,5 +136,59 @@
     "description": "No groups title",
     "type": "text",
     "placeholders": {}
+  },
+  "noImages": "No images",
+  "@noImages": {
+    "description": "No images title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addImage": "Add image",
+  "@addImage": {
+    "description": "Add image title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "images": "Images",
+  "@images": {
+    "description": "images title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "location": "Location",
+  "@location": {
+    "description": "location title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "locationPh": "Enter location",
+  "@locationPh": {
+    "description": "location title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addItem": "Add item",
+  "@addItem": {
+    "description": "Add item title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "private": "Private",
+  "@private": {
+    "description": "Private title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "gift": "Gift",
+  "@gift": {
+    "description": "Gift title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "noContacts": "No contacts",
+  "@noContacts": {
+    "description": "No contacts title",
+    "type": "text",
+    "placeholders": {}
   }
 }

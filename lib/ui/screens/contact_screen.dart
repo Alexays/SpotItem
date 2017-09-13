@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:spotitem/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/utils.dart';
+import 'package:spotitem/ui/spot_strings.dart';
 
 /// Contact screen class
 class ContactScreen extends StatefulWidget {
@@ -33,7 +34,7 @@ class _ContactScreenState extends State<ContactScreen> {
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-      appBar: new AppBar(title: const Text('Add Contacts')),
+      appBar: new AppBar(title: new Text(SpotL.of(context).addSomeone())),
       body: new Builder(builder: (context) {
         Services.context = context;
         return new Column(children: <Widget>[
@@ -81,7 +82,7 @@ class _ContactScreenState extends State<ContactScreen> {
                               _handleEmail();
                             },
                           )))
-              : const Text('No contacts'),
+              : new Text(SpotL.of(context).noContacts()),
         ]);
       }));
 }
