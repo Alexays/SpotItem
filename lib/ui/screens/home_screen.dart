@@ -263,8 +263,7 @@ class _HomeScreenState extends State<HomeScreen>
                   children: <Widget>[
                     new ListTile(
                       leading: const Icon(Icons.home),
-                      title:
-                          new Text(SpotStrings.of(context).title()), //'Home'),
+                      title: new Text(SpotL.of(context).home()),
                       selected: true,
                     ),
                     const ListTile(

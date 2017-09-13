@@ -9,16 +9,20 @@ import 'package:intl/message_lookup_by_library.dart';
 import 'package:intl/src/intl_helpers.dart';
 
 import 'spot_messages_en.dart' as messages_en;
+import 'spot_messages_fr.dart' as messages_fr;
 
 typedef Future<dynamic> LibraryLoader();
 Map<String, LibraryLoader> _deferredLibraries = {
   'en': () => new Future.value(null),
+  'fr': () => new Future.value(null),
 };
 
 MessageLookupByLibrary _findExact(localeName) {
   switch (localeName) {
     case 'en':
       return messages_en.messages;
+    case 'fr':
+      return messages_fr.messages;
     default:
       return null;
   }
@@ -43,8 +47,8 @@ bool _messagesExistFor(String locale) {
 }
 
 MessageLookupByLibrary _findGeneratedMessagesFor(locale) {
-  var actualLocale = Intl.verifiedLocale(locale, _messagesExistFor,
-      onFailure: (_) => null);
+  var actualLocale =
+      Intl.verifiedLocale(locale, _messagesExistFor, onFailure: (_) => null);
   if (actualLocale == null) return null;
   return _findExact(actualLocale);
 }

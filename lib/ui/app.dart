@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/ui/spot_strings.dart';
 
-class _SpotLocalizationsDelegate extends LocalizationsDelegate<SpotStrings> {
+class _SpotLocalizationsDelegate extends LocalizationsDelegate<SpotL> {
   @override
-  Future<SpotStrings> load(Locale locale) => SpotStrings.load(locale);
+  Future<SpotL> load(Locale locale) => SpotL.load(locale);
 
   @override
   bool shouldReload(_SpotLocalizationsDelegate old) => false;
@@ -41,6 +41,7 @@ class SpotItemApp extends MaterialApp {
           ],
           supportedLocales: const <Locale>[
             const Locale('en', 'US'),
+            const Locale('fr', 'FR')
           ],
         );
 }
