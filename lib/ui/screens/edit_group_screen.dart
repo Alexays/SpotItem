@@ -57,7 +57,6 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
   Widget build(BuildContext context) => new Scaffold(
       appBar: new AppBar(title: new Text(SpotL.of(context).editGroup())),
       body: new Builder(builder: (context) {
-        Services.context = context;
         return _group == null
             ? const Center(child: const CircularProgressIndicator())
             : new Column(

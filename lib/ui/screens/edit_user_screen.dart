@@ -36,14 +36,14 @@ class _EditUserScreenState extends State<EditUserScreen> {
     super.initState();
   }
 
-  Future<bool> editUser() async {
+  Future<bool> editUser(BuildContext context) async {
     _formKey.currentState.save();
     if (password != repeat) {
-      showSnackBar(Services.context, 'Password don\t match !');
+      showSnackBar(context, 'Password don\t match !');
       return false;
     }
     final dynamic res = await Services.users.updateUser(user, password);
-    showSnackBar(Services.context, res['msg']);
+    showSnackBar(context, res['msg']);
     if (res['success']) {
       Navigator.pop(context);
       return true;
@@ -55,7 +55,6 @@ class _EditUserScreenState extends State<EditUserScreen> {
   Widget build(BuildContext context) => new Scaffold(
         appBar: new AppBar(title: const Text('Edit Profile')),
         body: new Builder(builder: (context) {
-          Services.context = context;
           final ThemeData theme = Theme.of(context);
           return new Column(children: <Widget>[
             new Expanded(
@@ -138,7 +137,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
                 child: new Center(
                     child: new RaisedButton(
                   onPressed: () {
-                    editUser();
+                    editUser(context);
                   },
                   child: const Text('SAVE'),
                 )),

@@ -56,14 +56,15 @@ class _HomeScreenState extends State<HomeScreen>
         icon: const Icon(Icons.explore),
         title: 'Explore',
         sub: <HomeScreenSubItem>[
-          new HomeScreenSubItem('Discover', discover),
-          new HomeScreenSubItem('Explore', explore),
+          new HomeScreenSubItem(
+              SpotL.of(Services.context).discover(), discover),
+          new HomeScreenSubItem(SpotL.of(Services.context).explore(), explore),
         ],
       ),
       new HomeScreenItem(
           parent: this,
           icon: const Icon(Icons.work),
-          title: 'Items',
+          title: SpotL.of(Services.context).items(),
           content: const ItemsView(),
           fab: new FloatingActionButton(
               child: const Icon(Icons.add),
@@ -74,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen>
       new HomeScreenItem(
         parent: this,
         icon: const Icon(Icons.map),
-        title: 'Map',
+        title: SpotL.of(Services.context).map(),
         content: const MapView(),
       ),
       new HomeScreenItem(
@@ -83,11 +84,11 @@ class _HomeScreenState extends State<HomeScreen>
           title: 'Social',
           sub: <HomeScreenSubItem>[
             new HomeScreenSubItem(
-              'Groups',
+              SpotL.of(Services.context).groups(),
               const GroupsView(),
             ),
             new HomeScreenSubItem(
-                'Messages',
+                SpotL.of(Services.context).messages(),
                 const Center(
                   child: const Text('Comming soon'),
                 ))
@@ -352,7 +353,7 @@ class _HomeScreenState extends State<HomeScreen>
     });
   }
 
-  Widget _buildAppBar() {
+  Widget _buildAppBar(BuildContext context) {
     if (_currentIndex == 0)
       _homeScreenItems[_currentIndex].tab.addListener(_checkFilter);
     else {
@@ -428,14 +429,14 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  FloatingActionButton _buildFab() {
+  FloatingActionButton _buildFab(BuildContext context) {
     if (_homeScreenItems[_currentIndex].fab == null) {
       return null;
     }
     return _homeScreenItems[_currentIndex].fab;
   }
 
-  List<Widget> _buildChild() {
+  List<Widget> _buildChild(BuildContext context) {
     if (_isSearching) {
       if (_searchQuery.isEmpty) {
         return [
@@ -463,16 +464,15 @@ class _HomeScreenState extends State<HomeScreen>
       new Scaffold(
           key: _scaffoldKey,
           drawer: _buildDrawer(context),
-          floatingActionButton: _buildFab(),
+          floatingActionButton: _buildFab(context),
           body: new Builder(builder: (context) {
-            Services.context = context;
             return new NestedScrollView(
                 headerSliverBuilder: (context, innerBoxIsScrolled) =>
-                    <Widget>[_buildAppBar()],
+                    <Widget>[_buildAppBar(context)],
                 body: new TabBarView(
                     key: new Key(cur.title),
                     controller: cur.tab,
-                    children: _buildChild()));
+                    children: _buildChild(context)));
           }),
           bottomNavigationBar: _isSearching
               ? null

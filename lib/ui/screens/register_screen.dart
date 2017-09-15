@@ -55,7 +55,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) =>
       new Scaffold(body: new Builder(builder: (context) {
-        Services.context = context;
         return new SingleChildScrollView(
           child: new Container(
               padding: const EdgeInsets.all(20.0),

@@ -248,7 +248,6 @@ class _EditItemScreenState extends State<EditItemScreen>
   @override
   Widget build(BuildContext context) =>
       new Scaffold(body: new Builder(builder: (context) {
-        Services.context = context;
         return new Column(
           children: <Widget>[
             new Expanded(

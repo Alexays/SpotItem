@@ -145,7 +145,7 @@ class _ItemPageState extends State<ItemPage>
     super.dispose();
   }
 
-  List<Widget> doButton() {
+  List<Widget> doButton(BuildContext context) {
     final List<Widget> top = <Widget>[];
     if (Services.auth.loggedIn &&
         item != null &&
@@ -230,7 +230,6 @@ class _ItemPageState extends State<ItemPage>
   @override
   Widget build(BuildContext context) => new Scaffold(
         body: new Builder(builder: (context) {
-          Services.context = context;
           return item == null
               ? const Center(child: const CircularProgressIndicator())
               : new CustomScrollView(
@@ -242,7 +241,7 @@ class _ItemPageState extends State<ItemPage>
                       ),
                       expandedHeight: _appBarHeight,
                       pinned: true,
-                      actions: doButton(),
+                      actions: doButton(context),
                       flexibleSpace: new GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onHorizontalDragUpdate: (details) {

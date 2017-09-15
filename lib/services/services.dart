@@ -29,6 +29,8 @@ class Services {
 
   /// Context
   static BuildContext context = _singleton._context;
+
+  /// Private variables
   AuthManager _authManager;
   ItemsManager _itemsManager;
   GroupsManager _groupsManager;

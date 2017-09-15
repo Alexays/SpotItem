@@ -38,7 +38,7 @@ class _DayPickerBarState extends State<DayPickerBar> {
             ),
             new Expanded(
               child: new DayPicker(
-                selectedDate: [widget.selectedDate],
+                selectedDate: widget.selectedDate,
                 currentDate: new DateTime.now(),
                 displayedMonth: _displayedMonth,
                 firstDate: new DateTime.now().subtract(new Duration(days: 1)),

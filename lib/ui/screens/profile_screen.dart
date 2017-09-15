@@ -35,7 +35,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ? new Text('${_user.firstname} ${_user.name}')
                 : const Text('Loading...')),
         body: new Builder(builder: (context) {
-          Services.context = context;
           return _user != null
               ? new SingleChildScrollView(
                   child: new Container(

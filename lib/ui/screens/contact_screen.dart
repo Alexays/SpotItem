@@ -23,10 +23,10 @@ class _ContactScreenState extends State<ContactScreen> {
     super.initState();
   }
 
-  Future<Null> _handleEmail() async {
+  Future<Null> _handleEmail(BuildContext context) async {
     final String res = validateEmail(_email);
     if (res != null) {
-      showSnackBar(Services.context, res);
+      showSnackBar(context, res);
     } else {
       Navigator.pop(context, _email);
     }
@@ -36,7 +36,6 @@ class _ContactScreenState extends State<ContactScreen> {
   Widget build(BuildContext context) => new Scaffold(
       appBar: new AppBar(title: new Text(SpotL.of(context).addSomeone())),
       body: new Builder(builder: (context) {
-        Services.context = context;
         return new Column(children: <Widget>[
           new Container(
               margin: const EdgeInsets.all(15.0),
@@ -62,7 +61,7 @@ class _ContactScreenState extends State<ContactScreen> {
                   ),
                   onSubmitted: (value) {
                     _email = value.trim();
-                    _handleEmail();
+                    _handleEmail(context);
                   },
                 ),
               )),
@@ -79,7 +78,7 @@ class _ContactScreenState extends State<ContactScreen> {
                             onTap: () {
                               _email =
                                   _contact[index]['emailAddresses'][0]['value'];
-                              _handleEmail();
+                              _handleEmail(context);
                             },
                           )))
               : new Text(SpotL.of(context).noContacts()),

@@ -29,20 +29,20 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
     super.initState();
   }
 
-  Future<Null> addGroup() async {
+  Future<Null> addGroup(BuildContext context) async {
     _formKey.currentState.save();
     final Group group = new Group(
         {'name': name, 'about': about, 'owner': Services.auth.user.id});
     final dynamic response = await Services.groups.addGroup(group, email);
-    showSnackBar(Services.context, response['msg']);
+    showSnackBar(context, response['msg']);
     if (response['success']) {
       await Navigator
-          .of(Services.context)
+          .of(context)
           .pushNamedAndRemoveUntil('/home', (route) => false);
     }
   }
 
-  Future<Null> _addPeople() async {
+  Future<Null> _addPeople(BuildContext context) async {
     final String _email = await Navigator.pushNamed(context, '/contacts');
     if (_email == null) {
       return;
@@ -52,7 +52,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
         email.add(_email);
       });
     } else {
-      showSnackBar(Services.context, SpotL.of(context).alreadyAdded());
+      showSnackBar(context, SpotL.of(context).alreadyAdded());
     }
   }
 
@@ -60,7 +60,6 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
   Widget build(BuildContext context) => new Scaffold(
         appBar: new AppBar(title: new Text(SpotL.of(context).addGroup())),
         body: new Builder(builder: (context) {
-          Services.context = context;
           return new Column(children: <Widget>[
             new Expanded(
                 child: new SingleChildScrollView(
@@ -111,7 +110,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                                         child: new Text(
                                             SpotL.of(context).addSomeone()),
                                         onPressed: () {
-                                          _addPeople();
+                                          _addPeople(context);
                                         })
                                   ]))
                             ])))),
@@ -123,7 +122,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                 child: new Center(
                     child: new RaisedButton(
                   onPressed: () {
-                    addGroup();
+                    addGroup(context);
                   },
                   child: new Text(SpotL.of(context).addGroup().toUpperCase()),
                 )),

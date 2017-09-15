@@ -45,7 +45,7 @@ class _GroupPageState extends State<GroupPage>
     super.initState();
   }
 
-  Future<Null> _leaveGroup() async {
+  Future<Null> _leaveGroup(BuildContext context) async {
     final dynamic response = await Services.groups.leaveGroup(group.id);
     if (response['success']) {
       await Navigator
@@ -54,7 +54,7 @@ class _GroupPageState extends State<GroupPage>
     }
   }
 
-  Future<Null> _kickUser(String userId) async {
+  Future<Null> _kickUser(BuildContext context, String userId) async {
     final dynamic response = await Services.groups.kickUser(group.id, userId);
     if (response['success']) {
       setState(() {
@@ -64,7 +64,7 @@ class _GroupPageState extends State<GroupPage>
     }
   }
 
-  Future<Null> _addPeople() async {
+  Future<Null> _addPeople(BuildContext context) async {
     final String _email = await Navigator.pushNamed(context, '/contacts');
     if (_email == null) {
       return;
@@ -73,11 +73,11 @@ class _GroupPageState extends State<GroupPage>
     if (res['success']) {
       Navigator.of(context).pop();
     } else {
-      showSnackBar(Services.context, res['msg']);
+      showSnackBar(context, res['msg']);
     }
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final Widget accountNameLine = new DefaultTextStyle(
       style: theme.primaryTextTheme.body2,
@@ -143,7 +143,7 @@ class _GroupPageState extends State<GroupPage>
     }
   }
 
-  List<Widget> _doButton() {
+  List<Widget> _doButton(BuildContext context) {
     final List<Widget> top = <Widget>[]..add(new IconButton(
         icon: const Icon(Icons.exit_to_app),
         tooltip: 'Leave group',
@@ -170,7 +170,7 @@ class _GroupPageState extends State<GroupPage>
                 new FlatButton(
                   child: const Text('Leave'),
                   onPressed: () {
-                    _leaveGroup();
+                    _leaveGroup(context);
                   },
                 ),
               ],
@@ -230,7 +230,7 @@ class _GroupPageState extends State<GroupPage>
     return top;
   }
 
-  Widget _buildUsers() => new Flexible(
+  Widget _buildUsers(BuildContext context) => new Flexible(
       child: new ListView.builder(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           itemCount: group.users.length,
@@ -283,7 +283,8 @@ class _GroupPageState extends State<GroupPage>
                                           new FlatButton(
                                             child: const Text('Kick'),
                                             onPressed: () {
-                                              _kickUser(group.users[index].id);
+                                              _kickUser(context,
+                                                  group.users[index].id);
                                             },
                                           ),
                                         ],
@@ -299,25 +300,24 @@ class _GroupPageState extends State<GroupPage>
   Widget build(BuildContext context) => new Scaffold(
       appBar: new AppBar(
         title: new Text('${group.name}'),
-        actions: _doButton(),
+        actions: _doButton(context),
       ),
       body: new Builder(builder: (context) {
-        Services.context = context;
         return new Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            _buildHeader(),
+            _buildHeader(context),
             new Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: new Center(
                     child: new RaisedButton(
                   onPressed: () {
-                    _addPeople();
+                    _addPeople(context);
                   },
                   child: new Text(SpotL.of(context).addSomeone()),
                 ))),
-            _buildUsers(),
+            _buildUsers(context),
           ],
         );
       }));
