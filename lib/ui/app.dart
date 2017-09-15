@@ -33,8 +33,8 @@ class SpotItemApp extends MaterialApp {
           })),
           theme: new ThemeData(
               accentColor: const Color(0xFF06A6D2),
-              scaffoldBackgroundColor: Colors.white,
-              primaryColor: _spotTheme(),
+              indicatorColor: Colors.white,
+              primarySwatch: _spotTheme(),
               backgroundColor: Colors.white),
           onGenerateRoute: Services.router?.generator,
           showPerformanceOverlay: false,

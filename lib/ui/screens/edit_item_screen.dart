@@ -265,12 +265,14 @@ class _EditItemScreenState extends State<EditItemScreen>
                                                 title: new Text(item != null
                                                     ? 'Edit: ${item.name}'
                                                     : 'Loading...'),
-                                                bottom: new TabBar(tabs: <Tab>[
-                                                  const Tab(
-                                                      text: 'Informations'),
-                                                  const Tab(text: 'Images'),
-                                                  const Tab(text: 'Groups')
-                                                ])))
+                                                bottom: new TabBar(
+                                                    indicatorWeight: 4.0,
+                                                    tabs: <Tab>[
+                                                      const Tab(
+                                                          text: 'Informations'),
+                                                      const Tab(text: 'Images'),
+                                                      const Tab(text: 'Groups')
+                                                    ])))
                                   ],
                               body: item == null || _groups == null
                                   ? const Center(

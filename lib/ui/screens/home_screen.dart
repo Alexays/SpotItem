@@ -224,7 +224,6 @@ class _HomeScreenState extends State<HomeScreen>
     }
     return new TabBar(
       controller: _homeScreenItems[_currentIndex].tab,
-      indicatorColor: Colors.white,
       indicatorWeight: 4.0,
       tabs: new List<Tab>.generate(
           _homeScreenItems[_currentIndex].sub?.length,
