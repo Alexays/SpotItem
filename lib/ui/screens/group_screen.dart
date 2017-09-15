@@ -302,23 +302,22 @@ class _GroupPageState extends State<GroupPage>
         title: new Text('${group.name}'),
         actions: _doButton(context),
       ),
-      body: new Builder(builder: (context) {
-        return new Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            _buildHeader(context),
-            new Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: new Center(
-                    child: new RaisedButton(
-                  onPressed: () {
-                    _addPeople(context);
-                  },
-                  child: new Text(SpotL.of(context).addSomeone()),
-                ))),
-            _buildUsers(context),
-          ],
-        );
-      }));
+      body: new Builder(
+          builder: (context) => new Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  _buildHeader(context),
+                  new Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: new Center(
+                          child: new RaisedButton(
+                        onPressed: () {
+                          _addPeople(context);
+                        },
+                        child: new Text(SpotL.of(context).addSomeone()),
+                      ))),
+                  _buildUsers(context),
+                ],
+              )));
 }

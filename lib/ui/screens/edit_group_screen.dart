@@ -56,63 +56,65 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
   @override
   Widget build(BuildContext context) => new Scaffold(
       appBar: new AppBar(title: new Text(SpotL.of(context).editGroup())),
-      body: new Builder(builder: (context) {
-        return _group == null
-            ? const Center(child: const CircularProgressIndicator())
-            : new Column(
-                children: <Widget>[
-                  new Expanded(
-                      child: new SingleChildScrollView(
-                          child: new Container(
-                              margin: const EdgeInsets.all(20.0),
-                              child: new Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    new Form(
-                                        key: _formKey,
-                                        child: new Column(children: <Widget>[
-                                          new TextFormField(
-                                              key: const Key('name'),
-                                              decoration: new InputDecoration(
-                                                  hintText: SpotL
-                                                      .of(context)
-                                                      .namePh(),
-                                                  labelText:
-                                                      SpotL.of(context).name()),
-                                              controller: nameCtrl,
-                                              onSaved: (value) {
-                                                _group.name = value.trim();
-                                              }),
-                                          new TextFormField(
-                                              key: const Key('about'),
-                                              decoration: new InputDecoration(
-                                                  hintText: SpotL
-                                                      .of(context)
-                                                      .aboutPh(),
-                                                  labelText: SpotL
-                                                      .of(context)
-                                                      .about()),
-                                              controller: aboutCtrl,
-                                              onSaved: (value) {
-                                                _group.about = value.trim();
-                                              }),
-                                        ]))
-                                  ])))),
-                  new Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 8.0, vertical: 4.0),
-                    child: new ConstrainedBox(
-                      constraints: const BoxConstraints.tightFor(height: 48.0),
-                      child: new Center(
-                          child: new RaisedButton(
-                        onPressed: () {
-                          editGroup(context);
-                        },
-                        child: const Text('SAVE GROUP'),
-                      )),
-                    ),
-                  )
-                ],
-              );
-      }));
+      body: new Builder(
+          builder: (context) => _group == null
+              ? const Center(child: const CircularProgressIndicator())
+              : new Column(
+                  children: <Widget>[
+                    new Expanded(
+                        child: new SingleChildScrollView(
+                            child: new Container(
+                                margin: const EdgeInsets.all(20.0),
+                                child: new Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      new Form(
+                                          key: _formKey,
+                                          child: new Column(children: <Widget>[
+                                            new TextFormField(
+                                                key: const Key('name'),
+                                                decoration: new InputDecoration(
+                                                    hintText: SpotL
+                                                        .of(context)
+                                                        .namePh(),
+                                                    labelText: SpotL
+                                                        .of(context)
+                                                        .name()),
+                                                controller: nameCtrl,
+                                                onSaved: (value) {
+                                                  _group.name = value.trim();
+                                                }),
+                                            new TextFormField(
+                                                key: const Key('about'),
+                                                decoration: new InputDecoration(
+                                                    hintText: SpotL
+                                                        .of(context)
+                                                        .aboutPh(),
+                                                    labelText: SpotL
+                                                        .of(context)
+                                                        .about()),
+                                                controller: aboutCtrl,
+                                                onSaved: (value) {
+                                                  _group.about = value.trim();
+                                                }),
+                                          ]))
+                                    ])))),
+                    new Container(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 4.0),
+                      child: new ConstrainedBox(
+                        constraints:
+                            const BoxConstraints.tightFor(height: 48.0),
+                        child: new Center(
+                            child: new RaisedButton(
+                          onPressed: () {
+                            editGroup(context);
+                          },
+                          child: const Text('SAVE GROUP'),
+                        )),
+                      ),
+                    )
+                  ],
+                )));
 }

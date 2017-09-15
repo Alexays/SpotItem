@@ -34,21 +34,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
             title: _user != null
                 ? new Text('${_user.firstname} ${_user.name}')
                 : const Text('Loading...')),
-        body: new Builder(builder: (context) {
-          return _user != null
-              ? new SingleChildScrollView(
-                  child: new Container(
-                      margin: const EdgeInsets.all(20.0),
-                      child: new Column(
-                        children: <Widget>[
-                          new Center(child: getAvatar(_user)),
-                          const Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 10.0)),
-                          new Text('${_user.firstname} ${_user.name}'),
-                        ],
-                      )))
-              : const Center(child: const CircularProgressIndicator());
-        }),
+        body: new Builder(
+            builder: (context) => _user != null
+                ? new SingleChildScrollView(
+                    child: new Container(
+                        margin: const EdgeInsets.all(20.0),
+                        child: new Column(
+                          children: <Widget>[
+                            new Center(child: getAvatar(_user)),
+                            const Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10.0)),
+                            new Text('${_user.firstname} ${_user.name}'),
+                          ],
+                        )))
+                : const Center(child: const CircularProgressIndicator())),
       );
 }

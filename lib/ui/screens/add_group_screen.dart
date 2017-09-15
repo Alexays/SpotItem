@@ -59,76 +59,81 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
   @override
   Widget build(BuildContext context) => new Scaffold(
         appBar: new AppBar(title: new Text(SpotL.of(context).addGroup())),
-        body: new Builder(builder: (context) {
-          return new Column(children: <Widget>[
-            new Expanded(
-                child: new SingleChildScrollView(
-                    child: new Container(
-                        margin: const EdgeInsets.all(20.0),
-                        child: new Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              new Form(
-                                  key: _formKey,
-                                  child: new Column(children: <Widget>[
-                                    new TextFormField(
-                                        key: const Key('name'),
-                                        decoration: new InputDecoration(
-                                            hintText:
-                                                SpotL.of(context).namePh(),
-                                            labelText:
-                                                SpotL.of(context).name()),
-                                        onSaved: (value) {
-                                          name = value.trim();
-                                        }),
-                                    new TextFormField(
-                                        key: const Key('about'),
-                                        decoration: new InputDecoration(
-                                            hintText:
-                                                SpotL.of(context).aboutPh(),
-                                            labelText:
-                                                SpotL.of(context).about()),
-                                        onSaved: (value) {
-                                          about = value.trim();
-                                        }),
-                                    const Divider(),
-                                    new Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: new List<Widget>.generate(
-                                          email.length,
-                                          (index) => new Chip(
-                                              label: new Text(email[index]),
-                                              onDeleted: () {
-                                                setState(() {
-                                                  email.removeAt(index);
-                                                });
-                                              })),
-                                    ),
-                                    const Divider(),
-                                    new RaisedButton(
-                                        child: new Text(
-                                            SpotL.of(context).addSomeone()),
-                                        onPressed: () {
-                                          _addPeople(context);
-                                        })
-                                  ]))
-                            ])))),
-            new Container(
-              margin:
-                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-              child: new ConstrainedBox(
-                constraints: const BoxConstraints.tightFor(height: 48.0),
-                child: new Center(
-                    child: new RaisedButton(
-                  onPressed: () {
-                    addGroup(context);
-                  },
-                  child: new Text(SpotL.of(context).addGroup().toUpperCase()),
-                )),
-              ),
-            )
-          ]);
-        }),
+        body: new Builder(
+            builder: (context) => new Column(children: <Widget>[
+                  new Expanded(
+                      child: new SingleChildScrollView(
+                          child: new Container(
+                              margin: const EdgeInsets.all(20.0),
+                              child: new Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    new Form(
+                                        key: _formKey,
+                                        child: new Column(children: <Widget>[
+                                          new TextFormField(
+                                              key: const Key('name'),
+                                              decoration: new InputDecoration(
+                                                  hintText: SpotL
+                                                      .of(context)
+                                                      .namePh(),
+                                                  labelText:
+                                                      SpotL.of(context).name()),
+                                              onSaved: (value) {
+                                                name = value.trim();
+                                              }),
+                                          new TextFormField(
+                                              key: const Key('about'),
+                                              decoration: new InputDecoration(
+                                                  hintText: SpotL
+                                                      .of(context)
+                                                      .aboutPh(),
+                                                  labelText: SpotL
+                                                      .of(context)
+                                                      .about()),
+                                              onSaved: (value) {
+                                                about = value.trim();
+                                              }),
+                                          const Divider(),
+                                          new Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: new List<Widget>.generate(
+                                                email.length,
+                                                (index) => new Chip(
+                                                    label:
+                                                        new Text(email[index]),
+                                                    onDeleted: () {
+                                                      setState(() {
+                                                        email.removeAt(index);
+                                                      });
+                                                    })),
+                                          ),
+                                          const Divider(),
+                                          new RaisedButton(
+                                              child: new Text(SpotL
+                                                  .of(context)
+                                                  .addSomeone()),
+                                              onPressed: () {
+                                                _addPeople(context);
+                                              })
+                                        ]))
+                                  ])))),
+                  new Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 4.0),
+                    child: new ConstrainedBox(
+                      constraints: const BoxConstraints.tightFor(height: 48.0),
+                      child: new Center(
+                          child: new RaisedButton(
+                        onPressed: () {
+                          addGroup(context);
+                        },
+                        child: new Text(
+                            SpotL.of(context).addGroup().toUpperCase()),
+                      )),
+                    ),
+                  )
+                ])),
       );
 }

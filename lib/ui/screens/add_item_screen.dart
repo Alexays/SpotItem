@@ -197,119 +197,123 @@ class _AddItemScreenState extends State<AddItemScreen> {
   @override
   Widget build(BuildContext context) => new Scaffold(
         appBar: new AppBar(title: new Text(SpotL.of(context).addItem())),
-        body: new Builder(builder: (context) {
-          Services.context = context;
-          return new Container(
-              child: new Form(
-                  key: _formKey,
-                  child: new Stepper(
-                    currentStep: _currentStep,
-                    steps: [
-                      new Step(
-                          title: new Text(SpotL.of(context).about()),
-                          state: StepState.indexed,
-                          content: new Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                new Column(children: <Widget>[
-                                  new TextFormField(
-                                      key: const Key('name'),
-                                      decoration: new InputDecoration(
-                                          hintText: SpotL.of(context).namePh(),
-                                          labelText: SpotL.of(context).name()),
-                                      validator: validateName,
-                                      onSaved: (value) {
-                                        _name = value.trim();
-                                      }),
-                                  new TextFormField(
-                                      key: const Key('about'),
-                                      decoration: new InputDecoration(
-                                          hintText: SpotL.of(context).aboutPh(),
-                                          labelText: SpotL.of(context).about()),
-                                      onSaved: (value) {
-                                        _about = value.trim();
-                                      }),
-                                  new TextFormField(
-                                      key: const Key('location'),
-                                      decoration: new InputDecoration(
-                                          hintText:
-                                              SpotL.of(context).locationPh(),
-                                          labelText:
-                                              SpotL.of(context).location()),
-                                      validator: validateString,
-                                      onSaved: (value) {
-                                        _location = value.trim();
-                                      }),
-                                  const Divider(),
-                                  new SwitchListTile(
-                                      title: new Text(SpotL.of(context).gift()),
-                                      value: _tracks.contains('gift'),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          if (value) {
-                                            _tracks.add('gift');
-                                          } else {
-                                            _tracks.remove('gift');
-                                          }
-                                        });
-                                      },
-                                      secondary:
-                                          const Icon(Icons.card_giftcard)),
-                                  new SwitchListTile(
-                                      title:
-                                          new Text(SpotL.of(context).private()),
-                                      value: _tracks.contains('private'),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          if (value) {
-                                            _tracks.add('private');
-                                          } else {
-                                            _tracks.remove('private');
-                                          }
-                                        });
-                                      },
-                                      secondary: const Icon(Icons.lock))
-                                ])
-                              ]),
-                          isActive: true),
-                      new Step(
-                          title: new Text(SpotL.of(context).images()),
-                          content: new Container(
-                              height: 120 +
-                                  320 *
-                                      (_imagesFile.length / 3).floorToDouble(),
-                              child: getImageGrid()),
-                          isActive: true),
-                      new Step(
-                          title: new Text(SpotL.of(context).groups()),
-                          content: getGroups(),
-                          isActive: true),
-                    ],
-                    type: StepperType.vertical,
-                    onStepTapped: (step) {
-                      setState(() {
-                        _currentStep = step;
-                      });
-                    },
-                    onStepCancel: () {
-                      setState(() {
-                        if (_currentStep > 0) {
-                          _currentStep = _currentStep - 1;
-                        } else {
-                          _currentStep = 0;
-                        }
-                      });
-                    },
-                    onStepContinue: () {
-                      setState(() {
-                        if (_currentStep < _stepLength - 1) {
-                          _currentStep = _currentStep + 1;
-                        } else {
-                          addItem(context);
-                        }
-                      });
-                    },
-                  )));
-        }),
+        body: new Builder(
+            builder: (context) => new Container(
+                child: new Form(
+                    key: _formKey,
+                    child: new Stepper(
+                      currentStep: _currentStep,
+                      steps: [
+                        new Step(
+                            title: new Text(SpotL.of(context).about()),
+                            state: StepState.indexed,
+                            content: new Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  new Column(children: <Widget>[
+                                    new TextFormField(
+                                        key: const Key('name'),
+                                        decoration: new InputDecoration(
+                                            hintText:
+                                                SpotL.of(context).namePh(),
+                                            labelText:
+                                                SpotL.of(context).name()),
+                                        validator: validateName,
+                                        onSaved: (value) {
+                                          _name = value.trim();
+                                        }),
+                                    new TextFormField(
+                                        key: const Key('about'),
+                                        decoration: new InputDecoration(
+                                            hintText:
+                                                SpotL.of(context).aboutPh(),
+                                            labelText:
+                                                SpotL.of(context).about()),
+                                        onSaved: (value) {
+                                          _about = value.trim();
+                                        }),
+                                    new TextFormField(
+                                        key: const Key('location'),
+                                        decoration: new InputDecoration(
+                                            hintText:
+                                                SpotL.of(context).locationPh(),
+                                            labelText:
+                                                SpotL.of(context).location()),
+                                        validator: validateString,
+                                        onSaved: (value) {
+                                          _location = value.trim();
+                                        }),
+                                    const Divider(),
+                                    new SwitchListTile(
+                                        title:
+                                            new Text(SpotL.of(context).gift()),
+                                        value: _tracks.contains('gift'),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            if (value) {
+                                              _tracks.add('gift');
+                                            } else {
+                                              _tracks.remove('gift');
+                                            }
+                                          });
+                                        },
+                                        secondary:
+                                            const Icon(Icons.card_giftcard)),
+                                    new SwitchListTile(
+                                        title: new Text(
+                                            SpotL.of(context).private()),
+                                        value: _tracks.contains('private'),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            if (value) {
+                                              _tracks.add('private');
+                                            } else {
+                                              _tracks.remove('private');
+                                            }
+                                          });
+                                        },
+                                        secondary: const Icon(Icons.lock))
+                                  ])
+                                ]),
+                            isActive: true),
+                        new Step(
+                            title: new Text(SpotL.of(context).images()),
+                            content: new Container(
+                                height: 120 +
+                                    320 *
+                                        (_imagesFile.length / 3)
+                                            .floorToDouble(),
+                                child: getImageGrid()),
+                            isActive: true),
+                        new Step(
+                            title: new Text(SpotL.of(context).groups()),
+                            content: getGroups(),
+                            isActive: true),
+                      ],
+                      type: StepperType.vertical,
+                      onStepTapped: (step) {
+                        setState(() {
+                          _currentStep = step;
+                        });
+                      },
+                      onStepCancel: () {
+                        setState(() {
+                          if (_currentStep > 0) {
+                            _currentStep = _currentStep - 1;
+                          } else {
+                            _currentStep = 0;
+                          }
+                        });
+                      },
+                      onStepContinue: () {
+                        setState(() {
+                          if (_currentStep < _stepLength - 1) {
+                            _currentStep = _currentStep + 1;
+                          } else {
+                            addItem(context);
+                          }
+                        });
+                      },
+                    )))),
       );
 }

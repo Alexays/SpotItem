@@ -53,97 +53,97 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      new Scaffold(body: new Builder(builder: (context) {
-        return new SingleChildScrollView(
-          child: new Container(
-              padding: const EdgeInsets.all(20.0),
-              child: new Card(
-                  child: new Container(
-                margin: const EdgeInsets.all(15.0),
-                child: new Form(
-                    key: _formKey,
-                    autovalidate: true,
-                    child: new Column(
-                      children: <Widget>[
-                        new TextFormField(
-                          key: const Key('name'),
-                          decoration: const InputDecoration(
-                              labelText: 'Firstname',
-                              hintText: 'Enter your firstname'),
-                          onSaved: (value) {
-                            user['firstname'] = value;
-                          },
-                          controller: _name,
-                          validator: validateName,
-                        ),
-                        new TextFormField(
-                          key: const Key('lastname'),
-                          decoration: const InputDecoration(
-                              labelText: 'Lastname',
-                              hintText: 'Enter your lastname'),
-                          onSaved: (value) {
-                            user['name'] = value;
-                          },
-                          controller: _lastname,
-                          validator: validateName,
-                        ),
-                        new TextFormField(
-                          controller: _email,
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: const InputDecoration(
-                            labelText: 'Email',
-                            hintText: 'Enter your email',
-                          ),
-                          onSaved: (value) {
-                            user['email'] = value;
-                          },
-                          validator: validateEmail,
-                        ),
-                        new TextFormField(
-                          key: const Key('password'),
-                          decoration: const InputDecoration(
-                              labelText: 'Password', hintText: '***********'),
-                          onSaved: (value) {
-                            password = value;
-                          },
-                          obscureText: true,
-                          validator: validatePassword,
-                        ),
-                        new TextFormField(
-                          key: const Key('repeat'),
-                          decoration: const InputDecoration(
-                              labelText: 'Confirm password',
-                              hintText: '***********'),
-                          onSaved: (value) {
-                            repeat = value;
-                          },
-                          controller: _password,
-                          obscureText: true,
-                        ),
-                        new Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+  Widget build(BuildContext context) => new Scaffold(
+      body: new Builder(
+          builder: (context) => new SingleChildScrollView(
+                child: new Container(
+                    padding: const EdgeInsets.all(20.0),
+                    child: new Card(
+                        child: new Container(
+                      margin: const EdgeInsets.all(15.0),
+                      child: new Form(
+                          key: _formKey,
+                          autovalidate: true,
+                          child: new Column(
                             children: <Widget>[
-                              new RaisedButton(
-                                child: const Text('Have an account ?'),
-                                onPressed: () {
-                                  Navigator.pushReplacementNamed(
-                                      context, '/login');
+                              new TextFormField(
+                                key: const Key('name'),
+                                decoration: const InputDecoration(
+                                    labelText: 'Firstname',
+                                    hintText: 'Enter your firstname'),
+                                onSaved: (value) {
+                                  user['firstname'] = value;
                                 },
+                                controller: _name,
+                                validator: validateName,
                               ),
-                              const Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 5.0),
+                              new TextFormField(
+                                key: const Key('lastname'),
+                                decoration: const InputDecoration(
+                                    labelText: 'Lastname',
+                                    hintText: 'Enter your lastname'),
+                                onSaved: (value) {
+                                  user['name'] = value;
+                                },
+                                controller: _lastname,
+                                validator: validateName,
                               ),
-                              new RaisedButton(
-                                  child: const Text('Register'),
-                                  onPressed: () {
-                                    doRegister(context);
-                                  })
-                            ]),
-                      ],
-                    )),
-              ))),
-        );
-      }));
+                              new TextFormField(
+                                controller: _email,
+                                keyboardType: TextInputType.emailAddress,
+                                decoration: const InputDecoration(
+                                  labelText: 'Email',
+                                  hintText: 'Enter your email',
+                                ),
+                                onSaved: (value) {
+                                  user['email'] = value;
+                                },
+                                validator: validateEmail,
+                              ),
+                              new TextFormField(
+                                key: const Key('password'),
+                                decoration: const InputDecoration(
+                                    labelText: 'Password',
+                                    hintText: '***********'),
+                                onSaved: (value) {
+                                  password = value;
+                                },
+                                obscureText: true,
+                                validator: validatePassword,
+                              ),
+                              new TextFormField(
+                                key: const Key('repeat'),
+                                decoration: const InputDecoration(
+                                    labelText: 'Confirm password',
+                                    hintText: '***********'),
+                                onSaved: (value) {
+                                  repeat = value;
+                                },
+                                controller: _password,
+                                obscureText: true,
+                              ),
+                              new Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    new RaisedButton(
+                                      child: const Text('Have an account ?'),
+                                      onPressed: () {
+                                        Navigator.pushReplacementNamed(
+                                            context, '/login');
+                                      },
+                                    ),
+                                    const Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 5.0),
+                                    ),
+                                    new RaisedButton(
+                                        child: const Text('Register'),
+                                        onPressed: () {
+                                          doRegister(context);
+                                        })
+                                  ]),
+                            ],
+                          )),
+                    ))),
+              )));
 }
