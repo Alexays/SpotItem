@@ -95,19 +95,26 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                                                 about = value.trim();
                                               }),
                                           const Divider(),
-                                          new Row(
+                                          new Column(
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: new List<Widget>.generate(
                                                 email.length,
-                                                (index) => new Chip(
-                                                    label:
-                                                        new Text(email[index]),
-                                                    onDeleted: () {
-                                                      setState(() {
-                                                        email.removeAt(index);
-                                                      });
-                                                    })),
+                                                (index) => new Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            2.0),
+                                                    child: new Chip(
+                                                        label: new Text(
+                                                            email[index]),
+                                                        onDeleted: () {
+                                                          setState(() {
+                                                            email.removeAt(
+                                                                index);
+                                                          });
+                                                        }))),
                                           ),
                                           const Divider(),
                                           new RaisedButton(
