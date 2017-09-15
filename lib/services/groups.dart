@@ -28,11 +28,13 @@ class GroupsManager extends BasicService {
     groupJson['owner'] = Services.auth.user.id;
     final Response response =
         await ipost('/groups', groupJson, Services.auth.accessToken);
-    final dynamic bodyJson = JSON.decode(response.body);
-    if (bodyJson['success'] && bodyJson['group'] != null) {
-      Services.auth.user.groups.add(bodyJson['group']);
+    if (response.statusCode == 200) {
+      final dynamic bodyJson = JSON.decode(response.body);
+      if (bodyJson['success'] && bodyJson['group'] != null) {
+        Services.auth.user.groups.add(bodyJson['group']);
+      }
+      return bodyJson;
     }
-    return bodyJson;
   }
 
   /// Edit group, not users in group.
@@ -45,8 +47,10 @@ class GroupsManager extends BasicService {
     groupJson['users'] = '';
     final Response response =
         await ipost('/group/${group.id}', groupJson, Services.auth.accessToken);
-    final dynamic bodyJson = JSON.decode(response.body);
-    return bodyJson;
+    if (response.statusCode == 200) {
+      final dynamic bodyJson = JSON.decode(response.body);
+      return bodyJson;
+    }
   }
 
   /// Get user groups.
@@ -72,8 +76,10 @@ class GroupsManager extends BasicService {
     }
     final Response response =
         await iget('/group/$groupId', Services.auth.accessToken);
-    final dynamic groupJson = JSON.decode(response.body);
-    return groupJson;
+    if (response.statusCode == 200) {
+      final dynamic groupJson = JSON.decode(response.body);
+      return groupJson;
+    }
   }
 
   /// Get user groups invitation.
@@ -104,11 +110,11 @@ class GroupsManager extends BasicService {
     }
     final Response response =
         await idelete('/group/$groupId', Services.auth.accessToken);
-    final dynamic groupJson = JSON.decode(response.body);
     if (response.statusCode == 200) {
+      final dynamic groupJson = JSON.decode(response.body);
       Services.auth.user.groups.removeWhere((group) => group == groupId);
+      return groupJson;
     }
-    return groupJson;
   }
 
   /// Join group by id.
@@ -121,11 +127,11 @@ class GroupsManager extends BasicService {
     }
     final Response response =
         await iput('/group/$groupId', null, Services.auth.accessToken);
-    final dynamic groupJson = JSON.decode(response.body);
     if (response.statusCode == 200) {
+      final dynamic groupJson = JSON.decode(response.body);
       Services.auth.user.groups.add(groupId);
+      return groupJson;
     }
-    return groupJson;
   }
 
   /// Leave a group by id.
@@ -138,11 +144,11 @@ class GroupsManager extends BasicService {
     }
     final Response response =
         await iget('/group/$groupId/leave', Services.auth.accessToken);
-    final dynamic groupJson = JSON.decode(response.body);
     if (response.statusCode == 200) {
+      final dynamic groupJson = JSON.decode(response.body);
       Services.auth.user.groups.removeWhere((group) => group == groupId);
+      return groupJson;
     }
-    return groupJson;
   }
 
   /// Kick user of group by id's.
@@ -156,8 +162,10 @@ class GroupsManager extends BasicService {
     }
     final Response response =
         await idelete('/group/$groupId/$userId', Services.auth.accessToken);
-    final dynamic groupJson = JSON.decode(response.body);
-    return groupJson;
+    if (response.statusCode == 200) {
+      final dynamic groupJson = JSON.decode(response.body);
+      return groupJson;
+    }
   }
 
   /// Add a user to group by id's
@@ -171,7 +179,9 @@ class GroupsManager extends BasicService {
     }
     final Response response =
         await iput('/group/$groupId/$userId', null, Services.auth.accessToken);
-    final dynamic groupJson = JSON.decode(response.body);
-    return groupJson;
+    if (response.statusCode == 200) {
+      final dynamic groupJson = JSON.decode(response.body);
+      return groupJson;
+    }
   }
 }

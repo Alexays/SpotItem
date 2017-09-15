@@ -42,8 +42,10 @@ class ItemsManager extends BasicService {
   Future<dynamic> addItem(payload) async {
     final Response response =
         await ipost('/items', payload, Services.auth.accessToken);
-    final dynamic bodyJson = JSON.decode(response.body);
-    return bodyJson;
+    if (response.statusCode == 200) {
+      final dynamic bodyJson = JSON.decode(response.body);
+      return bodyJson;
+    }
   }
 
   /// Edit item by id.
@@ -53,8 +55,10 @@ class ItemsManager extends BasicService {
   Future<dynamic> editItem(payload) async {
     final Response response = await iput(
         '/items/${payload['id']}', payload, Services.auth.accessToken);
-    final dynamic bodyJson = JSON.decode(response.body);
-    return bodyJson;
+    if (response.statusCode == 200) {
+      final dynamic bodyJson = JSON.decode(response.body);
+      return bodyJson;
+    }
   }
 
   /// Delete item by id.
@@ -64,8 +68,10 @@ class ItemsManager extends BasicService {
   Future<dynamic> deleteItem(String id) async {
     final Response response =
         await idelete('/items/$id', Services.auth.accessToken);
-    final dynamic bodyJson = JSON.decode(response.body);
-    return bodyJson;
+    if (response.statusCode == 200) {
+      final dynamic bodyJson = JSON.decode(response.body);
+      return bodyJson;
+    }
   }
 
   /// Load items filter by token.

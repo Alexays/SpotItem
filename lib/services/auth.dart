@@ -183,7 +183,9 @@ class AuthManager extends BasicService {
     payload['_id'] = '';
     payload['groups'] = '';
     final Response response = await ipost('/signup', payload);
-    final dynamic bodyJson = JSON.decode(response.body);
-    return bodyJson;
+    if (response.statusCode == 200) {
+      final dynamic bodyJson = JSON.decode(response.body);
+      return bodyJson;
+    }
   }
 }
