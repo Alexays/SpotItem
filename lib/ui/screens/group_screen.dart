@@ -116,7 +116,7 @@ class _GroupPageState extends State<GroupPage>
               ),
               new DefaultTextStyle(
                 style: theme.primaryTextTheme.body1,
-                child: const Text('Owner'),
+                child: new Text(SpotL.of(context).owner()),
               )
             ]));
       if (group.about.isNotEmpty) {
@@ -124,7 +124,7 @@ class _GroupPageState extends State<GroupPage>
           ..add(const Padding(padding: const EdgeInsets.all(8.0)))
           ..add(new DefaultTextStyle(
             style: theme.primaryTextTheme.body2,
-            child: const Text('About'),
+            child: new Text(SpotL.of(context).about()),
           ))
           ..add(new DefaultTextStyle(
             style: theme.primaryTextTheme.body1,

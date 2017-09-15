@@ -43,6 +43,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "noGroups" : MessageLookupByLibrary.simpleMessage("Pas de groupes"),
     "noImages" : MessageLookupByLibrary.simpleMessage("Pas d\'images"),
     "noItems" : MessageLookupByLibrary.simpleMessage("Pas d\'objets"),
+    "owner" : MessageLookupByLibrary.simpleMessage("Propriétaire"),
     "private" : MessageLookupByLibrary.simpleMessage("Privé"),
     "recentItems" : MessageLookupByLibrary.simpleMessage("Objets récent"),
     "search" : MessageLookupByLibrary.simpleMessage("Rechercher..."),

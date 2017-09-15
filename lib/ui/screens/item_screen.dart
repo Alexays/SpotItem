@@ -199,13 +199,14 @@ class _ItemPageState extends State<ItemPage>
             Navigator.of(context).pushNamed('/items/${item.id}/edit');
           },
         ));
-    } else {
-      top.add(new IconButton(
-        icon: const Icon(Icons.star_border),
-        tooltip: 'Favorites',
-        onPressed: () {},
-      ));
     }
+    // else {
+    //   top.add(new IconButton(
+    //     icon: const Icon(Icons.star_border),
+    //     tooltip: 'Favorites',
+    //     onPressed: () {},
+    //   ));
+    // }
     return top;
   }
 
@@ -357,7 +358,7 @@ class _ItemPageState extends State<ItemPage>
                                 onPressed: () {},
                                 lines: <String>[
                                   '${item.owner.firstname} ${item.owner.name}',
-                                  'Owner',
+                                  SpotL.of(context).owner(),
                                 ],
                               ),
                             ],

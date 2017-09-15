@@ -196,5 +196,11 @@
     "description": "Edit group title",
     "type": "text",
     "placeholders": {}
+  },
+  "owner": "Propriétaire",
+  "@owner": {
+    "description": "Owner title",
+    "type": "text",
+    "placeholders": {}
   }
 }

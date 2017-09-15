@@ -145,4 +145,7 @@ class SpotL {
   /// Edit group title
   String editGroup() =>
       Intl.message('<editGroup>', name: 'editGroup', locale: _localeName);
+
+  /// Owner title
+  String owner() => Intl.message('<owner>', name: 'owner', locale: _localeName);
 }
