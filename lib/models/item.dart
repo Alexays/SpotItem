@@ -14,8 +14,8 @@ class Item {
         location = data['location'],
         lat = data['lat'],
         lng = data['lng'],
-        tracks = data['tracks'],
-        groups = data['groups'],
+        tracks = data['tracks'] ?? [],
+        groups = data['groups'] ?? [],
         owner = new User(data['owner']);
 
   /// Item id

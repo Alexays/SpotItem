@@ -210,7 +210,7 @@ class _ItemPageState extends State<ItemPage>
   }
 
   Widget giftCard() {
-    if (!item.tracks.contains('gift')) {
+    if (item.tracks.contains('gift')) {
       return new Container();
     }
     return new _Category(

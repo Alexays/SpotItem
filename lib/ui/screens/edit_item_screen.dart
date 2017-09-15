@@ -72,8 +72,8 @@ class _EditItemScreenState extends State<EditItemScreen>
           _nameCtrl = new TextEditingController(text: item.name);
           _aboutCtrl = new TextEditingController(text: item.about);
           _locationCtrl = new TextEditingController(text: item.location);
-          _groupsId = item.groups;
-          _tracks = item.tracks;
+          _groupsId = item.groups ?? [];
+          _tracks = item.tracks ?? [];
         }
       });
     });
