@@ -43,7 +43,7 @@ class SpotItemApp extends MaterialApp {
             new _SpotLocalizationsDelegate(),
           ],
           supportedLocales: const <Locale>[
-            const Locale('en', 'US'),
+            //const Locale('en', 'US'),
             const Locale('fr', 'FR')
           ],
         );
