@@ -465,14 +465,16 @@ class _HomeScreenState extends State<HomeScreen>
           key: _scaffoldKey,
           drawer: _buildDrawer(context),
           floatingActionButton: _buildFab(context),
-          body: new Builder(
-              builder: (context) => new NestedScrollView(
-                  headerSliverBuilder: (context, innerBoxIsScrolled) =>
-                      <Widget>[_buildAppBar(context)],
-                  body: new TabBarView(
-                      key: new Key(cur.title),
-                      controller: cur.tab,
-                      children: _buildChild(context)))),
+          body: new Builder(builder: (context) {
+            Services.context = context;
+            return new NestedScrollView(
+                headerSliverBuilder: (context, innerBoxIsScrolled) =>
+                    <Widget>[_buildAppBar(context)],
+                body: new TabBarView(
+                    key: new Key(cur.title),
+                    controller: cur.tab,
+                    children: _buildChild(context)));
+          }),
           bottomNavigationBar: _isSearching
               ? null
               : new BottomNavigationBar(

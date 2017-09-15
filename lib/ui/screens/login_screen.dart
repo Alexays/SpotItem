@@ -22,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final bool success = await Services.auth.login(
         {'email': _usernameCtrl.text, 'password': _passwordCtrl.text}, 'local');
     if (success) {
-      Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pushReplacementNamed(context, '/');
     } else {
       showSnackBar(context, 'Invalid credentials !');
     }
@@ -106,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       .then((success) {
                                     if (success) {
                                       Navigator.pushReplacementNamed(
-                                          context, '/home');
+                                          context, '/');
                                     } else {
                                       showSnackBar(context, 'Error !');
                                     }
