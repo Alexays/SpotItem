@@ -6,6 +6,7 @@ import 'package:spotitem/services/services.dart';
 import 'package:spotitem/utils.dart';
 import 'package:spotitem/keys.dart';
 import 'package:spotitem/ui/widgets/date_picker_bar.dart';
+import 'package:spotitem/ui/spot_strings.dart';
 
 class _Category extends StatelessWidget {
   const _Category({Key key, this.icon, this.children}) : super(key: key);
@@ -265,10 +266,6 @@ class _ItemPageState extends State<ItemPage>
                             dragStopped = true;
                           },
                           child: new FlexibleSpaceBar(
-                            // title: new Text(
-                            //   capitalize(item.name),
-                            //   overflow: TextOverflow.ellipsis,
-                            // ),
                             background: new Stack(
                               alignment: FractionalOffset.center,
                               fit: StackFit.expand,
@@ -340,13 +337,13 @@ class _ItemPageState extends State<ItemPage>
                               new _ListItem(
                                 lines: <String>[
                                   capitalize(item.name),
-                                  'Name',
+                                  SpotL.of(context).name(),
                                 ],
                               ),
                               new _ListItem(
                                 lines: <String>[
                                   item.about,
-                                  'About',
+                                  SpotL.of(context).about(),
                                 ],
                               ),
                             ],
@@ -374,7 +371,7 @@ class _ItemPageState extends State<ItemPage>
                                 onPressed: () {},
                                 lines: <String>[
                                   item.location,
-                                  'Location',
+                                  SpotL.of(context).location(),
                                 ],
                               ),
                             ],
