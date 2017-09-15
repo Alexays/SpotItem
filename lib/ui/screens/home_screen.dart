@@ -56,15 +56,14 @@ class _HomeScreenState extends State<HomeScreen>
         icon: const Icon(Icons.explore),
         title: 'Explore',
         sub: <HomeScreenSubItem>[
-          new HomeScreenSubItem(
-              SpotL.of(Services.context).discover(), discover),
-          new HomeScreenSubItem(SpotL.of(Services.context).explore(), explore),
+          new HomeScreenSubItem('Discover', discover),
+          new HomeScreenSubItem('Explore', explore),
         ],
       ),
       new HomeScreenItem(
           parent: this,
           icon: const Icon(Icons.work),
-          title: SpotL.of(Services.context).items(),
+          title: 'Items',
           content: const ItemsView(),
           fab: new FloatingActionButton(
               child: const Icon(Icons.add),
@@ -84,11 +83,11 @@ class _HomeScreenState extends State<HomeScreen>
           title: 'Social',
           sub: <HomeScreenSubItem>[
             new HomeScreenSubItem(
-              SpotL.of(Services.context).groups(),
+              'Groups',
               const GroupsView(),
             ),
             new HomeScreenSubItem(
-                SpotL.of(Services.context).messages(),
+                'Messages',
                 const Center(
                   child: const Text('Comming soon'),
                 ))
@@ -465,13 +464,16 @@ class _HomeScreenState extends State<HomeScreen>
           key: _scaffoldKey,
           drawer: _buildDrawer(context),
           floatingActionButton: _buildFab(),
-          body: new NestedScrollView(
-              headerSliverBuilder: (context, innerBoxIsScrolled) =>
-                  <Widget>[_buildAppBar()],
-              body: new TabBarView(
-                  key: new Key(cur.title),
-                  controller: cur.tab,
-                  children: _buildChild())),
+          body: new Builder(builder: (context) {
+            Services.context = context;
+            return new NestedScrollView(
+                headerSliverBuilder: (context, innerBoxIsScrolled) =>
+                    <Widget>[_buildAppBar()],
+                body: new TabBarView(
+                    key: new Key(cur.title),
+                    controller: cur.tab,
+                    children: _buildChild()));
+          }),
           bottomNavigationBar: _isSearching
               ? null
               : new BottomNavigationBar(
@@ -479,7 +481,6 @@ class _HomeScreenState extends State<HomeScreen>
                   items: _homeScreenItems.map((data) => data.item).toList(),
                   onTap: (index) {
                     setState(() {
-                      showSnackBar(Services.context, 'sss');
                       _currentIndex = index;
                     });
                   },

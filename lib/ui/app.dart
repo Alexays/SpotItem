@@ -23,14 +23,11 @@ class SpotItemApp extends MaterialApp {
   SpotItemApp(this.init)
       : super(
           title: 'SpotItem',
-          home: new Scaffold(body: new Builder(builder: (context) {
-            Services.context = context;
-            return init
-                ? (Services.auth.loggedIn
-                    ? const HomeScreen()
-                    : const LoginScreen())
-                : const ErrorScreen();
-          })),
+          home: init
+              ? (Services.auth.loggedIn
+                  ? const HomeScreen()
+                  : const LoginScreen())
+              : const ErrorScreen(),
           theme: new ThemeData(
               primarySwatch: _spotTheme(),
               accentColor: const Color(0xFF06A6D2),

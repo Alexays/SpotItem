@@ -301,21 +301,24 @@ class _GroupPageState extends State<GroupPage>
         title: new Text('${group.name}'),
         actions: _doButton(),
       ),
-      body: new Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          _buildHeader(),
-          new Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: new Center(
-                  child: new RaisedButton(
-                onPressed: () {
-                  _addPeople();
-                },
-                child: new Text(SpotL.of(context).addSomeone()),
-              ))),
-          _buildUsers(),
-        ],
-      ));
+      body: new Builder(builder: (context) {
+        Services.context = context;
+        return new Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            _buildHeader(),
+            new Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: new Center(
+                    child: new RaisedButton(
+                  onPressed: () {
+                    _addPeople();
+                  },
+                  child: new Text(SpotL.of(context).addSomeone()),
+                ))),
+            _buildUsers(),
+          ],
+        );
+      }));
 }

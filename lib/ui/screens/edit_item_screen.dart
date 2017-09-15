@@ -246,123 +246,128 @@ class _EditItemScreenState extends State<EditItemScreen>
   }
 
   @override
-  Widget build(BuildContext context) => new Scaffold(
-          body: new Column(
-        children: <Widget>[
-          new Expanded(
-              child: new DefaultTabController(
-                  length: 3,
-                  child: new NestedScrollView(
-                      headerSliverBuilder: (context, innerBoxIsScrolled) =>
-                          <Widget>[
-                            new AnimatedBuilder(
-                                animation: _bottomSize,
-                                builder: (context, child) => new SliverAppBar(
-                                    pinned: true,
-                                    title: new Text(item != null
-                                        ? 'Edit: ${item.name}'
-                                        : 'Loading...'),
-                                    bottom: new TabBar(tabs: <Tab>[
-                                      const Tab(text: 'Informations'),
-                                      const Tab(text: 'Images'),
-                                      const Tab(text: 'Groups')
-                                    ])))
-                          ],
-                      body: item == null || _groups == null
-                          ? const Center(
-                              child: const CircularProgressIndicator())
-                          : new Form(
-                              key: _formKey,
-                              child: new TabBarView(children: <Widget>[
-                                new Container(
-                                    margin: const EdgeInsets.all(20.0),
-                                    child: new Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          new TextFormField(
-                                            key: const Key('name'),
-                                            decoration: const InputDecoration(
-                                                hintText: 'Ex: Pencil',
-                                                labelText: 'Name'),
-                                            validator: validateName,
-                                            controller: _nameCtrl,
-                                            onSaved: (data) {
-                                              _name = data;
-                                            },
-                                          ),
-                                          new TextFormField(
-                                            key: const Key('about'),
-                                            decoration: const InputDecoration(
-                                                hintText:
-                                                    'Ex: It\'s a pencil !',
-                                                labelText: 'Description'),
-                                            controller: _aboutCtrl,
-                                            onSaved: (data) {
-                                              _about = data;
-                                            },
-                                          ),
-                                          new TextFormField(
-                                            key: const Key('location'),
-                                            decoration: const InputDecoration(
-                                                hintText: 'Ex: Nantes',
-                                                labelText: 'Location'),
-                                            validator: validateString,
-                                            controller: _locationCtrl,
-                                            onSaved: (data) {
-                                              _location = data;
-                                            },
-                                          ),
-                                          new SwitchListTile(
-                                            title: const Text('Donated Item'),
-                                            value: _tracks.contains('gift'),
-                                            onChanged: (value) {
-                                              setState(() {
-                                                if (value) {
-                                                  _tracks.add('gift');
-                                                } else {
-                                                  _tracks.remove('gift');
-                                                }
-                                              });
-                                            },
-                                            secondary:
-                                                const Icon(Icons.card_giftcard),
-                                          ),
-                                          new SwitchListTile(
-                                            title: const Text('Private Item'),
-                                            value: _tracks.contains('private'),
-                                            onChanged: (value) {
-                                              setState(() {
-                                                if (value) {
-                                                  _tracks.add('private');
-                                                } else {
-                                                  _tracks.remove('private');
-                                                }
-                                              });
-                                            },
-                                            secondary: const Icon(Icons.lock),
-                                          ),
-                                        ])),
-                                new Container(
-                                    margin: const EdgeInsets.all(20.0),
-                                    child: getImageGrid()),
-                                new Container(
-                                    margin: const EdgeInsets.all(20.0),
-                                    child: getGroups()),
-                              ]))))),
-          new Container(
-            margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-            child: new ConstrainedBox(
-              constraints: const BoxConstraints.tightFor(height: 48.0),
-              child: new Center(
-                  child: new RaisedButton(
-                onPressed: () {
-                  editItem(context);
-                },
-                child: const Text('SAVE ITEM'),
-              )),
-            ),
-          )
-        ],
-      ));
+  Widget build(BuildContext context) =>
+      new Scaffold(body: new Builder(builder: (context) {
+        Services.context = context;
+        return new Column(
+          children: <Widget>[
+            new Expanded(
+                child: new DefaultTabController(
+                    length: 3,
+                    child: new NestedScrollView(
+                        headerSliverBuilder: (context, innerBoxIsScrolled) =>
+                            <Widget>[
+                              new AnimatedBuilder(
+                                  animation: _bottomSize,
+                                  builder: (context, child) => new SliverAppBar(
+                                      pinned: true,
+                                      title: new Text(item != null
+                                          ? 'Edit: ${item.name}'
+                                          : 'Loading...'),
+                                      bottom: new TabBar(tabs: <Tab>[
+                                        const Tab(text: 'Informations'),
+                                        const Tab(text: 'Images'),
+                                        const Tab(text: 'Groups')
+                                      ])))
+                            ],
+                        body: item == null || _groups == null
+                            ? const Center(
+                                child: const CircularProgressIndicator())
+                            : new Form(
+                                key: _formKey,
+                                child: new TabBarView(children: <Widget>[
+                                  new Container(
+                                      margin: const EdgeInsets.all(20.0),
+                                      child: new Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            new TextFormField(
+                                              key: const Key('name'),
+                                              decoration: const InputDecoration(
+                                                  hintText: 'Ex: Pencil',
+                                                  labelText: 'Name'),
+                                              validator: validateName,
+                                              controller: _nameCtrl,
+                                              onSaved: (data) {
+                                                _name = data;
+                                              },
+                                            ),
+                                            new TextFormField(
+                                              key: const Key('about'),
+                                              decoration: const InputDecoration(
+                                                  hintText:
+                                                      'Ex: It\'s a pencil !',
+                                                  labelText: 'Description'),
+                                              controller: _aboutCtrl,
+                                              onSaved: (data) {
+                                                _about = data;
+                                              },
+                                            ),
+                                            new TextFormField(
+                                              key: const Key('location'),
+                                              decoration: const InputDecoration(
+                                                  hintText: 'Ex: Nantes',
+                                                  labelText: 'Location'),
+                                              validator: validateString,
+                                              controller: _locationCtrl,
+                                              onSaved: (data) {
+                                                _location = data;
+                                              },
+                                            ),
+                                            new SwitchListTile(
+                                              title: const Text('Donated Item'),
+                                              value: _tracks.contains('gift'),
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  if (value) {
+                                                    _tracks.add('gift');
+                                                  } else {
+                                                    _tracks.remove('gift');
+                                                  }
+                                                });
+                                              },
+                                              secondary: const Icon(
+                                                  Icons.card_giftcard),
+                                            ),
+                                            new SwitchListTile(
+                                              title: const Text('Private Item'),
+                                              value:
+                                                  _tracks.contains('private'),
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  if (value) {
+                                                    _tracks.add('private');
+                                                  } else {
+                                                    _tracks.remove('private');
+                                                  }
+                                                });
+                                              },
+                                              secondary: const Icon(Icons.lock),
+                                            ),
+                                          ])),
+                                  new Container(
+                                      margin: const EdgeInsets.all(20.0),
+                                      child: getImageGrid()),
+                                  new Container(
+                                      margin: const EdgeInsets.all(20.0),
+                                      child: getGroups()),
+                                ]))))),
+            new Container(
+              margin:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+              child: new ConstrainedBox(
+                constraints: const BoxConstraints.tightFor(height: 48.0),
+                child: new Center(
+                    child: new RaisedButton(
+                  onPressed: () {
+                    editItem(context);
+                  },
+                  child: const Text('SAVE ITEM'),
+                )),
+              ),
+            )
+          ],
+        );
+      }));
 }
