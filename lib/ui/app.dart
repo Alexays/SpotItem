@@ -32,7 +32,6 @@ class SpotItemApp extends MaterialApp {
                 : const ErrorScreen();
           })),
           theme: new ThemeData(
-              primarySwatch: _spotTheme(),
               accentColor: const Color(0xFF06A6D2),
               scaffoldBackgroundColor: Colors.white,
               primaryColor: _spotTheme(),
