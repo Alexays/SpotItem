@@ -130,17 +130,16 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                     margin: const EdgeInsets.symmetric(
                         horizontal: 8.0, vertical: 4.0),
                     child: new ConstrainedBox(
-                      constraints: const BoxConstraints.tightFor(height: 48.0),
-                      child: new Center(
-                          child: new RaisedButton(
-                        onPressed: () {
-                          addGroup(context);
-                        },
-                        child: new Text(
-                            SpotL.of(context).addGroup().toUpperCase()),
-                      )),
-                    ),
-                  )
+                        constraints:
+                            const BoxConstraints.tightFor(height: 48.0),
+                        child: new RaisedButton(
+                          onPressed: () {
+                            addGroup(context);
+                          },
+                          child: new Text(
+                              SpotL.of(context).addGroup().toUpperCase()),
+                        )),
+                  ),
                 ])),
       );
 }

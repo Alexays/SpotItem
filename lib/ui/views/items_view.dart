@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/models/item.dart';
@@ -16,16 +17,29 @@ class ItemsView extends StatefulWidget {
 
 class _ItemsViewState extends State<ItemsView> {
   List<Item> _myItems;
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      new GlobalKey<RefreshIndicatorState>();
 
   @override
   void initState() {
-    if (Services.auth.loggedIn)
-      Services.items.getSelfItems().then((data) {
-        setState(() {
-          _myItems = data;
-        });
-      });
+    setState(() {
+      _myItems = Services.items.myItems;
+      if (_myItems.isEmpty) {
+        _myItems = null;
+      }
+    });
+    _loadItems();
     super.initState();
+  }
+
+  Future<Null> _loadItems() async {
+    if (_myItems != null) {
+      _refreshIndicatorKey.currentState?.show();
+    }
+    final List<Item> res = await Services.items.getSelfItems();
+    setState(() {
+      _myItems = res;
+    });
   }
 
   Widget getList() {
@@ -33,6 +47,8 @@ class _ItemsViewState extends State<ItemsView> {
       return new Center(child: new Text(SpotL.of(context).noItems()));
     }
     return new ListView.builder(
+      // For RefreshIndicator
+      physics: const AlwaysScrollableScrollPhysics(),
       padding: const EdgeInsets.all(20.0),
       itemCount: _myItems.length,
       itemBuilder: (context, index) => new GestureDetector(
@@ -69,7 +85,10 @@ class _ItemsViewState extends State<ItemsView> {
   }
 
   @override
-  Widget build(BuildContext context) => _myItems == null
-      ? const Center(child: const CircularProgressIndicator())
-      : getList();
+  Widget build(BuildContext context) => new RefreshIndicator(
+      key: _refreshIndicatorKey,
+      onRefresh: () => _loadItems(),
+      child: _myItems == null
+          ? const Center(child: const CircularProgressIndicator())
+          : getList());
 }
