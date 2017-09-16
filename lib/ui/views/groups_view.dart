@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/ui/screens/group_screen.dart';
@@ -18,28 +17,40 @@ class GroupsView extends StatefulWidget {
 class _GroupsViewState extends State<GroupsView> {
   _GroupsViewState();
 
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      new GlobalKey<RefreshIndicatorState>();
+
   static List<Group> _groups;
   static List<Group> _groupsInv;
 
   @override
   void initState() {
-    _loadGroups();
+    _getGroups();
     super.initState();
   }
 
-  void _loadGroups() {
-    if (Services.auth.loggedIn) {
-      Services.groups.getGroups().then((data) {
-        setState(() {
-          _groups = data;
-        });
-        Services.groups.getGroupsInv(Services.auth.user.id).then((data) {
-          setState(() {
-            _groupsInv = data;
-          });
-        });
-      });
+  Future<Null> _getGroups() async {
+    setState(() {
+      _groups = Services.groups.groups;
+      _groupsInv = Services.groups.groupsInv;
+      if (_groups.isEmpty) {
+        _groups = null;
+      }
+    });
+    if (_groups != null) {
+      _refreshIndicatorKey.currentState?.show();
+    } else {
+      _loadGroups();
     }
+  }
+
+  Future<Null> _loadGroups() async {
+    final List<Group> resGroup = await Services.groups.getGroups();
+    final List<Group> resInv = await Services.groups.getGroupsInv();
+    setState(() {
+      _groups = resGroup;
+      _groupsInv = resInv;
+    });
   }
 
   Future<Null> _joinGroup(int index) async {
@@ -193,7 +204,10 @@ class _GroupsViewState extends State<GroupsView> {
   }
 
   @override
-  Widget build(BuildContext context) => _groups == null
-      ? const Center(child: const CircularProgressIndicator())
-      : getList();
+  Widget build(BuildContext context) => new RefreshIndicator(
+      key: _refreshIndicatorKey,
+      onRefresh: () => _loadGroups(),
+      child: _groups == null
+          ? const Center(child: const CircularProgressIndicator())
+          : getList());
 }

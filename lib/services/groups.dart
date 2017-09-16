@@ -61,7 +61,7 @@ class GroupsManager extends BasicService {
     if (response.statusCode == 200) {
       final dynamic groupJson = JSON.decode(response.body);
       return _groups = new List<Group>.generate(
-          groupJson.length, (index) => new Group(groupJson[index]));
+          groupJson?.length ?? 0, (index) => new Group(groupJson[index]));
     }
     return _groups;
   }
@@ -84,18 +84,14 @@ class GroupsManager extends BasicService {
 
   /// Get user groups invitation.
   ///
-  /// @param userId User id
   /// @returns Invitation groups list
-  Future<dynamic> getGroupsInv(String userId) async {
-    if (userId == null) {
-      return null;
-    }
+  Future<dynamic> getGroupsInv() async {
     final Response response =
         await iget('/groups/inv', Services.auth.accessToken);
     if (response.statusCode == 200) {
       final dynamic groupJson = JSON.decode(response.body);
       return _groupsInv = new List<Group>.generate(
-          groupJson.length, (index) => new Group(groupJson[index]));
+          groupJson?.length ?? 0, (index) => new Group(groupJson[index]));
     }
     return _groupsInv;
   }

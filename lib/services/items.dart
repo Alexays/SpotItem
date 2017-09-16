@@ -86,7 +86,7 @@ class ItemsManager extends BasicService {
       if (response.statusCode == 200) {
         final dynamic itemJson = JSON.decode(response.body);
         _items = new List<Item>.generate(
-            itemJson.length,
+            itemJson?.length ?? 0,
             (index) => new Item(
                 itemJson[index],
                 Services.users
@@ -133,7 +133,7 @@ class ItemsManager extends BasicService {
     if (response.statusCode == 200) {
       final dynamic itemJson = JSON.decode(response.body);
       _myItems = new List<Item>.generate(
-          itemJson.length,
+          itemJson?.length ?? 0,
           (index) => new Item(
               itemJson[index],
               Services.users
