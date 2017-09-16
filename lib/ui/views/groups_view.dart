@@ -44,6 +44,7 @@ class _GroupsViewState extends State<GroupsView> {
     }
   }
 
+  //TO-DO MAYBE don't await it's better :)
   Future<Null> _loadGroups() async {
     final List<Group> resGroup = await Services.groups.getGroups();
     final List<Group> resInv = await Services.groups.getGroupsInv();

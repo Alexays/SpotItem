@@ -87,60 +87,56 @@ class _GroupPageState extends State<GroupPage>
       style: theme.primaryTextTheme.body1,
       child: new Text('${owner?.email}'),
     );
-    if (owner != null) {
-      final List<Widget> _toBuild = []..add(new Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              getAvatar(owner),
-              new Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
-                child: new Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children:
-                        (accountEmailLine != null && accountNameLine != null)
-                            ? <Widget>[accountNameLine, accountEmailLine]
-                            : <Widget>[accountNameLine ?? accountEmailLine]),
-              ),
-              new Expanded(
-                child: new Container(),
-              ),
-              new Icon(
-                Icons.chevron_left,
-                color: theme.canvasColor,
-              ),
-              const Padding(
-                padding: const EdgeInsets.all(1.0),
-              ),
-              new DefaultTextStyle(
-                style: theme.primaryTextTheme.body1,
-                child: new Text(SpotL.of(context).owner()),
-              )
-            ]));
-      if (group.about.isNotEmpty) {
-        _toBuild
-          ..add(const Padding(padding: const EdgeInsets.all(8.0)))
-          ..add(new DefaultTextStyle(
-            style: theme.primaryTextTheme.body2,
-            child: new Text(SpotL.of(context).about()),
-          ))
-          ..add(new DefaultTextStyle(
-            style: theme.primaryTextTheme.body1,
-            child: new Text('${group.about}'),
-          ));
-      }
-      return new Container(
-          color: theme.primaryColor,
-          padding: const EdgeInsets.all(28.0),
-          child: new Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: _toBuild,
-          ));
-    } else {
-      return new Container();
+    final List<Widget> _toBuild = []..add(new Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            getAvatar(owner),
+            new Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
+              child: new Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children:
+                      (accountEmailLine != null && accountNameLine != null)
+                          ? <Widget>[accountNameLine, accountEmailLine]
+                          : <Widget>[accountNameLine ?? accountEmailLine]),
+            ),
+            new Expanded(
+              child: new Container(),
+            ),
+            new Icon(
+              Icons.chevron_left,
+              color: theme.canvasColor,
+            ),
+            const Padding(
+              padding: const EdgeInsets.all(1.0),
+            ),
+            new DefaultTextStyle(
+              style: theme.primaryTextTheme.body1,
+              child: new Text(SpotL.of(context).owner()),
+            )
+          ]));
+    if (group.about.isNotEmpty) {
+      _toBuild
+        ..add(const Padding(padding: const EdgeInsets.all(8.0)))
+        ..add(new DefaultTextStyle(
+          style: theme.primaryTextTheme.body2,
+          child: new Text(SpotL.of(context).about()),
+        ))
+        ..add(new DefaultTextStyle(
+          style: theme.primaryTextTheme.body1,
+          child: new Text('${group.about}'),
+        ));
     }
+    return new Container(
+        color: theme.primaryColor,
+        padding: const EdgeInsets.all(28.0),
+        child: new Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: _toBuild,
+        ));
   }
 
   List<Widget> _doButton(BuildContext context) {
@@ -307,7 +303,7 @@ class _GroupPageState extends State<GroupPage>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  _buildHeader(context),
+                  owner != null ? _buildHeader(context) : new Container(),
                   new Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: new Center(
