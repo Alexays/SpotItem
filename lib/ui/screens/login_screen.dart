@@ -19,10 +19,15 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   Future<Null> doLogin(BuildContext context) async {
-    final bool success = await Services.auth.login(
-        {'email': _usernameCtrl.text, 'password': _passwordCtrl.text}, 'local');
-    if (success) {
-      Navigator.pushReplacementNamed(context, '/');
+    if (_formKey.currentState.validate()) {
+      final bool success = await Services.auth.login(
+          {'email': _usernameCtrl.text, 'password': _passwordCtrl.text},
+          'local');
+      if (success) {
+        Navigator.pushReplacementNamed(context, '/');
+      } else {
+        showSnackBar(context, 'Invalid credentials !');
+      }
     } else {
       showSnackBar(context, 'Invalid credentials !');
     }
@@ -36,8 +41,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: const EdgeInsets.all(20.0),
                   child: new Column(
                     children: <Widget>[
-                      new Image.asset('assets/logo.png', width: 200.0),
-                      const Divider(),
+                      new Image.asset('assets/logo.png',
+                          width: MediaQuery.of(context).size.width * 0.4),
+                      const Padding(padding: const EdgeInsets.all(10.0)),
                       new Card(
                           child: new Container(
                         margin: const EdgeInsets.all(15.0),
@@ -50,7 +56,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 key: const Key('email'),
                                 decoration: const InputDecoration(
                                     hintText: 'Enter email',
-                                    labelText: 'Email'),
+                                    labelText: 'Email',
+                                    icon: const Icon(Icons.email)),
                                 autofocus: true,
                                 controller: _usernameCtrl,
                                 validator: validateEmail,
@@ -60,7 +67,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 key: const Key('password'),
                                 decoration: const InputDecoration(
                                     hintText: 'Enter password',
-                                    labelText: 'Password'),
+                                    labelText: 'Password',
+                                    icon: const Icon(Icons.lock_outline)),
                                 controller: _passwordCtrl,
                                 obscureText: true,
                                 validator: validatePassword,

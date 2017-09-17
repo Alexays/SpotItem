@@ -4,6 +4,7 @@ import 'package:spotitem/services/services.dart';
 import 'package:spotitem/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/utils.dart';
+import 'package:spotitem/ui/spot_strings.dart';
 
 /// Edit user screen class
 class EditUserScreen extends StatefulWidget {
@@ -139,7 +140,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
                   onPressed: () {
                     editUser(context);
                   },
-                  child: const Text('SAVE'),
+                  child: new Text(SpotL.of(context).save()),
                 )),
               ),
             )
