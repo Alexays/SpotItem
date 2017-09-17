@@ -148,4 +148,7 @@ class SpotL {
 
   /// Owner title
   String owner() => Intl.message('<owner>', name: 'owner', locale: _localeName);
+
+  /// Save title
+  String save() => Intl.message('<save>', name: 'save', locale: _localeName);
 }

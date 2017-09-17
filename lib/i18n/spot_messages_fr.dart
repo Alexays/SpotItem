@@ -46,6 +46,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "owner" : MessageLookupByLibrary.simpleMessage("Propriétaire"),
     "private" : MessageLookupByLibrary.simpleMessage("Privé"),
     "recentItems" : MessageLookupByLibrary.simpleMessage("Objets récent"),
+    "save" : MessageLookupByLibrary.simpleMessage("Sauvegarder"),
     "search" : MessageLookupByLibrary.simpleMessage("Rechercher..."),
     "searchDialog" : MessageLookupByLibrary.simpleMessage("Taper quelque chose pour rechercher..."),
     "social" : MessageLookupByLibrary.simpleMessage("Social")

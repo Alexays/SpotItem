@@ -72,7 +72,11 @@ class _ItemsViewState extends State<ItemsView> {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    subtitle: new Text(limitString(_myItems[index].about, 50)),
+                    subtitle: new Text(
+                      _myItems[index].about,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     trailing: new Row(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,

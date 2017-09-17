@@ -20,6 +20,7 @@ class DebugScreen extends StatelessWidget {
                         new Text('Provider => ${Services.auth.provider}'),
                         new Text(
                             'Token expiration (ACCESS) => ${Services.auth.exp}'),
+                        new Text('USER_ID => ${Services.auth.user.id}'),
                         const Divider(),
                         new Text('API_TOKEN => ${Services.auth.refreshToken}'),
                         const Divider(),

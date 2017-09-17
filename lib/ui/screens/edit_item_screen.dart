@@ -11,6 +11,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/keys.dart';
 
+import 'package:spotitem/ui/spot_strings.dart';
+
 /// Edit item screen
 class EditItemScreen extends StatefulWidget {
   /// Edit item screen initializer
@@ -116,12 +118,12 @@ class _EditItemScreenState extends State<EditItemScreen>
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          const Text('No images'),
+          new Text(SpotL.of(context).noImages()),
           const Padding(
             padding: const EdgeInsets.all(10.0),
           ),
           new RaisedButton(
-            child: const Text('Add image'),
+            child: new Text(SpotL.of(context).addImage()),
             onPressed: getImage,
           )
         ],
@@ -254,26 +256,33 @@ class _EditItemScreenState extends State<EditItemScreen>
                       child: new DefaultTabController(
                           length: 3,
                           child: new NestedScrollView(
-                              headerSliverBuilder: (context,
-                                      innerBoxIsScrolled) =>
-                                  <Widget>[
-                                    new AnimatedBuilder(
-                                        animation: _bottomSize,
-                                        builder: (context, child) =>
-                                            new SliverAppBar(
-                                                pinned: true,
-                                                title: new Text(item != null
-                                                    ? 'Edit: ${item.name}'
-                                                    : 'Loading...'),
-                                                bottom: new TabBar(
-                                                    indicatorWeight: 4.0,
-                                                    tabs: <Tab>[
-                                                      const Tab(
-                                                          text: 'Informations'),
-                                                      const Tab(text: 'Images'),
-                                                      const Tab(text: 'Groups')
-                                                    ])))
-                                  ],
+                              headerSliverBuilder:
+                                  (context, innerBoxIsScrolled) => <Widget>[
+                                        new AnimatedBuilder(
+                                            animation: _bottomSize,
+                                            builder: (context, child) =>
+                                                new SliverAppBar(
+                                                    pinned: true,
+                                                    title: new Text(item != null
+                                                        ? '${item.name}'
+                                                        : ''),
+                                                    bottom: new TabBar(
+                                                        indicatorWeight: 4.0,
+                                                        tabs: <Tab>[
+                                                          new Tab(
+                                                              text: SpotL
+                                                                  .of(context)
+                                                                  .about()),
+                                                          new Tab(
+                                                              text: SpotL
+                                                                  .of(context)
+                                                                  .images()),
+                                                          new Tab(
+                                                              text: SpotL
+                                                                  .of(context)
+                                                                  .groups())
+                                                        ])))
+                                      ],
                               body: item == null || _groups == null
                                   ? const Center(
                                       child: const CircularProgressIndicator())
@@ -289,10 +298,14 @@ class _EditItemScreenState extends State<EditItemScreen>
                                                   new TextFormField(
                                                     key: const Key('name'),
                                                     decoration:
-                                                        const InputDecoration(
+                                                        new InputDecoration(
                                                             hintText:
-                                                                'Ex: Pencil',
-                                                            labelText: 'Name'),
+                                                                SpotL
+                                                                    .of(context)
+                                                                    .namePh(),
+                                                            labelText: SpotL
+                                                                .of(context)
+                                                                .name()),
                                                     validator: validateName,
                                                     controller: _nameCtrl,
                                                     onSaved: (data) {
@@ -302,11 +315,14 @@ class _EditItemScreenState extends State<EditItemScreen>
                                                   new TextFormField(
                                                     key: const Key('about'),
                                                     decoration:
-                                                        const InputDecoration(
+                                                        new InputDecoration(
                                                             hintText:
-                                                                'Ex: It\'s a pencil !',
-                                                            labelText:
-                                                                'Description'),
+                                                                SpotL
+                                                                    .of(context)
+                                                                    .aboutPh(),
+                                                            labelText: SpotL
+                                                                .of(context)
+                                                                .about()),
                                                     controller: _aboutCtrl,
                                                     onSaved: (data) {
                                                       _about = data;
@@ -315,11 +331,14 @@ class _EditItemScreenState extends State<EditItemScreen>
                                                   new TextFormField(
                                                     key: const Key('location'),
                                                     decoration:
-                                                        const InputDecoration(
+                                                        new InputDecoration(
                                                             hintText:
-                                                                'Ex: Nantes',
-                                                            labelText:
-                                                                'Location'),
+                                                                SpotL
+                                                                    .of(context)
+                                                                    .locationPh(),
+                                                            labelText: SpotL
+                                                                .of(context)
+                                                                .location()),
                                                     validator: validateString,
                                                     controller: _locationCtrl,
                                                     onSaved: (data) {
@@ -327,8 +346,9 @@ class _EditItemScreenState extends State<EditItemScreen>
                                                     },
                                                   ),
                                                   new SwitchListTile(
-                                                    title: const Text(
-                                                        'Donated Item'),
+                                                    title: new Text(SpotL
+                                                        .of(context)
+                                                        .gift()),
                                                     value: _tracks
                                                         .contains('gift'),
                                                     onChanged: (value) {
@@ -345,8 +365,9 @@ class _EditItemScreenState extends State<EditItemScreen>
                                                         Icons.card_giftcard),
                                                   ),
                                                   new SwitchListTile(
-                                                    title: const Text(
-                                                        'Private Item'),
+                                                    title: new Text(SpotL
+                                                        .of(context)
+                                                        .private()),
                                                     value: _tracks
                                                         .contains('private'),
                                                     onChanged: (value) {
@@ -381,7 +402,7 @@ class _EditItemScreenState extends State<EditItemScreen>
                         onPressed: () {
                           editItem(context);
                         },
-                        child: const Text('SAVE ITEM'),
+                        child: new Text(SpotL.of(context).save()),
                       )),
                     ),
                   )

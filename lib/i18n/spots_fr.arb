@@ -202,5 +202,11 @@
     "description": "Owner title",
     "type": "text",
     "placeholders": {}
+  },
+  "save": "Sauvegarder",
+  "@save": {
+    "description": "Save title",
+    "type": "text",
+    "placeholders": {}
   }
 }
