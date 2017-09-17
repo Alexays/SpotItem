@@ -266,11 +266,6 @@ class _HomeScreenState extends State<HomeScreen>
                       title: new Text(SpotL.of(context).home()),
                       selected: true,
                     ),
-                    const ListTile(
-                      leading: const Icon(Icons.account_balance),
-                      title: const Text('test'),
-                      enabled: false,
-                    ),
                     new ListTile(
                         leading: const Icon(Icons.dvr),
                         title: const Text('Dump App to Console'),
