@@ -56,15 +56,14 @@ class _HomeScreenState extends State<HomeScreen>
         icon: const Icon(Icons.explore),
         title: 'Explore',
         sub: <HomeScreenSubItem>[
-          new HomeScreenSubItem(
-              SpotL.of(Services.context).discover(), discover),
-          new HomeScreenSubItem(SpotL.of(Services.context).explore(), explore),
+          new HomeScreenSubItem(SpotL.of(Services.loc).discover(), discover),
+          new HomeScreenSubItem(SpotL.of(Services.loc).explore(), explore),
         ],
       ),
       new HomeScreenItem(
           parent: this,
           icon: const Icon(Icons.work),
-          title: SpotL.of(Services.context).items(),
+          title: SpotL.of(Services.loc).items(),
           content: const ItemsView(),
           fab: new FloatingActionButton(
               child: const Icon(Icons.add),
@@ -75,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen>
       new HomeScreenItem(
         parent: this,
         icon: const Icon(Icons.map),
-        title: SpotL.of(Services.context).map(),
+        title: SpotL.of(Services.loc).map(),
         content: const MapView(),
       ),
       new HomeScreenItem(
@@ -84,11 +83,11 @@ class _HomeScreenState extends State<HomeScreen>
           title: 'Social',
           sub: <HomeScreenSubItem>[
             new HomeScreenSubItem(
-              SpotL.of(Services.context).groups(),
+              SpotL.of(Services.loc).groups(),
               const GroupsView(),
             ),
             new HomeScreenSubItem(
-                SpotL.of(Services.context).messages(),
+                SpotL.of(Services.loc).messages(),
                 const Center(
                   child: const Text('Comming soon'),
                 ))

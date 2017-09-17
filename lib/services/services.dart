@@ -27,6 +27,9 @@ class Services {
   /// Router
   static final Router router = _singleton._router;
 
+  /// Loc context
+  static BuildContext loc = _singleton._loc;
+
   /// Context
   static BuildContext context = _singleton._context;
 
@@ -37,6 +40,7 @@ class Services {
   UsersManager _usersManager;
   Router _router;
   BuildContext _context;
+  BuildContext _loc;
 
   Services._internal();
 

@@ -19,6 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   Future<Null> doLogin(BuildContext context) async {
+    const errorText = 'Invalid credentials !';
     if (_formKey.currentState.validate()) {
       final bool success = await Services.auth.login(
           {'email': _usernameCtrl.text, 'password': _passwordCtrl.text},
@@ -26,10 +27,10 @@ class _LoginScreenState extends State<LoginScreen> {
       if (success) {
         Navigator.pushReplacementNamed(context, '/');
       } else {
-        showSnackBar(context, 'Invalid credentials !');
+        showSnackBar(context, errorText);
       }
     } else {
-      showSnackBar(context, 'Invalid credentials !');
+      showSnackBar(context, errorText);
     }
   }
 
