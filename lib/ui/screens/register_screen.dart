@@ -20,7 +20,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController _email;
   TextEditingController _password;
 
-  dynamic user;
+  dynamic user = {};
   String password;
   String repeat;
 

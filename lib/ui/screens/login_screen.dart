@@ -79,20 +79,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             new RaisedButton(
-                              child: const Text(
-                                'Don\'t have\n an account ?',
-                                textAlign: TextAlign.center,
-                              ),
-                              onPressed: () {
-                                Navigator.pushReplacementNamed(
-                                    context, '/register');
-                              },
-                            ),
-                            const Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 5.0),
-                            ),
-                            new RaisedButton(
                                 key: const Key('login'),
                                 child: const Text('Login'),
                                 onPressed: () {
@@ -103,21 +89,50 @@ class _LoginScreenState extends State<LoginScreen> {
                                     showSnackBar(
                                         context, 'Form must be valid !');
                                   }
-                                })
+                                }),
+                            const Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 5.0)),
+                            new RaisedButton(
+                              child: const Text(
+                                'Google',
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                              color: Colors.blue,
+                              onPressed: () {
+                                Services.auth
+                                    .handleGoogleSignIn()
+                                    .then((success) {
+                                  if (success) {
+                                    Navigator.pushReplacementNamed(
+                                        context, '/');
+                                  } else {
+                                    showSnackBar(context, 'Error !');
+                                  }
+                                });
+                              },
+                            )
                           ],
                         ),
                         const Padding(padding: const EdgeInsets.all(5.0)),
-                        new RaisedButton(
-                          child: const Text('Google'),
-                          onPressed: () {
-                            Services.auth.handleGoogleSignIn().then((success) {
-                              if (success) {
-                                Navigator.pushReplacementNamed(context, '/');
-                              } else {
-                                showSnackBar(context, 'Error !');
-                              }
-                            });
-                          },
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            const Text('Don\'t have an account ?'),
+                            const Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 5.0)),
+                            new FlatButton(
+                              child: const Text(
+                                'Register',
+                                textAlign: TextAlign.center,
+                              ),
+                              onPressed: () {
+                                Navigator.pushReplacementNamed(
+                                    context, '/register');
+                              },
+                            ),
+                          ],
                         )
                       ],
                     ),
