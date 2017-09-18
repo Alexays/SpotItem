@@ -1,3 +1,6 @@
+/// Spotitem version
+const String version = '0.1.1';
+
 /// Storage key of user data
 const String keyUser = 'KEY_USER';
 
@@ -7,8 +10,8 @@ const String keyOauthToken = 'KEY_AUTH_TOKEN';
 /// Storage key of provider
 const String keyProvider = 'KEY_AUTH_PROVIDER';
 
-/// Spotitem version
-const String version = '0.1.1';
+/// Storage key of last email used
+const String keyLastEmail = 'KEY_LAST_EMAIL';
 
 /// Api secret
 const String clientSecret = 'et+nWhUB>.Dg[c4z';

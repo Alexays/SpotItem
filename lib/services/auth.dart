@@ -36,6 +36,9 @@ class AuthManager extends BasicService {
   /// User data
   User user;
 
+  /// Last email used
+  String get lastEmail => _lastEmail;
+
   /// Google user data
   GoogleSignInAccount get googleUser => _googleUser;
 
@@ -43,10 +46,12 @@ class AuthManager extends BasicService {
   bool _loggedIn = false;
   String _accessToken;
   GoogleSignInAccount _googleUser;
+  String _lastEmail;
 
   @override
   Future<bool> init() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+    _lastEmail = prefs.getString(keyLastEmail) ?? '';
     final String _userData = prefs.getString(keyUser) ?? '{}';
     final String _provider = prefs.getString(keyProvider);
     final User _user = new User(JSON.decode(_userData));
@@ -146,6 +151,9 @@ class AuthManager extends BasicService {
     if (response.statusCode == 200) {
       final dynamic bodyJson = JSON.decode(response.body);
       if (bodyJson['success']) {
+        await SharedPreferences.getInstance()
+          ..setString(keyLastEmail, payload['email']);
+        _lastEmail = payload['email'];
         user = new User(bodyJson['user']);
         _accessToken = bodyJson['access_token'];
         exp = new DateTime.fromMillisecondsSinceEpoch(bodyJson['exp'] * 1000);
