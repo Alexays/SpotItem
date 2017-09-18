@@ -46,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding: const EdgeInsets.only(top: 15.0),
                     child: new Image.asset(
                       'assets/logo.png',
-                      width: MediaQuery.of(context).size.height * 0.20,
+                      height: MediaQuery.of(context).size.height * 0.25,
                     ),
                   ),
                   new Form(
