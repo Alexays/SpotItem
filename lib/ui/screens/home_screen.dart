@@ -353,6 +353,63 @@ class _HomeScreenState extends State<HomeScreen>
     else {
       _homeScreenItems[_currentIndex].tab.removeListener(_checkFilter);
     }
+    List<Widget> widgets = [
+      _isSearching
+          ? const BackButton()
+          : new IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () {
+                _scaffoldKey.currentState.openDrawer();
+              },
+            ),
+      new Expanded(
+        child: new TextField(
+          onSubmitted: (data) {
+            _handleSearchBegin();
+          },
+          key: _searchKey,
+          controller: _searchController,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 18.0,
+            fontWeight: FontWeight.w500,
+          ),
+          decoration: new InputDecoration(
+              isDense: true,
+              hintText: SpotL.of(context).search(),
+              hintStyle: const TextStyle(
+                color: const Color.fromARGB(150, 255, 255, 255),
+                fontSize: 18.0,
+                fontWeight: FontWeight.w500,
+              ),
+              hideDivider: true),
+          keyboardType: TextInputType.text,
+        ),
+      ),
+    ];
+    if (!_isSearching) {
+      widgets.add(new IconButton(
+        alignment: _filterAvailable || _isSearching
+            ? FractionalOffset.centerRight
+            : FractionalOffset.center,
+        padding: const EdgeInsets.all(0.0),
+        icon: const Icon(Icons.search),
+        onPressed: () {
+          _handleSearchBegin();
+        },
+      ));
+    }
+    if (_isSearching || _filterAvailable) {
+      new IconButton(
+        padding: const EdgeInsets.all(0.0),
+        icon: const Icon(Icons.filter_list),
+        onPressed: () {
+          setState(() {
+            _showFilter();
+          });
+        },
+      );
+    }
     return new SliverAppBar(
       pinned: true,
       automaticallyImplyLeading: false,
@@ -362,63 +419,7 @@ class _HomeScreenState extends State<HomeScreen>
           decoration: new BoxDecoration(
               color: Theme.of(context).accentColor,
               borderRadius: const BorderRadius.all(const Radius.circular(3.0))),
-          child: new Row(children: <Widget>[
-            _isSearching
-                ? const BackButton()
-                : new IconButton(
-                    icon: const Icon(Icons.menu),
-                    onPressed: () {
-                      _scaffoldKey.currentState.openDrawer();
-                    },
-                  ),
-            new Expanded(
-              child: new TextField(
-                onSubmitted: (data) {
-                  _handleSearchBegin();
-                },
-                key: _searchKey,
-                controller: _searchController,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w500,
-                ),
-                decoration: new InputDecoration(
-                    isDense: true,
-                    hintText: SpotL.of(context).search(),
-                    hintStyle: const TextStyle(
-                      color: const Color.fromARGB(150, 255, 255, 255),
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    hideDivider: true),
-                keyboardType: TextInputType.text,
-              ),
-            ),
-            _isSearching
-                ? const Text('')
-                : new IconButton(
-                    alignment: _filterAvailable || _isSearching
-                        ? FractionalOffset.centerRight
-                        : FractionalOffset.center,
-                    padding: const EdgeInsets.all(0.0),
-                    icon: const Icon(Icons.search),
-                    onPressed: () {
-                      _handleSearchBegin();
-                    },
-                  ),
-            _filterAvailable || _isSearching
-                ? new IconButton(
-                    padding: const EdgeInsets.all(0.0),
-                    icon: const Icon(Icons.filter_list),
-                    onPressed: () {
-                      setState(() {
-                        _showFilter();
-                      });
-                    },
-                  )
-                : const Text(''),
-          ])),
+          child: new Row(children: widgets)),
       bottom: _isSearching ? null : _buildBottom(),
     );
   }
