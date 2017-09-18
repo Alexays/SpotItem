@@ -79,7 +79,6 @@ class _ContactScreenState extends State<ContactScreen> {
                                   onTap: () {
                                     showDialog<Null>(
                                       context: context,
-                                      barrierDismissible: false,
                                       child: new SimpleDialog(
                                           title:
                                               const Text('Leave confirmation'),
