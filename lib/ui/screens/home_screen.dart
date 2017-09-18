@@ -159,7 +159,8 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
                 new StatefulBuilder(
                     builder: (context, switchSetState) => new SwitchListTile(
-                          title: const Text('From your groups'),
+                          title:
+                              new Text(SpotL.of(Services.loc).fromYourGroups()),
                           value: Services.items.tracks.value.contains('group'),
                           onChanged: (value) {
                             if (value) {
@@ -175,7 +176,7 @@ class _HomeScreenState extends State<HomeScreen>
                         )),
                 new StatefulBuilder(
                     builder: (context, switchSetState) => new SwitchListTile(
-                          title: const Text('Donated items'),
+                          title: new Text(SpotL.of(Services.loc).gift()),
                           value: Services.items.tracks.value.contains('gift'),
                           onChanged: (value) {
                             if (value) {
