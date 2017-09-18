@@ -151,9 +151,11 @@ class AuthManager extends BasicService {
     if (response.statusCode == 200) {
       final dynamic bodyJson = JSON.decode(response.body);
       if (bodyJson['success']) {
-        await SharedPreferences.getInstance()
-          ..setString(keyLastEmail, payload['email']);
-        _lastEmail = payload['email'];
+        if (payload['email'] != null) {
+          await SharedPreferences.getInstance()
+            ..setString(keyLastEmail, payload['email']);
+          _lastEmail = payload['email'];
+        }
         user = new User(bodyJson['user']);
         _accessToken = bodyJson['access_token'];
         exp = new DateTime.fromMillisecondsSinceEpoch(bodyJson['exp'] * 1000);
