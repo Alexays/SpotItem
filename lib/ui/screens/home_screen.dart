@@ -400,15 +400,14 @@ class _HomeScreenState extends State<HomeScreen>
       ));
     }
     if (_isSearching || _filterAvailable) {
-      new IconButton(
-        padding: const EdgeInsets.all(0.0),
-        icon: const Icon(Icons.filter_list),
-        onPressed: () {
-          setState(() {
-            _showFilter();
-          });
-        },
-      );
+      widgets.add(new IconButton(
+          padding: const EdgeInsets.all(0.0),
+          icon: const Icon(Icons.filter_list),
+          onPressed: () {
+            setState(() {
+              _showFilter();
+            });
+          }));
     }
     return new SliverAppBar(
       pinned: true,
