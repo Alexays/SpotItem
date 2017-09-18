@@ -219,7 +219,7 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   Widget _buildBottom() {
-    if (_homeScreenItems[_currentIndex].sub == null) {
+    if (_isSearching || _homeScreenItems[_currentIndex].sub == null) {
       return null;
     }
     return new TabBar(
@@ -420,18 +420,14 @@ class _HomeScreenState extends State<HomeScreen>
               color: Theme.of(context).accentColor,
               borderRadius: const BorderRadius.all(const Radius.circular(3.0))),
           child: new Row(children: widgets)),
-      bottom: _isSearching ? null : _buildBottom(),
+      bottom: _buildBottom(),
     );
   }
 
   List<Widget> _buildChild(BuildContext context) {
     if (_isSearching) {
       if (_searchQuery.isEmpty) {
-        return [
-          new Center(
-            child: new Text(SpotL.of(context).searchDialog()),
-          )
-        ];
+        return [new Center(child: new Text(SpotL.of(context).searchDialog()))];
       }
       List<Item> search = new List<Item>.from(Services.items.items);
       final _searchWord =
