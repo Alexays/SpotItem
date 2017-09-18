@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen>
       new HomeScreenItem(
           parent: this,
           icon: const Icon(Icons.nature_people),
-          title: 'Social',
+          title: SpotL.of(Services.loc).social(),
           sub: <HomeScreenSubItem>[
             new HomeScreenSubItem(
               SpotL.of(Services.loc).groups(),
