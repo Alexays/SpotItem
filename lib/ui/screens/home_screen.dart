@@ -424,13 +424,6 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  FloatingActionButton _buildFab(BuildContext context) {
-    if (_homeScreenItems[_currentIndex].fab == null) {
-      return null;
-    }
-    return _homeScreenItems[_currentIndex].fab;
-  }
-
   List<Widget> _buildChild(BuildContext context) {
     if (_isSearching) {
       if (_searchQuery.isEmpty) {
@@ -459,7 +452,7 @@ class _HomeScreenState extends State<HomeScreen>
       new Scaffold(
           key: _scaffoldKey,
           drawer: _buildDrawer(context),
-          floatingActionButton: _buildFab(context),
+          floatingActionButton: _homeScreenItems[_currentIndex].fab,
           body: new Builder(builder: (context) {
             Services.context = context;
             return new NestedScrollView(
