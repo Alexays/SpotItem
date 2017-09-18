@@ -77,9 +77,33 @@ class _ContactScreenState extends State<ContactScreen> {
                                       ['displayName']),
                                   leading: const Icon(Icons.people),
                                   onTap: () {
-                                    _email = _contact[index]['emailAddresses']
-                                        [0]['value'];
-                                    _handleEmail(context);
+                                    showDialog<Null>(
+                                      context: context,
+                                      barrierDismissible: false,
+                                      child: new SimpleDialog(
+                                          title:
+                                              const Text('Leave confirmation'),
+                                          children: [
+                                            new ListView.builder(
+                                              itemCount: _contact[index]
+                                                      ['emailAddresses']
+                                                  .length,
+                                              itemBuilder: (context, i) =>
+                                                  new ListTile(
+                                                    title: new Text(_contact[
+                                                                index]
+                                                            ['emailAddresses']
+                                                        [i]['value']),
+                                                    onTap: () {
+                                                      _email = _contact[index]
+                                                              ['emailAddresses']
+                                                          [i]['value'];
+                                                      _handleEmail(context);
+                                                    },
+                                                  ),
+                                            )
+                                          ]),
+                                    );
                                   },
                                 )))
                     : new Text(SpotL.of(context).noContacts()),
