@@ -23,7 +23,7 @@ const String apiImgUrl = 'http://217.182.65.67:1337/img/';
 const String staticApiKey = 'AIzaSyAJh3ASTwUBo06fQai_PZJa-R9czeRC2D0';
 
 /// List of login providers
-List<String> providers = ['google', 'local'];
+final List<String> providers = ['google', 'local'];
 
 /// Get headers for Api
 Map<String, String> getHeaders([String key]) => {
