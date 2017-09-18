@@ -160,6 +160,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       return;
     }
     showLoading(context);
+    await Services.users.getLocation(true);
     _images.clear();
     _imagesFile.forEach((f) {
       final List<int> imageBytes = f.readAsBytesSync();
