@@ -353,7 +353,7 @@ class _HomeScreenState extends State<HomeScreen>
     else {
       _homeScreenItems[_currentIndex].tab.removeListener(_checkFilter);
     }
-    List<Widget> widgets = [
+    final List<Widget> widgets = [
       _isSearching
           ? const BackButton()
           : new IconButton(
@@ -389,7 +389,7 @@ class _HomeScreenState extends State<HomeScreen>
     ];
     if (!_isSearching) {
       widgets.add(new IconButton(
-        alignment: _filterAvailable || _isSearching
+        alignment: _filterAvailable
             ? FractionalOffset.centerRight
             : FractionalOffset.center,
         padding: const EdgeInsets.all(0.0),
