@@ -158,9 +158,9 @@ class _ItemPageState extends State<ItemPage>
           onPressed: () {
             showDialog<Null>(
               context: context,
-              barrierDismissible: false, // user must tap button!
+              barrierDismissible: false,
               child: new AlertDialog(
-                title: const Text('Delete confirmation'),
+                title: new Text(SpotL.of(context).confirm()),
                 content: new SingleChildScrollView(
                   child: new ListBody(
                     children: <Widget>[

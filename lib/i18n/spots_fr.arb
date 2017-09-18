@@ -208,5 +208,11 @@
     "description": "Save title",
     "type": "text",
     "placeholders": {}
+  },
+  "confirm": "Confirmation",
+  "@confirm": {
+    "description": "confirm title",
+    "type": "text",
+    "placeholders": {}
   }
 }

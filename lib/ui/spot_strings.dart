@@ -151,4 +151,8 @@ class SpotL {
 
   /// Save title
   String save() => Intl.message('<save>', name: 'save', locale: _localeName);
+
+  /// Confirmation title
+  String confirm() =>
+      Intl.message('<confirm>', name: 'confirm', locale: _localeName);
 }

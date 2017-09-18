@@ -80,8 +80,8 @@ class _ContactScreenState extends State<ContactScreen> {
                                     showDialog<Null>(
                                       context: context,
                                       child: new SimpleDialog(
-                                          title:
-                                              const Text('Leave confirmation'),
+                                          title: new Text(
+                                              SpotL.of(context).confirm()),
                                           children: [
                                             new ListView.builder(
                                               itemCount: _contact[index]

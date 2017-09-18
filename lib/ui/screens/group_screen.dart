@@ -148,7 +148,7 @@ class _GroupPageState extends State<GroupPage>
             context: context,
             barrierDismissible: false,
             child: new AlertDialog(
-              title: const Text('Leave confirmation'),
+              title: new Text(SpotL.of(context).confirm()),
               content: new SingleChildScrollView(
                 child: new ListBody(
                   children: <Widget>[
@@ -184,9 +184,9 @@ class _GroupPageState extends State<GroupPage>
           onPressed: () {
             showDialog<Null>(
               context: context,
-              barrierDismissible: false, // user must tap button!
+              barrierDismissible: false,
               child: new AlertDialog(
-                title: const Text('Delete confirmation'),
+                title: new Text(SpotL.of(context).confirm()),
                 content: new SingleChildScrollView(
                   child: new ListBody(
                     children: <Widget>[
@@ -260,7 +260,8 @@ class _GroupPageState extends State<GroupPage>
                                       context: context,
                                       barrierDismissible: false,
                                       child: new AlertDialog(
-                                        title: const Text('Kick confirmation'),
+                                        title: new Text(
+                                            SpotL.of(context).confirm()),
                                         content: new SingleChildScrollView(
                                           child: new ListBody(
                                             children: <Widget>[
