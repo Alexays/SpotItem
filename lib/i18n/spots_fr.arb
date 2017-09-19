@@ -262,5 +262,11 @@
     "description": "Register title",
     "type": "text",
     "placeholders": {}
+  },
+  "correctError": "Merci de corriger les erreurs",
+  "@correctError": {
+    "description": "Correct error title",
+    "type": "text",
+    "placeholders": {}
   }
 }

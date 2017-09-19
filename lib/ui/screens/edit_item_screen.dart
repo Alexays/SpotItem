@@ -188,8 +188,7 @@ class _EditItemScreenState extends State<EditItemScreen>
     final List<String> groups = <String>[];
     _formKey.currentState.save();
     if (!_formKey.currentState.validate()) {
-      showSnackBar(context, 'Please correct error !');
-      return;
+      return showSnackBar(context, SpotL.of(context).correctError());
     }
     showLoading(context);
     item.images.forEach((f) => finalImages.add(f));

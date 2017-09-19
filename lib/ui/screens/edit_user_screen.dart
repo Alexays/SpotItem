@@ -37,24 +37,24 @@ class _EditUserScreenState extends State<EditUserScreen> {
     super.initState();
   }
 
-  Future<bool> editUser(BuildContext context) async {
+  Future<Null> editUser(BuildContext context) async {
     _formKey.currentState.save();
     if (password != repeat) {
-      showSnackBar(context, 'Password don\t match !');
-      return false;
+      return showSnackBar(context, 'Password don\t match !');
+    }
+    if (!_formKey.currentState.validate()) {
+      return showSnackBar(context, SpotL.of(context).correctError());
     }
     final dynamic res = await Services.users.updateUser(user, password);
     showSnackBar(context, res['msg']);
     if (res['success']) {
       Navigator.pop(context);
-      return true;
     }
-    return false;
   }
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-        appBar: new AppBar(title: const Text('Edit Profile')),
+        appBar: new AppBar(title: new Text(SpotL.of(context).editProfile())),
         body: new Builder(builder: (context) {
           final ThemeData theme = Theme.of(context);
           return new Column(children: <Widget>[
@@ -71,9 +71,11 @@ class _EditUserScreenState extends State<EditUserScreen> {
                                   children: <Widget>[
                                     new TextFormField(
                                       key: const Key('name'),
-                                      decoration: const InputDecoration(
-                                          labelText: 'Firstname',
-                                          hintText: 'Enter your firstname'),
+                                      decoration: new InputDecoration(
+                                          labelText:
+                                              SpotL.of(context).firstname(),
+                                          hintText:
+                                              SpotL.of(context).firstnamePh()),
                                       onSaved: (value) {
                                         user.firstname = value.trim();
                                       },
@@ -82,9 +84,11 @@ class _EditUserScreenState extends State<EditUserScreen> {
                                     ),
                                     new TextFormField(
                                       key: const Key('lastname'),
-                                      decoration: const InputDecoration(
-                                          labelText: 'Lastname',
-                                          hintText: 'Enter your lastname'),
+                                      decoration: new InputDecoration(
+                                          labelText:
+                                              SpotL.of(context).lastname(),
+                                          hintText:
+                                              SpotL.of(context).lastnamePh()),
                                       onSaved: (value) {
                                         user.name = value.trim();
                                       },
@@ -98,9 +102,9 @@ class _EditUserScreenState extends State<EditUserScreen> {
                                         style: theme.textTheme.subhead.copyWith(
                                           color: theme.disabledColor,
                                         ),
-                                        decoration: const InputDecoration(
-                                          labelText: 'Email',
-                                          hintText: 'Enter your email',
+                                        decoration: new InputDecoration(
+                                          labelText: SpotL.of(context).email(),
+                                          hintText: SpotL.of(context).emailPh(),
                                         ),
                                         validator: validateEmail,
                                       ),

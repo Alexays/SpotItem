@@ -33,24 +33,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _email = new TextEditingController(text: user['email']);
   }
 
-  Future<bool> doRegister(BuildContext context) async {
+  Future<Null> doRegister(BuildContext context) async {
     final FormState form = _formKey.currentState..save();
     if (password != repeat) {
-      showSnackBar(context, 'Password don\'t match !');
-      return false;
+      return showSnackBar(context, 'Password don\'t match !');
     }
     if (form.validate()) {
       user['password'] = password;
       final dynamic data = await Services.auth.register(user);
       if (data['success']) {
-        Navigator.pushReplacementNamed(context, '/login');
-        return true;
+        return Navigator.pushReplacementNamed(context, '/login');
       }
-      showSnackBar(context, data['msg']);
-      return false;
+      return showSnackBar(context, data['msg']);
     }
-    showSnackBar(context, 'Form must be valid !');
-    return false;
+    showSnackBar(context, SpotL.of(context).correctError());
   }
 
   @override

@@ -94,8 +94,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     if (form.validate()) {
                                       doLogin(context);
                                     } else {
-                                      showSnackBar(
-                                          context, 'Form must be valid !');
+                                      showSnackBar(context,
+                                          SpotL.of(context).correctError());
                                     }
                                   }),
                               const Padding(

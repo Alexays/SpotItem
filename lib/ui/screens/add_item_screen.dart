@@ -156,7 +156,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       setState(() {
         _currentStep = 0;
       });
-      showSnackBar(context, 'Please correct error !');
+      showSnackBar(context, SpotL.of(context).correctError());
       return;
     }
     showLoading(context);

@@ -44,6 +44,9 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
 
   Future<Null> editGroup(BuildContext context) async {
     _formKey.currentState.save();
+    if (!_formKey.currentState.validate()) {
+      return showSnackBar(context, SpotL.of(context).correctError());
+    }
     final dynamic response = await Services.groups.editGroup(_group);
     showSnackBar(context, response['msg']);
     if (resValid(response)) {
@@ -82,6 +85,7 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
                                                         .of(context)
                                                         .name()),
                                                 controller: nameCtrl,
+                                                validator: validateName,
                                                 onSaved: (value) {
                                                   _group.name = value.trim();
                                                 }),

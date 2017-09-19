@@ -185,4 +185,8 @@ class SpotL {
   /// Register title
   String register() =>
       Intl.message('<register>', name: 'register', locale: _localeName);
+
+  /// Correct Error title
+  String correctError() =>
+      Intl.message('<correctError>', name: 'correctError', locale: _localeName);
 }
