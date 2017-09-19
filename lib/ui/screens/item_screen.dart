@@ -114,8 +114,6 @@ class _ItemPageState extends State<ItemPage>
 
   Item item;
 
-  final double _appBarHeight = 256.0;
-
   bool dragStopped = true;
 
   @override
@@ -146,7 +144,7 @@ class _ItemPageState extends State<ItemPage>
     super.dispose();
   }
 
-  List<Widget> doButton(BuildContext context) {
+  List<Widget> _doButton(BuildContext context) {
     final List<Widget> top = <Widget>[];
     if (Services.auth.loggedIn &&
         item != null &&
@@ -241,9 +239,9 @@ class _ItemPageState extends State<ItemPage>
                           capitalize(item.name),
                           overflow: TextOverflow.ellipsis,
                         ),
-                        expandedHeight: _appBarHeight,
+                        expandedHeight: 256.0,
                         pinned: true,
-                        actions: doButton(context),
+                        actions: _doButton(context),
                         flexibleSpace: new GestureDetector(
                           behavior: HitTestBehavior.opaque,
                           onHorizontalDragUpdate: (details) {
