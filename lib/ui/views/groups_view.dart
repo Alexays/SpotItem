@@ -103,12 +103,7 @@ class _GroupsViewState extends State<GroupsView> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         new Text(
-                          _groups[index - 1]
-                              .users
-                              .where((user) =>
-                                  user.groups.contains(_groups[index - 1].id))
-                              .length
-                              .toString(),
+                          _groups[index - 1].users.length.toString(),
                           style: new TextStyle(
                               fontWeight: FontWeight.w400, fontSize: 15.0),
                         ),
