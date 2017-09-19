@@ -10,7 +10,7 @@ class Group {
         about = data['about'],
         users = new List<User>.generate(data['users']?.length ?? 0,
             (index) => new User(data['users'][index])),
-        owner = data['owner'];
+        owners = data['owner'] ?? [];
 
   /// Group id
   final String id;
@@ -25,7 +25,7 @@ class Group {
   List<User> users;
 
   /// Group owner
-  String owner;
+  List<String> owners;
 
   /// Create a group from JSON object
   factory Group.from(group) => new Group(JSON.decode(group.toString()));
@@ -35,11 +35,9 @@ class Group {
 
   @override
   String toString() {
-    List<String> usersId = <String>[];
-    if (users != null) {
-      usersId =
-          new List<String>.generate(users.length, (index) => users[index].id);
-    }
-    return '{"_id": "$id", "name": "$name", "about": "$about", "users": $usersId, "owner": "$owner"}';
+    List<String> usersId = [];
+    usersId = new List<String>.generate(
+        users?.length ?? 0, (index) => users[index].id);
+    return '{"_id": "$id", "name": "$name", "about": "$about", "users": $usersId, "owners": $owners}';
   }
 }
