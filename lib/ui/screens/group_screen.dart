@@ -391,15 +391,17 @@ class _GroupPageState extends State<GroupPage>
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   _buildHeader(context),
-                  new Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: new Center(
-                          child: new RaisedButton(
-                        onPressed: () {
-                          _addPeople(context);
-                        },
-                        child: new Text(SpotL.of(context).addSomeone()),
-                      ))),
+                  isOwner
+                      ? new Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: new Center(
+                              child: new RaisedButton(
+                            onPressed: () {
+                              _addPeople(context);
+                            },
+                            child: new Text(SpotL.of(context).addSomeone()),
+                          )))
+                      : new Container(),
                   _buildUsers(context),
                 ],
               )));
