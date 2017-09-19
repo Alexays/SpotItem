@@ -16,19 +16,27 @@ import 'package:spotitem/ui/spot_strings.dart';
 /// Edit item screen
 class EditItemScreen extends StatefulWidget {
   /// Edit item screen initializer
-  const EditItemScreen(this._itemId);
+  const EditItemScreen({Key key, this.itemId, this.item})
+      : assert(itemId != null || item != null),
+        super(key: key);
 
-  final String _itemId;
+  /// Item id
+  final String itemId;
+
+  /// Item data
+  final Item item;
 
   @override
-  _EditItemScreenState createState() => new _EditItemScreenState(_itemId);
+  _EditItemScreenState createState() => new _EditItemScreenState(itemId, item);
 }
 
 class _EditItemScreenState extends State<EditItemScreen>
     with TickerProviderStateMixin {
-  _EditItemScreenState(this._itemId);
+  _EditItemScreenState(this._itemId, this._item);
 
   final String _itemId;
+
+  Item _item;
 
   AnimationController _controller;
   Animation<Size> _bottomSize;
@@ -56,9 +64,6 @@ class _EditItemScreenState extends State<EditItemScreen>
   /// Base64 images
   final List<String> _images = [];
 
-  /// Item data
-  Item item;
-
   /// User groups
   List<Group> _groups = [];
 
@@ -67,18 +72,16 @@ class _EditItemScreenState extends State<EditItemScreen>
 
   @override
   void initState() {
-    Services.items.getItem(_itemId).then((data) {
-      setState(() {
-        item = data;
-        if (item != null) {
-          _nameCtrl = new TextEditingController(text: item.name);
-          _aboutCtrl = new TextEditingController(text: item.about);
-          _locationCtrl = new TextEditingController(text: item.location);
-          _groupsId = item.groups ?? [];
-          _tracks = item.tracks ?? [];
-        }
+    if (_item == null) {
+      Services.items.getItem(_itemId).then((data) {
+        setState(() {
+          _item = data;
+          _initForm();
+        });
       });
-    });
+    } else {
+      _initForm();
+    }
     Services.groups.getGroups().then((data) {
       setState(() {
         _groups = data;
@@ -99,6 +102,18 @@ class _EditItemScreenState extends State<EditItemScreen>
     super.initState();
   }
 
+  void _initForm() {
+    if (_item != null) {
+      setState(() {
+        _nameCtrl = new TextEditingController(text: _item.name);
+        _aboutCtrl = new TextEditingController(text: _item.about);
+        _locationCtrl = new TextEditingController(text: _item.location);
+        _groupsId = _item.groups ?? [];
+        _tracks = _item.tracks ?? [];
+      });
+    }
+  }
+
   Future<Null> getImage() async {
     final File _fileName = await ImagePicker.pickImage();
     if (_fileName != null) {
@@ -113,7 +128,7 @@ class _EditItemScreenState extends State<EditItemScreen>
   }
 
   Widget getImageGrid() {
-    if ((item.images.length + _imagesFile.length) < 1) {
+    if ((_item.images.length + _imagesFile.length) < 1) {
       return new Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -131,15 +146,15 @@ class _EditItemScreenState extends State<EditItemScreen>
     }
     return new GridView.count(
       primary: false,
-      crossAxisCount: (item.images.length + _imagesFile.length),
+      crossAxisCount: (_item.images.length + _imagesFile.length),
       crossAxisSpacing: 10.0,
       children: new List<Widget>.generate(
-          (item.images.length + _imagesFile.length), (index) {
-        if (index < item.images.length) {
+          (_item.images.length + _imagesFile.length), (index) {
+        if (index < _item.images.length) {
           return new GridTile(
               child: new Stack(
             children: <Widget>[
-              new Image.network('$apiImgUrl${item.images[index]}'),
+              new Image.network('$apiImgUrl${_item.images[index]}'),
               new Positioned(
                 top: 2.5,
                 left: 2.5,
@@ -149,7 +164,7 @@ class _EditItemScreenState extends State<EditItemScreen>
                   tooltip: 'Delete this image',
                   onPressed: () {
                     setState(() {
-                      item.images.removeAt(index);
+                      _item.images.removeAt(index);
                     });
                   },
                 ),
@@ -160,7 +175,7 @@ class _EditItemScreenState extends State<EditItemScreen>
           return new GridTile(
               child: new Stack(
             children: <Widget>[
-              new Image.file(_imagesFile[index - item.images.length]),
+              new Image.file(_imagesFile[index - _item.images.length]),
               new Positioned(
                 top: 2.5,
                 left: 2.5,
@@ -191,13 +206,13 @@ class _EditItemScreenState extends State<EditItemScreen>
       return showSnackBar(context, SpotL.of(context).correctError());
     }
     showLoading(context);
-    item.images.forEach((f) => finalImages.add(f));
+    _item.images.forEach((f) => finalImages.add(f));
     _images.forEach((f) => finalImages.add(f));
     if (Services.auth.user != null &&
         Services.auth.user.id != null &&
         Services.users.location != null) {
       final dynamic response = await Services.items.editItem({
-        'id': item.id,
+        'id': _item.id,
         'name': _name,
         'about': _about,
         'owner': Services.auth.user.id,
@@ -262,9 +277,10 @@ class _EditItemScreenState extends State<EditItemScreen>
                                             builder: (context, child) =>
                                                 new SliverAppBar(
                                                     pinned: true,
-                                                    title: new Text(item != null
-                                                        ? '${item.name}'
-                                                        : ''),
+                                                    title: new Text(
+                                                        _item != null
+                                                            ? '${_item.name}'
+                                                            : ''),
                                                     bottom: new TabBar(
                                                         indicatorWeight: 4.0,
                                                         tabs: <Tab>[
@@ -282,7 +298,7 @@ class _EditItemScreenState extends State<EditItemScreen>
                                                                   .groups())
                                                         ])))
                                       ],
-                              body: item == null || _groups == null
+                              body: _item == null || _groups == null
                                   ? const Center(
                                       child: const CircularProgressIndicator())
                                   : new Form(

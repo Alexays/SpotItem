@@ -40,7 +40,7 @@ class Routes {
       ..define('/items/:id/edit',
           handler: new Handler(
               handlerFunc: (context, params) =>
-                  new EditItemScreen(params['id'])))
+                  new EditItemScreen(itemId: params['id'])))
       ..define('/item/add',
           handler: new Handler(
               handlerFunc: (context, params) => const AddItemScreen()))
