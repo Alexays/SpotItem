@@ -50,7 +50,7 @@ class Routes {
       ..define('/groups/:id/edit',
           handler: new Handler(
               handlerFunc: (context, params) =>
-                  new EditGroupScreen(params['id'])))
+                  new EditGroupScreen(groupId: params['id'])))
       ..define('/contacts',
           handler: new Handler(
               handlerFunc: (context, params) => const ContactScreen()))

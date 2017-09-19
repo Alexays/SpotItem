@@ -9,16 +9,23 @@ import 'package:spotitem/ui/spot_strings.dart';
 /// Edit group screen class
 class EditGroupScreen extends StatefulWidget {
   /// Edit group screen initalizer
-  const EditGroupScreen(this._groupId);
+  const EditGroupScreen({Key key, this.groupId, this.group})
+      : assert(groupId != null || group != null),
+        super(key: key);
 
-  final String _groupId;
+  /// Group id
+  final String groupId;
+
+  /// Group data
+  final Group group;
 
   @override
-  _EditGroupScreenState createState() => new _EditGroupScreenState(_groupId);
+  _EditGroupScreenState createState() =>
+      new _EditGroupScreenState(groupId, group);
 }
 
 class _EditGroupScreenState extends State<EditGroupScreen> {
-  _EditGroupScreenState(this._groupId);
+  _EditGroupScreenState(this._groupId, this._group);
 
   String _groupId;
   Group _group;
@@ -30,16 +37,26 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
 
   @override
   void initState() {
-    Services.groups.getGroup(_groupId).then((data) {
-      setState(() {
-        _group = new Group(data);
-        nameCtrl = new TextEditingController.fromValue(
-            new TextEditingValue(text: _group.name));
-        aboutCtrl = new TextEditingController.fromValue(
-            new TextEditingValue(text: _group.about));
+    if (_group == null) {
+      Services.groups.getGroup(_groupId).then((data) {
+        setState(() {
+          _group = new Group(data);
+          _initForm();
+        });
       });
-    });
+    } else {
+      _initForm();
+    }
     super.initState();
+  }
+
+  void _initForm() {
+    setState(() {
+      nameCtrl = new TextEditingController.fromValue(
+          new TextEditingValue(text: _group.name));
+      aboutCtrl = new TextEditingController.fromValue(
+          new TextEditingValue(text: _group.about));
+    });
   }
 
   Future<Null> editGroup(BuildContext context) async {
