@@ -292,7 +292,8 @@ class _GroupPageState extends State<GroupPage>
             }
             if (group.owners.contains(group.users[index].id) &&
                 group.users[index].id != Services.auth.user.id &&
-                group.owners.contains(Services.auth.user.id)) {
+                group.owners.contains(Services.auth.user.id) &&
+                group.owners[0] != group.users[index].id) {
               buttons.add(new IconButton(
                 icon: const Icon(Icons.update),
                 onPressed: () {
