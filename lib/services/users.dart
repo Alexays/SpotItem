@@ -14,11 +14,11 @@ class UsersManager extends BasicService {
   Map<String, double> location = {};
 
   /// Contact of user
-  List<dynamic> get contact => _contact;
+  List<dynamic> get contacts => _contacts;
 
   /// Private variables
   final Location _location = new Location();
-  List<dynamic> _contact;
+  List<dynamic> _contacts;
 
   @override
   Future<bool> init() async {
@@ -125,8 +125,8 @@ class UsersManager extends BasicService {
         print('People API ${response.statusCode} response: ${response.body}');
         return;
       }
-      _contact = JSON.decode(response.body)['connections'];
-      _contact = _contact
+      _contacts = JSON.decode(response.body)['connections'];
+      _contacts = _contacts
           .where((contact) => contact['emailAddresses'] != null)
           .toList();
       // TO-DO convert to custom format

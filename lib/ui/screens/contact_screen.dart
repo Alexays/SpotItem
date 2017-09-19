@@ -14,12 +14,12 @@ class ContactScreen extends StatefulWidget {
 }
 
 class _ContactScreenState extends State<ContactScreen> {
-  List<dynamic> _contact = [];
+  List<dynamic> _contacts = [];
   String _email;
 
   @override
   void initState() {
-    _contact = Services.users.contact ?? [];
+    _contacts = new List<dynamic>.from(Services.users.contacts ?? []);
     super.initState();
   }
 
@@ -51,60 +51,76 @@ class _ContactScreenState extends State<ContactScreen> {
                           fontSize: 16.0,
                           fontWeight: FontWeight.w500,
                         ),
-                        decoration: const InputDecoration.collapsed(
-                          hintText: 'Enter email of non listed user...',
+                        decoration: new InputDecoration(
+                          hintText: 'Search contacts...',
+                          errorText: validateEmail(_email),
                           hintStyle: const TextStyle(
                             color: const Color.fromARGB(150, 255, 255, 255),
                             fontSize: 16.0,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        onSubmitted: (value) {
-                          _email = value.trim();
-                          _handleEmail(context);
+                        onChanged: (value) {
+                          _email = value;
+                          _contacts = new List<dynamic>.from(
+                              Services.users.contacts ?? []);
+                          _contacts = _contacts.where((contact) =>
+                              contact['names'][0]['displayName']
+                                  .toString()
+                                  .contains(value) ||
+                              contact['emailAddresses'][0]['value']
+                                  .toString()
+                                  .contains(value));
                         },
                       ),
                     )),
                 const Divider(),
-                _contact.isNotEmpty
-                    ? new Expanded(
-                        child: new ListView.builder(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            itemCount: _contact?.length ?? 0,
-                            itemBuilder: (context, index) => new ListTile(
-                                  title: new Text(_contact[index]['names'][0]
-                                      ['displayName']),
-                                  leading: const Icon(Icons.people),
-                                  onTap: () {
-                                    showDialog<Null>(
-                                      context: context,
-                                      child: new SimpleDialog(
-                                          title: new Text(
-                                              SpotL.of(context).confirm()),
-                                          children: [
-                                            new ListView.builder(
-                                              itemCount: _contact[index]
-                                                      ['emailAddresses']
-                                                  .length,
-                                              itemBuilder: (context, i) =>
-                                                  new ListTile(
-                                                    title: new Text(_contact[
-                                                                index]
-                                                            ['emailAddresses']
-                                                        [i]['value']),
-                                                    onTap: () {
-                                                      _email = _contact[index]
-                                                              ['emailAddresses']
-                                                          [i]['value'];
-                                                      _handleEmail(context);
-                                                    },
-                                                  ),
-                                            )
-                                          ]),
-                                    );
-                                  },
-                                )))
+                Services.users.contacts.isNotEmpty
+                    ? _contacts.isNotEmpty
+                        ? new Expanded(
+                            child: new ListView.builder(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                itemCount: _contacts?.length ?? 0,
+                                itemBuilder: (context, index) => new ListTile(
+                                      title: new Text(_contacts[index]['names']
+                                          [0]['displayName']),
+                                      leading: const Icon(Icons.people),
+                                      onTap: () {
+                                        showDialog<Null>(
+                                          context: context,
+                                          child: new SimpleDialog(
+                                              title: new Text(
+                                                  SpotL.of(context).confirm()),
+                                              children: [
+                                                new ListView.builder(
+                                                  itemCount: _contacts[index]
+                                                          ['emailAddresses']
+                                                      .length,
+                                                  itemBuilder: (context, i) =>
+                                                      new ListTile(
+                                                        title: new Text(_contacts[
+                                                                    index][
+                                                                'emailAddresses']
+                                                            [i]['value']),
+                                                        onTap: () {
+                                                          _email = _contacts[
+                                                                      index][
+                                                                  'emailAddresses']
+                                                              [i]['value'];
+                                                          _handleEmail(context);
+                                                        },
+                                                      ),
+                                                )
+                                              ]),
+                                        );
+                                      },
+                                    )))
+                        : new RaisedButton(
+                            onPressed: () {
+                              _handleEmail(context);
+                            },
+                          )
                     : new Text(SpotL.of(context).noContacts()),
               ])));
 }
