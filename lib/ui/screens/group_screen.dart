@@ -64,6 +64,16 @@ class _GroupPageState extends State<GroupPage>
     }
   }
 
+  Future<Null> _addOwner(BuildContext context, String userId) async {
+    final dynamic response = await Services.groups.addOwner(group.id, userId);
+    if (response['success']) {
+      setState(() {
+        group.owners.add(userId);
+      });
+      Navigator.of(context).pop();
+    }
+  }
+
   Future<Null> _addPeople(BuildContext context) async {
     final String _email = await Navigator.pushNamed(context, '/contacts');
     if (_email == null) {
@@ -251,14 +261,53 @@ class _GroupPageState extends State<GroupPage>
                           new Text(
                               '${group.users[index].firstname} ${group.users[index].name}'),
                           new Expanded(child: new Container()),
-                          group.owners[0] == Services.auth.user.id &&
+                          !group.owners.contains(group.users[index].id) &&
+                                  group.users[index].id !=
+                                      Services.auth.user.id &&
+                                  group.owners.contains(Services.auth.user.id)
+                              ? new IconButton(
+                                  icon: const Icon(Icons.update),
+                                  onPressed: () {
+                                    showDialog<Null>(
+                                      context: context,
+                                      child: new AlertDialog(
+                                        title: new Text(
+                                            SpotL.of(context).confirm()),
+                                        content: new SingleChildScrollView(
+                                          child: new ListBody(
+                                            children: <Widget>[
+                                              new Text(
+                                                  'Are you sure to add ${group.users[index].firstname} ${group.users[index].name} as a owner ?'),
+                                            ],
+                                          ),
+                                        ),
+                                        actions: <Widget>[
+                                          new FlatButton(
+                                            child: const Text('Cancel'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                          new FlatButton(
+                                            child: const Text('Add'),
+                                            onPressed: () {
+                                              _addOwner(context,
+                                                  group.users[index].id);
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                )
+                              : new Container(),
+                          group.owners.contains(Services.auth.user.id) &&
                                   group.users[index].id != Services.auth.user.id
                               ? new IconButton(
                                   icon: const Icon(Icons.remove_circle_outline),
                                   onPressed: () {
                                     showDialog<Null>(
                                       context: context,
-                                      barrierDismissible: false,
                                       child: new AlertDialog(
                                         title: new Text(
                                             SpotL.of(context).confirm()),
