@@ -69,7 +69,7 @@ class _GroupPageState extends State<GroupPage>
     if (_email == null) {
       return;
     }
-    final res = await Services.groups.addUserToGroup(group.id, _email);
+    final res = await Services.groups.addUser(group.id, _email);
     if (res['success']) {
       Navigator.of(context).pop();
     } else {

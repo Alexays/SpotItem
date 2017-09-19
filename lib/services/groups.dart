@@ -153,7 +153,7 @@ class GroupsManager extends BasicService {
   /// @param userId User id
   /// @returns Api body response
   Future<dynamic> kickUser(String groupId, String userId) async {
-    if (groupId == null) {
+    if (groupId == null || userId == null) {
       return null;
     }
     final Response response =
@@ -169,12 +169,46 @@ class GroupsManager extends BasicService {
   /// @param groupId Group id
   /// @param userId User id
   /// @returns Api body response
-  Future<dynamic> addUserToGroup(String groupId, String userId) async {
-    if (groupId == null) {
+  Future<dynamic> addUser(String groupId, String userId) async {
+    if (groupId == null || userId == null) {
       return null;
     }
     final Response response =
         await iput('/group/$groupId/$userId', null, Services.auth.accessToken);
+    if (response.statusCode == 200) {
+      final dynamic groupJson = JSON.decode(response.body);
+      return groupJson;
+    }
+  }
+
+  /// Remove a owner of group by id's.
+  ///
+  /// @param groupId Group id
+  /// @param userId User id
+  /// @returns Api body response
+  Future<dynamic> removeOwner(String groupId, String userId) async {
+    if (groupId == null || userId == null) {
+      return null;
+    }
+    final Response response = await idelete(
+        '/group/$groupId/$userId/owner', Services.auth.accessToken);
+    if (response.statusCode == 200) {
+      final dynamic groupJson = JSON.decode(response.body);
+      return groupJson;
+    }
+  }
+
+  /// Add a owner to group by id's
+  ///
+  /// @param groupId Group id
+  /// @param userId User id
+  /// @returns Api body response
+  Future<dynamic> addOwner(String groupId, String userId) async {
+    if (groupId == null || userId == null) {
+      return null;
+    }
+    final Response response = await iput(
+        '/group/$groupId/$userId/owner', null, Services.auth.accessToken);
     if (response.statusCode == 200) {
       final dynamic groupJson = JSON.decode(response.body);
       return groupJson;
