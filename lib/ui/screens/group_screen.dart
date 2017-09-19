@@ -64,6 +64,17 @@ class _GroupPageState extends State<GroupPage>
     }
   }
 
+  Future<Null> _removeOwner(BuildContext context, String userId) async {
+    final dynamic response =
+        await Services.groups.removeOwner(group.id, userId);
+    if (response['success']) {
+      setState(() {
+        group.owners = group.owners.where((owner) => owner == userId).toList();
+      });
+      Navigator.of(context).pop();
+    }
+  }
+
   Future<Null> _addOwner(BuildContext context, String userId) async {
     final dynamic response = await Services.groups.addOwner(group.id, userId);
     if (response['success']) {
@@ -240,107 +251,146 @@ class _GroupPageState extends State<GroupPage>
       child: new ListView.builder(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           itemCount: group.users.length,
-          itemBuilder: (context, index) => new GestureDetector(
-              onTap: () {},
-              child: new GestureDetector(
-                  onTap: () {
-                    Navigator
-                        .of(context)
-                        .pushNamed('/profile/${group.users[index].id}');
-                  },
-                  child: new Container(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: new Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          getAvatar(group.users[index]),
-                          const Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 4.0)),
-                          new Text(
-                              '${group.users[index].firstname} ${group.users[index].name}'),
-                          new Expanded(child: new Container()),
-                          !group.owners.contains(group.users[index].id) &&
-                                  group.users[index].id !=
-                                      Services.auth.user.id &&
-                                  group.owners.contains(Services.auth.user.id)
-                              ? new IconButton(
-                                  icon: const Icon(Icons.update),
-                                  onPressed: () {
-                                    showDialog<Null>(
-                                      context: context,
-                                      child: new AlertDialog(
-                                        title: new Text(
-                                            SpotL.of(context).confirm()),
-                                        content: new SingleChildScrollView(
-                                          child: new ListBody(
-                                            children: <Widget>[
-                                              new Text(
-                                                  'Are you sure to add ${group.users[index].firstname} ${group.users[index].name} as a owner ?'),
-                                            ],
+          itemBuilder: (context, index) {
+            final List<Widget> buttons = [];
+            if (!group.owners.contains(group.users[index].id) &&
+                group.users[index].id != Services.auth.user.id &&
+                group.owners.contains(Services.auth.user.id)) {
+              buttons.add(new IconButton(
+                icon: const Icon(Icons.update),
+                onPressed: () {
+                  showDialog<Null>(
+                    context: context,
+                    child: new AlertDialog(
+                      title: new Text(SpotL.of(context).confirm()),
+                      content: new SingleChildScrollView(
+                        child: new ListBody(
+                          children: <Widget>[
+                            new Text(
+                                'Are you sure to add ${group.users[index].firstname} ${group.users[index].name} as a owner ?'),
+                          ],
+                        ),
+                      ),
+                      actions: <Widget>[
+                        new FlatButton(
+                          child: const Text('Cancel'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        new FlatButton(
+                          child: const Text('Add'),
+                          onPressed: () {
+                            _addOwner(context, group.users[index].id);
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ));
+            }
+            if (group.owners.contains(group.users[index].id) &&
+                group.users[index].id != Services.auth.user.id &&
+                group.owners.contains(Services.auth.user.id)) {
+              buttons.add(new IconButton(
+                icon: const Icon(Icons.update),
+                onPressed: () {
+                  showDialog<Null>(
+                    context: context,
+                    child: new AlertDialog(
+                      title: new Text(SpotL.of(context).confirm()),
+                      content: new SingleChildScrollView(
+                        child: new ListBody(
+                          children: <Widget>[
+                            new Text(
+                                'Are you sure to remove ${group.users[index].firstname} ${group.users[index].name} from owners ?'),
+                          ],
+                        ),
+                      ),
+                      actions: <Widget>[
+                        new FlatButton(
+                          child: const Text('Cancel'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        new FlatButton(
+                          child: const Text('Add'),
+                          onPressed: () {
+                            _removeOwner(context, group.users[index].id);
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ));
+            }
+            return new GestureDetector(
+                onTap: () {},
+                child: new GestureDetector(
+                    onTap: () {
+                      Navigator
+                          .of(context)
+                          .pushNamed('/profile/${group.users[index].id}');
+                    },
+                    child: new Container(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: new Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            getAvatar(group.users[index]),
+                            const Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 4.0)),
+                            new Text(
+                                '${group.users[index].firstname} ${group.users[index].name}'),
+                            new Expanded(child: new Container()),
+                            group.owners.contains(Services.auth.user.id) &&
+                                    group.users[index].id !=
+                                        Services.auth.user.id
+                                ? new IconButton(
+                                    icon:
+                                        const Icon(Icons.remove_circle_outline),
+                                    onPressed: () {
+                                      showDialog<Null>(
+                                        context: context,
+                                        child: new AlertDialog(
+                                          title: new Text(
+                                              SpotL.of(context).confirm()),
+                                          content: new SingleChildScrollView(
+                                            child: new ListBody(
+                                              children: <Widget>[
+                                                new Text(
+                                                    'Are you sure to kick ${group.users[index].firstname} ${group.users[index].name} ?'),
+                                              ],
+                                            ),
                                           ),
+                                          actions: <Widget>[
+                                            new FlatButton(
+                                              child: const Text('Cancel'),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                            new FlatButton(
+                                              child: const Text('Kick'),
+                                              onPressed: () {
+                                                _kickUser(context,
+                                                    group.users[index].id);
+                                              },
+                                            ),
+                                          ],
                                         ),
-                                        actions: <Widget>[
-                                          new FlatButton(
-                                            child: const Text('Cancel'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                          new FlatButton(
-                                            child: const Text('Add'),
-                                            onPressed: () {
-                                              _addOwner(context,
-                                                  group.users[index].id);
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                )
-                              : new Container(),
-                          group.owners.contains(Services.auth.user.id) &&
-                                  group.users[index].id != Services.auth.user.id
-                              ? new IconButton(
-                                  icon: const Icon(Icons.remove_circle_outline),
-                                  onPressed: () {
-                                    showDialog<Null>(
-                                      context: context,
-                                      child: new AlertDialog(
-                                        title: new Text(
-                                            SpotL.of(context).confirm()),
-                                        content: new SingleChildScrollView(
-                                          child: new ListBody(
-                                            children: <Widget>[
-                                              new Text(
-                                                  'Are you sure to kick ${group.users[index].firstname} ${group.users[index].name} ?'),
-                                            ],
-                                          ),
-                                        ),
-                                        actions: <Widget>[
-                                          new FlatButton(
-                                            child: const Text('Cancel'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                          new FlatButton(
-                                            child: const Text('Kick'),
-                                            onPressed: () {
-                                              _kickUser(context,
-                                                  group.users[index].id);
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                )
-                              : new Container()
-                        ],
-                      ))))));
+                                      );
+                                    },
+                                  )
+                                : new Container()
+                          ],
+                        ))));
+          }));
 
   @override
   Widget build(BuildContext context) => new Scaffold(
