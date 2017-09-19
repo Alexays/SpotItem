@@ -46,7 +46,7 @@ class GroupsManager extends BasicService {
     final dynamic groupJson = JSON.decode(group.toString());
     groupJson['users'] = '';
     final Response response =
-        await ipost('/group/${group.id}', groupJson, Services.auth.accessToken);
+        await iput('/group/${group.id}', groupJson, Services.auth.accessToken);
     if (response.statusCode == 200) {
       final dynamic bodyJson = JSON.decode(response.body);
       return bodyJson;
@@ -122,7 +122,7 @@ class GroupsManager extends BasicService {
       return null;
     }
     final Response response =
-        await iput('/group/$groupId', null, Services.auth.accessToken);
+        await ipost('/group/$groupId', null, Services.auth.accessToken);
     if (response.statusCode == 200) {
       final dynamic groupJson = JSON.decode(response.body);
       Services.auth.user.groups.add(groupId);
