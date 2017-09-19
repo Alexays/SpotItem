@@ -155,4 +155,34 @@ class SpotL {
   /// Confirmation title
   String confirm() =>
       Intl.message('<confirm>', name: 'confirm', locale: _localeName);
+
+  /// Firstname title
+  String firstname() =>
+      Intl.message('<firstname>', name: 'firstname', locale: _localeName);
+
+  /// Firstname placeholder
+  String firstnamePh() =>
+      Intl.message('<firstnamePh>', name: 'firstnamePh', locale: _localeName);
+
+  /// Lastname title
+  String lastname() =>
+      Intl.message('<lastname>', name: 'lastname', locale: _localeName);
+
+  /// Lastname placeholder
+  String lastnamePh() =>
+      Intl.message('<lastnamePh>', name: 'lastnamePh', locale: _localeName);
+
+  /// Email title
+  String email() => Intl.message('<email>', name: 'email', locale: _localeName);
+
+  /// Email placeholder
+  String emailPh() =>
+      Intl.message('<emailPh>', name: 'emailPh', locale: _localeName);
+
+  /// Login title
+  String login() => Intl.message('<login>', name: 'login', locale: _localeName);
+
+  /// Register title
+  String register() =>
+      Intl.message('<register>', name: 'register', locale: _localeName);
 }

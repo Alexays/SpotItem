@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:spotitem/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/utils.dart';
+import 'package:spotitem/ui/spot_strings.dart';
 
 /// Login screen class
 class LoginScreen extends StatefulWidget {
@@ -59,9 +60,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: <Widget>[
                           new TextFormField(
                             key: const Key('email'),
-                            decoration: const InputDecoration(
-                              hintText: 'Enter email',
-                              labelText: 'Email',
+                            decoration: new InputDecoration(
+                              hintText: SpotL.of(context).emailPh(),
+                              labelText: SpotL.of(context).email(),
                             ),
                             autofocus: true,
                             controller: _usernameCtrl,
@@ -86,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             children: <Widget>[
                               new RaisedButton(
                                   key: const Key('login'),
-                                  child: const Text('Login'),
+                                  child: new Text(SpotL.of(context).login()),
                                   onPressed: () {
                                     final FormState form =
                                         _formKey.currentState;
@@ -130,8 +131,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 5.0)),
                               new FlatButton(
-                                child: const Text(
-                                  'Register',
+                                child: new Text(
+                                  SpotL.of(context).register(),
                                   textAlign: TextAlign.center,
                                 ),
                                 onPressed: () {

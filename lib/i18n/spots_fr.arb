@@ -211,7 +211,55 @@
   },
   "confirm": "Confirmation",
   "@confirm": {
-    "description": "confirm title",
+    "description": "Confirm title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "firstname": "Prénom",
+  "@firstname": {
+    "description": "Firstname title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "firstnamePh": "Entrez un prénom",
+  "@firstnamePh": {
+    "description": "Firstname placeholder",
+    "type": "text",
+    "placeholders": {}
+  },
+  "lastname": "Nom",
+  "@lastname": {
+    "description": "Lastname title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "lastnamePh": "Entrez un nom",
+  "@lastnamePh": {
+    "description": "Lastname title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "email": "Adresse Email",
+  "@email": {
+    "description": "Email title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "emailPh": "Entrez votre adresse Email",
+  "@emailPh": {
+    "description": "Email placeholder",
+    "type": "text",
+    "placeholders": {}
+  },
+  "login": "Connexion",
+  "@login": {
+    "description": "Login title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "register": "Inscription",
+  "@register": {
+    "description": "Register title",
     "type": "text",
     "placeholders": {}
   }

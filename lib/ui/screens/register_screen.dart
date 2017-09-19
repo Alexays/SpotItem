@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:spotitem/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/utils.dart';
+import 'package:spotitem/ui/spot_strings.dart';
 
 /// Register screen class
 class RegisterScreen extends StatefulWidget {
@@ -68,9 +69,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             children: <Widget>[
                               new TextFormField(
                                 key: const Key('name'),
-                                decoration: const InputDecoration(
-                                    labelText: 'Firstname',
-                                    hintText: 'Enter your firstname'),
+                                decoration: new InputDecoration(
+                                    labelText: SpotL.of(context).firstname(),
+                                    hintText: SpotL.of(context).firstnamePh()),
                                 onSaved: (value) {
                                   user['firstname'] = value;
                                 },
@@ -79,9 +80,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                               new TextFormField(
                                 key: const Key('lastname'),
-                                decoration: const InputDecoration(
-                                    labelText: 'Lastname',
-                                    hintText: 'Enter your lastname'),
+                                decoration: new InputDecoration(
+                                    labelText: SpotL.of(context).lastname(),
+                                    hintText: SpotL.of(context).lastnamePh()),
                                 onSaved: (value) {
                                   user['name'] = value;
                                 },
@@ -91,9 +92,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               new TextFormField(
                                 controller: _email,
                                 keyboardType: TextInputType.emailAddress,
-                                decoration: const InputDecoration(
-                                  labelText: 'Email',
-                                  hintText: 'Enter your email',
+                                decoration: new InputDecoration(
+                                  labelText: SpotL.of(context).email(),
+                                  hintText: SpotL.of(context).emailPh(),
                                 ),
                                 onSaved: (value) {
                                   user['email'] = value;
@@ -137,7 +138,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           horizontal: 5.0),
                                     ),
                                     new RaisedButton(
-                                        child: const Text('Register'),
+                                        child: new Text(
+                                            SpotL.of(context).register()),
                                         onPressed: () {
                                           doRegister(context);
                                         })
