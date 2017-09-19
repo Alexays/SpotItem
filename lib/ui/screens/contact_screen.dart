@@ -19,7 +19,7 @@ class _ContactScreenState extends State<ContactScreen> {
 
   @override
   void initState() {
-    _contacts = new List<dynamic>.from(Services.users.contacts ?? []);
+    _contacts = Services.users.contacts ?? [];
     super.initState();
   }
 
@@ -62,15 +62,15 @@ class _ContactScreenState extends State<ContactScreen> {
                         ),
                         onChanged: (value) {
                           _email = value;
-                          _contacts = new List<dynamic>.from(
-                              Services.users.contacts ?? []);
-                          _contacts = _contacts.where((contact) =>
-                              contact['names'][0]['displayName']
-                                  .toString()
-                                  .contains(value) ||
-                              contact['emailAddresses'][0]['value']
-                                  .toString()
-                                  .contains(value));
+                          _contacts = Services.users.contacts
+                              .where((contact) =>
+                                  contact['names'][0]['displayName']
+                                      .toString()
+                                      .contains(value) ||
+                                  contact['emailAddresses'][0]['value']
+                                      .toString()
+                                      .contains(value))
+                              .toList();
                         },
                       ),
                     )),
