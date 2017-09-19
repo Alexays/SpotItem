@@ -396,16 +396,21 @@ class _EditItemScreenState extends State<EditItemScreen>
                     margin: const EdgeInsets.symmetric(
                         horizontal: 8.0, vertical: 4.0),
                     child: new ConstrainedBox(
-                      constraints: const BoxConstraints.tightFor(height: 48.0),
-                      child: new Center(
-                          child: new RaisedButton(
-                        onPressed: () {
-                          editItem(context);
-                        },
-                        child: new Text(SpotL.of(context).save()),
-                      )),
-                    ),
-                  )
+                        constraints: new BoxConstraints.tightFor(
+                            height: 48.0,
+                            width: MediaQuery.of(context).size.width),
+                        child: new RaisedButton(
+                          color: Theme.of(context).accentColor,
+                          onPressed: () {
+                            editItem(context);
+                          },
+                          child: new Text(
+                            SpotL.of(context).save().toUpperCase(),
+                            style: new TextStyle(
+                                color: Theme.of(context).canvasColor),
+                          ),
+                        )),
+                  ),
                 ],
               )));
 }
