@@ -35,7 +35,7 @@ class _GroupPageState extends State<GroupPage>
 
   @override
   void initState() {
-    Services.users.getUser(group.owner).then((data) {
+    Services.users.getUser(group.owners[0]).then((data) {
       setState(() {
         owner = data;
       });
@@ -176,7 +176,7 @@ class _GroupPageState extends State<GroupPage>
       ));
     if (Services.auth.loggedIn &&
         group != null &&
-        group.owner == Services.auth.user.id) {
+        group.owners[0] == Services.auth.user.id) {
       top
         ..add(new IconButton(
           icon: const Icon(Icons.delete),
@@ -251,7 +251,7 @@ class _GroupPageState extends State<GroupPage>
                           new Text(
                               '${group.users[index].firstname} ${group.users[index].name}'),
                           new Expanded(child: new Container()),
-                          group.owner == Services.auth.user.id &&
+                          group.owners[0] == Services.auth.user.id &&
                                   group.users[index].id != Services.auth.user.id
                               ? new IconButton(
                                   icon: const Icon(Icons.remove_circle_outline),
