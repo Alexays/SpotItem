@@ -252,7 +252,14 @@ class _GroupPageState extends State<GroupPage>
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           itemCount: group.users.length,
           itemBuilder: (context, index) {
-            final List<Widget> buttons = [];
+            final List<Widget> buttons = [
+              getAvatar(group.users[index]),
+              const Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0)),
+              new Text(
+                  '${group.users[index].firstname} ${group.users[index].name}'),
+              new Expanded(child: new Container()),
+            ];
             if (!group.owners.contains(group.users[index].id) &&
                 group.users[index].id != Services.auth.user.id &&
                 group.owners.contains(Services.auth.user.id)) {
@@ -328,6 +335,42 @@ class _GroupPageState extends State<GroupPage>
                 },
               ));
             }
+            if (group.owners.contains(Services.auth.user.id) &&
+                group.users[index].id != Services.auth.user.id) {
+              buttons.add(new IconButton(
+                icon: const Icon(Icons.remove_circle_outline),
+                onPressed: () {
+                  showDialog<Null>(
+                    context: context,
+                    child: new AlertDialog(
+                      title: new Text(SpotL.of(context).confirm()),
+                      content: new SingleChildScrollView(
+                        child: new ListBody(
+                          children: <Widget>[
+                            new Text(
+                                'Are you sure to kick ${group.users[index].firstname} ${group.users[index].name} ?'),
+                          ],
+                        ),
+                      ),
+                      actions: <Widget>[
+                        new FlatButton(
+                          child: const Text('Cancel'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        new FlatButton(
+                          child: const Text('Kick'),
+                          onPressed: () {
+                            _kickUser(context, group.users[index].id);
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ));
+            }
             return new GestureDetector(
                 onTap: () {},
                 child: new GestureDetector(
@@ -341,55 +384,7 @@ class _GroupPageState extends State<GroupPage>
                         child: new Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            getAvatar(group.users[index]),
-                            const Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 4.0)),
-                            new Text(
-                                '${group.users[index].firstname} ${group.users[index].name}'),
-                            new Expanded(child: new Container()),
-                            group.owners.contains(Services.auth.user.id) &&
-                                    group.users[index].id !=
-                                        Services.auth.user.id
-                                ? new IconButton(
-                                    icon:
-                                        const Icon(Icons.remove_circle_outline),
-                                    onPressed: () {
-                                      showDialog<Null>(
-                                        context: context,
-                                        child: new AlertDialog(
-                                          title: new Text(
-                                              SpotL.of(context).confirm()),
-                                          content: new SingleChildScrollView(
-                                            child: new ListBody(
-                                              children: <Widget>[
-                                                new Text(
-                                                    'Are you sure to kick ${group.users[index].firstname} ${group.users[index].name} ?'),
-                                              ],
-                                            ),
-                                          ),
-                                          actions: <Widget>[
-                                            new FlatButton(
-                                              child: const Text('Cancel'),
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
-                                            new FlatButton(
-                                              child: const Text('Kick'),
-                                              onPressed: () {
-                                                _kickUser(context,
-                                                    group.users[index].id);
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                  )
-                                : new Container()
-                          ],
+                          children: buttons,
                         ))));
           }));
 
