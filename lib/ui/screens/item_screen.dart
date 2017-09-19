@@ -7,6 +7,7 @@ import 'package:spotitem/utils.dart';
 import 'package:spotitem/keys.dart';
 import 'package:spotitem/ui/widgets/date_picker_bar.dart';
 import 'package:spotitem/ui/spot_strings.dart';
+import 'package:spotitem/ui/screens/edit_item_screen.dart';
 
 class _Category extends StatelessWidget {
   const _Category({Key key, this.icon, this.children}) : super(key: key);
@@ -194,7 +195,11 @@ class _ItemPageState extends State<ItemPage>
           icon: const Icon(Icons.create),
           tooltip: 'Edit',
           onPressed: () {
-            Navigator.of(context).pushNamed('/items/${item.id}/edit');
+            Navigator.push(
+                context,
+                new MaterialPageRoute<Null>(
+                  builder: (context) => new EditItemScreen(item: item),
+                ));
           },
         ));
     }

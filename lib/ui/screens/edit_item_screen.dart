@@ -298,7 +298,7 @@ class _EditItemScreenState extends State<EditItemScreen>
                                                                   .groups())
                                                         ])))
                                       ],
-                              body: _item == null || _groups == null
+                              body: _item == null
                                   ? const Center(
                                       child: const CircularProgressIndicator())
                                   : new Form(
@@ -403,9 +403,14 @@ class _EditItemScreenState extends State<EditItemScreen>
                                         new Container(
                                             margin: const EdgeInsets.all(20.0),
                                             child: getImageGrid()),
-                                        new Container(
-                                            margin: const EdgeInsets.all(20.0),
-                                            child: getGroups()),
+                                        _groups != null
+                                            ? new Container(
+                                                margin:
+                                                    const EdgeInsets.all(20.0),
+                                                child: getGroups())
+                                            : const Center(
+                                                child:
+                                                    const CircularProgressIndicator()),
                                       ]))))),
                   new Container(
                     margin: const EdgeInsets.symmetric(
