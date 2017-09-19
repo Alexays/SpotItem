@@ -28,12 +28,15 @@ class _GroupPageState extends State<GroupPage>
 
   Group group;
 
+  bool isOwner = false;
+
   bool dragStopped = true;
 
   @override
   void initState() {
     group.users =
         group.users.where((user) => user.groups.contains(group.id)).toList();
+    isOwner = group.owners.any((owner) => owner.id == Services.auth.user.id);
     super.initState();
   }
 
@@ -261,9 +264,10 @@ class _GroupPageState extends State<GroupPage>
                   '${group.users[index].firstname} ${group.users[index].name}'),
               new Expanded(child: new Container()),
             ];
-            if (!group.owners.contains(group.users[index].id) &&
+            if (!group.owners
+                    .any((owner) => owner.id == group.users[index].id) &&
                 group.users[index].id != Services.auth.user.id &&
-                group.owners.contains(Services.auth.user.id)) {
+                isOwner) {
               buttons.add(new IconButton(
                 icon: const Icon(Icons.arrow_upward),
                 onPressed: () {
@@ -298,9 +302,10 @@ class _GroupPageState extends State<GroupPage>
                 },
               ));
             }
-            if (group.owners.contains(group.users[index].id) &&
+            if (group.owners
+                    .any((owner) => owner.id == group.users[index].id) &&
                 group.users[index].id != Services.auth.user.id &&
-                group.owners.contains(Services.auth.user.id) &&
+                isOwner &&
                 group.owners[0].id != group.users[index].id) {
               buttons.add(new IconButton(
                 icon: const Icon(Icons.update),
@@ -336,8 +341,7 @@ class _GroupPageState extends State<GroupPage>
                 },
               ));
             }
-            if (group.owners.contains(Services.auth.user.id) &&
-                group.users[index].id != Services.auth.user.id) {
+            if (isOwner && group.users[index].id != Services.auth.user.id) {
               buttons.add(new IconButton(
                 icon: const Icon(Icons.remove_circle_outline),
                 onPressed: () {
