@@ -19,7 +19,7 @@ const AssetImage placeholder = const AssetImage('assets/placeholder.png');
 Widget getAvatar(User user, [double radius = 30.0]) => new CircleAvatar(
     radius: radius,
     backgroundColor: Colors.grey,
-    backgroundImage: user.avatar != null && user.avatar != 'null'
+    backgroundImage: user.avatar != null && user.avatar.contains('.')
         ? new NetworkImage(user.avatar)
         : null,
     child: new Text('${user.firstname[0]}${user.name[0]}'));
