@@ -30,8 +30,6 @@ class _GroupPageState extends State<GroupPage>
 
   bool isOwner = false;
 
-  bool dragStopped = true;
-
   @override
   void initState() {
     isOwner = group.owners.any((owner) => owner.id == Services.auth.user.id);
