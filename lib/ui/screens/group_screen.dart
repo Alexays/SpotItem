@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:spotitem/models/group.dart';
-import 'package:spotitem/models/user.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/utils.dart';
 import 'package:spotitem/ui/spot_strings.dart';
@@ -29,17 +28,10 @@ class _GroupPageState extends State<GroupPage>
 
   Group group;
 
-  User owner;
-
   bool dragStopped = true;
 
   @override
   void initState() {
-    Services.users.getUser(group.owners[0]).then((data) {
-      setState(() {
-        owner = data;
-      });
-    });
     group.users =
         group.users.where((user) => user.groups.contains(group.id)).toList();
     super.initState();
@@ -69,7 +61,8 @@ class _GroupPageState extends State<GroupPage>
         await Services.groups.removeOwner(group.id, userId);
     if (response['success']) {
       setState(() {
-        group.owners = group.owners.where((owner) => owner == userId).toList();
+        group.owners =
+            group.owners.where((owner) => owner.id == userId).toList();
       });
       Navigator.of(context).pop();
     }
@@ -79,7 +72,7 @@ class _GroupPageState extends State<GroupPage>
     final dynamic response = await Services.groups.addOwner(group.id, userId);
     if (response['success']) {
       setState(() {
-        group.owners.add(userId);
+        group = new Group.from(response['group']);
       });
       Navigator.of(context).pop();
     }
@@ -102,17 +95,17 @@ class _GroupPageState extends State<GroupPage>
     final ThemeData theme = Theme.of(context);
     final Widget accountNameLine = new DefaultTextStyle(
       style: theme.primaryTextTheme.body2,
-      child: new Text('${owner?.firstname} ${owner?.name}'),
+      child: new Text('${group.owners[0]?.firstname} ${group.owners[0]?.name}'),
     );
     final Widget accountEmailLine = new DefaultTextStyle(
       style: theme.primaryTextTheme.body1,
-      child: new Text('${owner?.email}'),
+      child: new Text('${group.owners[0]?.email}'),
     );
     final List<Widget> _toBuild = []..add(new Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            getAvatar(owner),
+            getAvatar(group.owners[0]),
             new Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
@@ -127,17 +120,25 @@ class _GroupPageState extends State<GroupPage>
             new Expanded(
               child: new Container(),
             ),
-            new Icon(
-              Icons.chevron_left,
-              color: theme.canvasColor,
+            new Row(
+              children: <Widget>[
+                new Column(
+                  children: new List<Widget>.generate(group.owners.length - 1,
+                      (index) => getAvatar(group.owners[index], 10.0)),
+                ),
+                new Icon(
+                  Icons.chevron_left,
+                  color: theme.canvasColor,
+                ),
+                const Padding(
+                  padding: const EdgeInsets.all(1.0),
+                ),
+                new DefaultTextStyle(
+                  style: theme.primaryTextTheme.body1,
+                  child: new Text(SpotL.of(context).owner()),
+                )
+              ],
             ),
-            const Padding(
-              padding: const EdgeInsets.all(1.0),
-            ),
-            new DefaultTextStyle(
-              style: theme.primaryTextTheme.body1,
-              child: new Text(SpotL.of(context).owner()),
-            )
           ]));
     if (group.about.isNotEmpty) {
       _toBuild
@@ -197,7 +198,7 @@ class _GroupPageState extends State<GroupPage>
       ));
     if (Services.auth.loggedIn &&
         group != null &&
-        group.owners[0] == Services.auth.user.id) {
+        group.owners[0].id == Services.auth.user.id) {
       top
         ..add(new IconButton(
           icon: const Icon(Icons.delete),
@@ -300,7 +301,7 @@ class _GroupPageState extends State<GroupPage>
             if (group.owners.contains(group.users[index].id) &&
                 group.users[index].id != Services.auth.user.id &&
                 group.owners.contains(Services.auth.user.id) &&
-                group.owners[0] != group.users[index].id) {
+                group.owners[0].id != group.users[index].id) {
               buttons.add(new IconButton(
                 icon: const Icon(Icons.update),
                 onPressed: () {
@@ -399,7 +400,7 @@ class _GroupPageState extends State<GroupPage>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  owner != null ? _buildHeader(context) : new Container(),
+                  _buildHeader(context),
                   new Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: new Center(

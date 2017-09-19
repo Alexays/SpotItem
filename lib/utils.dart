@@ -16,8 +16,8 @@ String capitalize(String s) => '${s[0].toUpperCase()}${s.substring(1)}';
 const AssetImage placeholder = const AssetImage('assets/placeholder.png');
 
 /// Return Circle avatar of images or initial
-Widget getAvatar(User user) => new CircleAvatar(
-    radius: 30.0,
+Widget getAvatar(User user, [double radius = 30.0]) => new CircleAvatar(
+    radius: radius,
     backgroundColor: Colors.grey,
     backgroundImage: user.avatar != null && user.avatar != 'null'
         ? new NetworkImage(user.avatar)

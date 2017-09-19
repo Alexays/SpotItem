@@ -10,8 +10,8 @@ class Group {
         about = data['about'],
         users = new List<User>.generate(data['users']?.length ?? 0,
             (index) => new User(data['users'][index])),
-        owners = new List<String>.generate(data['owners']?.length ?? 0,
-            (index) => data['owners'][index].toString());
+        owners = new List<User>.generate(data['owners']?.length ?? 0,
+            (index) => new User(data['owners'][index]));
 
   /// Group id
   final String id;
@@ -26,7 +26,7 @@ class Group {
   List<User> users;
 
   /// Group owner
-  List<String> owners;
+  List<User> owners;
 
   /// Create a group from JSON object
   factory Group.from(group) => new Group(JSON.decode(group.toString()));
