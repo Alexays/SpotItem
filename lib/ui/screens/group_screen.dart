@@ -104,7 +104,8 @@ class _GroupPageState extends State<GroupPage>
       style: theme.primaryTextTheme.body1,
       child: new Text('${group.owners[0]?.email}'),
     );
-    final List<Widget> _toBuild = []..add(new Row(
+    final List<Widget> _toBuild = [
+      new Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
@@ -124,25 +125,12 @@ class _GroupPageState extends State<GroupPage>
               child: new Container(),
             ),
             new Row(
-              children: <Widget>[
-                new Column(
-                  children: new List<Widget>.generate(group.owners.length - 1,
-                      (index) => getAvatar(group.owners[index], 10.0)),
-                ),
-                new Icon(
-                  Icons.chevron_left,
-                  color: theme.canvasColor,
-                ),
-                const Padding(
-                  padding: const EdgeInsets.all(1.0),
-                ),
-                new DefaultTextStyle(
-                  style: theme.primaryTextTheme.body1,
-                  child: new Text(SpotL.of(context).owner()),
-                )
-              ],
+              children: new List<Widget>.generate(
+                  group.owners?.length < 3 ? group.owners?.length - 1 ?? 0 : 3,
+                  (index) => getAvatar(group.owners[index + 1], 18.0)),
             ),
-          ]));
+          ])
+    ];
     if (group.about.isNotEmpty) {
       _toBuild
         ..add(const Padding(padding: const EdgeInsets.all(8.0)))
