@@ -184,7 +184,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       });
       Navigator.of(context).pop();
       showSnackBar(context, response['msg']);
-      if (response['success']) {
+      if (resValid(response)) {
         await Services.items.getItems(force: true);
         await Navigator
             .of(context)

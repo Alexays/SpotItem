@@ -46,7 +46,7 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
     _formKey.currentState.save();
     final dynamic response = await Services.groups.editGroup(_group);
     showSnackBar(context, response['msg']);
-    if (response['success']) {
+    if (resValid(response)) {
       await Navigator
           .of(context)
           .pushNamedAndRemoveUntil('/home', (route) => false);
