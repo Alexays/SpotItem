@@ -10,7 +10,8 @@ class Group {
         about = data['about'],
         users = new List<User>.generate(data['users']?.length ?? 0,
             (index) => new User(data['users'][index])),
-        owners = data['owner'] ?? [];
+        owners = new List<String>.generate(data['owners']?.length ?? 0,
+            (index) => data['owners'][index].toString());
 
   /// Group id
   final String id;
