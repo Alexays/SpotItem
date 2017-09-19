@@ -63,7 +63,7 @@ class _GroupPageState extends State<GroupPage>
     if (resValid(response)) {
       setState(() {
         group.owners =
-            group.owners.where((owner) => owner.id == userId).toList();
+            group.owners.where((owner) => owner.id != userId).toList();
       });
       Navigator.of(context).pop();
     }
@@ -73,7 +73,7 @@ class _GroupPageState extends State<GroupPage>
     final dynamic response = await Services.groups.addOwner(group.id, userId);
     if (resValid(response)) {
       setState(() {
-        group = new Group.from(response['group']);
+        group = new Group(response['group']);
       });
       Navigator.of(context).pop();
     }
@@ -316,7 +316,7 @@ class _GroupPageState extends State<GroupPage>
                           },
                         ),
                         new FlatButton(
-                          child: const Text('Add'),
+                          child: const Text('Remove'),
                           onPressed: () {
                             _removeOwner(context, group.users[index].id);
                           },
