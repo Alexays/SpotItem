@@ -264,7 +264,7 @@ class _GroupPageState extends State<GroupPage>
                 group.users[index].id != Services.auth.user.id &&
                 group.owners.contains(Services.auth.user.id)) {
               buttons.add(new IconButton(
-                icon: const Icon(Icons.update),
+                icon: const Icon(Icons.arrow_upward),
                 onPressed: () {
                   showDialog<Null>(
                     context: context,
