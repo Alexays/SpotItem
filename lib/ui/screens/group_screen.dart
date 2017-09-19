@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:spotitem/models/group.dart';
 import 'package:spotitem/services/services.dart';
@@ -73,7 +73,9 @@ class _GroupPageState extends State<GroupPage>
     final dynamic response = await Services.groups.addOwner(group.id, userId);
     if (resValid(response)) {
       setState(() {
-        group = new Group(response['group']);
+        if (response['group'] != null) {
+          group = new Group(JSON.decode(response['group']));
+        }
       });
       Navigator.of(context).pop();
     }
