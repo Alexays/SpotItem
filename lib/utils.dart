@@ -44,7 +44,7 @@ void showLoading(BuildContext context) {
 
 /// Check if json response is valid
 /// TO-DO show error other
-bool resValid(response) => response && response['success'];
+bool resValid(response) => response != null && response['success'];
 
 /// Validate Email input
 String validateEmail(String value) {
