@@ -115,8 +115,6 @@ class _ItemPageState extends State<ItemPage>
 
   Item item;
 
-  bool dragStopped = true;
-
   @override
   void initState() {
     if (item != null) {
@@ -250,24 +248,13 @@ class _ItemPageState extends State<ItemPage>
                         flexibleSpace: new GestureDetector(
                           behavior: HitTestBehavior.opaque,
                           onHorizontalDragUpdate: (details) {
-                            if (dragStopped == true &&
-                                details.delta.dx < 0 &&
-                                _tabController.index < item.images.length - 1) {
-                              setState(() {
-                                _tabController.index = _tabController.index + 1;
-                                dragStopped = false;
-                              });
-                            } else if (dragStopped == true &&
-                                details.delta.dx > 0 &&
-                                _tabController.index > 0) {
-                              setState(() {
-                                _tabController.index = _tabController.index - 1;
-                                dragStopped = false;
-                              });
+                            if (!_tabController.indexIsChanging) {
+                              _tabController.animateTo((_tabController.index -
+                                      (details.delta.dx > 0
+                                          ? 1
+                                          : details.delta.dx < 0 ? -1 : 0))
+                                  .clamp(0, 2));
                             }
-                          },
-                          onHorizontalDragEnd: (details) {
-                            dragStopped = true;
                           },
                           child: new FlexibleSpaceBar(
                             background: new Stack(
@@ -298,20 +285,16 @@ class _ItemPageState extends State<ItemPage>
                                             fit: BoxFit.cover);
                                       }
                                     })),
+
                                 new Positioned(
                                   bottom: 15.0,
                                   width: MediaQuery.of(context).size.width,
                                   child: new Center(
-                                      child: new Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: new List<Widget>.generate(
-                                        item.images.length,
-                                        (index) => new Icon(Icons.brightness_1,
-                                            size: 8.0,
-                                            color: _tabController.index == index
-                                                ? Colors.white
-                                                : Colors.white.withAlpha(75))),
-                                  )),
+                                    child: new TabPageSelector(
+                                      controller: _tabController,
+                                      indicatorSize: 8.0,
+                                    ),
+                                  ),
                                 ),
                                 // This gradient ensures that the toolbar icons are distinct
                                 // against the background image.

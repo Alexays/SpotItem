@@ -293,7 +293,7 @@ class _HomeScreenState extends State<HomeScreen>
                                 new TextSpan(
                                     style: Theme.of(context).textTheme.body2,
                                     text:
-                                        'Spotitem est un outil de pret de matériels/biens entre amis.\n'
+                                        'Spotitem est un outil de pret de matériels, biens entre amis.\n'
                                         'En savoir plus a propos de Spotitem sur '),
                                 new LinkTextSpan(
                                     style: Theme
