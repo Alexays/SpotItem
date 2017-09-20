@@ -249,12 +249,10 @@ class _ItemPageState extends State<ItemPage>
                           behavior: HitTestBehavior.opaque,
                           onHorizontalDragUpdate: (details) {
                             final int delta = details.delta.dx.clamp(-1, 1);
-                            if (!_tabController.indexIsChanging &&
-                                (_tabController.index - delta) >= 0 &&
-                                (_tabController.index - delta) <=
-                                    _tabController.length) {
-                              _tabController
-                                  .animateTo(_tabController.index - delta);
+                            if (!_tabController.indexIsChanging) {
+                              _tabController.animateTo(
+                                  (_tabController.index - delta)
+                                      .clamp(0, _tabController.length - 1));
                             }
                           },
                           child: new FlexibleSpaceBar(
