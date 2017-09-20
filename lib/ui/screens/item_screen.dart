@@ -248,12 +248,13 @@ class _ItemPageState extends State<ItemPage>
                         flexibleSpace: new GestureDetector(
                           behavior: HitTestBehavior.opaque,
                           onHorizontalDragUpdate: (details) {
-                            if (!_tabController.indexIsChanging) {
-                              _tabController.animateTo((_tabController.index -
-                                      (details.delta.dx > 0
-                                          ? 1
-                                          : details.delta.dx < 0 ? -1 : 0))
-                                  .clamp(0, 2));
+                            final int delta = details.delta.dx.clamp(-1, 1);
+                            if (!_tabController.indexIsChanging &&
+                                (_tabController.index - delta) >= 0 &&
+                                (_tabController.index - delta) <=
+                                    _tabController.length) {
+                              _tabController
+                                  .animateTo(_tabController.index - delta);
                             }
                           },
                           child: new FlexibleSpaceBar(
