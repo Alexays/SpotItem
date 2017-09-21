@@ -27,9 +27,7 @@ class BasicService {
     final String verifiedToken = await Services.auth.verifyToken(token);
     final http.Response response = await http.get(Uri.encodeFull('$apiUrl$url'),
         headers: getHeaders(verifiedToken));
-    if (response.statusCode != 200) {
-      print(response.body);
-    }
+    print('[API GET] ${response.statusCode}');
     return response;
   }
 
@@ -45,9 +43,7 @@ class BasicService {
         Uri.encodeFull('$apiUrl$url'),
         headers: getHeaders(verifiedToken),
         body: payload);
-    if (response.statusCode != 200) {
-      print(response.body);
-    }
+    print('[API POST] ${response.statusCode}');
     return response;
   }
 
@@ -61,9 +57,7 @@ class BasicService {
     final String verifiedToken = await Services.auth.verifyToken(token);
     final http.Response response = await http.put(Uri.encodeFull('$apiUrl$url'),
         headers: getHeaders(verifiedToken), body: payload);
-    if (response.statusCode != 200) {
-      print(response.body);
-    }
+    print('[API PUT] ${response.statusCode}');
     return response;
   }
 
@@ -77,9 +71,7 @@ class BasicService {
     final http.Response response = await http.delete(
         Uri.encodeFull('$apiUrl$url'),
         headers: getHeaders(verifiedToken));
-    if (response.statusCode != 200) {
-      print(response.body);
-    }
+    print('[API DELETE] ${response.statusCode}');
     return response;
   }
 
