@@ -32,6 +32,27 @@ class _ContactScreenState extends State<ContactScreen> {
     }
   }
 
+  Future<Null> _getMail(int index) async {
+    final res = await showDialog<Null>(
+      context: context,
+      child: new SimpleDialog(
+          title: new Text(SpotL.of(Services.loc).confirm()),
+          children: new List<Widget>.generate(
+              _contacts[index]['emailAddresses'].length,
+              (i) => new ListTile(
+                    title: new Text(
+                        _contacts[index]['emailAddresses'][i]['value']),
+                    onTap: () {
+                      _email = _contacts[index]['emailAddresses'][i]['value'];
+                      _handleEmail(context);
+                    },
+                  ))),
+    );
+    if (res != null) {
+      Navigator.pop(context, _email);
+    }
+  }
+
   @override
   Widget build(BuildContext context) => new Scaffold(
       appBar: new AppBar(title: new Text(SpotL.of(context).addSomeone())),
@@ -90,35 +111,7 @@ class _ContactScreenState extends State<ContactScreen> {
                                           [0]['displayName']),
                                       leading: const Icon(Icons.people),
                                       onTap: () {
-                                        print(
-                                            _contacts[index]['emailAddresses']);
-                                        print(_contacts[index]['emailAddresses']
-                                            .length);
-                                        showDialog<Null>(
-                                          context: context,
-                                          child: new SimpleDialog(
-                                              title: new Text(SpotL
-                                                  .of(Services.loc)
-                                                  .confirm()),
-                                              children: new List<
-                                                      Widget>.generate(
-                                                  _contacts[index]
-                                                          ['emailAddresses']
-                                                      .length,
-                                                  (i) => new ListTile(
-                                                        title: new Text(_contacts[
-                                                                    index][
-                                                                'emailAddresses']
-                                                            [i]['value']),
-                                                        onTap: () {
-                                                          _email = _contacts[
-                                                                      index][
-                                                                  'emailAddresses']
-                                                              [i]['value'];
-                                                          _handleEmail(context);
-                                                        },
-                                                      ))),
-                                        );
+                                        _getMail(index);
                                       },
                                     )))
                         : new RaisedButton(

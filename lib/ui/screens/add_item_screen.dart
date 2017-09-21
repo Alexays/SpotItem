@@ -186,8 +186,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
         'groups': JSON.encode(_groupsId)
       });
       Navigator.of(context).pop();
-      showSnackBar(context, response['msg']);
       if (resValid(response)) {
+        showSnackBar(context, response['msg']);
         await Services.items.getItems(force: true);
         await Navigator
             .of(context)
@@ -234,6 +234,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                                 .aboutPh(),
                                             labelText:
                                                 SpotL.of(context).about()),
+                                        validator: validateString,
                                         onSaved: (value) {
                                           _about = value.trim();
                                         }),

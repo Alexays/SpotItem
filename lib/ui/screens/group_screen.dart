@@ -86,9 +86,7 @@ class _GroupPageState extends State<GroupPage>
       return;
     }
     final res = await Services.groups.addUser(group.id, _email);
-    if (res['success']) {
-      Navigator.of(context).pop();
-    } else {
+    if (!res['success']) {
       showSnackBar(context, res['msg']);
     }
   }
