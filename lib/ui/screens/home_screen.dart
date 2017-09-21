@@ -263,7 +263,7 @@ class _HomeScreenState extends State<HomeScreen>
                   children: <Widget>[
                     new ListTile(
                       leading: const Icon(Icons.home),
-                      title: new Text(SpotL.of(context).home()),
+                      title: new Text(SpotL.of(Services.loc).home()),
                       selected: true,
                     ),
                     new ListTile(
@@ -320,18 +320,19 @@ class _HomeScreenState extends State<HomeScreen>
                       children: <Widget>[
                         new ListTile(
                             leading: const Icon(Icons.edit),
-                            title: new Text(SpotL.of(context).editProfile()),
+                            title:
+                                new Text(SpotL.of(Services.loc).editProfile()),
                             onTap: () {
                               Navigator.of(context).pushNamed('/profile/edit/');
                             }),
                         new ListTile(
                             leading: const Icon(Icons.exit_to_app),
-                            title: new Text(SpotL.of(context).logout()),
+                            title: new Text(SpotL.of(Services.loc).logout()),
                             onTap: () {
                               Services.auth.logout().then((_) => Navigator
                                   .of(context)
                                   .pushNamedAndRemoveUntil(
-                                      '/login', (route) => false));
+                                      '/', (route) => false));
                             })
                       ])))
         ]))
@@ -376,7 +377,7 @@ class _HomeScreenState extends State<HomeScreen>
           ),
           decoration: new InputDecoration(
               isDense: true,
-              hintText: SpotL.of(context).search(),
+              hintText: SpotL.of(Services.loc).search(),
               hintStyle: const TextStyle(
                 color: const Color.fromARGB(150, 255, 255, 255),
                 fontSize: 18.0,
@@ -426,7 +427,9 @@ class _HomeScreenState extends State<HomeScreen>
   List<Widget> _buildChild(BuildContext context) {
     if (_isSearching) {
       if (_searchQuery.isEmpty) {
-        return [new Center(child: new Text(SpotL.of(context).searchDialog()))];
+        return [
+          new Center(child: new Text(SpotL.of(Services.loc).searchDialog()))
+        ];
       }
       List<Item> search = new List<Item>.from(Services.items.items);
       final _searchWord =

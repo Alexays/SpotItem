@@ -89,7 +89,7 @@ class AuthManager extends BasicService {
       if (!await getAccessToken()) {
         Navigator
             .of(Services.context)
-            .pushNamedAndRemoveUntil('/login', (route) => false);
+            .pushNamedAndRemoveUntil('/', (route) => false);
       }
     }
     return accessToken;

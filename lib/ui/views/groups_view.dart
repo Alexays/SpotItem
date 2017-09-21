@@ -79,7 +79,8 @@ class _GroupsViewState extends State<GroupsView> {
           if (_groupsInv != null && _groupsInv.isNotEmpty) {
             return _buildInv();
           } else if (_groups.isEmpty) {
-            return new Center(child: new Text(SpotL.of(context).noGroups()));
+            return new Center(
+                child: new Text(SpotL.of(Services.loc).noGroups()));
           }
           return new Container();
         }

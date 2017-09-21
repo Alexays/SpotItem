@@ -49,7 +49,7 @@ class _ItemsViewState extends State<ItemsView> {
 
   Widget getList() {
     if (_myItems.isEmpty) {
-      return new Center(child: new Text(SpotL.of(context).noItems()));
+      return new Center(child: new Text(SpotL.of(Services.loc).noItems()));
     }
     return new ListView.builder(
       // For RefreshIndicator

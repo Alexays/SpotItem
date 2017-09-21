@@ -1,4 +1,3 @@
-import 'package:spotitem/ui/screens/home_screen.dart';
 import 'package:spotitem/ui/screens/login_screen.dart';
 import 'package:spotitem/ui/screens/register_screen.dart';
 import 'package:spotitem/ui/screens/add_item_screen.dart';
@@ -17,15 +16,9 @@ class Routes {
   /// Configure all routes
   static void configureRoutes(Router router) {
     router
-      ..define('/login',
-          handler: new Handler(
-              handlerFunc: (context, params) => const LoginScreen()))
       ..define('/register',
           handler: new Handler(
               handlerFunc: (context, params) => const RegisterScreen()))
-      ..define('/home',
-          handler:
-              new Handler(handlerFunc: (context, params) => const HomeScreen()))
       ..define('/profile/:id',
           handler: new Handler(
               handlerFunc: (context, params) =>

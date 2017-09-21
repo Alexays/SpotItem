@@ -42,11 +42,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
       user['password'] = password;
       final dynamic data = await Services.auth.register(user);
       if (data['success']) {
-        return Navigator.pushReplacementNamed(context, '/login');
+        return Navigator.pushReplacementNamed(context, '/');
       }
       return showSnackBar(context, data['msg']);
     }
-    showSnackBar(context, SpotL.of(context).correctError());
+    showSnackBar(context, SpotL.of(Services.loc).correctError());
   }
 
   @override
@@ -66,8 +66,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               new TextFormField(
                                 key: const Key('name'),
                                 decoration: new InputDecoration(
-                                    labelText: SpotL.of(context).firstname(),
-                                    hintText: SpotL.of(context).firstnamePh()),
+                                    labelText:
+                                        SpotL.of(Services.loc).firstname(),
+                                    hintText:
+                                        SpotL.of(Services.loc).firstnamePh()),
                                 onSaved: (value) {
                                   user['firstname'] = value;
                                 },
@@ -77,8 +79,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               new TextFormField(
                                 key: const Key('lastname'),
                                 decoration: new InputDecoration(
-                                    labelText: SpotL.of(context).lastname(),
-                                    hintText: SpotL.of(context).lastnamePh()),
+                                    labelText:
+                                        SpotL.of(Services.loc).lastname(),
+                                    hintText:
+                                        SpotL.of(Services.loc).lastnamePh()),
                                 onSaved: (value) {
                                   user['name'] = value;
                                 },
@@ -89,8 +93,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 controller: _email,
                                 keyboardType: TextInputType.emailAddress,
                                 decoration: new InputDecoration(
-                                  labelText: SpotL.of(context).email(),
-                                  hintText: SpotL.of(context).emailPh(),
+                                  labelText: SpotL.of(Services.loc).email(),
+                                  hintText: SpotL.of(Services.loc).emailPh(),
                                 ),
                                 onSaved: (value) {
                                   user['email'] = value;
@@ -126,7 +130,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       child: const Text('Have an account ?'),
                                       onPressed: () {
                                         Navigator.pushReplacementNamed(
-                                            context, '/login');
+                                            context, '/');
                                       },
                                     ),
                                     const Padding(
@@ -135,7 +139,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     ),
                                     new RaisedButton(
                                         child: new Text(
-                                            SpotL.of(context).register()),
+                                            SpotL.of(Services.loc).register()),
                                         onPressed: () {
                                           doRegister(context);
                                         })

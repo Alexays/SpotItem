@@ -61,8 +61,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           new TextFormField(
                             key: const Key('email'),
                             decoration: new InputDecoration(
-                              hintText: SpotL.of(context).emailPh(),
-                              labelText: SpotL.of(context).email(),
+                              hintText: SpotL.of(Services.loc).emailPh(),
+                              labelText: SpotL.of(Services.loc).email(),
                             ),
                             autofocus: true,
                             controller: _usernameCtrl,
@@ -87,15 +87,19 @@ class _LoginScreenState extends State<LoginScreen> {
                             children: <Widget>[
                               new RaisedButton(
                                   key: const Key('login'),
-                                  child: new Text(SpotL.of(context).login()),
+                                  child:
+                                      new Text(SpotL.of(Services.loc).login()),
                                   onPressed: () {
                                     final FormState form =
                                         _formKey.currentState;
                                     if (form.validate()) {
                                       doLogin(context);
                                     } else {
-                                      showSnackBar(context,
-                                          SpotL.of(context).correctError());
+                                      showSnackBar(
+                                          context,
+                                          SpotL
+                                              .of(Services.loc)
+                                              .correctError());
                                     }
                                   }),
                               const Padding(
@@ -132,7 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       horizontal: 5.0)),
                               new FlatButton(
                                 child: new Text(
-                                  SpotL.of(context).register(),
+                                  SpotL.of(Services.loc).register(),
                                   textAlign: TextAlign.center,
                                 ),
                                 onPressed: () {

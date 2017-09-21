@@ -39,6 +39,9 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
   void initState() {
     if (_group == null) {
       Services.groups.getGroup(_groupId).then((data) {
+        if (!mounted) {
+          return;
+        }
         setState(() {
           _group = new Group(data);
           _initForm();
@@ -62,20 +65,20 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
   Future<Null> editGroup(BuildContext context) async {
     _formKey.currentState.save();
     if (!_formKey.currentState.validate()) {
-      return showSnackBar(context, SpotL.of(context).correctError());
+      return showSnackBar(context, SpotL.of(Services.loc).correctError());
     }
     final dynamic response = await Services.groups.editGroup(_group);
     showSnackBar(context, response['msg']);
     if (resValid(response)) {
       await Navigator
           .of(context)
-          .pushNamedAndRemoveUntil('/home', (route) => false);
+          .pushNamedAndRemoveUntil('/', (route) => false);
     }
   }
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-      appBar: new AppBar(title: new Text(SpotL.of(context).editGroup())),
+      appBar: new AppBar(title: new Text(SpotL.of(Services.loc).editGroup())),
       body: new Builder(
           builder: (context) => _group == null
               ? const Center(child: const CircularProgressIndicator())
@@ -134,7 +137,7 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
                               editGroup(context);
                             },
                             child: new Text(
-                              SpotL.of(context).save().toUpperCase(),
+                              SpotL.of(Services.loc).save().toUpperCase(),
                               style: new TextStyle(
                                   color: Theme.of(context).canvasColor),
                             ),

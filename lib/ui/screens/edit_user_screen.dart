@@ -43,7 +43,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
       return showSnackBar(context, 'Password don\t match !');
     }
     if (!_formKey.currentState.validate()) {
-      return showSnackBar(context, SpotL.of(context).correctError());
+      return showSnackBar(context, SpotL.of(Services.loc).correctError());
     }
     final dynamic res = await Services.users.updateUser(user, password);
     showSnackBar(context, res['msg']);
@@ -54,7 +54,8 @@ class _EditUserScreenState extends State<EditUserScreen> {
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-        appBar: new AppBar(title: new Text(SpotL.of(context).editProfile())),
+        appBar:
+            new AppBar(title: new Text(SpotL.of(Services.loc).editProfile())),
         body: new Builder(builder: (context) {
           final ThemeData theme = Theme.of(context);
           return new Column(children: <Widget>[
@@ -72,10 +73,12 @@ class _EditUserScreenState extends State<EditUserScreen> {
                                     new TextFormField(
                                       key: const Key('name'),
                                       decoration: new InputDecoration(
-                                          labelText:
-                                              SpotL.of(context).firstname(),
-                                          hintText:
-                                              SpotL.of(context).firstnamePh()),
+                                          labelText: SpotL
+                                              .of(Services.loc)
+                                              .firstname(),
+                                          hintText: SpotL
+                                              .of(Services.loc)
+                                              .firstnamePh()),
                                       onSaved: (value) {
                                         user.firstname = value.trim();
                                       },
@@ -86,9 +89,10 @@ class _EditUserScreenState extends State<EditUserScreen> {
                                       key: const Key('lastname'),
                                       decoration: new InputDecoration(
                                           labelText:
-                                              SpotL.of(context).lastname(),
-                                          hintText:
-                                              SpotL.of(context).lastnamePh()),
+                                              SpotL.of(Services.loc).lastname(),
+                                          hintText: SpotL
+                                              .of(Services.loc)
+                                              .lastnamePh()),
                                       onSaved: (value) {
                                         user.name = value.trim();
                                       },
@@ -103,8 +107,10 @@ class _EditUserScreenState extends State<EditUserScreen> {
                                           color: theme.disabledColor,
                                         ),
                                         decoration: new InputDecoration(
-                                          labelText: SpotL.of(context).email(),
-                                          hintText: SpotL.of(context).emailPh(),
+                                          labelText:
+                                              SpotL.of(Services.loc).email(),
+                                          hintText:
+                                              SpotL.of(Services.loc).emailPh(),
                                         ),
                                         validator: validateEmail,
                                       ),
@@ -146,7 +152,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
                       editUser(context);
                     },
                     child: new Text(
-                      SpotL.of(context).save().toUpperCase(),
+                      SpotL.of(Services.loc).save().toUpperCase(),
                       style:
                           new TextStyle(color: Theme.of(context).canvasColor),
                     ),

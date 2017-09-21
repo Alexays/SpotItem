@@ -125,6 +125,9 @@ class _ItemPageState extends State<ItemPage>
     }
     if (widget.item == null) {
       Services.items.getItem(_itemId).then((data) {
+        if (!mounted) {
+          return;
+        }
         setState(() {
           item = data;
           if (item != null) {
@@ -157,7 +160,7 @@ class _ItemPageState extends State<ItemPage>
               context: context,
               barrierDismissible: false,
               child: new AlertDialog(
-                title: new Text(SpotL.of(context).confirm()),
+                title: new Text(SpotL.of(Services.loc).confirm()),
                 content: new SingleChildScrollView(
                   child: new ListBody(
                     children: <Widget>[
@@ -178,8 +181,9 @@ class _ItemPageState extends State<ItemPage>
                       Services.items.deleteItem(item.id).then((resp) {
                         if (resp['success']) {
                           Services.items.getItems(force: true);
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                              '/home', (route) => false);
+                          Navigator
+                              .of(context)
+                              .pushNamedAndRemoveUntil('/', (route) => false);
                         }
                       });
                     },
@@ -322,13 +326,13 @@ class _ItemPageState extends State<ItemPage>
                               new _ListItem(
                                 lines: <String>[
                                   capitalize(item.name),
-                                  SpotL.of(context).name(),
+                                  SpotL.of(Services.loc).name(),
                                 ],
                               ),
                               new _ListItem(
                                 lines: <String>[
                                   item.about,
-                                  SpotL.of(context).about(),
+                                  SpotL.of(Services.loc).about(),
                                 ],
                               ),
                             ],
@@ -342,7 +346,7 @@ class _ItemPageState extends State<ItemPage>
                                 onPressed: () {},
                                 lines: <String>[
                                   '${item.owner.firstname} ${item.owner.name}',
-                                  SpotL.of(context).owner(),
+                                  SpotL.of(Services.loc).owner(),
                                 ],
                               ),
                             ],
@@ -356,7 +360,7 @@ class _ItemPageState extends State<ItemPage>
                                 onPressed: () {},
                                 lines: <String>[
                                   item.location,
-                                  SpotL.of(context).location(),
+                                  SpotL.of(Services.loc).location(),
                                 ],
                               ),
                             ],

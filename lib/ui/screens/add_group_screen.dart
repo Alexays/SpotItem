@@ -38,7 +38,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
     if (resValid(response)) {
       await Navigator
           .of(context)
-          .pushNamedAndRemoveUntil('/home', (route) => false);
+          .pushNamedAndRemoveUntil('/', (route) => false);
     }
   }
 
@@ -52,13 +52,13 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
         email.add(_email);
       });
     } else {
-      showSnackBar(context, SpotL.of(context).alreadyAdded());
+      showSnackBar(context, SpotL.of(Services.loc).alreadyAdded());
     }
   }
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-        appBar: new AppBar(title: new Text(SpotL.of(context).addGroup())),
+        appBar: new AppBar(title: new Text(SpotL.of(Services.loc).addGroup())),
         body: new Builder(
             builder: (context) => new Column(children: <Widget>[
                   new Expanded(
@@ -77,8 +77,9 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                                                   hintText: SpotL
                                                       .of(context)
                                                       .namePh(),
-                                                  labelText:
-                                                      SpotL.of(context).name()),
+                                                  labelText: SpotL
+                                                      .of(Services.loc)
+                                                      .name()),
                                               onSaved: (value) {
                                                 name = value.trim();
                                               }),
@@ -139,7 +140,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                             addGroup(context);
                           },
                           child: new Text(
-                            SpotL.of(context).addGroup().toUpperCase(),
+                            SpotL.of(Services.loc).addGroup().toUpperCase(),
                             style: new TextStyle(
                                 color: Theme.of(context).canvasColor),
                           ),

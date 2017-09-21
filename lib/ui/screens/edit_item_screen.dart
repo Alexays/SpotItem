@@ -74,6 +74,9 @@ class _EditItemScreenState extends State<EditItemScreen>
   void initState() {
     if (_item == null) {
       Services.items.getItem(_itemId).then((data) {
+        if (!mounted) {
+          return;
+        }
         setState(() {
           _item = data;
           _initForm();
@@ -83,6 +86,9 @@ class _EditItemScreenState extends State<EditItemScreen>
       _initForm();
     }
     Services.groups.getGroups().then((data) {
+      if (!mounted) {
+        return;
+      }
       setState(() {
         _groups = data;
       });
@@ -120,6 +126,9 @@ class _EditItemScreenState extends State<EditItemScreen>
       setState(() {
         _imagesFile.add(_fileName);
         _fileName.readAsBytes().then((data) {
+          if (!mounted) {
+            return;
+          }
           _images.add(
               'data:image/${_fileName.path.split('.').last};base64,${BASE64.encode(data)}');
         });
@@ -133,12 +142,12 @@ class _EditItemScreenState extends State<EditItemScreen>
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          new Text(SpotL.of(context).noImages()),
+          new Text(SpotL.of(Services.loc).noImages()),
           const Padding(
             padding: const EdgeInsets.all(10.0),
           ),
           new RaisedButton(
-            child: new Text(SpotL.of(context).addImage()),
+            child: new Text(SpotL.of(Services.loc).addImage()),
             onPressed: getImage,
           )
         ],
@@ -203,7 +212,7 @@ class _EditItemScreenState extends State<EditItemScreen>
     final List<String> groups = <String>[];
     _formKey.currentState.save();
     if (!_formKey.currentState.validate()) {
-      return showSnackBar(context, SpotL.of(context).correctError());
+      return showSnackBar(context, SpotL.of(Services.loc).correctError());
     }
     showLoading(context);
     _item.images.forEach((f) => finalImages.add(f));
@@ -230,7 +239,7 @@ class _EditItemScreenState extends State<EditItemScreen>
         await Services.items.getItems(force: true);
         await Navigator
             .of(context)
-            .pushNamedAndRemoveUntil('/home', (route) => false);
+            .pushNamedAndRemoveUntil('/', (route) => false);
       }
     } else {
       showSnackBar(context, 'Auth error !');
@@ -425,7 +434,7 @@ class _EditItemScreenState extends State<EditItemScreen>
                             editItem(context);
                           },
                           child: new Text(
-                            SpotL.of(context).save().toUpperCase(),
+                            SpotL.of(Services.loc).save().toUpperCase(),
                             style: new TextStyle(
                                 color: Theme.of(context).canvasColor),
                           ),

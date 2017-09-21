@@ -5,6 +5,7 @@ import 'package:spotitem/models/item.dart';
 import 'package:spotitem/ui/screens/item_screen.dart';
 import 'package:spotitem/keys.dart';
 import 'package:spotitem/utils.dart';
+import 'package:spotitem/services/services.dart';
 import 'package:spotitem/ui/spot_strings.dart';
 
 /// Items list item
@@ -217,5 +218,5 @@ class ItemsList extends StatelessWidget {
             ),
           ),
         ])
-      : new Center(child: new Text(SpotL.of(context).noItems()));
+      : new Center(child: new Text(SpotL.of(Services.loc).noItems()));
 }

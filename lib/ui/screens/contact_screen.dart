@@ -34,7 +34,7 @@ class _ContactScreenState extends State<ContactScreen> {
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-      appBar: new AppBar(title: new Text(SpotL.of(context).addSomeone())),
+      appBar: new AppBar(title: new Text(SpotL.of(Services.loc).addSomeone())),
       body: new Builder(
           builder: (context) => new Column(children: <Widget>[
                 new Container(
@@ -90,8 +90,9 @@ class _ContactScreenState extends State<ContactScreen> {
                                         showDialog<Null>(
                                           context: context,
                                           child: new SimpleDialog(
-                                              title: new Text(
-                                                  SpotL.of(context).confirm()),
+                                              title: new Text(SpotL
+                                                  .of(Services.loc)
+                                                  .confirm()),
                                               children: [
                                                 new ListView.builder(
                                                   itemCount: _contacts[index]
@@ -121,6 +122,6 @@ class _ContactScreenState extends State<ContactScreen> {
                               _handleEmail(context);
                             },
                           )
-                    : new Text(SpotL.of(context).noContacts()),
+                    : new Text(SpotL.of(Services.loc).noContacts()),
               ])));
 }
