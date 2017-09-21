@@ -126,7 +126,9 @@ class _GroupPageState extends State<GroupPage>
             new Row(
               children: new List<Widget>.generate(
                   (group.owners?.length ?? 0).clamp(1, 3) - 1,
-                  (index) => getAvatar(group.owners[index + 1], 18.0)),
+                  (index) => new Padding(
+                      padding: const EdgeInsets.only(left: 5.0),
+                      child: getAvatar(group.owners[index + 1], 18.0))),
             ),
           ])
     ];
