@@ -215,9 +215,9 @@ class _GroupPageState extends State<GroupPage>
                   ),
                   new FlatButton(
                     child: const Text('Delete'),
-                    onPressed: () {
-                      Services.groups.delGroup(group.id);
-                      Navigator
+                    onPressed: () async {
+                      await Services.groups.delGroup(group.id);
+                      await Navigator
                           .of(context)
                           .pushNamedAndRemoveUntil('/', (route) => false);
                     },
@@ -230,8 +230,8 @@ class _GroupPageState extends State<GroupPage>
         ..add(new IconButton(
           icon: const Icon(Icons.create),
           tooltip: 'Edit',
-          onPressed: () {
-            Navigator.push(
+          onPressed: () async {
+            await Navigator.push(
                 context,
                 new MaterialPageRoute<Null>(
                   builder: (context) => new EditGroupScreen(group: group),
