@@ -349,7 +349,7 @@ class _HomeScreenState extends State<HomeScreen>
     });
   }
 
-  Widget _buildAppBar(BuildContext context) {
+  List<Widget> _buildAppBar(BuildContext context) {
     if (_currentIndex == 0)
       _homeScreenItems[_currentIndex].tab.addListener(_checkFilter);
     else {
@@ -411,18 +411,21 @@ class _HomeScreenState extends State<HomeScreen>
             });
           }));
     }
-    return new SliverAppBar(
-      pinned: true,
-      automaticallyImplyLeading: false,
-      centerTitle: true,
-      floating: _homeScreenItems[_currentIndex].sub != null && !_isSearching,
-      title: new Container(
-          decoration: new BoxDecoration(
-              color: Theme.of(context).accentColor,
-              borderRadius: const BorderRadius.all(const Radius.circular(3.0))),
-          child: new Row(children: widgets)),
-      bottom: _buildBottom(),
-    );
+    return [
+      new SliverAppBar(
+        pinned: true,
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        floating: _homeScreenItems[_currentIndex].sub != null && !_isSearching,
+        title: new Container(
+            decoration: new BoxDecoration(
+                color: Theme.of(context).accentColor,
+                borderRadius:
+                    const BorderRadius.all(const Radius.circular(3.0))),
+            child: new Row(children: widgets)),
+        bottom: _buildBottom(),
+      )
+    ];
   }
 
   List<Widget> _buildChild(BuildContext context) {
@@ -456,7 +459,7 @@ class _HomeScreenState extends State<HomeScreen>
             Services.context = context;
             return new NestedScrollView(
                 headerSliverBuilder: (context, innerBoxIsScrolled) =>
-                    <Widget>[_buildAppBar(context)],
+                    _buildAppBar(context),
                 body: new TabBarView(
                     key: new Key(cur.title),
                     controller: cur.tab,
