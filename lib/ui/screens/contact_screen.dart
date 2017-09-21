@@ -43,8 +43,8 @@ class _ContactScreenState extends State<ContactScreen> {
                         color: Theme.of(context).accentColor,
                         borderRadius:
                             const BorderRadius.all(const Radius.circular(3.0))),
-                    child: new Padding(
-                      padding: const EdgeInsets.all(15.0),
+                    child: new Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 15.0),
                       child: new TextField(
                         style: const TextStyle(
                           color: Colors.white,
