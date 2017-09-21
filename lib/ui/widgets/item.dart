@@ -218,5 +218,5 @@ class ItemsList extends StatelessWidget {
             ),
           ),
         ])
-      : new Center(child: new Text(SpotL.of(Services.loc).noItems()));
+      : new Center(child: new Text(SpotL.of(context).noItems()));
 }

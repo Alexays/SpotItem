@@ -135,7 +135,7 @@ class _GroupPageState extends State<GroupPage>
         ..add(const Padding(padding: const EdgeInsets.all(8.0)))
         ..add(new DefaultTextStyle(
           style: theme.primaryTextTheme.body2,
-          child: new Text(SpotL.of(Services.loc).about()),
+          child: new Text(SpotL.of(context).about()),
         ))
         ..add(new DefaultTextStyle(
           style: theme.primaryTextTheme.body1,
@@ -160,7 +160,7 @@ class _GroupPageState extends State<GroupPage>
             context: context,
             barrierDismissible: false,
             child: new AlertDialog(
-              title: new Text(SpotL.of(Services.loc).confirm()),
+              title: new Text(SpotL.of(context).confirm()),
               content: new SingleChildScrollView(
                 child: new ListBody(
                   children: <Widget>[
@@ -198,7 +198,7 @@ class _GroupPageState extends State<GroupPage>
               context: context,
               barrierDismissible: false,
               child: new AlertDialog(
-                title: new Text(SpotL.of(Services.loc).confirm()),
+                title: new Text(SpotL.of(context).confirm()),
                 content: new SingleChildScrollView(
                   child: new ListBody(
                     children: <Widget>[
@@ -265,7 +265,7 @@ class _GroupPageState extends State<GroupPage>
                   showDialog<Null>(
                     context: context,
                     child: new AlertDialog(
-                      title: new Text(SpotL.of(Services.loc).confirm()),
+                      title: new Text(SpotL.of(context).confirm()),
                       content: new SingleChildScrollView(
                         child: new ListBody(
                           children: <Widget>[
@@ -304,7 +304,7 @@ class _GroupPageState extends State<GroupPage>
                   showDialog<Null>(
                     context: context,
                     child: new AlertDialog(
-                      title: new Text(SpotL.of(Services.loc).confirm()),
+                      title: new Text(SpotL.of(context).confirm()),
                       content: new SingleChildScrollView(
                         child: new ListBody(
                           children: <Widget>[
@@ -339,7 +339,7 @@ class _GroupPageState extends State<GroupPage>
                   showDialog<Null>(
                     context: context,
                     child: new AlertDialog(
-                      title: new Text(SpotL.of(Services.loc).confirm()),
+                      title: new Text(SpotL.of(context).confirm()),
                       content: new SingleChildScrollView(
                         child: new ListBody(
                           children: <Widget>[
@@ -404,8 +404,7 @@ class _GroupPageState extends State<GroupPage>
                             onPressed: () {
                               _addPeople(context);
                             },
-                            child:
-                                new Text(SpotL.of(Services.loc).addSomeone()),
+                            child: new Text(SpotL.of(context).addSomeone()),
                           )))
                       : new Container(),
                   _buildUsers(context),

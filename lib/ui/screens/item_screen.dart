@@ -160,7 +160,7 @@ class _ItemPageState extends State<ItemPage>
               context: context,
               barrierDismissible: false,
               child: new AlertDialog(
-                title: new Text(SpotL.of(Services.loc).confirm()),
+                title: new Text(SpotL.of(context).confirm()),
                 content: new SingleChildScrollView(
                   child: new ListBody(
                     children: <Widget>[
@@ -326,13 +326,13 @@ class _ItemPageState extends State<ItemPage>
                               new _ListItem(
                                 lines: <String>[
                                   capitalize(item.name),
-                                  SpotL.of(Services.loc).name(),
+                                  SpotL.of(context).name(),
                                 ],
                               ),
                               new _ListItem(
                                 lines: <String>[
                                   item.about,
-                                  SpotL.of(Services.loc).about(),
+                                  SpotL.of(context).about(),
                                 ],
                               ),
                             ],
@@ -346,7 +346,7 @@ class _ItemPageState extends State<ItemPage>
                                 onPressed: () {},
                                 lines: <String>[
                                   '${item.owner.firstname} ${item.owner.name}',
-                                  SpotL.of(Services.loc).owner(),
+                                  SpotL.of(context).owner(),
                                 ],
                               ),
                             ],
@@ -360,7 +360,7 @@ class _ItemPageState extends State<ItemPage>
                                 onPressed: () {},
                                 lines: <String>[
                                   item.location,
-                                  SpotL.of(Services.loc).location(),
+                                  SpotL.of(context).location(),
                                 ],
                               ),
                             ],

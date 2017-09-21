@@ -142,12 +142,12 @@ class _EditItemScreenState extends State<EditItemScreen>
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          new Text(SpotL.of(Services.loc).noImages()),
+          new Text(SpotL.of(context).noImages()),
           const Padding(
             padding: const EdgeInsets.all(10.0),
           ),
           new RaisedButton(
-            child: new Text(SpotL.of(Services.loc).addImage()),
+            child: new Text(SpotL.of(context).addImage()),
             onPressed: getImage,
           )
         ],
@@ -212,7 +212,7 @@ class _EditItemScreenState extends State<EditItemScreen>
     final List<String> groups = <String>[];
     _formKey.currentState.save();
     if (!_formKey.currentState.validate()) {
-      return showSnackBar(context, SpotL.of(Services.loc).correctError());
+      return showSnackBar(context, SpotL.of(context).correctError());
     }
     showLoading(context);
     _item.images.forEach((f) => finalImages.add(f));
@@ -434,7 +434,7 @@ class _EditItemScreenState extends State<EditItemScreen>
                             editItem(context);
                           },
                           child: new Text(
-                            SpotL.of(Services.loc).save().toUpperCase(),
+                            SpotL.of(context).save().toUpperCase(),
                             style: new TextStyle(
                                 color: Theme.of(context).canvasColor),
                           ),

@@ -34,7 +34,7 @@ class _ContactScreenState extends State<ContactScreen> {
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-      appBar: new AppBar(title: new Text(SpotL.of(Services.loc).addSomeone())),
+      appBar: new AppBar(title: new Text(SpotL.of(context).addSomeone())),
       body: new Builder(
           builder: (context) => new Column(children: <Widget>[
                 new Container(
@@ -122,6 +122,6 @@ class _ContactScreenState extends State<ContactScreen> {
                               _handleEmail(context);
                             },
                           )
-                    : new Text(SpotL.of(Services.loc).noContacts()),
+                    : new Text(SpotL.of(context).noContacts()),
               ])));
 }

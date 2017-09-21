@@ -46,7 +46,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       }
       return showSnackBar(context, data['msg']);
     }
-    showSnackBar(context, SpotL.of(Services.loc).correctError());
+    showSnackBar(context, SpotL.of(context).correctError());
   }
 
   @override
@@ -66,10 +66,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               new TextFormField(
                                 key: const Key('name'),
                                 decoration: new InputDecoration(
-                                    labelText:
-                                        SpotL.of(Services.loc).firstname(),
-                                    hintText:
-                                        SpotL.of(Services.loc).firstnamePh()),
+                                    labelText: SpotL.of(context).firstname(),
+                                    hintText: SpotL.of(context).firstnamePh()),
                                 onSaved: (value) {
                                   user['firstname'] = value;
                                 },
@@ -79,10 +77,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               new TextFormField(
                                 key: const Key('lastname'),
                                 decoration: new InputDecoration(
-                                    labelText:
-                                        SpotL.of(Services.loc).lastname(),
-                                    hintText:
-                                        SpotL.of(Services.loc).lastnamePh()),
+                                    labelText: SpotL.of(context).lastname(),
+                                    hintText: SpotL.of(context).lastnamePh()),
                                 onSaved: (value) {
                                   user['name'] = value;
                                 },
@@ -93,8 +89,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 controller: _email,
                                 keyboardType: TextInputType.emailAddress,
                                 decoration: new InputDecoration(
-                                  labelText: SpotL.of(Services.loc).email(),
-                                  hintText: SpotL.of(Services.loc).emailPh(),
+                                  labelText: SpotL.of(context).email(),
+                                  hintText: SpotL.of(context).emailPh(),
                                 ),
                                 onSaved: (value) {
                                   user['email'] = value;
@@ -139,7 +135,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     ),
                                     new RaisedButton(
                                         child: new Text(
-                                            SpotL.of(Services.loc).register()),
+                                            SpotL.of(context).register()),
                                         onPressed: () {
                                           doRegister(context);
                                         })

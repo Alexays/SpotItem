@@ -77,12 +77,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          new Text(SpotL.of(Services.loc).noImages()),
+          new Text(SpotL.of(context).noImages()),
           const Padding(
             padding: const EdgeInsets.all(10.0),
           ),
           new RaisedButton(
-            child: new Text(SpotL.of(Services.loc).addImage()),
+            child: new Text(SpotL.of(context).addImage()),
             onPressed: getImage,
           )
         ],
@@ -91,7 +91,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     return new Column(children: <Widget>[
       new Center(
           child: new RaisedButton(
-        child: new Text(SpotL.of(Services.loc).addImage()),
+        child: new Text(SpotL.of(context).addImage()),
         onPressed: getImage,
       )),
       const Divider(),
@@ -159,7 +159,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       setState(() {
         _currentStep = 0;
       });
-      showSnackBar(context, SpotL.of(Services.loc).correctError());
+      showSnackBar(context, SpotL.of(context).correctError());
       return;
     }
     showLoading(context);
@@ -200,7 +200,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-        appBar: new AppBar(title: new Text(SpotL.of(Services.loc).addItem())),
+        appBar: new AppBar(title: new Text(SpotL.of(context).addItem())),
         body: new Builder(
             builder: (context) => new Container(
                 child: new Form(
@@ -209,7 +209,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       currentStep: _currentStep,
                       steps: [
                         new Step(
-                            title: new Text(SpotL.of(Services.loc).about()),
+                            title: new Text(SpotL.of(context).about()),
                             state: StepState.indexed,
                             content: new Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -219,9 +219,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                         key: const Key('name'),
                                         decoration: new InputDecoration(
                                             hintText:
-                                                SpotL.of(Services.loc).namePh(),
+                                                SpotL.of(context).namePh(),
                                             labelText:
-                                                SpotL.of(Services.loc).name()),
+                                                SpotL.of(context).name()),
                                         validator: validateName,
                                         onSaved: (value) {
                                           _name = value.trim();
@@ -233,7 +233,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                                 .of(Services.loc)
                                                 .aboutPh(),
                                             labelText:
-                                                SpotL.of(Services.loc).about()),
+                                                SpotL.of(context).about()),
                                         onSaved: (value) {
                                           _about = value.trim();
                                         }),
@@ -252,8 +252,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                         }),
                                     const Divider(),
                                     new SwitchListTile(
-                                        title: new Text(
-                                            SpotL.of(Services.loc).gift()),
+                                        title:
+                                            new Text(SpotL.of(context).gift()),
                                         value: _tracks.contains('gift'),
                                         onChanged: (value) {
                                           setState(() {
@@ -268,7 +268,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                             const Icon(Icons.card_giftcard)),
                                     new SwitchListTile(
                                         title: new Text(
-                                            SpotL.of(Services.loc).private()),
+                                            SpotL.of(context).private()),
                                         value: _tracks.contains('private'),
                                         onChanged: (value) {
                                           setState(() {
@@ -284,7 +284,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                 ]),
                             isActive: true),
                         new Step(
-                            title: new Text(SpotL.of(Services.loc).images()),
+                            title: new Text(SpotL.of(context).images()),
                             content: new Container(
                                 height: 120 +
                                     320 *
@@ -293,7 +293,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                 child: getImageGrid()),
                             isActive: true),
                         new Step(
-                            title: new Text(SpotL.of(Services.loc).groups()),
+                            title: new Text(SpotL.of(context).groups()),
                             content: getGroups(),
                             isActive: true),
                       ],

@@ -65,7 +65,7 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
   Future<Null> editGroup(BuildContext context) async {
     _formKey.currentState.save();
     if (!_formKey.currentState.validate()) {
-      return showSnackBar(context, SpotL.of(Services.loc).correctError());
+      return showSnackBar(context, SpotL.of(context).correctError());
     }
     final dynamic response = await Services.groups.editGroup(_group);
     if (resValid(response)) {
@@ -78,7 +78,7 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-      appBar: new AppBar(title: new Text(SpotL.of(Services.loc).editGroup())),
+      appBar: new AppBar(title: new Text(SpotL.of(context).editGroup())),
       body: new Builder(
           builder: (context) => _group == null
               ? const Center(child: const CircularProgressIndicator())
@@ -137,7 +137,7 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
                               await editGroup(context);
                             },
                             child: new Text(
-                              SpotL.of(Services.loc).save().toUpperCase(),
+                              SpotL.of(context).save().toUpperCase(),
                               style: new TextStyle(
                                   color: Theme.of(context).canvasColor),
                             ),

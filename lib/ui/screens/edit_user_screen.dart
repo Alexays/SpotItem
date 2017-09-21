@@ -43,7 +43,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
       return showSnackBar(context, 'Password don\t match !');
     }
     if (!_formKey.currentState.validate()) {
-      return showSnackBar(context, SpotL.of(Services.loc).correctError());
+      return showSnackBar(context, SpotL.of(context).correctError());
     }
     final dynamic res = await Services.users.updateUser(user, password);
     showSnackBar(context, res['msg']);
@@ -54,8 +54,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-        appBar:
-            new AppBar(title: new Text(SpotL.of(Services.loc).editProfile())),
+        appBar: new AppBar(title: new Text(SpotL.of(context).editProfile())),
         body: new Builder(builder: (context) {
           final ThemeData theme = Theme.of(context);
           return new Column(children: <Widget>[
@@ -89,7 +88,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
                                       key: const Key('lastname'),
                                       decoration: new InputDecoration(
                                           labelText:
-                                              SpotL.of(Services.loc).lastname(),
+                                              SpotL.of(context).lastname(),
                                           hintText: SpotL
                                               .of(Services.loc)
                                               .lastnamePh()),
@@ -107,10 +106,8 @@ class _EditUserScreenState extends State<EditUserScreen> {
                                           color: theme.disabledColor,
                                         ),
                                         decoration: new InputDecoration(
-                                          labelText:
-                                              SpotL.of(Services.loc).email(),
-                                          hintText:
-                                              SpotL.of(Services.loc).emailPh(),
+                                          labelText: SpotL.of(context).email(),
+                                          hintText: SpotL.of(context).emailPh(),
                                         ),
                                         validator: validateEmail,
                                       ),
@@ -152,7 +149,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
                       editUser(context);
                     },
                     child: new Text(
-                      SpotL.of(Services.loc).save().toUpperCase(),
+                      SpotL.of(context).save().toUpperCase(),
                       style:
                           new TextStyle(color: Theme.of(context).canvasColor),
                     ),
