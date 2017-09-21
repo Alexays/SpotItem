@@ -411,7 +411,25 @@ class _EditItemScreenState extends State<EditItemScreen>
                                                 ])),
                                         new Container(
                                             margin: const EdgeInsets.all(20.0),
-                                            child: getImageGrid()),
+                                            child: new Column(children: [
+                                              (_item.images.length +
+                                                          _imagesFile.length) >
+                                                      0
+                                                  ? new Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              bottom: 15.0),
+                                                      child: new RaisedButton(
+                                                        child: new Text(SpotL
+                                                            .of(context)
+                                                            .addImage()),
+                                                        onPressed: getImage,
+                                                      ))
+                                                  : new Container(),
+                                              new Flexible(
+                                                child: getImageGrid(),
+                                              )
+                                            ])),
                                         _groups != null
                                             ? new Container(
                                                 margin:
