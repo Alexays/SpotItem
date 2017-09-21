@@ -125,7 +125,7 @@ class _GroupPageState extends State<GroupPage>
             ),
             new Row(
               children: new List<Widget>.generate(
-                  group.owners?.length < 3 ? group.owners?.length - 1 ?? 0 : 3,
+                  (group.owners?.length ?? 0).clamp(1, 3) - 1,
                   (index) => getAvatar(group.owners[index + 1], 18.0)),
             ),
           ])
