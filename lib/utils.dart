@@ -48,7 +48,7 @@ bool resValid(response) => response != null && response['success'];
 
 /// Validate Email input
 String validateEmail(String value) {
-  if (value.isEmpty) {
+  if (value == null || value.isEmpty) {
     return 'Email is required.';
   }
   if (!emailExp.hasMatch(value)) {
@@ -59,7 +59,7 @@ String validateEmail(String value) {
 
 /// Validate Name input
 String validateName(String value) {
-  if (value.isEmpty) {
+  if (value == null || value.isEmpty) {
     return 'Name is required.';
   }
   if (!nameExp.hasMatch(value)) {
@@ -70,7 +70,7 @@ String validateName(String value) {
 
 /// Validate other required input
 String validateString(String value) {
-  if (value.isEmpty) {
+  if (value == null || value.isEmpty) {
     return 'Value is required.';
   }
   return null;
