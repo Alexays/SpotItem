@@ -74,7 +74,7 @@ class _ContactScreenState extends State<ContactScreen> {
                         ),
                         decoration: new InputDecoration(
                           hintText: 'Search contacts...',
-                          errorText: _contacts != null && _contacts.isEmpty
+                          errorText: _contacts == null || _contacts.isEmpty
                               ? validateEmail(_email)
                               : null,
                           hintStyle: const TextStyle(
@@ -100,9 +100,9 @@ class _ContactScreenState extends State<ContactScreen> {
                       ),
                     )),
                 const Divider(),
-                Services.users.contacts != null &&
+                Services.users.contacts == null ||
                         Services.users.contacts.isNotEmpty
-                    ? _contacts.isNotEmpty
+                    ? _contacts != null && _contacts.isNotEmpty
                         ? new Expanded(
                             child: new ListView.builder(
                                 padding:
