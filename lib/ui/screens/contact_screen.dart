@@ -62,15 +62,17 @@ class _ContactScreenState extends State<ContactScreen> {
                         ),
                         onChanged: (value) {
                           _email = value;
-                          _contacts = Services.users.contacts
-                              .where((contact) =>
-                                  contact['names'][0]['displayName']
-                                      .toString()
-                                      .contains(value) ||
-                                  contact['emailAddresses'][0]['value']
-                                      .toString()
-                                      .contains(value))
-                              .toList();
+                          setState(() {
+                            _contacts = Services.users.contacts
+                                .where((contact) =>
+                                    contact['names'][0]['displayName']
+                                        .toString()
+                                        .contains(value) ||
+                                    contact['emailAddresses'][0]['value']
+                                        .toString()
+                                        .contains(value))
+                                .toList();
+                          });
                         },
                       ),
                     )),
@@ -88,19 +90,22 @@ class _ContactScreenState extends State<ContactScreen> {
                                           [0]['displayName']),
                                       leading: const Icon(Icons.people),
                                       onTap: () {
+                                        print(
+                                            _contacts[index]['emailAddresses']);
+                                        print(_contacts[index]['emailAddresses']
+                                            .length);
                                         showDialog<Null>(
                                           context: context,
                                           child: new SimpleDialog(
                                               title: new Text(SpotL
                                                   .of(Services.loc)
                                                   .confirm()),
-                                              children: [
-                                                new ListView.builder(
-                                                  itemCount: _contacts[index]
+                                              children: new List<
+                                                      Widget>.generate(
+                                                  _contacts[index]
                                                           ['emailAddresses']
                                                       .length,
-                                                  itemBuilder: (context, i) =>
-                                                      new ListTile(
+                                                  (i) => new ListTile(
                                                         title: new Text(_contacts[
                                                                     index][
                                                                 'emailAddresses']
@@ -112,13 +117,12 @@ class _ContactScreenState extends State<ContactScreen> {
                                                               [i]['value'];
                                                           _handleEmail(context);
                                                         },
-                                                      ),
-                                                )
-                                              ]),
+                                                      ))),
                                         );
                                       },
                                     )))
                         : new RaisedButton(
+                            child: new Text(SpotL.of(context).addSomeone()),
                             onPressed: () {
                               _handleEmail(context);
                             },
