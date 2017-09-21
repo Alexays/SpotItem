@@ -42,7 +42,7 @@ class _GroupPageState extends State<GroupPage>
     if (resValid(response)) {
       await Navigator
           .of(context)
-          .pushNamedAndRemoveUntil('/home', (route) => false);
+          .pushNamedAndRemoveUntil('/', (route) => false);
     }
   }
 
@@ -219,7 +219,7 @@ class _GroupPageState extends State<GroupPage>
                       Services.groups.delGroup(group.id);
                       Navigator
                           .of(context)
-                          .pushNamedAndRemoveUntil('/home', (route) => false);
+                          .pushNamedAndRemoveUntil('/', (route) => false);
                     },
                   ),
                 ],

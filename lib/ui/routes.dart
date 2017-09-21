@@ -1,4 +1,3 @@
-import 'package:spotitem/ui/screens/login_screen.dart';
 import 'package:spotitem/ui/screens/register_screen.dart';
 import 'package:spotitem/ui/screens/add_item_screen.dart';
 import 'package:spotitem/ui/screens/edit_item_screen.dart';
