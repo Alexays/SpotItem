@@ -73,7 +73,7 @@ class _GroupsViewState extends State<GroupsView> {
 
   Widget getList() => new ListView.builder(
       padding: const EdgeInsets.all(20.0),
-      itemCount: _groups.length + 1,
+      itemCount: (_groups?.length ?? 0) + 1,
       itemBuilder: (context, index) {
         if (index == 0) {
           if (_groupsInv != null && _groupsInv.isNotEmpty) {
