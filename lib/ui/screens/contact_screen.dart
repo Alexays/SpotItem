@@ -74,7 +74,9 @@ class _ContactScreenState extends State<ContactScreen> {
                         ),
                         decoration: new InputDecoration(
                           hintText: 'Search contacts...',
-                          errorText: validateEmail(_email),
+                          errorText: _contacts != null && _contacts.isEmpty
+                              ? validateEmail(_email)
+                              : null,
                           hintStyle: const TextStyle(
                             color: const Color.fromARGB(150, 255, 255, 255),
                             fontSize: 16.0,
