@@ -45,6 +45,7 @@ class GroupsManager extends BasicService {
     group.users = null;
     final dynamic groupJson = JSON.decode(group.toString());
     groupJson['users'] = '';
+    groupJson['owners'] = '';
     final Response response =
         await iput('/group/${group.id}', groupJson, Services.auth.accessToken);
     if (response.statusCode == 200) {
