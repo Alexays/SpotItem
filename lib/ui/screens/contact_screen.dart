@@ -75,7 +75,8 @@ class _ContactScreenState extends State<ContactScreen> {
                       ),
                     )),
                 const Divider(),
-                Services.users.contacts.isNotEmpty
+                Services.users.contacts != null &&
+                        Services.users.contacts.isNotEmpty
                     ? _contacts.isNotEmpty
                         ? new Expanded(
                             child: new ListView.builder(
