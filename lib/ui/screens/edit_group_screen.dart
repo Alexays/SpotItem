@@ -133,8 +133,8 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
                               width: MediaQuery.of(context).size.width),
                           child: new RaisedButton(
                             color: Theme.of(context).accentColor,
-                            onPressed: () {
-                              editGroup(context);
+                            onPressed: () async {
+                              await editGroup(context);
                             },
                             child: new Text(
                               SpotL.of(Services.loc).save().toUpperCase(),
