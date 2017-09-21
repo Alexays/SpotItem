@@ -34,9 +34,9 @@ class _ItemsViewState extends State<ItemsView> {
       }
     });
     if (_myItems != null) {
-      _refreshIndicatorKey.currentState?.show();
+      await _refreshIndicatorKey.currentState?.show();
     } else {
-      _loadItems();
+      await _loadItems();
     }
   }
 

@@ -52,7 +52,7 @@ class _ExplorerViewState extends State<ExplorerView> {
     final Future<List<Item>> itemsLoaded =
         Services.items.getItems(force: force);
     if (itemsLoaded != null) {
-      itemsLoaded.then((data) {
+      await itemsLoaded.then((data) {
         if (!mounted) {
           return;
         }

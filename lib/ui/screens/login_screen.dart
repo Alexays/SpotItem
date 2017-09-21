@@ -27,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
           {'email': _usernameCtrl.text, 'password': _passwordCtrl.text},
           'local');
       if (success) {
-        Navigator.pushReplacementNamed(context, '/');
+        await Navigator.pushReplacementNamed(context, '/');
       } else {
         showSnackBar(context, errorText);
       }

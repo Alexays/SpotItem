@@ -53,8 +53,8 @@ class AuthManager extends BasicService {
     _lastEmail = prefs.getString(keyLastEmail) ?? '';
     final String _userData = prefs.getString(keyUser) ?? '{}';
     final String _provider = prefs.getString(keyProvider);
-    final User _user = new User(JSON.decode(_userData));
     final String _refreshToken = prefs.getString(keyOauthToken);
+    final User _user = new User(JSON.decode(_userData));
     if (!_user.isValid() ||
         _refreshToken == null ||
         !providers.contains(_provider)) {
@@ -86,7 +86,7 @@ class AuthManager extends BasicService {
     }
     if (loggedIn && (exp == null || new DateTime.now().isAfter(exp))) {
       if (!await getAccessToken()) {
-        Navigator
+        await Navigator
             .of(Services.context)
             .pushNamedAndRemoveUntil('/', (route) => false);
       }

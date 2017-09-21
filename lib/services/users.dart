@@ -25,7 +25,7 @@ class UsersManager extends BasicService {
     await _location.onLocationChanged.single
         .timeout(const Duration(milliseconds: 200), onTimeout: () {});
     await getLocation();
-    _handleGetContact();
+    await _handleGetContact();
     return true;
   }
 
