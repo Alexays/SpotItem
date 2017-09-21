@@ -25,8 +25,8 @@ class BasicService {
   /// @returns Api response
   Future<http.Response> iget(String url, [String token]) async {
     final String verifiedToken = await Services.auth.verifyToken(token);
-    final http.Response response =
-        await http.get('$apiUrl$url', headers: getHeaders(verifiedToken));
+    final http.Response response = await http.get(Uri.encodeFull('$apiUrl$url'),
+        headers: getHeaders(verifiedToken));
     if (response.statusCode != 200) {
       print(response.body);
     }
@@ -41,8 +41,10 @@ class BasicService {
   /// @returns Api response
   Future<http.Response> ipost(String url, payload, [String token]) async {
     final String verifiedToken = await Services.auth.verifyToken(token);
-    final http.Response response = await http.post('$apiUrl$url',
-        headers: getHeaders(verifiedToken), body: payload);
+    final http.Response response = await http.post(
+        Uri.encodeFull('$apiUrl$url'),
+        headers: getHeaders(verifiedToken),
+        body: payload);
     if (response.statusCode != 200) {
       print(response.body);
     }
@@ -57,7 +59,7 @@ class BasicService {
   /// @returns Api response
   Future<http.Response> iput(String url, payload, [String token]) async {
     final String verifiedToken = await Services.auth.verifyToken(token);
-    final http.Response response = await http.put('$apiUrl$url',
+    final http.Response response = await http.put(Uri.encodeFull('$apiUrl$url'),
         headers: getHeaders(verifiedToken), body: payload);
     if (response.statusCode != 200) {
       print(response.body);
@@ -72,8 +74,9 @@ class BasicService {
   /// @returns Api response
   Future<http.Response> idelete(String url, [String token]) async {
     final String verifiedToken = await Services.auth.verifyToken(token);
-    final http.Response response =
-        await http.delete('$apiUrl$url', headers: getHeaders(verifiedToken));
+    final http.Response response = await http.delete(
+        Uri.encodeFull('$apiUrl$url'),
+        headers: getHeaders(verifiedToken));
     if (response.statusCode != 200) {
       print(response.body);
     }

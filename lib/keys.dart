@@ -32,5 +32,6 @@ final List<String> providers = ['google', 'local'];
 Map<String, String> getHeaders([String key]) => {
       'Authorization': key,
       'spotkey': 'Basic $clientSecret',
-      'accept-version': version
+      'accept-version': version,
+      'Accept': 'application/json'
     };
