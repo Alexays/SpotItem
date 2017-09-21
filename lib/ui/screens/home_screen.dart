@@ -24,7 +24,8 @@ class _HomeScreenState extends State<HomeScreen>
     with TickerProviderStateMixin, WidgetsBindingObserver {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final Key _searchKey = const Key('search');
-  static List<HomeScreenItem> _homeScreenItems;
+
+  List<HomeScreenItem> _homeScreenItems;
 
   // Animation
   AnimationController _controller;
