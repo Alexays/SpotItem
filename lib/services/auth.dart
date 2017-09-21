@@ -22,7 +22,7 @@ class AuthManager extends BasicService {
   bool get loggedIn => _loggedIn;
 
   /// Token to access API data
-  String get accessToken => _accessToken;
+  String accessToken;
 
   /// Token to regenerate access_token
   String refreshToken;
@@ -44,7 +44,6 @@ class AuthManager extends BasicService {
 
   /// Private variables
   bool _loggedIn = false;
-  String _accessToken;
   GoogleSignInAccount _googleUser;
   String _lastEmail;
 
@@ -102,7 +101,7 @@ class AuthManager extends BasicService {
     if (response.statusCode == 200) {
       final dynamic bodyJson = JSON.decode(response.body);
       if (bodyJson['success']) {
-        _accessToken = bodyJson['access_token'];
+        accessToken = bodyJson['access_token'];
         exp = new DateTime.fromMillisecondsSinceEpoch(
             (bodyJson['exp'] * 1000) - 30);
         return true;
@@ -157,7 +156,7 @@ class AuthManager extends BasicService {
           _lastEmail = payload['email'];
         }
         user = new User(bodyJson['user']);
-        _accessToken = bodyJson['access_token'];
+        accessToken = bodyJson['access_token'];
         exp = new DateTime.fromMillisecondsSinceEpoch(bodyJson['exp'] * 1000);
         await saveTokens(user.toString(), bodyJson['refresh_token'], _provider);
         _loggedIn = true;
@@ -177,7 +176,7 @@ class AuthManager extends BasicService {
       await iget('/logout/$provider', refreshToken);
     }
     await saveTokens(null, null, null);
-    _accessToken = null;
+    accessToken = null;
     exp = null;
     provider = null;
     user = null;
