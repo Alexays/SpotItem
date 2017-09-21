@@ -103,10 +103,10 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   void dispose() {
-    _controller.dispose();
-    _searchController.dispose();
-    _homeScreenItems[_currentIndex].tab.removeListener(_checkFilter);
-    _homeScreenItems.forEach((f) => f.tab.dispose());
+    _controller?.dispose();
+    _searchController?.dispose();
+    _homeScreenItems[_currentIndex].tab?.removeListener(_checkFilter);
+    _homeScreenItems.forEach((f) => f.tab?.dispose());
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
