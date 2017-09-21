@@ -90,8 +90,12 @@ class GroupsManager extends BasicService {
         await iget('/groups/inv', Services.auth.accessToken);
     if (response.statusCode == 200) {
       final dynamic groupJson = JSON.decode(response.body);
-      return _groupsInv = new List<Group>.generate(
-          groupJson?.length ?? 0, (index) => new Group(groupJson[index]));
+      return _groupsInv =
+          new List<Group>.generate(groupJson?.length ?? 0, (index) {
+        // Owners is not populated here, not need for invitations
+        groupJson[index]['owners'] = [];
+        return new Group(groupJson[index]);
+      });
     }
     return _groupsInv;
   }
