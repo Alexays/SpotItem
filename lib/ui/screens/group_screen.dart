@@ -245,7 +245,7 @@ class _GroupPageState extends State<GroupPage>
   Widget _buildUsers(BuildContext context) => new Flexible(
       child: new ListView.builder(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          itemCount: group.users.length,
+          itemCount: group?.users?.length ?? 0,
           itemBuilder: (context, index) {
             final List<Widget> buttons = [
               getAvatar(group.users[index]),

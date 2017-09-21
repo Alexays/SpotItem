@@ -26,11 +26,6 @@ class _GroupsViewState extends State<GroupsView> {
 
   @override
   void initState() {
-    _getGroups();
-    super.initState();
-  }
-
-  Future<Null> _getGroups() async {
     setState(() {
       _groups = Services.groups.groups;
       _groupsInv = Services.groups.groupsInv;
@@ -38,6 +33,11 @@ class _GroupsViewState extends State<GroupsView> {
         _groups = null;
       }
     });
+    _checkGroup();
+    super.initState();
+  }
+
+  Future<Null> _checkGroup() async {
     if (_groups != null) {
       _refreshIndicatorKey.currentState?.show();
     } else {
@@ -49,6 +49,9 @@ class _GroupsViewState extends State<GroupsView> {
   Future<Null> _loadGroups() async {
     final List<Group> resGroup = await Services.groups.getGroups();
     final List<Group> resInv = await Services.groups.getGroupsInv();
+    if (!mounted) {
+      return;
+    }
     setState(() {
       _groups = resGroup;
       _groupsInv = resInv;
@@ -59,7 +62,7 @@ class _GroupsViewState extends State<GroupsView> {
     final dynamic response =
         await Services.groups.joinGroup(_groupsInv[index].id);
     if (resValid(response)) {
-      _loadGroups();
+      await _loadGroups();
     }
   }
 
@@ -71,7 +74,7 @@ class _GroupsViewState extends State<GroupsView> {
         ));
   }
 
-  Widget getList() => new ListView.builder(
+  Widget createList() => new ListView.builder(
       padding: const EdgeInsets.all(20.0),
       itemCount: (_groups?.length ?? 0) + 1,
       itemBuilder: (context, index) {
@@ -104,7 +107,7 @@ class _GroupsViewState extends State<GroupsView> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         new Text(
-                          _groups[index - 1].users.length.toString(),
+                          (_groups[index - 1].users?.length ?? '?').toString(),
                           style: new TextStyle(
                               fontWeight: FontWeight.w400, fontSize: 15.0),
                         ),
@@ -128,9 +131,9 @@ class _GroupsViewState extends State<GroupsView> {
       child: new ExpansionTile(
         leading: const Icon(Icons.mail),
         title:
-            new Text('You have ${_groupsInv.length.toString()} invitation(s)'),
+            new Text('You have ${_groupsInv?.length.toString()} invitation(s)'),
         children: new List<Widget>.generate(
-            _groupsInv.length,
+            _groupsInv?.length ?? 0,
             (index) => new GestureDetector(
                 onTap: () {
                   showDialog<Null>(
@@ -154,8 +157,8 @@ class _GroupsViewState extends State<GroupsView> {
                         ),
                         new FlatButton(
                           child: const Text('Join !'),
-                          onPressed: () {
-                            _joinGroup(index);
+                          onPressed: () async {
+                            await _joinGroup(index);
                             Navigator.of(context).pop();
                           },
                         ),
@@ -207,5 +210,5 @@ class _GroupsViewState extends State<GroupsView> {
       onRefresh: () => _loadGroups(),
       child: _groups == null
           ? const Center(child: const CircularProgressIndicator())
-          : getList());
+          : createList());
 }
