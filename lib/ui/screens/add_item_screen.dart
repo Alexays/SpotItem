@@ -252,7 +252,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                           _location = value.trim();
                                         }),
                                     const Divider(),
-                                    new SwitchListTile(
+                                    new CheckboxListTile(
                                         title:
                                             new Text(SpotL.of(context).gift()),
                                         value: _tracks.contains('gift'),
@@ -267,7 +267,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                         },
                                         secondary:
                                             const Icon(Icons.card_giftcard)),
-                                    new SwitchListTile(
+                                    new CheckboxListTile(
                                         title: new Text(
                                             SpotL.of(context).private()),
                                         value: _tracks.contains('private'),

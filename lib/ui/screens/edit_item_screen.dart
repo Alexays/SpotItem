@@ -369,7 +369,7 @@ class _EditItemScreenState extends State<EditItemScreen>
                                                       _location = data;
                                                     },
                                                   ),
-                                                  new SwitchListTile(
+                                                  new CheckboxListTile(
                                                     title: new Text(SpotL
                                                         .of(context)
                                                         .gift()),
@@ -388,7 +388,7 @@ class _EditItemScreenState extends State<EditItemScreen>
                                                     secondary: const Icon(
                                                         Icons.card_giftcard),
                                                   ),
-                                                  new SwitchListTile(
+                                                  new CheckboxListTile(
                                                     title: new Text(SpotL
                                                         .of(context)
                                                         .private()),
