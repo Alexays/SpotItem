@@ -123,13 +123,10 @@ class _GroupPageState extends State<GroupPage>
             new Expanded(
               child: new Container(),
             ),
-            new Row(
-              children: new List<Widget>.generate(
-                  (group.owners?.length ?? 0).clamp(1, 3) - 1,
-                  (index) => new Padding(
-                      padding: const EdgeInsets.only(left: 5.0),
-                      child: getAvatar(group.owners[index + 1], 18.0))),
-            ),
+            new Text(
+              '${(group?.users?.length ?? 0 + 1).toString()} member(s)',
+              style: const TextStyle(color: Colors.white),
+            )
           ])
     ];
     if (group.about.isNotEmpty) {
