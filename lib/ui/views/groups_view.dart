@@ -39,9 +39,9 @@ class _GroupsViewState extends State<GroupsView> {
 
   Future<Null> _checkGroup() async {
     if (_groups != null) {
-      _refreshIndicatorKey.currentState?.show();
+      await _refreshIndicatorKey.currentState?.show();
     } else {
-      _loadGroups();
+      await _loadGroups();
     }
   }
 

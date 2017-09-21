@@ -144,16 +144,16 @@ class AuthManager extends BasicService {
   /// @param payload User payload
   /// @param _provider Login provider
   /// @returns Logged or not
-  Future<bool> login(payload, String _provider) async {
+  Future<bool> login(_payload, String _provider) async {
     _loggedIn = false;
-    final Response response = await ipost('/login/$_provider', payload);
+    final Response response = await ipost('/login/$_provider', _payload);
     if (response.statusCode == 200) {
       final dynamic bodyJson = JSON.decode(response.body);
       if (bodyJson['success']) {
-        if (payload['email'] != null) {
+        if (_payload['email'] != null) {
           await SharedPreferences.getInstance()
-            ..setString(keyLastEmail, payload['email']);
-          _lastEmail = payload['email'];
+            ..setString(keyLastEmail, _payload['email']);
+          _lastEmail = _payload['email'];
         }
         user = new User(bodyJson['user']);
         accessToken = bodyJson['access_token'];
