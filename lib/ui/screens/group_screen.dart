@@ -332,7 +332,10 @@ class _GroupPageState extends State<GroupPage>
                 },
               ));
             }
-            if (isOwner && group.users[index].id != Services.auth.user.id) {
+            if (isOwner &&
+                group.users[index].id != Services.auth.user.id &&
+                !group.owners
+                    .any((owner) => owner.id == group.users[index].id)) {
               buttons.add(new IconButton(
                 icon: const Icon(Icons.remove_circle_outline),
                 onPressed: () {
