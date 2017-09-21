@@ -34,6 +34,8 @@ class _GroupPageState extends State<GroupPage>
   @override
   void initState() {
     isOwner = group.owners.any((owner) => owner.id == Services.auth.user.id);
+    group.users =
+        group.users.where((user) => user.id != group.owners[0].id).toList();
     super.initState();
   }
 
@@ -255,6 +257,12 @@ class _GroupPageState extends State<GroupPage>
                   '${group.users[index].firstname} ${group.users[index].name}'),
               new Expanded(child: new Container()),
             ];
+            if (group.owners
+                .any((owner) => owner.id == group.users[index].id)) {
+              buttons.add(const Icon(
+                Icons.star,
+              ));
+            }
             if (!group.owners
                     .any((owner) => owner.id == group.users[index].id) &&
                 group.users[index].id != Services.auth.user.id &&
