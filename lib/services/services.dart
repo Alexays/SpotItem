@@ -28,10 +28,10 @@ class Services {
   static final Router router = _singleton._router;
 
   /// Loc context
-  static BuildContext loc = _singleton._loc;
+  static final BuildContext loc = _singleton._loc;
 
   /// Context
-  static BuildContext context = _singleton._context;
+  static final BuildContext context = _singleton._context;
 
   /// Private variables
   AuthManager _authManager;
