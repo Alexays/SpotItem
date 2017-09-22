@@ -36,7 +36,9 @@ class ItemsListItem extends StatelessWidget {
                   tag: '${item.id}_img_$hash',
                   child: new FadeInImage(
                     placeholder: placeholder,
-                    image: new NetworkImage('$apiImgUrl${item.images.first}'),
+                    image: item.images.isNotEmpty
+                        ? new NetworkImage('$apiImgUrl${item.images.first}')
+                        : placeholder,
                     fit: BoxFit.cover,
                   )),
               // new Positioned(
