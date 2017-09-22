@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "183848257566",
+    "firebase_url": "https://spotitem.firebaseio.com",
+    "project_id": "spotitem",
+    "storage_bucket": "spotitem.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:183848257566:android:81fb03fdd3ba984a",
+        "android_client_info": {
+          "package_name": "fr.arouillard.spotitem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "183848257566-quumk83648ivam3evb0jgv0eimnbcr3f.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "183848257566-64hbl4u6tltnqskkvu7v9nnh4v7447tl.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "183848257566-e0f5mcomc6lhl00hooibn1c1srasmatn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fr.arouillard.spotitem",
+            "certificate_hash": "ec3d677fa2c2ea1b219d30855f28842cec8a2a9c"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpqhARAQZI75SJ7ElB7QQyouqnW1IzMzg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "183848257566-quumk83648ivam3evb0jgv0eimnbcr3f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

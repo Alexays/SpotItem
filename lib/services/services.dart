@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:spotitem/services/items.dart';
 import 'package:spotitem/services/auth.dart';
 import 'package:spotitem/services/groups.dart';
@@ -33,6 +34,9 @@ class Services {
   /// Context
   static BuildContext context = _singleton._context;
 
+  /// Firebase Messaging
+  static FirebaseMessaging firebaseMessaging = _singleton._firebaseMessaging;
+
   /// Private variables
   AuthManager _authManager;
   ItemsManager _itemsManager;
@@ -41,6 +45,7 @@ class Services {
   Router _router;
   BuildContext _context;
   BuildContext _loc;
+  FirebaseMessaging _firebaseMessaging;
 
   Services._internal();
 
@@ -53,11 +58,29 @@ class Services {
     _singleton._groupsManager = new GroupsManager();
     _singleton._usersManager = new UsersManager();
     _singleton._router = new Router();
+    _singleton._firebaseMessaging = new FirebaseMessaging();
     final bool auth = await _singleton._authManager.init();
     final bool items = await _singleton._itemsManager.init();
     final bool groups = await _singleton._groupsManager.init();
     final bool users = await _singleton._usersManager.init();
     Routes.configureRoutes(_singleton._router);
+    _singleton._firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) {
+        print("onMessage: $message");
+      },
+      onLaunch: (Map<String, dynamic> message) {
+        print("onLaunch: $message");
+      },
+      onResume: (Map<String, dynamic> message) {
+        print("onResume: $message");
+      },
+    );
+    _singleton._firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(sound: true, badge: true, alert: true));
+    _singleton._firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings) {
+      print("Settings registered: $settings");
+    });
     return auth && items && groups && users;
   }
 }
