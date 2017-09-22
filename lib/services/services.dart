@@ -65,21 +65,20 @@ class Services {
     final bool users = await _singleton._usersManager.init();
     Routes.configureRoutes(_singleton._router);
     _singleton._firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) {
-        print("onMessage: $message");
+      onMessage: (message) {
+        print('onMessage: $message');
       },
-      onLaunch: (Map<String, dynamic> message) {
-        print("onLaunch: $message");
+      onLaunch: (message) {
+        print('onLaunch: $message');
       },
-      onResume: (Map<String, dynamic> message) {
-        print("onResume: $message");
+      onResume: (message) {
+        print('onResume: $message');
       },
     );
     _singleton._firebaseMessaging.requestNotificationPermissions(
         const IosNotificationSettings(sound: true, badge: true, alert: true));
-    _singleton._firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings) {
-      print("Settings registered: $settings");
+    _singleton._firebaseMessaging.onIosSettingsRegistered.listen((settings) {
+      print('Settings registered: $settings');
     });
     return auth && items && groups && users;
   }
