@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:spotitem/services/services.dart';
+import 'package:spotitem/models/api.dart';
 import 'package:spotitem/models/group.dart';
 import 'package:spotitem/utils.dart';
 import 'package:flutter/material.dart';
@@ -33,9 +34,9 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
     _formKey.currentState.save();
     final Group group = new Group(
         {'name': name, 'about': about, 'owner': Services.auth.user.id});
-    final dynamic response = await Services.groups.addGroup(group, email);
+    final ApiRes response = await Services.groups.addGroup(group, email);
     if (resValid(context, response)) {
-      showSnackBar(context, response['msg']);
+      showSnackBar(context, response.msg);
       await Navigator
           .of(context)
           .pushNamedAndRemoveUntil('/', (route) => false);

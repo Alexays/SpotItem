@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/ui/screens/group_screen.dart';
+import 'package:spotitem/models/api.dart';
 import 'package:spotitem/models/group.dart';
 import 'package:spotitem/ui/spot_strings.dart';
 import 'package:spotitem/utils.dart';
@@ -59,7 +60,7 @@ class _GroupsViewState extends State<GroupsView> {
   }
 
   Future<Null> _joinGroup(int index) async {
-    final dynamic response =
+    final ApiRes response =
         await Services.groups.joinGroup(_groupsInv[index].id);
     if (resValid(context, response)) {
       await _loadGroups();

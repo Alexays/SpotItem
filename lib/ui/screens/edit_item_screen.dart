@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/utils.dart';
+import 'package:spotitem/models/api.dart';
 import 'package:spotitem/models/item.dart';
 import 'package:spotitem/models/group.dart';
 
@@ -220,7 +221,7 @@ class _EditItemScreenState extends State<EditItemScreen>
     if (Services.auth.user != null &&
         Services.auth.user.id != null &&
         Services.users.location != null) {
-      final dynamic response = await Services.items.editItem({
+      final ApiRes response = await Services.items.editItem({
         'id': _item.id,
         'name': _name,
         'about': _about,
@@ -234,8 +235,8 @@ class _EditItemScreenState extends State<EditItemScreen>
         'groups': JSON.encode(groups)
       });
       Navigator.of(context).pop();
-      showSnackBar(context, response['msg']);
       if (resValid(context, response)) {
+        showSnackBar(context, response.msg);
         await Services.items.getItems(force: true);
         await Navigator
             .of(context)

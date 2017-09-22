@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:spotitem/models/api.dart';
 import 'package:spotitem/models/group.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/utils.dart';
@@ -40,7 +41,7 @@ class _GroupPageState extends State<GroupPage>
   }
 
   Future<Null> _leaveGroup(BuildContext context) async {
-    final dynamic response = await Services.groups.leaveGroup(group.id);
+    final ApiRes response = await Services.groups.leaveGroup(group.id);
     if (resValid(context, response)) {
       await Navigator
           .of(context)
@@ -49,7 +50,7 @@ class _GroupPageState extends State<GroupPage>
   }
 
   Future<Null> _kickUser(BuildContext context, String userId) async {
-    final dynamic response = await Services.groups.kickUser(group.id, userId);
+    final ApiRes response = await Services.groups.kickUser(group.id, userId);
     if (resValid(context, response)) {
       setState(() {
         group.users = group.users.where((user) => user.id == userId).toList();
@@ -59,8 +60,7 @@ class _GroupPageState extends State<GroupPage>
   }
 
   Future<Null> _removeOwner(BuildContext context, String userId) async {
-    final dynamic response =
-        await Services.groups.removeOwner(group.id, userId);
+    final ApiRes response = await Services.groups.removeOwner(group.id, userId);
     if (resValid(context, response)) {
       if (!mounted) {
         return;
@@ -74,14 +74,14 @@ class _GroupPageState extends State<GroupPage>
   }
 
   Future<Null> _addOwner(BuildContext context, String userId) async {
-    final dynamic response = await Services.groups.addOwner(group.id, userId);
+    final ApiRes response = await Services.groups.addOwner(group.id, userId);
     if (resValid(context, response)) {
       if (!mounted) {
         return;
       }
       setState(() {
-        if (response['group'] != null) {
-          group = new Group(JSON.decode(response['group']));
+        if (response.data != null) {
+          group = new Group(JSON.decode(response.data));
         }
       });
       Navigator.of(context).pop();

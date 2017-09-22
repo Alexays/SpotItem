@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:spotitem/services/services.dart';
+import 'package:spotitem/models/api.dart';
 import 'package:spotitem/utils.dart';
 import 'package:spotitem/models/group.dart';
 import 'package:image_picker/image_picker.dart';
@@ -173,7 +174,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     if (Services.auth.user != null &&
         Services.auth.user.id != null &&
         Services.users.location != null) {
-      final dynamic response = await Services.items.addItem({
+      final ApiRes response = await Services.items.addItem({
         'name': _name,
         'about': _about,
         'owner': Services.auth.user.id,
