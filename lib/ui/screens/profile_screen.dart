@@ -23,7 +23,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     Services.users.getUser(_userId).then((user) {
-      _user = user;
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _user = user;
+      });
     });
     super.initState();
   }
