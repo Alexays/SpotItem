@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:http/http.dart';
+import 'package:spotitem/models/api.dart';
 import 'package:spotitem/models/group.dart';
 import 'package:spotitem/services/basic.dart';
 import 'package:spotitem/services/services.dart';
@@ -22,80 +22,66 @@ class GroupsManager extends BasicService {
   /// @param group Group payload
   /// @param users Users list to add
   /// @returns Api body response
-  Future<dynamic> addGroup(Group group, List<String> users) async {
+  Future<ApiRes> addGroup(Group group, List<String> users) async {
     final dynamic groupJson = JSON.decode(group.toString());
     groupJson['users'] = JSON.encode(users);
     groupJson['owners'] = JSON.encode([Services.auth.user.id]);
-    final Response response =
+    final ApiRes response =
         await ipost('/groups', groupJson, Services.auth.accessToken);
-    if (response.statusCode == 200) {
-      final dynamic bodyJson = JSON.decode(response.body);
-      if (bodyJson['success'] && bodyJson['group'] != null) {
-        Services.auth.user.groups.add(bodyJson['group']);
-      }
-      return bodyJson;
+    if (response.success && response.data != null) {
+      Services.auth.user.groups.add(response.data);
     }
+    return response;
   }
 
   /// Edit group, not users in group.
   ///
   /// @param group Group payload
   /// @returns Api body response
-  Future<dynamic> editGroup(Group group) async {
+  Future<ApiRes> editGroup(Group group) async {
     group.users = null;
     final dynamic groupJson = JSON.decode(group.toString());
     groupJson['users'] = '';
     groupJson['owners'] = '';
-    final Response response =
+    final ApiRes response =
         await iput('/group/${group.id}', groupJson, Services.auth.accessToken);
-    if (response.statusCode == 200) {
-      final dynamic bodyJson = JSON.decode(response.body);
-      return bodyJson;
-    }
+    return response;
   }
 
   /// Get user groups.
   ///
   /// @returns Groups list
   Future<dynamic> getGroups() async {
-    final Response response = await iget('/groups', Services.auth.accessToken);
-    if (response.statusCode == 200) {
-      final dynamic groupJson = JSON.decode(response.body);
-      return _groups = new List<Group>.generate(
-          groupJson?.length ?? 0, (index) => new Group(groupJson[index]));
-    }
-    return _groups;
+    final ApiRes response = await iget('/groups', Services.auth.accessToken);
+    return _groups = new List<Group>.generate(
+        response.data?.length ?? 0, (index) => new Group(response.data[index]));
   }
 
   /// Get a group by id.
   ///
   /// @param groupId Group id
   /// @returns Api body response
-  Future<dynamic> getGroup(String groupId) async {
+  Future<ApiRes> getGroup(String groupId) async {
     if (groupId == null) {
       return null;
     }
-    final Response response =
+    final ApiRes response =
         await iget('/group/$groupId', Services.auth.accessToken);
-    if (response.statusCode == 200) {
-      final dynamic groupJson = JSON.decode(response.body);
-      return groupJson;
-    }
+    return response;
   }
 
   /// Get user groups invitation.
   ///
   /// @returns Invitation groups list
-  Future<dynamic> getGroupsInv() async {
-    final Response response =
+  Future<List<Group>> getGroupsInv() async {
+    final ApiRes response =
         await iget('/groups/inv', Services.auth.accessToken);
-    if (response.statusCode == 200) {
-      final dynamic groupJson = JSON.decode(response.body);
+    if (response.statusCode == 200 && response.success) {
       return _groupsInv =
-          new List<Group>.generate(groupJson?.length ?? 0, (index) {
+          new List<Group>.generate(response.data?.length ?? 0, (index) {
         // Owners is not populated here, not need for invitations
-        groupJson[index]['owners'] = [];
-        return new Group(groupJson[index]);
+        response.data[index]['owners'] = [];
+        return new Group(response.data[index]);
       });
     }
     return _groupsInv;
@@ -109,47 +95,44 @@ class GroupsManager extends BasicService {
     if (groupId == null) {
       return null;
     }
-    final Response response =
+    final ApiRes response =
         await idelete('/group/$groupId', Services.auth.accessToken);
-    if (response.statusCode == 200) {
-      final dynamic groupJson = JSON.decode(response.body);
+    if (response.statusCode == 200 && response.success) {
       Services.auth.user.groups.removeWhere((group) => group == groupId);
-      return groupJson;
     }
+    return response;
   }
 
   /// Join group by id.
   ///
   /// @param groupId Group id
   /// @returns Api body response
-  Future<dynamic> joinGroup(String groupId) async {
+  Future<ApiRes> joinGroup(String groupId) async {
     if (groupId == null) {
       return null;
     }
-    final Response response =
+    final ApiRes response =
         await ipost('/group/$groupId', null, Services.auth.accessToken);
-    if (response.statusCode == 200) {
-      final dynamic groupJson = JSON.decode(response.body);
+    if (response.statusCode == 200 && response.success) {
       Services.auth.user.groups.add(groupId);
-      return groupJson;
     }
+    return response;
   }
 
   /// Leave a group by id.
   ///
   /// @param groupId Group id
   /// @returns Api body response
-  Future<dynamic> leaveGroup(String groupId) async {
+  Future<ApiRes> leaveGroup(String groupId) async {
     if (groupId == null) {
       return null;
     }
-    final Response response =
+    final ApiRes response =
         await iget('/group/$groupId/leave', Services.auth.accessToken);
-    if (response.statusCode == 200) {
-      final dynamic groupJson = JSON.decode(response.body);
+    if (response.statusCode == 200 && response.success) {
       Services.auth.user.groups.removeWhere((group) => group == groupId);
-      return groupJson;
     }
+    return response;
   }
 
   /// Kick user of group by id's.
@@ -157,16 +140,13 @@ class GroupsManager extends BasicService {
   /// @param groupId Group id
   /// @param userId User id
   /// @returns Api body response
-  Future<dynamic> kickUser(String groupId, String userId) async {
+  Future<ApiRes> kickUser(String groupId, String userId) async {
     if (groupId == null || userId == null) {
       return null;
     }
-    final Response response =
+    final ApiRes response =
         await idelete('/group/$groupId/$userId', Services.auth.accessToken);
-    if (response.statusCode == 200) {
-      final dynamic groupJson = JSON.decode(response.body);
-      return groupJson;
-    }
+    return response;
   }
 
   /// Add a user to group by id's
@@ -174,16 +154,13 @@ class GroupsManager extends BasicService {
   /// @param groupId Group id
   /// @param userId User id
   /// @returns Api body response
-  Future<dynamic> addUser(String groupId, String userId) async {
+  Future<ApiRes> addUser(String groupId, String userId) async {
     if (groupId == null || userId == null) {
       return null;
     }
-    final Response response =
+    final ApiRes response =
         await iput('/group/$groupId/$userId', null, Services.auth.accessToken);
-    if (response.statusCode == 200) {
-      final dynamic groupJson = JSON.decode(response.body);
-      return groupJson;
-    }
+    return response;
   }
 
   /// Remove a owner of group by id's.
@@ -191,16 +168,13 @@ class GroupsManager extends BasicService {
   /// @param groupId Group id
   /// @param userId User id
   /// @returns Api body response
-  Future<dynamic> removeOwner(String groupId, String userId) async {
+  Future<ApiRes> removeOwner(String groupId, String userId) async {
     if (groupId == null || userId == null) {
       return null;
     }
-    final Response response = await idelete(
+    final ApiRes response = await idelete(
         '/group/$groupId/$userId/owner', Services.auth.accessToken);
-    if (response.statusCode == 200) {
-      final dynamic groupJson = JSON.decode(response.body);
-      return groupJson;
-    }
+    return response;
   }
 
   /// Add a owner to group by id's
@@ -208,15 +182,12 @@ class GroupsManager extends BasicService {
   /// @param groupId Group id
   /// @param userId User id
   /// @returns Api body response
-  Future<dynamic> addOwner(String groupId, String userId) async {
+  Future<ApiRes> addOwner(String groupId, String userId) async {
     if (groupId == null || userId == null) {
       return null;
     }
-    final Response response = await iput(
+    final ApiRes response = await iput(
         '/group/$groupId/$userId/owner', null, Services.auth.accessToken);
-    if (response.statusCode == 200) {
-      final dynamic groupJson = JSON.decode(response.body);
-      return groupJson;
-    }
+    return response;
   }
 }

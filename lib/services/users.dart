@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
+import 'package:spotitem/models/api.dart';
 import 'package:spotitem/models/user.dart';
 import 'package:spotitem/services/basic.dart';
 import 'package:spotitem/services/services.dart';
@@ -83,16 +84,15 @@ class UsersManager extends BasicService {
     if (password != null) {
       userJson['password'] = password;
     }
-    final http.Response response =
+    final ApiRes response =
         await iput('/user/edit', userJson, Services.auth.accessToken);
-    final dynamic bodyJson = JSON.decode(response.body);
-    if (response.statusCode == 200 && bodyJson['success']) {
-      Services.auth.user = new User(bodyJson['user']);
-      Services.auth.accessToken = bodyJson['token'];
+    if (response.statusCode == 200 && response.success) {
+      Services.auth.user = new User(response.data['user']);
+      Services.auth.accessToken = response.data['token'];
       await saveTokens(Services.auth.user.toString(),
           Services.auth.refreshToken, Services.auth.provider);
     }
-    return bodyJson;
+    return response;
   }
 
   /// Get user by id.
@@ -103,11 +103,10 @@ class UsersManager extends BasicService {
     if (userId == null) {
       return null;
     }
-    final http.Response response =
+    final ApiRes response =
         await iget('/user/$userId', Services.auth.accessToken);
-    if (response.statusCode == 200) {
-      final dynamic userJson = JSON.decode(response.body);
-      return new User(userJson);
+    if (response.statusCode == 200 && response.success) {
+      return new User(response.data);
     }
     return null;
   }

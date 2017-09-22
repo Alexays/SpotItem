@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:convert';
-
 import 'package:spotitem/models/item.dart';
-import 'package:http/http.dart';
+import 'package:spotitem/models/api.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/services/basic.dart';
 import 'package:spotitem/services/services.dart';
@@ -39,39 +37,30 @@ class ItemsManager extends BasicService {
   ///
   /// @param payload Item payload
   /// @returns Api body response
-  Future<dynamic> addItem(payload) async {
-    final Response response =
+  Future<ApiRes> addItem(payload) async {
+    final ApiRes response =
         await ipost('/items', payload, Services.auth.accessToken);
-    if (response.statusCode == 200) {
-      final dynamic bodyJson = JSON.decode(response.body);
-      return bodyJson;
-    }
+    return response;
   }
 
   /// Edit item by id.
   ///
   /// @param payload Item payload
   /// @returns Api body response
-  Future<dynamic> editItem(payload) async {
-    final Response response = await iput(
+  Future<ApiRes> editItem(payload) async {
+    final ApiRes response = await iput(
         '/items/${payload['id']}', payload, Services.auth.accessToken);
-    if (response.statusCode == 200) {
-      final dynamic bodyJson = JSON.decode(response.body);
-      return bodyJson;
-    }
+    return response;
   }
 
   /// Delete item by id.
   ///
   /// @param id Item Id
   /// @returns Api body response
-  Future<dynamic> deleteItem(String id) async {
-    final Response response =
+  Future<ApiRes> deleteItem(String id) async {
+    final ApiRes response =
         await idelete('/items/$id', Services.auth.accessToken);
-    if (response.statusCode == 200) {
-      final dynamic bodyJson = JSON.decode(response.body);
-      return bodyJson;
-    }
+    return response;
   }
 
   /// Load items filter by token.
@@ -80,17 +69,16 @@ class ItemsManager extends BasicService {
   Future<List<Item>> loadItems() async {
     if (_items.isEmpty) {
       await Services.users.getLocation();
-      final Response response = await iget(
+      final ApiRes response = await iget(
           '${Services.auth.loggedIn != null ? '/items/auth' : '/items'}',
           Services.auth.loggedIn ? Services.auth.accessToken : null);
-      if (response.statusCode == 200) {
-        final dynamic itemJson = JSON.decode(response.body);
+      if (response.statusCode == 200 && response.success) {
         _items = new List<Item>.generate(
-            itemJson?.length ?? 0,
+            response.data?.length ?? 0,
             (index) => new Item(
-                itemJson[index],
-                Services.users
-                    .getDist(itemJson[index]['lat'], itemJson[index]['lng'])));
+                response.data[index],
+                Services.users.getDist(
+                    response.data[index]['lat'], response.data[index]['lng'])));
       }
     }
     return _items;
@@ -115,11 +103,10 @@ class ItemsManager extends BasicService {
     if (itemId == null) {
       return null;
     }
-    final Response response = await iget('/items/$itemId');
-    if (response.statusCode == 200) {
-      final dynamic itemJson = JSON.decode(response.body);
-      return new Item(
-          itemJson, Services.users.getDist(itemJson['lat'], itemJson['lng']));
+    final ApiRes response = await iget('/items/$itemId');
+    if (response.statusCode == 200 && response.success) {
+      return new Item(response.data,
+          Services.users.getDist(response.data['lat'], response.data['lng']));
     }
     return null;
   }
@@ -128,16 +115,15 @@ class ItemsManager extends BasicService {
   ///
   /// @returns User items list
   Future<List<Item>> getSelfItems() async {
-    final Response response =
+    final ApiRes response =
         await iget('/items/user', Services.auth.accessToken);
-    if (response.statusCode == 200) {
-      final dynamic itemJson = JSON.decode(response.body);
+    if (response.statusCode == 200 && response.success) {
       _myItems = new List<Item>.generate(
-          itemJson?.length ?? 0,
+          response.data?.length ?? 0,
           (index) => new Item(
-              itemJson[index],
-              Services.users
-                  .getDist(itemJson[index]['lat'], itemJson[index]['lng'])));
+              response.data[index],
+              Services.users.getDist(
+                  response.data[index]['lat'], response.data[index]['lng'])));
     }
     return _myItems;
   }

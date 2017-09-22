@@ -179,7 +179,7 @@ class _ItemPageState extends State<ItemPage>
                     child: const Text('Delete'),
                     onPressed: () {
                       Services.items.deleteItem(item.id).then((resp) {
-                        if (resp['success']) {
+                        if (resp.success) {
                           Services.items.getItems(force: true);
                           Navigator
                               .of(context)

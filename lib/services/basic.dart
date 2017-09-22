@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:spotitem/keys.dart';
+import 'package:spotitem/models/api.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,11 +24,13 @@ class BasicService {
   /// @param url Get url
   /// @param token Token to use to authentificate
   /// @returns Api response
-  Future<http.Response> iget(String url, [String token]) async {
+  Future<ApiRes> iget(String url, [String token]) async {
     final String verifiedToken = await Services.auth.verifyToken(token);
     final http.Response response = await http.get(Uri.encodeFull('$apiUrl$url'),
         headers: getHeaders(verifiedToken));
-    return response;
+    final ApiRes apiRes =
+        new ApiRes(JSON.decode(response.body), response.statusCode);
+    return apiRes;
   }
 
   /// Http post method.
@@ -36,13 +39,15 @@ class BasicService {
   /// @param payload The payload
   /// @param token Token to use to authentificate
   /// @returns Api response
-  Future<http.Response> ipost(String url, payload, [String token]) async {
+  Future<ApiRes> ipost(String url, payload, [String token]) async {
     final String verifiedToken = await Services.auth.verifyToken(token);
     final http.Response response = await http.post(
         Uri.encodeFull('$apiUrl$url'),
         headers: getHeaders(verifiedToken),
         body: payload);
-    return response;
+    final ApiRes apiRes =
+        new ApiRes(JSON.decode(response.body), response.statusCode);
+    return apiRes;
   }
 
   /// Http put method.
@@ -51,11 +56,13 @@ class BasicService {
   /// @param payload The payload
   /// @param token Token to use to authentificate
   /// @returns Api response
-  Future<http.Response> iput(String url, payload, [String token]) async {
+  Future<ApiRes> iput(String url, payload, [String token]) async {
     final String verifiedToken = await Services.auth.verifyToken(token);
     final http.Response response = await http.put(Uri.encodeFull('$apiUrl$url'),
         headers: getHeaders(verifiedToken), body: payload);
-    return response;
+    final ApiRes apiRes =
+        new ApiRes(JSON.decode(response.body), response.statusCode);
+    return apiRes;
   }
 
   /// Http delete method.
@@ -63,12 +70,14 @@ class BasicService {
   /// @param url Delete url
   /// @param token Token to use to authentificate
   /// @returns Api response
-  Future<http.Response> idelete(String url, [String token]) async {
+  Future<ApiRes> idelete(String url, [String token]) async {
     final String verifiedToken = await Services.auth.verifyToken(token);
     final http.Response response = await http.delete(
         Uri.encodeFull('$apiUrl$url'),
         headers: getHeaders(verifiedToken));
-    return response;
+    final ApiRes apiRes =
+        new ApiRes(JSON.decode(response.body), response.statusCode);
+    return apiRes;
   }
 
   /// Save user, refresh_token, provider to storage.

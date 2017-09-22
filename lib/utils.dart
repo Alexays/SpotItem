@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:spotitem/models/user.dart';
+import 'package:spotitem/models/api.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Email RegExp
@@ -44,13 +45,13 @@ void showLoading(BuildContext context) {
 
 /// Check if json response is valid
 /// TO-DO show error other
-bool resValid(BuildContext context, response) {
+bool resValid(BuildContext context, ApiRes response) {
   if (response == null) {
     return false;
   }
-  if (!response['success']) {
-    if (response['error']) {
-      showSnackBar(context, response['error']);
+  if (!response.success) {
+    if (response.error != null) {
+      showSnackBar(context, response.error);
     }
     return false;
   }

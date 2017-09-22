@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:http/http.dart';
 import 'package:spotitem/keys.dart';
+import 'package:spotitem/models/api.dart';
 import 'package:spotitem/models/user.dart';
 import 'package:spotitem/services/basic.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -97,15 +97,12 @@ class AuthManager extends BasicService {
   /// Regenerate access_token.
   ///
   Future<bool> getAccessToken() async {
-    final Response response = await iget('/check/$provider', refreshToken);
-    if (response.statusCode == 200) {
-      final dynamic bodyJson = JSON.decode(response.body);
-      if (bodyJson['success']) {
-        accessToken = bodyJson['access_token'];
-        exp = new DateTime.fromMillisecondsSinceEpoch(
-            (bodyJson['exp'] * 1000) - 30);
-        return true;
-      }
+    final ApiRes response = await iget('/check/$provider', refreshToken);
+    if (response.statusCode == 200 && response.success) {
+      accessToken = response.data['access_token'];
+      exp = new DateTime.fromMillisecondsSinceEpoch(
+          (response.data['exp'] * 1000) - 30);
+      return true;
     }
     await logout();
     return false;
@@ -146,22 +143,21 @@ class AuthManager extends BasicService {
   /// @returns Logged or not
   Future<bool> login(_payload, String _provider) async {
     _loggedIn = false;
-    final Response response = await ipost('/login/$_provider', _payload);
-    if (response.statusCode == 200) {
-      final dynamic bodyJson = JSON.decode(response.body);
-      if (bodyJson['success']) {
-        if (_payload['email'] != null) {
-          await SharedPreferences.getInstance()
-            ..setString(keyLastEmail, _payload['email']);
-          _lastEmail = _payload['email'];
-        }
-        user = new User(bodyJson['user']);
-        accessToken = bodyJson['access_token'];
-        exp = new DateTime.fromMillisecondsSinceEpoch(bodyJson['exp'] * 1000);
-        await saveTokens(user.toString(), bodyJson['refresh_token'], _provider);
-        _loggedIn = true;
-        connectWs();
+    final ApiRes response = await ipost('/login/$_provider', _payload);
+    if (response.statusCode == 200 && response.success) {
+      if (_payload['email'] != null) {
+        await SharedPreferences.getInstance()
+          ..setString(keyLastEmail, _payload['email']);
+        _lastEmail = _payload['email'];
       }
+      user = new User(response.data['user']);
+      accessToken = response.data['access_token'];
+      exp =
+          new DateTime.fromMillisecondsSinceEpoch(response.data['exp'] * 1000);
+      await saveTokens(
+          user.toString(), response.data['refresh_token'], _provider);
+      _loggedIn = true;
+      connectWs();
     }
     return _loggedIn;
   }
@@ -188,13 +184,10 @@ class AuthManager extends BasicService {
   ///
   /// @param payload User payload
   /// @returns Api response
-  Future<dynamic> register(payload) async {
+  Future<ApiRes> register(payload) async {
     payload['_id'] = '';
     payload['groups'] = '';
-    final Response response = await ipost('/signup', payload);
-    if (response.statusCode == 200) {
-      final dynamic bodyJson = JSON.decode(response.body);
-      return bodyJson;
-    }
+    final ApiRes response = await ipost('/signup', payload);
+    return response;
   }
 }
