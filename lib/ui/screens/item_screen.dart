@@ -151,8 +151,8 @@ class _ItemPageState extends State<ItemPage>
     if (Services.auth.loggedIn &&
         item != null &&
         item.owner.id == Services.auth.user.id) {
-      top
-        ..add(new IconButton(
+      top.addAll([
+        new IconButton(
           icon: const Icon(Icons.delete),
           tooltip: 'Delete',
           onPressed: () {
@@ -192,8 +192,8 @@ class _ItemPageState extends State<ItemPage>
               ),
             );
           },
-        ))
-        ..add(new IconButton(
+        ),
+        new IconButton(
           icon: const Icon(Icons.create),
           tooltip: 'Edit',
           onPressed: () {
@@ -203,7 +203,8 @@ class _ItemPageState extends State<ItemPage>
                   builder: (context) => new EditItemScreen(item: item),
                 ));
           },
-        ));
+        )
+      ]);
     }
     // else {
     //   top.add(new IconButton(

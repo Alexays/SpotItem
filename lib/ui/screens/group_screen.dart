@@ -130,16 +130,17 @@ class _GroupPageState extends State<GroupPage>
           ])
     ];
     if (group.about.isNotEmpty) {
-      _toBuild
-        ..add(const Padding(padding: const EdgeInsets.all(8.0)))
-        ..add(new DefaultTextStyle(
+      _toBuild.addAll([
+        const Padding(padding: const EdgeInsets.all(8.0)),
+        new DefaultTextStyle(
           style: theme.primaryTextTheme.body2,
           child: new Text(SpotL.of(context).about()),
-        ))
-        ..add(new DefaultTextStyle(
+        ),
+        new DefaultTextStyle(
           style: theme.primaryTextTheme.body1,
           child: new Text('${group.about}'),
-        ));
+        )
+      ]);
     }
     return new Container(
         color: theme.primaryColor,
@@ -151,7 +152,8 @@ class _GroupPageState extends State<GroupPage>
   }
 
   List<Widget> _doButton(BuildContext context) {
-    final List<Widget> top = <Widget>[]..add(new IconButton(
+    final List<Widget> top = <Widget>[
+      new IconButton(
         icon: const Icon(Icons.exit_to_app),
         tooltip: 'Leave group',
         onPressed: () {
@@ -184,12 +186,13 @@ class _GroupPageState extends State<GroupPage>
             ),
           );
         },
-      ));
+      )
+    ];
     if (Services.auth.loggedIn &&
         group != null &&
         group.owners[0].id == Services.auth.user.id) {
-      top
-        ..add(new IconButton(
+      top.addAll([
+        new IconButton(
           icon: const Icon(Icons.delete),
           tooltip: 'Delete',
           onPressed: () {
@@ -225,8 +228,8 @@ class _GroupPageState extends State<GroupPage>
               ),
             );
           },
-        ))
-        ..add(new IconButton(
+        ),
+        new IconButton(
           icon: const Icon(Icons.create),
           tooltip: 'Edit',
           onPressed: () async {
@@ -236,7 +239,8 @@ class _GroupPageState extends State<GroupPage>
                   builder: (context) => new EditGroupScreen(group: group),
                 ));
           },
-        ));
+        )
+      ]);
     }
     return top;
   }
