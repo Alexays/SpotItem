@@ -68,7 +68,7 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
       return showSnackBar(context, SpotL.of(context).correctError());
     }
     final dynamic response = await Services.groups.editGroup(_group);
-    if (resValid(response)) {
+    if (resValid(context, response)) {
       showSnackBar(context, response['msg']);
       await Navigator
           .of(context)

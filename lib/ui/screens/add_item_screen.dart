@@ -186,7 +186,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
         'groups': JSON.encode(_groupsId)
       });
       Navigator.of(context).pop();
-      if (resValid(response)) {
+      if (resValid(context, response)) {
         showSnackBar(context, response['msg']);
         await Services.items.getItems(force: true);
         await Navigator
@@ -306,11 +306,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       },
                       onStepCancel: () {
                         setState(() {
-                          if (_currentStep > 0) {
-                            _currentStep = _currentStep - 1;
-                          } else {
-                            _currentStep = 0;
-                          }
+                          _currentStep =
+                              _currentStep > 0 ? _currentStep - 1 : 0;
                         });
                       },
                       onStepContinue: () {

@@ -61,7 +61,7 @@ class _GroupsViewState extends State<GroupsView> {
   Future<Null> _joinGroup(int index) async {
     final dynamic response =
         await Services.groups.joinGroup(_groupsInv[index].id);
-    if (resValid(response)) {
+    if (resValid(context, response)) {
       await _loadGroups();
     }
   }

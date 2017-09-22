@@ -235,7 +235,7 @@ class _EditItemScreenState extends State<EditItemScreen>
       });
       Navigator.of(context).pop();
       showSnackBar(context, response['msg']);
-      if (resValid(response)) {
+      if (resValid(context, response)) {
         await Services.items.getItems(force: true);
         await Navigator
             .of(context)

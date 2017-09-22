@@ -41,7 +41,7 @@ class _GroupPageState extends State<GroupPage>
 
   Future<Null> _leaveGroup(BuildContext context) async {
     final dynamic response = await Services.groups.leaveGroup(group.id);
-    if (resValid(response)) {
+    if (resValid(context, response)) {
       await Navigator
           .of(context)
           .pushNamedAndRemoveUntil('/', (route) => false);
@@ -50,7 +50,7 @@ class _GroupPageState extends State<GroupPage>
 
   Future<Null> _kickUser(BuildContext context, String userId) async {
     final dynamic response = await Services.groups.kickUser(group.id, userId);
-    if (resValid(response)) {
+    if (resValid(context, response)) {
       setState(() {
         group.users = group.users.where((user) => user.id == userId).toList();
       });
@@ -61,7 +61,10 @@ class _GroupPageState extends State<GroupPage>
   Future<Null> _removeOwner(BuildContext context, String userId) async {
     final dynamic response =
         await Services.groups.removeOwner(group.id, userId);
-    if (resValid(response)) {
+    if (resValid(context, response)) {
+      if (!mounted) {
+        return;
+      }
       setState(() {
         group.owners =
             group.owners.where((owner) => owner.id != userId).toList();
@@ -72,7 +75,10 @@ class _GroupPageState extends State<GroupPage>
 
   Future<Null> _addOwner(BuildContext context, String userId) async {
     final dynamic response = await Services.groups.addOwner(group.id, userId);
-    if (resValid(response)) {
+    if (resValid(context, response)) {
+      if (!mounted) {
+        return;
+      }
       setState(() {
         if (response['group'] != null) {
           group = new Group(JSON.decode(response['group']));

@@ -44,7 +44,18 @@ void showLoading(BuildContext context) {
 
 /// Check if json response is valid
 /// TO-DO show error other
-bool resValid(response) => response != null && response['success'];
+bool resValid(BuildContext context, response) {
+  if (response == null) {
+    return false;
+  }
+  if (!response['success']) {
+    if (response['error']) {
+      showSnackBar(context, response['error']);
+    }
+    return false;
+  }
+  return true;
+}
 
 /// Validate Email input
 String validateEmail(String value) {

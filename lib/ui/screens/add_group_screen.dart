@@ -34,7 +34,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
     final Group group = new Group(
         {'name': name, 'about': about, 'owner': Services.auth.user.id});
     final dynamic response = await Services.groups.addGroup(group, email);
-    if (resValid(response)) {
+    if (resValid(context, response)) {
       showSnackBar(context, response['msg']);
       await Navigator
           .of(context)
@@ -47,13 +47,13 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
     if (_email == null) {
       return;
     }
-    if (!email.contains(_email)) {
-      setState(() {
-        email.add(_email);
-      });
-    } else {
+    if (email.contains(_email)) {
       showSnackBar(context, SpotL.of(context).alreadyAdded());
+      return;
     }
+    setState(() {
+      email.add(_email);
+    });
   }
 
   @override

@@ -147,11 +147,11 @@ class _ItemPageState extends State<ItemPage>
   }
 
   List<Widget> _doButton(BuildContext context) {
-    final List<Widget> top = <Widget>[];
+    final List<Widget> widgets = [];
     if (Services.auth.loggedIn &&
         item != null &&
         item.owner.id == Services.auth.user.id) {
-      top.addAll([
+      widgets.addAll([
         new IconButton(
           icon: const Icon(Icons.delete),
           tooltip: 'Delete',
@@ -213,7 +213,7 @@ class _ItemPageState extends State<ItemPage>
     //     onPressed: () {},
     //   ));
     // }
-    return top;
+    return widgets;
   }
 
   Widget giftCard() {
@@ -280,13 +280,12 @@ class _ItemPageState extends State<ItemPage>
                                                       '$apiImgUrl${item.images[index]}'),
                                                   fit: BoxFit.cover,
                                                 )));
-                                      } else {
-                                        return new FadeInImage(
-                                            placeholder: placeholder,
-                                            image: new NetworkImage(
-                                                '$apiImgUrl${item.images[index]}'),
-                                            fit: BoxFit.cover);
                                       }
+                                      return new FadeInImage(
+                                          placeholder: placeholder,
+                                          image: new NetworkImage(
+                                              '$apiImgUrl${item.images[index]}'),
+                                          fit: BoxFit.cover);
                                     })),
 
                                 new Positioned(
