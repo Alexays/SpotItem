@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   //Explore
   static PageController pageCtrl = new PageController();
-  static int get page => pageCtrl.hasClients ? pageCtrl.page.toInt() : 0;
+  static int get page => pageCtrl.hasClients ? pageCtrl.page.ceil() : 0;
   static const Widget discover = const DiscoverView();
   static const Widget explore = const ExplorerView();
   bool _filterAvailable = false;
