@@ -454,7 +454,8 @@ class _HomeScreenState extends State<HomeScreen>
       new Scaffold(
           key: _scaffoldKey,
           drawer: _buildDrawer(context),
-          floatingActionButton: _homeScreenItems[_currentIndex].fab,
+          floatingActionButton:
+              _isSearching ? null : _homeScreenItems[_currentIndex].fab,
           body: new Builder(builder: (context) {
             Services.context = context;
             return new NestedScrollView(
