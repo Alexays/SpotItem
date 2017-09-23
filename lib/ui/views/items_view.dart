@@ -42,6 +42,9 @@ class _ItemsViewState extends State<ItemsView> {
 
   Future<Null> _loadItems() async {
     final List<Item> res = await Services.items.getSelfItems();
+    if (!mounted) {
+      return;
+    }
     setState(() {
       _myItems = res;
     });
@@ -53,9 +56,9 @@ class _ItemsViewState extends State<ItemsView> {
     }
     return new ListView.builder(
       // For RefreshIndicator
-      physics: const AlwaysScrollableScrollPhysics(),
+      // physics: const AlwaysScrollableScrollPhysics(),
       padding: const EdgeInsets.all(20.0),
-      itemCount: _myItems.length,
+      itemCount: _myItems?.length ?? 0,
       itemBuilder: (context, index) => new GestureDetector(
             onTap: () {
               showItemPage(_myItems[index], null, context);

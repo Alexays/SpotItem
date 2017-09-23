@@ -75,7 +75,8 @@ class _GroupsViewState extends State<GroupsView> {
         ));
   }
 
-  Widget createList() => new ListView.builder(
+  Widget _createList() => new ListView.builder(
+      physics: const AlwaysScrollableScrollPhysics(),
       padding: const EdgeInsets.all(20.0),
       itemCount: (_groups?.length ?? 0) + 1,
       itemBuilder: (context, index) {
@@ -211,5 +212,5 @@ class _GroupsViewState extends State<GroupsView> {
       onRefresh: () => _loadGroups(),
       child: _groups == null
           ? const Center(child: const CircularProgressIndicator())
-          : createList());
+          : _createList());
 }

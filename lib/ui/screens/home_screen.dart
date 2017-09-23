@@ -35,13 +35,14 @@ class _HomeScreenState extends State<HomeScreen>
   // Bool
   bool _showDrawerContents = true;
   bool _isSearching = false;
-  int _currentIndex = 0;
 
   // Search
   final TextEditingController _searchController = new TextEditingController();
   String _searchQuery = '';
 
   //Explore
+  static PageController pageCtrl = new PageController();
+  static int get page => pageCtrl.hasClients ? pageCtrl.page.toInt() : 0;
   static const Widget discover = const DiscoverView();
   static const Widget explore = const ExplorerView();
   bool _filterAvailable = false;
@@ -50,7 +51,6 @@ class _HomeScreenState extends State<HomeScreen>
   void initState() {
     initAnimation();
     WidgetsBinding.instance.addObserver(this);
-    super.initState();
     _homeScreenItems = [
       new HomeScreenItem(
         parent: this,
@@ -100,14 +100,16 @@ class _HomeScreenState extends State<HomeScreen>
                 Navigator.of(context).pushNamed('/groups/add');
               })),
     ];
+    super.initState();
   }
 
   @override
   void dispose() {
     _controller?.dispose();
     _searchController?.dispose();
-    _homeScreenItems[_currentIndex].tab?.removeListener(_checkFilter);
+    _homeScreenItems[page].tab?.removeListener(_checkFilter);
     WidgetsBinding.instance.removeObserver(this);
+    pageCtrl.dispose();
     super.dispose();
   }
 
@@ -220,16 +222,14 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   Widget _buildBottom() {
-    if (_isSearching || _homeScreenItems[_currentIndex].sub == null) {
+    if (_isSearching || _homeScreenItems[page].sub == null) {
       return null;
     }
     return new TabBar(
-      controller: _homeScreenItems[_currentIndex].tab,
+      controller: _homeScreenItems[page].tab,
       indicatorWeight: 4.0,
-      tabs: new List<Tab>.generate(
-          _homeScreenItems[_currentIndex].sub?.length,
-          (index) =>
-              new Tab(text: _homeScreenItems[_currentIndex].sub[index].title)),
+      tabs: new List<Tab>.generate(_homeScreenItems[page].sub?.length,
+          (index) => new Tab(text: _homeScreenItems[page].sub[index].title)),
     );
   }
 
@@ -344,16 +344,15 @@ class _HomeScreenState extends State<HomeScreen>
       return;
     }
     setState(() {
-      _filterAvailable = (_currentIndex == 0 &&
-          _homeScreenItems[_currentIndex].tab.index == 1);
+      _filterAvailable = (page == 0 && _homeScreenItems[page].tab.index == 1);
     });
   }
 
-  List<Widget> _buildAppBar(BuildContext context) {
-    if (_currentIndex == 0)
-      _homeScreenItems[_currentIndex].tab.addListener(_checkFilter);
+  List<Widget> _buildAppBar(BuildContext context, bool innerBoxIsScrolled) {
+    if (page == 0)
+      _homeScreenItems[page].tab.addListener(_checkFilter);
     else {
-      _homeScreenItems[_currentIndex].tab.removeListener(_checkFilter);
+      _homeScreenItems[page].tab.removeListener(_checkFilter);
     }
     final List<Widget> widgets = [
       _isSearching
@@ -414,9 +413,10 @@ class _HomeScreenState extends State<HomeScreen>
     return [
       new SliverAppBar(
         pinned: true,
+        forceElevated: innerBoxIsScrolled,
         automaticallyImplyLeading: false,
         centerTitle: true,
-        floating: _homeScreenItems[_currentIndex].sub != null && !_isSearching,
+        floating: _homeScreenItems[page].sub != null && !_isSearching,
         title: new Container(
             decoration: new BoxDecoration(
                 color: Theme.of(context).accentColor,
@@ -428,7 +428,7 @@ class _HomeScreenState extends State<HomeScreen>
     ];
   }
 
-  List<Widget> _buildChild(BuildContext context) {
+  List<Widget> _buildChild(BuildContext context, int index) {
     if (_isSearching) {
       if (_searchQuery.isEmpty) {
         return [
@@ -444,36 +444,37 @@ class _HomeScreenState extends State<HomeScreen>
           .toList();
       return [new ItemsList(search, 'search')];
     }
-    return _homeScreenItems[_currentIndex].content;
+    return _homeScreenItems[index].content;
   }
 
   @override
   Widget build(BuildContext context) {
-    final cur = _homeScreenItems[_currentIndex];
     return new Stack(fit: StackFit.expand, children: <Widget>[
       new Scaffold(
           key: _scaffoldKey,
           drawer: _buildDrawer(context),
           floatingActionButton:
-              _isSearching ? null : _homeScreenItems[_currentIndex].fab,
+              _isSearching ? null : _homeScreenItems[page].fab,
           body: new Builder(builder: (context) {
             Services.context = context;
             return new NestedScrollView(
                 headerSliverBuilder: (context, innerBoxIsScrolled) =>
-                    _buildAppBar(context),
-                body: new TabBarView(
-                    key: new Key(cur.title),
-                    controller: cur.tab,
-                    children: _buildChild(context)));
+                    _buildAppBar(context, innerBoxIsScrolled),
+                body: new PageView.builder(
+                    controller: pageCtrl,
+                    itemCount: _homeScreenItems.length,
+                    itemBuilder: (context, index) => new TabBarView(
+                        controller: _homeScreenItems[index].tab,
+                        children: _buildChild(context, index))));
           }),
           bottomNavigationBar: _isSearching
               ? null
               : new BottomNavigationBar(
-                  currentIndex: _currentIndex,
+                  currentIndex: page,
                   items: _homeScreenItems.map((data) => data.item).toList(),
                   onTap: (index) {
                     setState(() {
-                      _currentIndex = index;
+                      pageCtrl.jumpToPage(index);
                     });
                   },
                 )),
@@ -505,6 +506,9 @@ class HomeScreenItem {
   /// Home screen item Tab controller
   final TabController tab;
 
+  /// Home item key
+  final Key key;
+
   /// Home screen item initalizer
   HomeScreenItem(
       {_HomeScreenState parent,
@@ -518,8 +522,8 @@ class HomeScreenItem {
             ? new List<Widget>.generate(
                 sub.length, (index) => sub[index].content)
             : <Widget>[content],
-        tab = new TabController(
-            vsync: parent, length: sub != null ? sub.length : 1);
+        tab = new TabController(vsync: parent, length: sub?.length ?? 1),
+        key = new PageStorageKey<String>(title);
 }
 
 /// Home screen sub item
