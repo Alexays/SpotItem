@@ -109,7 +109,6 @@ class _HomeScreenState extends State<HomeScreen>
     _searchController?.dispose();
     _homeScreenItems[page].tab?.removeListener(_checkFilter);
     WidgetsBinding.instance.removeObserver(this);
-    pageCtrl.dispose();
     super.dispose();
   }
 
