@@ -60,16 +60,16 @@ class AuthManager extends BasicService {
           _refreshToken == null ||
           !providers.contains(_provider)) {
         await logout();
-      } else {
-        user = _user;
-        refreshToken = _refreshToken;
-        provider = _provider;
-        switch (_provider) {
-          case 'google':
-            await handleGoogleSignIn(false);
-        }
-        connectWs();
+        return _loggedIn = false;
       }
+      user = _user;
+      refreshToken = _refreshToken;
+      provider = _provider;
+      switch (_provider) {
+        case 'google':
+          await handleGoogleSignIn(false);
+      }
+      connectWs();
     } on Exception {
       return _loggedIn = false;
     }
