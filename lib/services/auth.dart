@@ -54,26 +54,26 @@ class AuthManager extends BasicService {
     final String _userData = prefs.getString(keyUser) ?? '{}';
     final String _provider = prefs.getString(keyProvider);
     final String _refreshToken = prefs.getString(keyOauthToken);
-    final User _user = new User(JSON.decode(_userData));
-    if (!_user.isValid() ||
-        _refreshToken == null ||
-        !providers.contains(_provider)) {
-      await logout();
-    } else {
-      user = _user;
-      refreshToken = _refreshToken;
-      provider = _provider;
-      try {
-        if (_provider == 'google') {
-          await handleGoogleSignIn(false);
+    try {
+      final User _user = new User(JSON.decode(_userData));
+      if (!_user.isValid() ||
+          _refreshToken == null ||
+          !providers.contains(_provider)) {
+        await logout();
+      } else {
+        user = _user;
+        refreshToken = _refreshToken;
+        provider = _provider;
+        switch (_provider) {
+          case 'google':
+            await handleGoogleSignIn(false);
         }
-        _loggedIn = true;
         connectWs();
-      } on Exception {
-        return false;
       }
+    } on Exception {
+      return _loggedIn = false;
     }
-    return true;
+    return _loggedIn = true;
   }
 
   /// Check if access_token is expired and regenerate it if expired.
