@@ -8,7 +8,8 @@ class ApiRes {
         error = data['error'];
 
   /// Create classic ApiRes with failed status
-  factory ApiRes.classic() => new ApiRes(null, 500);
+  factory ApiRes.classic() =>
+      new ApiRes({'error': 'An Unexpected error !'}, 500);
 
   /// Response success
   final bool success;

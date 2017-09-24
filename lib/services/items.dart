@@ -73,7 +73,7 @@ class ItemsManager extends BasicService {
           '${Services.auth.loggedIn != null ? '/items/auth' : '/items'}',
           Services.auth.loggedIn ? Services.auth.accessToken : null);
       if (response.statusCode == 200 && response.success) {
-        _items = new List<Item>.generate(
+        return _items = new List<Item>.generate(
             response.data?.length ?? 0,
             (index) => new Item(
                 response.data[index],
