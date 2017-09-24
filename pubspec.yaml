@@ -13,9 +13,8 @@ dependencies:
   google_sign_in: '>=0.3.1'
   intl: '>=0.14.0 <0.16.0'
   intl_translation: '>=0.14.0 <0.16.0'
-  firebase_messaging:
-  firebase_analytics:
-  firebase_auth:
+  firebase_messaging: '>=0.0.5'
+  firebase_analytics: '>=0.1.0'
 
 dev_dependencies:
   flutter_test:
