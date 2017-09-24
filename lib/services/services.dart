@@ -39,8 +39,10 @@ class Services {
   /// Firebase Messaging
   static FirebaseMessaging firebaseMessaging = _singleton._firebaseMessaging;
 
+  /// Firebase analytics
   static FirebaseAnalytics analytics = _singleton._analytics;
 
+  /// Firebase analytics ovserver
   static FirebaseAnalyticsObserver observer = _singleton._observer;
 
   /// Private variables

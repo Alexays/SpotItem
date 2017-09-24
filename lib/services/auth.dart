@@ -8,6 +8,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 GoogleSignIn _googleSignIn = new GoogleSignIn(
   scopes: <String>[
@@ -43,6 +44,7 @@ class AuthManager extends BasicService {
   GoogleSignInAccount get googleUser => _googleUser;
 
   /// Private variables
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   bool _loggedIn = false;
   GoogleSignInAccount _googleUser;
   String _lastEmail;

@@ -455,44 +455,43 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   @override
-  Widget build(BuildContext context) {
-    return new Stack(fit: StackFit.expand, children: <Widget>[
-      new Scaffold(
-          key: _scaffoldKey,
-          drawer: _buildDrawer(context),
-          floatingActionButton:
-              _isSearching || _homeScreenItems[page].fabs == null
-                  ? null
-                  : _homeScreenItems[page].fab,
-          body: new Builder(builder: (context) {
-            Services.context = context;
-            return new NestedScrollView(
-                headerSliverBuilder: (context, innerBoxIsScrolled) =>
-                    _buildAppBar(context, innerBoxIsScrolled),
-                body: new PageView.builder(
-                    controller: pageCtrl,
-                    itemCount: _homeScreenItems.length,
-                    itemBuilder: (context, index) => new TabBarView(
-                        controller: _homeScreenItems[index].tab,
-                        children: _buildChild(context, index))));
-          }),
-          bottomNavigationBar: _isSearching
-              ? null
-              : new BottomNavigationBar(
-                  currentIndex: page,
-                  items: _homeScreenItems.map((data) => data.item).toList(),
-                  onTap: (index) {
-                    setState(() {
-                      pageCtrl.jumpToPage(index);
-                    });
-                  },
-                )),
-      const Banner(
-        message: 'BETA TEST',
-        location: BannerLocation.bottomStart,
-      ),
-    ]);
-  }
+  Widget build(BuildContext context) =>
+      new Stack(fit: StackFit.expand, children: <Widget>[
+        new Scaffold(
+            key: _scaffoldKey,
+            drawer: _buildDrawer(context),
+            floatingActionButton:
+                _isSearching || _homeScreenItems[page].fabs == null
+                    ? null
+                    : _homeScreenItems[page].fab,
+            body: new Builder(builder: (context) {
+              Services.context = context;
+              return new NestedScrollView(
+                  headerSliverBuilder: (context, innerBoxIsScrolled) =>
+                      _buildAppBar(context, innerBoxIsScrolled),
+                  body: new PageView.builder(
+                      controller: pageCtrl,
+                      itemCount: _homeScreenItems.length,
+                      itemBuilder: (context, index) => new TabBarView(
+                          controller: _homeScreenItems[index].tab,
+                          children: _buildChild(context, index))));
+            }),
+            bottomNavigationBar: _isSearching
+                ? null
+                : new BottomNavigationBar(
+                    currentIndex: page,
+                    items: _homeScreenItems.map((data) => data.item).toList(),
+                    onTap: (index) {
+                      setState(() {
+                        pageCtrl.jumpToPage(index);
+                      });
+                    },
+                  )),
+        const Banner(
+          message: 'BETA TEST',
+          location: BannerLocation.bottomStart,
+        ),
+      ]);
 }
 
 /// Home screen item

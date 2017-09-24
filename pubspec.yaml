@@ -15,6 +15,7 @@ dependencies:
   intl_translation: '>=0.14.0 <0.16.0'
   firebase_messaging:
   firebase_analytics:
+  firebase_auth:
 
 dev_dependencies:
   flutter_test:
