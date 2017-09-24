@@ -66,12 +66,14 @@ class _HomeScreenState extends State<HomeScreen>
           icon: const Icon(Icons.work),
           title: SpotL.of(Services.loc).items(),
           content: const ItemsView(),
-          fab: new FloatingActionButton(
-              child: const Icon(Icons.add),
-              tooltip: 'Add new item',
-              onPressed: () {
-                Navigator.of(context).pushNamed('/item/add');
-              })),
+          fabs: [
+            new FloatingActionButton(
+                child: const Icon(Icons.add),
+                tooltip: 'Add new item',
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/item/add');
+                })
+          ]),
       new HomeScreenItem(
         parent: this,
         icon: const Icon(Icons.map),
@@ -93,12 +95,18 @@ class _HomeScreenState extends State<HomeScreen>
                   child: const Text('Comming soon'),
                 ))
           ],
-          fab: new FloatingActionButton(
-              child: const Icon(Icons.person_add),
-              tooltip: 'Add new groups',
-              onPressed: () {
-                Navigator.of(context).pushNamed('/groups/add');
-              })),
+          fabs: [
+            new FloatingActionButton(
+                child: const Icon(Icons.person_add),
+                tooltip: 'Add new groups',
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/groups/add');
+                }),
+            new FloatingActionButton(
+                child: const Icon(Icons.sms),
+                tooltip: 'Add new messages',
+                onPressed: () {})
+          ]),
     ];
     super.initState();
   }
@@ -348,7 +356,7 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   List<Widget> _buildAppBar(BuildContext context, bool innerBoxIsScrolled) {
-    if (page == 0)
+    if (page == 0 || (_homeScreenItems[page].fabs?.length ?? 0) > 1)
       _homeScreenItems[page].tab.addListener(_checkFilter);
     else {
       _homeScreenItems[page].tab.removeListener(_checkFilter);
@@ -453,7 +461,9 @@ class _HomeScreenState extends State<HomeScreen>
           key: _scaffoldKey,
           drawer: _buildDrawer(context),
           floatingActionButton:
-              _isSearching ? null : _homeScreenItems[page].fab,
+              _isSearching || _homeScreenItems[page].fabs == null
+                  ? null
+                  : _homeScreenItems[page].fab,
           body: new Builder(builder: (context) {
             Services.context = context;
             return new NestedScrollView(
@@ -496,8 +506,8 @@ class HomeScreenItem {
   /// Home screen item tabs
   final List<HomeScreenSubItem> sub;
 
-  /// Home screen item fab
-  final FloatingActionButton fab;
+  /// Home screen item fabs
+  final List<FloatingActionButton> fabs;
 
   /// Home screen item title
   final String title;
@@ -515,7 +525,7 @@ class HomeScreenItem {
       this.title,
       Widget content,
       this.sub,
-      this.fab})
+      this.fabs})
       : item = new BottomNavigationBarItem(icon: icon, title: new Text(title)),
         content = sub != null
             ? new List<Widget>.generate(
@@ -523,6 +533,9 @@ class HomeScreenItem {
             : <Widget>[content],
         tab = new TabController(vsync: parent, length: sub?.length ?? 1),
         key = new PageStorageKey<String>(title);
+
+  /// Home item actual fab
+  FloatingActionButton get fab => fabs[tab.index];
 }
 
 /// Home screen sub item
