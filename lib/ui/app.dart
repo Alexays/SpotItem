@@ -56,5 +56,8 @@ class SpotItemApp extends MaterialApp {
             const Locale('en', 'US'),
             const Locale('fr', 'FR')
           ],
+          navigatorObservers: [
+            Services.observer,
+          ],
         );
 }

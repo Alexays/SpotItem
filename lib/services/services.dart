@@ -8,6 +8,8 @@ import 'package:spotitem/services/users.dart';
 import 'package:spotitem/ui/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 
 /// Service class
 class Services {
@@ -37,6 +39,10 @@ class Services {
   /// Firebase Messaging
   static FirebaseMessaging firebaseMessaging = _singleton._firebaseMessaging;
 
+  static FirebaseAnalytics analytics = _singleton._analytics;
+
+  static FirebaseAnalyticsObserver observer = _singleton._observer;
+
   /// Private variables
   AuthManager _authManager;
   ItemsManager _itemsManager;
@@ -46,6 +52,8 @@ class Services {
   BuildContext _context;
   BuildContext _loc;
   FirebaseMessaging _firebaseMessaging;
+  FirebaseAnalytics _analytics;
+  FirebaseAnalyticsObserver _observer;
 
   Services._internal();
 
@@ -80,6 +88,9 @@ class Services {
     _singleton._firebaseMessaging.onIosSettingsRegistered.listen((settings) {
       print('Settings registered: $settings');
     });
+    _singleton._analytics = new FirebaseAnalytics();
+    _singleton._observer =
+        new FirebaseAnalyticsObserver(analytics: _singleton._analytics);
     return auth && items && groups && users;
   }
 }
