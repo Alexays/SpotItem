@@ -356,7 +356,7 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   List<Widget> _buildAppBar(BuildContext context, bool innerBoxIsScrolled) {
-    if (page == 0 || (_homeScreenItems[page].fabs?.length ?? 0) > 1)
+    if (page == 0 || (_homeScreenItems[page].fabs?.length ?? 0) > 0)
       _homeScreenItems[page].tab.addListener(_checkFilter);
     else {
       _homeScreenItems[page].tab.removeListener(_checkFilter);
@@ -535,7 +535,8 @@ class HomeScreenItem {
         key = new PageStorageKey<String>(title);
 
   /// Home item actual fab
-  FloatingActionButton get fab => fabs[tab.index];
+  FloatingActionButton get fab =>
+      fabs.length > tab.index ? fabs[tab.index] : null;
 }
 
 /// Home screen sub item
