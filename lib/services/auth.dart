@@ -84,12 +84,12 @@ class AuthManager extends BasicService {
     if ((token == null && accessToken != null) || token != accessToken) {
       return token;
     }
-    if (loggedIn && (exp == null || new DateTime.now().isAfter(exp))) {
-      if (!await getAccessToken()) {
-        await Navigator
-            .of(Services.context)
-            .pushNamedAndRemoveUntil('/', (route) => false);
-      }
+    if ((loggedIn && (exp == null || new DateTime.now().isAfter(exp))) &&
+        !await getAccessToken()) {
+      await Navigator
+          .of(Services.context)
+          .pushNamedAndRemoveUntil('/', (route) => false);
+      return null;
     }
     return accessToken;
   }

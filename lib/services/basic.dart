@@ -26,11 +26,15 @@ class BasicService {
   /// @returns Api response
   Future<ApiRes> iget(String url, [String token]) async {
     final String verifiedToken = await Services.auth.verifyToken(token);
-    final http.Response response = await http.get(Uri.encodeFull('$apiUrl$url'),
-        headers: getHeaders(verifiedToken));
-    final ApiRes apiRes =
-        new ApiRes(JSON.decode(response.body), response.statusCode);
-    return apiRes;
+    if (verifiedToken != null) {
+      final http.Response response = await http.get(
+          Uri.encodeFull('$apiUrl$url'),
+          headers: getHeaders(verifiedToken));
+      final ApiRes apiRes =
+          new ApiRes(JSON.decode(response.body), response.statusCode);
+      return apiRes;
+    }
+    return new ApiRes.classic();
   }
 
   /// Http post method.
@@ -41,13 +45,16 @@ class BasicService {
   /// @returns Api response
   Future<ApiRes> ipost(String url, payload, [String token]) async {
     final String verifiedToken = await Services.auth.verifyToken(token);
-    final http.Response response = await http.post(
-        Uri.encodeFull('$apiUrl$url'),
-        headers: getHeaders(verifiedToken),
-        body: payload);
-    final ApiRes apiRes =
-        new ApiRes(JSON.decode(response.body), response.statusCode);
-    return apiRes;
+    if (verifiedToken != null) {
+      final http.Response response = await http.post(
+          Uri.encodeFull('$apiUrl$url'),
+          headers: getHeaders(verifiedToken),
+          body: payload);
+      final ApiRes apiRes =
+          new ApiRes(JSON.decode(response.body), response.statusCode);
+      return apiRes;
+    }
+    return new ApiRes.classic();
   }
 
   /// Http put method.
@@ -58,11 +65,16 @@ class BasicService {
   /// @returns Api response
   Future<ApiRes> iput(String url, payload, [String token]) async {
     final String verifiedToken = await Services.auth.verifyToken(token);
-    final http.Response response = await http.put(Uri.encodeFull('$apiUrl$url'),
-        headers: getHeaders(verifiedToken), body: payload);
-    final ApiRes apiRes =
-        new ApiRes(JSON.decode(response.body), response.statusCode);
-    return apiRes;
+    if (verifiedToken != null) {
+      final http.Response response = await http.put(
+          Uri.encodeFull('$apiUrl$url'),
+          headers: getHeaders(verifiedToken),
+          body: payload);
+      final ApiRes apiRes =
+          new ApiRes(JSON.decode(response.body), response.statusCode);
+      return apiRes;
+    }
+    return new ApiRes.classic();
   }
 
   /// Http delete method.
@@ -72,12 +84,15 @@ class BasicService {
   /// @returns Api response
   Future<ApiRes> idelete(String url, [String token]) async {
     final String verifiedToken = await Services.auth.verifyToken(token);
-    final http.Response response = await http.delete(
-        Uri.encodeFull('$apiUrl$url'),
-        headers: getHeaders(verifiedToken));
-    final ApiRes apiRes =
-        new ApiRes(JSON.decode(response.body), response.statusCode);
-    return apiRes;
+    if (verifiedToken != null) {
+      final http.Response response = await http.delete(
+          Uri.encodeFull('$apiUrl$url'),
+          headers: getHeaders(verifiedToken));
+      final ApiRes apiRes =
+          new ApiRes(JSON.decode(response.body), response.statusCode);
+      return apiRes;
+    }
+    return new ApiRes.classic();
   }
 
   /// Save user, refresh_token, provider to storage.
