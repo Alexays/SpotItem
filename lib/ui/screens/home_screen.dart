@@ -23,7 +23,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen>
     with TickerProviderStateMixin, WidgetsBindingObserver {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  final Key _searchKey = const Key('search');
 
   static List<HomeScreenItem> _homeScreenItems;
 
@@ -35,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen>
   // Bool
   bool _showDrawerContents = true;
   bool _isSearching = false;
+  bool _filterAvailable = false;
 
   // Search
   final TextEditingController _searchController = new TextEditingController();
@@ -45,12 +45,9 @@ class _HomeScreenState extends State<HomeScreen>
   static int get page => pageCtrl.hasClients ? pageCtrl.page.ceil() : 0;
   static const Widget discover = const DiscoverView();
   static const Widget explore = const ExplorerView();
-  bool _filterAvailable = false;
 
   @override
   void initState() {
-    initAnimation();
-    WidgetsBinding.instance.addObserver(this);
     _homeScreenItems = [
       new HomeScreenItem(
         parent: this,
@@ -108,6 +105,8 @@ class _HomeScreenState extends State<HomeScreen>
                 onPressed: () {})
           ]),
     ];
+    initAnimation();
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
   }
 
@@ -375,7 +374,6 @@ class _HomeScreenState extends State<HomeScreen>
           onSubmitted: (data) {
             _handleSearchBegin();
           },
-          key: _searchKey,
           controller: _searchController,
           style: const TextStyle(
             color: Colors.white,
@@ -473,7 +471,6 @@ class _HomeScreenState extends State<HomeScreen>
                       controller: pageCtrl,
                       itemCount: _homeScreenItems.length,
                       itemBuilder: (context, index) => new TabBarView(
-                          key: _homeScreenItems[index].key,
                           controller: _homeScreenItems[index].tab,
                           children: _buildChild(context, index))));
             }),
