@@ -105,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen>
                 onPressed: () {})
           ]),
     ];
-    initAnimation();
+    _initAnimation();
     WidgetsBinding.instance.addObserver(this);
     super.initState();
   }
@@ -129,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen>
     }
   }
 
-  void initAnimation() {
+  void _initAnimation() {
     _controller = new AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 200),
