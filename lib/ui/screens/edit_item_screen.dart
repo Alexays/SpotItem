@@ -216,8 +216,8 @@ class _EditItemScreenState extends State<EditItemScreen>
       return showSnackBar(context, SpotL.of(context).correctError());
     }
     showLoading(context);
-    _item.images.forEach((f) => finalImages.add(f));
-    _images.forEach((f) => finalImages.add(f));
+    _item.images.forEach(finalImages.add);
+    _images.forEach(finalImages.add);
     if (Services.auth.user.isValid() && Services.users.location != null) {
       final ApiRes response = await Services.items.editItem({
         'id': _item.id,

@@ -400,9 +400,7 @@ class _HomeScreenState extends State<HomeScreen>
             : FractionalOffset.center,
         padding: const EdgeInsets.all(0.0),
         icon: const Icon(Icons.search),
-        onPressed: () {
-          _handleSearchBegin();
-        },
+        onPressed: _handleSearchBegin,
       ));
     }
     if (_isSearching || _filterAvailable) {
@@ -410,9 +408,7 @@ class _HomeScreenState extends State<HomeScreen>
           padding: const EdgeInsets.all(0.0),
           icon: const Icon(Icons.filter_list),
           onPressed: () {
-            setState(() {
-              _showFilter();
-            });
+            setState(_showFilter);
           }));
     }
     return [
@@ -465,8 +461,7 @@ class _HomeScreenState extends State<HomeScreen>
             body: new Builder(builder: (context) {
               Services.context = context;
               return new NestedScrollView(
-                  headerSliverBuilder: (context, innerBoxIsScrolled) =>
-                      _buildAppBar(context, innerBoxIsScrolled),
+                  headerSliverBuilder: _buildAppBar,
                   body: new PageView.builder(
                       controller: pageCtrl,
                       itemCount: _homeScreenItems.length,

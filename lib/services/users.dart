@@ -25,7 +25,6 @@ class UsersManager extends BasicService {
   Future<bool> init() async {
     await _location.onLocationChanged.single
         .timeout(const Duration(milliseconds: 200), onTimeout: () {});
-    await getLocation();
     await _handleGetContact();
     return true;
   }

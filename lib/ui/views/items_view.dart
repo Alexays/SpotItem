@@ -97,7 +97,7 @@ class _ItemsViewState extends State<ItemsView> {
   @override
   Widget build(BuildContext context) => new RefreshIndicator(
       key: _refreshIndicatorKey,
-      onRefresh: () => _loadItems(),
+      onRefresh: _loadItems,
       child: _myItems == null
           ? const Center(child: const CircularProgressIndicator())
           : getList());

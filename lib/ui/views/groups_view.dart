@@ -211,7 +211,7 @@ class _GroupsViewState extends State<GroupsView> {
   @override
   Widget build(BuildContext context) => new RefreshIndicator(
       key: _refreshIndicatorKey,
-      onRefresh: () => _loadGroups(),
+      onRefresh: _loadGroups,
       child: _groups == null
           ? const Center(child: const CircularProgressIndicator())
           : _createList());
