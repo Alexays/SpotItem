@@ -58,8 +58,8 @@ class _ExplorerViewState extends State<ExplorerView> {
         backup = data;
         setState(() {
           _items = new List<Item>.from(data);
-          getTracks();
         });
+        getTracks();
       });
     }
   }
