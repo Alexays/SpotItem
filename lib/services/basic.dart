@@ -29,14 +29,10 @@ class BasicService {
       return Services.mock;
     }
     final verifiedToken = await Services.auth.verifyToken(token);
-    if (verifiedToken != null) {
-      final response = await http.get(Uri.encodeFull('$apiUrl$url'),
-          headers: getHeaders(verifiedToken));
-      final apiRes =
-          new ApiRes(JSON.decode(response.body), response.statusCode);
-      return apiRes;
-    }
-    return new ApiRes.classic();
+    final response = await http.get(Uri.encodeFull('$apiUrl$url'),
+        headers: getHeaders(verifiedToken));
+    final apiRes = new ApiRes(JSON.decode(response.body), response.statusCode);
+    return apiRes;
   }
 
   /// Http post method.
@@ -51,14 +47,10 @@ class BasicService {
       return Services.mock;
     }
     final verifiedToken = await Services.auth.verifyToken(token);
-    if (verifiedToken != null) {
-      final response = await http.post(Uri.encodeFull('$apiUrl$url'),
-          headers: getHeaders(verifiedToken), body: payload);
-      final apiRes =
-          new ApiRes(JSON.decode(response.body), response.statusCode);
-      return apiRes;
-    }
-    return new ApiRes.classic();
+    final response = await http.post(Uri.encodeFull('$apiUrl$url'),
+        headers: getHeaders(verifiedToken), body: payload);
+    final apiRes = new ApiRes(JSON.decode(response.body), response.statusCode);
+    return apiRes;
   }
 
   /// Http put method.
@@ -73,14 +65,10 @@ class BasicService {
       return Services.mock;
     }
     final verifiedToken = await Services.auth.verifyToken(token);
-    if (verifiedToken != null) {
-      final response = await http.put(Uri.encodeFull('$apiUrl$url'),
-          headers: getHeaders(verifiedToken), body: payload);
-      final apiRes =
-          new ApiRes(JSON.decode(response.body), response.statusCode);
-      return apiRes;
-    }
-    return new ApiRes.classic();
+    final response = await http.put(Uri.encodeFull('$apiUrl$url'),
+        headers: getHeaders(verifiedToken), body: payload);
+    final apiRes = new ApiRes(JSON.decode(response.body), response.statusCode);
+    return apiRes;
   }
 
   /// Http delete method.
@@ -89,18 +77,14 @@ class BasicService {
   /// @param token Token to use to authentificate
   /// @returns Api response
   Future<ApiRes> idelete(String url, [String token]) async {
-    final verifiedToken = await Services.auth.verifyToken(token);
-    if (verifiedToken != null) {
-      if (Services.origin == Origin.mock) {
-        return Services.mock;
-      }
-      final response = await http.delete(Uri.encodeFull('$apiUrl$url'),
-          headers: getHeaders(verifiedToken));
-      final apiRes =
-          new ApiRes(JSON.decode(response.body), response.statusCode);
-      return apiRes;
+    if (Services.origin == Origin.mock) {
+      return Services.mock;
     }
-    return new ApiRes.classic();
+    final verifiedToken = await Services.auth.verifyToken(token);
+    final response = await http.delete(Uri.encodeFull('$apiUrl$url'),
+        headers: getHeaders(verifiedToken));
+    final apiRes = new ApiRes(JSON.decode(response.body), response.statusCode);
+    return apiRes;
   }
 
   /// Save user, refresh_token, provider to storage.
