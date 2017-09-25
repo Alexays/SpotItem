@@ -24,7 +24,59 @@ class _HomeScreenState extends State<HomeScreen>
     with TickerProviderStateMixin, WidgetsBindingObserver {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  static List<HomeScreenItem> _homeScreenItems;
+  static final List<HomeScreenItem> _homeScreenItems = <HomeScreenItem>[
+    new HomeScreenItem(
+      icon: const Icon(Icons.explore),
+      title: 'Explore',
+      sub: <HomeScreenSubItem>[
+        new HomeScreenSubItem(SpotL.of(Services.loc).discover(), discover),
+        new HomeScreenSubItem(SpotL.of(Services.loc).explore(), explore),
+      ],
+    ),
+    new HomeScreenItem(
+        icon: const Icon(Icons.work),
+        title: SpotL.of(Services.loc).items(),
+        content: const ItemsView(),
+        fabs: [
+          new FloatingActionButton(
+              child: const Icon(Icons.add),
+              tooltip: 'Add new item',
+              onPressed: () {
+                Navigator.of(Services.context).pushNamed('/item/add');
+              })
+        ]),
+    new HomeScreenItem(
+      icon: const Icon(Icons.map),
+      title: SpotL.of(Services.loc).map(),
+      content: const MapView(),
+    ),
+    new HomeScreenItem(
+        icon: const Icon(Icons.nature_people),
+        title: SpotL.of(Services.loc).social(),
+        sub: <HomeScreenSubItem>[
+          new HomeScreenSubItem(
+            SpotL.of(Services.loc).groups(),
+            const GroupsView(),
+          ),
+          new HomeScreenSubItem(
+              SpotL.of(Services.loc).messages(),
+              const Center(
+                child: const Text('Comming soon'),
+              ))
+        ],
+        fabs: [
+          new FloatingActionButton(
+              child: const Icon(Icons.person_add),
+              tooltip: 'Add new groups',
+              onPressed: () {
+                Navigator.of(Services.context).pushNamed('/groups/add');
+              }),
+          new FloatingActionButton(
+              child: const Icon(Icons.sms),
+              tooltip: 'Add new messages',
+              onPressed: () {})
+        ]),
+  ];
 
   // Animation
   AnimationController _controller;
@@ -41,95 +93,18 @@ class _HomeScreenState extends State<HomeScreen>
   String _searchQuery = '';
 
   //Explore
-  static PageController pageCtrl = new PageController();
-  static int get page => pageCtrl.hasClients ? pageCtrl.page.round() : 0;
+  List<TabController> tabsCtrl;
+  PageController pageCtrl = new PageController();
+  int get page => pageCtrl.hasClients ? pageCtrl.page.round() : 0;
   static const Widget discover = const DiscoverView();
   static const Widget explore = const ExplorerView();
+  FloatingActionButton get fab =>
+      _homeScreenItems[page].fabs.length > tabsCtrl[page].index
+          ? _homeScreenItems[page].fabs[tabsCtrl[page].index]
+          : null;
 
   @override
   void initState() {
-    _homeScreenItems = [
-      new HomeScreenItem(
-        parent: this,
-        icon: const Icon(Icons.explore),
-        title: 'Explore',
-        sub: <HomeScreenSubItem>[
-          new HomeScreenSubItem(SpotL.of(Services.loc).discover(), discover),
-          new HomeScreenSubItem(SpotL.of(Services.loc).explore(), explore),
-        ],
-      ),
-      new HomeScreenItem(
-          parent: this,
-          icon: const Icon(Icons.work),
-          title: SpotL.of(Services.loc).items(),
-          content: const ItemsView(),
-          fabs: [
-            new FloatingActionButton(
-                child: const Icon(Icons.add),
-                tooltip: 'Add new item',
-                onPressed: () {
-                  Navigator.of(context).pushNamed('/item/add');
-                })
-          ]),
-      new HomeScreenItem(
-        parent: this,
-        icon: const Icon(Icons.map),
-        title: SpotL.of(Services.loc).map(),
-        content: const MapView(),
-      ),
-      new HomeScreenItem(
-          parent: this,
-          icon: const Icon(Icons.nature_people),
-          title: SpotL.of(Services.loc).social(),
-          sub: <HomeScreenSubItem>[
-            new HomeScreenSubItem(
-              SpotL.of(Services.loc).groups(),
-              const GroupsView(),
-            ),
-            new HomeScreenSubItem(
-                SpotL.of(Services.loc).messages(),
-                const Center(
-                  child: const Text('Comming soon'),
-                ))
-          ],
-          fabs: [
-            new FloatingActionButton(
-                child: const Icon(Icons.person_add),
-                tooltip: 'Add new groups',
-                onPressed: () {
-                  Navigator.of(context).pushNamed('/groups/add');
-                }),
-            new FloatingActionButton(
-                child: const Icon(Icons.sms),
-                tooltip: 'Add new messages',
-                onPressed: () {})
-          ]),
-    ];
-    _initAnimation();
-    WidgetsBinding.instance.addObserver(this);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller?.dispose();
-    _searchController?.dispose();
-    _homeScreenItems[page].tab?.removeListener(_checkFilter);
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused ||
-        state == AppLifecycleState.inactive) {
-      print('background');
-    } else if (state == AppLifecycleState.resumed) {
-      print('foreground');
-    }
-  }
-
-  void _initAnimation() {
     _controller = new AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 200),
@@ -146,6 +121,35 @@ class _HomeScreenState extends State<HomeScreen>
       parent: _controller,
       curve: Curves.fastOutSlowIn,
     ));
+    WidgetsBinding.instance.addObserver(this);
+    tabsCtrl = _homeScreenItems
+        .map((data) =>
+            new TabController(vsync: this, length: data.sub?.length ?? 1))
+        .toList();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    _searchController?.dispose();
+    tabsCtrl[page]?.removeListener(_checkFilter);
+    pageCtrl.dispose();
+    for (var tab in tabsCtrl) {
+      tab.dispose();
+    }
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.inactive) {
+      print('background');
+    } else if (state == AppLifecycleState.resumed) {
+      print('foreground');
+    }
   }
 
   void _showFilter() {
@@ -232,7 +236,7 @@ class _HomeScreenState extends State<HomeScreen>
       return null;
     }
     return new TabBar(
-      controller: _homeScreenItems[page].tab,
+      controller: tabsCtrl[page],
       indicatorWeight: 4.0,
       tabs: new List<Tab>.generate(_homeScreenItems[page].sub?.length,
           (index) => new Tab(text: _homeScreenItems[page].sub[index].title)),
@@ -350,15 +354,15 @@ class _HomeScreenState extends State<HomeScreen>
       return;
     }
     setState(() {
-      _filterAvailable = (page == 0 && _homeScreenItems[page].tab.index == 1);
+      _filterAvailable = (page == 0 && tabsCtrl[page].index == 1);
     });
   }
 
   List<Widget> _buildAppBar(BuildContext context, bool innerBoxIsScrolled) {
     if (page == 0 || (_homeScreenItems[page].fabs?.length ?? 0) > 0)
-      _homeScreenItems[page].tab.addListener(_checkFilter);
+      tabsCtrl[page].addListener(_checkFilter);
     else {
-      _homeScreenItems[page].tab.removeListener(_checkFilter);
+      tabsCtrl[page].removeListener(_checkFilter);
     }
     final widgets = <Widget>[
       _isSearching
@@ -457,7 +461,7 @@ class _HomeScreenState extends State<HomeScreen>
             floatingActionButton:
                 _isSearching || _homeScreenItems[page].fabs == null
                     ? null
-                    : _homeScreenItems[page].fab,
+                    : fab,
             body: new Builder(builder: (context) {
               Services.context = context;
               return new NestedScrollView(
@@ -466,8 +470,7 @@ class _HomeScreenState extends State<HomeScreen>
                       controller: pageCtrl,
                       itemCount: _homeScreenItems.length,
                       itemBuilder: (context, index) => new TabBarView(
-                          key: _homeScreenItems[index].key,
-                          controller: _homeScreenItems[index].tab,
+                          controller: tabsCtrl[index],
                           children: _buildChild(context, index))));
             }),
             bottomNavigationBar: _isSearching
@@ -505,9 +508,6 @@ class HomeScreenItem {
   /// Home screen item title
   final String title;
 
-  /// Home screen item Tab controller
-  final TabController tab;
-
   /// Home item key
   final Key key;
 
@@ -524,12 +524,7 @@ class HomeScreenItem {
             ? new List<Widget>.generate(
                 sub.length, (index) => sub[index].content)
             : <Widget>[content],
-        tab = new TabController(vsync: parent, length: sub?.length ?? 1),
         key = new PageStorageKey<String>(title);
-
-  /// Home item actual fab
-  FloatingActionButton get fab =>
-      fabs.length > tab.index ? fabs[tab.index] : null;
 }
 
 /// Home screen sub item
