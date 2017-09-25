@@ -49,13 +49,13 @@ class AuthManager extends BasicService {
 
   @override
   Future<bool> init() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String _userData = prefs.getString(keyUser) ?? '{}';
-    final String _provider = prefs.getString(keyProvider);
-    final String _refreshToken = prefs.getString(keyOauthToken);
+    final prefs = await SharedPreferences.getInstance();
+    final _userData = prefs.getString(keyUser) ?? '{}';
+    final _provider = prefs.getString(keyProvider);
+    final _refreshToken = prefs.getString(keyOauthToken);
     _lastEmail = prefs.getString(keyLastEmail) ?? '';
     try {
-      final User _user = new User(JSON.decode(_userData));
+      final _user = new User(JSON.decode(_userData));
       if (!_user.isValid() ||
           _refreshToken == null ||
           !providers.contains(_provider)) {
@@ -97,7 +97,7 @@ class AuthManager extends BasicService {
   /// Regenerate access_token.
   ///
   Future<bool> getAccessToken() async {
-    final ApiRes response = await iget('/check/$provider', refreshToken);
+    final response = await iget('/check/$provider', refreshToken);
     if (response.success) {
       accessToken = response.data['access_token'];
       exp = new DateTime.fromMillisecondsSinceEpoch(
@@ -141,9 +141,9 @@ class AuthManager extends BasicService {
   /// @param payload User payload
   /// @param _provider Login provider
   /// @returns Logged or not
-  Future<bool> login(_payload, String _provider) async {
+  Future<bool> login(Map<String, dynamic> _payload, String _provider) async {
     _loggedIn = false;
-    final ApiRes response = await ipost('/login/$_provider', _payload);
+    final response = await ipost('/login/$_provider', _payload);
     if (response.success) {
       if (_payload['email'] != null) {
         await SharedPreferences.getInstance()
@@ -184,10 +184,10 @@ class AuthManager extends BasicService {
   ///
   /// @param payload User payload
   /// @returns Api response
-  Future<ApiRes> register(payload) async {
+  Future<ApiRes> register(Map<String, dynamic> payload) async {
     payload['_id'] = '';
     payload['groups'] = '';
-    final ApiRes response = await ipost('/signup', payload);
+    final response = await ipost('/signup', payload);
     return response;
   }
 }

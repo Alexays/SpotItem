@@ -37,7 +37,7 @@ class ItemsManager extends BasicService {
   ///
   /// @param payload Item payload
   /// @returns Api body response
-  Future<ApiRes> addItem(payload) async {
+  Future<ApiRes> addItem(Map<String, dynamic> payload) async {
     final response = await ipost('/items', payload, Services.auth.accessToken);
     return response;
   }
@@ -46,7 +46,7 @@ class ItemsManager extends BasicService {
   ///
   /// @param payload Item payload
   /// @returns Api body response
-  Future<ApiRes> editItem(payload) async {
+  Future<ApiRes> editItem(Map<String, dynamic> payload) async {
     final response = await iput(
         '/items/${payload['id']}', payload, Services.auth.accessToken);
     return response;

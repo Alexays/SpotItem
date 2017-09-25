@@ -1,7 +1,7 @@
 /// ApiRes model
 class ApiRes {
   /// ApiRes class initializer
-  ApiRes(data, this.statusCode)
+  ApiRes(Map<String, dynamic> data, this.statusCode)
       : success = data['success'] ?? false,
         data = data['data'],
         msg = data['msg'],
@@ -9,7 +9,7 @@ class ApiRes {
 
   /// Create classic ApiRes with failed status
   factory ApiRes.classic() =>
-      new ApiRes({'error': 'An Unexpected error !'}, 500);
+      new ApiRes(<String, dynamic>{'error': 'An Unexpected error !'}, 500);
 
   /// Response success
   final bool success;

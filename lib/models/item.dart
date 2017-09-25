@@ -4,18 +4,18 @@ import 'package:spotitem/models/user.dart';
 /// Item Model
 class Item {
   /// Item class initializer
-  Item(data, this.dist)
+  Item(Map<String, dynamic> data, this.dist)
       : id = data['_id'],
         name = data['name'],
         about = data['about'],
-        images = data['images'] ?? [],
+        images = data['images'] ?? <String>[],
         lastGeo = data['lastGeo'],
-        calendar = data['calendar'] ?? [],
+        calendar = data['calendar'] ?? <dynamic>[],
         location = data['location'],
         lat = data['lat'],
         lng = data['lng'],
-        tracks = data['tracks'] ?? [],
-        groups = data['groups'] ?? [],
+        tracks = data['tracks'] ?? <String>[],
+        groups = data['groups'] ?? <String>[],
         owner = new User(data['owner']);
 
   /// Item id
@@ -58,7 +58,8 @@ class Item {
   List<String> groups;
 
   /// Create item from JSON object
-  factory Item.from(item) => new Item(JSON.decode(item.toString()), item.dist);
+  factory Item.from(Item item) =>
+      new Item(JSON.decode(item.toString()), item.dist);
 
   /// Check if item is valid
   bool isValid() => id != null && name != null && owner != null;

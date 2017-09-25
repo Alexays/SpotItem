@@ -42,7 +42,8 @@ class BasicService {
   /// @param payload The payload
   /// @param token Token to use to authentificate
   /// @returns Api response
-  Future<ApiRes> ipost(String url, payload, [String token]) async {
+  Future<ApiRes> ipost(String url, Map<String, dynamic> payload,
+      [String token]) async {
     final verifiedToken = await Services.auth.verifyToken(token);
     if (verifiedToken != null) {
       final response = await http.post(Uri.encodeFull('$apiUrl$url'),
@@ -60,7 +61,8 @@ class BasicService {
   /// @param payload The payload
   /// @param token Token to use to authentificate
   /// @returns Api response
-  Future<ApiRes> iput(String url, payload, [String token]) async {
+  Future<ApiRes> iput(String url, Map<String, dynamic> payload,
+      [String token]) async {
     final verifiedToken = await Services.auth.verifyToken(token);
     if (verifiedToken != null) {
       final response = await http.put(Uri.encodeFull('$apiUrl$url'),
@@ -108,7 +110,7 @@ class BasicService {
   /// Handle web socket push.
   ///
   /// @param res Api ws data
-  void handleWsData(res) {
+  void handleWsData(String res) {
     final decoded = JSON.decode(res);
     if (decoded['type'] == 'NOTIFICATION') {
       showSnackBar(Services.context, decoded['data']);

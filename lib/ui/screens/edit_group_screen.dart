@@ -38,12 +38,12 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
   @override
   void initState() {
     if (_group == null) {
-      Services.groups.getGroup(_groupId).then((data) {
+      Services.groups.getGroup(_groupId).then((res) {
         if (!mounted) {
           return;
         }
         setState(() {
-          _group = new Group(data);
+          _group = new Group(res.data);
           _initForm();
         });
       });

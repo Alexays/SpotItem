@@ -31,7 +31,7 @@ class User {
   List<String> groups;
 
   /// Create user fron JSON object
-  factory User.from(user) => new User(JSON.decode(user.toString()));
+  factory User.from(User user) => new User(JSON.decode(user.toString()));
 
   /// Check if user is valid
   bool isValid() => id != null && name != null && email != null;
