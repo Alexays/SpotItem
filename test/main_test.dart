@@ -13,6 +13,46 @@ void main() {
     binding.framePolicy = LiveTestWidgetsFlutterBindingFramePolicy.fullyLive;
 
   group('Basic', () {
+    final mockUser = new ApiRes({
+      'success': true,
+      'data': {
+        'user': {
+          '_id': '1234567890',
+          'name': 'mock',
+          'firstname': 'mock',
+          'email': 'mock@spotitem.fr'
+        },
+        'exp': new DateTime.now().millisecondsSinceEpoch + 3000,
+        'access_token': 'Bearer mock',
+        'refresh_token': 'mock'
+      }
+    }, 200);
+    final mockItems = new ApiRes({
+      'success': true,
+      'data': [
+        {
+          '_id': '59c40cadc4de467318e0cc23',
+          'updatedAt': '2017-09-21T20:04:05.156Z',
+          'createdAt': '2017-09-21T19:02:05.242Z',
+          'name': 'Magnifique Nutella',
+          'about': '40% de noisettes  !!',
+          'owner': {
+            '_id': '596b7aa3c68d586d9b0d4bb8',
+            'email': 'ptitpilou44@gmail.com',
+            'name': 'Leray',
+            'firstname': 'Pierre'
+          },
+          'lat': 47.2199094,
+          'lng': -1.6881127,
+          'location': 'Couëron-les-bains',
+          'groups': [],
+          'tracks': [],
+          'calendar': [],
+          'last_geo': '2017-09-21T19:02:05.240Z',
+          'images': ['image_6ea936bade56ea9388fcbb76265ef011933f4e2d.jpg']
+        }
+      ]
+    }, 200);
     testWidgets('Login appear', (tester) async {
       await Services.setup(Origin.mock);
       await tester.pumpWidget(new SpotItemApp(init: true));
@@ -25,20 +65,7 @@ void main() {
     });
 
     testWidgets('Able to login and show Home', (tester) async {
-      Services.mock = new ApiRes({
-        'success': true,
-        'data': {
-          'user': {
-            '_id': '1234567890',
-            'name': 'mock',
-            'firstname': 'mock',
-            'email': 'mock@spotitem.fr'
-          },
-          'exp': new DateTime.now().millisecondsSinceEpoch + 3000,
-          'access_token': 'Bearer mock',
-          'refresh_token': 'mock'
-        }
-      }, 200);
+      Services.mock = mockUser;
       await tester.pumpWidget(new SpotItemApp(init: true));
       await tester.pump();
       await tester.pump();
@@ -56,32 +83,7 @@ void main() {
     });
 
     testWidgets('Show discover', (tester) async {
-      Services.mock = new ApiRes({
-        'success': true,
-        'data': [
-          {
-            '_id': '59c40cadc4de467318e0cc23',
-            'updatedAt': '2017-09-21T20:04:05.156Z',
-            'createdAt': '2017-09-21T19:02:05.242Z',
-            'name': 'Magnifique Nutella',
-            'about': '40% de noisettes  !!',
-            'owner': {
-              '_id': '596b7aa3c68d586d9b0d4bb8',
-              'email': 'ptitpilou44@gmail.com',
-              'name': 'Leray',
-              'firstname': 'Pierre'
-            },
-            'lat': 47.2199094,
-            'lng': -1.6881127,
-            'location': 'Couëron-les-bains',
-            'groups': [],
-            'tracks': [],
-            'calendar': [],
-            'last_geo': '2017-09-21T19:02:05.240Z',
-            'images': ['image_6ea936bade56ea9388fcbb76265ef011933f4e2d.jpg']
-          }
-        ]
-      }, 200);
+      Services.mock = mockItems;
       await tester.pumpWidget(new SpotItemApp(init: true));
       await tester.pump();
       await tester.pump();
@@ -91,32 +93,7 @@ void main() {
     });
 
     testWidgets('Show explorer', (tester) async {
-      Services.mock = new ApiRes({
-        'success': true,
-        'data': [
-          {
-            '_id': '59c40cadc4de467318e0cc23',
-            'updatedAt': '2017-09-21T20:04:05.156Z',
-            'createdAt': '2017-09-21T19:02:05.242Z',
-            'name': 'Magnifique Nutella',
-            'about': '40% de noisettes  !!',
-            'owner': {
-              '_id': '596b7aa3c68d586d9b0d4bb8',
-              'email': 'ptitpilou44@gmail.com',
-              'name': 'Leray',
-              'firstname': 'Pierre'
-            },
-            'lat': 47.2199094,
-            'lng': -1.6881127,
-            'location': 'Couëron-les-bains',
-            'groups': [],
-            'tracks': [],
-            'calendar': [],
-            'last_geo': '2017-09-21T19:02:05.240Z',
-            'images': ['image_6ea936bade56ea9388fcbb76265ef011933f4e2d.jpg']
-          }
-        ]
-      }, 200);
+      Services.mock = mockItems;
       await tester.pumpWidget(new SpotItemApp(init: true));
       await tester.pump();
       await tester.pump();
