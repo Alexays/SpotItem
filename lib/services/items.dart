@@ -118,7 +118,7 @@ class ItemsManager extends BasicService {
     final ApiRes response =
         await iget('/items/user', Services.auth.accessToken);
     if (response.success) {
-      _myItems = new List<Item>.generate(
+      return _myItems = new List<Item>.generate(
           response.data?.length ?? 0,
           (index) => new Item(
               response.data[index],

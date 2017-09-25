@@ -33,11 +33,11 @@ class _ExplorerViewState extends State<ExplorerView> {
   }
 
   void getTracks() {
-    _items = new List<Item>.from(backup);
-    final List<String> _tracks = Services.items.tracks.value;
     if (!mounted) {
       return;
     }
+    _items = new List<Item>.from(backup);
+    final List<String> _tracks = Services.items.tracks.value;
     setState(() {
       if (_tracks.isNotEmpty) {
         _items = _items
