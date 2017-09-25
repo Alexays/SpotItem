@@ -37,10 +37,10 @@ void main() {
           'name': 'Magnifique Nutella',
           'about': '40% de noisettes  !!',
           'owner': {
-            '_id': '596b7aa3c68d586d9b0d4bb8',
-            'email': 'ptitpilou44@gmail.com',
-            'name': 'Leray',
-            'firstname': 'Pierre'
+            '_id': '1234567890',
+            'email': 'mock@spotitem.fr',
+            'name': 'mock',
+            'firstname': 'mock'
           },
           'lat': 47.2199094,
           'lng': -1.6881127,
@@ -110,10 +110,22 @@ void main() {
       await tester.pumpWidget(new SpotItemApp(init: true));
       await tester.pump();
       await tester.pump();
-      expect(find.text('Discover'), findsOneWidget);
       await tester.tap(find.text('Magnifique Nutella'));
       await tester.pumpAndSettle();
       expect(find.text('40% de noisettes  !!'), findsOneWidget);
+    });
+
+    testWidgets('Show item edit page', (tester) async {
+      Services.mock = mockItems;
+      await tester.pumpWidget(new SpotItemApp(init: true));
+      await tester.pump();
+      await tester.pump();
+      await tester.tap(find.text('Magnifique Nutella'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byIcon(Icons.create));
+      await tester.pumpAndSettle();
+      expect(find.byKey(const Key('name')), findsOneWidget);
+      expect(find.text('SAVE'), findsOneWidget);
     });
   });
 }
