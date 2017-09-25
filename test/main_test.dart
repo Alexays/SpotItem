@@ -87,6 +87,7 @@ void main() {
       await tester.pump();
       expect(find.text('Discover'), findsOneWidget);
       expect(find.text('Magnifique Nutella'), findsOneWidget);
+      expect(Services.items.items.length, 1);
     });
   });
 }
