@@ -243,7 +243,7 @@ class _EditItemScreenState extends State<EditItemScreen>
             .pushNamedAndRemoveUntil('/', (route) => false);
       }
     } else {
-      showSnackBar(context, 'Auth error !');
+      showSnackBar(context, SpotL.of(context).error());
     }
   }
 

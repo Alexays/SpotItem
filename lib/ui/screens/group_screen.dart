@@ -142,7 +142,7 @@ class _GroupPageState extends State<GroupPage>
         ),
         new DefaultTextStyle(
           style: theme.primaryTextTheme.body1,
-          child: new Text('${group.about}'),
+          child: new Text(group.about),
         )
       ]);
     }

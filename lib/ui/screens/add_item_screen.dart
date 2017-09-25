@@ -195,7 +195,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
             .pushNamedAndRemoveUntil('/', (route) => false);
       }
     } else {
-      showSnackBar(context, 'Auth error !');
+      showSnackBar(context, SpotL.of(context).error());
     }
   }
 

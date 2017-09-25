@@ -114,9 +114,11 @@ class _EditUserScreenState extends State<EditUserScreen> {
                                     ),
                                     new TextFormField(
                                       key: const Key('password'),
-                                      decoration: const InputDecoration(
-                                          labelText: 'Password',
-                                          hintText: '***********'),
+                                      decoration: new InputDecoration(
+                                          labelText:
+                                              SpotL.of(context).password(),
+                                          hintText:
+                                              SpotL.of(context).passwordPh()),
                                       onSaved: (value) {
                                         password = value;
                                       },
@@ -124,9 +126,13 @@ class _EditUserScreenState extends State<EditUserScreen> {
                                     ),
                                     new TextFormField(
                                       key: const Key('repeat'),
-                                      decoration: const InputDecoration(
-                                          labelText: 'Confirm password',
-                                          hintText: '***********'),
+                                      decoration: new InputDecoration(
+                                          labelText: SpotL
+                                              .of(context)
+                                              .passwordRepeat(),
+                                          hintText: SpotL
+                                              .of(context)
+                                              .passwordRepeatPh()),
                                       onSaved: (value) {
                                         repeat = value;
                                       },
