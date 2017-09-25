@@ -39,7 +39,7 @@ class _ItemsViewState extends State<ItemsView> {
   }
 
   Future<Null> _loadItems() async {
-    final res = await Services.items.getSelfItems();
+    final res = await Services.items.getUserItems();
     if (!mounted) {
       return;
     }

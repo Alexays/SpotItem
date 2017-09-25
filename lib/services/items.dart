@@ -112,9 +112,9 @@ class ItemsManager extends BasicService {
   /// Get user items.
   ///
   /// @returns User items list
-  Future<List<Item>> getSelfItems() async {
+  Future<List<Item>> getUserItems() async {
     final response = await iget('/items/user', Services.auth.accessToken);
-    if (response.success) {
+    if (response.success && response.data is List) {
       return _myItems = new List<Item>.generate(
           response.data?.length ?? 0,
           (index) => new Item(
