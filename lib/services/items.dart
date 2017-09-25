@@ -72,7 +72,7 @@ class ItemsManager extends BasicService {
       final ApiRes response = await iget(
           '${Services.auth.loggedIn != null ? '/items/auth' : '/items'}',
           Services.auth.loggedIn ? Services.auth.accessToken : null);
-      if (response.statusCode == 200 && response.success) {
+      if (response.success) {
         return _items = new List<Item>.generate(
             response.data?.length ?? 0,
             (index) => new Item(
@@ -104,7 +104,7 @@ class ItemsManager extends BasicService {
       return null;
     }
     final ApiRes response = await iget('/items/$itemId');
-    if (response.statusCode == 200 && response.success) {
+    if (response.success) {
       return new Item(response.data,
           Services.users.getDist(response.data['lat'], response.data['lng']));
     }
@@ -117,7 +117,7 @@ class ItemsManager extends BasicService {
   Future<List<Item>> getSelfItems() async {
     final ApiRes response =
         await iget('/items/user', Services.auth.accessToken);
-    if (response.statusCode == 200 && response.success) {
+    if (response.success) {
       _myItems = new List<Item>.generate(
           response.data?.length ?? 0,
           (index) => new Item(

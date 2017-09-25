@@ -50,10 +50,10 @@ class AuthManager extends BasicService {
   @override
   Future<bool> init() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    _lastEmail = prefs.getString(keyLastEmail) ?? '';
     final String _userData = prefs.getString(keyUser) ?? '{}';
     final String _provider = prefs.getString(keyProvider);
     final String _refreshToken = prefs.getString(keyOauthToken);
+    _lastEmail = prefs.getString(keyLastEmail) ?? '';
     try {
       final User _user = new User(JSON.decode(_userData));
       if (!_user.isValid() ||
@@ -98,7 +98,7 @@ class AuthManager extends BasicService {
   ///
   Future<bool> getAccessToken() async {
     final ApiRes response = await iget('/check/$provider', refreshToken);
-    if (response.statusCode == 200 && response.success) {
+    if (response.success) {
       accessToken = response.data['access_token'];
       exp = new DateTime.fromMillisecondsSinceEpoch(
           (response.data['exp'] * 1000) - 30);
@@ -144,7 +144,7 @@ class AuthManager extends BasicService {
   Future<bool> login(_payload, String _provider) async {
     _loggedIn = false;
     final ApiRes response = await ipost('/login/$_provider', _payload);
-    if (response.statusCode == 200 && response.success) {
+    if (response.success) {
       if (_payload['email'] != null) {
         await SharedPreferences.getInstance()
           ..setString(keyLastEmail, _payload['email']);

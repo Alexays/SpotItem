@@ -76,7 +76,7 @@ class GroupsManager extends BasicService {
   Future<List<Group>> getGroupsInv() async {
     final ApiRes response =
         await iget('/groups/inv', Services.auth.accessToken);
-    if (response.statusCode == 200 && response.success) {
+    if (response.success) {
       return _groupsInv =
           new List<Group>.generate(response.data?.length ?? 0, (index) {
         // Owners is not populated here, not need for invitations
@@ -97,7 +97,7 @@ class GroupsManager extends BasicService {
     }
     final ApiRes response =
         await idelete('/group/$groupId', Services.auth.accessToken);
-    if (response.statusCode == 200 && response.success) {
+    if (response.success) {
       Services.auth.user.groups.removeWhere((group) => group == groupId);
     }
     return response;
@@ -113,7 +113,7 @@ class GroupsManager extends BasicService {
     }
     final ApiRes response =
         await ipost('/group/$groupId', null, Services.auth.accessToken);
-    if (response.statusCode == 200 && response.success) {
+    if (response.success) {
       Services.auth.user.groups.add(groupId);
     }
     return response;
@@ -129,7 +129,7 @@ class GroupsManager extends BasicService {
     }
     final ApiRes response =
         await iget('/group/$groupId/leave', Services.auth.accessToken);
-    if (response.statusCode == 200 && response.success) {
+    if (response.success) {
       Services.auth.user.groups.removeWhere((group) => group == groupId);
     }
     return response;

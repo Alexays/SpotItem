@@ -86,7 +86,7 @@ class UsersManager extends BasicService {
     }
     final ApiRes response =
         await iput('/user/edit', userJson, Services.auth.accessToken);
-    if (response.statusCode == 200 && response.success) {
+    if (response.success) {
       Services.auth.user = new User(response.data['user']);
       Services.auth.accessToken = response.data['token'];
       await saveTokens(Services.auth.user.toString(),
@@ -105,7 +105,7 @@ class UsersManager extends BasicService {
     }
     final ApiRes response =
         await iget('/user/$userId', Services.auth.accessToken);
-    if (response.statusCode == 200 && response.success) {
+    if (response.success) {
       return new User(response.data);
     }
     return null;

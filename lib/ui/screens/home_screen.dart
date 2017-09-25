@@ -471,6 +471,7 @@ class _HomeScreenState extends State<HomeScreen>
                       controller: pageCtrl,
                       itemCount: _homeScreenItems.length,
                       itemBuilder: (context, index) => new TabBarView(
+                          key: _homeScreenItems[index].key,
                           controller: _homeScreenItems[index].tab,
                           children: _buildChild(context, index))));
             }),
