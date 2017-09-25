@@ -189,4 +189,39 @@ class SpotL {
   /// Correct Error title
   String correctError() =>
       Intl.message('<correctError>', name: 'correctError', locale: _localeName);
+
+  /// Search contacts placeholder
+  String searchContact() => Intl.message('<searchContact>',
+      name: 'searchContact', locale: _localeName);
+
+  /// Password title
+  String password() =>
+      Intl.message('<password>', name: 'password', locale: _localeName);
+
+  /// Password placeholder
+  String passwordPh() =>
+      Intl.message('<passwordPh>', name: 'passwordPh', locale: _localeName);
+
+  /// Password repeat title
+  String passwordRepeat() => Intl.message('<passwordRepeat>',
+      name: 'passwordRepeat', locale: _localeName);
+
+  /// Password repeat placeholder
+  String passwordRepeatPh() => Intl.message('<passwordRepeatPh>',
+      name: 'passwordRepeatPh', locale: _localeName);
+
+  /// No account title
+  String noAccount() =>
+      Intl.message('<noAccount>', name: 'noAccount', locale: _localeName);
+
+  /// I have an account title
+  String haveAccount() =>
+      Intl.message('<haveAccount>', name: 'haveAccount', locale: _localeName);
+
+  /// Login error title
+  String loginError() =>
+      Intl.message('<loginError>', name: 'loginError', locale: _localeName);
+
+  /// Unexpected error title
+  String error() => Intl.message('<error>', name: 'error', locale: _localeName);
 }

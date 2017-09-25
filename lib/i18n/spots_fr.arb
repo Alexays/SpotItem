@@ -268,5 +268,59 @@
     "description": "Correct error title",
     "type": "text",
     "placeholders": {}
+  },
+  "searchContact": "Rechercher un contact...",
+  "@searchContact": {
+    "description": "Search contact placeholder",
+    "type": "text",
+    "placeholders": {}
+  },
+  "password": "Mot de passe",
+  "@password": {
+    "description": "Password title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "passwordPh": "Entrez un mot de passe",
+  "@passwordPh": {
+    "description": "Password placeholder",
+    "type": "text",
+    "placeholders": {}
+  },
+  "passwordRepeat": "Confirmer le mot de passe",
+  "@passwordRepeat": {
+    "description": "Password repeat title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "passwordRepeatPh": "Entrez le mot de passe de confirmation",
+  "@passwordRepeatPh": {
+    "description": "Password repeat placeholder",
+    "type": "text",
+    "placeholders": {}
+  },
+  "noAccount": "Vous n'avez pas de compte ?",
+  "@noAccount": {
+    "description": "No account title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "haveAccount": "J'ai un compte !",
+  "@haveAccount": {
+    "description": "Have account title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "loginError": "Email ou mot de passe incorrect !",
+  "@loginError": {
+    "description": "Login error title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "error": "Erreur inattendue",
+  "@error": {
+    "description": "Error title",
+    "type": "text",
+    "placeholders": {}
   }
 }

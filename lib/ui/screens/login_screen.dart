@@ -21,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   Future<Null> doLogin(BuildContext context) async {
-    const errorText = 'Invalid credentials !';
+    final String errorText = SpotL.of(context).loginError();
     if (_formKey.currentState.validate()) {
       final bool success = await Services.auth.login(
           {'email': _usernameCtrl.text, 'password': _passwordCtrl.text},
@@ -71,9 +71,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           new TextFormField(
                             key: const Key('password'),
-                            decoration: const InputDecoration(
-                              hintText: 'Enter password',
-                              labelText: 'Password',
+                            decoration: new InputDecoration(
+                              hintText: SpotL.of(context).passwordPh(),
+                              labelText: SpotL.of(context).password(),
                             ),
                             controller: _passwordCtrl,
                             obscureText: true,
@@ -119,7 +119,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                       Navigator.pushReplacementNamed(
                                           context, '/');
                                     } else {
-                                      showSnackBar(context, 'Error !');
+                                      showSnackBar(
+                                          context, SpotL.of(context).error());
                                     }
                                   });
                                 },
@@ -130,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           new Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              const Text('Don\'t have an account ?'),
+                              new Text(SpotL.of(context).noAccount()),
                               const Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 5.0)),

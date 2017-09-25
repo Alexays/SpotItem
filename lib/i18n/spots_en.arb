@@ -268,5 +268,59 @@
     "description": "Correct error title",
     "type": "text",
     "placeholders": {}
+  },
+  "searchContact": "Search contact...",
+  "@searchContact": {
+    "description": "Search contact placeholder",
+    "type": "text",
+    "placeholders": {}
+  },
+  "password": "Password",
+  "@password": {
+    "description": "Password title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "passwordPh": "Enter password",
+  "@passwordPh": {
+    "description": "Password placeholder",
+    "type": "text",
+    "placeholders": {}
+  },
+  "passwordRepeat": "Confirm password",
+  "@passwordRepeat": {
+    "description": "Password repeat title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "passwordRepeatPh": "Enter password confirmation",
+  "@passwordRepeatPh": {
+    "description": "Password repeat placeholder",
+    "type": "text",
+    "placeholders": {}
+  },
+  "noAccount": "Don't have an account ?",
+  "@noAccount": {
+    "description": "No account title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "haveAccount": "I have an account !",
+  "@haveAccount": {
+    "description": "Have account title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "loginError": "Email or password incorrect !",
+  "@loginError": {
+    "description": "Login error title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "error": "Unexpected error",
+  "@error": {
+    "description": "Error title",
+    "type": "text",
+    "placeholders": {}
   }
 }

@@ -113,6 +113,7 @@ class UsersManager extends BasicService {
 
   /// Get contact of user by provider.
   ///
+  /// TO-DO Maybe make pager to get all contacts
   Future<Null> _handleGetContact() async {
     final String provider = Services.auth.provider;
     if (provider == 'google') {

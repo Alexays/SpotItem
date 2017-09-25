@@ -73,7 +73,7 @@ class _ContactScreenState extends State<ContactScreen> {
                           fontWeight: FontWeight.w500,
                         ),
                         decoration: new InputDecoration(
-                          hintText: 'Search contacts...',
+                          hintText: SpotL.of(context).searchContact(),
                           errorText: _contacts == null || _contacts.isEmpty
                               ? validateEmail(_email)
                               : null,
