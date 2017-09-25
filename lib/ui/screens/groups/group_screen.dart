@@ -5,7 +5,7 @@ import 'package:spotitem/models/group.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/utils.dart';
 import 'package:spotitem/ui/spot_strings.dart';
-import 'package:spotitem/ui/screens/edit_group_screen.dart';
+import 'package:spotitem/ui/screens/groups/edit_group_screen.dart';
 
 /// Group page class
 class GroupPage extends StatefulWidget {

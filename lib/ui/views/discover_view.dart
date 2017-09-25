@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:spotitem/models/item.dart';
 import 'package:spotitem/ui/widgets/item.dart';
-import 'package:spotitem/ui/screens/item_screen.dart';
+import 'package:spotitem/ui/screens/items/item_screen.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/ui/spot_strings.dart';

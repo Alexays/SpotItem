@@ -1,13 +1,13 @@
 import 'package:spotitem/ui/screens/register_screen.dart';
-import 'package:spotitem/ui/screens/add_item_screen.dart';
-import 'package:spotitem/ui/screens/edit_item_screen.dart';
-import 'package:spotitem/ui/screens/profile_screen.dart';
-import 'package:spotitem/ui/screens/edit_user_screen.dart';
-import 'package:spotitem/ui/screens/add_group_screen.dart';
-import 'package:spotitem/ui/screens/edit_group_screen.dart';
+import 'package:spotitem/ui/screens/items/add_item_screen.dart';
+import 'package:spotitem/ui/screens/items/edit_item_screen.dart';
+import 'package:spotitem/ui/screens/users/profile_screen.dart';
+import 'package:spotitem/ui/screens/users/edit_user_screen.dart';
+import 'package:spotitem/ui/screens/groups/add_group_screen.dart';
+import 'package:spotitem/ui/screens/groups/edit_group_screen.dart';
 import 'package:spotitem/ui/screens/debug_screen.dart';
 import 'package:spotitem/ui/screens/contact_screen.dart';
-import 'package:spotitem/ui/screens/item_screen.dart';
+import 'package:spotitem/ui/screens/items/item_screen.dart';
 import 'package:fluro/fluro.dart';
 
 /// Routes Class
