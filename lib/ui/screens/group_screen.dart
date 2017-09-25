@@ -182,7 +182,8 @@ class _GroupPageState extends State<GroupPage>
                   },
                 ),
                 new FlatButton(
-                  child: const Text('Leave'),
+                  child: new Text(
+                      MaterialLocalizations.of(context).continueButtonLabel),
                   onPressed: () {
                     _leaveGroup(context);
                   },
@@ -415,7 +416,7 @@ class _GroupPageState extends State<GroupPage>
   @override
   Widget build(BuildContext context) => new Scaffold(
       appBar: new AppBar(
-        title: new Text('${group.name}'),
+        title: new Text(group.name),
         actions: _doButton(context),
       ),
       body: new Builder(
