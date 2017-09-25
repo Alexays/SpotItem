@@ -134,9 +134,9 @@ class _HomeScreenState extends State<HomeScreen>
     _controller?.dispose();
     _searchController?.dispose();
     tabsCtrl[page]?.removeListener(_checkFilter);
-    pageCtrl.dispose();
+    pageCtrl?.dispose();
     for (var tab in tabsCtrl) {
-      tab.dispose();
+      tab?.dispose();
     }
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
@@ -181,9 +181,11 @@ class _HomeScreenState extends State<HomeScreen>
                             } else {
                               Services.items.tracks.value.remove('group');
                             }
-                            Services.items.tracks.value = new List<String>.from(
-                                Services.items.tracks.value);
-                            switchSetState(() {});
+                            switchSetState(() {
+                              Services.items.tracks.value =
+                                  new List<String>.from(
+                                      Services.items.tracks.value);
+                            });
                           },
                           secondary: const Icon(Icons.lock),
                         )),
@@ -197,9 +199,11 @@ class _HomeScreenState extends State<HomeScreen>
                             } else {
                               Services.items.tracks.value.remove('gift');
                             }
-                            Services.items.tracks.value = new List<String>.from(
-                                Services.items.tracks.value);
-                            switchSetState(() {});
+                            switchSetState(() {
+                              Services.items.tracks.value =
+                                  new List<String>.from(
+                                      Services.items.tracks.value);
+                            });
                           },
                           secondary: const Icon(Icons.card_giftcard),
                         ))
@@ -238,8 +242,10 @@ class _HomeScreenState extends State<HomeScreen>
     return new TabBar(
       controller: tabsCtrl[page],
       indicatorWeight: 4.0,
-      tabs: new List<Tab>.generate(_homeScreenItems[page].sub?.length,
-          (index) => new Tab(text: _homeScreenItems[page].sub[index].title)),
+      tabs: _homeScreenItems[page]
+          .sub
+          .map((f) => new Tab(text: f.title))
+          .toList(),
     );
   }
 
@@ -521,8 +527,7 @@ class HomeScreenItem {
       this.fabs})
       : item = new BottomNavigationBarItem(icon: icon, title: new Text(title)),
         content = sub != null
-            ? new List<Widget>.generate(
-                sub.length, (index) => sub[index].content)
+            ? sub.map((f) => f.content).toList()
             : <Widget>[content],
         key = new PageStorageKey<String>(title);
 }
