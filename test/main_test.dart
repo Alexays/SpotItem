@@ -18,8 +18,8 @@ void main() {
       'data': {
         'user': {
           '_id': '1234567890',
-          'name': 'mock',
-          'firstname': 'mock',
+          'name': 'mock name',
+          'firstname': 'mock firstname',
           'email': 'mock@spotitem.fr'
         },
         'exp': new DateTime.now().millisecondsSinceEpoch + 3000,
@@ -143,6 +143,17 @@ void main() {
               matching: find.icon(Icons.add)),
           findsOneWidget); // View fab add item
       expect(find.byIcon(Icons.card_giftcard), findsOneWidget);
+    });
+
+    testWidgets('I able to view my user information in drawer', (tester) async {
+      Services.mock = mockItems;
+      await tester.pumpWidget(new SpotItemApp(init: true));
+      await tester.pump();
+      await tester.pump();
+      await tester.tap(find.byIcon(Icons.menu));
+      await tester.pumpAndSettle();
+      expect(find.text('mock firstname mock name'), findsOneWidget);
+      expect(find.text('mock@spotitem.fr'), findsOneWidget);
     });
   });
 }
