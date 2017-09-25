@@ -175,7 +175,8 @@ class _GroupPageState extends State<GroupPage>
               ),
               actions: <Widget>[
                 new FlatButton(
-                  child: const Text('Cancel'),
+                  child: new Text(
+                      MaterialLocalizations.of(context).cancelButtonLabel),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -214,7 +215,8 @@ class _GroupPageState extends State<GroupPage>
                 ),
                 actions: <Widget>[
                   new FlatButton(
-                    child: const Text('Cancel'),
+                    child: new Text(
+                        MaterialLocalizations.of(context).cancelButtonLabel),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -289,7 +291,9 @@ class _GroupPageState extends State<GroupPage>
                       ),
                       actions: <Widget>[
                         new FlatButton(
-                          child: const Text('Cancel'),
+                          child: new Text(MaterialLocalizations
+                              .of(context)
+                              .cancelButtonLabel),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
@@ -328,13 +332,17 @@ class _GroupPageState extends State<GroupPage>
                       ),
                       actions: <Widget>[
                         new FlatButton(
-                          child: const Text('Cancel'),
+                          child: new Text(MaterialLocalizations
+                              .of(context)
+                              .cancelButtonLabel),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
                         ),
                         new FlatButton(
-                          child: const Text('Remove'),
+                          child: new Text(MaterialLocalizations
+                              .of(context)
+                              .continueButtonLabel),
                           onPressed: () {
                             _removeOwner(context, group.users[index].id);
                           },
@@ -366,13 +374,17 @@ class _GroupPageState extends State<GroupPage>
                       ),
                       actions: <Widget>[
                         new FlatButton(
-                          child: const Text('Cancel'),
+                          child: new Text(MaterialLocalizations
+                              .of(context)
+                              .cancelButtonLabel),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
                         ),
                         new FlatButton(
-                          child: const Text('Kick'),
+                          child: new Text(MaterialLocalizations
+                              .of(context)
+                              .continueButtonLabel),
                           onPressed: () {
                             _kickUser(context, group.users[index].id);
                           },

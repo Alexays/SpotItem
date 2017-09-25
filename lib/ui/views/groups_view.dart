@@ -152,13 +152,17 @@ class _GroupsViewState extends State<GroupsView> {
                       ),
                       actions: <Widget>[
                         new FlatButton(
-                          child: const Text('Cancel'),
+                          child: new Text(MaterialLocalizations
+                              .of(context)
+                              .cancelButtonLabel),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
                         ),
                         new FlatButton(
-                          child: const Text('Join !'),
+                          child: new Text(MaterialLocalizations
+                              .of(context)
+                              .continueButtonLabel),
                           onPressed: () async {
                             await _joinGroup(index);
                             Navigator.of(context).pop();

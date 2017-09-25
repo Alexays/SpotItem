@@ -170,7 +170,8 @@ class _ItemPageState extends State<ItemPage>
                 ),
                 actions: <Widget>[
                   new FlatButton(
-                    child: const Text('Cancel'),
+                    child: new Text(
+                        MaterialLocalizations.of(context).cancelButtonLabel),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
