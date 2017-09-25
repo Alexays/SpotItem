@@ -155,5 +155,20 @@ void main() {
       expect(find.text('mock firstname mock name'), findsOneWidget);
       expect(find.text('mock@spotitem.fr'), findsOneWidget);
     });
+
+    testWidgets('I able to view my user edit page', (tester) async {
+      Services.mock = mockItems;
+      await tester.pumpWidget(new SpotItemApp(init: true));
+      await tester.pump();
+      await tester.pump();
+      await tester.tap(find.byIcon(Icons.menu));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('mock@spotitem.fr'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Edit profile'));
+      await tester.pumpAndSettle();
+      expect(find.byKey(const Key('name')), findsOneWidget);
+      expect(find.text('SAVE'), findsOneWidget);
+    });
   });
 }
