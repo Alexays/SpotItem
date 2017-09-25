@@ -46,7 +46,7 @@ void main() {
           'lng': -1.6881127,
           'location': 'Couëron-les-bains',
           'groups': [],
-          'tracks': [],
+          'tracks': ['gift'],
           'calendar': [],
           'last_geo': '2017-09-21T19:02:05.240Z',
           'images': ['image_6ea936bade56ea9388fcbb76265ef011933f4e2d.jpg']
@@ -128,7 +128,7 @@ void main() {
       expect(find.text('SAVE'), findsOneWidget);
     });
 
-    testWidgets('Show my item tab', (tester) async {
+    testWidgets('Show my item tab with items, tracks', (tester) async {
       Services.mock = mockItems;
       await tester.pumpWidget(new SpotItemApp(init: true));
       await tester.pump();
@@ -136,14 +136,13 @@ void main() {
       await tester.tap(find.descendant(
           of: find.byType(BottomNavigationBar), matching: find.text('Items')));
       await tester.pumpAndSettle();
-      // View item
-      expect(find.text('Magnifique Nutella'), findsOneWidget);
-      // View fab add item
+      expect(find.text('Magnifique Nutella'), findsOneWidget); // View item
       expect(
           find.descendant(
               of: find.byType(FloatingActionButton),
               matching: find.icon(Icons.add)),
-          findsOneWidget);
+          findsOneWidget); // View fab add item
+      expect(find.byIcon(Icons.card_giftcard), findsOneWidget);
     });
   });
 }
