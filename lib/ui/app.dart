@@ -26,9 +26,9 @@ class SpotItemApp extends MaterialApp {
           home: new Builder(builder: (context) {
             Services.loc = context;
             return init
-                ? (Services.auth.loggedIn
+                ? Services.auth.loggedIn
                     ? const HomeScreen()
-                    : const LoginScreen())
+                    : const LoginScreen()
                 : const ErrorScreen();
           }),
           theme: new ThemeData(
