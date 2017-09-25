@@ -4,6 +4,6 @@ import 'package:flutter/material.dart';
 
 void main() {
   Services.setup().then((res) {
-    runApp(new SpotItemApp(res));
+    runApp(new SpotItemApp(init: res));
   });
 }

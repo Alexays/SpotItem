@@ -67,7 +67,7 @@ class AuthManager extends BasicService {
       provider = _provider;
       switch (_provider) {
         case 'google':
-          await handleGoogleSignIn(false);
+          await handleGoogleSignIn(signIn: false);
       }
       connectWs();
     } on Exception {
@@ -113,7 +113,7 @@ class AuthManager extends BasicService {
   /// @param signIn Login/re-login
   /// @returns Logged or not
   /// TO-DO don't send user data, just get it on API with access_token
-  Future<bool> handleGoogleSignIn([bool signIn = true]) async {
+  Future<bool> handleGoogleSignIn({bool signIn = true}) async {
     try {
       _googleUser = signIn
           ? await _googleSignIn.signIn()

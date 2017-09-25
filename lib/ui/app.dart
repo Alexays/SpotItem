@@ -20,7 +20,7 @@ class SpotItemApp extends MaterialApp {
   final bool init;
 
   ///SpotItemApp initlializer
-  SpotItemApp(this.init)
+  SpotItemApp({this.init})
       : super(
           title: 'SpotItem',
           home: new Builder(builder: (context) {

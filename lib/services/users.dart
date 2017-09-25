@@ -32,7 +32,7 @@ class UsersManager extends BasicService {
   /// Retrieve user location.
   ///
   /// @param force Retrieve user location
-  Future<Null> getLocation([bool force = false]) async {
+  Future<Null> getLocation({bool force = false}) async {
     if (!force && location != null && location.isNotEmpty) {
       return;
     }
