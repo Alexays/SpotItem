@@ -171,9 +171,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       _images.add(
           'data:image/${f.path.split('.').last};base64,${BASE64.encode(imageBytes)}');
     });
-    if (Services.auth.user != null &&
-        Services.auth.user.id != null &&
-        Services.users.location != null) {
+    if (Services.auth.user.isValid() && Services.users.location != null) {
       final ApiRes response = await Services.items.addItem({
         'name': _name,
         'about': _about,

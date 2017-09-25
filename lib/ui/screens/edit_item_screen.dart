@@ -218,9 +218,7 @@ class _EditItemScreenState extends State<EditItemScreen>
     showLoading(context);
     _item.images.forEach((f) => finalImages.add(f));
     _images.forEach((f) => finalImages.add(f));
-    if (Services.auth.user != null &&
-        Services.auth.user.id != null &&
-        Services.users.location != null) {
+    if (Services.auth.user.isValid() && Services.users.location != null) {
       final ApiRes response = await Services.items.editItem({
         'id': _item.id,
         'name': _name,
