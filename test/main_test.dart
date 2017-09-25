@@ -104,5 +104,16 @@ void main() {
       expect(find.text('Magnifique Nutella'), findsOneWidget);
       expect(Services.items.items.length, 1);
     });
+
+    testWidgets('Show item', (tester) async {
+      Services.mock = mockItems;
+      await tester.pumpWidget(new SpotItemApp(init: true));
+      await tester.pump();
+      await tester.pump();
+      expect(find.text('Discover'), findsOneWidget);
+      await tester.tap(find.text('Magnifique Nutella'));
+      await tester.pumpAndSettle();
+      expect(find.text('40% de noisettes  !!'), findsOneWidget);
+    });
   });
 }
