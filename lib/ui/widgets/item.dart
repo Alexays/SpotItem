@@ -200,24 +200,27 @@ class ItemsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => _items.isNotEmpty
-      ? new CustomScrollView(slivers: <Widget>[
-          new SliverPadding(
-            padding: const EdgeInsets.all(8.0),
-            sliver: new SliverGrid(
-              gridDelegate: _gridDelegate,
-              delegate: new SliverChildListDelegate(
-                _items
-                    .map((item) => new ItemsListItem(
-                          item: item,
-                          hash: _hash,
-                          onPressed: () {
-                            showItemPage(item, _hash, context);
-                          },
-                        ))
-                    .toList(),
+      ? new CustomScrollView(
+          // For RefreshIndicator
+          physics: const AlwaysScrollableScrollPhysics(),
+          slivers: <Widget>[
+              new SliverPadding(
+                padding: const EdgeInsets.all(8.0),
+                sliver: new SliverGrid(
+                  gridDelegate: _gridDelegate,
+                  delegate: new SliverChildListDelegate(
+                    _items
+                        .map((item) => new ItemsListItem(
+                              item: item,
+                              hash: _hash,
+                              onPressed: () {
+                                showItemPage(item, _hash, context);
+                              },
+                            ))
+                        .toList(),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ])
+            ])
       : new Center(child: new Text(SpotL.of(context).noItems()));
 }
