@@ -34,7 +34,7 @@ class User {
   factory User.from(User user) => new User(JSON.decode(user.toString()));
 
   /// Check if user is valid
-  bool isValid() => id != null && name != null && email != null;
+  bool isValid() => id != null && firstname != null && email != null;
 
   @override
   String toString() {

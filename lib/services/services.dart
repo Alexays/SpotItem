@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:spotitem/models/api.dart';
 import 'package:spotitem/services/items.dart';
 import 'package:spotitem/services/auth.dart';
 import 'package:spotitem/services/groups.dart';
@@ -10,6 +11,15 @@ import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
+
+/// API Origin
+enum Origin {
+  /// Mock is used when testing app
+  mock,
+
+  /// prod is used in production
+  prod
+}
 
 /// Service class
 class Services {
@@ -45,6 +55,12 @@ class Services {
   /// Firebase analytics ovserver
   static FirebaseAnalyticsObserver observer = _singleton._observer;
 
+  /// Origin api endpoint
+  static Origin origin = _singleton._origin;
+
+  /// Api mock
+  static ApiRes mock = _singleton._mock;
+
   /// Private variables
   AuthManager _authManager;
   ItemsManager _itemsManager;
@@ -56,13 +72,17 @@ class Services {
   FirebaseMessaging _firebaseMessaging;
   FirebaseAnalytics _analytics;
   FirebaseAnalyticsObserver _observer;
+  Origin _origin;
+  ApiRes _mock;
 
   Services._internal();
 
   /// Setup all services.
   ///
   /// @returns All servies is OK
-  static Future<bool> setup() async {
+  static Future<bool> setup(Origin origin, [ApiRes mock]) async {
+    _singleton._origin = origin;
+    _singleton._mock = mock;
     _singleton._authManager = new AuthManager();
     _singleton._itemsManager = new ItemsManager();
     _singleton._groupsManager = new GroupsManager();

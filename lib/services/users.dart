@@ -22,8 +22,10 @@ class UsersManager extends BasicService {
 
   @override
   Future<bool> init() async {
-    await _location.onLocationChanged.single
-        .timeout(const Duration(milliseconds: 200), onTimeout: () {});
+    if (Services.origin == Origin.prod) {
+      await _location.onLocationChanged.single
+          .timeout(const Duration(milliseconds: 200), onTimeout: () {});
+    }
     await _handleGetContact();
     return true;
   }
@@ -32,7 +34,8 @@ class UsersManager extends BasicService {
   ///
   /// @param force Retrieve user location
   Future<Null> getLocation({bool force = false}) async {
-    if (!force && location != null && location.isNotEmpty) {
+    if ((!force && location != null && location.isNotEmpty) ||
+        Services.origin == Origin.mock) {
       return;
     }
     try {

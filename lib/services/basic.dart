@@ -25,6 +25,9 @@ class BasicService {
   /// @param token Token to use to authentificate
   /// @returns Api response
   Future<ApiRes> iget(String url, [String token]) async {
+    if (Services.origin == Origin.mock) {
+      return Services.mock;
+    }
     final verifiedToken = await Services.auth.verifyToken(token);
     if (verifiedToken != null) {
       final response = await http.get(Uri.encodeFull('$apiUrl$url'),
@@ -44,6 +47,9 @@ class BasicService {
   /// @returns Api response
   Future<ApiRes> ipost(String url, Map<String, dynamic> payload,
       [String token]) async {
+    if (Services.origin == Origin.mock) {
+      return Services.mock;
+    }
     final verifiedToken = await Services.auth.verifyToken(token);
     if (verifiedToken != null) {
       final response = await http.post(Uri.encodeFull('$apiUrl$url'),
@@ -63,6 +69,9 @@ class BasicService {
   /// @returns Api response
   Future<ApiRes> iput(String url, Map<String, dynamic> payload,
       [String token]) async {
+    if (Services.origin == Origin.mock) {
+      return Services.mock;
+    }
     final verifiedToken = await Services.auth.verifyToken(token);
     if (verifiedToken != null) {
       final response = await http.put(Uri.encodeFull('$apiUrl$url'),
@@ -82,6 +91,9 @@ class BasicService {
   Future<ApiRes> idelete(String url, [String token]) async {
     final verifiedToken = await Services.auth.verifyToken(token);
     if (verifiedToken != null) {
+      if (Services.origin == Origin.mock) {
+        return Services.mock;
+      }
       final response = await http.delete(Uri.encodeFull('$apiUrl$url'),
           headers: getHeaders(verifiedToken));
       final apiRes =
@@ -120,6 +132,9 @@ class BasicService {
   /// Connect to web socket
   ///
   void connectWs() {
+    if (Services.origin == Origin.mock) {
+      return;
+    }
     final channel = new IOWebSocketChannel.connect('ws://217.182.65.67:1337');
     channel.sink.add(
         JSON.encode({'type': 'CONNECTION', 'userId': Services.auth.user.id}));

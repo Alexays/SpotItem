@@ -70,7 +70,7 @@ class ItemsManager extends BasicService {
       final response = await iget(
           Services.auth.loggedIn != null ? '/items/auth' : '/items',
           Services.auth.loggedIn ? Services.auth.accessToken : null);
-      if (response.success) {
+      if (response.success && response.data is List) {
         return _items = new List<Item>.generate(
             response.data?.length ?? 0,
             (index) => new Item(
