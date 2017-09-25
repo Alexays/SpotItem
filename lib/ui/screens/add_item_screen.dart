@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:spotitem/services/services.dart';
-import 'package:spotitem/models/api.dart';
 import 'package:spotitem/utils.dart';
 import 'package:spotitem/models/group.dart';
 import 'package:image_picker/image_picker.dart';
@@ -66,7 +65,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   /// Get image from gallery.
   ///
   Future<Null> getImage() async {
-    final File _fileName = await ImagePicker.pickImage();
+    final _fileName = await ImagePicker.pickImage();
     setState(() {
       _imagesFile.add(_fileName);
     });
@@ -166,13 +165,13 @@ class _AddItemScreenState extends State<AddItemScreen> {
     showLoading(context);
     await Services.users.getLocation(force: true);
     _images.clear();
-    for (File f in _imagesFile) {
-      final List<int> imageBytes = f.readAsBytesSync();
+    for (var f in _imagesFile) {
+      final imageBytes = f.readAsBytesSync();
       _images.add(
           'data:image/${f.path.split('.').last};base64,${BASE64.encode(imageBytes)}');
     }
     if (Services.auth.user.isValid() && Services.users.location != null) {
-      final ApiRes response = await Services.items.addItem({
+      final response = await Services.items.addItem({
         'name': _name,
         'about': _about,
         'owner': Services.auth.user.id,

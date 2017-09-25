@@ -17,7 +17,7 @@ class _Category extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData themeData = Theme.of(context);
+    final themeData = Theme.of(context);
     return new Container(
         padding: const EdgeInsets.symmetric(vertical: 10.0),
         decoration: new BoxDecoration(
@@ -49,14 +49,14 @@ class _ListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData themeData = Theme.of(context);
+    final themeData = Theme.of(context);
     final List<Widget> columnChildren = lines
         .sublist(0, lines.length - 1)
         .map((line) => new Text(line))
         .toList()
           ..insert(0, new Text(lines.last, style: themeData.textTheme.caption));
 
-    final List<Widget> rowChildren = <Widget>[
+    final rowChildren = <Widget>[
       new Expanded(
           child: new Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -147,7 +147,7 @@ class _ItemPageState extends State<ItemPage>
   }
 
   List<Widget> _doButton(BuildContext context) {
-    final List<Widget> widgets = [];
+    final widgets = <Widget>[];
     if (Services.auth.loggedIn &&
         item != null &&
         item.owner.id == Services.auth.user.id) {

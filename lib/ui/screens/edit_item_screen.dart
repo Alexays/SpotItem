@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/utils.dart';
-import 'package:spotitem/models/api.dart';
 import 'package:spotitem/models/item.dart';
 import 'package:spotitem/models/group.dart';
 
@@ -122,7 +121,7 @@ class _EditItemScreenState extends State<EditItemScreen>
   }
 
   Future<Null> getImage() async {
-    final File _fileName = await ImagePicker.pickImage();
+    final _fileName = await ImagePicker.pickImage();
     if (_fileName != null) {
       setState(() {
         _imagesFile.add(_fileName);
@@ -209,8 +208,8 @@ class _EditItemScreenState extends State<EditItemScreen>
   }
 
   Future<Null> editItem(BuildContext context) async {
-    final List<String> finalImages = <String>[];
-    final List<String> groups = <String>[];
+    final finalImages = <String>[];
+    final groups = <String>[];
     _formKey.currentState.save();
     if (!_formKey.currentState.validate()) {
       return showSnackBar(context, SpotL.of(context).correctError());
@@ -219,7 +218,7 @@ class _EditItemScreenState extends State<EditItemScreen>
     _item.images.forEach(finalImages.add);
     _images.forEach(finalImages.add);
     if (Services.auth.user.isValid() && Services.users.location != null) {
-      final ApiRes response = await Services.items.editItem({
+      final response = await Services.items.editItem({
         'id': _item.id,
         'name': _name,
         'about': _about,

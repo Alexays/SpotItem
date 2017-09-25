@@ -29,7 +29,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
 
   @override
   void initState() {
-    final User tmp = Services.auth.user;
+    final tmp = Services.auth.user;
     user = new User.from(tmp);
     _name = new TextEditingController(text: user.firstname);
     _lastname = new TextEditingController(text: user.name);
@@ -45,7 +45,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
     if (!_formKey.currentState.validate()) {
       return showSnackBar(context, SpotL.of(context).correctError());
     }
-    final dynamic res = await Services.users.updateUser(user, password);
+    final res = await Services.users.updateUser(user, password);
     showSnackBar(context, res['msg']);
     if (res['success']) {
       Navigator.pop(context);
@@ -56,7 +56,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
   Widget build(BuildContext context) => new Scaffold(
         appBar: new AppBar(title: new Text(SpotL.of(context).editProfile())),
         body: new Builder(builder: (context) {
-          final ThemeData theme = Theme.of(context);
+          final theme = Theme.of(context);
           return new Column(children: <Widget>[
             new Expanded(
                 child: new SingleChildScrollView(

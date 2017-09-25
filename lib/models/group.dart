@@ -36,7 +36,7 @@ class Group {
 
   @override
   String toString() {
-    List<String> usersId = [];
+    var usersId = [];
     usersId = new List<String>.generate(
         users?.length ?? 0, (index) => users[index].id);
     return '{"_id": "$id", "name": "$name", "about": "$about", "users": $usersId, "owners": $owners}';

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:spotitem/models/api.dart';
 import 'package:spotitem/models/group.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/utils.dart';
@@ -39,7 +38,7 @@ class _GroupPageState extends State<GroupPage>
   }
 
   Future<Null> _leaveGroup(BuildContext context) async {
-    final ApiRes response = await Services.groups.leaveGroup(group.id);
+    final response = await Services.groups.leaveGroup(group.id);
     if (resValid(context, response)) {
       await Navigator
           .of(context)
@@ -48,7 +47,7 @@ class _GroupPageState extends State<GroupPage>
   }
 
   Future<Null> _kickUser(BuildContext context, String userId) async {
-    final ApiRes response = await Services.groups.kickUser(group.id, userId);
+    final response = await Services.groups.kickUser(group.id, userId);
     if (resValid(context, response)) {
       setState(() {
         group.users = group.users.where((user) => user.id == userId).toList();
@@ -58,7 +57,7 @@ class _GroupPageState extends State<GroupPage>
   }
 
   Future<Null> _removeOwner(BuildContext context, String userId) async {
-    final ApiRes response = await Services.groups.removeOwner(group.id, userId);
+    final response = await Services.groups.removeOwner(group.id, userId);
     if (resValid(context, response)) {
       if (!mounted) {
         return;
@@ -72,7 +71,7 @@ class _GroupPageState extends State<GroupPage>
   }
 
   Future<Null> _addOwner(BuildContext context, String userId) async {
-    final ApiRes response = await Services.groups.addOwner(group.id, userId);
+    final response = await Services.groups.addOwner(group.id, userId);
     if (resValid(context, response)) {
       if (!mounted) {
         return;
@@ -98,7 +97,7 @@ class _GroupPageState extends State<GroupPage>
   }
 
   Widget _buildHeader(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
+    final theme = Theme.of(context);
     final Widget accountNameLine = new DefaultTextStyle(
       style: theme.primaryTextTheme.body2,
       child: new Text('${group.owners[0]?.firstname} ${group.owners[0]?.name}'),
@@ -107,7 +106,7 @@ class _GroupPageState extends State<GroupPage>
       style: theme.primaryTextTheme.body1,
       child: new Text('${group.owners[0]?.email}'),
     );
-    final List<Widget> _toBuild = [
+    final _toBuild = <Widget>[
       new Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -156,7 +155,7 @@ class _GroupPageState extends State<GroupPage>
   }
 
   List<Widget> _doButton(BuildContext context) {
-    final List<Widget> top = <Widget>[
+    final top = <Widget>[
       new IconButton(
         icon: const Icon(Icons.exit_to_app),
         tooltip: 'Leave group',
@@ -257,7 +256,7 @@ class _GroupPageState extends State<GroupPage>
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           itemCount: group?.users?.length ?? 0,
           itemBuilder: (context, index) {
-            final List<Widget> buttons = [
+            final buttons = <Widget>[
               getAvatar(group.users[index]),
               const Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4.0)),

@@ -25,7 +25,7 @@ class _DiscoverViewState extends State<DiscoverView> {
   }
 
   Future<Null> _loadItems([bool force = false]) async {
-    final List<Item> data = await Services.items.getItems(force: force);
+    final data = await Services.items.getItems(force: force);
     if (data == null || !mounted) {
       return;
     }
@@ -39,8 +39,7 @@ class _DiscoverViewState extends State<DiscoverView> {
       itemBuilder: (context, index) {
         switch (index) {
           case 0:
-            List<Item> recents = new List<Item>.from(_items);
-            recents = recents
+            final recents = new List<Item>.from(_items)
                 .where((item) => !item.tracks.contains('group'))
                 .toList();
             if (recents.length > 10) {
@@ -64,9 +63,9 @@ class _DiscoverViewState extends State<DiscoverView> {
               ],
             );
           case 1:
-            List<Item> groups = new List<Item>.from(_items);
-            groups =
-                groups.where((item) => item.tracks.contains('group')).toList();
+            final groups = new List<Item>.from(_items)
+                .where((item) => item.tracks.contains('group'))
+                .toList();
             if (groups.isEmpty) {
               return new Container();
             }

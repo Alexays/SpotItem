@@ -69,10 +69,10 @@ class Services {
     _singleton._usersManager = new UsersManager();
     _singleton._router = new Router();
     _singleton._firebaseMessaging = new FirebaseMessaging();
-    final bool auth = await _singleton._authManager.init();
-    final bool items = await _singleton._itemsManager.init();
-    final bool groups = await _singleton._groupsManager.init();
-    final bool users = await _singleton._usersManager.init();
+    final auth = await _singleton._authManager.init();
+    final items = await _singleton._itemsManager.init();
+    final groups = await _singleton._groupsManager.init();
+    final users = await _singleton._usersManager.init();
     Routes.configureRoutes(_singleton._router);
     _singleton._firebaseMessaging.configure(
       onMessage: (message) {

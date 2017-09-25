@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:spotitem/services/services.dart';
-import 'package:spotitem/models/api.dart';
 import 'package:spotitem/models/group.dart';
 import 'package:spotitem/utils.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +67,7 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
     if (!_formKey.currentState.validate()) {
       return showSnackBar(context, SpotL.of(context).correctError());
     }
-    final ApiRes response = await Services.groups.editGroup(_group);
+    final response = await Services.groups.editGroup(_group);
     if (resValid(context, response)) {
       showSnackBar(context, response.msg);
       await Navigator

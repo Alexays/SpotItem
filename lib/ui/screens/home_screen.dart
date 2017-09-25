@@ -360,7 +360,7 @@ class _HomeScreenState extends State<HomeScreen>
     else {
       _homeScreenItems[page].tab.removeListener(_checkFilter);
     }
-    final List<Widget> widgets = [
+    final widgets = <Widget>[
       _isSearching
           ? const BackButton()
           : new IconButton(
@@ -436,7 +436,7 @@ class _HomeScreenState extends State<HomeScreen>
           new Center(child: new Text(SpotL.of(Services.loc).searchDialog()))
         ];
       }
-      List<Item> search = new List<Item>.from(Services.items.items);
+      var search = new List<Item>.from(Services.items.items);
       final _searchWord =
           _searchQuery.split(' ').where((f) => f.trim().isNotEmpty);
       search = search

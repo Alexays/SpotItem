@@ -37,20 +37,19 @@ class _ExplorerViewState extends State<ExplorerView> {
       return;
     }
     _items = new List<Item>.from(backup);
-    final List<String> _tracks = Services.items.tracks.value;
-    setState(() {
-      if (_tracks.isNotEmpty) {
+    final _tracks = Services.items.tracks.value;
+    if (_tracks.isNotEmpty) {
+      setState(() {
         _items = _items
             .where(
                 (item) => _tracks.every((track) => item.tracks.contains(track)))
             .toList();
-      }
-    });
+      });
+    }
   }
 
   Future<Null> _loadItems([bool force = false]) async {
-    final Future<List<Item>> itemsLoaded =
-        Services.items.getItems(force: force);
+    final itemsLoaded = Services.items.getItems(force: force);
     if (itemsLoaded != null) {
       await itemsLoaded.then((data) {
         if (!mounted) {

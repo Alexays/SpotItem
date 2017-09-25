@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/ui/screens/group_screen.dart';
-import 'package:spotitem/models/api.dart';
 import 'package:spotitem/models/group.dart';
 import 'package:spotitem/ui/spot_strings.dart';
 import 'package:spotitem/utils.dart';
@@ -46,8 +45,8 @@ class _GroupsViewState extends State<GroupsView> {
 
   //TO-DO MAYBE don't await it's better :)
   Future<Null> _loadGroups() async {
-    final List<Group> resGroup = await Services.groups.getGroups();
-    final List<Group> resInv = await Services.groups.getGroupsInv();
+    final resGroup = await Services.groups.getGroups();
+    final resInv = await Services.groups.getGroupsInv();
     if (!mounted) {
       return;
     }
@@ -58,8 +57,7 @@ class _GroupsViewState extends State<GroupsView> {
   }
 
   Future<Null> _joinGroup(int index) async {
-    final ApiRes response =
-        await Services.groups.joinGroup(_groupsInv[index].id);
+    final response = await Services.groups.joinGroup(_groupsInv[index].id);
     if (resValid(context, response)) {
       await _loadGroups();
     }

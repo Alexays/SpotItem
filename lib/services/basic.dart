@@ -25,12 +25,11 @@ class BasicService {
   /// @param token Token to use to authentificate
   /// @returns Api response
   Future<ApiRes> iget(String url, [String token]) async {
-    final String verifiedToken = await Services.auth.verifyToken(token);
+    final verifiedToken = await Services.auth.verifyToken(token);
     if (verifiedToken != null) {
-      final http.Response response = await http.get(
-          Uri.encodeFull('$apiUrl$url'),
+      final response = await http.get(Uri.encodeFull('$apiUrl$url'),
           headers: getHeaders(verifiedToken));
-      final ApiRes apiRes =
+      final apiRes =
           new ApiRes(JSON.decode(response.body), response.statusCode);
       return apiRes;
     }
@@ -44,13 +43,11 @@ class BasicService {
   /// @param token Token to use to authentificate
   /// @returns Api response
   Future<ApiRes> ipost(String url, payload, [String token]) async {
-    final String verifiedToken = await Services.auth.verifyToken(token);
+    final verifiedToken = await Services.auth.verifyToken(token);
     if (verifiedToken != null) {
-      final http.Response response = await http.post(
-          Uri.encodeFull('$apiUrl$url'),
-          headers: getHeaders(verifiedToken),
-          body: payload);
-      final ApiRes apiRes =
+      final response = await http.post(Uri.encodeFull('$apiUrl$url'),
+          headers: getHeaders(verifiedToken), body: payload);
+      final apiRes =
           new ApiRes(JSON.decode(response.body), response.statusCode);
       return apiRes;
     }
@@ -64,13 +61,11 @@ class BasicService {
   /// @param token Token to use to authentificate
   /// @returns Api response
   Future<ApiRes> iput(String url, payload, [String token]) async {
-    final String verifiedToken = await Services.auth.verifyToken(token);
+    final verifiedToken = await Services.auth.verifyToken(token);
     if (verifiedToken != null) {
-      final http.Response response = await http.put(
-          Uri.encodeFull('$apiUrl$url'),
-          headers: getHeaders(verifiedToken),
-          body: payload);
-      final ApiRes apiRes =
+      final response = await http.put(Uri.encodeFull('$apiUrl$url'),
+          headers: getHeaders(verifiedToken), body: payload);
+      final apiRes =
           new ApiRes(JSON.decode(response.body), response.statusCode);
       return apiRes;
     }
@@ -83,12 +78,11 @@ class BasicService {
   /// @param token Token to use to authentificate
   /// @returns Api response
   Future<ApiRes> idelete(String url, [String token]) async {
-    final String verifiedToken = await Services.auth.verifyToken(token);
+    final verifiedToken = await Services.auth.verifyToken(token);
     if (verifiedToken != null) {
-      final http.Response response = await http.delete(
-          Uri.encodeFull('$apiUrl$url'),
+      final response = await http.delete(Uri.encodeFull('$apiUrl$url'),
           headers: getHeaders(verifiedToken));
-      final ApiRes apiRes =
+      final apiRes =
           new ApiRes(JSON.decode(response.body), response.statusCode);
       return apiRes;
     }
@@ -102,7 +96,7 @@ class BasicService {
   /// @param provider Login provider
   Future<Null> saveTokens(
       String user, String oauthToken, String provider) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance()
+    final prefs = await SharedPreferences.getInstance()
       ..setString(keyUser, user)
       ..setString(keyOauthToken, oauthToken)
       ..setString(keyProvider, provider);
@@ -115,7 +109,7 @@ class BasicService {
   ///
   /// @param res Api ws data
   void handleWsData(res) {
-    final dynamic decoded = JSON.decode(res);
+    final decoded = JSON.decode(res);
     if (decoded['type'] == 'NOTIFICATION') {
       showSnackBar(Services.context, decoded['data']);
     }

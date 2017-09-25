@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
-import 'package:spotitem/models/api.dart';
 import 'package:spotitem/models/user.dart';
 import 'package:spotitem/services/basic.dart';
 import 'package:spotitem/services/services.dart';
@@ -56,19 +55,19 @@ class UsersManager extends BasicService {
     if (location == null || location.isEmpty) {
       return -1.0;
     }
-    final double pi80 = PI / 180;
-    final double lat1 = location['latitude'] * pi80;
-    final double lng1 = location['longitude'] * pi80;
-    final double lat = lat2 * pi80;
-    final double lng = lng2 * pi80;
+    final pi80 = PI / 180;
+    final lat1 = location['latitude'] * pi80;
+    final lng1 = location['longitude'] * pi80;
+    final lat = lat2 * pi80;
+    final lng = lng2 * pi80;
 
-    final double r = 6371.0088; // mean radius of Earth in km
-    final double dlat = lat - lat1;
-    final double dlng = lng - lng1;
-    final double a = sin(dlat / 2) * sin(dlat / 2) +
+    final r = 6371.0088; // mean radius of Earth in km
+    final dlat = lat - lat1;
+    final dlng = lng - lng1;
+    final a = sin(dlat / 2) * sin(dlat / 2) +
         cos(lat1) * cos(lat) * sin(dlng / 2) * sin(dlng / 2);
-    final double c = 2 * atan2(sqrt(a), sqrt(1 - a));
-    final double km = r * c;
+    final c = 2 * atan2(sqrt(a), sqrt(1 - a));
+    final km = r * c;
     return km;
   }
 
@@ -78,12 +77,12 @@ class UsersManager extends BasicService {
   /// @param password User password to update
   /// @returns Api body response
   Future<dynamic> updateUser(User user, String password) async {
-    final dynamic userJson = JSON.decode(user.toString());
+    final userJson = JSON.decode(user.toString());
     userJson['groups'] = 'groups';
     if (password != null) {
       userJson['password'] = password;
     }
-    final ApiRes response =
+    final response =
         await iput('/user/edit', userJson, Services.auth.accessToken);
     if (response.success) {
       Services.auth.user = new User(response.data['user']);
@@ -102,8 +101,7 @@ class UsersManager extends BasicService {
     if (userId == null) {
       return null;
     }
-    final ApiRes response =
-        await iget('/user/$userId', Services.auth.accessToken);
+    final response = await iget('/user/$userId', Services.auth.accessToken);
     if (response.success) {
       return new User(response.data);
     }
@@ -114,9 +112,9 @@ class UsersManager extends BasicService {
   ///
   /// TO-DO Maybe make pager to get all contacts
   Future<Null> _handleGetContact() async {
-    final String provider = Services.auth.provider;
+    final provider = Services.auth.provider;
     if (provider == 'google') {
-      final http.Response response = await http.get(
+      final response = await http.get(
         'https://people.googleapis.com/v1/people/me/connections'
             '?personFields=names,emailAddresses&pageSize=2000',
         headers: await Services.auth.googleUser.authHeaders,

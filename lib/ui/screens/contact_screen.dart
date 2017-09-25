@@ -24,7 +24,7 @@ class _ContactScreenState extends State<ContactScreen> {
   }
 
   Future<Null> _handleEmail(BuildContext context) async {
-    final String res = validateEmail(_email);
+    final res = validateEmail(_email);
     if (res != null) {
       showSnackBar(context, res);
     } else {

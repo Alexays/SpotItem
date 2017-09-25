@@ -38,8 +38,7 @@ class ItemsManager extends BasicService {
   /// @param payload Item payload
   /// @returns Api body response
   Future<ApiRes> addItem(payload) async {
-    final ApiRes response =
-        await ipost('/items', payload, Services.auth.accessToken);
+    final response = await ipost('/items', payload, Services.auth.accessToken);
     return response;
   }
 
@@ -48,7 +47,7 @@ class ItemsManager extends BasicService {
   /// @param payload Item payload
   /// @returns Api body response
   Future<ApiRes> editItem(payload) async {
-    final ApiRes response = await iput(
+    final response = await iput(
         '/items/${payload['id']}', payload, Services.auth.accessToken);
     return response;
   }
@@ -58,8 +57,7 @@ class ItemsManager extends BasicService {
   /// @param id Item Id
   /// @returns Api body response
   Future<ApiRes> deleteItem(String id) async {
-    final ApiRes response =
-        await idelete('/items/$id', Services.auth.accessToken);
+    final response = await idelete('/items/$id', Services.auth.accessToken);
     return response;
   }
 
@@ -69,7 +67,7 @@ class ItemsManager extends BasicService {
   Future<List<Item>> loadItems() async {
     if (_items.isEmpty) {
       await Services.users.getLocation();
-      final ApiRes response = await iget(
+      final response = await iget(
           Services.auth.loggedIn != null ? '/items/auth' : '/items',
           Services.auth.loggedIn ? Services.auth.accessToken : null);
       if (response.success) {
@@ -103,7 +101,7 @@ class ItemsManager extends BasicService {
     if (itemId == null) {
       return null;
     }
-    final ApiRes response = await iget('/items/$itemId');
+    final response = await iget('/items/$itemId');
     if (response.success) {
       return new Item(response.data,
           Services.users.getDist(response.data['lat'], response.data['lng']));
@@ -115,8 +113,7 @@ class ItemsManager extends BasicService {
   ///
   /// @returns User items list
   Future<List<Item>> getSelfItems() async {
-    final ApiRes response =
-        await iget('/items/user', Services.auth.accessToken);
+    final response = await iget('/items/user', Services.auth.accessToken);
     if (response.success) {
       return _myItems = new List<Item>.generate(
           response.data?.length ?? 0,

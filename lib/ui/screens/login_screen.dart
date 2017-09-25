@@ -21,9 +21,9 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   Future<Null> doLogin(BuildContext context) async {
-    final String errorText = SpotL.of(context).loginError();
+    final errorText = SpotL.of(context).loginError();
     if (_formKey.currentState.validate()) {
-      final bool success = await Services.auth.login(
+      final success = await Services.auth.login(
           {'email': _usernameCtrl.text, 'password': _passwordCtrl.text},
           'local');
       if (success) {
@@ -90,8 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   child:
                                       new Text(SpotL.of(Services.loc).login()),
                                   onPressed: () {
-                                    final FormState form =
-                                        _formKey.currentState;
+                                    final form = _formKey.currentState;
                                     if (form.validate()) {
                                       doLogin(context);
                                     } else {

@@ -34,7 +34,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Future<Null> doRegister(BuildContext context) async {
-    final FormState form = _formKey.currentState..save();
+    final form = _formKey.currentState..save();
     if (password != repeat) {
       return showSnackBar(context, 'Password don\'t match !');
     }

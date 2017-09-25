@@ -25,7 +25,7 @@ class ItemsListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
+    final theme = Theme.of(context);
     return new GestureDetector(
         onTap: onPressed,
         child: new Card(
@@ -91,19 +91,19 @@ const int _childrenPerBlock = 8;
 const int _rowsPerBlock = 5;
 
 int _minIndexInRow(int rowIndex) {
-  final int blockIndex = rowIndex ~/ _rowsPerBlock;
+  final blockIndex = rowIndex ~/ _rowsPerBlock;
   return const <int>[0, 2, 4, 6, 7][rowIndex % _rowsPerBlock] +
       blockIndex * _childrenPerBlock;
 }
 
 int _maxIndexInRow(int rowIndex) {
-  final int blockIndex = rowIndex ~/ _rowsPerBlock;
+  final blockIndex = rowIndex ~/ _rowsPerBlock;
   return const <int>[1, 3, 5, 6, 7][rowIndex % _rowsPerBlock] +
       blockIndex * _childrenPerBlock;
 }
 
 int _rowAtIndex(int index) {
-  final int blockCount = index ~/ _childrenPerBlock;
+  final blockCount = index ~/ _childrenPerBlock;
   return const <int>[
         0,
         0,
@@ -146,9 +146,9 @@ class _GridLayout extends SliverGridLayout {
 
   @override
   SliverGridGeometry getGeometryForChildIndex(int index) {
-    final int row = _rowAtIndex(index);
-    final int column = _columnAtIndex(index);
-    final int columnSpan = _columnSpanAtIndex(index);
+    final row = _rowAtIndex(index);
+    final column = _columnAtIndex(index);
+    final columnSpan = _columnSpanAtIndex(index);
     return new SliverGridGeometry(
       scrollOffset: row * rowStride,
       crossAxisOffset: column * columnStride,
@@ -162,8 +162,8 @@ class _GridLayout extends SliverGridLayout {
     if (childCount == null || childCount == 0) {
       return 0.0;
     }
-    final int rowCount = _rowAtIndex(childCount - 1) + 1;
-    final double rowSpacing = rowStride - tileHeight;
+    final rowCount = _rowAtIndex(childCount - 1) + 1;
+    final rowSpacing = rowStride - tileHeight;
     return rowStride * rowCount - rowSpacing;
   }
 }
@@ -173,8 +173,8 @@ class _GridDelegate extends SliverGridDelegate {
 
   @override
   SliverGridLayout getLayout(SliverConstraints constraints) {
-    final double tileWidth = (constraints.crossAxisExtent - _kSpacing) / 2.0;
-    final double tileHeight = 40.0 + 144.0 + 40.0;
+    final tileWidth = (constraints.crossAxisExtent - _kSpacing) / 2.0;
+    final tileHeight = 40.0 + 144.0 + 40.0;
     return new _GridLayout(
       tileWidth: tileWidth,
       tileHeight: tileHeight,
