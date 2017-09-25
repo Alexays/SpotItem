@@ -105,7 +105,7 @@ void main() {
       expect(Services.items.items.length, 1);
     });
 
-    testWidgets('Show item', (tester) async {
+    testWidgets('Show item page', (tester) async {
       Services.mock = mockItems;
       await tester.pumpWidget(new SpotItemApp(init: true));
       await tester.pump();
@@ -126,6 +126,24 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byKey(const Key('name')), findsOneWidget);
       expect(find.text('SAVE'), findsOneWidget);
+    });
+
+    testWidgets('Show my item tab', (tester) async {
+      Services.mock = mockItems;
+      await tester.pumpWidget(new SpotItemApp(init: true));
+      await tester.pump();
+      await tester.pump();
+      await tester.tap(find.descendant(
+          of: find.byType(BottomNavigationBar), matching: find.text('Items')));
+      await tester.pumpAndSettle();
+      // View item
+      expect(find.text('Magnifique Nutella'), findsOneWidget);
+      // View fab add item
+      expect(
+          find.descendant(
+              of: find.byType(FloatingActionButton),
+              matching: find.icon(Icons.add)),
+          findsOneWidget);
     });
   });
 }
