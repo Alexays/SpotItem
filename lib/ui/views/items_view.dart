@@ -22,17 +22,15 @@ class _ItemsViewState extends State<ItemsView> {
 
   @override
   void initState() {
+    _myItems = Services.items.myItems;
+    if (_myItems.isEmpty) {
+      _myItems = null;
+    }
     _getItems();
     super.initState();
   }
 
   Future<Null> _getItems() async {
-    setState(() {
-      _myItems = Services.items.myItems;
-      if (_myItems.isEmpty) {
-        _myItems = null;
-      }
-    });
     if (_myItems != null) {
       await _refreshIndicatorKey.currentState?.show();
     } else {
