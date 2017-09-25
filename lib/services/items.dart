@@ -70,7 +70,7 @@ class ItemsManager extends BasicService {
     if (_items.isEmpty) {
       await Services.users.getLocation();
       final ApiRes response = await iget(
-          '${Services.auth.loggedIn != null ? '/items/auth' : '/items'}',
+          Services.auth.loggedIn != null ? '/items/auth' : '/items',
           Services.auth.loggedIn ? Services.auth.accessToken : null);
       if (response.success) {
         return _items = new List<Item>.generate(
