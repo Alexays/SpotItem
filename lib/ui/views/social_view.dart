@@ -40,7 +40,6 @@ class _SocialViewState extends State<SocialView> {
     }
   }
 
-  //TO-DO MAYBE don't await it's better :)
   Future<Null> _loadConversation() async {
     final res = await Services.social.getConversations();
     if (!mounted) {

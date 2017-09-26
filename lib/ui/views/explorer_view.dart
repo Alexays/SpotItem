@@ -16,7 +16,6 @@ class ExplorerView extends StatefulWidget {
 
 class _ExplorerViewState extends State<ExplorerView> {
   static List<Item> _items;
-  static List<Item> backup = [];
 
   @override
   void initState() {
@@ -36,9 +35,9 @@ class _ExplorerViewState extends State<ExplorerView> {
     if (!mounted) {
       return;
     }
-    _items = new List<Item>.from(backup);
+    _items = new List<Item>.from(Services.items.items);
     final _tracks = Services.items.tracks.value;
-    if (_tracks.isNotEmpty) {
+    if (_tracks != null) {
       setState(() {
         _items = _items
             .where(
@@ -49,18 +48,15 @@ class _ExplorerViewState extends State<ExplorerView> {
   }
 
   Future<Null> _loadItems([bool force = false]) async {
-    final itemsLoaded = Services.items.getItems(force: force);
+    final itemsLoaded = await Services.items.getItems(force: force);
     if (itemsLoaded != null) {
-      await itemsLoaded.then((data) {
-        if (!mounted) {
-          return;
-        }
-        backup = data;
-        setState(() {
-          _items = new List<Item>.from(data);
-        });
-        getTracks();
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _items = new List<Item>.from(itemsLoaded);
       });
+      getTracks();
     }
   }
 

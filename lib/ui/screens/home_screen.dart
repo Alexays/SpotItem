@@ -153,60 +153,80 @@ class _HomeScreenState extends State<HomeScreen>
   void _showFilter() {
     showModalBottomSheet<Null>(
         context: context,
-        builder: (context) => new Column(
-              children: <Widget>[
-                new Container(
-                  height: 100.0,
-                  child: new ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.all(15.0),
-                      itemCount: Services.items.categories.length,
-                      itemExtent: 75.0,
-                      itemBuilder: (context, index) => new FlatButton(
-                            child: new Image.asset(
-                                'assets/${Services.items.categories[index]}.png'),
-                            onPressed: () {},
-                          )),
-                ),
-                new StatefulBuilder(
-                    builder: (context, switchSetState) => new SwitchListTile(
-                          title:
-                              new Text(SpotL.of(Services.loc).fromYourGroups()),
-                          value: Services.items.tracks.value.contains('group'),
-                          onChanged: (value) {
-                            if (value) {
-                              Services.items.tracks.value.add('group');
-                            } else {
-                              Services.items.tracks.value.remove('group');
-                            }
-                            switchSetState(() {
-                              Services.items.tracks.value =
-                                  new List<String>.from(
-                                      Services.items.tracks.value);
-                            });
-                          },
-                          secondary: const Icon(Icons.lock),
-                        )),
-                new StatefulBuilder(
-                    builder: (context, switchSetState) => new SwitchListTile(
-                          title: new Text(SpotL.of(Services.loc).gift()),
-                          value: Services.items.tracks.value.contains('gift'),
-                          onChanged: (value) {
-                            if (value) {
-                              Services.items.tracks.value.add('gift');
-                            } else {
-                              Services.items.tracks.value.remove('gift');
-                            }
-                            switchSetState(() {
-                              Services.items.tracks.value =
-                                  new List<String>.from(
-                                      Services.items.tracks.value);
-                            });
-                          },
-                          secondary: const Icon(Icons.card_giftcard),
-                        ))
-              ],
-            ));
+        builder: (context) => new StatefulBuilder(
+            builder: (context, switchSetState) => new Column(
+                  children: <Widget>[
+                    new Container(
+                      height: 100.0,
+                      child: new ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          padding: const EdgeInsets.symmetric(vertical: 15.0),
+                          itemCount: Services.items.categories.length,
+                          itemExtent: 75.0,
+                          itemBuilder: (context, index) => !Services
+                                  .items.tracks.value
+                                  .contains(Services.items.categories[index])
+                              ? new FlatButton(
+                                  child: new Image.asset(
+                                      'assets/${Services.items.categories[index]}.png'),
+                                  onPressed: () {
+                                    Services.items.tracks.value
+                                        .add(Services.items.categories[index]);
+                                    switchSetState(() {
+                                      Services.items.tracks.value =
+                                          new List<String>.from(
+                                              Services.items.tracks.value);
+                                    });
+                                  },
+                                )
+                              : new RaisedButton(
+                                  child: new Image.asset(
+                                      'assets/${Services.items.categories[index]}.png'),
+                                  onPressed: () {
+                                    Services.items.tracks.value.remove(
+                                        Services.items.categories[index]);
+                                    switchSetState(() {
+                                      Services.items.tracks.value =
+                                          new List<String>.from(
+                                              Services.items.tracks.value);
+                                    });
+                                  },
+                                )),
+                    ),
+                    new SwitchListTile(
+                      title: new Text(SpotL.of(Services.loc).fromYourGroups()),
+                      value: Services.items.tracks.value.contains('group'),
+                      onChanged: (value) {
+                        if (value) {
+                          Services.items.tracks.value.add('group');
+                        } else {
+                          Services.items.tracks.value.remove('group');
+                        }
+                        switchSetState(() {
+                          Services.items.tracks.value = new List<String>.from(
+                              Services.items.tracks.value);
+                        });
+                      },
+                      secondary: const Icon(Icons.lock),
+                    ),
+                    new SwitchListTile(
+                      title: new Text(SpotL.of(Services.loc).gift()),
+                      value: Services.items.tracks.value.contains('gift'),
+                      onChanged: (value) {
+                        if (value) {
+                          Services.items.tracks.value.add('gift');
+                        } else {
+                          Services.items.tracks.value.remove('gift');
+                        }
+                        switchSetState(() {
+                          Services.items.tracks.value = new List<String>.from(
+                              Services.items.tracks.value);
+                        });
+                      },
+                      secondary: const Icon(Icons.card_giftcard),
+                    )
+                  ],
+                )));
   }
 
   void _searchCallback() {

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:spotitem/services/services.dart';
-import 'package:spotitem/models/conversation.dart';
 import 'package:spotitem/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -51,16 +50,15 @@ class _AddConvScreenState extends State<AddConvScreen> {
     await showDialog<Null>(
       context: context,
       child: new SimpleDialog(
-          title: new Text(SpotL.of(Services.loc).confirm()),
-          children: new List<Widget>.generate(
-              Services.groups.groups.length,
-              (i) => new ListTile(
-                    title: new Text(Services.groups.groups[i].name),
+          children: Services.groups.groups
+              .map((f) => new ListTile(
+                    title: new Text(f.name),
                     onTap: () {
-                      group = Services.groups.groups[i].id;
+                      group = f.id;
                       Navigator.of(context).pop();
                     },
-                  ))),
+                  ))
+              .toList()),
     );
   }
 
