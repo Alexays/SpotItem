@@ -170,5 +170,21 @@ void main() {
       expect(find.byKey(const Key('name')), findsOneWidget);
       expect(find.text('SAVE'), findsOneWidget);
     });
+
+    testWidgets('I able to view settings page', (tester) async {
+      Services.mock = mockItems;
+      await tester.pumpWidget(new SpotItemApp(init: true));
+      await tester.pump();
+      await tester.pump();
+      await tester.tap(find.byIcon(Icons.menu));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byIcon(Icons.settings));
+      await tester.pumpAndSettle();
+      expect(find.text('Settings'), findsOneWidget);
+      expect(
+          find.text(
+              'Maximal distance: ${Services.settings.value.maxDistance}km'),
+          findsOneWidget);
+    });
   });
 }
