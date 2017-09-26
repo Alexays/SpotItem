@@ -170,6 +170,11 @@ class _HomeScreenState extends State<HomeScreen>
                                   child: new Image.asset(
                                       'assets/${Services.items.categories[index]}.png'),
                                   onPressed: () {
+                                    Services.items.tracks.value = Services
+                                        .items.tracks.value
+                                        .where((f) => !Services.items.categories
+                                            .any((d) => d == f))
+                                        .toList();
                                     Services.items.tracks.value
                                         .add(Services.items.categories[index]);
                                     switchSetState(() {
