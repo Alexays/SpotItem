@@ -23,7 +23,7 @@ class ErrorScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   const Text(
-                      'Error while loading Spotitem, to try fix this problem we disconnect you from our server, so close app and relaunch it :)'),
+                      'Error while loading Spotitem, to try fix this problem we disconnect you from our server and delete all your settings, sorry :(, so close app and relaunch it :)'),
                 ],
               ))),
     );

@@ -15,10 +15,16 @@ class SettingsManager extends BasicService {
   Future<bool> init() async {
     final prefs = await SharedPreferences.getInstance();
     try {
-      _settings = JSON.decode(prefs.getString(keySettings));
-    } on Exception {
+      _settings = JSON.decode(prefs.getString(keySettings) ?? '{}');
+    } catch (err) {
       return false;
     }
     return true;
+  }
+
+  /// Delete Settings
+  Future<Null> clearSettings() async {
+    await SharedPreferences.getInstance()
+      ..remove(keySettings);
   }
 }

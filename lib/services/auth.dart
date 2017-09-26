@@ -60,7 +60,7 @@ class AuthManager extends BasicService {
           _refreshToken == null ||
           !providers.contains(_provider)) {
         await logout();
-        return _loggedIn = false;
+        return !(_loggedIn = false);
       }
       user = _user;
       refreshToken = _refreshToken;
