@@ -32,6 +32,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       setState(() {
                         Services.settings.value.maxDistance =
                             (value * 100).toInt();
+                        Services.settings.saveSettings();
                       });
                     },
                   )
