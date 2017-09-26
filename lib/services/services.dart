@@ -7,6 +7,7 @@ import 'package:spotitem/services/auth.dart';
 import 'package:spotitem/services/groups.dart';
 import 'package:spotitem/services/users.dart';
 import 'package:spotitem/services/settings.dart';
+import 'package:spotitem/services/social.dart';
 import 'package:spotitem/ui/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
@@ -41,6 +42,9 @@ class Services {
   /// Settings Service
   static final SettingsManager settings = _singleton._settingsManager;
 
+  /// Social Service
+  static final SocialManager social = _singleton._socialManager;
+
   /// Router
   static final Router router = _singleton._router;
 
@@ -71,6 +75,7 @@ class Services {
   GroupsManager _groupsManager;
   UsersManager _usersManager;
   SettingsManager _settingsManager;
+  SocialManager _socialManager;
   Router _router;
   BuildContext _context;
   BuildContext _loc;
@@ -93,6 +98,7 @@ class Services {
     _singleton._itemsManager = new ItemsManager();
     _singleton._groupsManager = new GroupsManager();
     _singleton._usersManager = new UsersManager();
+    _singleton._socialManager = new SocialManager();
     _singleton._router = new Router();
     _singleton._firebaseMessaging = new FirebaseMessaging();
     final settings = await _singleton._settingsManager.init();
@@ -100,6 +106,7 @@ class Services {
     final items = await _singleton._itemsManager.init();
     final groups = await _singleton._groupsManager.init();
     final users = await _singleton._usersManager.init();
+    final social = await _singleton._socialManager.init();
     Routes.configureRoutes(_singleton._router);
     _singleton._firebaseMessaging.configure(
       onMessage: (message) {
@@ -120,6 +127,6 @@ class Services {
     _singleton._analytics = new FirebaseAnalytics();
     _singleton._observer =
         new FirebaseAnalyticsObserver(analytics: _singleton._analytics);
-    return settings && auth && items && groups && users;
+    return settings && auth && items && groups && users && social;
   }
 }

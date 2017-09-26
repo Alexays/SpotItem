@@ -66,5 +66,5 @@ class Item {
 
   @override
   String toString() =>
-      'Item{id: $id, name: $name, about: $about, images: $images, lastGeo: $lastGeo, calendar: $calendar, location: $location, lat: $lat, lng: $lng, owner: $owner, groups: groups, $tracks: $tracks}';
+      '{"_id": "$id", "name": "$name", "about": "$about", "images": $images, "lastGeo": $lastGeo, "calendar": $calendar, "location": "$location", "lat": $lat, "lng": $lng, "owner": "$owner", "groups": groups, "tracks": $tracks}';
 }

@@ -8,10 +8,14 @@ class Group {
       : id = data['_id'],
         name = data['name'],
         about = data['about'],
-        users = new List<User>.generate(data['users']?.length ?? 0,
-            (index) => new User(data['users'][index])),
-        owners = new List<User>.generate(data['owners']?.length ?? 0,
-            (index) => new User(data['owners'][index]));
+        users = data['users'] is List
+            ? new List<User>.generate(data['users']?.length ?? 0,
+                (index) => new User(data['users'][index]))
+            : <User>[],
+        owners = data['owners'] is List
+            ? new List<User>.generate(data['owners']?.length ?? 0,
+                (index) => new User(data['owners'][index]))
+            : <User>[];
 
   /// Group id
   final String id;

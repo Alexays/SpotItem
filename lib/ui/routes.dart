@@ -5,6 +5,7 @@ import 'package:spotitem/ui/screens/users/profile_screen.dart';
 import 'package:spotitem/ui/screens/users/edit_user_screen.dart';
 import 'package:spotitem/ui/screens/groups/add_group_screen.dart';
 import 'package:spotitem/ui/screens/groups/edit_group_screen.dart';
+import 'package:spotitem/ui/screens/social/add_conversation_screen.dart';
 import 'package:spotitem/ui/screens/debug_screen.dart';
 import 'package:spotitem/ui/screens/contact_screen.dart';
 import 'package:spotitem/ui/screens/settings_screen.dart';
@@ -44,6 +45,9 @@ class Routes {
           handler: new Handler(
               handlerFunc: (context, params) =>
                   new EditGroupScreen(groupId: params['id'])))
+      ..define('/messages/add',
+          handler: new Handler(
+              handlerFunc: (context, params) => const AddConvScreen()))
       ..define('/contacts',
           handler: new Handler(
               handlerFunc: (context, params) => const ContactScreen()))

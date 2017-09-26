@@ -80,6 +80,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                                                   labelText: SpotL
                                                       .of(Services.loc)
                                                       .name()),
+                                              validator: validateName,
                                               onSaved: (value) {
                                                 name = value.trim();
                                               }),

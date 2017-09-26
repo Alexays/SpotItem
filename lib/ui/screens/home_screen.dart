@@ -5,6 +5,7 @@ import 'package:spotitem/ui/views/discover_view.dart';
 import 'package:spotitem/ui/views/map_view.dart';
 import 'package:spotitem/ui/views/items_view.dart';
 import 'package:spotitem/ui/views/groups_view.dart';
+import 'package:spotitem/ui/views/social_view.dart';
 import 'package:spotitem/utils.dart';
 import 'package:spotitem/keys.dart';
 import 'package:spotitem/models/item.dart';
@@ -55,14 +56,9 @@ class _HomeScreenState extends State<HomeScreen>
         title: SpotL.of(Services.loc).social(),
         sub: <HomeScreenSubItem>[
           new HomeScreenSubItem(
-            SpotL.of(Services.loc).groups(),
-            const GroupsView(),
-          ),
+              SpotL.of(Services.loc).groups(), const GroupsView()),
           new HomeScreenSubItem(
-              SpotL.of(Services.loc).messages(),
-              const Center(
-                child: const Text('Comming soon'),
-              ))
+              SpotL.of(Services.loc).messages(), const SocialView())
         ],
         fabs: [
           new FloatingActionButton(
@@ -74,7 +70,9 @@ class _HomeScreenState extends State<HomeScreen>
           new FloatingActionButton(
               child: const Icon(Icons.sms),
               tooltip: 'Add new messages',
-              onPressed: () {})
+              onPressed: () {
+                Navigator.of(Services.context).pushNamed('/messages/add');
+              })
         ]),
   ];
 

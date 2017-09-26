@@ -232,4 +232,8 @@ class SpotL {
   /// Max distance title
   String maxDistance() =>
       Intl.message('<maxDistance>', name: 'maxDistance', locale: _localeName);
+
+  /// No message title
+  String noMessage() =>
+      Intl.message('<noMessage>', name: 'noMessage', locale: _localeName);
 }

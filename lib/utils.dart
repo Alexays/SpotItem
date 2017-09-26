@@ -118,7 +118,9 @@ String distString(double dist) {
 
 /// Show a snackbar in current context with text
 void showSnackBar(BuildContext context, String text) {
-  Scaffold.of(context).showSnackBar(new SnackBar(content: new Text(text)));
+  if (text != null) {
+    Scaffold.of(context).showSnackBar(new SnackBar(content: new Text(text)));
+  }
 }
 
 /// Return icon tracks

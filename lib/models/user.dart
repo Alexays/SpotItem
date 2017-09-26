@@ -9,8 +9,10 @@ class User {
         firstname = data['firstname'],
         name = data['name'],
         avatar = data['avatar'],
-        groups = new List<String>.generate(data['groups']?.length ?? 0,
-            (index) => (data['groups'][index]).toString());
+        groups = data['groups'] is List
+            ? new List<String>.generate(data['groups']?.length ?? 0,
+                (index) => (data['groups'][index]).toString())
+            : <String>[];
 
   /// User id
   final String id;

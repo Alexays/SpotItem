@@ -31,7 +31,12 @@ class BasicService {
     final verifiedToken = await Services.auth.verifyToken(token);
     final response = await http.get(Uri.encodeFull('$apiUrl$url'),
         headers: getHeaders(verifiedToken));
-    final apiRes = new ApiRes(JSON.decode(response.body), response.statusCode);
+    var apiRes;
+    try {
+      apiRes = new ApiRes(JSON.decode(response.body), response.statusCode);
+    } catch (err) {
+      apiRes = new ApiRes.classic();
+    }
     return apiRes;
   }
 
@@ -49,7 +54,12 @@ class BasicService {
     final verifiedToken = await Services.auth.verifyToken(token);
     final response = await http.post(Uri.encodeFull('$apiUrl$url'),
         headers: getHeaders(verifiedToken), body: payload);
-    final apiRes = new ApiRes(JSON.decode(response.body), response.statusCode);
+    var apiRes;
+    try {
+      apiRes = new ApiRes(JSON.decode(response.body), response.statusCode);
+    } catch (err) {
+      apiRes = new ApiRes.classic();
+    }
     return apiRes;
   }
 
@@ -67,7 +77,12 @@ class BasicService {
     final verifiedToken = await Services.auth.verifyToken(token);
     final response = await http.put(Uri.encodeFull('$apiUrl$url'),
         headers: getHeaders(verifiedToken), body: payload);
-    final apiRes = new ApiRes(JSON.decode(response.body), response.statusCode);
+    var apiRes;
+    try {
+      apiRes = new ApiRes(JSON.decode(response.body), response.statusCode);
+    } catch (err) {
+      apiRes = new ApiRes.classic();
+    }
     return apiRes;
   }
 
@@ -83,7 +98,12 @@ class BasicService {
     final verifiedToken = await Services.auth.verifyToken(token);
     final response = await http.delete(Uri.encodeFull('$apiUrl$url'),
         headers: getHeaders(verifiedToken));
-    final apiRes = new ApiRes(JSON.decode(response.body), response.statusCode);
+    var apiRes;
+    try {
+      apiRes = new ApiRes(JSON.decode(response.body), response.statusCode);
+    } catch (err) {
+      apiRes = new ApiRes.classic();
+    }
     return apiRes;
   }
 
