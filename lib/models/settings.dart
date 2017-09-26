@@ -12,4 +12,7 @@ class Settings {
 
   /// Check if item is valid
   bool isValid() => maxDistance != null;
+
+  @override
+  String toString() => '{"maxDistance": $maxDistance}';
 }

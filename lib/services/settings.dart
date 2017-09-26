@@ -8,23 +8,28 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// Settings class manager
 class SettingsManager extends BasicService {
   /// Settings Object
-  Settings settings;
+  Settings value;
   @override
   Future<bool> init() async {
     final prefs = await SharedPreferences.getInstance();
     try {
-      settings =
-          new Settings(JSON.decode(prefs.getString(keySettings) ?? '{}'));
-      if (!settings.isValid()) {
-        settings = new Settings.classic();
+      value = new Settings(JSON.decode(prefs.getString(keySettings) ?? '{}'));
+      if (!value.isValid()) {
+        value = new Settings.classic();
       }
     } catch (err) {
-      settings = new Settings.classic();
+      value = new Settings.classic();
     }
     return true;
   }
 
-  /// Delete Settings
+  /// Save settings
+  Future<Null> saveSettings() async {
+    await SharedPreferences.getInstance()
+      ..setString(keySettings, JSON.encode(value.toString()));
+  }
+
+  /// Delete settings
   Future<Null> clearSettings() async {
     await SharedPreferences.getInstance()
       ..remove(keySettings);

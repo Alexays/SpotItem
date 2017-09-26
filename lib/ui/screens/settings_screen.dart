@@ -1,7 +1,5 @@
-import 'dart:async';
 import 'package:spotitem/services/services.dart';
 import 'package:flutter/material.dart';
-import 'package:spotitem/utils.dart';
 import 'package:spotitem/ui/spot_strings.dart';
 
 /// Settings screen class
@@ -16,7 +14,6 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   @override
   void initState() {
-    print(Services.settings.settings.maxDistance);
     super.initState();
   }
 
@@ -28,12 +25,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 padding: const EdgeInsets.all(20.0),
                 children: [
                   new Text(
-                      '${SpotL.of(context).maxDistance()}: ${Services.settings.settings.maxDistance}km'),
+                      '${SpotL.of(context).maxDistance()}: ${Services.settings.value.maxDistance}km'),
                   new Slider(
-                    value: Services.settings.settings.maxDistance / 100,
+                    value: Services.settings.value.maxDistance / 100,
                     onChanged: (value) {
                       setState(() {
-                        Services.settings.settings.maxDistance =
+                        Services.settings.value.maxDistance =
                             (value * 100).toInt();
                       });
                     },

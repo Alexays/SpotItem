@@ -77,7 +77,7 @@ class ItemsManager extends BasicService {
                     response.data[index],
                     Services.users.getDist(response.data[index]['lat'],
                         response.data[index]['lng'])))
-            .where((item) => item.dist < Services.settings.settings.maxDistance)
+            .where((item) => item.dist < Services.settings.value.maxDistance)
             .toList();
       }
     }
