@@ -48,16 +48,8 @@ class _ExplorerViewState extends State<ExplorerView> {
   }
 
   Future<Null> _loadItems([bool force = false]) async {
-    final itemsLoaded = await Services.items.getItems(force: force);
-    if (itemsLoaded != null) {
-      if (!mounted) {
-        return;
-      }
-      setState(() {
-        _items = new List<Item>.from(itemsLoaded);
-      });
-      getTracks();
-    }
+    await Services.items.getItems(force: force);
+    getTracks();
   }
 
   @override
