@@ -31,7 +31,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   String _location;
 
   /// Tracks of item
-  final List<String> _tracks = [];
+  List<String> _tracks = [];
 
   /// Images taken from gallery
   final List<File> _imagesFile = [];
@@ -167,8 +167,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     _images.clear();
     for (var f in _imagesFile) {
       final imageBytes = f.readAsBytesSync();
-      _images.add(
-          'data:image/${f.path.split('.').last};base64,${BASE64.encode(imageBytes)}');
+      _images.add('data:image/${f.path.split('.').last};base64,${BASE64.encode(imageBytes)}');
     }
     if (Services.auth.user.isValid() && Services.users.location != null) {
       final response = await Services.items.addItem({
@@ -187,9 +186,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       if (resValid(context, response)) {
         showSnackBar(context, response.msg);
         await Services.items.getItems(force: true);
-        await Navigator
-            .of(context)
-            .pushNamedAndRemoveUntil('/', (route) => false);
+        await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
       }
     } else {
       showSnackBar(context, SpotL.of(context).error());
@@ -209,92 +206,93 @@ class _AddItemScreenState extends State<AddItemScreen> {
                         new Step(
                             title: new Text(SpotL.of(context).about()),
                             state: StepState.indexed,
-                            content: new Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  new Column(children: <Widget>[
-                                    new TextFormField(
-                                        key: const Key('name'),
-                                        decoration: new InputDecoration(
-                                            hintText:
-                                                SpotL.of(context).namePh(),
-                                            labelText:
-                                                SpotL.of(context).name()),
-                                        validator: validateName,
-                                        onSaved: (value) {
-                                          _name = value.trim();
-                                        }),
-                                    new TextFormField(
-                                        key: const Key('about'),
-                                        decoration: new InputDecoration(
-                                            hintText: SpotL
-                                                .of(Services.loc)
-                                                .aboutPh(),
-                                            labelText:
-                                                SpotL.of(context).about()),
-                                        validator: validateString,
-                                        onSaved: (value) {
-                                          _about = value.trim();
-                                        }),
-                                    new TextFormField(
-                                        key: const Key('location'),
-                                        decoration: new InputDecoration(
-                                            hintText: SpotL
-                                                .of(Services.loc)
-                                                .locationPh(),
-                                            labelText: SpotL
-                                                .of(Services.loc)
-                                                .location()),
-                                        validator: validateString,
-                                        onSaved: (value) {
-                                          _location = value.trim();
-                                        }),
-                                    const Divider(),
-                                    new CheckboxListTile(
-                                        title:
-                                            new Text(SpotL.of(context).gift()),
-                                        value: _tracks.contains('gift'),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            if (value) {
-                                              _tracks.add('gift');
-                                            } else {
-                                              _tracks.remove('gift');
-                                            }
-                                          });
-                                        },
-                                        secondary:
-                                            const Icon(Icons.card_giftcard)),
-                                    new CheckboxListTile(
-                                        title: new Text(
-                                            SpotL.of(context).private()),
-                                        value: _tracks.contains('private'),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            if (value) {
-                                              _tracks.add('private');
-                                            } else {
-                                              _tracks.remove('private');
-                                            }
-                                          });
-                                        },
-                                        secondary: const Icon(Icons.lock))
-                                  ])
-                                ]),
+                            content: new Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
+                              new Column(children: <Widget>[
+                                new TextFormField(
+                                    key: const Key('name'),
+                                    decoration: new InputDecoration(hintText: SpotL.of(context).namePh(), labelText: SpotL.of(context).name()),
+                                    validator: validateName,
+                                    onSaved: (value) {
+                                      _name = value.trim();
+                                    }),
+                                new TextFormField(
+                                    key: const Key('about'),
+                                    decoration: new InputDecoration(hintText: SpotL.of(Services.loc).aboutPh(), labelText: SpotL.of(context).about()),
+                                    validator: validateString,
+                                    onSaved: (value) {
+                                      _about = value.trim();
+                                    }),
+                                new TextFormField(
+                                    key: const Key('location'),
+                                    decoration:
+                                        new InputDecoration(hintText: SpotL.of(Services.loc).locationPh(), labelText: SpotL.of(Services.loc).location()),
+                                    validator: validateString,
+                                    onSaved: (value) {
+                                      _location = value.trim();
+                                    }),
+                                const Divider(),
+                                new CheckboxListTile(
+                                    title: new Text(SpotL.of(context).gift()),
+                                    value: _tracks.contains('gift'),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        if (value) {
+                                          _tracks.add('gift');
+                                        } else {
+                                          _tracks.remove('gift');
+                                        }
+                                      });
+                                    },
+                                    secondary: const Icon(Icons.card_giftcard)),
+                                new CheckboxListTile(
+                                    title: new Text(SpotL.of(context).private()),
+                                    value: _tracks.contains('private'),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        if (value) {
+                                          _tracks.add('private');
+                                        } else {
+                                          _tracks.remove('private');
+                                        }
+                                      });
+                                    },
+                                    secondary: const Icon(Icons.lock)),
+                                new Container(
+                                  height: 100.0,
+                                  child: new ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      padding: const EdgeInsets.symmetric(vertical: 15.0),
+                                      itemCount: Services.items.categories.length,
+                                      itemExtent: 75.0,
+                                      itemBuilder: (context, index) => !_tracks.contains(Services.items.categories[index])
+                                          ? new FlatButton(
+                                              child: new Image.asset('assets/${Services.items.categories[index]}.png'),
+                                              onPressed: () {
+                                                _tracks = _tracks.where((f) => !Services.items.categories.any((d) => d == f)).toList()
+                                                  ..add(Services.items.categories[index]);
+                                                setState(() {
+                                                  _tracks = new List<String>.from(_tracks);
+                                                });
+                                              },
+                                            )
+                                          : new RaisedButton(
+                                              child: new Image.asset('assets/${Services.items.categories[index]}.png'),
+                                              onPressed: () {
+                                                _tracks.remove(Services.items.categories[index]);
+                                                setState(() {
+                                                  _tracks = new List<String>.from(_tracks);
+                                                });
+                                              },
+                                            )),
+                                ),
+                              ])
+                            ]),
                             isActive: true),
                         new Step(
                             title: new Text(SpotL.of(context).images()),
-                            content: new Container(
-                                height: 120 +
-                                    320 *
-                                        (_imagesFile.length / 3)
-                                            .floorToDouble(),
-                                child: getImageGrid()),
+                            content: new Container(height: 120 + 320 * (_imagesFile.length / 3).floorToDouble(), child: getImageGrid()),
                             isActive: true),
-                        new Step(
-                            title: new Text(SpotL.of(context).groups()),
-                            content: getGroups(),
-                            isActive: true),
+                        new Step(title: new Text(SpotL.of(context).groups()), content: getGroups(), isActive: true),
                       ],
                       type: StepperType.vertical,
                       onStepTapped: (step) {
@@ -304,8 +302,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       },
                       onStepCancel: () {
                         setState(() {
-                          _currentStep =
-                              _currentStep > 0 ? _currentStep - 1 : 0;
+                          _currentStep = _currentStep > 0 ? _currentStep - 1 : 0;
                         });
                       },
                       onStepContinue: () {
