@@ -6,6 +6,7 @@ import 'package:spotitem/services/items.dart';
 import 'package:spotitem/services/auth.dart';
 import 'package:spotitem/services/groups.dart';
 import 'package:spotitem/services/users.dart';
+import 'package:spotitem/services/settings.dart';
 import 'package:spotitem/ui/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
@@ -25,6 +26,9 @@ enum Origin {
 class Services {
   static final Services _singleton = new Services._internal();
 
+  /// Users Service
+  static final UsersManager users = _singleton._usersManager;
+
   /// Auth Service
   static final AuthManager auth = _singleton._authManager;
 
@@ -34,8 +38,8 @@ class Services {
   /// Groups Service
   static final GroupsManager groups = _singleton._groupsManager;
 
-  /// Users Service
-  static final UsersManager users = _singleton._usersManager;
+  /// Settings Service
+  static final SettingsManager settings = _singleton._settingsManager;
 
   /// Router
   static final Router router = _singleton._router;
@@ -66,6 +70,7 @@ class Services {
   ItemsManager _itemsManager;
   GroupsManager _groupsManager;
   UsersManager _usersManager;
+  SettingsManager _settingsManager;
   Router _router;
   BuildContext _context;
   BuildContext _loc;
@@ -83,12 +88,14 @@ class Services {
   static Future<bool> setup(Origin origin, [ApiRes mock]) async {
     _singleton._origin = origin;
     _singleton._mock = mock;
+    _singleton._settingsManager = new SettingsManager();
     _singleton._authManager = new AuthManager();
     _singleton._itemsManager = new ItemsManager();
     _singleton._groupsManager = new GroupsManager();
     _singleton._usersManager = new UsersManager();
     _singleton._router = new Router();
     _singleton._firebaseMessaging = new FirebaseMessaging();
+    final settings = await _singleton._settingsManager.init();
     final auth = await _singleton._authManager.init();
     final items = await _singleton._itemsManager.init();
     final groups = await _singleton._groupsManager.init();
@@ -113,6 +120,6 @@ class Services {
     _singleton._analytics = new FirebaseAnalytics();
     _singleton._observer =
         new FirebaseAnalyticsObserver(analytics: _singleton._analytics);
-    return auth && items && groups && users;
+    return settings && auth && items && groups && users;
   }
 }

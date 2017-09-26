@@ -13,6 +13,9 @@ const String keyProvider = 'KEY_AUTH_PROVIDER';
 /// Storage key of last email used
 const String keyLastEmail = 'KEY_LAST_EMAIL';
 
+/// Storage key of settings
+const String keySettings = 'KEY_SETTINGS';
+
 /// Api secret
 const String clientSecret = 'et+nWhUB>.Dg[c4z';
 
