@@ -30,8 +30,7 @@ class EditItemScreen extends StatefulWidget {
   _EditItemScreenState createState() => new _EditItemScreenState(itemId, item);
 }
 
-class _EditItemScreenState extends State<EditItemScreen>
-    with TickerProviderStateMixin {
+class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStateMixin {
   _EditItemScreenState(this._itemId, this._item);
 
   final String _itemId;
@@ -129,8 +128,7 @@ class _EditItemScreenState extends State<EditItemScreen>
           if (!mounted) {
             return;
           }
-          _images.add(
-              'data:image/${_fileName.path.split('.').last};base64,${BASE64.encode(data)}');
+          _images.add('data:image/${_fileName.path.split('.').last};base64,${BASE64.encode(data)}');
         });
       });
     }
@@ -157,8 +155,7 @@ class _EditItemScreenState extends State<EditItemScreen>
       primary: false,
       crossAxisCount: (_item.images.length + _imagesFile.length),
       crossAxisSpacing: 10.0,
-      children: new List<Widget>.generate(
-          (_item.images.length + _imagesFile.length), (index) {
+      children: new List<Widget>.generate((_item.images.length + _imagesFile.length), (index) {
         if (index < _item.images.length) {
           return new GridTile(
               child: new Stack(
@@ -235,9 +232,7 @@ class _EditItemScreenState extends State<EditItemScreen>
       if (resValid(context, response)) {
         showSnackBar(context, response.msg);
         await Services.items.getItems(force: true);
-        await Navigator
-            .of(context)
-            .pushNamedAndRemoveUntil('/', (route) => false);
+        await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
       }
     } else {
       showSnackBar(context, SpotL.of(context).error());
@@ -277,150 +272,118 @@ class _EditItemScreenState extends State<EditItemScreen>
                       child: new DefaultTabController(
                           length: 3,
                           child: new NestedScrollView(
-                              headerSliverBuilder:
-                                  (context, innerBoxIsScrolled) => <Widget>[
-                                        new AnimatedBuilder(
-                                            animation: _bottomSize,
-                                            builder: (context, child) =>
-                                                new SliverAppBar(
-                                                    pinned: true,
-                                                    title: new Text(
-                                                        _item != null
-                                                            ? '${_item.name}'
-                                                            : ''),
-                                                    bottom: new TabBar(
-                                                        indicatorWeight: 4.0,
-                                                        tabs: <Tab>[
-                                                          new Tab(
-                                                              text: SpotL
-                                                                  .of(context)
-                                                                  .about()),
-                                                          new Tab(
-                                                              text: SpotL
-                                                                  .of(context)
-                                                                  .images()),
-                                                          new Tab(
-                                                              text: SpotL
-                                                                  .of(context)
-                                                                  .groups())
-                                                        ])))
-                                      ],
+                              headerSliverBuilder: (context, innerBoxIsScrolled) => <Widget>[
+                                    new AnimatedBuilder(
+                                        animation: _bottomSize,
+                                        builder: (context, child) => new SliverAppBar(
+                                            pinned: true,
+                                            title: new Text(_item != null ? '${_item.name}' : ''),
+                                            bottom: new TabBar(indicatorWeight: 4.0, tabs: <Tab>[
+                                              new Tab(text: SpotL.of(context).about()),
+                                              new Tab(text: SpotL.of(context).images()),
+                                              new Tab(text: SpotL.of(context).groups())
+                                            ])))
+                                  ],
                               body: _item == null
-                                  ? const Center(
-                                      child: const CircularProgressIndicator())
+                                  ? const Center(child: const CircularProgressIndicator())
                                   : new Form(
                                       key: _formKey,
                                       child: new TabBarView(children: <Widget>[
                                         new Container(
                                             margin: const EdgeInsets.all(20.0),
-                                            child: new Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: <Widget>[
-                                                  new TextFormField(
-                                                    key: const Key('name'),
-                                                    decoration:
-                                                        new InputDecoration(
-                                                            hintText:
-                                                                SpotL
-                                                                    .of(context)
-                                                                    .namePh(),
-                                                            labelText: SpotL
-                                                                .of(context)
-                                                                .name()),
-                                                    validator: validateName,
-                                                    controller: _nameCtrl,
-                                                    onSaved: (data) {
-                                                      _name = data;
-                                                    },
-                                                  ),
-                                                  new TextFormField(
-                                                    key: const Key('about'),
-                                                    decoration:
-                                                        new InputDecoration(
-                                                            hintText:
-                                                                SpotL
-                                                                    .of(context)
-                                                                    .aboutPh(),
-                                                            labelText: SpotL
-                                                                .of(context)
-                                                                .about()),
-                                                    controller: _aboutCtrl,
-                                                    onSaved: (data) {
-                                                      _about = data;
-                                                    },
-                                                  ),
-                                                  new TextFormField(
-                                                    key: const Key('location'),
-                                                    decoration:
-                                                        new InputDecoration(
-                                                            hintText:
-                                                                SpotL
-                                                                    .of(context)
-                                                                    .locationPh(),
-                                                            labelText: SpotL
-                                                                .of(context)
-                                                                .location()),
-                                                    validator: validateString,
-                                                    controller: _locationCtrl,
-                                                    onSaved: (data) {
-                                                      _location = data;
-                                                    },
-                                                  ),
-                                                  new CheckboxListTile(
-                                                    title: new Text(SpotL
-                                                        .of(context)
-                                                        .gift()),
-                                                    value: _tracks
-                                                        .contains('gift'),
-                                                    onChanged: (value) {
-                                                      setState(() {
-                                                        if (value) {
-                                                          _tracks.add('gift');
-                                                        } else {
-                                                          _tracks
-                                                              .remove('gift');
-                                                        }
-                                                      });
-                                                    },
-                                                    secondary: const Icon(
-                                                        Icons.card_giftcard),
-                                                  ),
-                                                  new CheckboxListTile(
-                                                    title: new Text(SpotL
-                                                        .of(context)
-                                                        .private()),
-                                                    value: _tracks
-                                                        .contains('private'),
-                                                    onChanged: (value) {
-                                                      setState(() {
-                                                        if (value) {
-                                                          _tracks
-                                                              .add('private');
-                                                        } else {
-                                                          _tracks.remove(
-                                                              'private');
-                                                        }
-                                                      });
-                                                    },
-                                                    secondary:
-                                                        const Icon(Icons.lock),
-                                                  ),
-                                                ])),
+                                            child: new Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
+                                              new TextFormField(
+                                                key: const Key('name'),
+                                                decoration: new InputDecoration(hintText: SpotL.of(context).namePh(), labelText: SpotL.of(context).name()),
+                                                validator: validateName,
+                                                controller: _nameCtrl,
+                                                onSaved: (data) {
+                                                  _name = data;
+                                                },
+                                              ),
+                                              new TextFormField(
+                                                key: const Key('about'),
+                                                decoration: new InputDecoration(hintText: SpotL.of(context).aboutPh(), labelText: SpotL.of(context).about()),
+                                                controller: _aboutCtrl,
+                                                onSaved: (data) {
+                                                  _about = data;
+                                                },
+                                              ),
+                                              new TextFormField(
+                                                key: const Key('location'),
+                                                decoration:
+                                                    new InputDecoration(hintText: SpotL.of(context).locationPh(), labelText: SpotL.of(context).location()),
+                                                validator: validateString,
+                                                controller: _locationCtrl,
+                                                onSaved: (data) {
+                                                  _location = data;
+                                                },
+                                              ),
+                                              new CheckboxListTile(
+                                                title: new Text(SpotL.of(context).gift()),
+                                                value: _tracks.contains('gift'),
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    if (value) {
+                                                      _tracks.add('gift');
+                                                    } else {
+                                                      _tracks.remove('gift');
+                                                    }
+                                                  });
+                                                },
+                                                secondary: const Icon(Icons.card_giftcard),
+                                              ),
+                                              new CheckboxListTile(
+                                                title: new Text(SpotL.of(context).private()),
+                                                value: _tracks.contains('private'),
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    if (value) {
+                                                      _tracks.add('private');
+                                                    } else {
+                                                      _tracks.remove('private');
+                                                    }
+                                                  });
+                                                },
+                                                secondary: const Icon(Icons.lock),
+                                              ),
+                                              new Container(
+                                                height: 100.0,
+                                                child: new ListView.builder(
+                                                    scrollDirection: Axis.horizontal,
+                                                    padding: const EdgeInsets.symmetric(vertical: 15.0),
+                                                    itemCount: Services.items.categories.length,
+                                                    itemExtent: 75.0,
+                                                    itemBuilder: (context, index) => !_tracks.contains(Services.items.categories[index])
+                                                        ? new FlatButton(
+                                                            child: new Image.asset('assets/${Services.items.categories[index]}.png'),
+                                                            onPressed: () {
+                                                              _tracks = _tracks.where((f) => !Services.items.categories.any((d) => d == f)).toList()
+                                                                ..add(Services.items.categories[index]);
+                                                              setState(() {
+                                                                _tracks = new List<String>.from(_tracks);
+                                                              });
+                                                            },
+                                                          )
+                                                        : new RaisedButton(
+                                                            child: new Image.asset('assets/${Services.items.categories[index]}.png'),
+                                                            onPressed: () {
+                                                              _tracks.remove(Services.items.categories[index]);
+                                                              setState(() {
+                                                                _tracks = new List<String>.from(_tracks);
+                                                              });
+                                                            },
+                                                          )),
+                                              ),
+                                            ])),
                                         new Container(
                                             margin: const EdgeInsets.all(20.0),
                                             child: new Column(children: [
-                                              (_item.images.length +
-                                                          _imagesFile.length) >
-                                                      0
+                                              (_item.images.length + _imagesFile.length) > 0
                                                   ? new Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              bottom: 15.0),
+                                                      padding: const EdgeInsets.only(bottom: 15.0),
                                                       child: new RaisedButton(
-                                                        child: new Text(SpotL
-                                                            .of(context)
-                                                            .addImage()),
+                                                        child: new Text(SpotL.of(context).addImage()),
                                                         onPressed: getImage,
                                                       ))
                                                   : new Container(),
@@ -429,21 +392,13 @@ class _EditItemScreenState extends State<EditItemScreen>
                                               )
                                             ])),
                                         _groups != null
-                                            ? new Container(
-                                                margin:
-                                                    const EdgeInsets.all(20.0),
-                                                child: getGroups())
-                                            : const Center(
-                                                child:
-                                                    const CircularProgressIndicator()),
+                                            ? new Container(margin: const EdgeInsets.all(20.0), child: getGroups())
+                                            : const Center(child: const CircularProgressIndicator()),
                                       ]))))),
                   new Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 8.0, vertical: 4.0),
+                    margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                     child: new ConstrainedBox(
-                        constraints: new BoxConstraints.tightFor(
-                            height: 48.0,
-                            width: MediaQuery.of(context).size.width),
+                        constraints: new BoxConstraints.tightFor(height: 48.0, width: MediaQuery.of(context).size.width),
                         child: new RaisedButton(
                           color: Theme.of(context).accentColor,
                           onPressed: () {
@@ -451,8 +406,7 @@ class _EditItemScreenState extends State<EditItemScreen>
                           },
                           child: new Text(
                             SpotL.of(context).save().toUpperCase(),
-                            style: new TextStyle(
-                                color: Theme.of(context).canvasColor),
+                            style: new TextStyle(color: Theme.of(context).canvasColor),
                           ),
                         )),
                   ),
