@@ -72,11 +72,13 @@ class ItemsManager extends BasicService {
           Services.auth.loggedIn ? Services.auth.accessToken : null);
       if (response.success && response.data is List) {
         return _items = new List<Item>.generate(
-            response.data?.length ?? 0,
-            (index) => new Item(
-                response.data[index],
-                Services.users.getDist(
-                    response.data[index]['lat'], response.data[index]['lng'])));
+                response.data?.length ?? 0,
+                (index) => new Item(
+                    response.data[index],
+                    Services.users.getDist(response.data[index]['lat'],
+                        response.data[index]['lng'])))
+            .where((item) => item.dist < Services.settings.settings.maxDistance)
+            .toList();
       }
     }
     return _items;
