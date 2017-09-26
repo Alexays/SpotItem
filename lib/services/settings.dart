@@ -1,23 +1,25 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:spotitem/keys.dart';
+import 'package:spotitem/models/settings.dart';
 import 'package:spotitem/services/basic.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Settings class manager
 class SettingsManager extends BasicService {
   /// Settings Object
-  dynamic get settings => _settings;
-
-  /// Private varibles
-  dynamic _settings;
+  Settings settings;
   @override
   Future<bool> init() async {
     final prefs = await SharedPreferences.getInstance();
     try {
-      _settings = JSON.decode(prefs.getString(keySettings) ?? '{}');
+      settings =
+          new Settings(JSON.decode(prefs.getString(keySettings) ?? '{}'));
+      if (!settings.isValid()) {
+        settings = new Settings.classic();
+      }
     } catch (err) {
-      return false;
+      settings = new Settings.classic();
     }
     return true;
   }

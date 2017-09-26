@@ -260,7 +260,9 @@ class _HomeScreenState extends State<HomeScreen>
               new IconButton(
                 icon: const Icon(Icons.settings),
                 color: Colors.white,
-                onPressed: () {},
+                onPressed: () async {
+                  await Navigator.pushNamed(context, '/settings');
+                },
               )
             ],
             onDetailsPressed: () {

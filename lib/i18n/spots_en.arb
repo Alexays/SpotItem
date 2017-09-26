@@ -322,5 +322,17 @@
     "description": "Error title",
     "type": "text",
     "placeholders": {}
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "maxDistance": "Maximal distance",
+  "@maxDistance": {
+    "description": "Max distance title",
+    "type": "text",
+    "placeholders": {}
   }
 }

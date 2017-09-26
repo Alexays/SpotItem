@@ -224,4 +224,12 @@ class SpotL {
 
   /// Unexpected error title
   String error() => Intl.message('<error>', name: 'error', locale: _localeName);
+
+  /// Settings title
+  String settings() =>
+      Intl.message('<settings>', name: 'settings', locale: _localeName);
+
+  /// Max distance title
+  String maxDistance() =>
+      Intl.message('<maxDistance>', name: 'maxDistance', locale: _localeName);
 }

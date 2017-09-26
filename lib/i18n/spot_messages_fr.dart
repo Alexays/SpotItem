@@ -48,6 +48,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "loginError" : MessageLookupByLibrary.simpleMessage("Email ou mot de passe incorrect !"),
     "logout" : MessageLookupByLibrary.simpleMessage("Déconnection"),
     "map" : MessageLookupByLibrary.simpleMessage("Carte"),
+    "maxDistance" : MessageLookupByLibrary.simpleMessage("Distance maximal"),
     "messages" : MessageLookupByLibrary.simpleMessage("Messages"),
     "name" : MessageLookupByLibrary.simpleMessage("Nom"),
     "namePh" : MessageLookupByLibrary.simpleMessage("Entrez un nom"),
@@ -68,6 +69,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "search" : MessageLookupByLibrary.simpleMessage("Rechercher..."),
     "searchContact" : MessageLookupByLibrary.simpleMessage("Rechercher un contact..."),
     "searchDialog" : MessageLookupByLibrary.simpleMessage("Taper quelque chose pour rechercher..."),
+    "settings" : MessageLookupByLibrary.simpleMessage("Paramètres"),
     "social" : MessageLookupByLibrary.simpleMessage("Social")
   };
 }
