@@ -25,12 +25,12 @@ class ChatMessage extends StatelessWidget {
           children: <Widget>[
             new Container(
               margin: const EdgeInsets.only(right: 16.0),
-              child: new CircleAvatar(backgroundImage: new NetworkImage(text.sender.avatar)),
+              child: getAvatar(text.sender),
             ),
             new Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                new Text(text.sender.name, style: Theme.of(context).textTheme.subhead),
+                new Text(text.sender.firstname ?? '', style: Theme.of(context).textTheme.subhead),
                 new Container(
                   margin: const EdgeInsets.only(top: 5.0),
                   child: text.message != text.message
@@ -71,21 +71,27 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    _loadConv();
     super.initState();
   }
 
   Future<Null> _loadConv() async {
     final res = await Services.social.getConversation(conv.id);
-    if (res != null) {
-      _messages = res.conversation
-          .map((f) => new ChatMessage(
-              text: f,
-              animation: new AnimationController(
-                duration: new Duration(milliseconds: 700),
-                vsync: this,
-              )))
-          .toList();
+    if (res == null || !mounted) {
+      return;
     }
+    setState(() {
+      _messages = res.conversation.map((f) {
+        final chat = new ChatMessage(
+            text: f,
+            animation: new AnimationController(
+              duration: new Duration(milliseconds: 700),
+              vsync: this,
+            ));
+        chat.animation.forward();
+        return chat;
+      }).toList();
+    });
   }
 
   @override
@@ -98,7 +104,7 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-        appBar: new AppBar(title: new Text(SpotL.of(context).addGroup())),
+        appBar: new AppBar(title: new Text(conv.group?.name ?? conv.users.join(', '))),
         body: new Builder(
             builder: (context) => new Column(children: <Widget>[
                   new Flexible(

@@ -20,10 +20,8 @@ const AssetImage placeholder = const AssetImage('assets/placeholder.png');
 Widget getAvatar(User user, [double radius = 30.0]) => new CircleAvatar(
     radius: radius,
     backgroundColor: Colors.grey,
-    backgroundImage: user.avatar != null && user.avatar.contains('.')
-        ? new NetworkImage(user.avatar)
-        : null,
-    child: new Text('${user.firstname[0]}${user.name[0]}'));
+    backgroundImage: user.avatar != null && user.avatar.contains('.') ? new NetworkImage(user.avatar) : null,
+    child: new Text('${user.firstname?.substring(0, 1) ?? '?'}${user.name?.substring(0, 1) ?? ''}'));
 
 /// Show a loading popup
 void showLoading(BuildContext context) {
@@ -34,9 +32,7 @@ void showLoading(BuildContext context) {
       title: const Text('Loading...'),
       content: new SingleChildScrollView(
         child: new ListBody(
-          children: <Widget>[
-            const Center(child: const CircularProgressIndicator())
-          ],
+          children: <Widget>[const Center(child: const CircularProgressIndicator())],
         ),
       ),
     ),

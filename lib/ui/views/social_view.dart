@@ -4,6 +4,7 @@ import 'package:spotitem/services/services.dart';
 import 'package:spotitem/models/conversation.dart';
 import 'package:spotitem/ui/spot_strings.dart';
 import 'package:spotitem/utils.dart';
+import 'package:spotitem/ui/screens/social/conversation_screen.dart';
 
 /// Social view class
 class SocialView extends StatefulWidget {
@@ -54,8 +55,12 @@ class _SocialViewState extends State<SocialView> {
       padding: const EdgeInsets.all(20.0),
       itemCount: _conversations?.length ?? 0,
       itemBuilder: (context, index) => new GestureDetector(
-            onTap: () {
-              //showItemPage(_myItems[index], 'items', context);
+            onTap: () async {
+              await Navigator.push(
+                  context,
+                  new MaterialPageRoute<Null>(
+                    builder: (context) => new ConvScreen(_conversations[index]),
+                  ));
             },
             child: new Card(
               child: new Column(
