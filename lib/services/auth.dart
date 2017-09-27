@@ -7,6 +7,7 @@ import 'package:spotitem/services/basic.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spotitem/services/services.dart';
+import 'package:web_socket_channel/io.dart';
 import 'package:flutter/material.dart';
 
 GoogleSignIn _googleSignIn = new GoogleSignIn(
@@ -42,10 +43,14 @@ class AuthManager extends BasicService {
   /// Google user data
   GoogleSignInAccount get googleUser => _googleUser;
 
+  /// Ws channel
+  IOWebSocketChannel get ws => _ws;
+
   /// Private variables
   bool _loggedIn = false;
   GoogleSignInAccount _googleUser;
   String _lastEmail;
+  IOWebSocketChannel _ws;
 
   @override
   Future<bool> init() async {
@@ -56,9 +61,7 @@ class AuthManager extends BasicService {
     _lastEmail = prefs.getString(keyLastEmail) ?? '';
     try {
       final _user = new User(JSON.decode(_userData));
-      if (!_user.isValid() ||
-          _refreshToken == null ||
-          !providers.contains(_provider)) {
+      if (!_user.isValid() || _refreshToken == null || !providers.contains(_provider)) {
         await logout();
         return !(_loggedIn = false);
       }
@@ -69,7 +72,7 @@ class AuthManager extends BasicService {
         case 'google':
           await handleGoogleSignIn(signIn: false);
       }
-      connectWs();
+      _ws = connectWs();
     } on Exception {
       return _loggedIn = false;
     }
@@ -84,11 +87,8 @@ class AuthManager extends BasicService {
     if ((token == null && accessToken != null) || token != accessToken) {
       return token;
     }
-    if ((loggedIn && (exp == null || new DateTime.now().isAfter(exp))) &&
-        !await getAccessToken()) {
-      await Navigator
-          .of(Services.context)
-          .pushNamedAndRemoveUntil('/', (route) => false);
+    if ((loggedIn && (exp == null || new DateTime.now().isAfter(exp))) && !await getAccessToken()) {
+      await Navigator.of(Services.context).pushNamedAndRemoveUntil('/', (route) => false);
       return null;
     }
     return accessToken;
@@ -100,8 +100,7 @@ class AuthManager extends BasicService {
     final response = await iget('/check/$provider', refreshToken);
     if (response.success) {
       accessToken = response.data['access_token'];
-      exp = new DateTime.fromMillisecondsSinceEpoch(
-          (response.data['exp'] * 1000) - 30);
+      exp = new DateTime.fromMillisecondsSinceEpoch((response.data['exp'] * 1000) - 30);
       return true;
     }
     await logout();
@@ -115,9 +114,7 @@ class AuthManager extends BasicService {
   /// TO-DO don't send user data, just get it on API with access_token
   Future<bool> handleGoogleSignIn({bool signIn = true}) async {
     try {
-      _googleUser = signIn
-          ? await _googleSignIn.signIn()
-          : await _googleSignIn.signInSilently();
+      _googleUser = signIn ? await _googleSignIn.signIn() : await _googleSignIn.signInSilently();
       if (_googleUser == null) {
         await logout();
         return false;
@@ -152,12 +149,10 @@ class AuthManager extends BasicService {
       }
       user = new User(response.data['user']);
       accessToken = response.data['access_token'];
-      exp =
-          new DateTime.fromMillisecondsSinceEpoch(response.data['exp'] * 1000);
-      await saveTokens(
-          user.toString(), response.data['refresh_token'], _provider);
+      exp = new DateTime.fromMillisecondsSinceEpoch(response.data['exp'] * 1000);
+      await saveTokens(user.toString(), response.data['refresh_token'], _provider);
       _loggedIn = true;
-      connectWs();
+      _ws = connectWs();
     }
     return _loggedIn;
   }

@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'dart:convert';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/models/conversation.dart';
 import 'package:spotitem/utils.dart';
@@ -72,6 +72,7 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     _loadConv();
+    Services.auth.ws.sink.add(JSON.encode({'type': 'CONVERSATION_CONNECT'}));
     super.initState();
   }
 
@@ -85,7 +86,7 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
         final chat = new ChatMessage(
             text: f,
             animation: new AnimationController(
-              duration: new Duration(milliseconds: 700),
+              duration: new Duration(milliseconds: 500),
               vsync: this,
             ));
         chat.animation.forward();
