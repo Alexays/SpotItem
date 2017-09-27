@@ -52,15 +52,18 @@ class ChatMessage extends StatelessWidget {
 /// Add Group screen class
 class ConvScreen extends StatefulWidget {
   /// Add Group screen initalizer
-  const ConvScreen();
+  const ConvScreen(this._conv);
+
+  final Conversation _conv;
 
   @override
-  _ConvScreenState createState() => new _ConvScreenState();
+  _ConvScreenState createState() => new _ConvScreenState(_conv);
 }
 
 class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
-  Conversation conv;
-  final List<ChatMessage> _messages = [];
+  _ConvScreenState(this.conv);
+  final Conversation conv;
+  List<ChatMessage> _messages = [];
   String group;
 
   final TextEditingController _textController = new TextEditingController();
@@ -69,6 +72,20 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+  }
+
+  Future<Null> _loadConv() async {
+    final res = await Services.social.getConversation(conv.id);
+    if (res != null) {
+      _messages = res.conversation
+          .map((f) => new ChatMessage(
+              text: f,
+              animation: new AnimationController(
+                duration: new Duration(milliseconds: 700),
+                vsync: this,
+              )))
+          .toList();
+    }
   }
 
   @override

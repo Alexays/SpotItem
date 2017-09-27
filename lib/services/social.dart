@@ -17,19 +17,27 @@ class SocialManager extends BasicService {
   Future<List<Conversation>> getConversations() async {
     final response = await iget('/messages', Services.auth.accessToken);
     if (response.success && response.data != null && response.data is List) {
-      _conversations = new List<Conversation>.generate(response.data.length,
-          (index) => new Conversation(response.data[index]));
+      _conversations =
+          new List<Conversation>.generate(response.data.length, (index) => new Conversation(response.data[index]));
     }
     return _conversations;
   }
 
   /// Add a conversation
   Future<ApiRes> addConversation(Map<String, String> conversation) async {
-    final response =
-        await ipost('/messages', conversation, Services.auth.accessToken);
+    final response = await ipost('/messages', conversation, Services.auth.accessToken);
     if (response.success && response.data != null) {
       _conversations.add(new Conversation(response.data));
     }
     return response;
+  }
+
+  /// Add a conversation
+  Future<Conversation> getConversation(String id) async {
+    final response = await iget('/messages/$id', Services.auth.accessToken);
+    if (response.success && response.data != null) {
+      return new Conversation(response.data);
+    }
+    return null;
   }
 }
