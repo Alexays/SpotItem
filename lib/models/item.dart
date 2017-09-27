@@ -16,7 +16,7 @@ class Item {
         lng = data['lng'],
         tracks = data['tracks'] ?? <String>[],
         groups = data['groups'] ?? <String>[],
-        owner = new User(data['owner']);
+        owner = data['owner'] is Map<String, dynamic> ? new User(data['owner']) : new User({'_id': data['owner']});
 
   /// Item id
   final String id;
@@ -58,8 +58,7 @@ class Item {
   List<String> groups;
 
   /// Create item from JSON object
-  factory Item.from(Item item) =>
-      new Item(JSON.decode(item.toString()), item.dist);
+  factory Item.from(Item item) => new Item(JSON.decode(item.toString()), item.dist);
 
   /// Check if item is valid
   bool isValid() => id != null && name != null && owner != null;

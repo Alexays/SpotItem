@@ -17,8 +17,7 @@ class SocialView extends StatefulWidget {
 class _SocialViewState extends State<SocialView> {
   _SocialViewState();
 
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      new GlobalKey<RefreshIndicatorState>();
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
 
   static List<Conversation> _conversations;
 
@@ -87,7 +86,5 @@ class _SocialViewState extends State<SocialView> {
   Widget build(BuildContext context) => new RefreshIndicator(
       key: _refreshIndicatorKey,
       onRefresh: _loadConversation,
-      child: _conversations == null
-          ? const Center(child: const CircularProgressIndicator())
-          : _createList());
+      child: _conversations == null ? const Center(child: const CircularProgressIndicator()) : _createList());
 }

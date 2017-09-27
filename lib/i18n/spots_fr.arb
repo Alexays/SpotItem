@@ -334,5 +334,11 @@
     "description": "Max distance title",
     "type": "text",
     "placeholders": {}
+  },
+  "noMessages": "Pas de messages",
+  "@noMessages": {
+    "description": "No messages title",
+    "type": "text",
+    "placeholders": {}
   }
 }

@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 
 import 'package:spotitem/ui/spot_strings.dart';
 
-/// Add Group screen class
+/// Add Conv screen class
 class AddConvScreen extends StatefulWidget {
-  /// Add Group screen initalizer
+  /// Add Conv screen initalizer
   const AddConvScreen();
 
   @override
