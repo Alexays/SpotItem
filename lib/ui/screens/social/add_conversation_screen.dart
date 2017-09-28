@@ -1,9 +1,9 @@
 import 'dart:async';
-
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/utils.dart';
+import 'package:spotitem/models/conversation.dart';
 import 'package:flutter/material.dart';
-
+import 'package:spotitem/ui/screens/social/conversation_screen.dart';
 import 'package:spotitem/ui/spot_strings.dart';
 
 /// Add Conv screen class
@@ -16,10 +16,8 @@ class AddConvScreen extends StatefulWidget {
 }
 
 class _AddConvScreenState extends State<AddConvScreen> {
-  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-
-  String message;
   String group;
+  String groupName;
 
   @override
   void initState() {
@@ -27,20 +25,18 @@ class _AddConvScreenState extends State<AddConvScreen> {
   }
 
   Future<Null> _addConv(BuildContext context) async {
-    _formKey.currentState.save();
-    if (!_formKey.currentState.validate()) {
-      return showSnackBar(context, SpotL.of(context).correctError());
-    }
     if (group == null) {
       return showSnackBar(context, SpotL.of(context).selectGroup());
     }
     final response = await Services.social.addConversation({
-      'message': message,
+      'message': '',
       'group': group,
     });
     if (resValid(context, response)) {
       showSnackBar(context, response.msg);
-      await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+      await Navigator.of(context).pushReplacement(new MaterialPageRoute<Null>(
+            builder: (context) => new ConvScreen(new Conversation(response.data)),
+          ));
     }
   }
 
@@ -53,6 +49,9 @@ class _AddConvScreenState extends State<AddConvScreen> {
                     title: new Text(f.name),
                     onTap: () {
                       group = f.id;
+                      setState(() {
+                        groupName = f.name;
+                      });
                       Navigator.of(context).pop();
                     },
                   ))
@@ -62,34 +61,27 @@ class _AddConvScreenState extends State<AddConvScreen> {
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-        appBar: new AppBar(title: new Text(SpotL.of(context).addGroup())),
+        appBar: new AppBar(title: new Text(SpotL.of(context).messages())),
         body: new Builder(
-            builder: (context) => new Column(children: <Widget>[
+            builder: (context) => new Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                   new Expanded(
-                      child: new SingleChildScrollView(
-                          child: new Container(
-                              margin: const EdgeInsets.all(20.0),
-                              child: new Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
-                                new Form(
-                                    key: _formKey,
-                                    child: new Column(children: <Widget>[
-                                      new TextFormField(
-                                          key: const Key('message'),
-                                          decoration: new InputDecoration(
-                                              hintText: SpotL.of(context).namePh(),
-                                              labelText: SpotL.of(Services.loc).name()),
-                                          validator: validateString,
-                                          onSaved: (value) {
-                                            message = value.trim();
-                                          }),
-                                    ])),
-                                new RaisedButton(
-                                  child: new Text(SpotL.of(context).selectGroup()),
-                                  onPressed: () {
-                                    _selectGroup(context);
-                                  },
-                                )
-                              ])))),
+                    child: new Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        new Center(
+                            child: new Text(
+                          groupName ?? SpotL.of(context).noGroups(),
+                        )),
+                        const Padding(padding: const EdgeInsets.all(10.0)),
+                        new RaisedButton(
+                          child: new Text(SpotL.of(context).selectGroup()),
+                          onPressed: () {
+                            _selectGroup(context);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
                   new Container(
                     margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                     child: new ConstrainedBox(
@@ -101,7 +93,7 @@ class _AddConvScreenState extends State<AddConvScreen> {
                             _addConv(context);
                           },
                           child: new Text(
-                            SpotL.of(context).addGroup().toUpperCase(),
+                            MaterialLocalizations.of(context).continueButtonLabel.toUpperCase(),
                             style: new TextStyle(color: Theme.of(context).canvasColor),
                           ),
                         )),

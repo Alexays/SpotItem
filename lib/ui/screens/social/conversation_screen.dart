@@ -148,7 +148,7 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
                               itemCount: _messages.length,
                             )
                           : new Center(
-                              child: new Text(SpotL.of(context).noMessage()),
+                              child: new Text(SpotL.of(context).noMessages()),
                             )),
                   const Divider(height: 1.0),
                   new Container(

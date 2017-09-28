@@ -225,6 +225,9 @@ class SpotL {
   /// Number invitation title
   String joinGroup(String name) => Intl.message('<joinGroup>', name: 'joinGroup', args: [name], locale: _localeName);
 
-  /// Password error title
+  /// Dist title
   String dist() => Intl.message('<dist>', name: 'dist', locale: _localeName);
+
+  /// Create conversation title
+  String createConv() => Intl.message('<createConv>', name: 'createConv', locale: _localeName);
 }

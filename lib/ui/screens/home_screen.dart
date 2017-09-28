@@ -41,8 +41,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
           new FloatingActionButton(
               child: const Icon(Icons.add),
               tooltip: 'Add new item',
-              onPressed: () {
-                Navigator.of(Services.context).pushNamed('/item/add');
+              onPressed: () async {
+                await Navigator.of(Services.context).pushNamed('/item/add');
               })
         ]),
     new HomeScreenItem(
@@ -61,14 +61,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
           new FloatingActionButton(
               child: const Icon(Icons.person_add),
               tooltip: 'Add new groups',
-              onPressed: () {
-                Navigator.of(Services.context).pushNamed('/groups/add');
+              onPressed: () async {
+                await Navigator.of(Services.context).pushNamed('/groups/add');
               }),
           new FloatingActionButton(
               child: const Icon(Icons.sms),
               tooltip: 'Add new messages',
-              onPressed: () {
-                Navigator.of(Services.context).pushNamed('/messages/add');
+              onPressed: () async {
+                await Navigator.of(Services.context).pushNamed('/messages/add');
               })
         ]),
   ];

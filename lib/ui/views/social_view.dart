@@ -76,7 +76,7 @@ class _SocialViewState extends State<SocialView> {
                     subtitle: new Text(
                       _conversations[index].conversation.isNotEmpty
                           ? _conversations[index].conversation[0].message
-                          : SpotL.of(context).noMessage(),
+                          : SpotL.of(context).noMessages(),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -90,5 +90,21 @@ class _SocialViewState extends State<SocialView> {
   Widget build(BuildContext context) => new RefreshIndicator(
       key: _refreshIndicatorKey,
       onRefresh: _loadConversation,
-      child: _conversations == null ? const Center(child: const CircularProgressIndicator()) : _createList());
+      child: _conversations == null
+          ? const Center(child: const CircularProgressIndicator())
+          : _conversations.isNotEmpty
+              ? _createList()
+              : new Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    new Center(child: new Text(SpotL.of(context).noMessages())),
+                    const Padding(padding: const EdgeInsets.all(10.0)),
+                    new RaisedButton(
+                      child: new Text(SpotL.of(context).createConv()),
+                      onPressed: () async {
+                        await Navigator.of(Services.context).pushNamed('/messages/add');
+                      },
+                    ),
+                  ],
+                ));
 }

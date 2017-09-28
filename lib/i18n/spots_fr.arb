@@ -418,5 +418,11 @@
     "description": "Dist title",
     "type": "text",
     "placeholders": {}
+  },
+  "createConv": "Créer une conversation",
+  "@createConv": {
+    "description": "Create conversation title",
+    "type": "text",
+    "placeholders": {}
   }
 }
