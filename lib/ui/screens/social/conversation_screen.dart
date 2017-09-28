@@ -197,7 +197,7 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
     );
     Services.auth.ws.sink.add(JSON.encode({
       'type': 'CONVERSATION_MESSAGE',
-      'data': {'room': conv.id, 'sender': Services.users.toString(), 'message': text}
+      'data': {'room': conv.id, 'sender': Services.auth.user.toString(), 'message': text}
     }));
     setState(() {
       _messages.insert(0, message);
