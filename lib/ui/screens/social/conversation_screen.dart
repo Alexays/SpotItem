@@ -189,7 +189,7 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
       _isComposing = false;
     });
     final message = new ChatMessage(
-      text: new Message({'sender': Services.users.toString(), 'message': text}),
+      text: new Message({'sender': JSON.decode(Services.auth.user.toString()), 'message': text}),
       animation: new AnimationController(
         duration: new Duration(milliseconds: 700),
         vsync: this,

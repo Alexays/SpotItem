@@ -15,10 +15,19 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m0(name) => "Are you sure to add \$name as a co-owner ?";
 
+  static m1(name) => "Are you sure to remove \$name from co-owners ?";
+
+  static m2(name) => "Do you want to join \$name ?";
+
+  static m3(name) => "Are you sure to remove \$name from group ?";
+
+  static m4(nb) => "You have \$nb invitation(s)";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => {
     "about" : MessageLookupByLibrary.simpleMessage("About"),
     "aboutPh" : MessageLookupByLibrary.simpleMessage("Enter description"),
+    "add" : MessageLookupByLibrary.simpleMessage("Add"),
     "addGroup" : MessageLookupByLibrary.simpleMessage("Add group"),
     "addImage" : MessageLookupByLibrary.simpleMessage("Add image"),
     "addItem" : MessageLookupByLibrary.simpleMessage("Add item"),
@@ -27,6 +36,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "alreadyAdded" : MessageLookupByLibrary.simpleMessage("Already added !"),
     "confirm" : MessageLookupByLibrary.simpleMessage("Confirmation"),
     "correctError" : MessageLookupByLibrary.simpleMessage("Please correct errors"),
+    "delOwner" : m1,
     "deleteGroup" : MessageLookupByLibrary.simpleMessage("Are you sure to delete this group ?"),
     "discover" : MessageLookupByLibrary.simpleMessage("Discover"),
     "editGroup" : MessageLookupByLibrary.simpleMessage("Edit group"),
@@ -44,6 +54,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "home" : MessageLookupByLibrary.simpleMessage("Home"),
     "images" : MessageLookupByLibrary.simpleMessage("Images"),
     "items" : MessageLookupByLibrary.simpleMessage("Items"),
+    "joinGroup" : m2,
+    "kickUser" : m3,
     "lastname" : MessageLookupByLibrary.simpleMessage("Lastname"),
     "lastnamePh" : MessageLookupByLibrary.simpleMessage("Enter lastname"),
     "leaveGroup" : MessageLookupByLibrary.simpleMessage("Are you sure to leave this group ?"),
@@ -58,6 +70,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "messages" : MessageLookupByLibrary.simpleMessage("Messages"),
     "name" : MessageLookupByLibrary.simpleMessage("Name"),
     "namePh" : MessageLookupByLibrary.simpleMessage("Enter name"),
+    "nbInv" : m4,
     "noAccount" : MessageLookupByLibrary.simpleMessage("Don\'t have an account ?"),
     "noContacts" : MessageLookupByLibrary.simpleMessage("No contacts"),
     "noGroups" : MessageLookupByLibrary.simpleMessage("No groups"),
@@ -65,6 +78,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "noItems" : MessageLookupByLibrary.simpleMessage("No items"),
     "owner" : MessageLookupByLibrary.simpleMessage("Owner"),
     "password" : MessageLookupByLibrary.simpleMessage("Password"),
+    "passwordError" : MessageLookupByLibrary.simpleMessage("Password don\'t match"),
     "passwordPh" : MessageLookupByLibrary.simpleMessage("Enter password"),
     "passwordRepeat" : MessageLookupByLibrary.simpleMessage("Confirm password"),
     "passwordRepeatPh" : MessageLookupByLibrary.simpleMessage("Enter password confirmation"),
@@ -75,6 +89,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "search" : MessageLookupByLibrary.simpleMessage("Search..."),
     "searchContact" : MessageLookupByLibrary.simpleMessage("Search contact..."),
     "searchDialog" : MessageLookupByLibrary.simpleMessage("Type something to search..."),
+    "selectGroup" : MessageLookupByLibrary.simpleMessage("Select group"),
+    "send" : MessageLookupByLibrary.simpleMessage("Send"),
     "settings" : MessageLookupByLibrary.simpleMessage("Settings"),
     "social" : MessageLookupByLibrary.simpleMessage("Social")
   };
