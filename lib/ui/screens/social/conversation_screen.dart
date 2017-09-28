@@ -76,6 +76,9 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
   }
 
   void newMessage(String res) {
+    if (!mounted) {
+      return;
+    }
     final decoded = JSON.decode(res);
     if (decoded['type'] == 'MESSAGE') {
       final data = decoded['data'];
@@ -121,6 +124,8 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
     for (var message in _messages) {
       message.animation.dispose();
     }
+    Services.auth.ws.sink.add(JSON.encode({'type': 'CONVERSATION_DISCONNECT', 'room': conv.id}));
+    //TO_DO REMOVE LISTENER
     super.dispose();
   }
 
