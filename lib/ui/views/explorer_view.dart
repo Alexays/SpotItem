@@ -37,12 +37,25 @@ class _ExplorerViewState extends State<ExplorerView> {
     }
     _items = new List<Item>.from(Services.items.items);
     final _tracks = Services.items.tracks.value.where((f) => !Services.items.exludeTracks.contains(f));
-    print(Services.items.tracks.value);
+    final _sort = Services.items.tracks.value.where((f) => Services.items.exludeTracks.contains(f));
     if (_tracks != null) {
       setState(() {
         _items = _items.where((item) => _tracks.every((track) => item.tracks.contains(track))).toList();
       });
     }
+    _items.sort((i1, i2) {
+      switch (_sort.isEmpty ? null : _sort.single) {
+        case 'name':
+          return i1.name.compareTo(i2.name);
+          break;
+        case 'dist':
+          return i1.dist.compareTo(i2.dist);
+          break;
+        default:
+          return i1.dist.compareTo(i2.dist);
+          break;
+      }
+    });
   }
 
   Future<Null> _loadItems([bool force = false]) async {
