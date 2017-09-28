@@ -423,9 +423,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
         new PopupMenuButton<SpotAction>(
             padding: const EdgeInsets.all(0.0),
             itemBuilder: (BuildContext context) => <PopupMenuItem<SpotAction>>[
-                  const PopupMenuItem<SpotAction>(value: SpotAction.sortByPrice, child: const Text('Sort by price')),
-                  const PopupMenuItem<SpotAction>(
-                      value: SpotAction.sortByProduct, child: const Text('Sort by product')),
+                  const PopupMenuItem<SpotAction>(value: SpotAction.sortByPrice, child: const Text('Sort by date')),
+                  const PopupMenuItem<SpotAction>(value: SpotAction.sortByProduct, child: const Text('Sort by dist')),
                 ],
             onSelected: (SpotAction action) {
               switch (action) {
