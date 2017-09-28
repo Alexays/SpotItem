@@ -13,6 +13,8 @@ final _keepAnalysisHappy = Intl.defaultLocale;
 class MessageLookup extends MessageLookupByLibrary {
   get localeName => 'en';
 
+  static m0(name) => "Are you sure to add \$name as a co-owner ?";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => {
     "about" : MessageLookupByLibrary.simpleMessage("About"),
@@ -20,10 +22,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "addGroup" : MessageLookupByLibrary.simpleMessage("Add group"),
     "addImage" : MessageLookupByLibrary.simpleMessage("Add image"),
     "addItem" : MessageLookupByLibrary.simpleMessage("Add item"),
+    "addOwner" : m0,
     "addSomeone" : MessageLookupByLibrary.simpleMessage("Add someone"),
     "alreadyAdded" : MessageLookupByLibrary.simpleMessage("Already added !"),
     "confirm" : MessageLookupByLibrary.simpleMessage("Confirmation"),
     "correctError" : MessageLookupByLibrary.simpleMessage("Please correct errors"),
+    "deleteGroup" : MessageLookupByLibrary.simpleMessage("Are you sure to delete this group ?"),
     "discover" : MessageLookupByLibrary.simpleMessage("Discover"),
     "editGroup" : MessageLookupByLibrary.simpleMessage("Edit group"),
     "editProfile" : MessageLookupByLibrary.simpleMessage("Edit profile"),
@@ -42,6 +46,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "items" : MessageLookupByLibrary.simpleMessage("Items"),
     "lastname" : MessageLookupByLibrary.simpleMessage("Lastname"),
     "lastnamePh" : MessageLookupByLibrary.simpleMessage("Enter lastname"),
+    "leaveGroup" : MessageLookupByLibrary.simpleMessage("Are you sure to leave this group ?"),
     "location" : MessageLookupByLibrary.simpleMessage("Location"),
     "locationPh" : MessageLookupByLibrary.simpleMessage("Enter location"),
     "login" : MessageLookupByLibrary.simpleMessage("Login"),
@@ -49,6 +54,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "logout" : MessageLookupByLibrary.simpleMessage("Logout"),
     "map" : MessageLookupByLibrary.simpleMessage("Map"),
     "maxDistance" : MessageLookupByLibrary.simpleMessage("Maximal distance"),
+    "members" : MessageLookupByLibrary.simpleMessage("Member(s)"),
     "messages" : MessageLookupByLibrary.simpleMessage("Messages"),
     "name" : MessageLookupByLibrary.simpleMessage("Name"),
     "namePh" : MessageLookupByLibrary.simpleMessage("Enter name"),

@@ -23,8 +23,7 @@ class GroupPage extends StatefulWidget {
   _GroupPageState createState() => new _GroupPageState(group);
 }
 
-class _GroupPageState extends State<GroupPage>
-    with SingleTickerProviderStateMixin {
+class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMixin {
   _GroupPageState(this.group);
 
   Group group;
@@ -40,9 +39,7 @@ class _GroupPageState extends State<GroupPage>
   Future<Null> _leaveGroup(BuildContext context) async {
     final response = await Services.groups.leaveGroup(group.id);
     if (resValid(context, response)) {
-      await Navigator
-          .of(context)
-          .pushNamedAndRemoveUntil('/', (route) => false);
+      await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
     }
   }
 
@@ -63,8 +60,7 @@ class _GroupPageState extends State<GroupPage>
         return;
       }
       setState(() {
-        group.owners =
-            group.owners.where((owner) => owner.id != userId).toList();
+        group.owners = group.owners.where((owner) => owner.id != userId).toList();
       });
       Navigator.of(context).pop();
     }
@@ -113,21 +109,19 @@ class _GroupPageState extends State<GroupPage>
           children: <Widget>[
             getAvatar(group.owners[0]),
             new Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
               child: new Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children:
-                      (accountEmailLine != null && accountNameLine != null)
-                          ? <Widget>[accountNameLine, accountEmailLine]
-                          : <Widget>[accountNameLine ?? accountEmailLine]),
+                  children: (accountEmailLine != null && accountNameLine != null)
+                      ? <Widget>[accountNameLine, accountEmailLine]
+                      : <Widget>[accountNameLine ?? accountEmailLine]),
             ),
             new Expanded(
               child: new Container(),
             ),
             new Text(
-              '${(group?.users?.length ?? 0 + 1).toString()} member(s)',
+              '${(group?.users?.length ?? 0 + 1).toString()} ${SpotL.of(context).members}',
               style: const TextStyle(color: Colors.white),
             )
           ])
@@ -168,21 +162,19 @@ class _GroupPageState extends State<GroupPage>
               content: new SingleChildScrollView(
                 child: new ListBody(
                   children: <Widget>[
-                    const Text('Are you sure to leave this group ?'),
+                    new Text(SpotL.of(context).leaveGroup()),
                   ],
                 ),
               ),
               actions: <Widget>[
                 new FlatButton(
-                  child: new Text(
-                      MaterialLocalizations.of(context).cancelButtonLabel),
+                  child: new Text(MaterialLocalizations.of(context).cancelButtonLabel),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
                 ),
                 new FlatButton(
-                  child: new Text(
-                      MaterialLocalizations.of(context).continueButtonLabel),
+                  child: new Text(MaterialLocalizations.of(context).continueButtonLabel),
                   onPressed: () {
                     _leaveGroup(context);
                   },
@@ -193,9 +185,7 @@ class _GroupPageState extends State<GroupPage>
         },
       )
     ];
-    if (Services.auth.loggedIn &&
-        group != null &&
-        group.owners[0].id == Services.auth.user.id) {
+    if (Services.auth.loggedIn && group != null && group.owners[0].id == Services.auth.user.id) {
       top.addAll([
         new IconButton(
           icon: const Icon(Icons.delete),
@@ -209,14 +199,13 @@ class _GroupPageState extends State<GroupPage>
                 content: new SingleChildScrollView(
                   child: new ListBody(
                     children: <Widget>[
-                      const Text('Are you sure to delete this group ?'),
+                      new Text(SpotL.of(context).deleteGroup()),
                     ],
                   ),
                 ),
                 actions: <Widget>[
                   new FlatButton(
-                    child: new Text(
-                        MaterialLocalizations.of(context).cancelButtonLabel),
+                    child: new Text(MaterialLocalizations.of(context).cancelButtonLabel),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -225,9 +214,7 @@ class _GroupPageState extends State<GroupPage>
                     child: const Text('Delete'),
                     onPressed: () async {
                       await Services.groups.delGroup(group.id);
-                      await Navigator
-                          .of(context)
-                          .pushNamedAndRemoveUntil('/', (route) => false);
+                      await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
                     },
                   ),
                 ],
@@ -258,20 +245,16 @@ class _GroupPageState extends State<GroupPage>
           itemBuilder: (context, index) {
             final buttons = <Widget>[
               getAvatar(group.users[index]),
-              const Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4.0)),
-              new Text(
-                  '${group.users[index].firstname} ${group.users[index].name}'),
+              const Padding(padding: const EdgeInsets.symmetric(horizontal: 4.0)),
+              new Text('${group.users[index].firstname} ${group.users[index].name}'),
               new Expanded(child: new Container()),
             ];
-            if (group.owners
-                .any((owner) => owner.id == group.users[index].id)) {
+            if (group.owners.any((owner) => owner.id == group.users[index].id)) {
               buttons.add(const Icon(
                 Icons.star,
               ));
             }
-            if (!group.owners
-                    .any((owner) => owner.id == group.users[index].id) &&
+            if (!group.owners.any((owner) => owner.id == group.users[index].id) &&
                 group.users[index].id != Services.auth.user.id &&
                 isOwner) {
               buttons.add(new IconButton(
@@ -284,22 +267,21 @@ class _GroupPageState extends State<GroupPage>
                       content: new SingleChildScrollView(
                         child: new ListBody(
                           children: <Widget>[
-                            new Text(
-                                'Are you sure to add ${group.users[index].firstname} ${group.users[index].name} as a owner ?'),
+                            new Text(SpotL
+                                .of(context)
+                                .addOwner('${group.users[index].firstname} ${group.users[index].name}')),
                           ],
                         ),
                       ),
                       actions: <Widget>[
                         new FlatButton(
-                          child: new Text(MaterialLocalizations
-                              .of(context)
-                              .cancelButtonLabel),
+                          child: new Text(MaterialLocalizations.of(context).cancelButtonLabel.toUpperCase()),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
                         ),
                         new FlatButton(
-                          child: const Text('Add'),
+                          child: new Text(SpotL.of(context).add().toUpperCase()),
                           onPressed: () {
                             _addOwner(context, group.users[index].id);
                           },
@@ -310,8 +292,7 @@ class _GroupPageState extends State<GroupPage>
                 },
               ));
             }
-            if (group.owners
-                    .any((owner) => owner.id == group.users[index].id) &&
+            if (group.owners.any((owner) => owner.id == group.users[index].id) &&
                 group.users[index].id != Services.auth.user.id &&
                 isOwner &&
                 group.owners[0].id != group.users[index].id) {
@@ -325,24 +306,21 @@ class _GroupPageState extends State<GroupPage>
                       content: new SingleChildScrollView(
                         child: new ListBody(
                           children: <Widget>[
-                            new Text(
-                                'Are you sure to remove ${group.users[index].firstname} ${group.users[index].name} from owners ?'),
+                            new Text(SpotL
+                                .of(context)
+                                .delOwner('${group.users[index].firstname} ${group.users[index].name}')),
                           ],
                         ),
                       ),
                       actions: <Widget>[
                         new FlatButton(
-                          child: new Text(MaterialLocalizations
-                              .of(context)
-                              .cancelButtonLabel),
+                          child: new Text(MaterialLocalizations.of(context).cancelButtonLabel),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
                         ),
                         new FlatButton(
-                          child: new Text(MaterialLocalizations
-                              .of(context)
-                              .continueButtonLabel),
+                          child: new Text(MaterialLocalizations.of(context).continueButtonLabel),
                           onPressed: () {
                             _removeOwner(context, group.users[index].id);
                           },
@@ -355,8 +333,7 @@ class _GroupPageState extends State<GroupPage>
             }
             if (isOwner &&
                 group.users[index].id != Services.auth.user.id &&
-                !group.owners
-                    .any((owner) => owner.id == group.users[index].id)) {
+                !group.owners.any((owner) => owner.id == group.users[index].id)) {
               buttons.add(new IconButton(
                 icon: const Icon(Icons.remove_circle_outline),
                 onPressed: () {
@@ -367,24 +344,21 @@ class _GroupPageState extends State<GroupPage>
                       content: new SingleChildScrollView(
                         child: new ListBody(
                           children: <Widget>[
-                            new Text(
-                                'Are you sure to kick ${group.users[index].firstname} ${group.users[index].name} ?'),
+                            new Text(SpotL
+                                .of(context)
+                                .kickUser('${group.users[index].firstname} ${group.users[index].name}')),
                           ],
                         ),
                       ),
                       actions: <Widget>[
                         new FlatButton(
-                          child: new Text(MaterialLocalizations
-                              .of(context)
-                              .cancelButtonLabel),
+                          child: new Text(MaterialLocalizations.of(context).cancelButtonLabel),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
                         ),
                         new FlatButton(
-                          child: new Text(MaterialLocalizations
-                              .of(context)
-                              .continueButtonLabel),
+                          child: new Text(MaterialLocalizations.of(context).continueButtonLabel),
                           onPressed: () {
                             _kickUser(context, group.users[index].id);
                           },
@@ -399,9 +373,7 @@ class _GroupPageState extends State<GroupPage>
                 onTap: () {},
                 child: new GestureDetector(
                     onTap: () {
-                      Navigator
-                          .of(context)
-                          .pushNamed('/profile/${group.users[index].id}');
+                      Navigator.of(context).pushNamed('/profile/${group.users[index].id}');
                     },
                     child: new Container(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -432,7 +404,7 @@ class _GroupPageState extends State<GroupPage>
                             onPressed: () {
                               _addPeople(context);
                             },
-                            child: new Text(SpotL.of(context).addSomeone()),
+                            child: new Text(SpotL.of(context).addSomeone().toUpperCase()),
                           )))
                       : new Container(),
                   _buildUsers(context),

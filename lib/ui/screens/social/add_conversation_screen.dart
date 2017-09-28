@@ -32,7 +32,7 @@ class _AddConvScreenState extends State<AddConvScreen> {
       return showSnackBar(context, SpotL.of(context).correctError());
     }
     if (group == null) {
-      return showSnackBar(context, 'Please select group');
+      return showSnackBar(context, SpotL.of(context).selectGroup());
     }
     final response = await Services.social.addConversation({
       'message': message,
@@ -40,9 +40,7 @@ class _AddConvScreenState extends State<AddConvScreen> {
     });
     if (resValid(context, response)) {
       showSnackBar(context, response.msg);
-      await Navigator
-          .of(context)
-          .pushNamedAndRemoveUntil('/', (route) => false);
+      await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
     }
   }
 
@@ -71,40 +69,32 @@ class _AddConvScreenState extends State<AddConvScreen> {
                       child: new SingleChildScrollView(
                           child: new Container(
                               margin: const EdgeInsets.all(20.0),
-                              child: new Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    new Form(
-                                        key: _formKey,
-                                        child: new Column(children: <Widget>[
-                                          new TextFormField(
-                                              key: const Key('message'),
-                                              decoration: new InputDecoration(
-                                                  hintText: SpotL
-                                                      .of(context)
-                                                      .namePh(),
-                                                  labelText: SpotL
-                                                      .of(Services.loc)
-                                                      .name()),
-                                              validator: validateString,
-                                              onSaved: (value) {
-                                                message = value.trim();
-                                              }),
-                                        ])),
-                                    new RaisedButton(
-                                      child: const Text('Select group'),
-                                      onPressed: () {
-                                        _selectGroup(context);
-                                      },
-                                    )
-                                  ])))),
+                              child: new Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
+                                new Form(
+                                    key: _formKey,
+                                    child: new Column(children: <Widget>[
+                                      new TextFormField(
+                                          key: const Key('message'),
+                                          decoration: new InputDecoration(
+                                              hintText: SpotL.of(context).namePh(),
+                                              labelText: SpotL.of(Services.loc).name()),
+                                          validator: validateString,
+                                          onSaved: (value) {
+                                            message = value.trim();
+                                          }),
+                                    ])),
+                                new RaisedButton(
+                                  child: new Text(SpotL.of(context).selectGroup()),
+                                  onPressed: () {
+                                    _selectGroup(context);
+                                  },
+                                )
+                              ])))),
                   new Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 8.0, vertical: 4.0),
+                    margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                     child: new ConstrainedBox(
-                        constraints: new BoxConstraints.tightFor(
-                            height: 48.0,
-                            width: MediaQuery.of(context).size.width),
+                        constraints:
+                            new BoxConstraints.tightFor(height: 48.0, width: MediaQuery.of(context).size.width),
                         child: new RaisedButton(
                           color: Theme.of(context).accentColor,
                           onPressed: () {
@@ -112,8 +102,7 @@ class _AddConvScreenState extends State<AddConvScreen> {
                           },
                           child: new Text(
                             SpotL.of(context).addGroup().toUpperCase(),
-                            style: new TextStyle(
-                                color: Theme.of(context).canvasColor),
+                            style: new TextStyle(color: Theme.of(context).canvasColor),
                           ),
                         )),
                   ),

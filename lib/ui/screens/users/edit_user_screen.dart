@@ -40,7 +40,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
   Future<Null> editUser(BuildContext context) async {
     _formKey.currentState.save();
     if (password != repeat) {
-      return showSnackBar(context, 'Password don\t match !');
+      return showSnackBar(context, SpotL.of(context).passwordError());
     }
     if (!_formKey.currentState.validate()) {
       return showSnackBar(context, SpotL.of(context).correctError());
@@ -72,12 +72,8 @@ class _EditUserScreenState extends State<EditUserScreen> {
                                     new TextFormField(
                                       key: const Key('name'),
                                       decoration: new InputDecoration(
-                                          labelText: SpotL
-                                              .of(Services.loc)
-                                              .firstname(),
-                                          hintText: SpotL
-                                              .of(Services.loc)
-                                              .firstnamePh()),
+                                          labelText: SpotL.of(Services.loc).firstname(),
+                                          hintText: SpotL.of(Services.loc).firstnamePh()),
                                       onSaved: (value) {
                                         user.firstname = value.trim();
                                       },
@@ -87,11 +83,8 @@ class _EditUserScreenState extends State<EditUserScreen> {
                                     new TextFormField(
                                       key: const Key('lastname'),
                                       decoration: new InputDecoration(
-                                          labelText:
-                                              SpotL.of(context).lastname(),
-                                          hintText: SpotL
-                                              .of(Services.loc)
-                                              .lastnamePh()),
+                                          labelText: SpotL.of(context).lastname(),
+                                          hintText: SpotL.of(Services.loc).lastnamePh()),
                                       onSaved: (value) {
                                         user.name = value.trim();
                                       },
@@ -115,10 +108,8 @@ class _EditUserScreenState extends State<EditUserScreen> {
                                     new TextFormField(
                                       key: const Key('password'),
                                       decoration: new InputDecoration(
-                                          labelText:
-                                              SpotL.of(context).password(),
-                                          hintText:
-                                              SpotL.of(context).passwordPh()),
+                                          labelText: SpotL.of(context).password(),
+                                          hintText: SpotL.of(context).passwordPh()),
                                       onSaved: (value) {
                                         password = value;
                                       },
@@ -127,12 +118,8 @@ class _EditUserScreenState extends State<EditUserScreen> {
                                     new TextFormField(
                                       key: const Key('repeat'),
                                       decoration: new InputDecoration(
-                                          labelText: SpotL
-                                              .of(context)
-                                              .passwordRepeat(),
-                                          hintText: SpotL
-                                              .of(context)
-                                              .passwordRepeatPh()),
+                                          labelText: SpotL.of(context).passwordRepeat(),
+                                          hintText: SpotL.of(context).passwordRepeatPh()),
                                       onSaved: (value) {
                                         repeat = value;
                                       },
@@ -144,11 +131,9 @@ class _EditUserScreenState extends State<EditUserScreen> {
                           ],
                         )))),
             new Container(
-              margin:
-                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+              margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
               child: new ConstrainedBox(
-                  constraints: new BoxConstraints.tightFor(
-                      height: 48.0, width: MediaQuery.of(context).size.width),
+                  constraints: new BoxConstraints.tightFor(height: 48.0, width: MediaQuery.of(context).size.width),
                   child: new RaisedButton(
                     color: Theme.of(context).accentColor,
                     onPressed: () {
@@ -156,8 +141,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
                     },
                     child: new Text(
                       SpotL.of(context).save().toUpperCase(),
-                      style:
-                          new TextStyle(color: Theme.of(context).canvasColor),
+                      style: new TextStyle(color: Theme.of(context).canvasColor),
                     ),
                   )),
             ),

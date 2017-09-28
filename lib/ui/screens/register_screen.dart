@@ -36,7 +36,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Future<Null> doRegister(BuildContext context) async {
     final form = _formKey.currentState..save();
     if (password != repeat) {
-      return showSnackBar(context, 'Password don\'t match !');
+      return showSnackBar(context, SpotL.of(context).passwordError());
     }
     if (form.validate()) {
       user['password'] = password;
@@ -77,8 +77,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               new TextFormField(
                                 key: const Key('lastname'),
                                 decoration: new InputDecoration(
-                                    labelText: SpotL.of(context).lastname(),
-                                    hintText: SpotL.of(context).lastnamePh()),
+                                    labelText: SpotL.of(context).lastname(), hintText: SpotL.of(context).lastnamePh()),
                                 onSaved: (value) {
                                   user['name'] = value;
                                 },
@@ -113,8 +112,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 key: const Key('repeat'),
                                 decoration: new InputDecoration(
                                   labelText: SpotL.of(context).passwordRepeat(),
-                                  hintText:
-                                      SpotL.of(context).passwordRepeatPh(),
+                                  hintText: SpotL.of(context).passwordRepeatPh(),
                                 ),
                                 onSaved: (value) {
                                   repeat = value;
@@ -122,28 +120,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 controller: _password,
                                 obscureText: true,
                               ),
-                              new Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    new RaisedButton(
-                                      child: new Text(
-                                          SpotL.of(context).haveAccount()),
-                                      onPressed: () {
-                                        Navigator.pushReplacementNamed(
-                                            context, '/');
-                                      },
-                                    ),
-                                    const Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 5.0),
-                                    ),
-                                    new RaisedButton(
-                                        child: new Text(
-                                            SpotL.of(context).register()),
-                                        onPressed: () {
-                                          doRegister(context);
-                                        })
-                                  ]),
+                              new Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+                                new RaisedButton(
+                                  child: new Text(SpotL.of(context).haveAccount()),
+                                  onPressed: () {
+                                    Navigator.pushReplacementNamed(context, '/');
+                                  },
+                                ),
+                                const Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                                ),
+                                new RaisedButton(
+                                    child: new Text(SpotL.of(context).register()),
+                                    onPressed: () {
+                                      doRegister(context);
+                                    })
+                              ]),
                             ],
                           )),
                     ))),

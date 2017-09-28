@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/models/conversation.dart';
 import 'package:spotitem/ui/spot_strings.dart';
-import 'package:spotitem/utils.dart';
 import 'package:spotitem/ui/screens/social/conversation_screen.dart';
 
 /// Social view class

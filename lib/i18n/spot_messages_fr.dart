@@ -13,6 +13,8 @@ final _keepAnalysisHappy = Intl.defaultLocale;
 class MessageLookup extends MessageLookupByLibrary {
   get localeName => 'fr';
 
+  static m0(name) => "Voulez-vous vraiment ajouter \$name en tant que co-propriétaire ?";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => {
     "about" : MessageLookupByLibrary.simpleMessage("À propos"),
@@ -20,10 +22,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "addGroup" : MessageLookupByLibrary.simpleMessage("Ajoutez un groupe"),
     "addImage" : MessageLookupByLibrary.simpleMessage("Ajoutez une image"),
     "addItem" : MessageLookupByLibrary.simpleMessage("Ajoutez un objet"),
+    "addOwner" : m0,
     "addSomeone" : MessageLookupByLibrary.simpleMessage("Ajoutez quelqu\'un"),
     "alreadyAdded" : MessageLookupByLibrary.simpleMessage("Déjà ajouté !"),
     "confirm" : MessageLookupByLibrary.simpleMessage("Confirmation"),
     "correctError" : MessageLookupByLibrary.simpleMessage("Merci de corriger les erreurs"),
+    "deleteGroup" : MessageLookupByLibrary.simpleMessage("Voulez-vous vraiment supprimer le groupe ?"),
     "discover" : MessageLookupByLibrary.simpleMessage("Découvrir"),
     "editGroup" : MessageLookupByLibrary.simpleMessage("Modifiez le groupe"),
     "editProfile" : MessageLookupByLibrary.simpleMessage("Editer mon profil"),
@@ -42,6 +46,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "items" : MessageLookupByLibrary.simpleMessage("Objets"),
     "lastname" : MessageLookupByLibrary.simpleMessage("Nom"),
     "lastnamePh" : MessageLookupByLibrary.simpleMessage("Entrez un nom"),
+    "leaveGroup" : MessageLookupByLibrary.simpleMessage("Voulez-vous vraiment quitter le groupe ?"),
     "location" : MessageLookupByLibrary.simpleMessage("Emplacement"),
     "locationPh" : MessageLookupByLibrary.simpleMessage("Entrez un emplacement"),
     "login" : MessageLookupByLibrary.simpleMessage("Connexion"),
@@ -49,6 +54,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "logout" : MessageLookupByLibrary.simpleMessage("Déconnection"),
     "map" : MessageLookupByLibrary.simpleMessage("Carte"),
     "maxDistance" : MessageLookupByLibrary.simpleMessage("Distance maximal"),
+    "members" : MessageLookupByLibrary.simpleMessage("Membre(s)"),
     "messages" : MessageLookupByLibrary.simpleMessage("Messages"),
     "name" : MessageLookupByLibrary.simpleMessage("Nom"),
     "namePh" : MessageLookupByLibrary.simpleMessage("Entrez un nom"),

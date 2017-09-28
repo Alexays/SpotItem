@@ -18,8 +18,7 @@ class GroupsView extends StatefulWidget {
 class _GroupsViewState extends State<GroupsView> {
   _GroupsViewState();
 
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      new GlobalKey<RefreshIndicatorState>();
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
 
   static List<Group> _groups;
   static List<Group> _groupsInv;
@@ -80,8 +79,7 @@ class _GroupsViewState extends State<GroupsView> {
           if (_groupsInv != null && _groupsInv.isNotEmpty) {
             return _buildInv();
           } else if (_groups.isEmpty) {
-            return new Center(
-                child: new Text(SpotL.of(Services.loc).noGroups()));
+            return new Center(child: new Text(SpotL.of(Services.loc).noGroups()));
           }
           return new Container();
         }
@@ -95,9 +93,8 @@ class _GroupsViewState extends State<GroupsView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 new ListTile(
-                    leading: new CircleAvatar(
-                        backgroundColor: Colors.grey,
-                        child: new Text(_groups[index - 1].name[0])),
+                    leading:
+                        new CircleAvatar(backgroundColor: Colors.grey, child: new Text(_groups[index - 1].name[0])),
                     title: new Text(_groups[index - 1].name),
                     subtitle: new Text(_groups[index - 1].about),
                     trailing: new Row(
@@ -106,12 +103,9 @@ class _GroupsViewState extends State<GroupsView> {
                       children: <Widget>[
                         new Text(
                           (_groups[index - 1].users?.length ?? '?').toString(),
-                          style: new TextStyle(
-                              fontWeight: FontWeight.w400, fontSize: 15.0),
+                          style: new TextStyle(fontWeight: FontWeight.w400, fontSize: 15.0),
                         ),
-                        const Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 2.0)),
+                        const Padding(padding: const EdgeInsets.symmetric(horizontal: 2.0)),
                         const Icon(Icons.people)
                       ],
                     ))
@@ -128,8 +122,7 @@ class _GroupsViewState extends State<GroupsView> {
     return new Container(
       child: new ExpansionTile(
         leading: const Icon(Icons.mail),
-        title:
-            new Text('You have ${_groupsInv?.length.toString()} invitation(s)'),
+        title: new Text(SpotL.of(context).nbInv('${_groupsInv?.length.toString()}')),
         children: new List<Widget>.generate(
             _groupsInv?.length ?? 0,
             (index) => new GestureDetector(
@@ -138,27 +131,23 @@ class _GroupsViewState extends State<GroupsView> {
                     context: context,
                     barrierDismissible: false,
                     child: new AlertDialog(
-                      title: new Text('Join ${_groupsInv[index].name} ?'),
+                      title: new Text(SpotL.of(context).confirm()),
                       content: new SingleChildScrollView(
                         child: new ListBody(
                           children: <Widget>[
-                            const Text('Are you sure to join ?'),
+                            new Text(SpotL.of(context).joinGroup('${_groupsInv[index].name}')),
                           ],
                         ),
                       ),
                       actions: <Widget>[
                         new FlatButton(
-                          child: new Text(MaterialLocalizations
-                              .of(context)
-                              .cancelButtonLabel),
+                          child: new Text(MaterialLocalizations.of(context).cancelButtonLabel),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
                         ),
                         new FlatButton(
-                          child: new Text(MaterialLocalizations
-                              .of(context)
-                              .continueButtonLabel),
+                          child: new Text(MaterialLocalizations.of(context).continueButtonLabel),
                           onPressed: () async {
                             await _joinGroup(index);
                             Navigator.of(context).pop();
@@ -174,8 +163,7 @@ class _GroupsViewState extends State<GroupsView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       new ListTile(
-                          leading: new CircleAvatar(
-                              child: new Text(_groupsInv[index].name[0])),
+                          leading: new CircleAvatar(child: new Text(_groupsInv[index].name[0])),
                           title: new Text(_groupsInv[index]?.name),
                           subtitle: new Text(_groupsInv[index]?.about),
                           trailing: new Row(
@@ -185,17 +173,12 @@ class _GroupsViewState extends State<GroupsView> {
                               new Text(
                                 _groupsInv[index]
                                     .users
-                                    .where((user) => user.groups
-                                        .contains(_groupsInv[index].id))
+                                    .where((user) => user.groups.contains(_groupsInv[index].id))
                                     .length
                                     .toString(),
-                                style: new TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 15.0),
+                                style: new TextStyle(fontWeight: FontWeight.w400, fontSize: 15.0),
                               ),
-                              const Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 2.0)),
+                              const Padding(padding: const EdgeInsets.symmetric(horizontal: 2.0)),
                               const Icon(Icons.people)
                             ],
                           ))
@@ -210,7 +193,5 @@ class _GroupsViewState extends State<GroupsView> {
   Widget build(BuildContext context) => new RefreshIndicator(
       key: _refreshIndicatorKey,
       onRefresh: _loadGroups,
-      child: _groups == null
-          ? const Center(child: const CircularProgressIndicator())
-          : _createList());
+      child: _groups == null ? const Center(child: const CircularProgressIndicator()) : _createList());
 }

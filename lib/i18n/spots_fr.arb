@@ -340,5 +340,77 @@
     "description": "No messages title",
     "type": "text",
     "placeholders": {}
+  },
+  "members": "Membre(s)",
+  "@members": {
+    "description": "Members title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "leaveGroup": "Voulez-vous vraiment quitter le groupe ?",
+  "@leaveGroup": {
+    "description": "Leave group title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "deleteGroup": "Voulez-vous vraiment supprimer le groupe ?",
+  "@deleteGroup": {
+    "description": "Delete group title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addOwner": "Voulez-vous vraiment ajouter $name en tant que co-propriétaire ?",
+  "@addOwner": {
+    "description": "Add owner title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "delOwner": "Voulez-vous vraiment supprimer $name des co-propriétaires ?",
+  "@delOwner": {
+    "description": "Del owner title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "add": "Ajouter",
+  "@add": {
+    "description": "Add title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "kickUser": "Voulez-vous vraiment enlever $name du groupe ?",
+  "@kickUser": {
+    "description": "Kick user title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectGroup": "Selectionner un groupe",
+  "@selectGroup": {
+    "description": "Select Group title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "send": "Envoyer",
+  "@send": {
+    "description": "Send title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "passwordError": "Les mots de passe ne correspondent pas",
+  "@passwordError": {
+    "description": "Password error title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "nbInv": "Vous avez $nb invitation(s)",
+  "@nbInv": {
+    "description": "Number invitation title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "joinGroup": "Voulez-vous rejoindre $name ?",
+  "@joinGroup": {
+    "description": "Join group title",
+    "type": "text",
+    "placeholders": {}
   }
 }

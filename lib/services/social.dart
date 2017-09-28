@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:spotitem/models/api.dart';
 import 'package:spotitem/models/conversation.dart';
 import 'package:spotitem/services/basic.dart';
