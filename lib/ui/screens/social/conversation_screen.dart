@@ -79,17 +79,19 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
     final decoded = JSON.decode(res);
     if (decoded['type'] == 'MESSAGE') {
       final data = decoded['data'];
-      final message = new ChatMessage(
-        text: new Message({'sender': data['sender'], 'message': data['message']}),
-        animation: new AnimationController(
-          duration: new Duration(milliseconds: 700),
-          vsync: this,
-        ),
-      );
-      setState(() {
-        _messages.insert(0, message);
-      });
-      message.animation.forward();
+      if (data['room'] == conv.id) {
+        final message = new ChatMessage(
+          text: new Message({'sender': data['sender'], 'message': data['message']}),
+          animation: new AnimationController(
+            duration: new Duration(milliseconds: 700),
+            vsync: this,
+          ),
+        );
+        setState(() {
+          _messages.insert(0, message);
+        });
+        message.animation.forward();
+      }
     }
   }
 
