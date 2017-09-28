@@ -115,26 +115,4 @@ class BasicService {
     Services.auth.provider = provider;
     Services.auth.refreshToken = oauthToken;
   }
-
-  /// Handle web socket push.
-  ///
-  /// @param res Api ws data
-  void handleWsData(String res) {
-    final decoded = JSON.decode(res);
-    if (decoded['type'] == 'NOTIFICATION') {
-      showSnackBar(Services.context, decoded['data']);
-    }
-  }
-
-  /// Connect to web socket
-  ///
-  IOWebSocketChannel connectWs() {
-    if (Services.origin == Origin.mock) {
-      return null;
-    }
-    final channel = new IOWebSocketChannel.connect('ws://217.182.65.67:1337');
-    channel.sink.add(JSON.encode({'type': 'CONNECTION', 'userId': Services.auth.user.id}));
-    channel.stream.listen(handleWsData);
-    return channel;
-  }
 }

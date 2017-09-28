@@ -120,7 +120,7 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
         return chat;
       }).toList();
       Services.auth.ws.sink.add(JSON.encode({'type': 'CONVERSATION_CONNECT', 'room': conv.id}));
-      Services.auth.ws.stream.listen(newMessage);
+      Services.auth.addCallback('MESSAGE', newMessage);
     });
   }
 
@@ -130,7 +130,7 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
       message.animation.dispose();
     }
     Services.auth.ws.sink.add(JSON.encode({'type': 'CONVERSATION_DISCONNECT', 'room': conv.id}));
-    //TO_DO REMOVE LISTENER
+    Services.auth.delCallback('MESSAGE');
     super.dispose();
   }
 

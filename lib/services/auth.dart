@@ -8,6 +8,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:web_socket_channel/io.dart';
+import 'package:spotitem/utils.dart';
 import 'package:flutter/material.dart';
 
 GoogleSignIn _googleSignIn = new GoogleSignIn(
@@ -51,6 +52,7 @@ class AuthManager extends BasicService {
   GoogleSignInAccount _googleUser;
   String _lastEmail;
   IOWebSocketChannel _ws;
+  dynamic _wsCallback = {};
 
   @override
   Future<bool> init() async {
@@ -184,5 +186,46 @@ class AuthManager extends BasicService {
     payload['groups'] = '';
     final response = await ipost('/signup', payload);
     return response;
+  }
+
+  /// Handle web socket push.
+  ///
+  /// @param res Api ws data
+  void handleWsData(String res) {
+    final decoded = JSON.decode(res);
+    if (decoded['type'] == 'NOTIFICATION') {
+      return showSnackBar(Services.context, decoded['data']);
+    }
+    if (_wsCallback[decoded['type']] != null) {
+      _wsCallback[decoded['type']](res);
+    }
+  }
+
+  /// Add a listener to WS.
+  ///
+  /// @param handler Name of handler
+  /// @param callback Function callback
+  void addCallback(String handler, callback) {
+    _wsCallback[handler] = callback;
+  }
+
+  /// Add a listener to WS.
+  ///
+  /// @param handler Name of handler
+  /// @param callback Function callback
+  void delCallback(String handler) {
+    _wsCallback[handler] = null;
+  }
+
+  /// Connect to web socket
+  ///
+  IOWebSocketChannel connectWs() {
+    if (Services.origin == Origin.mock) {
+      return null;
+    }
+    final channel = new IOWebSocketChannel.connect('ws://217.182.65.67:1337');
+    channel.sink.add(JSON.encode({'type': 'CONNECTION', 'userId': Services.auth.user.id}));
+    channel.stream.listen(handleWsData);
+    return channel;
   }
 }
