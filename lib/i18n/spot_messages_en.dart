@@ -39,6 +39,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "delOwner" : m1,
     "deleteGroup" : MessageLookupByLibrary.simpleMessage("Are you sure to delete this group ?"),
     "discover" : MessageLookupByLibrary.simpleMessage("Discover"),
+    "dist" : MessageLookupByLibrary.simpleMessage("Distance"),
     "editGroup" : MessageLookupByLibrary.simpleMessage("Edit group"),
     "editProfile" : MessageLookupByLibrary.simpleMessage("Edit profile"),
     "email" : MessageLookupByLibrary.simpleMessage("Email"),

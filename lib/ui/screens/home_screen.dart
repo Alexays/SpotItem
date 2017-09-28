@@ -420,8 +420,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
             }),
         new PopupMenuButton(
             padding: const EdgeInsets.all(0.0),
-            itemBuilder: (context) =>
-                Services.items.sortMethod.map((f) => new PopupMenuItem(value: f, child: new Text(f))).toList(),
+            itemBuilder: (context) => Services.items.sortMethod.map((f) {
+                  switch (f) {
+                    case 'name':
+                      return new PopupMenuItem(value: f, child: new Text(SpotL.of(context).name()));
+                      break;
+                    case 'dist':
+                      return new PopupMenuItem(value: f, child: new Text(SpotL.of(context).dist()));
+                      break;
+                  }
+                }).toList(),
             onSelected: (action) {
               setState(() {
                 Services.items.tracks.value = [

@@ -412,5 +412,11 @@
     "description": "Join group title",
     "type": "text",
     "placeholders": {}
+  },
+  "dist": "Distance",
+  "@dist": {
+    "description": "Dist title",
+    "type": "text",
+    "placeholders": {}
   }
 }
