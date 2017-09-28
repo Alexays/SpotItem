@@ -52,7 +52,7 @@ class AuthManager extends BasicService {
   GoogleSignInAccount _googleUser;
   String _lastEmail;
   IOWebSocketChannel _ws;
-  dynamic _wsCallback = {};
+  final dynamic _wsCallback = {};
 
   @override
   Future<bool> init() async {
@@ -205,7 +205,7 @@ class AuthManager extends BasicService {
   ///
   /// @param handler Name of handler
   /// @param callback Function callback
-  void addCallback(String handler, callback) {
+  void addCallback(String handler, void callback(String res)) {
     _wsCallback[handler] = callback;
   }
 

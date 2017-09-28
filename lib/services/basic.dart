@@ -4,9 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:spotitem/keys.dart';
 import 'package:spotitem/models/api.dart';
 import 'package:spotitem/services/services.dart';
-import 'package:web_socket_channel/io.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:spotitem/utils.dart';
 
 /// Basic Service
 class BasicService {
