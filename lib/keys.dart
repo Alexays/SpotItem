@@ -1,5 +1,5 @@
 /// Spotitem version
-const String version = '0.3.0';
+const String version = '0.3.1';
 
 /// Storage key of user data
 const String keyUser = 'KEY_USER';
