@@ -178,9 +178,8 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
                     onPressed: _isComposing ? () => _handleSubmitted(_textController.text) : null,
                   )),
             ]),
-            decoration: Theme.of(context).platform == TargetPlatform.iOS
-                ? new BoxDecoration(border: new Border(top: new BorderSide(color: Colors.grey[200])))
-                : null),
+            decoration:
+                new BoxDecoration(border: new Border(top: new BorderSide(color: Theme.of(context).accentColor)))),
       );
 
   void _handleSubmitted(String text) {

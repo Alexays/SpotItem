@@ -12,6 +12,8 @@ import 'package:spotitem/models/item.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/ui/spot_strings.dart';
 
+enum SpotAction { sortByPrice, sortByProduct }
+
 /// Home screen class
 class HomeScreen extends StatefulWidget {
   /// Home screen initializer
@@ -21,8 +23,7 @@ class HomeScreen extends StatefulWidget {
   State createState() => new _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
-    with TickerProviderStateMixin, WidgetsBindingObserver {
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, WidgetsBindingObserver {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   static final List<HomeScreenItem> _homeScreenItems = <HomeScreenItem>[
@@ -55,10 +56,8 @@ class _HomeScreenState extends State<HomeScreen>
         icon: const Icon(Icons.nature_people),
         title: SpotL.of(Services.loc).social(),
         sub: <HomeScreenSubItem>[
-          new HomeScreenSubItem(
-              SpotL.of(Services.loc).groups(), const GroupsView()),
-          new HomeScreenSubItem(
-              SpotL.of(Services.loc).messages(), const SocialView())
+          new HomeScreenSubItem(SpotL.of(Services.loc).groups(), const GroupsView()),
+          new HomeScreenSubItem(SpotL.of(Services.loc).messages(), const SocialView())
         ],
         fabs: [
           new FloatingActionButton(
@@ -96,10 +95,9 @@ class _HomeScreenState extends State<HomeScreen>
   int get page => pageCtrl.hasClients ? pageCtrl.page.round() : 0;
   static const Widget discover = const DiscoverView();
   static const Widget explore = const ExplorerView();
-  FloatingActionButton get fab =>
-      _homeScreenItems[page].fabs.length > tabsCtrl[page].index
-          ? _homeScreenItems[page].fabs[tabsCtrl[page].index]
-          : null;
+  FloatingActionButton get fab => _homeScreenItems[page].fabs.length > tabsCtrl[page].index
+      ? _homeScreenItems[page].fabs[tabsCtrl[page].index]
+      : null;
 
   @override
   void initState() {
@@ -120,10 +118,7 @@ class _HomeScreenState extends State<HomeScreen>
       curve: Curves.fastOutSlowIn,
     ));
     WidgetsBinding.instance.addObserver(this);
-    tabsCtrl = _homeScreenItems
-        .map((data) =>
-            new TabController(vsync: this, length: data.sub?.length ?? 1))
-        .toList();
+    tabsCtrl = _homeScreenItems.map((data) => new TabController(vsync: this, length: data.sub?.length ?? 1)).toList();
     super.initState();
   }
 
@@ -142,8 +137,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused ||
-        state == AppLifecycleState.inactive) {
+    if (state == AppLifecycleState.paused || state == AppLifecycleState.inactive) {
       print('background');
     } else if (state == AppLifecycleState.resumed) {
       print('foreground');
@@ -156,6 +150,23 @@ class _HomeScreenState extends State<HomeScreen>
         builder: (context) => new StatefulBuilder(
             builder: (context, switchSetState) => new Column(
                   children: <Widget>[
+                    new PopupMenuButton<SpotAction>(
+                        itemBuilder: (BuildContext context) => <PopupMenuItem<SpotAction>>[
+                              const PopupMenuItem<SpotAction>(
+                                  value: SpotAction.sortByPrice, child: const Text('Sort by price')),
+                              const PopupMenuItem<SpotAction>(
+                                  value: SpotAction.sortByProduct, child: const Text('Sort by product')),
+                            ],
+                        onSelected: (SpotAction action) {
+                          switch (action) {
+                            case SpotAction.sortByPrice:
+                              //setState(_sortByPrice);
+                              break;
+                            case SpotAction.sortByProduct:
+                              //setState(_sortByProduct);
+                              break;
+                          }
+                        }),
                     new Container(
                       height: 100.0,
                       child: new ListView.builder(
@@ -163,37 +174,26 @@ class _HomeScreenState extends State<HomeScreen>
                           padding: const EdgeInsets.symmetric(vertical: 15.0),
                           itemCount: Services.items.categories.length,
                           itemExtent: 75.0,
-                          itemBuilder: (context, index) => !Services
-                                  .items.tracks.value
+                          itemBuilder: (context, index) => !Services.items.tracks.value
                                   .contains(Services.items.categories[index])
                               ? new FlatButton(
-                                  child: new Image.asset(
-                                      'assets/${Services.items.categories[index]}.png'),
+                                  child: new Image.asset('assets/${Services.items.categories[index]}.png'),
                                   onPressed: () {
-                                    Services.items.tracks.value = Services
-                                        .items.tracks.value
-                                        .where((f) => !Services.items.categories
-                                            .any((d) => d == f))
+                                    Services.items.tracks.value = Services.items.tracks.value
+                                        .where((f) => !Services.items.categories.any((d) => d == f))
                                         .toList();
-                                    Services.items.tracks.value
-                                        .add(Services.items.categories[index]);
+                                    Services.items.tracks.value.add(Services.items.categories[index]);
                                     switchSetState(() {
-                                      Services.items.tracks.value =
-                                          new List<String>.from(
-                                              Services.items.tracks.value);
+                                      Services.items.tracks.value = new List<String>.from(Services.items.tracks.value);
                                     });
                                   },
                                 )
                               : new RaisedButton(
-                                  child: new Image.asset(
-                                      'assets/${Services.items.categories[index]}.png'),
+                                  child: new Image.asset('assets/${Services.items.categories[index]}.png'),
                                   onPressed: () {
-                                    Services.items.tracks.value.remove(
-                                        Services.items.categories[index]);
+                                    Services.items.tracks.value.remove(Services.items.categories[index]);
                                     switchSetState(() {
-                                      Services.items.tracks.value =
-                                          new List<String>.from(
-                                              Services.items.tracks.value);
+                                      Services.items.tracks.value = new List<String>.from(Services.items.tracks.value);
                                     });
                                   },
                                 )),
@@ -208,8 +208,7 @@ class _HomeScreenState extends State<HomeScreen>
                           Services.items.tracks.value.remove('group');
                         }
                         switchSetState(() {
-                          Services.items.tracks.value = new List<String>.from(
-                              Services.items.tracks.value);
+                          Services.items.tracks.value = new List<String>.from(Services.items.tracks.value);
                         });
                       },
                       secondary: const Icon(Icons.lock),
@@ -224,8 +223,7 @@ class _HomeScreenState extends State<HomeScreen>
                           Services.items.tracks.value.remove('gift');
                         }
                         switchSetState(() {
-                          Services.items.tracks.value = new List<String>.from(
-                              Services.items.tracks.value);
+                          Services.items.tracks.value = new List<String>.from(Services.items.tracks.value);
                         });
                       },
                       secondary: const Icon(Icons.card_giftcard),
@@ -265,18 +263,14 @@ class _HomeScreenState extends State<HomeScreen>
     return new TabBar(
       controller: tabsCtrl[page],
       indicatorWeight: 4.0,
-      tabs: _homeScreenItems[page]
-          .sub
-          .map((f) => new Tab(text: f.title))
-          .toList(),
+      tabs: _homeScreenItems[page].sub.map((f) => new Tab(text: f.title)).toList(),
     );
   }
 
   Widget _buildDrawer(BuildContext context) => new Drawer(
           child: new ListView(children: <Widget>[
         new UserAccountsDrawerHeader(
-            accountName: new Text(
-                '${Services.auth.user?.firstname} ${Services.auth.user?.name}'),
+            accountName: new Text('${Services.auth.user?.firstname} ${Services.auth.user?.name}'),
             accountEmail: new Text(Services.auth.user?.email),
             currentAccountPicture: getAvatar(Services.auth.user),
             otherAccountsPictures: <Widget>[
@@ -334,21 +328,16 @@ class _HomeScreenState extends State<HomeScreen>
                                   text: new TextSpan(children: <TextSpan>[
                                 new TextSpan(
                                     style: Theme.of(context).textTheme.body2,
-                                    text:
-                                        'Spotitem est un outil de pret de matériels, biens entre amis.\n'
+                                    text: 'Spotitem est un outil de pret de matériels, biens entre amis.\n'
                                         'En savoir plus a propos de Spotitem sur '),
                                 new LinkTextSpan(
                                     style: Theme
                                         .of(context)
                                         .textTheme
                                         .body2
-                                        .copyWith(
-                                            color:
-                                                Theme.of(context).accentColor),
+                                        .copyWith(color: Theme.of(context).accentColor),
                                     url: 'https://spotitem.fr'),
-                                new TextSpan(
-                                    style: Theme.of(context).textTheme.body2,
-                                    text: '.')
+                                new TextSpan(style: Theme.of(context).textTheme.body2, text: '.')
                               ])))
                         ])
                   ])),
@@ -362,8 +351,7 @@ class _HomeScreenState extends State<HomeScreen>
                       children: <Widget>[
                         new ListTile(
                             leading: const Icon(Icons.edit),
-                            title:
-                                new Text(SpotL.of(Services.loc).editProfile()),
+                            title: new Text(SpotL.of(Services.loc).editProfile()),
                             onTap: () {
                               Navigator.of(context).pushNamed('/profile/edit/');
                             }),
@@ -371,17 +359,20 @@ class _HomeScreenState extends State<HomeScreen>
                             leading: const Icon(Icons.exit_to_app),
                             title: new Text(SpotL.of(Services.loc).logout()),
                             onTap: () {
-                              Services.auth.logout().then((_) => Navigator
-                                  .of(context)
-                                  .pushNamedAndRemoveUntil(
-                                      '/', (route) => false));
+                              Services.auth
+                                  .logout()
+                                  .then((_) => Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false));
                             })
                       ])))
         ]))
       ]));
 
-  void _checkFilter() {
+  void _checkFilter([bool build = true]) {
     if (!mounted) {
+      return;
+    }
+    if (!build) {
+      _filterAvailable = (page == 0 && tabsCtrl[page].index == 1);
       return;
     }
     setState(() {
@@ -390,6 +381,7 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   List<Widget> _buildAppBar(BuildContext context, bool innerBoxIsScrolled) {
+    _checkFilter(false);
     if (page == 0 || (_homeScreenItems[page].fabs?.length ?? 0) > 0)
       tabsCtrl[page].addListener(_checkFilter);
     else {
@@ -430,9 +422,7 @@ class _HomeScreenState extends State<HomeScreen>
     ];
     if (!_isSearching) {
       widgets.add(new IconButton(
-        alignment: _filterAvailable
-            ? FractionalOffset.centerRight
-            : FractionalOffset.center,
+        alignment: _filterAvailable ? FractionalOffset.centerRight : FractionalOffset.center,
         padding: const EdgeInsets.all(0.0),
         icon: const Icon(Icons.search),
         onPressed: _handleSearchBegin,
@@ -455,9 +445,7 @@ class _HomeScreenState extends State<HomeScreen>
         floating: _homeScreenItems[page].sub != null && !_isSearching,
         title: new Container(
             decoration: new BoxDecoration(
-                color: Theme.of(context).accentColor,
-                borderRadius:
-                    const BorderRadius.all(const Radius.circular(3.0))),
+                color: Theme.of(context).accentColor, borderRadius: const BorderRadius.all(const Radius.circular(3.0))),
             child: new Row(children: widgets)),
         bottom: _buildBottom(),
       )
@@ -467,32 +455,22 @@ class _HomeScreenState extends State<HomeScreen>
   List<Widget> _buildChild(BuildContext context, int index) {
     if (_isSearching) {
       if (_searchQuery.isEmpty) {
-        return [
-          new Center(child: new Text(SpotL.of(Services.loc).searchDialog()))
-        ];
+        return [new Center(child: new Text(SpotL.of(Services.loc).searchDialog()))];
       }
       var search = new List<Item>.from(Services.items.items);
-      final _searchWord =
-          _searchQuery.split(' ').where((f) => f.trim().isNotEmpty);
-      search = search
-          .where((item) =>
-              _searchWord.any((f) => item.name.toLowerCase().contains(f)))
-          .toList();
+      final _searchWord = _searchQuery.split(' ').where((f) => f.trim().isNotEmpty);
+      search = search.where((item) => _searchWord.any((f) => item.name.toLowerCase().contains(f))).toList();
       return [new ItemsList(search, 'search')];
     }
     return _homeScreenItems[index].content;
   }
 
   @override
-  Widget build(BuildContext context) =>
-      new Stack(fit: StackFit.expand, children: <Widget>[
+  Widget build(BuildContext context) => new Stack(fit: StackFit.expand, children: <Widget>[
         new Scaffold(
             key: _scaffoldKey,
             drawer: _buildDrawer(context),
-            floatingActionButton:
-                _isSearching || _homeScreenItems[page].fabs == null
-                    ? null
-                    : fab,
+            floatingActionButton: _isSearching || _homeScreenItems[page].fabs == null ? null : fab,
             body: new Builder(builder: (context) {
               Services.context = context;
               return new NestedScrollView(
@@ -500,9 +478,8 @@ class _HomeScreenState extends State<HomeScreen>
                   body: new PageView.builder(
                       controller: pageCtrl,
                       itemCount: _homeScreenItems.length,
-                      itemBuilder: (context, index) => new TabBarView(
-                          controller: tabsCtrl[index],
-                          children: _buildChild(context, index))));
+                      itemBuilder: (context, index) =>
+                          new TabBarView(controller: tabsCtrl[index], children: _buildChild(context, index))));
             }),
             bottomNavigationBar: _isSearching
                 ? null
@@ -543,17 +520,9 @@ class HomeScreenItem {
   final Key key;
 
   /// Home screen item initalizer
-  HomeScreenItem(
-      {_HomeScreenState parent,
-      Widget icon,
-      this.title,
-      Widget content,
-      this.sub,
-      this.fabs})
+  HomeScreenItem({_HomeScreenState parent, Widget icon, this.title, Widget content, this.sub, this.fabs})
       : item = new BottomNavigationBarItem(icon: icon, title: new Text(title)),
-        content = sub != null
-            ? sub.map((f) => f.content).toList()
-            : <Widget>[content],
+        content = sub != null ? sub.map((f) => f.content).toList() : <Widget>[content],
         key = new PageStorageKey<String>(title);
 }
 
