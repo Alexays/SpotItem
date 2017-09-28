@@ -76,6 +76,24 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
     super.initState();
   }
 
+  void newMessage(String res) {
+    final decoded = JSON.decode(res);
+    if (decoded['type'] == 'MESSAGE') {
+      final data = decoded['data'];
+      final message = new ChatMessage(
+        text: new Message({'sender': data['sender'], 'message': data['data']}),
+        animation: new AnimationController(
+          duration: new Duration(milliseconds: 700),
+          vsync: this,
+        ),
+      );
+      setState(() {
+        _messages.insert(0, message);
+      });
+      message.animation.forward();
+    }
+  }
+
   Future<Null> _loadConv() async {
     final res = await Services.social.getConversation(conv.id);
     if (res == null || !mounted) {
@@ -92,6 +110,8 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
         chat.animation.forward();
         return chat;
       }).toList();
+      Services.auth.ws.sink.add(JSON.encode({'type': 'CONNECTION', 'userId': Services.auth.user.id}));
+      Services.auth.ws.stream.listen(newMessage);
     });
   }
 
