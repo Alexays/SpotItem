@@ -12,8 +12,6 @@ import 'package:spotitem/models/item.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/ui/spot_strings.dart';
 
-enum SpotAction { sortByPrice, sortByProduct }
-
 /// Home screen class
 class HomeScreen extends StatefulWidget {
   /// Home screen initializer
@@ -420,21 +418,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
             onPressed: () {
               setState(_showFilter);
             }),
-        new PopupMenuButton<SpotAction>(
+        new PopupMenuButton(
             padding: const EdgeInsets.all(0.0),
-            itemBuilder: (BuildContext context) => <PopupMenuItem<SpotAction>>[
-                  const PopupMenuItem<SpotAction>(value: SpotAction.sortByPrice, child: const Text('Sort by date')),
-                  const PopupMenuItem<SpotAction>(value: SpotAction.sortByProduct, child: const Text('Sort by dist')),
-                ],
-            onSelected: (SpotAction action) {
-              switch (action) {
-                case SpotAction.sortByPrice:
-                  //setState(_sortByPrice);
-                  break;
-                case SpotAction.sortByProduct:
-                  //setState(_sortByProduct);
-                  break;
-              }
+            itemBuilder: (context) =>
+                Services.items.sortMethod.map((f) => new PopupMenuItem(value: f, child: new Text(f))).toList(),
+            onSelected: (action) {
+              setState(() {
+                Services.items.tracks.value = [
+                  Services.items.tracks.value.where((f) => !Services.items.sortMethod.any((d) => d == f)).toList(),
+                  [action]
+                ].expand((x) => x).toList();
+              });
             })
       ]);
     }

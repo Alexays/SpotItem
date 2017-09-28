@@ -36,13 +36,11 @@ class _ExplorerViewState extends State<ExplorerView> {
       return;
     }
     _items = new List<Item>.from(Services.items.items);
-    final _tracks = Services.items.tracks.value;
+    final _tracks = Services.items.tracks.value.where((f) => !Services.items.exludeTracks.contains(f));
+    print(Services.items.tracks.value);
     if (_tracks != null) {
       setState(() {
-        _items = _items
-            .where(
-                (item) => _tracks.every((track) => item.tracks.contains(track)))
-            .toList();
+        _items = _items.where((item) => _tracks.every((track) => item.tracks.contains(track))).toList();
       });
     }
   }
@@ -55,8 +53,7 @@ class _ExplorerViewState extends State<ExplorerView> {
   @override
   Widget build(BuildContext context) => new RefreshIndicator(
         onRefresh: () => _loadItems(true),
-        child: _items == null
-            ? const Center(child: const CircularProgressIndicator())
-            : new ItemsList(_items, toString()),
+        child:
+            _items == null ? const Center(child: const CircularProgressIndicator()) : new ItemsList(_items, toString()),
       );
 }

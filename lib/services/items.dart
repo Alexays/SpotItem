@@ -10,6 +10,12 @@ class ItemsManager extends BasicService {
   /// Get items categories
   List<String> get categories => _categories;
 
+  /// Get items sort method
+  List<String> get sortMethod => _sortMethod;
+
+  /// Get sort method and categories to exlude when filter items
+  List<String> get exludeTracks => [_sortMethod, _categories].expand((x) => x).toList();
+
   /// Get items
   List<Item> get items => _items;
 
@@ -17,21 +23,13 @@ class ItemsManager extends BasicService {
   List<Item> get myItems => _myItems;
 
   /// ValueNotifier of tracks filter
-  final ValueNotifier<List<String>> tracks =
-      new ValueNotifier<List<String>>([]);
+  final ValueNotifier<List<String>> tracks = new ValueNotifier<List<String>>([]);
 
   /// Private variables
   List<Item> _items = <Item>[];
   List<Item> _myItems = <Item>[];
-  final List<String> _categories = [
-    'jeux',
-    'bebe_jeunesse',
-    'fete',
-    'garage',
-    'objet',
-    'cuisine',
-    'jardin'
-  ];
+  final List<String> _sortMethod = ['name', 'dist', 'date'];
+  final List<String> _categories = ['jeux', 'bebe_jeunesse', 'fete', 'garage', 'objet', 'cuisine', 'jardin'];
 
   /// Add item.
   ///
@@ -47,8 +45,7 @@ class ItemsManager extends BasicService {
   /// @param payload Item payload
   /// @returns Api body response
   Future<ApiRes> editItem(Map<String, dynamic> payload) async {
-    final response = await iput(
-        '/items/${payload['id']}', payload, Services.auth.accessToken);
+    final response = await iput('/items/${payload['id']}', payload, Services.auth.accessToken);
     return response;
   }
 
@@ -67,16 +64,13 @@ class ItemsManager extends BasicService {
   Future<List<Item>> loadItems() async {
     if (_items.isEmpty) {
       await Services.users.getLocation();
-      final response = await iget(
-          Services.auth.loggedIn != null ? '/items/auth' : '/items',
+      final response = await iget(Services.auth.loggedIn != null ? '/items/auth' : '/items',
           Services.auth.loggedIn ? Services.auth.accessToken : null);
       if (response.success && response.data is List) {
         return _items = new List<Item>.generate(
                 response.data?.length ?? 0,
-                (index) => new Item(
-                    response.data[index],
-                    Services.users.getDist(response.data[index]['lat'],
-                        response.data[index]['lng'])))
+                (index) => new Item(response.data[index],
+                    Services.users.getDist(response.data[index]['lat'], response.data[index]['lng'])))
             .where((item) => item.dist < Services.settings.value.maxDistance)
             .toList();
       }
@@ -105,8 +99,7 @@ class ItemsManager extends BasicService {
     }
     final response = await iget('/items/$itemId');
     if (response.success) {
-      return new Item(response.data,
-          Services.users.getDist(response.data['lat'], response.data['lng']));
+      return new Item(response.data, Services.users.getDist(response.data['lat'], response.data['lng']));
     }
     return null;
   }
@@ -120,9 +113,7 @@ class ItemsManager extends BasicService {
       return _myItems = new List<Item>.generate(
           response.data?.length ?? 0,
           (index) => new Item(
-              response.data[index],
-              Services.users.getDist(
-                  response.data[index]['lat'], response.data[index]['lng'])));
+              response.data[index], Services.users.getDist(response.data[index]['lat'], response.data[index]['lng'])));
     }
     return _myItems;
   }
