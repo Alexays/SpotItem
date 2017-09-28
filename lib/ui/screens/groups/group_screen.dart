@@ -121,7 +121,7 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
               child: new Container(),
             ),
             new Text(
-              '${(group?.users?.length ?? 0 + 1).toString()} ${SpotL.of(context).members}',
+              '${(group?.users?.length ?? 0 + 1).toString()} ${SpotL.of(context).members()}',
               style: const TextStyle(color: Colors.white),
             )
           ])

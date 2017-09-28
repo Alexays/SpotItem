@@ -35,7 +35,6 @@ class SocialManager extends BasicService {
   Future<Conversation> getConversation(String id) async {
     final response = await iget('/messages/$id', Services.auth.accessToken);
     if (response.success && response.data != null) {
-      print(response.data);
       return new Conversation(response.data);
     }
     return null;

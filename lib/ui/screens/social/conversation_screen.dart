@@ -89,7 +89,7 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
       final data = decoded['data'];
       if (data['room'] == conv.id) {
         final message = new ChatMessage(
-          text: new Message({'sender': data['sender'], 'message': data['message']}),
+          text: new Message({'sender': JSON.decode(data['sender']), 'message': data['message']}),
           animation: new AnimationController(
             duration: new Duration(milliseconds: 700),
             vsync: this,
