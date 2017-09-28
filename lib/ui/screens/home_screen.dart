@@ -150,23 +150,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
         builder: (context) => new StatefulBuilder(
             builder: (context, switchSetState) => new Column(
                   children: <Widget>[
-                    new PopupMenuButton<SpotAction>(
-                        itemBuilder: (BuildContext context) => <PopupMenuItem<SpotAction>>[
-                              const PopupMenuItem<SpotAction>(
-                                  value: SpotAction.sortByPrice, child: const Text('Sort by price')),
-                              const PopupMenuItem<SpotAction>(
-                                  value: SpotAction.sortByProduct, child: const Text('Sort by product')),
-                            ],
-                        onSelected: (SpotAction action) {
-                          switch (action) {
-                            case SpotAction.sortByPrice:
-                              //setState(_sortByPrice);
-                              break;
-                            case SpotAction.sortByProduct:
-                              //setState(_sortByProduct);
-                              break;
-                          }
-                        }),
                     new Container(
                       height: 100.0,
                       child: new ListView.builder(
@@ -422,19 +405,39 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
     ];
     if (!_isSearching) {
       widgets.add(new IconButton(
-        alignment: _filterAvailable ? FractionalOffset.centerRight : FractionalOffset.center,
+        alignment: _filterAvailable ? const FractionalOffset(1.5, 0.5) : FractionalOffset.center,
         padding: const EdgeInsets.all(0.0),
         icon: const Icon(Icons.search),
         onPressed: _handleSearchBegin,
       ));
     }
     if (_isSearching || _filterAvailable) {
-      widgets.add(new IconButton(
-          padding: const EdgeInsets.all(0.0),
-          icon: const Icon(Icons.filter_list),
-          onPressed: () {
-            setState(_showFilter);
-          }));
+      widgets.addAll([
+        new IconButton(
+            padding: const EdgeInsets.all(0.0),
+            alignment: FractionalOffset.centerRight,
+            icon: const Icon(Icons.filter_list),
+            onPressed: () {
+              setState(_showFilter);
+            }),
+        new PopupMenuButton<SpotAction>(
+            padding: const EdgeInsets.all(0.0),
+            itemBuilder: (BuildContext context) => <PopupMenuItem<SpotAction>>[
+                  const PopupMenuItem<SpotAction>(value: SpotAction.sortByPrice, child: const Text('Sort by price')),
+                  const PopupMenuItem<SpotAction>(
+                      value: SpotAction.sortByProduct, child: const Text('Sort by product')),
+                ],
+            onSelected: (SpotAction action) {
+              switch (action) {
+                case SpotAction.sortByPrice:
+                  //setState(_sortByPrice);
+                  break;
+                case SpotAction.sortByProduct:
+                  //setState(_sortByProduct);
+                  break;
+              }
+            })
+      ]);
     }
     return [
       new SliverAppBar(
