@@ -68,7 +68,7 @@ class ConvScreen extends StatefulWidget {
 class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
   _ConvScreenState(this.conv);
   final Conversation conv;
-  List<ChatMessage> _messages = [];
+  List<ChatMessage> _messages;
   String group;
 
   final TextEditingController _textController = new TextEditingController();
@@ -138,24 +138,26 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) => new Scaffold(
         appBar: new AppBar(title: new Text(conv.group?.name ?? conv.users.join(', '))),
         body: new Builder(
-            builder: (context) => new Column(children: <Widget>[
-                  new Flexible(
-                      child: _messages.isNotEmpty
-                          ? new ListView.builder(
-                              padding: const EdgeInsets.all(8.0),
-                              reverse: true,
-                              itemBuilder: (_, index) => _messages[index],
-                              itemCount: _messages.length,
-                            )
-                          : new Center(
-                              child: new Text(SpotL.of(context).noMessages()),
-                            )),
-                  const Divider(height: 1.0),
-                  new Container(
-                    decoration: new BoxDecoration(color: Theme.of(context).cardColor),
-                    child: _buildTextComposer(),
-                  ),
-                ])),
+            builder: (context) => _messages == null
+                ? const Center(child: const CircularProgressIndicator())
+                : new Column(children: <Widget>[
+                    new Flexible(
+                        child: _messages.isNotEmpty
+                            ? new ListView.builder(
+                                padding: const EdgeInsets.all(8.0),
+                                reverse: true,
+                                itemBuilder: (_, index) => _messages[index],
+                                itemCount: _messages.length,
+                              )
+                            : new Center(
+                                child: new Text(SpotL.of(context).noMessages()),
+                              )),
+                    const Divider(height: 1.0),
+                    new Container(
+                      decoration: new BoxDecoration(color: Theme.of(context).cardColor),
+                      child: _buildTextComposer(),
+                    ),
+                  ])),
       );
 
   Widget _buildTextComposer() => new IconTheme(
