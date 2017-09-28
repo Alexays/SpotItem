@@ -75,10 +75,11 @@ class _SocialViewState extends State<SocialView> {
                     ),
                     subtitle: new Text(
                       _conversations[index].conversation.isNotEmpty
-                          ? _conversations[index].conversation[0].message
+                          ? '${_conversations[index].conversation[0].sender.firstname}: ${_conversations[index].conversation[0].message}'
                           : SpotL.of(context).noMessages(),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(fontStyle: FontStyle.italic),
                     ),
                   )
                 ],
