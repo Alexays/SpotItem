@@ -17,8 +17,7 @@ class ItemsView extends StatefulWidget {
 
 class _ItemsViewState extends State<ItemsView> {
   List<Item> _myItems;
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      new GlobalKey<RefreshIndicatorState>();
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
 
   @override
   void initState() {
@@ -50,7 +49,19 @@ class _ItemsViewState extends State<ItemsView> {
 
   Widget getList() {
     if (_myItems.isEmpty) {
-      return new Center(child: new Text(SpotL.of(Services.loc).noItems()));
+      return new Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          new Center(child: new Text(SpotL.of(Services.loc).noItems())),
+          const Padding(padding: const EdgeInsets.all(10.0)),
+          new RaisedButton(
+            child: new Text(SpotL.of(Services.loc).addItem()),
+            onPressed: () async {
+              await Navigator.of(Services.context).pushNamed('/item/add');
+            },
+          ),
+        ],
+      );
     }
     return new ListView.builder(
       // For RefreshIndicator
@@ -98,7 +109,5 @@ class _ItemsViewState extends State<ItemsView> {
   Widget build(BuildContext context) => new RefreshIndicator(
       key: _refreshIndicatorKey,
       onRefresh: _loadItems,
-      child: _myItems == null
-          ? const Center(child: const CircularProgressIndicator())
-          : getList());
+      child: _myItems == null ? const Center(child: const CircularProgressIndicator()) : getList());
 }
