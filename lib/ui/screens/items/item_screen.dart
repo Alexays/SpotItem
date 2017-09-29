@@ -245,20 +245,20 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
                                     color: Theme.of(context).canvasColor,
                                     child: new TabBarView(
                                         controller: _tabController,
-                                        children: new List<Widget>.generate(
-                                            item.images.length,
-                                            (index) => (index == 0)
+                                        children: item.images
+                                            .map((f) => (f == item.images.first)
                                                 ? new Hero(
                                                     tag: '${item.id}_img_$hash',
                                                     child: new FadeInImage(
                                                       placeholder: placeholder,
-                                                      image: new NetworkImage('$apiImgUrl${item.images[index]}'),
+                                                      image: new NetworkImage('$apiImgUrl$f'),
                                                       fit: BoxFit.cover,
                                                     ))
                                                 : new FadeInImage(
                                                     placeholder: placeholder,
-                                                    image: new NetworkImage('$apiImgUrl${item.images[index]}'),
-                                                    fit: BoxFit.cover)))),
+                                                    image: new NetworkImage('$apiImgUrl$f'),
+                                                    fit: BoxFit.cover))
+                                            .toList())),
                                 new Positioned(
                                   bottom: 15.0,
                                   width: MediaQuery.of(context).size.width,
