@@ -175,6 +175,29 @@ void main() {
       await tester.pumpAndSettle();
     });
 
+    testWidgets('Able to search item', (tester) async {
+      Services.mock = mockUser;
+      await tester.pumpWidget(new SpotItemApp(init: true));
+      await tester.pump();
+      await tester.pump();
+
+      await tester.enterText(find.byKey(const Key('search')), 'Amande');
+      await tester.pump();
+      await tester.tap(find.byIcon(Icons.search));
+      await tester.pumpAndSettle();
+      expect(find.text('Amande'), findsOneWidget);
+      expect(find.text('Magnifique Nutella'), findsNothing);
+      await tester.enterText(find.byKey(const Key('search')), 'nothing');
+      await tester.pumpAndSettle();
+      expect(find.text('No items'), findsOneWidget);
+      await tester.enterText(find.byKey(const Key('search')), '');
+      await tester.pumpAndSettle();
+      expect(find.text('Type something to search...'), findsOneWidget);
+      await tester.tap(find.byWidget(const BackButton()));
+      await tester.pumpAndSettle();
+      expect(find.text('Discover'), findsOneWidget);
+    });
+
     testWidgets('Show item page', (tester) async {
       Services.mock = mockItems;
       await tester.pumpWidget(new SpotItemApp(init: true));

@@ -223,6 +223,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
     if (!mounted) {
       return;
     }
+    _searchCallback();
     ModalRoute.of(context).addLocalHistoryEntry(new LocalHistoryEntry(
       onRemove: () {
         setState(() {
@@ -379,6 +380,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
             ),
       new Expanded(
         child: new TextField(
+          key: const Key('search'),
           onSubmitted: (data) {
             _handleSearchBegin();
           },
