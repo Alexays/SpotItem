@@ -26,8 +26,7 @@ class GroupsManager extends BasicService {
     final groupJson = JSON.decode(group.toString());
     groupJson['users'] = JSON.encode(users);
     groupJson['owners'] = JSON.encode([Services.auth.user.id]);
-    final response =
-        await ipost('/groups', groupJson, Services.auth.accessToken);
+    final response = await ipost('/groups', groupJson, Services.auth.accessToken);
     if (response.success && response.data != null) {
       Services.auth.user.groups.add(response.data);
     }
@@ -43,8 +42,7 @@ class GroupsManager extends BasicService {
     final groupJson = JSON.decode(group.toString());
     groupJson['users'] = '';
     groupJson['owners'] = '';
-    final response =
-        await iput('/group/${group.id}', groupJson, Services.auth.accessToken);
+    final response = await iput('/group/${group.id}', groupJson, Services.auth.accessToken);
     return response;
   }
 
@@ -53,8 +51,7 @@ class GroupsManager extends BasicService {
   /// @returns Groups list
   Future<dynamic> getGroups() async {
     final response = await iget('/groups', Services.auth.accessToken);
-    return _groups = new List<Group>.generate(
-        response.data?.length ?? 0, (index) => new Group(response.data[index]));
+    return _groups = new List<Group>.generate(response.data?.length ?? 0, (index) => new Group(response.data[index]));
   }
 
   /// Get a group by id.
@@ -75,9 +72,8 @@ class GroupsManager extends BasicService {
   Future<List<Group>> getGroupsInv() async {
     final response = await iget('/groups/inv', Services.auth.accessToken);
     if (response.success) {
-      return _groupsInv =
-          new List<Group>.generate(response.data?.length ?? 0, (index) {
-        // Owners is not populated here, not need for invitations
+      return _groupsInv = new List<Group>.generate(response.data?.length ?? 0, (index) {
+        // Owners is not populated here, not needed for invitations
         response.data[index]['owners'] = [];
         return new Group(response.data[index]);
       });
@@ -93,8 +89,7 @@ class GroupsManager extends BasicService {
     if (groupId == null) {
       return null;
     }
-    final response =
-        await idelete('/group/$groupId', Services.auth.accessToken);
+    final response = await idelete('/group/$groupId', Services.auth.accessToken);
     if (response.success) {
       Services.auth.user.groups.removeWhere((group) => group == groupId);
     }
@@ -109,8 +104,7 @@ class GroupsManager extends BasicService {
     if (groupId == null) {
       return null;
     }
-    final response =
-        await ipost('/group/$groupId', null, Services.auth.accessToken);
+    final response = await ipost('/group/$groupId', null, Services.auth.accessToken);
     if (response.success) {
       Services.auth.user.groups.add(groupId);
     }
@@ -125,8 +119,7 @@ class GroupsManager extends BasicService {
     if (groupId == null) {
       return null;
     }
-    final response =
-        await iget('/group/$groupId/leave', Services.auth.accessToken);
+    final response = await iget('/group/$groupId/leave', Services.auth.accessToken);
     if (response.success) {
       Services.auth.user.groups.removeWhere((group) => group == groupId);
     }
@@ -142,8 +135,7 @@ class GroupsManager extends BasicService {
     if (groupId == null || userId == null) {
       return null;
     }
-    final response =
-        await idelete('/group/$groupId/$userId', Services.auth.accessToken);
+    final response = await idelete('/group/$groupId/$userId', Services.auth.accessToken);
     return response;
   }
 
@@ -156,8 +148,7 @@ class GroupsManager extends BasicService {
     if (groupId == null || userId == null) {
       return null;
     }
-    final response =
-        await iput('/group/$groupId/$userId', null, Services.auth.accessToken);
+    final response = await iput('/group/$groupId/$userId', null, Services.auth.accessToken);
     return response;
   }
 
@@ -170,8 +161,7 @@ class GroupsManager extends BasicService {
     if (groupId == null || userId == null) {
       return null;
     }
-    final response = await idelete(
-        '/group/$groupId/$userId/owner', Services.auth.accessToken);
+    final response = await idelete('/group/$groupId/$userId/owner', Services.auth.accessToken);
     return response;
   }
 
@@ -184,8 +174,7 @@ class GroupsManager extends BasicService {
     if (groupId == null || userId == null) {
       return null;
     }
-    final response = await iput(
-        '/group/$groupId/$userId/owner', null, Services.auth.accessToken);
+    final response = await iput('/group/$groupId/$userId/owner', null, Services.auth.accessToken);
     return response;
   }
 }
