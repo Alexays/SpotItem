@@ -110,10 +110,7 @@ class ItemsManager extends BasicService {
   Future<List<Item>> getUserItems() async {
     final response = await iget('/items/user', Services.auth.accessToken);
     if (response.success && response.data is List) {
-      return _myItems = new List<Item>.generate(
-          response.data?.length ?? 0,
-          (index) => new Item(
-              response.data[index], Services.users.getDist(response.data[index]['lat'], response.data[index]['lng'])));
+      return _myItems = response.data.map((f) => new Item(f, Services.users.getDist(f['lat'], f['lng']))).toList();
     }
     return _myItems;
   }
