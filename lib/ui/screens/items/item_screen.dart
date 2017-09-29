@@ -241,26 +241,25 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
                               alignment: FractionalOffset.center,
                               fit: StackFit.expand,
                               children: <Widget>[
-                                new TabBarView(
-                                    controller: _tabController,
-                                    children: new List<Widget>.generate(item.images.length, (index) {
-                                      if (index == 0) {
-                                        return new Container(
-                                            color: Theme.of(context).canvasColor,
-                                            child: new Hero(
+                                new Container(
+                                    color: Theme.of(context).canvasColor,
+                                    child: new TabBarView(
+                                        controller: _tabController,
+                                        children: new List<Widget>.generate(item.images.length, (index) {
+                                          if (index == 0) {
+                                            return new Hero(
                                                 tag: '${item.id}_img_$hash',
                                                 child: new FadeInImage(
                                                   placeholder: placeholder,
                                                   image: new NetworkImage('$apiImgUrl${item.images[index]}'),
                                                   fit: BoxFit.cover,
-                                                )));
-                                      }
-                                      return new FadeInImage(
-                                          placeholder: placeholder,
-                                          image: new NetworkImage('$apiImgUrl${item.images[index]}'),
-                                          fit: BoxFit.cover);
-                                    })),
-
+                                                ));
+                                          }
+                                          return new FadeInImage(
+                                              placeholder: placeholder,
+                                              image: new NetworkImage('$apiImgUrl${item.images[index]}'),
+                                              fit: BoxFit.cover);
+                                        }))),
                                 new Positioned(
                                   bottom: 15.0,
                                   width: MediaQuery.of(context).size.width,
@@ -273,12 +272,12 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
                                 ),
                                 // This gradient ensures that the toolbar icons are distinct
                                 // against the background image.
-                                const DecoratedBox(
-                                  decoration: const BoxDecoration(
-                                    gradient: const LinearGradient(
+                                new DecoratedBox(
+                                  decoration: new BoxDecoration(
+                                    gradient: new LinearGradient(
                                       begin: const FractionalOffset(0.5, 0.0),
-                                      end: const FractionalOffset(0.5, 0.30),
-                                      colors: const <Color>[const Color(0x60000000), const Color(0x00000000)],
+                                      end: const FractionalOffset(0.5, 0.40),
+                                      colors: <Color>[const Color(0x60000000), const Color(0x00000000)],
                                     ),
                                   ),
                                 ),
