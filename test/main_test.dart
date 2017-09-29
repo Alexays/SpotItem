@@ -131,7 +131,7 @@ void main() {
       expect(Services.items.items.length, 2);
     });
 
-    testWidgets('Sort item by gift', (tester) async {
+    testWidgets('Filter item by gift', (tester) async {
       Services.mock = mockItems;
       await tester.pumpWidget(new SpotItemApp(init: true));
       await tester.pump();
@@ -153,7 +153,7 @@ void main() {
       await tester.pumpAndSettle();
     });
 
-    testWidgets('Sort item by group', (tester) async {
+    testWidgets('Filter item by group', (tester) async {
       Services.mock = mockItems;
       await tester.pumpWidget(new SpotItemApp(init: true));
       await tester.pump();
