@@ -31,10 +31,9 @@ class _ItemsViewState extends State<ItemsView> {
 
   Future<Null> _getItems() async {
     if (_myItems != null) {
-      await _refreshIndicatorKey.currentState?.show();
-    } else {
-      await _loadItems();
+      return await _refreshIndicatorKey.currentState?.show();
     }
+    await _loadItems();
   }
 
   Future<Null> _loadItems() async {

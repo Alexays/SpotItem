@@ -33,10 +33,9 @@ class _SocialViewState extends State<SocialView> {
 
   Future<Null> _checkConversation() async {
     if (_conversations != null) {
-      await _refreshIndicatorKey.currentState?.show();
-    } else {
-      await _loadConversation();
+      return await _refreshIndicatorKey.currentState?.show();
     }
+    await _loadConversation();
   }
 
   Future<Null> _loadConversation() async {
