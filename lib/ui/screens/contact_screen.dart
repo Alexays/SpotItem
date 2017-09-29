@@ -40,8 +40,7 @@ class _ContactScreenState extends State<ContactScreen> {
           children: new List<Widget>.generate(
               _contacts[index]['emailAddresses'].length,
               (i) => new ListTile(
-                    title: new Text(
-                        _contacts[index]['emailAddresses'][i]['value']),
+                    title: new Text(_contacts[index]['emailAddresses'][i]['value']),
                     onTap: () {
                       _email = _contacts[index]['emailAddresses'][i]['value'];
                       _handleEmail(context);
@@ -62,8 +61,7 @@ class _ContactScreenState extends State<ContactScreen> {
                     margin: const EdgeInsets.all(15.0),
                     decoration: new BoxDecoration(
                         color: Theme.of(context).accentColor,
-                        borderRadius:
-                            const BorderRadius.all(const Radius.circular(3.0))),
+                        borderRadius: const BorderRadius.all(const Radius.circular(3.0))),
                     child: new Container(
                       margin: const EdgeInsets.symmetric(horizontal: 15.0),
                       child: new TextField(
@@ -73,10 +71,9 @@ class _ContactScreenState extends State<ContactScreen> {
                           fontWeight: FontWeight.w500,
                         ),
                         decoration: new InputDecoration(
+                          hideDivider: true,
                           hintText: SpotL.of(context).searchContact(),
-                          errorText: _contacts == null || _contacts.isEmpty
-                              ? validateEmail(_email)
-                              : null,
+                          errorText: _contacts == null || _contacts.isEmpty ? validateEmail(_email) : null,
                           hintStyle: const TextStyle(
                             color: const Color.fromARGB(150, 255, 255, 255),
                             fontSize: 16.0,
@@ -88,29 +85,22 @@ class _ContactScreenState extends State<ContactScreen> {
                           setState(() {
                             _contacts = Services.users.contacts
                                 .where((contact) =>
-                                    contact['names'][0]['displayName']
-                                        .toString()
-                                        .contains(value) ||
-                                    contact['emailAddresses'][0]['value']
-                                        .toString()
-                                        .contains(value))
+                                    contact['names'][0]['displayName'].toString().contains(value) ||
+                                    contact['emailAddresses'][0]['value'].toString().contains(value))
                                 .toList();
                           });
                         },
                       ),
                     )),
-                const Divider(),
-                Services.users.contacts == null ||
-                        Services.users.contacts.isNotEmpty
+                const Padding(padding: const EdgeInsets.all(10.0)),
+                Services.users.contacts == null || Services.users.contacts.isNotEmpty
                     ? _contacts != null && _contacts.isNotEmpty
                         ? new Expanded(
                             child: new ListView.builder(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                 itemCount: _contacts?.length ?? 0,
                                 itemBuilder: (context, index) => new ListTile(
-                                      title: new Text(_contacts[index]['names']
-                                          [0]['displayName']),
+                                      title: new Text(_contacts[index]['names'][0]['displayName']),
                                       leading: const Icon(Icons.people),
                                       onTap: () {
                                         _getMail(index);
