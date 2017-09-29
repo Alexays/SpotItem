@@ -144,7 +144,7 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
                 content: new SingleChildScrollView(
                   child: new ListBody(
                     children: <Widget>[
-                      const Text('Are you sure to delete this item ?'),
+                      new Text(SpotL.of(context).delItem()),
                     ],
                   ),
                 ),

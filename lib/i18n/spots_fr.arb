@@ -424,5 +424,11 @@
     "description": "Create conversation title",
     "type": "text",
     "placeholders": {}
+  },
+  "delItem": "Voulez-vous vraiment supprimer cet objet ?",
+  "@delItem": {
+    "description": "Delete item title",
+    "type": "text",
+    "placeholders": {}
   }
 }

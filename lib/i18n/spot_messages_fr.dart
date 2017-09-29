@@ -37,6 +37,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "confirm" : MessageLookupByLibrary.simpleMessage("Confirmation"),
     "correctError" : MessageLookupByLibrary.simpleMessage("Merci de corriger les erreurs"),
     "createConv" : MessageLookupByLibrary.simpleMessage("Créer une conversation"),
+    "delItem" : MessageLookupByLibrary.simpleMessage("Voulez-vous vraiment supprimer cet objet ?"),
     "delOwner" : m1,
     "deleteGroup" : MessageLookupByLibrary.simpleMessage("Voulez-vous vraiment supprimer le groupe ?"),
     "discover" : MessageLookupByLibrary.simpleMessage("Découvrir"),

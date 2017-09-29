@@ -230,4 +230,7 @@ class SpotL {
 
   /// Create conversation title
   String createConv() => Intl.message('<createConv>', name: 'createConv', locale: _localeName);
+
+  /// Delete item title
+  String delItem() => Intl.message('<delItem>', name: 'delItem', locale: _localeName);
 }

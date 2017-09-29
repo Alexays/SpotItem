@@ -419,9 +419,15 @@
     "type": "text",
     "placeholders": {}
   },
-  "createConv": "Créer une conversation",
+  "createConv": "Create a conversation",
   "@createConv": {
     "description": "Create conversation title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "delItem": "Are you sure to delete this item ?",
+  "@delItem": {
+    "description": "Delete item title",
     "type": "text",
     "placeholders": {}
   }
