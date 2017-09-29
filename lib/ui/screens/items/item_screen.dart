@@ -194,7 +194,7 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
     return widgets;
   }
 
-  Widget giftCard() {
+  Widget _giftCard() {
     if (item.tracks.contains('gift')) {
       return new Container();
     }
@@ -287,7 +287,7 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
                       ),
                       new SliverList(
                         delegate: new SliverChildListDelegate(<Widget>[
-                          giftCard(),
+                          _giftCard(),
                           new _Category(
                             icon: Icons.info,
                             children: <Widget>[
