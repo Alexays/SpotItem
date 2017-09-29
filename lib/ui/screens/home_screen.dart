@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
   static final List<HomeScreenItem> _homeScreenItems = <HomeScreenItem>[
     new HomeScreenItem(
       icon: const Icon(Icons.explore),
-      title: 'Explore',
+      title: SpotL.of(Services.loc).explore(),
       sub: <HomeScreenSubItem>[
         new HomeScreenSubItem(SpotL.of(Services.loc).discover(), discover),
         new HomeScreenSubItem(SpotL.of(Services.loc).explore(), explore),
