@@ -245,21 +245,20 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
                                     color: Theme.of(context).canvasColor,
                                     child: new TabBarView(
                                         controller: _tabController,
-                                        children: new List<Widget>.generate(item.images.length, (index) {
-                                          if (index == 0) {
-                                            return new Hero(
-                                                tag: '${item.id}_img_$hash',
-                                                child: new FadeInImage(
-                                                  placeholder: placeholder,
-                                                  image: new NetworkImage('$apiImgUrl${item.images[index]}'),
-                                                  fit: BoxFit.cover,
-                                                ));
-                                          }
-                                          return new FadeInImage(
-                                              placeholder: placeholder,
-                                              image: new NetworkImage('$apiImgUrl${item.images[index]}'),
-                                              fit: BoxFit.cover);
-                                        }))),
+                                        children: new List<Widget>.generate(
+                                            item.images.length,
+                                            (index) => (index == 0)
+                                                ? new Hero(
+                                                    tag: '${item.id}_img_$hash',
+                                                    child: new FadeInImage(
+                                                      placeholder: placeholder,
+                                                      image: new NetworkImage('$apiImgUrl${item.images[index]}'),
+                                                      fit: BoxFit.cover,
+                                                    ))
+                                                : new FadeInImage(
+                                                    placeholder: placeholder,
+                                                    image: new NetworkImage('$apiImgUrl${item.images[index]}'),
+                                                    fit: BoxFit.cover)))),
                                 new Positioned(
                                   bottom: 15.0,
                                   width: MediaQuery.of(context).size.width,
