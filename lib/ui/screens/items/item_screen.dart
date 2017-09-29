@@ -74,7 +74,8 @@ class ItemPage extends StatefulWidget {
     this.itemId,
     this.hash = 'n',
   })
-      : super(key: key);
+      : assert(item != null || itemId != null),
+        super(key: key);
 
   /// Item id
   final String itemId;
