@@ -20,20 +20,16 @@ class _Category extends StatelessWidget {
     final themeData = Theme.of(context);
     return new Container(
         padding: const EdgeInsets.symmetric(vertical: 10.0),
-        decoration: new BoxDecoration(
-            border: new Border(
-                bottom: new BorderSide(color: themeData.dividerColor))),
+        decoration: new BoxDecoration(border: new Border(bottom: new BorderSide(color: themeData.dividerColor))),
         child: new DefaultTextStyle(
             style: Theme.of(context).textTheme.subhead,
-            child: new Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  new Container(
-                      padding: const EdgeInsets.symmetric(vertical: 14.0),
-                      width: 72.0,
-                      child: new Icon(icon, color: themeData.primaryColor)),
-                  new Expanded(child: new Column(children: children))
-                ])));
+            child: new Row(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
+              new Container(
+                  padding: const EdgeInsets.symmetric(vertical: 14.0),
+                  width: 72.0,
+                  child: new Icon(icon, color: themeData.primaryColor)),
+              new Expanded(child: new Column(children: children))
+            ])));
   }
 }
 
@@ -50,32 +46,21 @@ class _ListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    final List<Widget> columnChildren = lines
-        .sublist(0, lines.length - 1)
-        .map((line) => new Text(line))
-        .toList()
-          ..insert(0, new Text(lines.last, style: themeData.textTheme.caption));
+    final List<Widget> columnChildren = lines.sublist(0, lines.length - 1).map((line) => new Text(line)).toList()
+      ..insert(0, new Text(lines.last, style: themeData.textTheme.caption));
 
     final rowChildren = <Widget>[
-      new Expanded(
-          child: new Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: columnChildren))
+      new Expanded(child: new Column(crossAxisAlignment: CrossAxisAlignment.start, children: columnChildren))
     ];
     if (icon != null) {
       rowChildren.add(new SizedBox(
           width: 72.0,
-          child: new IconButton(
-              icon: new Icon(icon),
-              color: themeData.primaryColor,
-              onPressed: onPressed)));
+          child: new IconButton(icon: new Icon(icon), color: themeData.primaryColor, onPressed: onPressed)));
     }
     return new MergeSemantics(
       child: new Padding(
           padding: const EdgeInsets.symmetric(vertical: 6.0),
-          child: new Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: rowChildren)),
+          child: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: rowChildren)),
     );
   }
 }
@@ -104,8 +89,7 @@ class ItemPage extends StatefulWidget {
   _ItemPageState createState() => new _ItemPageState(itemId, item, hash);
 }
 
-class _ItemPageState extends State<ItemPage>
-    with SingleTickerProviderStateMixin {
+class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin {
   _ItemPageState(this._itemId, this.item, this.hash);
 
   final String _itemId;
@@ -119,8 +103,7 @@ class _ItemPageState extends State<ItemPage>
   void initState() {
     if (item != null) {
       setState(() {
-        _tabController =
-            new TabController(vsync: this, length: item.images.length);
+        _tabController = new TabController(vsync: this, length: item.images.length);
       });
     }
     if (widget.item == null) {
@@ -131,8 +114,7 @@ class _ItemPageState extends State<ItemPage>
         setState(() {
           item = data;
           if (item != null) {
-            _tabController =
-                new TabController(vsync: this, length: item.images.length);
+            _tabController = new TabController(vsync: this, length: item.images.length);
           }
         });
       });
@@ -148,9 +130,7 @@ class _ItemPageState extends State<ItemPage>
 
   List<Widget> _doButton(BuildContext context) {
     final widgets = <Widget>[];
-    if (Services.auth.loggedIn &&
-        item != null &&
-        item.owner.id == Services.auth.user.id) {
+    if (Services.auth.loggedIn && item != null && item.owner.id == Services.auth.user.id) {
       widgets.addAll([
         new IconButton(
           icon: const Icon(Icons.delete),
@@ -170,8 +150,7 @@ class _ItemPageState extends State<ItemPage>
                 ),
                 actions: <Widget>[
                   new FlatButton(
-                    child: new Text(
-                        MaterialLocalizations.of(context).cancelButtonLabel),
+                    child: new Text(MaterialLocalizations.of(context).cancelButtonLabel),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -182,9 +161,7 @@ class _ItemPageState extends State<ItemPage>
                       Services.items.deleteItem(item.id).then((resp) {
                         if (resp.success) {
                           Services.items.getItems(force: true);
-                          Navigator
-                              .of(context)
-                              .pushNamedAndRemoveUntil('/', (route) => false);
+                          Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
                         }
                       });
                     },
@@ -255,8 +232,7 @@ class _ItemPageState extends State<ItemPage>
                           behavior: HitTestBehavior.opaque,
                           onHorizontalDragUpdate: (details) {
                             if (!_tabController.indexIsChanging) {
-                              _tabController.animateTo((_tabController.index -
-                                      details.delta.dx.clamp(-1, 1))
+                              _tabController.animateTo((_tabController.index - details.delta.dx.clamp(-1, 1))
                                   .clamp(0, _tabController.length - 1));
                             }
                           },
@@ -267,25 +243,21 @@ class _ItemPageState extends State<ItemPage>
                               children: <Widget>[
                                 new TabBarView(
                                     controller: _tabController,
-                                    children: new List<Widget>.generate(
-                                        item.images.length, (index) {
+                                    children: new List<Widget>.generate(item.images.length, (index) {
                                       if (index == 0) {
                                         return new Container(
-                                            color:
-                                                Theme.of(context).canvasColor,
+                                            color: Theme.of(context).canvasColor,
                                             child: new Hero(
                                                 tag: '${item.id}_img_$hash',
                                                 child: new FadeInImage(
                                                   placeholder: placeholder,
-                                                  image: new NetworkImage(
-                                                      '$apiImgUrl${item.images[index]}'),
+                                                  image: new NetworkImage('$apiImgUrl${item.images[index]}'),
                                                   fit: BoxFit.cover,
                                                 )));
                                       }
                                       return new FadeInImage(
                                           placeholder: placeholder,
-                                          image: new NetworkImage(
-                                              '$apiImgUrl${item.images[index]}'),
+                                          image: new NetworkImage('$apiImgUrl${item.images[index]}'),
                                           fit: BoxFit.cover);
                                     })),
 
@@ -301,18 +273,15 @@ class _ItemPageState extends State<ItemPage>
                                 ),
                                 // This gradient ensures that the toolbar icons are distinct
                                 // against the background image.
-                                // const DecoratedBox(
-                                //   decoration: const BoxDecoration(
-                                //     gradient: const LinearGradient(
-                                //       begin: const FractionalOffset(0.5, 0.0),
-                                //       end: const FractionalOffset(0.5, 0.30),
-                                //       colors: const <Color>[
-                                //         const Color(0x60000000),
-                                //         const Color(0x00000000)
-                                //       ],
-                                //     ),
-                                //   ),
-                                // ),
+                                const DecoratedBox(
+                                  decoration: const BoxDecoration(
+                                    gradient: const LinearGradient(
+                                      begin: const FractionalOffset(0.5, 0.0),
+                                      end: const FractionalOffset(0.5, 0.30),
+                                      colors: const <Color>[const Color(0x60000000), const Color(0x00000000)],
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
