@@ -67,10 +67,8 @@ class ItemsManager extends BasicService {
       final response = await iget(Services.auth.loggedIn != null ? '/items/auth' : '/items',
           Services.auth.loggedIn ? Services.auth.accessToken : null);
       if (response.success && response.data is List) {
-        return _items = new List<Item>.generate(
-                response.data?.length ?? 0,
-                (index) => new Item(response.data[index],
-                    Services.users.getDist(response.data[index]['lat'], response.data[index]['lng'])))
+        return _items = response.data
+            .map((f) => new Item(f, Services.users.getDist(f['lat'], f['lng'])))
             .where((item) => item.dist < Services.settings.value.maxDistance)
             .toList();
       }
