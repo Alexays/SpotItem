@@ -195,7 +195,7 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
   }
 
   Widget _giftCard() {
-    if (item.tracks.contains('gift')) {
+    if (!item.tracks.contains('gift')) {
       return new Container();
     }
     return new _Category(
