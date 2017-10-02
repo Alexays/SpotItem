@@ -76,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
   // Animation
   AnimationController _controller;
   Animation<double> _drawerContentsOpacity;
-  Animation<FractionalOffset> _drawerDetailsPosition;
+  Animation<Alignment> _drawerDetailsPosition;
 
   // Bool
   bool _showDrawerContents = true;
@@ -107,9 +107,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
       parent: new ReverseAnimation(_controller),
       curve: Curves.fastOutSlowIn,
     );
-    _drawerDetailsPosition = new FractionalOffsetTween(
-      begin: const FractionalOffset(0.0, -1.0),
-      end: const FractionalOffset(0.0, 0.0),
+    _drawerDetailsPosition = new AlignmentTween(
+      begin: const Alignment(0.0, -1.0),
+      end: const Alignment(0.0, 0.0),
     )
         .animate(new CurvedAnimation(
       parent: _controller,
@@ -405,7 +405,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
     ];
     if (!_isSearching) {
       widgets.add(new IconButton(
-        alignment: _filterAvailable ? const FractionalOffset(1.5, 0.5) : FractionalOffset.center,
+        alignment: _filterAvailable ? const Alignment(1.5, 0.0) : Alignment.center,
         padding: const EdgeInsets.all(0.0),
         icon: const Icon(Icons.search),
         onPressed: _handleSearchBegin,
@@ -415,7 +415,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
       widgets.addAll([
         new IconButton(
             padding: const EdgeInsets.all(0.0),
-            alignment: FractionalOffset.centerRight,
+            alignment: Alignment.centerRight,
             icon: const Icon(Icons.filter_list),
             onPressed: () {
               setState(_showFilter);

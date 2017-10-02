@@ -239,7 +239,7 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
                           },
                           child: new FlexibleSpaceBar(
                             background: new Stack(
-                              alignment: FractionalOffset.center,
+                              alignment: Alignment.center,
                               fit: StackFit.expand,
                               children: <Widget>[
                                 new Container(
