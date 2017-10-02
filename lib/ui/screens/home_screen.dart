@@ -425,10 +425,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
             itemBuilder: (context) => Services.items.sortMethod.map((f) {
                   switch (f) {
                     case 'name':
-                      return new PopupMenuItem(value: f, child: new Text(SpotL.of(context).name()));
+                      return new CheckedPopupMenuItem(
+                          checked: Services.items.tracks.value.contains('name'),
+                          value: f,
+                          child: new Text(SpotL.of(context).name()));
                       break;
                     case 'dist':
-                      return new PopupMenuItem(value: f, child: new Text(SpotL.of(context).dist()));
+                      return new CheckedPopupMenuItem(
+                          checked: Services.items.tracks.value.contains('dist') ||
+                              !Services.items.tracks.value.any((f) => Services.items.sortMethod.contains(f)),
+                          value: f,
+                          child: new Text(SpotL.of(context).dist()));
                       break;
                   }
                 }).toList(),
