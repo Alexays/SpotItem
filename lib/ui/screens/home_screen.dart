@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
               child: const Icon(Icons.add),
               tooltip: 'Add new item',
               onPressed: () async {
-                await Navigator.of(Services.context).pushNamed('/item/add');
+                await Navigator.of(Services.context).pushNamed('/items/add');
               })
         ]),
     new HomeScreenItem(

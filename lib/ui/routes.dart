@@ -10,52 +10,43 @@ import 'package:spotitem/ui/screens/debug_screen.dart';
 import 'package:spotitem/ui/screens/contact_screen.dart';
 import 'package:spotitem/ui/screens/settings_screen.dart';
 import 'package:spotitem/ui/screens/items/item_screen.dart';
-import 'package:fluro/fluro.dart';
+import 'package:spotitem/ui/screens/error_screen.dart';
+import 'package:flutter/material.dart';
 
-/// Routes Class
-class Routes {
-  /// Configure all routes
-  static void configureRoutes(Router router) {
-    router
-      ..define('/register',
-          handler: new Handler(
-              handlerFunc: (context, params) => const RegisterScreen()))
-      ..define('/profile/:id',
-          handler: new Handler(
-              handlerFunc: (context, params) =>
-                  new ProfileScreen(params['id'])))
-      ..define('/profile/edit/',
-          handler: new Handler(
-              handlerFunc: (context, params) => const EditUserScreen()))
-      ..define('/items/:id',
-          handler: new Handler(
-              handlerFunc: (context, params) =>
-                  new ItemPage(itemId: params['id'])))
-      ..define('/items/:id/edit',
-          handler: new Handler(
-              handlerFunc: (context, params) =>
-                  new EditItemScreen(itemId: params['id'])))
-      ..define('/item/add',
-          handler: new Handler(
-              handlerFunc: (context, params) => const AddItemScreen()))
-      ..define('/groups/add',
-          handler: new Handler(
-              handlerFunc: (context, params) => const AddGroupScreen()))
-      ..define('/groups/:id/edit',
-          handler: new Handler(
-              handlerFunc: (context, params) =>
-                  new EditGroupScreen(groupId: params['id'])))
-      ..define('/messages/add',
-          handler: new Handler(
-              handlerFunc: (context, params) => const AddConvScreen()))
-      ..define('/contacts',
-          handler: new Handler(
-              handlerFunc: (context, params) => const ContactScreen()))
-      ..define('/settings',
-          handler: new Handler(
-              handlerFunc: (context, params) => const SettingsScreen()))
-      ..define('/debug',
-          handler: new Handler(
-              handlerFunc: (context, params) => const DebugScreen()));
+/// static Routes
+Map<String, WidgetBuilder> staticRoutes = {
+  '/register': (_) => const RegisterScreen(),
+  '/profile/edit': (_) => const EditUserScreen(),
+  '/items/add': (_) => const AddItemScreen(),
+  '/groups/add': (_) => const AddGroupScreen(),
+  '/messages/add': (_) => const AddConvScreen(),
+  '/contacts': (_) => const ContactScreen(),
+  '/settings': (_) => const SettingsScreen(),
+  '/debug': (_) => const DebugScreen(),
+};
+
+/// Configure all routes
+Route<dynamic> configureRoutes(RouteSettings settings) {
+  final params = settings.name.split('/').where((f) => f.startsWith(':')).map((f) => f.substring(1)).toList();
+  final routes = settings.name
+      .split('/')
+      .map((f) => params.any((d) => f.length > 1 && d == f.substring(1)) ? ':params' : f)
+      .join('/');
+  switch (routes) {
+    case '/profile/:params':
+      return new MaterialPageRoute<dynamic>(settings: settings, builder: (_) => new ProfileScreen(params[0]));
+    case '/items/:params':
+      return new MaterialPageRoute<dynamic>(settings: settings, builder: (_) => new ItemPage(itemId: params[0]));
+    case '/items/:params/edit':
+      return new MaterialPageRoute<dynamic>(settings: settings, builder: (_) => new EditItemScreen(itemId: params[0]));
+    case '/groups/:params/edit':
+      return new MaterialPageRoute<dynamic>(
+          settings: settings, builder: (_) => new EditGroupScreen(groupId: params[0]));
+    default:
+      return errorRoute(settings);
   }
 }
+
+/// On error routes
+Route<dynamic> errorRoute(RouteSettings settings) =>
+    new MaterialPageRoute<dynamic>(settings: settings, builder: (_) => const ErrorScreen());

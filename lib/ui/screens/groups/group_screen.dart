@@ -373,7 +373,7 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
                 onTap: () {},
                 child: new GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pushNamed('/profile/${group.users[index].id}');
+                      Navigator.of(context).pushNamed('/profile/:${group.users[index].id}');
                     },
                     child: new Container(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),

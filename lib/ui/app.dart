@@ -1,10 +1,11 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:spotitem/ui/screens/home_screen.dart';
 import 'package:spotitem/ui/screens/login_screen.dart';
 import 'package:spotitem/ui/screens/error_screen.dart';
-import 'package:flutter/material.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/ui/spot_strings.dart';
+import 'package:spotitem/ui/routes.dart';
 
 class _SpotLocalizationsDelegate extends LocalizationsDelegate<SpotL> {
   @override
@@ -25,11 +26,7 @@ class SpotItemApp extends MaterialApp {
           title: 'SpotItem',
           home: new Builder(builder: (context) {
             Services.loc = context;
-            return init
-                ? Services.auth.loggedIn
-                    ? const HomeScreen()
-                    : const LoginScreen()
-                : const ErrorScreen();
+            return init ? Services.auth.loggedIn ? const HomeScreen() : const LoginScreen() : const ErrorScreen();
           }),
           theme: new ThemeData(
             accentColor: const Color(0xFF06A6D2),
@@ -47,15 +44,14 @@ class SpotItemApp extends MaterialApp {
               900: const Color(0xFF016A9E)
             }),
           ),
-          onGenerateRoute: Services.router?.generator,
+          routes: staticRoutes,
+          onGenerateRoute: configureRoutes,
+          onUnknownRoute: errorRoute,
           showPerformanceOverlay: false,
           localizationsDelegates: <_SpotLocalizationsDelegate>[
             new _SpotLocalizationsDelegate(),
           ],
-          supportedLocales: const <Locale>[
-            const Locale('en', 'US'),
-            const Locale('fr', 'FR')
-          ],
+          supportedLocales: const <Locale>[const Locale('en', 'US'), const Locale('fr', 'FR')],
           navigatorObservers: [
             Services.observer,
           ],
