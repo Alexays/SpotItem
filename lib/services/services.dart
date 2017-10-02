@@ -101,12 +101,14 @@ class Services {
     _singleton._socialManager = new SocialManager();
     _singleton._router = new Router();
     _singleton._firebaseMessaging = new FirebaseMessaging();
-    final settings = await _singleton._settingsManager.init();
-    final auth = await _singleton._authManager.init();
-    final items = await _singleton._itemsManager.init();
-    final groups = await _singleton._groupsManager.init();
-    final users = await _singleton._usersManager.init();
-    final social = await _singleton._socialManager.init();
+    final bool = [
+      await _singleton._settingsManager.init(),
+      await _singleton._authManager.init(),
+      await _singleton._itemsManager.init(),
+      await _singleton._groupsManager.init(),
+      await _singleton._usersManager.init(),
+      await _singleton._socialManager.init(),
+    ];
     Routes.configureRoutes(_singleton._router);
     _singleton._firebaseMessaging.configure(
       onMessage: (message) {
@@ -119,14 +121,13 @@ class Services {
         print('onResume: $message');
       },
     );
-    _singleton._firebaseMessaging.requestNotificationPermissions(
-        const IosNotificationSettings(sound: true, badge: true, alert: true));
+    _singleton._firebaseMessaging
+        .requestNotificationPermissions(const IosNotificationSettings(sound: true, badge: true, alert: true));
     _singleton._firebaseMessaging.onIosSettingsRegistered.listen((settings) {
       print('Settings registered: $settings');
     });
     _singleton._analytics = new FirebaseAnalytics();
-    _singleton._observer =
-        new FirebaseAnalyticsObserver(analytics: _singleton._analytics);
-    return settings && auth && items && groups && users && social;
+    _singleton._observer = new FirebaseAnalyticsObserver(analytics: _singleton._analytics);
+    return !bool.contains(false);
   }
 }

@@ -14,7 +14,7 @@ class ItemsManager extends BasicService {
   List<String> get sortMethod => _sortMethod;
 
   /// Get sort method and categories to exlude when filter items
-  List<String> get exludeTracks => [_sortMethod, _categories].expand((x) => x).toList();
+  List<String> get exludeTracks => [_sortMethod].expand((x) => x).toList();
 
   /// Get items
   List<Item> get items => _items;
