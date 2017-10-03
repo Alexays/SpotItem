@@ -76,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
   // Animation
   AnimationController _controller;
   Animation<double> _drawerContentsOpacity;
-  Animation<Alignment> _drawerDetailsPosition;
+  Animation<Offset> _drawerDetailsPosition;
 
   // Bool
   bool _showDrawerContents = true;
@@ -107,9 +107,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
       parent: new ReverseAnimation(_controller),
       curve: Curves.fastOutSlowIn,
     );
-    _drawerDetailsPosition = new AlignmentTween(
-      begin: const Alignment(0.0, -1.0),
-      end: const Alignment(0.0, 0.0),
+    _drawerDetailsPosition = new Tween<Offset>(
+      begin: const Offset(0.0, -1.0),
+      end: Offset.zero,
     )
         .animate(new CurvedAnimation(
       parent: _controller,
