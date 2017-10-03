@@ -124,8 +124,7 @@ class AuthManager extends BasicService {
       if (signIn) {
         return await login({
           'token': (await _googleUser.authentication).accessToken,
-          'user':
-              '{"id": "${_googleUser.id}", "name": "${_googleUser.displayName}", "email": "${_googleUser.email}", "avatar": "${_googleUser.photoUrl}"}',
+          'email': _googleUser.email,
         }, 'google');
       }
     } on Exception {
