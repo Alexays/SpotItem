@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:spotitem/keys.dart';
+import 'package:http/http.dart';
 import 'package:spotitem/models/api.dart';
 import 'package:spotitem/models/user.dart';
 import 'package:spotitem/services/basic.dart';
@@ -85,11 +86,11 @@ class AuthManager extends BasicService {
   ///
   /// @param token Token will be user to access API
   /// @returns Valid token
-  Future<String> verifyToken(String token) async {
+  Future<String> verifyToken(Client client, String token) async {
     if ((token == null && accessToken != null) || token != accessToken) {
       return token;
     }
-    if ((loggedIn && (exp == null || new DateTime.now().isAfter(exp))) && !await getAccessToken()) {
+    if ((loggedIn && (exp == null || new DateTime.now().isAfter(exp))) && !await getAccessToken(client)) {
       await Navigator.of(Services.context).pushNamedAndRemoveUntil('/', (route) => false);
       return null;
     }
@@ -98,11 +99,17 @@ class AuthManager extends BasicService {
 
   /// Regenerate access_token.
   ///
-  Future<bool> getAccessToken() async {
-    final response = await iget('/check/$provider', refreshToken);
-    if (response.success) {
-      accessToken = response.data['access_token'];
-      exp = new DateTime.fromMillisecondsSinceEpoch((response.data['exp'] * 1000) - 30);
+  Future<bool> getAccessToken(Client client) async {
+    final response = await client.get('$apiUrl/check/$provider', headers: getHeaders(refreshToken));
+    var apiRes;
+    try {
+      apiRes = new ApiRes(JSON.decode(response.body), response.statusCode);
+    } catch (err) {
+      apiRes = new ApiRes.classic();
+    }
+    if (apiRes.success) {
+      accessToken = apiRes.data['access_token'];
+      exp = new DateTime.fromMillisecondsSinceEpoch((apiRes.data['exp'] * 1000) - 30);
       return true;
     }
     await logout();
@@ -222,9 +229,9 @@ class AuthManager extends BasicService {
     if (Services.origin == Origin.mock) {
       return null;
     }
-    final channel = new IOWebSocketChannel.connect('ws://217.182.65.67:1337');
-    channel.sink.add(JSON.encode({'type': 'CONNECTION', 'userId': Services.auth.user.id}));
-    channel.stream.listen(handleWsData);
-    return channel;
+    // final channel = new IOWebSocketChannel.connect('ws://localhost:1337');
+    // channel.sink.add(JSON.encode({'type': 'CONNECTION', 'userId': Services.auth.user.id}));
+    // channel.stream.listen(handleWsData);
+    // return channel;
   }
 }

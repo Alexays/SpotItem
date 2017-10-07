@@ -26,8 +26,10 @@ class BasicService {
     if (Services.origin == Origin.mock) {
       return Services.mock;
     }
-    final verifiedToken = await Services.auth.verifyToken(token);
-    final response = await http.get(Uri.encodeFull('$apiUrl$url'), headers: getHeaders(verifiedToken));
+    final client = new http.Client();
+    final verifiedToken = await Services.auth.verifyToken(client, token);
+    final response =
+        await client.get(Uri.encodeFull('$apiUrl$url'), headers: getHeaders(verifiedToken)).whenComplete(client.close);
     var apiRes;
     try {
       apiRes = new ApiRes(JSON.decode(response.body), response.statusCode);
@@ -47,8 +49,12 @@ class BasicService {
     if (Services.origin == Origin.mock) {
       return Services.mock;
     }
-    final verifiedToken = await Services.auth.verifyToken(token);
-    final response = await http.post(Uri.encodeFull('$apiUrl$url'), headers: getHeaders(verifiedToken), body: payload);
+    final client = new http.Client();
+    final verifiedToken = await Services.auth.verifyToken(client, token);
+    final response = await client
+        .post(Uri.encodeFull('$apiUrl$url'), headers: getHeaders(verifiedToken), body: payload)
+        .whenComplete(client.close);
+    print(response.body);
     var apiRes;
     try {
       apiRes = new ApiRes(JSON.decode(response.body), response.statusCode);
@@ -68,8 +74,11 @@ class BasicService {
     if (Services.origin == Origin.mock) {
       return Services.mock;
     }
-    final verifiedToken = await Services.auth.verifyToken(token);
-    final response = await http.put(Uri.encodeFull('$apiUrl$url'), headers: getHeaders(verifiedToken), body: payload);
+    final client = new http.Client();
+    final verifiedToken = await Services.auth.verifyToken(client, token);
+    final response = await client
+        .put(Uri.encodeFull('$apiUrl$url'), headers: getHeaders(verifiedToken), body: payload)
+        .whenComplete(client.close);
     var apiRes;
     try {
       apiRes = new ApiRes(JSON.decode(response.body), response.statusCode);
@@ -88,8 +97,11 @@ class BasicService {
     if (Services.origin == Origin.mock) {
       return Services.mock;
     }
-    final verifiedToken = await Services.auth.verifyToken(token);
-    final response = await http.delete(Uri.encodeFull('$apiUrl$url'), headers: getHeaders(verifiedToken));
+    final client = new http.Client();
+    final verifiedToken = await Services.auth.verifyToken(client, token);
+    final response = await client
+        .delete(Uri.encodeFull('$apiUrl$url'), headers: getHeaders(verifiedToken))
+        .whenComplete(client.close);
     var apiRes;
     try {
       apiRes = new ApiRes(JSON.decode(response.body), response.statusCode);

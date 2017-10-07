@@ -20,10 +20,10 @@ const String keySettings = 'KEY_SETTINGS';
 const String clientSecret = 'et+nWhUB>.Dg[c4z';
 
 /// Api URL
-const String apiUrl = 'http://217.182.65.67:3417/api';
+const String apiUrl = 'http://192.168.0.21:1337/api';
 
 /// Api img URL
-const String apiImgUrl = 'http://217.182.65.67:3417/img/';
+const String apiImgUrl = 'http://192.168.0.21:1337/img/';
 
 /// Google map static Api key
 const String staticApiKey = 'AIzaSyAJh3ASTwUBo06fQai_PZJa-R9czeRC2D0';
