@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:spotitem/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/utils.dart';
+import 'package:spotitem/models/api.dart';
 import 'package:spotitem/ui/spot_strings.dart';
 
 /// Register screen class
@@ -40,11 +41,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
     if (form.validate()) {
       user['password'] = password;
-      final dynamic data = await Services.auth.register(user);
-      if (data['success']) {
+      final data = await Services.auth.register(user);
+      if (data.success) {
         return Navigator.pushReplacementNamed(context, '/');
       }
-      return showSnackBar(context, data['msg']);
+      return showSnackBar(context, data.msg);
     }
     showSnackBar(context, SpotL.of(context).correctError());
   }

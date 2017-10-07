@@ -497,6 +497,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
             bottomNavigationBar: _isSearching
                 ? null
                 : new BottomNavigationBar(
+                    type: BottomNavigationBarType.fixed,
                     currentIndex: page,
                     items: _homeScreenItems.map((data) => data.item).toList(),
                     onTap: (index) {

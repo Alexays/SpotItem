@@ -26,7 +26,7 @@ class _DiscoverViewState extends State<DiscoverView> {
 
   Future<Null> _loadItems([bool force = false]) async {
     final data = await Services.items.getItems(force: force);
-    if (data == null || !mounted) {
+    if (!mounted || data == null) {
       return;
     }
     setState(() {
@@ -39,9 +39,7 @@ class _DiscoverViewState extends State<DiscoverView> {
       itemBuilder: (context, index) {
         switch (index) {
           case 0:
-            final recents = new List<Item>.from(_items)
-                .where((item) => !item.tracks.contains('group'))
-                .toList();
+            final recents = new List<Item>.from(_items).where((item) => !item.tracks.contains('group')).toList();
             if (recents.length > 10) {
               recents.length = 10;
             }
@@ -52,8 +50,7 @@ class _DiscoverViewState extends State<DiscoverView> {
                   padding: const EdgeInsets.all(10.0),
                   child: new Text(
                     SpotL.of(Services.loc).recentItems(),
-                    style: const TextStyle(
-                        fontWeight: FontWeight.w400, fontSize: 20.0),
+                    style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 20.0),
                   ),
                 ),
                 new Container(
@@ -63,9 +60,7 @@ class _DiscoverViewState extends State<DiscoverView> {
               ],
             );
           case 1:
-            final groups = new List<Item>.from(_items)
-                .where((item) => item.tracks.contains('group'))
-                .toList();
+            final groups = new List<Item>.from(_items).where((item) => item.tracks.contains('group')).toList();
             if (groups.isEmpty) {
               return new Container();
             }
@@ -79,8 +74,7 @@ class _DiscoverViewState extends State<DiscoverView> {
                   padding: const EdgeInsets.all(10.0),
                   child: new Text(
                     SpotL.of(Services.loc).fromYourGroups(),
-                    style: const TextStyle(
-                        fontWeight: FontWeight.w400, fontSize: 20.0),
+                    style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 20.0),
                   ),
                 ),
                 new Container(
@@ -95,9 +89,7 @@ class _DiscoverViewState extends State<DiscoverView> {
   @override
   Widget build(BuildContext context) => new RefreshIndicator(
         onRefresh: () => _loadItems(true),
-        child: _items == null
-            ? const Center(child: const CircularProgressIndicator())
-            : _buildDiscover(),
+        child: _items == null ? const Center(child: const CircularProgressIndicator()) : _buildDiscover(),
       );
 }
 
