@@ -142,7 +142,7 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
         children: <Widget>[
           new Text(SpotL.of(context).noImages()),
           const Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
           ),
           new RaisedButton(
             child: new Text(SpotL.of(context).addImage()),
@@ -243,6 +243,9 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
     if (_groups == null) {
       return const Center(child: const CircularProgressIndicator());
     }
+    if (_groups.isEmpty) {
+      return new Center(child: new Text(SpotL.of(context).noGroups()));
+    }
     return new Column(
       children: new List<Widget>.generate(
           _groups.length,
@@ -291,91 +294,104 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                                       child: new TabBarView(children: <Widget>[
                                         new Container(
                                             margin: const EdgeInsets.all(20.0),
-                                            child: new Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
-                                              new TextFormField(
-                                                key: const Key('name'),
-                                                decoration: new InputDecoration(hintText: SpotL.of(context).namePh(), labelText: SpotL.of(context).name()),
-                                                validator: validateName,
-                                                controller: _nameCtrl,
-                                                onSaved: (data) {
-                                                  _name = data;
-                                                },
-                                              ),
-                                              new TextFormField(
-                                                key: const Key('about'),
-                                                decoration: new InputDecoration(hintText: SpotL.of(context).aboutPh(), labelText: SpotL.of(context).about()),
-                                                controller: _aboutCtrl,
-                                                onSaved: (data) {
-                                                  _about = data;
-                                                },
-                                              ),
-                                              new TextFormField(
-                                                key: const Key('location'),
-                                                decoration:
-                                                    new InputDecoration(hintText: SpotL.of(context).locationPh(), labelText: SpotL.of(context).location()),
-                                                validator: validateString,
-                                                controller: _locationCtrl,
-                                                onSaved: (data) {
-                                                  _location = data;
-                                                },
-                                              ),
-                                              new CheckboxListTile(
-                                                title: new Text(SpotL.of(context).gift()),
-                                                value: _tracks.contains('gift'),
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    if (value) {
-                                                      _tracks.add('gift');
-                                                    } else {
-                                                      _tracks.remove('gift');
-                                                    }
-                                                  });
-                                                },
-                                                secondary: const Icon(Icons.card_giftcard),
-                                              ),
-                                              new CheckboxListTile(
-                                                title: new Text(SpotL.of(context).private()),
-                                                value: _tracks.contains('private'),
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    if (value) {
-                                                      _tracks.add('private');
-                                                    } else {
-                                                      _tracks.remove('private');
-                                                    }
-                                                  });
-                                                },
-                                                secondary: const Icon(Icons.lock),
-                                              ),
-                                              new Container(
-                                                height: 100.0,
-                                                child: new ListView.builder(
-                                                    scrollDirection: Axis.horizontal,
-                                                    padding: const EdgeInsets.symmetric(vertical: 15.0),
-                                                    itemCount: Services.items.categories.length,
-                                                    itemExtent: 75.0,
-                                                    itemBuilder: (context, index) => !_tracks.contains(Services.items.categories[index])
-                                                        ? new FlatButton(
-                                                            child: new Image.asset('assets/${Services.items.categories[index]}.png'),
-                                                            onPressed: () {
-                                                              _tracks = _tracks.where((f) => !Services.items.categories.any((d) => d == f)).toList()
-                                                                ..add(Services.items.categories[index]);
-                                                              setState(() {
-                                                                _tracks = new List<String>.from(_tracks);
-                                                              });
-                                                            },
-                                                          )
-                                                        : new RaisedButton(
-                                                            child: new Image.asset('assets/${Services.items.categories[index]}.png'),
-                                                            onPressed: () {
-                                                              _tracks.remove(Services.items.categories[index]);
-                                                              setState(() {
-                                                                _tracks = new List<String>.from(_tracks);
-                                                              });
-                                                            },
-                                                          )),
-                                              ),
-                                            ])),
+                                            child: new Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  new TextFormField(
+                                                    key: const Key('name'),
+                                                    decoration: new InputDecoration(
+                                                        hintText: SpotL.of(context).namePh(),
+                                                        labelText: SpotL.of(context).name()),
+                                                    validator: validateName,
+                                                    controller: _nameCtrl,
+                                                    onSaved: (data) {
+                                                      _name = data;
+                                                    },
+                                                  ),
+                                                  new TextFormField(
+                                                    key: const Key('about'),
+                                                    decoration: new InputDecoration(
+                                                        hintText: SpotL.of(context).aboutPh(),
+                                                        labelText: SpotL.of(context).about()),
+                                                    controller: _aboutCtrl,
+                                                    onSaved: (data) {
+                                                      _about = data;
+                                                    },
+                                                  ),
+                                                  new TextFormField(
+                                                    key: const Key('location'),
+                                                    decoration: new InputDecoration(
+                                                        hintText: SpotL.of(context).locationPh(),
+                                                        labelText: SpotL.of(context).location()),
+                                                    validator: validateString,
+                                                    controller: _locationCtrl,
+                                                    onSaved: (data) {
+                                                      _location = data;
+                                                    },
+                                                  ),
+                                                  new CheckboxListTile(
+                                                    title: new Text(SpotL.of(context).gift()),
+                                                    value: _tracks.contains('gift'),
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        if (value) {
+                                                          _tracks.add('gift');
+                                                        } else {
+                                                          _tracks.remove('gift');
+                                                        }
+                                                      });
+                                                    },
+                                                    secondary: const Icon(Icons.card_giftcard),
+                                                  ),
+                                                  new CheckboxListTile(
+                                                    title: new Text(SpotL.of(context).private()),
+                                                    value: _tracks.contains('private'),
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        if (value) {
+                                                          _tracks.add('private');
+                                                        } else {
+                                                          _tracks.remove('private');
+                                                        }
+                                                      });
+                                                    },
+                                                    secondary: const Icon(Icons.lock),
+                                                  ),
+                                                  new Flexible(
+                                                    child: new ListView.builder(
+                                                      scrollDirection: Axis.horizontal,
+                                                      padding: const EdgeInsets.symmetric(vertical: 15.0),
+                                                      itemCount: Services.items.categories.length,
+                                                      itemExtent: 75.0,
+                                                      itemBuilder: (context, index) => !_tracks
+                                                              .contains(Services.items.categories[index])
+                                                          ? new FlatButton(
+                                                              child: new Image.asset(
+                                                                  'assets/${Services.items.categories[index]}.png'),
+                                                              onPressed: () {
+                                                                _tracks = _tracks
+                                                                    .where((f) =>
+                                                                        !Services.items.categories.any((d) => d == f))
+                                                                    .toList()
+                                                                      ..add(Services.items.categories[index]);
+                                                                setState(() {
+                                                                  _tracks = new List<String>.from(_tracks);
+                                                                });
+                                                              },
+                                                            )
+                                                          : new RaisedButton(
+                                                              child: new Image.asset(
+                                                                  'assets/${Services.items.categories[index]}.png'),
+                                                              onPressed: () {
+                                                                _tracks.remove(Services.items.categories[index]);
+                                                                setState(() {
+                                                                  _tracks = new List<String>.from(_tracks);
+                                                                });
+                                                              },
+                                                            ),
+                                                    ),
+                                                  ),
+                                                ])),
                                         new Container(
                                             margin: const EdgeInsets.all(20.0),
                                             child: new Column(children: [
@@ -398,7 +414,8 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                   new Container(
                     margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                     child: new ConstrainedBox(
-                        constraints: new BoxConstraints.tightFor(height: 48.0, width: MediaQuery.of(context).size.width),
+                        constraints:
+                            new BoxConstraints.tightFor(height: 48.0, width: MediaQuery.of(context).size.width),
                         child: new RaisedButton(
                           color: Theme.of(context).accentColor,
                           onPressed: () {

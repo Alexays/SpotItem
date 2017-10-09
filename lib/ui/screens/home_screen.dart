@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
               child: const Icon(Icons.add),
               tooltip: 'Add new item',
               onPressed: () async {
-                await Navigator.of(Services.context).pushNamed('/items/add');
+                await Navigator.of(Services.context).pushNamed('/items/add/');
               })
         ]),
     new HomeScreenItem(
@@ -62,13 +62,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
               child: const Icon(Icons.person_add),
               tooltip: 'Add new groups',
               onPressed: () async {
-                await Navigator.of(Services.context).pushNamed('/groups/add');
+                await Navigator.of(Services.context).pushNamed('/groups/add/');
               }),
           new FloatingActionButton(
               child: const Icon(Icons.sms),
               tooltip: 'Add new messages',
               onPressed: () async {
-                await Navigator.of(Services.context).pushNamed('/messages/add');
+                await Navigator.of(Services.context).pushNamed('/messages/add/');
               })
         ]),
   ];
@@ -252,8 +252,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
   Widget _buildDrawer(BuildContext context) => new Drawer(
           child: new ListView(children: <Widget>[
         new UserAccountsDrawerHeader(
-            accountName: new Text('${Services.auth.user?.firstname} ${Services.auth.user?.name}'),
-            accountEmail: new Text(Services.auth.user?.email),
+            accountName: new Text('${Services.auth.user?.firstname} ${Services.auth.user?.name}',
+                overflow: TextOverflow.ellipsis),
+            accountEmail: new Text(
+              Services.auth.user?.email,
+              overflow: TextOverflow.ellipsis,
+            ),
             currentAccountPicture: getAvatar(Services.auth.user),
             otherAccountsPictures: <Widget>[
               new IconButton(

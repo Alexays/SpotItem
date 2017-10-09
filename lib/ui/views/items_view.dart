@@ -56,7 +56,7 @@ class _ItemsViewState extends State<ItemsView> {
           new RaisedButton(
             child: new Text(SpotL.of(Services.loc).addItem()),
             onPressed: () async {
-              await Navigator.of(Services.context).pushNamed('/item/add');
+              await Navigator.of(Services.context).pushNamed('/items/add/');
             },
           ),
         ],

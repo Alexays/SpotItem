@@ -78,7 +78,7 @@ class _GroupsViewState extends State<GroupsView> {
             new RaisedButton(
               child: new Text(SpotL.of(context).addGroup()),
               onPressed: () async {
-                await Navigator.of(Services.context).pushNamed('/groups/add');
+                await Navigator.of(Services.context).pushNamed('/groups/add/');
               },
             ),
           ],

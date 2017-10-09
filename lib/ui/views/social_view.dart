@@ -102,7 +102,7 @@ class _SocialViewState extends State<SocialView> {
                     new RaisedButton(
                       child: new Text(SpotL.of(context).createConv()),
                       onPressed: () async {
-                        await Navigator.of(Services.context).pushNamed('/messages/add');
+                        await Navigator.of(Services.context).pushNamed('/messages/add/');
                       },
                     ),
                   ],

@@ -16,10 +16,10 @@ import 'package:flutter/material.dart';
 /// static Routes
 Map<String, WidgetBuilder> staticRoutes = {
   '/register': (_) => const RegisterScreen(),
-  '/profile/edit': (_) => const EditUserScreen(),
-  '/items/add': (_) => const AddItemScreen(),
-  '/groups/add': (_) => const AddGroupScreen(),
-  '/messages/add': (_) => const AddConvScreen(),
+  '/profile/edit/': (_) => const EditUserScreen(),
+  '/items/add/': (_) => const AddItemScreen(),
+  '/groups/add/': (_) => const AddGroupScreen(),
+  '/messages/add/': (_) => const AddConvScreen(),
   '/contacts': (_) => const ContactScreen(),
   '/settings': (_) => const SettingsScreen(),
   '/debug': (_) => const DebugScreen(),

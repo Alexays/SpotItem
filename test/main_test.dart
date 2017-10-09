@@ -125,7 +125,7 @@ void main() {
           findsOneWidget);
       await tester.tap(find.byType(PopupMenuButton));
       await tester.pumpAndSettle();
-      await tester.tap(find.descendant(of: find.byType(PopupMenuItem), matching: find.text('Name')));
+      await tester.tap(find.descendant(of: find.byType(CheckedPopupMenuItem), matching: find.text('Name')));
       await tester.pumpAndSettle();
       expect(find.descendant(of: find.byType(ItemsListItem).first, matching: find.text('Amande')), findsOneWidget);
       expect(Services.items.items.length, 2);

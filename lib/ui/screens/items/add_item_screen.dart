@@ -133,6 +133,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
     if (_groups == null) {
       return const Center(child: const CircularProgressIndicator());
     }
+    if (_groups.isEmpty) {
+      return new Center(child: new Text(SpotL.of(context).noGroups()));
+    }
     return new Column(
       children: new List<Widget>.generate(
           _groups.length,
@@ -210,22 +213,26 @@ class _AddItemScreenState extends State<AddItemScreen> {
                               new Column(children: <Widget>[
                                 new TextFormField(
                                     key: const Key('name'),
-                                    decoration: new InputDecoration(hintText: SpotL.of(context).namePh(), labelText: SpotL.of(context).name()),
+                                    decoration: new InputDecoration(
+                                        hintText: SpotL.of(context).namePh(), labelText: SpotL.of(context).name()),
                                     validator: validateName,
                                     onSaved: (value) {
                                       _name = value.trim();
                                     }),
                                 new TextFormField(
                                     key: const Key('about'),
-                                    decoration: new InputDecoration(hintText: SpotL.of(Services.loc).aboutPh(), labelText: SpotL.of(context).about()),
+                                    decoration: new InputDecoration(
+                                        hintText: SpotL.of(Services.loc).aboutPh(),
+                                        labelText: SpotL.of(context).about()),
                                     validator: validateString,
                                     onSaved: (value) {
                                       _about = value.trim();
                                     }),
                                 new TextFormField(
                                     key: const Key('location'),
-                                    decoration:
-                                        new InputDecoration(hintText: SpotL.of(Services.loc).locationPh(), labelText: SpotL.of(Services.loc).location()),
+                                    decoration: new InputDecoration(
+                                        hintText: SpotL.of(Services.loc).locationPh(),
+                                        labelText: SpotL.of(Services.loc).location()),
                                     validator: validateString,
                                     onSaved: (value) {
                                       _location = value.trim();
@@ -264,12 +271,15 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                       padding: const EdgeInsets.symmetric(vertical: 15.0),
                                       itemCount: Services.items.categories.length,
                                       itemExtent: 75.0,
-                                      itemBuilder: (context, index) => !_tracks.contains(Services.items.categories[index])
+                                      itemBuilder: (context, index) => !_tracks
+                                              .contains(Services.items.categories[index])
                                           ? new FlatButton(
                                               child: new Image.asset('assets/${Services.items.categories[index]}.png'),
                                               onPressed: () {
-                                                _tracks = _tracks.where((f) => !Services.items.categories.any((d) => d == f)).toList()
-                                                  ..add(Services.items.categories[index]);
+                                                _tracks = _tracks
+                                                    .where((f) => !Services.items.categories.any((d) => d == f))
+                                                    .toList()
+                                                      ..add(Services.items.categories[index]);
                                                 setState(() {
                                                   _tracks = new List<String>.from(_tracks);
                                                 });
@@ -290,7 +300,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
                             isActive: true),
                         new Step(
                             title: new Text(SpotL.of(context).images()),
-                            content: new Container(height: 120 + 320 * (_imagesFile.length / 3).floorToDouble(), child: getImageGrid()),
+                            content: new Container(
+                                height: 120 + 320 * (_imagesFile.length / 3).floorToDouble(), child: getImageGrid()),
                             isActive: true),
                         new Step(title: new Text(SpotL.of(context).groups()), content: getGroups(), isActive: true),
                       ],
