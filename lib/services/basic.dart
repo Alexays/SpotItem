@@ -54,7 +54,6 @@ class BasicService {
     final response = await client
         .post(Uri.encodeFull('$apiUrl$url'), headers: getHeaders(verifiedToken), body: payload)
         .whenComplete(client.close);
-    print(response.body);
     var apiRes;
     try {
       apiRes = new ApiRes(JSON.decode(response.body), response.statusCode);

@@ -229,9 +229,10 @@ class AuthManager extends BasicService {
     if (Services.origin == Origin.mock) {
       return null;
     }
-    // final channel = new IOWebSocketChannel.connect('ws://localhost:1337');
-    // channel.sink.add(JSON.encode({'type': 'CONNECTION', 'userId': Services.auth.user.id}));
-    // channel.stream.listen(handleWsData);
-    // return channel;
+    final channel = new IOWebSocketChannel.connect('ws://$baseHost');
+    channel.sink.add({'type': 'request', 'id': 1, 'method': 'GET', 'path': '/h'});
+    channel.sink.add(JSON.encode({'type': 'CONNECTION', 'userId': Services.auth.user.id}));
+    channel.stream.listen(handleWsData);
+    return channel;
   }
 }

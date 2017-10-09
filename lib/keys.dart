@@ -19,11 +19,14 @@ const String keySettings = 'KEY_SETTINGS';
 /// Api secret
 const String clientSecret = 'et+nWhUB>.Dg[c4z';
 
+/// Api base host
+const String baseHost = '192.168.1.114:1337';
+
 /// Api URL
-const String apiUrl = 'http://192.168.0.21:1337/api';
+const String apiUrl = 'http://$baseHost/api';
 
 /// Api img URL
-const String apiImgUrl = 'http://192.168.0.21:1337/img/';
+const String apiImgUrl = 'http://$baseHost/img/';
 
 /// Google map static Api key
 const String staticApiKey = 'AIzaSyAJh3ASTwUBo06fQai_PZJa-R9czeRC2D0';
