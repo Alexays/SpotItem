@@ -67,19 +67,21 @@ class _AddItemScreenState extends State<AddItemScreen> {
         _groups = data;
       });
     });
-    geocoding
-        .searchByLocation(new Location(Services.users.location['latitude'], Services.users.location['longitude']))
-        .then((geo) {
-      for (var f in geo.results[0].addressComponents) {
-        if (f.types.contains('locality')) {
-          setState(() {
-            _location = f.shortName;
-            _locationCtrl = new TextEditingController.fromValue(new TextEditingValue(text: _location));
-          });
-          break;
+    if (Services.users.location != null) {
+      geocoding
+          .searchByLocation(new Location(Services.users.location['latitude'], Services.users.location['longitude']))
+          .then((geo) {
+        for (var f in geo.results[0].addressComponents) {
+          if (f.types.contains('locality')) {
+            setState(() {
+              _location = f.shortName;
+              _locationCtrl = new TextEditingController.fromValue(new TextEditingValue(text: _location));
+            });
+            break;
+          }
         }
-      }
-    });
+      });
+    }
     super.initState();
   }
 
