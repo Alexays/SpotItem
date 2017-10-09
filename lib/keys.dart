@@ -1,5 +1,5 @@
 /// Spotitem version
-const String version = '0.3.0';
+const String version = '0.4.0';
 
 /// Storage key of user data
 const String keyUser = 'KEY_USER';
@@ -20,13 +20,14 @@ const String keySettings = 'KEY_SETTINGS';
 const String clientSecret = 'et+nWhUB>.Dg[c4z';
 
 /// Api base host
-const String baseHost = '217.182.65.67:3417';
+//const String baseHost = '217.182.65.67:3417';
+const String baseHost = '192.168.0.21:1337';
 
 /// Api URL
 const String apiUrl = 'http://$baseHost/api';
 
 /// Api img URL
-const String apiImgUrl = 'http://$baseHost/img/';
+const String apiImgUrl = '$apiUrl/img/';
 
 /// Google map static Api key
 const String staticApiKey = 'AIzaSyAJh3ASTwUBo06fQai_PZJa-R9czeRC2D0';
