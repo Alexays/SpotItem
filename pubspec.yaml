@@ -13,6 +13,7 @@ dependencies:
   intl_translation: '>=0.14.0 <0.16.0'
   firebase_messaging: '>=0.0.5'
   firebase_analytics: '>=0.1.0'
+  google_maps_webservice: '>=0.0.2'
 
 dev_dependencies:
   flutter_test:

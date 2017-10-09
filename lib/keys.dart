@@ -32,6 +32,9 @@ const String apiImgUrl = '$apiUrl/img/';
 /// Google map static Api key
 const String staticApiKey = 'AIzaSyAJh3ASTwUBo06fQai_PZJa-R9czeRC2D0';
 
+/// Google place Api key
+const String geoApiKey = 'AIzaSyCj88TURPJSYF28VhIaslc8JQXTJV19Dvw';
+
 /// List of login providers
 final List<String> providers = <String>['google', 'local'];
 

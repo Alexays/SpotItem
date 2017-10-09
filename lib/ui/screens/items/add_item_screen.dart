@@ -7,6 +7,8 @@ import 'package:spotitem/models/group.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/ui/spot_strings.dart';
+import "package:google_maps_webservice/geocoding.dart";
+import 'package:spotitem/keys.dart';
 
 /// Add item screen class
 class AddItemScreen extends StatefulWidget {
@@ -30,6 +32,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
   /// Item location
   String _location;
 
+  /// Item location controller
+  TextEditingController _locationCtrl;
+
   /// Tracks of item
   List<String> _tracks = [];
 
@@ -45,6 +50,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
   /// Check groups id
   final List<String> _groupsId = [];
 
+  /// Geocoding class
+  final GoogleMapsGeocoding geocoding = new GoogleMapsGeocoding(geoApiKey);
+
   /// Stepper
   final int _stepLength = 3;
   int _currentStep = 0;
@@ -58,6 +66,19 @@ class _AddItemScreenState extends State<AddItemScreen> {
       setState(() {
         _groups = data;
       });
+    });
+    geocoding
+        .searchByLocation(new Location(Services.users.location['latitude'], Services.users.location['longitude']))
+        .then((geo) {
+      for (var f in geo.results[0].addressComponents) {
+        if (f.types.contains('locality')) {
+          setState(() {
+            _location = f.shortName;
+            _locationCtrl = new TextEditingController.fromValue(new TextEditingValue(text: _location));
+          });
+          break;
+        }
+      }
     });
     super.initState();
   }
@@ -234,6 +255,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                         hintText: SpotL.of(Services.loc).locationPh(),
                                         labelText: SpotL.of(Services.loc).location()),
                                     validator: validateString,
+                                    controller: _locationCtrl,
                                     onSaved: (value) {
                                       _location = value.trim();
                                     }),
