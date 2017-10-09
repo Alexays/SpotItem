@@ -28,7 +28,7 @@ class ItemsManager extends BasicService {
   /// Private variables
   List<Item> _items = <Item>[];
   List<Item> _myItems = <Item>[];
-  final List<String> _sortMethod = ['name', 'dist'];
+  final List<String> _sortMethod = ['dist', 'name'];
   final List<String> _categories = ['jeux', 'bebe_jeunesse', 'fete', 'garage', 'objet', 'cuisine', 'jardin'];
 
   /// Add item.
