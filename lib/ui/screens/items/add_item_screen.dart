@@ -251,16 +251,22 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                     onSaved: (value) {
                                       _about = value.trim();
                                     }),
-                                new TextFormField(
-                                    key: const Key('location'),
-                                    decoration: new InputDecoration(
-                                        hintText: SpotL.of(Services.loc).locationPh(),
-                                        labelText: SpotL.of(Services.loc).location()),
-                                    validator: validateString,
-                                    controller: _locationCtrl,
-                                    onSaved: (value) {
-                                      _location = value.trim();
-                                    }),
+                                new GestureDetector(
+                                    onTap: () {
+                                      //TO-DO show autocomplete
+                                    },
+                                    child: new FocusScope(
+                                        node: new FocusScopeNode(),
+                                        child: new TextFormField(
+                                            key: const Key('location'),
+                                            decoration: new InputDecoration(
+                                                hintText: SpotL.of(Services.loc).locationPh(),
+                                                labelText: SpotL.of(Services.loc).location()),
+                                            validator: validateString,
+                                            controller: _locationCtrl,
+                                            onSaved: (value) {
+                                              _location = value.trim();
+                                            }))),
                                 const Divider(),
                                 new CheckboxListTile(
                                     title: new Text(SpotL.of(context).gift()),
