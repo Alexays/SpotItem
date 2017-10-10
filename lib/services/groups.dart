@@ -39,9 +39,7 @@ class GroupsManager extends BasicService {
   /// @returns Api body response
   Future<ApiRes> editGroup(Group group) async {
     group.users = null;
-    final groupJson = JSON.decode(group.toString());
-    groupJson['users'] = '';
-    groupJson['owners'] = '';
+    final Map<String, dynamic> groupJson = JSON.decode(group.toString())..remove('users')..remove('owners');
     final response = await iput('/group/${group.id}', groupJson, Services.auth.accessToken);
     return response;
   }

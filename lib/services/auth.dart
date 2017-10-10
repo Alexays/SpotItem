@@ -188,8 +188,7 @@ class AuthManager extends BasicService {
   /// @param payload User payload
   /// @returns Api response
   Future<ApiRes> register(Map<String, dynamic> payload) async {
-    payload['_id'] = '';
-    payload['groups'] = '';
+    payload..remove('_id')..remove('groups');
     final response = await ipost('/signup', payload);
     return response;
   }

@@ -23,8 +23,7 @@ class UsersManager extends BasicService {
   @override
   Future<bool> init() async {
     if (Services.origin == Origin.prod) {
-      await _location.onLocationChanged.single
-          .timeout(const Duration(milliseconds: 200), onTimeout: () {});
+      await _location.onLocationChanged.single.timeout(const Duration(milliseconds: 200), onTimeout: () {});
     }
     await _handleGetContact();
     return true;
@@ -34,13 +33,11 @@ class UsersManager extends BasicService {
   ///
   /// @param force Retrieve user location
   Future<Null> getLocation({bool force = false}) async {
-    if ((!force && location != null && location.isNotEmpty) ||
-        Services.origin == Origin.mock) {
+    if ((!force && location != null && location.isNotEmpty) || Services.origin == Origin.mock) {
       return;
     }
     try {
-      location = await _location.getLocation
-          .timeout(const Duration(milliseconds: 200), onTimeout: () {
+      location = await _location.getLocation.timeout(const Duration(milliseconds: 200), onTimeout: () {
         location = null;
       });
     } on PlatformException {
@@ -67,8 +64,7 @@ class UsersManager extends BasicService {
     final r = 6371.0088; // mean radius of Earth in km
     final dlat = lat - lat1;
     final dlng = lng - lng1;
-    final a = sin(dlat / 2) * sin(dlat / 2) +
-        cos(lat1) * cos(lat) * sin(dlng / 2) * sin(dlng / 2);
+    final a = sin(dlat / 2) * sin(dlat / 2) + cos(lat1) * cos(lat) * sin(dlng / 2) * sin(dlng / 2);
     final c = 2 * atan2(sqrt(a), sqrt(1 - a));
     final km = r * c;
     return km;
@@ -80,18 +76,15 @@ class UsersManager extends BasicService {
   /// @param password User password to update
   /// @returns Api body response
   Future<dynamic> updateUser(User user, String password) async {
-    final userJson = JSON.decode(user.toString());
-    userJson['groups'] = 'groups';
+    final Map<String, dynamic> userJson = JSON.decode(user.toString())..remove('groups');
     if (password != null) {
       userJson['password'] = password;
     }
-    final response =
-        await iput('/user/edit', userJson, Services.auth.accessToken);
+    final response = await iput('/user/edit', userJson, Services.auth.accessToken);
     if (response.success) {
       Services.auth.user = new User(response.data['user']);
       Services.auth.accessToken = response.data['token'];
-      await saveTokens(Services.auth.user.toString(),
-          Services.auth.refreshToken, Services.auth.provider);
+      await saveTokens(Services.auth.user.toString(), Services.auth.refreshToken, Services.auth.provider);
     }
     return response;
   }
@@ -127,9 +120,7 @@ class UsersManager extends BasicService {
         return;
       }
       _contacts = JSON.decode(response.body)['connections'];
-      _contacts = _contacts
-          .where((contact) => contact['emailAddresses'] != null)
-          .toList();
+      _contacts = _contacts.where((contact) => contact['emailAddresses'] != null).toList();
       // TO-DO convert to custom format
     } else if (provider == 'local') {
       // TO-DO Maybe get member of user groups
