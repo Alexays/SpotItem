@@ -53,7 +53,6 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
 
   /// Item location
   String _location;
-  TextEditingController _locationCtrl;
 
   /// Images file
   final List<File> _imagesFile = [];
@@ -113,7 +112,6 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
       setState(() {
         _nameCtrl = new TextEditingController(text: _item.name);
         _aboutCtrl = new TextEditingController(text: _item.about);
-        _locationCtrl = new TextEditingController(text: _item.location);
         _groupsId = _item.groups ?? [];
         _tracks = _item.tracks ?? [];
       });
