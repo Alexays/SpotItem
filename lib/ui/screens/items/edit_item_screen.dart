@@ -213,28 +213,32 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
     showLoading(context);
     _item.images.forEach(finalImages.add);
     _images.forEach(finalImages.add);
-    if (Services.auth.user.isValid() && Services.users.location != null) {
-      final response = await Services.items.editItem({
-        'id': _item.id,
-        'name': _name,
-        'about': _about,
-        'owner': Services.auth.user.id,
-        'holder': Services.auth.user.id,
-        'lat': Services.users.location['latitude'].toString(),
-        'lng': Services.users.location['longitude'].toString(),
-        'images': JSON.encode(finalImages),
-        'location': _location,
-        'tracks': JSON.encode(_tracks),
-        'groups': JSON.encode(groups)
-      });
+    if (Services.users.location == null) {
       Navigator.of(context).pop();
-      if (resValid(context, response)) {
-        showSnackBar(context, response.msg);
-        await Services.items.getItems(force: true);
-        await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
-      }
-    } else {
-      showSnackBar(context, SpotL.of(context).error());
+      return showSnackBar(context, 'Please enable location !');
+    }
+    if (!Services.auth.user.isValid()) {
+      Navigator.of(context).pop();
+      return showSnackBar(context, SpotL.of(context).error());
+    }
+    final response = await Services.items.editItem({
+      'id': _item.id,
+      'name': _name,
+      'about': _about,
+      'owner': Services.auth.user.id,
+      'holder': Services.auth.user.id,
+      'lat': Services.users.location['latitude'].toString(),
+      'lng': Services.users.location['longitude'].toString(),
+      'images': JSON.encode(finalImages),
+      'location': _location,
+      'tracks': JSON.encode(_tracks),
+      'groups': JSON.encode(groups)
+    });
+    Navigator.of(context).pop();
+    if (resValid(context, response)) {
+      showSnackBar(context, response.msg);
+      await Services.items.getItems(force: true);
+      await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
     }
   }
 
