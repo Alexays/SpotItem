@@ -21,7 +21,7 @@ class HomeScreen extends StatefulWidget {
   State createState() => new _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, WidgetsBindingObserver {
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, WidgetsBindingObserver, RouteAware {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   static final List<HomeScreenItem> _homeScreenItems = <HomeScreenItem>[
@@ -89,13 +89,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
 
   //Explore
   List<TabController> tabsCtrl;
-  PageController pageCtrl = new PageController();
+  static PageController pageCtrl = new PageController();
   int get page => pageCtrl.hasClients ? pageCtrl.page.round() : 0;
   static const Widget discover = const DiscoverView();
   static const Widget explore = const ExplorerView();
   FloatingActionButton get fab => _homeScreenItems[page].fabs.length > tabsCtrl[page].index
       ? _homeScreenItems[page].fabs[tabsCtrl[page].index]
       : null;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    Services.observer.subscribe(this, ModalRoute.of(context));
+  }
 
   @override
   void initState() {
@@ -122,10 +128,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
 
   @override
   void dispose() {
+    Services.observer.unsubscribe(this);
     _controller?.dispose();
     _searchController?.dispose();
     tabsCtrl[page]?.removeListener(_checkFilter);
-    pageCtrl?.dispose();
     for (var tab in tabsCtrl) {
       tab?.dispose();
     }
@@ -509,6 +515,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
                     onTap: (index) {
                       setState(() {
                         pageCtrl.jumpToPage(index);
+                        Services.observer.analytics.setCurrentScreen(
+                          screenName: 'Home/tab${pageCtrl.page.toInt()}',
+                        );
                       });
                     },
                   )),
