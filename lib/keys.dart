@@ -43,9 +43,5 @@ const String geoApiKey = 'AIzaSyCj88TURPJSYF28VhIaslc8JQXTJV19Dvw';
 final List<String> providers = <String>['google', 'local'];
 
 /// Get headers for Api
-Map<String, String> getHeaders([String key]) => <String, String>{
-      'Authorization': key,
-      'spotkey': 'Basic $clientSecret',
-      'accept-version': version,
-      'Accept': 'application/json'
-    };
+Map<String, String> getHeaders([String key]) =>
+    <String, String>{'Authorization': key, 'Spotkey': 'Basic $clientSecret-$version', 'Accept': 'application/json'};
