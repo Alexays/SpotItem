@@ -263,7 +263,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
               Services.auth.user?.email ?? '',
               overflow: TextOverflow.ellipsis,
             ),
-            currentAccountPicture: getAvatar(Services.auth.user ?? ''),
+            currentAccountPicture: getAvatar(Services.auth.user),
             otherAccountsPictures: <Widget>[
               new IconButton(
                 icon: const Icon(Icons.settings),
