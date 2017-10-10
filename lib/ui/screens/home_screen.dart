@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
 
   //Explore
   List<TabController> tabsCtrl;
-  static PageController pageCtrl = new PageController();
+  PageController pageCtrl = new PageController();
   int get page => pageCtrl.hasClients ? pageCtrl.page.round() : 0;
   static const Widget discover = const DiscoverView();
   static const Widget explore = const ExplorerView();
@@ -130,6 +130,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
     Services.observer.unsubscribe(this);
     _controller?.dispose();
     _searchController?.dispose();
+    pageCtrl.dispose();
     tabsCtrl[page]?.removeListener(_checkFilter);
     for (var tab in tabsCtrl) {
       tab?.dispose();
