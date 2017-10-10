@@ -7,7 +7,8 @@ import 'package:spotitem/models/group.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/ui/spot_strings.dart';
-import "package:google_maps_webservice/geocoding.dart";
+import 'package:google_maps_webservice/geocoding.dart';
+import 'package:flutter_google_places_autocomplete/flutter_google_places_autocomplete.dart';
 import 'package:spotitem/keys.dart';
 
 /// Add item screen class
@@ -31,9 +32,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   /// Item location
   String _location;
-
-  /// Item location controller
-  TextEditingController _locationCtrl;
 
   /// Tracks of item
   List<String> _tracks = [];
@@ -75,7 +73,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
           if (f.types.contains('locality')) {
             setState(() {
               _location = f.shortName;
-              _locationCtrl = new TextEditingController.fromValue(new TextEditingValue(text: _location));
             });
             break;
           }
@@ -251,22 +248,21 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                     onSaved: (value) {
                                       _about = value.trim();
                                     }),
-                                new GestureDetector(
-                                    onTap: () {
-                                      //TO-DO show autocomplete
+                                new FlatButton(
+                                    onPressed: () async {
+                                      final p = await showGooglePlacesAutocomplete(
+                                          context: context,
+                                          apiKey: placeApiKey,
+                                          mode: Mode.overlay, // Mode.fullscreen
+                                          language: 'fr',
+                                          components: [new Component(Component.country, 'fr')]);
+                                      if (p?.description != null) {
+                                        setState(() {
+                                          _location = p.description;
+                                        });
+                                      }
                                     },
-                                    child: new FocusScope(
-                                        node: new FocusScopeNode(),
-                                        child: new TextFormField(
-                                            key: const Key('location'),
-                                            decoration: new InputDecoration(
-                                                hintText: SpotL.of(Services.loc).locationPh(),
-                                                labelText: SpotL.of(Services.loc).location()),
-                                            validator: validateString,
-                                            controller: _locationCtrl,
-                                            onSaved: (value) {
-                                              _location = value.trim();
-                                            }))),
+                                    child: new Text(_location ?? SpotL.of(context).location())),
                                 const Divider(),
                                 new CheckboxListTile(
                                     title: new Text(SpotL.of(context).gift()),

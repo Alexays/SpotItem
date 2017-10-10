@@ -21,7 +21,8 @@ const String clientSecret = 'et+nWhUB>.Dg[c4z';
 
 /// Api base host
 //const String baseHost = '217.182.65.67:3417';
-const String baseHost = '192.168.0.21:1337';
+const String baseHost = '192.168.1.114:1337';
+//const String baseHost = '192.168.0.21:1337';
 
 /// Api URL
 const String apiUrl = 'http://$baseHost/api';
@@ -33,6 +34,9 @@ const String apiImgUrl = '$apiUrl/img/';
 const String staticApiKey = 'AIzaSyAJh3ASTwUBo06fQai_PZJa-R9czeRC2D0';
 
 /// Google place Api key
+const String placeApiKey = 'AIzaSyASWp3kPIbc3SR9962dhQLWMtJQWvQqRcs';
+
+/// Google geo Api key
 const String geoApiKey = 'AIzaSyCj88TURPJSYF28VhIaslc8JQXTJV19Dvw';
 
 /// List of login providers
