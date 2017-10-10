@@ -62,6 +62,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "lastname" : MessageLookupByLibrary.simpleMessage("Nom"),
     "lastnamePh" : MessageLookupByLibrary.simpleMessage("Entrez un nom"),
     "leaveGroup" : MessageLookupByLibrary.simpleMessage("Voulez-vous vraiment quitter le groupe ?"),
+    "loading" : MessageLookupByLibrary.simpleMessage("Chargement..."),
     "location" : MessageLookupByLibrary.simpleMessage("Emplacement"),
     "locationPh" : MessageLookupByLibrary.simpleMessage("Entrez un emplacement"),
     "login" : MessageLookupByLibrary.simpleMessage("Connexion"),

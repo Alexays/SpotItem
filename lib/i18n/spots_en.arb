@@ -430,5 +430,11 @@
     "description": "Delete item title",
     "type": "text",
     "placeholders": {}
+  },
+  "loading": "Loading...",
+  "@loading": {
+    "description": "Loading title",
+    "type": "text",
+    "placeholders": {}
   }
 }

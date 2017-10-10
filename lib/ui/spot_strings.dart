@@ -233,4 +233,7 @@ class SpotL {
 
   /// Delete item title
   String delItem() => Intl.message('<delItem>', name: 'delItem', locale: _localeName);
+
+  /// Loading title
+  String loading() => Intl.message('<loading>', name: 'loading', locale: _localeName);
 }

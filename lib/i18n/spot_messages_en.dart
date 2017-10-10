@@ -62,6 +62,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "lastname" : MessageLookupByLibrary.simpleMessage("Lastname"),
     "lastnamePh" : MessageLookupByLibrary.simpleMessage("Enter lastname"),
     "leaveGroup" : MessageLookupByLibrary.simpleMessage("Are you sure to leave this group ?"),
+    "loading" : MessageLookupByLibrary.simpleMessage("Loading..."),
     "location" : MessageLookupByLibrary.simpleMessage("Location"),
     "locationPh" : MessageLookupByLibrary.simpleMessage("Enter location"),
     "login" : MessageLookupByLibrary.simpleMessage("Login"),
