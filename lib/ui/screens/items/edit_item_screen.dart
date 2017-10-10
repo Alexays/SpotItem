@@ -10,6 +10,7 @@ import 'package:spotitem/models/group.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/keys.dart';
+import 'package:flutter_google_places_autocomplete/flutter_google_places_autocomplete.dart';
 
 import 'package:spotitem/ui/spot_strings.dart';
 
@@ -318,17 +319,21 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                                                       _about = data;
                                                     },
                                                   ),
-                                                  new TextFormField(
-                                                    key: const Key('location'),
-                                                    decoration: new InputDecoration(
-                                                        hintText: SpotL.of(context).locationPh(),
-                                                        labelText: SpotL.of(context).location()),
-                                                    validator: validateString,
-                                                    controller: _locationCtrl,
-                                                    onSaved: (data) {
-                                                      _location = data;
-                                                    },
-                                                  ),
+                                                  new FlatButton(
+                                                      onPressed: () async {
+                                                        final p = await showGooglePlacesAutocomplete(
+                                                            context: context,
+                                                            apiKey: placeApiKey,
+                                                            mode: Mode.overlay, // Mode.fullscreen
+                                                            language: 'fr',
+                                                            components: [new Component(Component.country, 'fr')]);
+                                                        if (p?.description != null) {
+                                                          setState(() {
+                                                            _location = p.description;
+                                                          });
+                                                        }
+                                                      },
+                                                      child: new Text(_location ?? SpotL.of(context).location())),
                                                   new CheckboxListTile(
                                                     title: new Text(SpotL.of(context).gift()),
                                                     value: _tracks.contains('gift'),
