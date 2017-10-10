@@ -182,8 +182,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       setState(() {
         _currentStep = 0;
       });
-      showSnackBar(context, SpotL.of(context).correctError());
-      return;
+      return showSnackBar(context, SpotL.of(context).correctError());
     }
     showLoading(context);
     await Services.users.getLocation(force: true);
@@ -192,27 +191,31 @@ class _AddItemScreenState extends State<AddItemScreen> {
       final imageBytes = f.readAsBytesSync();
       _images.add('data:image/${f.path.split('.').last};base64,${BASE64.encode(imageBytes)}');
     }
-    if (Services.auth.user.isValid() && Services.users.location != null) {
-      final response = await Services.items.addItem({
-        'name': _name,
-        'about': _about,
-        'owner': Services.auth.user.id,
-        'holder': Services.auth.user.id,
-        'lat': Services.users.location['latitude'].toString(),
-        'lng': Services.users.location['longitude'].toString(),
-        'images': JSON.encode(_images),
-        'location': _location,
-        'tracks': JSON.encode(_tracks),
-        'groups': JSON.encode(_groupsId)
-      });
+    if (Services.users.location == null) {
       Navigator.of(context).pop();
-      if (resValid(context, response)) {
-        showSnackBar(context, response.msg);
-        await Services.items.getItems(force: true);
-        await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
-      }
-    } else {
-      showSnackBar(context, SpotL.of(context).error());
+      return showSnackBar(context, 'Please enable location !');
+    }
+    if (!Services.auth.user.isValid()) {
+      Navigator.of(context).pop();
+      return showSnackBar(context, SpotL.of(context).error());
+    }
+    final response = await Services.items.addItem({
+      'name': _name,
+      'about': _about,
+      'owner': Services.auth.user.id,
+      'holder': Services.auth.user.id,
+      'lat': Services.users.location['latitude'].toString(),
+      'lng': Services.users.location['longitude'].toString(),
+      'images': JSON.encode(_images),
+      'location': _location,
+      'tracks': JSON.encode(_tracks),
+      'groups': JSON.encode(_groupsId)
+    });
+    Navigator.of(context).pop();
+    if (resValid(context, response)) {
+      showSnackBar(context, response.msg);
+      await Services.items.getItems(force: true);
+      await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
     }
   }
 
