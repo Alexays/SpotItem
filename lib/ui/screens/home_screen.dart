@@ -474,10 +474,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
       if (_searchQuery.isEmpty) {
         return [new Center(child: new Text(SpotL.of(Services.loc).searchDialog()))];
       }
-      var search = new List<Item>.from(Services.items.items);
       final _searchWord = _searchQuery.split(' ').where((f) => f.trim().isNotEmpty);
-      search = search.where((item) => _searchWord.any((f) => item.name.toLowerCase().contains(f))).toList();
-      return [new ItemsList(search, 'search')];
+      return [
+        new ItemsList(
+            Services.items.items.where((item) => _searchWord.any((f) => item.name.toLowerCase().contains(f))).toList(),
+            'search')
+      ];
     }
     return _homeScreenItems[index].content;
   }
