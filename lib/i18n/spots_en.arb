@@ -1,440 +1,75 @@
 {
   "home": "Home",
-  "@home": {
-    "description": "Home",
-    "type": "text",
-    "placeholders": {}
-  },
   "logout": "Logout",
-  "@logout": {
-    "description": "Logout title",
-    "type": "text",
-    "placeholders": {}
-  },
   "search": "Search...",
-  "@search": {
-    "description": "Search placeholder",
-    "type": "text",
-    "placeholders": {}
-  },
   "searchDialog": "Type something to search...",
-  "@searchDialog": {
-    "description": "Search dialog",
-    "type": "text",
-    "placeholders": {}
-  },
   "explore": "Explore",
-  "@explore": {
-    "description": "Explore title",
-    "type": "text",
-    "placeholders": {}
-  },
   "discover": "Discover",
-  "@discover": {
-    "description": "Discover title",
-    "type": "text",
-    "placeholders": {}
-  },
   "editProfile": "Edit profile",
-  "@editProfile": {
-    "description": "Edit profile title",
-    "type": "text",
-    "placeholders": {}
-  },
   "items": "Items",
-  "@items": {
-    "description": "Items title",
-    "type": "text",
-    "placeholders": {}
-  },
   "map": "Map",
-  "@map": {
-    "description": "Map title",
-    "type": "text",
-    "placeholders": {}
-  },
   "social": "Social",
-  "@social": {
-    "description": "Social title",
-    "type": "text",
-    "placeholders": {}
-  },
   "groups": "Groups",
-  "@groups": {
-    "description": "Groups title",
-    "type": "text",
-    "placeholders": {}
-  },
   "messages": "Messages",
-  "@messages": {
-    "description": "Messages title",
-    "type": "text",
-    "placeholders": {}
-  },
   "addGroup": "Add group",
-  "@addGroup": {
-    "description": "Add Group title",
-    "type": "text",
-    "placeholders": {}
-  },
   "alreadyAdded": "Already added !",
-  "@alreadyAdded": {
-    "description": "Already added message",
-    "type": "text",
-    "placeholders": {}
-  },
   "name": "Name",
-  "@name": {
-    "description": "Name title",
-    "type": "text",
-    "placeholders": {}
-  },
   "namePh": "Enter name",
-  "@namePh": {
-    "description": "Name placeholder",
-    "type": "text",
-    "placeholders": {}
-  },
   "about": "About",
-  "@about": {
-    "description": "About title",
-    "type": "text",
-    "placeholders": {}
-  },
   "aboutPh": "Enter description",
-  "@aboutPh": {
-    "description": "About placeholder",
-    "type": "text",
-    "placeholders": {}
-  },
   "addSomeone": "Add someone",
-  "@addSomeone": {
-    "description": "Add someone title",
-    "type": "text",
-    "placeholders": {}
-  },
   "recentItems": "Recent items",
-  "@recentItems": {
-    "description": "Recent items title",
-    "type": "text",
-    "placeholders": {}
-  },
   "fromYourGroups": "From your groups",
-  "@fromYourGroups": {
-    "description": "From your groups title",
-    "type": "text",
-    "placeholders": {}
-  },
   "noItems": "No items",
-  "@noItems": {
-    "description": "No items title",
-    "type": "text",
-    "placeholders": {}
-  },
   "noGroups": "No groups",
-  "@noGroups": {
-    "description": "No groups title",
-    "type": "text",
-    "placeholders": {}
-  },
   "noImages": "No images",
-  "@noImages": {
-    "description": "No images title",
-    "type": "text",
-    "placeholders": {}
-  },
   "addImage": "Add image",
-  "@addImage": {
-    "description": "Add image title",
-    "type": "text",
-    "placeholders": {}
-  },
   "images": "Images",
-  "@images": {
-    "description": "images title",
-    "type": "text",
-    "placeholders": {}
-  },
   "location": "Location",
-  "@location": {
-    "description": "location title",
-    "type": "text",
-    "placeholders": {}
-  },
   "locationPh": "Enter location",
-  "@locationPh": {
-    "description": "location title",
-    "type": "text",
-    "placeholders": {}
-  },
   "addItem": "Add item",
-  "@addItem": {
-    "description": "Add item title",
-    "type": "text",
-    "placeholders": {}
-  },
   "private": "Private",
-  "@private": {
-    "description": "Private title",
-    "type": "text",
-    "placeholders": {}
-  },
   "gift": "Gift",
-  "@gift": {
-    "description": "Gift title",
-    "type": "text",
-    "placeholders": {}
-  },
   "noContacts": "No contacts",
-  "@noContacts": {
-    "description": "No contacts title",
-    "type": "text",
-    "placeholders": {}
-  },
   "editGroup": "Edit group",
-  "@editGroup": {
-    "description": "Edit group title",
-    "type": "text",
-    "placeholders": {}
-  },
   "owner": "Owner",
-  "@owner": {
-    "description": "Owner title",
-    "type": "text",
-    "placeholders": {}
-  },
   "save": "Save",
-  "@save": {
-    "description": "Save title",
-    "type": "text",
-    "placeholders": {}
-  },
   "confirm": "Confirmation",
-  "@confirm": {
-    "description": "Confirm title",
-    "type": "text",
-    "placeholders": {}
-  },
   "firstname": "Firstname",
-  "@firstname": {
-    "description": "Firstname title",
-    "type": "text",
-    "placeholders": {}
-  },
   "firstnamePh": "Enter firstname",
-  "@firstnamePh": {
-    "description": "Firstname placeholder",
-    "type": "text",
-    "placeholders": {}
-  },
   "lastname": "Lastname",
-  "@lastname": {
-    "description": "Lastname title",
-    "type": "text",
-    "placeholders": {}
-  },
   "lastnamePh": "Enter lastname",
-  "@lastnamePh": {
-    "description": "Lastname placeholder",
-    "type": "text",
-    "placeholders": {}
-  },
   "email": "Email",
-  "@email": {
-    "description": "Email title",
-    "type": "text",
-    "placeholders": {}
-  },
   "emailPh": "Enter email",
-  "@emailPh": {
-    "description": "Email placeholder",
-    "type": "text",
-    "placeholders": {}
-  },
   "login": "Login",
-  "@login": {
-    "description": "Login title",
-    "type": "text",
-    "placeholders": {}
-  },
   "register": "Register",
-  "@register": {
-    "description": "Register title",
-    "type": "text",
-    "placeholders": {}
-  },
   "correctError": "Please correct errors",
-  "@correctError": {
-    "description": "Correct error title",
-    "type": "text",
-    "placeholders": {}
-  },
   "searchContact": "Search contact...",
-  "@searchContact": {
-    "description": "Search contact placeholder",
-    "type": "text",
-    "placeholders": {}
-  },
   "password": "Password",
-  "@password": {
-    "description": "Password title",
-    "type": "text",
-    "placeholders": {}
-  },
   "passwordPh": "Enter password",
-  "@passwordPh": {
-    "description": "Password placeholder",
-    "type": "text",
-    "placeholders": {}
-  },
   "passwordRepeat": "Confirm password",
-  "@passwordRepeat": {
-    "description": "Password repeat title",
-    "type": "text",
-    "placeholders": {}
-  },
   "passwordRepeatPh": "Enter password confirmation",
-  "@passwordRepeatPh": {
-    "description": "Password repeat placeholder",
-    "type": "text",
-    "placeholders": {}
-  },
   "noAccount": "Don't have an account ?",
-  "@noAccount": {
-    "description": "No account title",
-    "type": "text",
-    "placeholders": {}
-  },
   "haveAccount": "I have an account !",
-  "@haveAccount": {
-    "description": "Have account title",
-    "type": "text",
-    "placeholders": {}
-  },
   "loginError": "Email or password incorrect !",
-  "@loginError": {
-    "description": "Login error title",
-    "type": "text",
-    "placeholders": {}
-  },
   "error": "Unexpected error",
-  "@error": {
-    "description": "Error title",
-    "type": "text",
-    "placeholders": {}
-  },
   "settings": "Settings",
-  "@settings": {
-    "description": "Settings title",
-    "type": "text",
-    "placeholders": {}
-  },
   "maxDistance": "Maximal distance",
-  "@maxDistance": {
-    "description": "Max distance title",
-    "type": "text",
-    "placeholders": {}
-  },
   "noMessages": "No messages",
-  "@noMessages": {
-    "description": "No messages title",
-    "type": "text",
-    "placeholders": {}
-  },
   "members": "Member(s)",
-  "@members": {
-    "description": "Members title",
-    "type": "text",
-    "placeholders": {}
-  },
   "leaveGroup": "Are you sure to leave this group ?",
-  "@leaveGroup": {
-    "description": "Leave group title",
-    "type": "text",
-    "placeholders": {}
-  },
   "deleteGroup": "Are you sure to delete this group ?",
-  "@deleteGroup": {
-    "description": "Delete group title",
-    "type": "text",
-    "placeholders": {}
-  },
   "addOwner": "Are you sure to add $name as a co-owner ?",
-  "@addOwner": {
-    "description": "Add owner title",
-    "type": "text",
-    "placeholders": {}
-  },
   "delOwner": "Are you sure to remove $name from co-owners ?",
-  "@delOwner": {
-    "description": "Del owner title",
-    "type": "text",
-    "placeholders": {}
-  },
   "add": "Add",
-  "@add": {
-    "description": "Add title",
-    "type": "text",
-    "placeholders": {}
-  },
   "kickUser": "Are you sure to remove $name from group ?",
-  "@kickUser": {
-    "description": "Kick user title",
-    "type": "text",
-    "placeholders": {}
-  },
   "selectGroup": "Select group",
-  "@selectGroup": {
-    "description": "Select Group title",
-    "type": "text",
-    "placeholders": {}
-  },
   "send": "Send",
-  "@send": {
-    "description": "Send title",
-    "type": "text",
-    "placeholders": {}
-  },
   "passwordError": "Password don't match",
-  "@passwordError": {
-    "description": "Password error title",
-    "type": "text",
-    "placeholders": {}
-  },
   "nbInv": "You have $nb invitation(s)",
-  "@nbInv": {
-    "description": "Number invitation title",
-    "type": "text",
-    "placeholders": {}
-  },
   "joinGroup": "Do you want to join $name ?",
-  "@joinGroup": {
-    "description": "Join group title",
-    "type": "text",
-    "placeholders": {}
-  },
   "dist": "Distance",
-  "@dist": {
-    "description": "Dist title",
-    "type": "text",
-    "placeholders": {}
-  },
   "createConv": "Create a conversation",
-  "@createConv": {
-    "description": "Create conversation title",
-    "type": "text",
-    "placeholders": {}
-  },
   "delItem": "Are you sure to delete this item ?",
-  "@delItem": {
-    "description": "Delete item title",
-    "type": "text",
-    "placeholders": {}
-  },
-  "loading": "Loading...",
-  "@loading": {
-    "description": "Loading title",
-    "type": "text",
-    "placeholders": {}
-  }
+  "loading": "Loading..."
 }
