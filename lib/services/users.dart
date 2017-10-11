@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:spotitem/models/user.dart';
 import 'package:spotitem/services/basic.dart';
 import 'package:spotitem/services/services.dart';
-import 'package:location/location.dart';
 
 /// User class manager
 class UsersManager extends BasicService {
@@ -17,13 +16,15 @@ class UsersManager extends BasicService {
   List<dynamic> get contacts => _contacts;
 
   /// Private variables
-  final Location _location = new Location();
+  static const MethodChannel _channel = const MethodChannel('lyokone/location');
+  static const EventChannel _stream = const EventChannel('lyokone/locationstream');
+  Stream<Map<String, double>> _onLocationChanged;
   List<dynamic> _contacts;
 
   @override
   Future<bool> init() async {
     if (Services.origin == Origin.prod) {
-      await _location.onLocationChanged.single.timeout(const Duration(milliseconds: 200), onTimeout: () {});
+      _onLocationChanged ??= _stream.receiveBroadcastStream();
     }
     await _handleGetContact();
     return true;
@@ -37,9 +38,8 @@ class UsersManager extends BasicService {
       return;
     }
     try {
-      location = await _location.getLocation.timeout(const Duration(milliseconds: 200), onTimeout: () {
-        location = null;
-      });
+      location =
+          await _channel.invokeMethod('getLocation').timeout(const Duration(milliseconds: 200), onTimeout: () {});
     } on PlatformException {
       location = null;
     }
