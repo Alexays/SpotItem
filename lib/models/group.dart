@@ -8,14 +8,8 @@ class Group {
       : id = data['_id'],
         name = data['name'],
         about = data['about'],
-        users = data['users'] is List
-            ? new List<User>.generate(data['users']?.length ?? 0,
-                (index) => new User(data['users'][index]))
-            : <User>[],
-        owners = data['owners'] is List
-            ? new List<User>.generate(data['owners']?.length ?? 0,
-                (index) => new User(data['owners'][index]))
-            : <User>[];
+        users = data['users'] is List ? data['users'].map((f) => new User(f)) : <User>[],
+        owners = data['owners'] is List ? data['owners'].map((f) => new User(f)) : <User>[];
 
   /// Group id
   final String id;
@@ -40,8 +34,7 @@ class Group {
 
   @override
   String toString() {
-    final usersId = new List<String>.generate(
-        users?.length ?? 0, (index) => users[index].id);
+    final usersId = new List<String>.generate(users?.length ?? 0, (index) => users[index].id);
     return '{"_id": "$id", "name": "$name", "about": "$about", "users": $usersId, "owners": $owners}';
   }
 }

@@ -9,10 +9,7 @@ class Conversation {
       : id = data['_id'],
         users = data['users'],
         group = new Group(data['group']),
-        conversation = data['conversation'] is List
-            ? new List<Message>.generate(
-                data['conversation'].length, (index) => new Message(data['conversation'][index]))
-            : <Message>[];
+        conversation = data['conversation'] is List ? data['conversation'].map((f) => new Message(f)) : <Message>[];
 
   /// Conversation id
   final String id;

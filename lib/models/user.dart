@@ -9,10 +9,7 @@ class User {
         firstname = data['firstname'],
         name = data['name'],
         avatar = data['avatar'],
-        groups = data['groups'] is List
-            ? new List<String>.generate(data['groups']?.length ?? 0,
-                (index) => (data['groups'][index]).toString())
-            : <String>[];
+        groups = data['groups'] is List ? data['groups'].map((f) => f.toString()) : <String>[];
 
   /// User id
   final String id;
@@ -42,8 +39,7 @@ class User {
   String toString() {
     List<String> _groups;
     if (groups != null) {
-      _groups = new List<String>.generate(
-          groups.length, (index) => '"${groups[index]}"');
+      _groups = new List<String>.generate(groups.length, (index) => '"${groups[index]}"');
     }
     return '{"_id": "$id", "name": "$name", "email": "$email", "firstname": "$firstname", "avatar": "$avatar", "groups": $_groups}';
   }

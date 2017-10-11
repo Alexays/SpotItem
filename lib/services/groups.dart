@@ -47,9 +47,15 @@ class GroupsManager extends BasicService {
   /// Get user groups.
   ///
   /// @returns Groups list
-  Future<dynamic> getGroups() async {
+  Future<List<Group>> getGroups() async {
     final response = await iget('/groups', Services.auth.accessToken);
-    return _groups = new List<Group>.generate(response.data?.length ?? 0, (index) => new Group(response.data[index]));
+    if (response.success) {
+      if (!response.data is List) {
+        return <Group>[];
+      }
+      return _groups = response.data.map((f) => new Group(f));
+    }
+    return _groups;
   }
 
   /// Get a group by id.
@@ -70,10 +76,12 @@ class GroupsManager extends BasicService {
   Future<List<Group>> getGroupsInv() async {
     final response = await iget('/groups/inv', Services.auth.accessToken);
     if (response.success) {
-      return _groupsInv = new List<Group>.generate(response.data?.length ?? 0, (index) {
-        // Owners is not populated here, not needed for invitations
-        response.data[index]['owners'] = [];
-        return new Group(response.data[index]);
+      if (!response.data is List) {
+        return <Group>[];
+      }
+      return _groupsInv = response.data.map((f) {
+        f['owners'] = [];
+        return new Group(f);
       });
     }
     return _groupsInv;
