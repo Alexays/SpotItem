@@ -75,12 +75,11 @@ class UsersManager extends BasicService {
   /// @param user User data
   /// @param password User password to update
   /// @returns Api body response
-  Future<dynamic> updateUser(User user, String password) async {
-    final Map<String, dynamic> userJson = JSON.decode(user.toString())..remove('groups');
+  Future<dynamic> updateUser(Map<String, dynamic> payload, String password) async {
     if (password != null) {
-      userJson['password'] = password;
+      payload['password'] = password;
     }
-    final response = await iput('/user/edit', userJson, Services.auth.accessToken);
+    final response = await iput('/user/edit', payload, Services.auth.accessToken);
     if (response.success) {
       Services.auth.user = new User(response.data['user']);
       Services.auth.accessToken = response.data['token'];

@@ -281,7 +281,8 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                                         animation: _bottomSize,
                                         builder: (context, child) => new SliverAppBar(
                                             pinned: true,
-                                            title: new Text(_item != null ? '${_item.name}' : ''),
+                                            title:
+                                                new Text(_item != null ? '${_item.name}' : SpotL.of(context).loading()),
                                             bottom: new TabBar(indicatorWeight: 4.0, tabs: <Tab>[
                                               new Tab(text: SpotL.of(context).about()),
                                               new Tab(text: SpotL.of(context).images()),

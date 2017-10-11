@@ -45,7 +45,10 @@ class _EditUserScreenState extends State<EditUserScreen> {
     if (!_formKey.currentState.validate()) {
       return showSnackBar(context, SpotL.of(context).correctError());
     }
-    final res = await Services.users.updateUser(user, password);
+    final res = await Services.users.updateUser({
+      'firstname': user.firstname,
+      'name': user.name,
+    }, password);
     showSnackBar(context, res['msg']);
     if (res['success']) {
       Navigator.pop(context);

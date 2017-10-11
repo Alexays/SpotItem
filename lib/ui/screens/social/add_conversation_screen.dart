@@ -29,7 +29,6 @@ class _AddConvScreenState extends State<AddConvScreen> {
       return showSnackBar(context, SpotL.of(context).selectGroup());
     }
     final response = await Services.social.addConversation({
-      'message': '',
       'group': group,
     });
     if (resValid(context, response)) {
