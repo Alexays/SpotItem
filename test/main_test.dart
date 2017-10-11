@@ -69,7 +69,14 @@ void main() {
           'name': 'test',
           'about': 'test about',
           'users': [
-            {'_id': '1234567890', 'email': 'mock@spotitem.fr', 'name': 'mock name', 'firstname': 'mock firstname'}
+            {
+              '_id': '1234567890',
+              'email': 'mock@spotitem.fr',
+              'name': 'mock name',
+              'firstname': 'mock firstname',
+              'groups': ['59dd36d275475a636e2162dc']
+            },
+            {'_id': '1234567290', 'email': 'mock2@spotitem.fr', 'name': 'mock2 name', 'firstname': 'mock2 firstname'}
           ],
           'owners': [
             {'_id': '1234567890', 'email': 'mock@spotitem.fr', 'name': 'mock name', 'firstname': 'mock firstname'}
@@ -302,7 +309,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('test'), findsOneWidget); // View group name
       expect(find.text('test about'), findsOneWidget); // View group about
-      expect(find.text('1'), findsOneWidget); // View group user count
+      expect(find.text('2'), findsOneWidget); // View group user count
     });
 
     testWidgets('Show social tab with groups inv', (tester) async {
@@ -319,8 +326,25 @@ void main() {
           findsOneWidget); // View group name
       expect(find.descendant(of: find.byType(ExpansionTile), matching: find.text('test about')),
           findsOneWidget); // View group about
-      expect(find.descendant(of: find.byType(ExpansionTile), matching: find.text('0')),
+      expect(find.descendant(of: find.byType(ExpansionTile), matching: find.text('1')),
           findsOneWidget); // View group user count
+    });
+
+    testWidgets('Show groups page', (tester) async {
+      Services.mock = mockGroups;
+      await tester.pumpWidget(new SpotItemApp(init: true));
+      await tester.pump();
+      await tester.pump();
+      await tester.tap(find.descendant(of: find.byType(BottomNavigationBar), matching: find.text('Social')));
+      await tester.pumpAndSettle();
+      expect(find.text('You have 1 invitation(s)'), findsOneWidget); // View group invitation number
+      await tester.tap(find.text('test'));
+      await tester.pumpAndSettle();
+      expect(find.text('mock@spotitem.fr'), findsOneWidget); // View group owner email
+      expect(find.text('test'), findsOneWidget); // View group name
+      expect(find.text('test about'), findsOneWidget); // View group about
+      expect(find.text('2 Member(s)'), findsOneWidget); // View group user count
+      expect(find.text('mock2 firstname mock2 name'), findsOneWidget); // View group user name
     });
 
     testWidgets('I able to logout', (tester) async {
