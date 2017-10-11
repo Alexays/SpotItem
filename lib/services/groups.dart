@@ -50,7 +50,7 @@ class GroupsManager extends BasicService {
   Future<List<Group>> getGroups() async {
     final response = await iget('/groups', Services.auth.accessToken);
     if (response.success) {
-      if (!response.data is List) {
+      if (!(response.data is List)) {
         return <Group>[];
       }
       return _groups = response.data.map((f) => new Group(f)).toList();
@@ -76,7 +76,7 @@ class GroupsManager extends BasicService {
   Future<List<Group>> getGroupsInv() async {
     final response = await iget('/groups/inv', Services.auth.accessToken);
     if (response.success) {
-      if (!response.data is List) {
+      if (!(response.data is List)) {
         return <Group>[];
       }
       return _groupsInv = response.data.map((f) {

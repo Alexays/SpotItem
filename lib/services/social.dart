@@ -16,7 +16,7 @@ class SocialManager extends BasicService {
   Future<List<Conversation>> getConversations() async {
     final response = await iget('/messages', Services.auth.accessToken);
     if (response.success) {
-      if (!response.data is List) {
+      if (!(response.data is List)) {
         return <Conversation>[];
       }
       return _conversations = response.data.map((f) => new Conversation(f)).toList();
