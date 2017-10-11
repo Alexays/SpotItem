@@ -6,12 +6,11 @@ import 'package:spotitem/services/services.dart';
 import 'package:spotitem/utils.dart';
 import 'package:spotitem/models/item.dart';
 import 'package:spotitem/models/group.dart';
-
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/keys.dart';
+import 'package:google_maps_webservice/geocoding.dart';
 import 'package:flutter_google_places_autocomplete/flutter_google_places_autocomplete.dart';
-
 import 'package:spotitem/ui/spot_strings.dart';
 
 /// Edit item screen
@@ -68,6 +67,9 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
 
   /// Item groups
   List<String> _groupsId = [];
+
+  /// Geocoding class
+  final GoogleMapsGeocoding geocoding = new GoogleMapsGeocoding(geoApiKey);
 
   @override
   void initState() {
@@ -213,9 +215,17 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
     showLoading(context);
     _item.images.forEach(finalImages.add);
     _images.forEach(finalImages.add);
-    if (Services.users.location == null) {
+    var location = Services.users.location;
+    if (location == null) {
+      final geoRes = await geocoding.searchByAddress(_location);
+      location = <String, double>{
+        'latitude': geoRes.results[0].geometry.location.lat,
+        'longitude': geoRes.results[0].geometry.location.lng
+      };
+    }
+    if (location == null) {
       Navigator.of(context).pop();
-      return showSnackBar(context, 'Please enable location !');
+      return showSnackBar(context, 'Please enable location or choose location !');
     }
     if (!Services.auth.user.isValid()) {
       Navigator.of(context).pop();
