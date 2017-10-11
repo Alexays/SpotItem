@@ -9,7 +9,7 @@ class User {
         firstname = data['firstname'],
         name = data['name'],
         avatar = data['avatar'],
-        groups = data['groups'] is List ? data['groups'].map((f) => f.toString()) : <String>[];
+        groups = data['groups'] is List ? data['groups'].map((f) => f.toString()).toList() : <String>[];
 
   /// User id
   final String id;

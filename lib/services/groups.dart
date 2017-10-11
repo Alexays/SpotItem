@@ -53,7 +53,7 @@ class GroupsManager extends BasicService {
       if (!response.data is List) {
         return <Group>[];
       }
-      return _groups = response.data.map((f) => new Group(f));
+      return _groups = response.data.map((f) => new Group(f)).toList();
     }
     return _groups;
   }
@@ -82,7 +82,7 @@ class GroupsManager extends BasicService {
       return _groupsInv = response.data.map((f) {
         f['owners'] = [];
         return new Group(f);
-      });
+      }).toList();
     }
     return _groupsInv;
   }

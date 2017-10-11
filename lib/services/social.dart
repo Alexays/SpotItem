@@ -19,7 +19,7 @@ class SocialManager extends BasicService {
       if (!response.data is List) {
         return <Conversation>[];
       }
-      return _conversations = response.data.map((f) => new Conversation(f));
+      return _conversations = response.data.map((f) => new Conversation(f)).toList();
     }
     return _conversations;
   }

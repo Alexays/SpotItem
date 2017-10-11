@@ -8,8 +8,8 @@ class Group {
       : id = data['_id'],
         name = data['name'],
         about = data['about'],
-        users = data['users'] is List ? data['users'].map((f) => new User(f)) : <User>[],
-        owners = data['owners'] is List ? data['owners'].map((f) => new User(f)) : <User>[];
+        users = data['users'] is List ? data['users'].map((f) => new User(f)).toList() : <User>[],
+        owners = data['owners'] is List ? data['owners'].map((f) => new User(f)).toList() : <User>[];
 
   /// Group id
   final String id;
