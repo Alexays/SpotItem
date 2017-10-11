@@ -77,6 +77,22 @@ void main() {
         }
       ],
     }, 200);
+    final mockGroupsInv = new ApiRes({
+      'success': true,
+      'data': [
+        {
+          '_id': '59dd36d275475a636e2162dc',
+          'updatedAt': '2017-10-10T21:08:34.702Z',
+          'createdAt': '2017-10-10T21:08:34.702Z',
+          'name': 'test',
+          'about': 'test about',
+          'users': [
+            {'_id': '59dd13d02e70f91992fce656', 'groups': []}
+          ],
+          'owners': ['59dd13d02e70f91992fce656']
+        }
+      ],
+    }, 200);
     testWidgets('Login appear', (tester) async {
       await Services.setup(Origin.mock);
       await tester.pumpWidget(new SpotItemApp(init: true));
