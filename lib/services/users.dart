@@ -79,7 +79,7 @@ class UsersManager extends BasicService {
     if (password != null) {
       payload['password'] = password;
     }
-    final response = await iput('/user/edit', payload, Services.auth.accessToken);
+    final response = await iput('/users/edit', payload, Services.auth.accessToken);
     if (response.success) {
       Services.auth.user = new User(response.data['user']);
       Services.auth.accessToken = response.data['token'];
@@ -96,7 +96,7 @@ class UsersManager extends BasicService {
     if (userId == null) {
       return null;
     }
-    final response = await iget('/user/$userId', Services.auth.accessToken);
+    final response = await iget('/users/$userId', Services.auth.accessToken);
     if (response.success) {
       return new User(response.data);
     }
