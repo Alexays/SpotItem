@@ -1,440 +1,75 @@
 {
   "home": "Accueil",
-  "@home": {
-    "description": "Home",
-    "type": "text",
-    "placeholders": {}
-  },
   "logout": "Déconnection",
-  "@logout": {
-    "description": "Logout title",
-    "type": "text",
-    "placeholders": {}
-  },
   "search": "Rechercher...",
-  "@search": {
-    "description": "Search placeholder",
-    "type": "text",
-    "placeholders": {}
-  },
   "searchDialog": "Taper quelque chose pour rechercher...",
-  "@searchDialog": {
-    "description": "Search dialog",
-    "type": "text",
-    "placeholders": {}
-  },
   "explore": "Explore",
-  "@explore": {
-    "description": "Explore title",
-    "type": "text",
-    "placeholders": {}
-  },
   "discover": "Découvrir",
-  "@discover": {
-    "description": "Discover title",
-    "type": "text",
-    "placeholders": {}
-  },
   "editProfile": "Editer mon profil",
-  "@editProfile": {
-    "description": "Edit profile title",
-    "type": "text",
-    "placeholders": {}
-  },
   "items": "Objets",
-  "@items": {
-    "description": "Items title",
-    "type": "text",
-    "placeholders": {}
-  },
   "map": "Carte",
-  "@map": {
-    "description": "Map title",
-    "type": "text",
-    "placeholders": {}
-  },
   "social": "Social",
-  "@social": {
-    "description": "Social title",
-    "type": "text",
-    "placeholders": {}
-  },
   "groups": "Groupes",
-  "@groups": {
-    "description": "Groups title",
-    "type": "text",
-    "placeholders": {}
-  },
   "messages": "Messages",
-  "@messages": {
-    "description": "Messages title",
-    "type": "text",
-    "placeholders": {}
-  },
   "addGroup": "Ajoutez un groupe",
-  "@addGroup": {
-    "description": "Add Group title",
-    "type": "text",
-    "placeholders": {}
-  },
   "alreadyAdded": "Déjà ajouté !",
-  "@alreadyAdded": {
-    "description": "Already added message",
-    "type": "text",
-    "placeholders": {}
-  },
   "name": "Nom",
-  "@name": {
-    "description": "Name title",
-    "type": "text",
-    "placeholders": {}
-  },
   "namePh": "Entrez un nom",
-  "@namePh": {
-    "description": "Name placeholder",
-    "type": "text",
-    "placeholders": {}
-  },
   "about": "À propos",
-  "@about": {
-    "description": "About title",
-    "type": "text",
-    "placeholders": {}
-  },
   "aboutPh": "Entrez une description",
-  "@aboutPh": {
-    "description": "About placeholder",
-    "type": "text",
-    "placeholders": {}
-  },
   "addSomeone": "Ajoutez quelqu'un",
-  "@addSomeone": {
-    "description": "Add someone title",
-    "type": "text",
-    "placeholders": {}
-  },
   "recentItems": "Objets récent",
-  "@recentItems": {
-    "description": "Recent items title",
-    "type": "text",
-    "placeholders": {}
-  },
   "fromYourGroups": "De vos groupes",
-  "@fromYourGroups": {
-    "description": "From your groups title",
-    "type": "text",
-    "placeholders": {}
-  },
   "noItems": "Pas d'objets",
-  "@noItems": {
-    "description": "No items title",
-    "type": "text",
-    "placeholders": {}
-  },
   "noGroups": "Pas de groupes",
-  "@noGroups": {
-    "description": "No groups title",
-    "type": "text",
-    "placeholders": {}
-  },
   "noImages": "Pas d'images",
-  "@noImages": {
-    "description": "No images title",
-    "type": "text",
-    "placeholders": {}
-  },
   "addImage": "Ajoutez une image",
-  "@addImage": {
-    "description": "Add image title",
-    "type": "text",
-    "placeholders": {}
-  },
   "images": "Images",
-  "@images": {
-    "description": "images title",
-    "type": "text",
-    "placeholders": {}
-  },
   "location": "Emplacement",
-  "@location": {
-    "description": "location title",
-    "type": "text",
-    "placeholders": {}
-  },
   "locationPh": "Entrez un emplacement",
-  "@locationPh": {
-    "description": "location title",
-    "type": "text",
-    "placeholders": {}
-  },
   "addItem": "Ajoutez un objet",
-  "@addItem": {
-    "description": "Add item title",
-    "type": "text",
-    "placeholders": {}
-  },
   "private": "Privé",
-  "@private": {
-    "description": "Private title",
-    "type": "text",
-    "placeholders": {}
-  },
   "gift": "Cadeau",
-  "@gift": {
-    "description": "Gift title",
-    "type": "text",
-    "placeholders": {}
-  },
   "noContacts": "Aucun contact",
-  "@noContacts": {
-    "description": "No contacts title",
-    "type": "text",
-    "placeholders": {}
-  },
   "editGroup": "Modifiez le groupe",
-  "@editGroup": {
-    "description": "Edit group title",
-    "type": "text",
-    "placeholders": {}
-  },
   "owner": "Propriétaire",
-  "@owner": {
-    "description": "Owner title",
-    "type": "text",
-    "placeholders": {}
-  },
   "save": "Sauvegarder",
-  "@save": {
-    "description": "Save title",
-    "type": "text",
-    "placeholders": {}
-  },
   "confirm": "Confirmation",
-  "@confirm": {
-    "description": "Confirm title",
-    "type": "text",
-    "placeholders": {}
-  },
   "firstname": "Prénom",
-  "@firstname": {
-    "description": "Firstname title",
-    "type": "text",
-    "placeholders": {}
-  },
   "firstnamePh": "Entrez un prénom",
-  "@firstnamePh": {
-    "description": "Firstname placeholder",
-    "type": "text",
-    "placeholders": {}
-  },
   "lastname": "Nom",
-  "@lastname": {
-    "description": "Lastname title",
-    "type": "text",
-    "placeholders": {}
-  },
   "lastnamePh": "Entrez un nom",
-  "@lastnamePh": {
-    "description": "Lastname title",
-    "type": "text",
-    "placeholders": {}
-  },
   "email": "Adresse Email",
-  "@email": {
-    "description": "Email title",
-    "type": "text",
-    "placeholders": {}
-  },
   "emailPh": "Entrez votre adresse Email",
-  "@emailPh": {
-    "description": "Email placeholder",
-    "type": "text",
-    "placeholders": {}
-  },
   "login": "Connexion",
-  "@login": {
-    "description": "Login title",
-    "type": "text",
-    "placeholders": {}
-  },
   "register": "Inscription",
-  "@register": {
-    "description": "Register title",
-    "type": "text",
-    "placeholders": {}
-  },
   "correctError": "Merci de corriger les erreurs",
-  "@correctError": {
-    "description": "Correct error title",
-    "type": "text",
-    "placeholders": {}
-  },
   "searchContact": "Rechercher un contact...",
-  "@searchContact": {
-    "description": "Search contact placeholder",
-    "type": "text",
-    "placeholders": {}
-  },
   "password": "Mot de passe",
-  "@password": {
-    "description": "Password title",
-    "type": "text",
-    "placeholders": {}
-  },
   "passwordPh": "Entrez un mot de passe",
-  "@passwordPh": {
-    "description": "Password placeholder",
-    "type": "text",
-    "placeholders": {}
-  },
   "passwordRepeat": "Confirmer le mot de passe",
-  "@passwordRepeat": {
-    "description": "Password repeat title",
-    "type": "text",
-    "placeholders": {}
-  },
   "passwordRepeatPh": "Entrez le mot de passe de confirmation",
-  "@passwordRepeatPh": {
-    "description": "Password repeat placeholder",
-    "type": "text",
-    "placeholders": {}
-  },
   "noAccount": "Vous n'avez pas de compte ?",
-  "@noAccount": {
-    "description": "No account title",
-    "type": "text",
-    "placeholders": {}
-  },
   "haveAccount": "J'ai un compte !",
-  "@haveAccount": {
-    "description": "Have account title",
-    "type": "text",
-    "placeholders": {}
-  },
   "loginError": "Email ou mot de passe incorrect !",
-  "@loginError": {
-    "description": "Login error title",
-    "type": "text",
-    "placeholders": {}
-  },
   "error": "Erreur inattendue",
-  "@error": {
-    "description": "Error title",
-    "type": "text",
-    "placeholders": {}
-  },
   "settings": "Paramètres",
-  "@settings": {
-    "description": "Settings title",
-    "type": "text",
-    "placeholders": {}
-  },
   "maxDistance": "Distance maximal",
-  "@maxDistance": {
-    "description": "Max distance title",
-    "type": "text",
-    "placeholders": {}
-  },
   "noMessages": "Pas de messages",
-  "@noMessages": {
-    "description": "No messages title",
-    "type": "text",
-    "placeholders": {}
-  },
   "members": "Membre(s)",
-  "@members": {
-    "description": "Members title",
-    "type": "text",
-    "placeholders": {}
-  },
   "leaveGroup": "Voulez-vous vraiment quitter le groupe ?",
-  "@leaveGroup": {
-    "description": "Leave group title",
-    "type": "text",
-    "placeholders": {}
-  },
   "deleteGroup": "Voulez-vous vraiment supprimer le groupe ?",
-  "@deleteGroup": {
-    "description": "Delete group title",
-    "type": "text",
-    "placeholders": {}
-  },
   "addOwner": "Voulez-vous vraiment ajouter $name en tant que co-propriétaire ?",
-  "@addOwner": {
-    "description": "Add owner title",
-    "type": "text",
-    "placeholders": {}
-  },
   "delOwner": "Voulez-vous vraiment supprimer $name des co-propriétaires ?",
-  "@delOwner": {
-    "description": "Del owner title",
-    "type": "text",
-    "placeholders": {}
-  },
   "add": "Ajouter",
-  "@add": {
-    "description": "Add title",
-    "type": "text",
-    "placeholders": {}
-  },
   "kickUser": "Voulez-vous vraiment enlever $name du groupe ?",
-  "@kickUser": {
-    "description": "Kick user title",
-    "type": "text",
-    "placeholders": {}
-  },
   "selectGroup": "Selectionner un groupe",
-  "@selectGroup": {
-    "description": "Select Group title",
-    "type": "text",
-    "placeholders": {}
-  },
   "send": "Envoyer",
-  "@send": {
-    "description": "Send title",
-    "type": "text",
-    "placeholders": {}
-  },
   "passwordError": "Les mots de passe ne correspondent pas",
-  "@passwordError": {
-    "description": "Password error title",
-    "type": "text",
-    "placeholders": {}
-  },
   "nbInv": "Vous avez $nb invitation(s)",
-  "@nbInv": {
-    "description": "Number invitation title",
-    "type": "text",
-    "placeholders": {}
-  },
   "joinGroup": "Voulez-vous rejoindre $name ?",
-  "@joinGroup": {
-    "description": "Join group title",
-    "type": "text",
-    "placeholders": {}
-  },
   "dist": "Distance",
-  "@dist": {
-    "description": "Dist title",
-    "type": "text",
-    "placeholders": {}
-  },
   "createConv": "Créer une conversation",
-  "@createConv": {
-    "description": "Create conversation title",
-    "type": "text",
-    "placeholders": {}
-  },
   "delItem": "Voulez-vous vraiment supprimer cet objet ?",
-  "@delItem": {
-    "description": "Delete item title",
-    "type": "text",
-    "placeholders": {}
-  },
-  "loading": "Chargement...",
-  "@loading": {
-    "description": "Loading title",
-    "type": "text",
-    "placeholders": {}
-  }
+  "loading": "Chargement..."
 }
