@@ -199,16 +199,19 @@ class SpotL {
   String deleteGroup() => Intl.message('<deleteGroup>', name: 'deleteGroup', locale: _localeName);
 
   /// Leave group title
-  String addOwner(String name) => Intl.message('<addOwner>', name: 'addOwner', args: [name], locale: _localeName);
+  String addOwner(String name) =>
+      Intl.message('<addOwner>', name: 'addOwner', args: [name], locale: _localeName).replaceFirst(r'$name', name);
 
   /// Leave group title
-  String delOwner(String name) => Intl.message('<delOwner>', name: 'delOwner', args: [name], locale: _localeName);
+  String delOwner(String name) =>
+      Intl.message('<delOwner>', name: 'delOwner', args: [name], locale: _localeName).replaceFirst(r'$name', name);
 
   /// Add title
   String add() => Intl.message('<add>', name: 'add', locale: _localeName);
 
   /// Kick user title
-  String kickUser(String name) => Intl.message('<kickUser>', name: 'kickUser', args: [name], locale: _localeName);
+  String kickUser(String name) =>
+      Intl.message('<kickUser>', name: 'kickUser', args: [name], locale: _localeName).replaceFirst(r'$name', name);
 
   /// Select group title
   String selectGroup() => Intl.message('<selectGroup>', name: 'selectGroup', locale: _localeName);
@@ -220,10 +223,12 @@ class SpotL {
   String passwordError() => Intl.message('<passwordError>', name: 'passwordError', locale: _localeName);
 
   /// Number invitation title
-  String nbInv(String nb) => Intl.message('<nbInv>', name: 'nbInv', args: [nb], locale: _localeName);
+  String nbInv(String nb) =>
+      Intl.message('<nbInv>', name: 'nbInv', args: [nb], locale: _localeName).replaceFirst(r'$nb', nb);
 
   /// Number invitation title
-  String joinGroup(String name) => Intl.message('<joinGroup>', name: 'joinGroup', args: [name], locale: _localeName);
+  String joinGroup(String name) =>
+      Intl.message('<joinGroup>', name: 'joinGroup', args: [name], locale: _localeName).replaceFirst(r'$name', name);
 
   /// Dist title
   String dist() => Intl.message('<dist>', name: 'dist', locale: _localeName);
