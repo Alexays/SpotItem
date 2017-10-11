@@ -77,22 +77,6 @@ void main() {
         }
       ],
     }, 200);
-    final mockGroupsInv = new ApiRes({
-      'success': true,
-      'data': [
-        {
-          '_id': '59dd36d275475a636e2162dc',
-          'updatedAt': '2017-10-10T21:08:34.702Z',
-          'createdAt': '2017-10-10T21:08:34.702Z',
-          'name': 'test',
-          'about': 'test about',
-          'users': [
-            {'_id': '59dd13d02e70f91992fce656', 'groups': []}
-          ],
-          'owners': ['59dd13d02e70f91992fce656']
-        }
-      ],
-    }, 200);
     testWidgets('Login appear', (tester) async {
       await Services.setup(Origin.mock);
       await tester.pumpWidget(new SpotItemApp(init: true));
@@ -317,7 +301,26 @@ void main() {
       await tester.tap(find.descendant(of: find.byType(BottomNavigationBar), matching: find.text('Social')));
       await tester.pumpAndSettle();
       expect(find.text('test'), findsOneWidget); // View group name
+      expect(find.text('test about'), findsOneWidget); // View group about
       expect(find.text('1'), findsOneWidget); // View group user count
+    });
+
+    testWidgets('Show social tab with groups inv', (tester) async {
+      Services.mock = mockGroups;
+      await tester.pumpWidget(new SpotItemApp(init: true));
+      await tester.pump();
+      await tester.pump();
+      await tester.tap(find.descendant(of: find.byType(BottomNavigationBar), matching: find.text('Social')));
+      await tester.pumpAndSettle();
+      expect(find.text('You have 1 invitation(s)'), findsOneWidget); // View group invitation number
+      await tester.tap(find.text('You have 1 invitation(s)'));
+      await tester.pumpAndSettle();
+      expect(find.descendant(of: find.byType(ExpansionTile), matching: find.text('test')),
+          findsOneWidget); // View group name
+      expect(find.descendant(of: find.byType(ExpansionTile), matching: find.text('test about')),
+          findsOneWidget); // View group about
+      expect(find.descendant(of: find.byType(ExpansionTile), matching: find.text('0')),
+          findsOneWidget); // View group user count
     });
 
     testWidgets('I able to logout', (tester) async {
