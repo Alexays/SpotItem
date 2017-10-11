@@ -225,8 +225,6 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
       'id': _item.id,
       'name': _name,
       'about': _about,
-      'owner': Services.auth.user.id,
-      'holder': Services.auth.user.id,
       'lat': Services.users.location['latitude'].toString(),
       'lng': Services.users.location['longitude'].toString(),
       'images': JSON.encode(finalImages),

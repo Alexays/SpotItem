@@ -203,7 +203,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
       'name': _name,
       'about': _about,
       'owner': Services.auth.user.id,
-      'holder': Services.auth.user.id,
       'lat': Services.users.location['latitude'].toString(),
       'lng': Services.users.location['longitude'].toString(),
       'images': JSON.encode(_images),
