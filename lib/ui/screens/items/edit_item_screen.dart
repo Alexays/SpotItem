@@ -114,6 +114,7 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
         _aboutCtrl.text = _item.about;
         _groupsId = _item.groups ?? [];
         _tracks = _item.tracks ?? [];
+        _location = _item.location;
       });
     }
   }
