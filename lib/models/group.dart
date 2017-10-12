@@ -34,7 +34,8 @@ class Group {
 
   @override
   String toString() {
-    final usersId = new List<String>.generate(users?.length ?? 0, (index) => users[index].id);
-    return '{"_id": "$id", "name": "$name", "about": "$about", "users": $usersId, "owners": $owners}';
+    final usersId = new List<String>.generate(users?.length ?? 0, (index) => '"${users[index].id}"');
+    final ownersId = new List<String>.generate(owners?.length ?? 0, (index) => '"${owners[index].id}"');
+    return '{"_id": "$id", "name": "$name", "about": "$about", "users": $usersId, "owners": $ownersId}';
   }
 }
