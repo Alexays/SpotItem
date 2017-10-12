@@ -262,7 +262,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                       final p = await showGooglePlacesAutocomplete(
                                           context: context,
                                           apiKey: placeApiKey,
-                                          mode: Mode.overlay, // Mode.fullscreen
+                                          mode: Mode.fullscreen,
                                           language: 'fr',
                                           components: [new Component(Component.country, 'fr')]);
                                       if (p?.description != null) {
