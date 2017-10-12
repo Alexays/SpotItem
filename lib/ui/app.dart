@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:spotitem/ui/screens/home_screen.dart';
 import 'package:spotitem/ui/screens/login_screen.dart';
 import 'package:spotitem/ui/screens/error_screen.dart';
@@ -48,8 +49,10 @@ class SpotItemApp extends MaterialApp {
           onGenerateRoute: configureRoutes,
           onUnknownRoute: errorRoute,
           showPerformanceOverlay: false,
-          localizationsDelegates: <_SpotLocalizationsDelegate>[
+          localizationsDelegates: [
             new _SpotLocalizationsDelegate(),
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
           ],
           supportedLocales: const <Locale>[const Locale('en', 'US'), const Locale('fr', 'FR')],
           navigatorObservers: <NavigatorObserver>[

@@ -2,6 +2,8 @@ name: spotitem
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   http: '^0.11.3+14'
   shared_preferences: '^0.2.5'
   image_picker: '^0.1.1'
