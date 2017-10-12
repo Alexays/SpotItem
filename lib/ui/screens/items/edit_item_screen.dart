@@ -44,11 +44,11 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
 
   /// Item name
   String _name;
-  TextEditingController _nameCtrl;
+  TextEditingController _nameCtrl = new TextEditingController();
 
   /// Item Description
   String _about;
-  TextEditingController _aboutCtrl;
+  TextEditingController _aboutCtrl = new TextEditingController();
 
   /// Item location
   String _location;
@@ -112,8 +112,8 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
   void _initForm() {
     if (_item != null) {
       setState(() {
-        _nameCtrl = new TextEditingController(text: _item.name);
-        _aboutCtrl = new TextEditingController(text: _item.about);
+        _nameCtrl.text = _item.name;
+        _aboutCtrl.text = _item.about;
         _groupsId = _item.groups ?? [];
         _tracks = _item.tracks ?? [];
       });

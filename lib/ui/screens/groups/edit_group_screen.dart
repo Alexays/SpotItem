@@ -31,8 +31,8 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
 
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
-  TextEditingController nameCtrl;
-  TextEditingController aboutCtrl;
+  TextEditingController nameCtrl = new TextEditingController();
+  TextEditingController aboutCtrl = new TextEditingController();
 
   @override
   void initState() {
@@ -54,8 +54,8 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
 
   void _initForm() {
     setState(() {
-      nameCtrl = new TextEditingController.fromValue(new TextEditingValue(text: _group.name));
-      aboutCtrl = new TextEditingController.fromValue(new TextEditingValue(text: _group.about));
+      nameCtrl.text = _group.name;
+      aboutCtrl.text = _group.about;
     });
   }
 
@@ -88,23 +88,18 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
                                       key: _formKey,
                                       child: new Column(children: <Widget>[
                                         new TextFormField(
-                                            key: const Key('name'),
-                                            decoration: new InputDecoration(
-                                                hintText: SpotL.of(context).namePh, labelText: SpotL.of(context).name),
-                                            controller: nameCtrl,
-                                            validator: validateName,
-                                            onSaved: (value) {
-                                              _group.name = value.trim();
-                                            }),
-                                        new TextFormField(
-                                            key: const Key('about'),
-                                            decoration: new InputDecoration(
-                                                hintText: SpotL.of(context).aboutPh,
-                                                labelText: SpotL.of(context).about),
-                                            controller: aboutCtrl,
-                                            onSaved: (value) {
-                                              _group.about = value.trim();
-                                            }),
+                                          key: const Key('name'),
+                                          decoration: new InputDecoration(
+                                              hintText: SpotL.of(context).namePh, labelText: SpotL.of(context).name),
+                                          controller: nameCtrl,
+                                          validator: validateName,
+                                        ),
+                                        new TextField(
+                                          key: const Key('about'),
+                                          decoration: new InputDecoration(
+                                              hintText: SpotL.of(context).aboutPh, labelText: SpotL.of(context).about),
+                                          controller: aboutCtrl,
+                                        ),
                                       ]))
                                 ])))),
                     new Container(
