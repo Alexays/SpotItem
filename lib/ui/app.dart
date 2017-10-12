@@ -1,20 +1,11 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:spotitem/ui/screens/home_screen.dart';
 import 'package:spotitem/ui/screens/login_screen.dart';
 import 'package:spotitem/ui/screens/error_screen.dart';
 import 'package:spotitem/services/services.dart';
-import 'package:spotitem/ui/spot_strings.dart';
+import 'package:spotitem/i18n/spot_localization.dart';
 import 'package:spotitem/ui/routes.dart';
-
-class _SpotLocalizationsDelegate extends LocalizationsDelegate<SpotL> {
-  @override
-  Future<SpotL> load(Locale locale) => SpotL.load(locale);
-
-  @override
-  bool shouldReload(_SpotLocalizationsDelegate old) => false;
-}
 
 /// SpotitemApp class
 class SpotItemApp extends MaterialApp {
@@ -50,7 +41,7 @@ class SpotItemApp extends MaterialApp {
           onUnknownRoute: errorRoute,
           showPerformanceOverlay: false,
           localizationsDelegates: [
-            new _SpotLocalizationsDelegate(),
+            new SpotLDelegate(),
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
           ],

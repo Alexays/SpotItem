@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:spotitem/keys.dart';
 import 'package:google_maps_webservice/geocoding.dart';
 import 'package:flutter_google_places_autocomplete/flutter_google_places_autocomplete.dart';
-import 'package:spotitem/ui/spot_strings.dart';
+import 'package:spotitem/i18n/spot_localization.dart';
 
 /// Edit item screen
 class EditItemScreen extends StatefulWidget {
@@ -141,12 +141,12 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          new Text(SpotL.of(context).noImages()),
+          new Text(SpotL.of(context).noImages),
           const Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
           ),
           new RaisedButton(
-            child: new Text(SpotL.of(context).addImage()),
+            child: new Text(SpotL.of(context).addImage),
             onPressed: getImage,
           )
         ],
@@ -210,7 +210,7 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
     final groups = <String>[];
     _formKey.currentState.save();
     if (!_formKey.currentState.validate()) {
-      return showSnackBar(context, SpotL.of(context).correctError());
+      return showSnackBar(context, SpotL.of(context).correctError);
     }
     showLoading(context);
     _item.images.forEach(finalImages.add);
@@ -229,7 +229,7 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
     }
     if (!Services.auth.user.isValid()) {
       Navigator.of(context).pop();
-      return showSnackBar(context, SpotL.of(context).error());
+      return showSnackBar(context, SpotL.of(context).error);
     }
     final response = await Services.items.editItem({
       'id': _item.id,
@@ -255,7 +255,7 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
       return const Center(child: const CircularProgressIndicator());
     }
     if (_groups.isEmpty) {
-      return new Center(child: new Text(SpotL.of(context).noGroups()));
+      return new Center(child: new Text(SpotL.of(context).noGroups));
     }
     return new Column(
       children: new List<Widget>.generate(
@@ -292,11 +292,11 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                                         builder: (context, child) => new SliverAppBar(
                                             pinned: true,
                                             title:
-                                                new Text(_item != null ? '${_item.name}' : SpotL.of(context).loading()),
+                                                new Text(_item != null ? '${_item.name}' : SpotL.of(context).loading),
                                             bottom: new TabBar(indicatorWeight: 4.0, tabs: <Tab>[
-                                              new Tab(text: SpotL.of(context).about()),
-                                              new Tab(text: SpotL.of(context).images()),
-                                              new Tab(text: SpotL.of(context).groups())
+                                              new Tab(text: SpotL.of(context).about),
+                                              new Tab(text: SpotL.of(context).images),
+                                              new Tab(text: SpotL.of(context).groups)
                                             ])))
                                   ],
                               body: _item == null
@@ -312,8 +312,8 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                                                   new TextFormField(
                                                     key: const Key('name'),
                                                     decoration: new InputDecoration(
-                                                        hintText: SpotL.of(context).namePh(),
-                                                        labelText: SpotL.of(context).name()),
+                                                        hintText: SpotL.of(context).namePh,
+                                                        labelText: SpotL.of(context).name),
                                                     validator: validateName,
                                                     controller: _nameCtrl,
                                                     onSaved: (data) {
@@ -323,8 +323,8 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                                                   new TextFormField(
                                                     key: const Key('about'),
                                                     decoration: new InputDecoration(
-                                                        hintText: SpotL.of(context).aboutPh(),
-                                                        labelText: SpotL.of(context).about()),
+                                                        hintText: SpotL.of(context).aboutPh,
+                                                        labelText: SpotL.of(context).about),
                                                     controller: _aboutCtrl,
                                                     onSaved: (data) {
                                                       _about = data;
@@ -344,9 +344,9 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                                                           });
                                                         }
                                                       },
-                                                      child: new Text(_location ?? SpotL.of(context).location())),
+                                                      child: new Text(_location ?? SpotL.of(context).location)),
                                                   new CheckboxListTile(
-                                                    title: new Text(SpotL.of(context).gift()),
+                                                    title: new Text(SpotL.of(context).gift),
                                                     value: _tracks.contains('gift'),
                                                     onChanged: (value) {
                                                       setState(() {
@@ -360,7 +360,7 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                                                     secondary: const Icon(Icons.card_giftcard),
                                                   ),
                                                   new CheckboxListTile(
-                                                    title: new Text(SpotL.of(context).private()),
+                                                    title: new Text(SpotL.of(context).private),
                                                     value: _tracks.contains('private'),
                                                     onChanged: (value) {
                                                       setState(() {
@@ -415,7 +415,7 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                                                   ? new Padding(
                                                       padding: const EdgeInsets.only(bottom: 15.0),
                                                       child: new RaisedButton(
-                                                        child: new Text(SpotL.of(context).addImage()),
+                                                        child: new Text(SpotL.of(context).addImage),
                                                         onPressed: getImage,
                                                       ))
                                                   : new Container(),
@@ -438,7 +438,7 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                             editItem(context);
                           },
                           child: new Text(
-                            SpotL.of(context).save().toUpperCase(),
+                            SpotL.of(context).save.toUpperCase(),
                             style: new TextStyle(color: Theme.of(context).canvasColor),
                           ),
                         )),

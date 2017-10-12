@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/models/conversation.dart';
-import 'package:spotitem/ui/spot_strings.dart';
+import 'package:spotitem/i18n/spot_localization.dart';
 import 'package:spotitem/ui/screens/social/conversation_screen.dart';
 
 /// Social view class
@@ -75,7 +75,7 @@ class _SocialViewState extends State<SocialView> {
                     subtitle: new Text(
                       _conversations[index].conversation.isNotEmpty
                           ? '${_conversations[index].conversation[0].sender.firstname}: ${_conversations[index].conversation[0].message}'
-                          : SpotL.of(context).noMessages(),
+                          : SpotL.of(context).noMessages,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(fontStyle: FontStyle.italic),
@@ -97,10 +97,10 @@ class _SocialViewState extends State<SocialView> {
               : new Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    new Center(child: new Text(SpotL.of(context).noMessages())),
+                    new Center(child: new Text(SpotL.of(context).noMessages)),
                     const Padding(padding: const EdgeInsets.all(10.0)),
                     new RaisedButton(
-                      child: new Text(SpotL.of(context).createConv()),
+                      child: new Text(SpotL.of(context).createConv),
                       onPressed: () async {
                         await Navigator.of(Services.context).pushNamed('/messages/add/');
                       },

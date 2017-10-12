@@ -6,7 +6,7 @@ import 'package:spotitem/services/services.dart';
 import 'package:spotitem/utils.dart';
 import 'package:spotitem/keys.dart';
 import 'package:spotitem/ui/widgets/date_picker_bar.dart';
-import 'package:spotitem/ui/spot_strings.dart';
+import 'package:spotitem/i18n/spot_localization.dart';
 import 'package:spotitem/ui/screens/items/edit_item_screen.dart';
 
 class _Category extends StatelessWidget {
@@ -141,11 +141,11 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
               context: context,
               barrierDismissible: false,
               child: new AlertDialog(
-                title: new Text(SpotL.of(context).confirm()),
+                title: new Text(SpotL.of(context).confirm),
                 content: new SingleChildScrollView(
                   child: new ListBody(
                     children: <Widget>[
-                      new Text(SpotL.of(context).delItem()),
+                      new Text(SpotL.of(context).delItem),
                     ],
                   ),
                 ),
@@ -295,13 +295,13 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
                               new _ListItem(
                                 lines: <String>[
                                   capitalize(item.name),
-                                  SpotL.of(context).name(),
+                                  SpotL.of(context).name,
                                 ],
                               ),
                               new _ListItem(
                                 lines: <String>[
                                   item.about,
-                                  SpotL.of(context).about(),
+                                  SpotL.of(context).about,
                                 ],
                               ),
                             ],
@@ -315,7 +315,7 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
                                 onPressed: () {},
                                 lines: <String>[
                                   '${item.owner.firstname} ${item.owner.name}',
-                                  SpotL.of(context).owner(),
+                                  SpotL.of(context).owner,
                                 ],
                               ),
                             ],
@@ -329,7 +329,7 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
                                 onPressed: () {},
                                 lines: <String>[
                                   item.location,
-                                  SpotL.of(context).location(),
+                                  SpotL.of(context).location,
                                 ],
                               ),
                             ],

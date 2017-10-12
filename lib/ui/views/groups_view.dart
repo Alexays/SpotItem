@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/ui/screens/groups/group_screen.dart';
 import 'package:spotitem/models/group.dart';
-import 'package:spotitem/ui/spot_strings.dart';
+import 'package:spotitem/i18n/spot_localization.dart';
 import 'package:spotitem/utils.dart';
 
 /// Groups view class
@@ -73,10 +73,10 @@ class _GroupsViewState extends State<GroupsView> {
       ? new Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            new Center(child: new Text(SpotL.of(context).noGroups())),
+            new Center(child: new Text(SpotL.of(context).noGroups)),
             const Padding(padding: const EdgeInsets.all(10.0)),
             new RaisedButton(
-              child: new Text(SpotL.of(context).addGroup()),
+              child: new Text(SpotL.of(context).addGroup),
               onPressed: () async {
                 await Navigator.of(Services.context).pushNamed('/groups/add/');
               },
@@ -142,7 +142,7 @@ class _GroupsViewState extends State<GroupsView> {
                     context: context,
                     barrierDismissible: false,
                     child: new AlertDialog(
-                      title: new Text(SpotL.of(context).confirm()),
+                      title: new Text(SpotL.of(context).confirm),
                       content: new SingleChildScrollView(
                         child: new ListBody(
                           children: <Widget>[

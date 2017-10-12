@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/ui/widgets/item.dart';
 import 'package:spotitem/ui/views/explorer_view.dart';
@@ -8,8 +9,7 @@ import 'package:spotitem/ui/views/groups_view.dart';
 import 'package:spotitem/ui/views/social_view.dart';
 import 'package:spotitem/utils.dart';
 import 'package:spotitem/keys.dart';
-import 'package:flutter/material.dart';
-import 'package:spotitem/ui/spot_strings.dart';
+import 'package:spotitem/i18n/spot_localization.dart';
 
 /// Home screen class
 class HomeScreen extends StatefulWidget {
@@ -26,15 +26,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
   static final List<HomeScreenItem> _homeScreenItems = <HomeScreenItem>[
     new HomeScreenItem(
       icon: const Icon(Icons.explore),
-      title: SpotL.of(Services.loc).explore(),
+      title: SpotL.of(Services.loc).explore,
       sub: <HomeScreenSubItem>[
-        new HomeScreenSubItem(SpotL.of(Services.loc).discover(), discover),
-        new HomeScreenSubItem(SpotL.of(Services.loc).explore(), explore),
+        new HomeScreenSubItem(SpotL.of(Services.loc).discover, discover),
+        new HomeScreenSubItem(SpotL.of(Services.loc).explore, explore),
       ],
     ),
     new HomeScreenItem(
         icon: const Icon(Icons.work),
-        title: SpotL.of(Services.loc).items(),
+        title: SpotL.of(Services.loc).items,
         content: const ItemsView(),
         fabs: [
           new FloatingActionButton(
@@ -46,15 +46,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
         ]),
     new HomeScreenItem(
       icon: const Icon(Icons.map),
-      title: SpotL.of(Services.loc).map(),
+      title: SpotL.of(Services.loc).map,
       content: const MapView(),
     ),
     new HomeScreenItem(
         icon: const Icon(Icons.nature_people),
-        title: SpotL.of(Services.loc).social(),
+        title: SpotL.of(Services.loc).social,
         sub: <HomeScreenSubItem>[
-          new HomeScreenSubItem(SpotL.of(Services.loc).groups(), const GroupsView()),
-          new HomeScreenSubItem(SpotL.of(Services.loc).messages(), const SocialView())
+          new HomeScreenSubItem(SpotL.of(Services.loc).groups, const GroupsView()),
+          new HomeScreenSubItem(SpotL.of(Services.loc).messages, const SocialView())
         ],
         fabs: [
           new FloatingActionButton(
@@ -186,7 +186,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
                                 )),
                     ),
                     new SwitchListTile(
-                      title: new Text(SpotL.of(Services.loc).fromYourGroups()),
+                      title: new Text(SpotL.of(Services.loc).fromYourGroups),
                       value: Services.items.tracks.value.contains('group'),
                       onChanged: (value) {
                         if (value) {
@@ -201,7 +201,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
                       secondary: const Icon(Icons.lock),
                     ),
                     new SwitchListTile(
-                      title: new Text(SpotL.of(Services.loc).gift()),
+                      title: new Text(SpotL.of(Services.loc).gift),
                       value: Services.items.tracks.value.contains('gift'),
                       onChanged: (value) {
                         if (value) {
@@ -291,7 +291,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
                   children: <Widget>[
                     new ListTile(
                       leading: const Icon(Icons.home),
-                      title: new Text(SpotL.of(Services.loc).home()),
+                      title: new Text(SpotL.of(Services.loc).home),
                       selected: true,
                     ),
                     new ListTile(
@@ -343,13 +343,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
                       children: <Widget>[
                         new ListTile(
                             leading: const Icon(Icons.edit),
-                            title: new Text(SpotL.of(Services.loc).editProfile()),
+                            title: new Text(SpotL.of(Services.loc).editProfile),
                             onTap: () {
                               Navigator.of(context).pushNamed('/profile/edit/');
                             }),
                         new ListTile(
                             leading: const Icon(Icons.exit_to_app),
-                            title: new Text(SpotL.of(Services.loc).logout()),
+                            title: new Text(SpotL.of(Services.loc).logout),
                             onTap: () {
                               Services.auth
                                   .logout()
@@ -402,7 +402,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
           ),
           decoration: new InputDecoration(
               isDense: true,
-              hintText: SpotL.of(Services.loc).search(),
+              hintText: SpotL.of(Services.loc).search,
               hintStyle: const TextStyle(
                 color: const Color.fromARGB(150, 255, 255, 255),
                 fontSize: 18.0,
@@ -438,14 +438,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
                       return new CheckedPopupMenuItem(
                           checked: Services.items.tracks.value.contains('name'),
                           value: f,
-                          child: new Text(SpotL.of(context).name()));
+                          child: new Text(SpotL.of(context).name));
                       break;
                     case 'dist':
                       return new CheckedPopupMenuItem(
                           checked: Services.items.tracks.value.contains('dist') ||
                               !Services.items.tracks.value.any((f) => Services.items.sortMethod.contains(f)),
                           value: f,
-                          child: new Text(SpotL.of(context).dist()));
+                          child: new Text(SpotL.of(context).dist));
                       break;
                   }
                 }).toList(),
@@ -478,7 +478,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
   List<Widget> _buildChild(BuildContext context, int index) {
     if (_isSearching) {
       if (_searchQuery.isEmpty) {
-        return [new Center(child: new Text(SpotL.of(Services.loc).searchDialog()))];
+        return [new Center(child: new Text(SpotL.of(Services.loc).searchDialog))];
       }
       final _searchWord = _searchQuery.split(' ').where((f) => f.trim().isNotEmpty);
       return [

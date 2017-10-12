@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:spotitem/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/utils.dart';
-import 'package:spotitem/ui/spot_strings.dart';
+import 'package:spotitem/i18n/spot_localization.dart';
 
 /// Login screen class
 class LoginScreen extends StatefulWidget {
@@ -14,18 +14,15 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _usernameCtrl =
-      new TextEditingController(text: Services.auth.lastEmail);
+  final TextEditingController _usernameCtrl = new TextEditingController(text: Services.auth.lastEmail);
   final TextEditingController _passwordCtrl = new TextEditingController();
 
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   Future<Null> doLogin(BuildContext context) async {
-    final errorText = SpotL.of(context).loginError();
+    final errorText = SpotL.of(context).loginError;
     if (_formKey.currentState.validate()) {
-      final success = await Services.auth.login(
-          {'email': _usernameCtrl.text, 'password': _passwordCtrl.text},
-          'local');
+      final success = await Services.auth.login({'email': _usernameCtrl.text, 'password': _passwordCtrl.text}, 'local');
       if (success) {
         await Navigator.pushReplacementNamed(context, '/');
       } else {
@@ -61,8 +58,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           new TextFormField(
                             key: const Key('email'),
                             decoration: new InputDecoration(
-                              hintText: SpotL.of(Services.loc).emailPh(),
-                              labelText: SpotL.of(Services.loc).email(),
+                              hintText: SpotL.of(Services.loc).emailPh,
+                              labelText: SpotL.of(Services.loc).email,
                             ),
                             autofocus: true,
                             controller: _usernameCtrl,
@@ -72,38 +69,29 @@ class _LoginScreenState extends State<LoginScreen> {
                           new TextFormField(
                             key: const Key('password'),
                             decoration: new InputDecoration(
-                              hintText: SpotL.of(context).passwordPh(),
-                              labelText: SpotL.of(context).password(),
+                              hintText: SpotL.of(context).passwordPh,
+                              labelText: SpotL.of(context).password,
                             ),
                             controller: _passwordCtrl,
                             obscureText: true,
                             validator: validatePassword,
                           ),
-                          const Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 5.0)),
+                          const Padding(padding: const EdgeInsets.symmetric(vertical: 5.0)),
                           new Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               new RaisedButton(
                                   key: const Key('login'),
-                                  child:
-                                      new Text(SpotL.of(Services.loc).login()),
+                                  child: new Text(SpotL.of(Services.loc).login),
                                   onPressed: () {
                                     final form = _formKey.currentState;
                                     if (form.validate()) {
                                       doLogin(context);
                                     } else {
-                                      showSnackBar(
-                                          context,
-                                          SpotL
-                                              .of(Services.loc)
-                                              .correctError());
+                                      showSnackBar(context, SpotL.of(Services.loc).correctError);
                                     }
                                   }),
-                              const Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 5.0)),
+                              const Padding(padding: const EdgeInsets.symmetric(horizontal: 5.0)),
                               new RaisedButton(
                                 child: const Text(
                                   'Google',
@@ -111,15 +99,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                                 color: Colors.blue,
                                 onPressed: () {
-                                  Services.auth
-                                      .handleGoogleSignIn()
-                                      .then((success) {
+                                  Services.auth.handleGoogleSignIn().then((success) {
                                     if (success) {
-                                      Navigator.pushReplacementNamed(
-                                          context, '/');
+                                      Navigator.pushReplacementNamed(context, '/');
                                     } else {
-                                      showSnackBar(
-                                          context, SpotL.of(context).error());
+                                      showSnackBar(context, SpotL.of(context).error);
                                     }
                                   });
                                 },
@@ -130,18 +114,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           new Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              new Text(SpotL.of(context).noAccount()),
-                              const Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 5.0)),
+                              new Text(SpotL.of(context).noAccount),
+                              const Padding(padding: const EdgeInsets.symmetric(horizontal: 5.0)),
                               new FlatButton(
                                 child: new Text(
-                                  SpotL.of(Services.loc).register(),
+                                  SpotL.of(Services.loc).register,
                                   textAlign: TextAlign.center,
                                 ),
                                 onPressed: () {
-                                  Navigator.pushReplacementNamed(
-                                      context, '/register');
+                                  Navigator.pushReplacementNamed(context, '/register');
                                 },
                               ),
                             ],

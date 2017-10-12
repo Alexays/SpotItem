@@ -5,7 +5,7 @@ import 'package:spotitem/models/conversation.dart';
 import 'package:spotitem/utils.dart';
 import 'package:flutter/material.dart';
 
-import 'package:spotitem/ui/spot_strings.dart';
+import 'package:spotitem/i18n/spot_localization.dart';
 
 /// Chat message class
 //TO-DO REMOVE THIS
@@ -150,7 +150,7 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
                                 itemCount: _messages.length,
                               )
                             : new Center(
-                                child: new Text(SpotL.of(context).noMessages()),
+                                child: new Text(SpotL.of(context).noMessages),
                               )),
                     const Divider(height: 1.0),
                     new Container(
@@ -174,7 +174,7 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
                     });
                   },
                   onSubmitted: _handleSubmitted,
-                  decoration: new InputDecoration.collapsed(hintText: SpotL.of(context).send()),
+                  decoration: new InputDecoration.collapsed(hintText: SpotL.of(context).send),
                 ),
               ),
               new Container(

@@ -4,7 +4,7 @@ import 'package:spotitem/utils.dart';
 import 'package:spotitem/models/conversation.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/ui/screens/social/conversation_screen.dart';
-import 'package:spotitem/ui/spot_strings.dart';
+import 'package:spotitem/i18n/spot_localization.dart';
 
 /// Add Conv screen class
 class AddConvScreen extends StatefulWidget {
@@ -26,7 +26,7 @@ class _AddConvScreenState extends State<AddConvScreen> {
 
   Future<Null> _addConv(BuildContext context) async {
     if (group == null) {
-      return showSnackBar(context, SpotL.of(context).selectGroup());
+      return showSnackBar(context, SpotL.of(context).selectGroup);
     }
     final response = await Services.social.addConversation({
       'group': group,
@@ -60,7 +60,7 @@ class _AddConvScreenState extends State<AddConvScreen> {
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-        appBar: new AppBar(title: new Text(SpotL.of(context).messages())),
+        appBar: new AppBar(title: new Text(SpotL.of(context).messages)),
         body: new Builder(
             builder: (context) => new Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                   new Expanded(
@@ -69,11 +69,11 @@ class _AddConvScreenState extends State<AddConvScreen> {
                       children: <Widget>[
                         new Center(
                             child: new Text(
-                          groupName ?? SpotL.of(context).noGroups(),
+                          groupName ?? SpotL.of(context).noGroups,
                         )),
                         const Padding(padding: const EdgeInsets.all(10.0)),
                         new RaisedButton(
-                          child: new Text(SpotL.of(context).selectGroup()),
+                          child: new Text(SpotL.of(context).selectGroup),
                           onPressed: () {
                             _selectGroup(context);
                           },

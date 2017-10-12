@@ -4,7 +4,7 @@ import 'package:spotitem/ui/widgets/item.dart';
 import 'package:spotitem/ui/screens/items/item_screen.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:flutter/material.dart';
-import 'package:spotitem/ui/spot_strings.dart';
+import 'package:spotitem/i18n/spot_localization.dart';
 
 /// Discover view class
 class DiscoverView extends StatefulWidget {
@@ -49,7 +49,7 @@ class _DiscoverViewState extends State<DiscoverView> {
                 new Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: new Text(
-                    SpotL.of(Services.loc).recentItems(),
+                    SpotL.of(Services.loc).recentItems,
                     style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 20.0),
                   ),
                 ),
@@ -73,7 +73,7 @@ class _DiscoverViewState extends State<DiscoverView> {
                 new Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: new Text(
-                    SpotL.of(Services.loc).fromYourGroups(),
+                    SpotL.of(Services.loc).fromYourGroups,
                     style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 20.0),
                   ),
                 ),
@@ -116,5 +116,5 @@ class DiscoverList extends StatelessWidget {
               onPressed: () {
                 showItemPage(_items[index], _hash, context);
               }))
-      : new Center(child: new Text(SpotL.of(Services.loc).noItems()));
+      : new Center(child: new Text(SpotL.of(Services.loc).noItems));
 }

@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/utils.dart';
 import 'package:spotitem/models/group.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter/material.dart';
-import 'package:spotitem/ui/spot_strings.dart';
+import 'package:spotitem/i18n/spot_localization.dart';
 import 'package:google_maps_webservice/geocoding.dart';
 import 'package:flutter_google_places_autocomplete/flutter_google_places_autocomplete.dart';
 import 'package:spotitem/keys.dart';
@@ -97,12 +97,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          new Text(SpotL.of(context).noImages()),
+          new Text(SpotL.of(context).noImages),
           const Padding(
             padding: const EdgeInsets.all(10.0),
           ),
           new RaisedButton(
-            child: new Text(SpotL.of(context).addImage()),
+            child: new Text(SpotL.of(context).addImage),
             onPressed: getImage,
           )
         ],
@@ -111,7 +111,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     return new Column(children: <Widget>[
       new Center(
           child: new RaisedButton(
-        child: new Text(SpotL.of(context).addImage()),
+        child: new Text(SpotL.of(context).addImage),
         onPressed: getImage,
       )),
       const Divider(),
@@ -154,7 +154,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       return const Center(child: const CircularProgressIndicator());
     }
     if (_groups.isEmpty) {
-      return new Center(child: new Text(SpotL.of(context).noGroups()));
+      return new Center(child: new Text(SpotL.of(context).noGroups));
     }
     return new Column(
       children: new List<Widget>.generate(
@@ -182,7 +182,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       setState(() {
         _currentStep = 0;
       });
-      return showSnackBar(context, SpotL.of(context).correctError());
+      return showSnackBar(context, SpotL.of(context).correctError);
     }
     showLoading(context);
     await Services.users.getLocation(force: true);
@@ -205,7 +205,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     }
     if (!Services.auth.user.isValid()) {
       Navigator.of(context).pop();
-      return showSnackBar(context, SpotL.of(context).error());
+      return showSnackBar(context, SpotL.of(context).error);
     }
     final response = await Services.items.addItem({
       'name': _name,
@@ -228,7 +228,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-        appBar: new AppBar(title: new Text(SpotL.of(context).addItem())),
+        appBar: new AppBar(title: new Text(SpotL.of(context).addItem)),
         body: new Builder(
             builder: (context) => new Container(
                 child: new Form(
@@ -237,14 +237,14 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       currentStep: _currentStep,
                       steps: [
                         new Step(
-                            title: new Text(SpotL.of(context).about()),
+                            title: new Text(SpotL.of(context).about),
                             state: StepState.indexed,
                             content: new Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
                               new Column(children: <Widget>[
                                 new TextFormField(
                                     key: const Key('name'),
                                     decoration: new InputDecoration(
-                                        hintText: SpotL.of(context).namePh(), labelText: SpotL.of(context).name()),
+                                        hintText: SpotL.of(context).namePh, labelText: SpotL.of(context).name),
                                     validator: validateName,
                                     onSaved: (value) {
                                       _name = value.trim();
@@ -252,8 +252,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                 new TextFormField(
                                     key: const Key('about'),
                                     decoration: new InputDecoration(
-                                        hintText: SpotL.of(Services.loc).aboutPh(),
-                                        labelText: SpotL.of(context).about()),
+                                        hintText: SpotL.of(Services.loc).aboutPh, labelText: SpotL.of(context).about),
                                     validator: validateString,
                                     onSaved: (value) {
                                       _about = value.trim();
@@ -272,10 +271,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                         });
                                       }
                                     },
-                                    child: new Text(_location ?? SpotL.of(context).location())),
+                                    child: new Text(_location ?? SpotL.of(context).location)),
                                 const Divider(),
                                 new CheckboxListTile(
-                                    title: new Text(SpotL.of(context).gift()),
+                                    title: new Text(SpotL.of(context).gift),
                                     value: _tracks.contains('gift'),
                                     onChanged: (value) {
                                       setState(() {
@@ -288,7 +287,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                     },
                                     secondary: const Icon(Icons.card_giftcard)),
                                 new CheckboxListTile(
-                                    title: new Text(SpotL.of(context).private()),
+                                    title: new Text(SpotL.of(context).private),
                                     value: _tracks.contains('private'),
                                     onChanged: (value) {
                                       setState(() {
@@ -335,11 +334,11 @@ class _AddItemScreenState extends State<AddItemScreen> {
                             ]),
                             isActive: true),
                         new Step(
-                            title: new Text(SpotL.of(context).images()),
+                            title: new Text(SpotL.of(context).images),
                             content: new Container(
                                 height: 120 + 320 * (_imagesFile.length / 3).floorToDouble(), child: getImageGrid()),
                             isActive: true),
-                        new Step(title: new Text(SpotL.of(context).groups()), content: getGroups(), isActive: true),
+                        new Step(title: new Text(SpotL.of(context).groups), content: getGroups(), isActive: true),
                       ],
                       type: StepperType.vertical,
                       onStepTapped: (step) {

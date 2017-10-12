@@ -4,7 +4,7 @@ import 'package:spotitem/services/services.dart';
 import 'package:spotitem/models/item.dart';
 import 'package:spotitem/ui/screens/items/item_screen.dart';
 import 'package:spotitem/utils.dart';
-import 'package:spotitem/ui/spot_strings.dart';
+import 'package:spotitem/i18n/spot_localization.dart';
 
 /// Items view class
 class ItemsView extends StatefulWidget {
@@ -51,10 +51,10 @@ class _ItemsViewState extends State<ItemsView> {
       return new Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          new Center(child: new Text(SpotL.of(Services.loc).noItems())),
+          new Center(child: new Text(SpotL.of(Services.loc).noItems)),
           const Padding(padding: const EdgeInsets.all(10.0)),
           new RaisedButton(
-            child: new Text(SpotL.of(Services.loc).addItem()),
+            child: new Text(SpotL.of(Services.loc).addItem),
             onPressed: () async {
               await Navigator.of(Services.context).pushNamed('/items/add/');
             },

@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:spotitem/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/utils.dart';
-import 'package:spotitem/ui/spot_strings.dart';
+import 'package:spotitem/i18n/spot_localization.dart';
 
 /// Contact screen class
 class ContactScreen extends StatefulWidget {
@@ -36,7 +36,7 @@ class _ContactScreenState extends State<ContactScreen> {
     final res = await showDialog<Null>(
       context: context,
       child: new SimpleDialog(
-          title: new Text(SpotL.of(Services.loc).confirm()),
+          title: new Text(SpotL.of(Services.loc).confirm),
           children: new List<Widget>.generate(
               _contacts[index]['emailAddresses'].length,
               (i) => new ListTile(
@@ -54,7 +54,7 @@ class _ContactScreenState extends State<ContactScreen> {
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-      appBar: new AppBar(title: new Text(SpotL.of(context).addSomeone())),
+      appBar: new AppBar(title: new Text(SpotL.of(context).addSomeone)),
       body: new Builder(
           builder: (context) => new Column(children: <Widget>[
                 new Container(
@@ -72,7 +72,7 @@ class _ContactScreenState extends State<ContactScreen> {
                         ),
                         decoration: new InputDecoration(
                           hideDivider: true,
-                          hintText: SpotL.of(context).searchContact(),
+                          hintText: SpotL.of(context).searchContact,
                           errorText: _contacts == null || _contacts.isEmpty ? validateEmail(_email) : null,
                           hintStyle: const TextStyle(
                             color: const Color.fromARGB(150, 255, 255, 255),
@@ -107,11 +107,11 @@ class _ContactScreenState extends State<ContactScreen> {
                                       },
                                     )))
                         : new RaisedButton(
-                            child: new Text(SpotL.of(context).addSomeone()),
+                            child: new Text(SpotL.of(context).addSomeone),
                             onPressed: () {
                               _handleEmail(context);
                             },
                           )
-                    : new Text(SpotL.of(context).noContacts()),
+                    : new Text(SpotL.of(context).noContacts),
               ])));
 }

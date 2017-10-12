@@ -3,7 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:spotitem/models/user.dart';
 import 'package:spotitem/models/api.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:spotitem/ui/spot_strings.dart';
+import 'package:spotitem/i18n/spot_localization.dart';
 
 /// Email RegExp
 final RegExp emailExp = new RegExp(r'[\w-]+@([\w-]+\.)+[\w-]+');
@@ -30,7 +30,7 @@ void showLoading(BuildContext context) {
     context: context,
     barrierDismissible: false,
     child: new AlertDialog(
-      title: new Text(SpotL.of(context).loading()),
+      title: new Text(SpotL.of(context).loading),
       content: new SingleChildScrollView(
         child: new ListBody(
           children: <Widget>[const Center(child: const CircularProgressIndicator())],

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:spotitem/models/group.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/utils.dart';
-import 'package:spotitem/ui/spot_strings.dart';
+import 'package:spotitem/i18n/spot_localization.dart';
 import 'package:spotitem/ui/screens/groups/edit_group_screen.dart';
 
 /// Group page class
@@ -121,7 +121,7 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
               child: new Container(),
             ),
             new Text(
-              '${(group?.users?.length ?? 0 + 1).toString()} ${SpotL.of(context).members()}',
+              '${(group?.users?.length ?? 0 + 1).toString()} ${SpotL.of(context).members}',
               style: const TextStyle(color: Colors.white),
             )
           ])
@@ -131,7 +131,7 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
         const Padding(padding: const EdgeInsets.all(8.0)),
         new DefaultTextStyle(
           style: theme.primaryTextTheme.body2,
-          child: new Text(SpotL.of(context).about()),
+          child: new Text(SpotL.of(context).about),
         ),
         new DefaultTextStyle(
           style: theme.primaryTextTheme.body1,
@@ -158,11 +158,11 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
             context: context,
             barrierDismissible: false,
             child: new AlertDialog(
-              title: new Text(SpotL.of(context).confirm()),
+              title: new Text(SpotL.of(context).confirm),
               content: new SingleChildScrollView(
                 child: new ListBody(
                   children: <Widget>[
-                    new Text(SpotL.of(context).leaveGroup()),
+                    new Text(SpotL.of(context).leaveGroup),
                   ],
                 ),
               ),
@@ -195,11 +195,11 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
               context: context,
               barrierDismissible: false,
               child: new AlertDialog(
-                title: new Text(SpotL.of(context).confirm()),
+                title: new Text(SpotL.of(context).confirm),
                 content: new SingleChildScrollView(
                   child: new ListBody(
                     children: <Widget>[
-                      new Text(SpotL.of(context).deleteGroup()),
+                      new Text(SpotL.of(context).deleteGroup),
                     ],
                   ),
                 ),
@@ -263,7 +263,7 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
                   showDialog<Null>(
                     context: context,
                     child: new AlertDialog(
-                      title: new Text(SpotL.of(context).confirm()),
+                      title: new Text(SpotL.of(context).confirm),
                       content: new SingleChildScrollView(
                         child: new ListBody(
                           children: <Widget>[
@@ -281,7 +281,7 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
                           },
                         ),
                         new FlatButton(
-                          child: new Text(SpotL.of(context).add().toUpperCase()),
+                          child: new Text(SpotL.of(context).add.toUpperCase()),
                           onPressed: () {
                             _addOwner(context, group.users[index].id);
                           },
@@ -302,7 +302,7 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
                   showDialog<Null>(
                     context: context,
                     child: new AlertDialog(
-                      title: new Text(SpotL.of(context).confirm()),
+                      title: new Text(SpotL.of(context).confirm),
                       content: new SingleChildScrollView(
                         child: new ListBody(
                           children: <Widget>[
@@ -340,7 +340,7 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
                   showDialog<Null>(
                     context: context,
                     child: new AlertDialog(
-                      title: new Text(SpotL.of(context).confirm()),
+                      title: new Text(SpotL.of(context).confirm),
                       content: new SingleChildScrollView(
                         child: new ListBody(
                           children: <Widget>[
@@ -404,7 +404,7 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
                             onPressed: () {
                               _addPeople(context);
                             },
-                            child: new Text(SpotL.of(context).addSomeone().toUpperCase()),
+                            child: new Text(SpotL.of(context).addSomeone.toUpperCase()),
                           )))
                       : new Container(),
                   _buildUsers(context),

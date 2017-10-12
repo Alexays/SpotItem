@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/models/user.dart';
 import 'package:spotitem/utils.dart';
-import 'package:spotitem/ui/spot_strings.dart';
+import 'package:spotitem/i18n/spot_localization.dart';
 
 /// Profile screen class
 class ProfileScreen extends StatefulWidget {
@@ -37,8 +37,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) => new Scaffold(
         appBar: new AppBar(
-            title:
-                _user != null ? new Text('${_user.firstname} ${_user.name}') : new Text(SpotL.of(context).loading())),
+            title: _user != null ? new Text('${_user.firstname} ${_user.name}') : new Text(SpotL.of(context).loading)),
         body: new Builder(
             builder: (context) => _user != null
                 ? new SingleChildScrollView(
