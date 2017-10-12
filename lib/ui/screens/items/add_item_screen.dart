@@ -263,6 +263,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                           context: context,
                                           apiKey: placeApiKey,
                                           mode: Mode.fullscreen,
+                                          hint: SpotL.of(context).search,
                                           language: 'fr',
                                           components: [new Component(Component.country, 'fr')]);
                                       if (p?.description != null) {

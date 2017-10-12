@@ -330,6 +330,7 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                                                             context: context,
                                                             apiKey: placeApiKey,
                                                             mode: Mode.fullscreen,
+                                                            hint: SpotL.of(context).search,
                                                             language: 'fr',
                                                             components: [new Component(Component.country, 'fr')]);
                                                         if (p?.description != null) {
