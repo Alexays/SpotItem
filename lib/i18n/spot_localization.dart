@@ -257,4 +257,7 @@ class SpotL {
 
   /// Loading title
   String get loading => _nameToValue['loading'];
+
+  /// Delete title
+  String get delete => _nameToValue['delete'];
 }

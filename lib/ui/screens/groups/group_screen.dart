@@ -211,7 +211,7 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
                     },
                   ),
                   new FlatButton(
-                    child: const Text('Delete'),
+                    child: new Text(SpotL.of(context).delete.toUpperCase()),
                     onPressed: () async {
                       await Services.groups.delGroup(group.id);
                       await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);

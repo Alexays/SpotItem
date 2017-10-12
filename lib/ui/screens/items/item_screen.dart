@@ -157,7 +157,7 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
                     },
                   ),
                   new FlatButton(
-                    child: const Text('Delete'),
+                    child: new Text(SpotL.of(context).delete.toUpperCase()),
                     onPressed: () {
                       Services.items.deleteItem(item.id).then((resp) {
                         if (resp.success) {

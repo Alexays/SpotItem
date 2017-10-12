@@ -71,5 +71,6 @@
   "dist": "Distance",
   "createConv": "Create a conversation",
   "delItem": "Are you sure to delete this item ?",
-  "loading": "Loading..."
+  "loading": "Loading...",
+  "delete": "Delete"
 }

@@ -71,5 +71,6 @@
   "dist": "Distance",
   "createConv": "Créer une conversation",
   "delItem": "Voulez-vous vraiment supprimer cet objet ?",
-  "loading": "Chargement..."
+  "loading": "Chargement...",
+  "delete": "Supprimer"
 }

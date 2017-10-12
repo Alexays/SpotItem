@@ -85,6 +85,7 @@ const Map<String, Map<String, String>> localizations = const <String, Map<String
     "createConv": r"Create a conversation",
     "delItem": r"Are you sure to delete this item ?",
     "loading": r"Loading...",
+    "delete": r"Delete",
   },
   "fr": const <String, String>{
     "home": r"Accueil",
@@ -160,6 +161,7 @@ const Map<String, Map<String, String>> localizations = const <String, Map<String
     "createConv": r"Créer une conversation",
     "delItem": r"Voulez-vous vraiment supprimer cet objet ?",
     "loading": r"Chargement...",
+    "delete": r"Supprimer",
   },
 };
 
