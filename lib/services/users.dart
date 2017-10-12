@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:spotitem/models/user.dart';
 import 'package:spotitem/services/basic.dart';
 import 'package:spotitem/services/services.dart';
+import 'package:spotitem/models/api.dart';
 import 'package:location/location.dart';
 
 /// User class manager
@@ -71,7 +72,7 @@ class UsersManager extends BasicService {
   /// @param user User data
   /// @param password User password to update
   /// @returns Api body response
-  Future<dynamic> updateUser(Map<String, dynamic> payload, String password) async {
+  Future<ApiRes> updateUser(Map<String, dynamic> payload, String password) async {
     if (password != null) {
       payload['password'] = password;
     }

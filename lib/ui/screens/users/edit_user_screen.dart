@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:spotitem/services/services.dart';
-import 'package:spotitem/models/user.dart';
+import 'package:spotitem/models/api.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/utils.dart';
 import 'package:spotitem/i18n/spot_localization.dart';
@@ -43,8 +43,8 @@ class _EditUserScreenState extends State<EditUserScreen> {
       'firstname': _firstname.text,
       'name': _lastname.text,
     }, password);
-    showSnackBar(context, res['msg']);
-    if (res['success']) {
+    showSnackBar(context, res.msg);
+    if (res.success) {
       Navigator.pop(context);
     }
   }
