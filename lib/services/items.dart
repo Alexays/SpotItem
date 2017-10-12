@@ -45,7 +45,9 @@ class ItemsManager extends BasicService {
   /// @param payload Item payload
   /// @returns Api body response
   Future<ApiRes> editItem(Map<String, dynamic> payload) async {
-    final response = await iput('/items/${payload['id']}', payload, Services.auth.accessToken);
+    final id = payload['id'];
+    payload.remove('id');
+    final response = await iput('/items/$id', payload, Services.auth.accessToken);
     return response;
   }
 
