@@ -43,12 +43,10 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   /// Item name
-  String _name;
-  TextEditingController _nameCtrl = new TextEditingController();
+  final TextEditingController _nameCtrl = new TextEditingController();
 
   /// Item Description
-  String _about;
-  TextEditingController _aboutCtrl = new TextEditingController();
+  final TextEditingController _aboutCtrl = new TextEditingController();
 
   /// Item location
   String _location;
@@ -233,8 +231,8 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
     }
     final response = await Services.items.editItem({
       'id': _item.id,
-      'name': _name,
-      'about': _about,
+      'name': _nameCtrl.text,
+      'about': _aboutCtrl.text,
       'lat': Services.users.location['latitude'].toString(),
       'lng': Services.users.location['longitude'].toString(),
       'images': JSON.encode(finalImages),
@@ -316,9 +314,6 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                                                         labelText: SpotL.of(context).name),
                                                     validator: validateName,
                                                     controller: _nameCtrl,
-                                                    onSaved: (data) {
-                                                      _name = data;
-                                                    },
                                                   ),
                                                   new TextFormField(
                                                     key: const Key('about'),
@@ -326,9 +321,6 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                                                         hintText: SpotL.of(context).aboutPh,
                                                         labelText: SpotL.of(context).about),
                                                     controller: _aboutCtrl,
-                                                    onSaved: (data) {
-                                                      _about = data;
-                                                    },
                                                   ),
                                                   new FlatButton(
                                                       onPressed: () async {

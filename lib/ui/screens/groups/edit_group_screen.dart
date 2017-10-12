@@ -64,6 +64,9 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
     if (!_formKey.currentState.validate()) {
       return showSnackBar(context, SpotL.of(context).correctError);
     }
+    _group
+      ..name = nameCtrl.text
+      ..about = aboutCtrl.text;
     final response = await Services.groups.editGroup(_group);
     if (resValid(context, response)) {
       showSnackBar(context, response.msg);
