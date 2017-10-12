@@ -95,13 +95,15 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
                                           decoration: new InputDecoration(
                                               hintText: SpotL.of(context).namePh, labelText: SpotL.of(context).name),
                                           controller: nameCtrl,
+                                          initialValue: nameCtrl.text,
                                           validator: validateName,
                                         ),
-                                        new TextField(
+                                        new TextFormField(
                                           key: const Key('about'),
                                           decoration: new InputDecoration(
                                               hintText: SpotL.of(context).aboutPh, labelText: SpotL.of(context).about),
                                           controller: aboutCtrl,
+                                          initialValue: aboutCtrl.text,
                                         ),
                                       ]))
                                 ])))),

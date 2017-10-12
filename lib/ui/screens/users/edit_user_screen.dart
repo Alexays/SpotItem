@@ -18,36 +18,30 @@ class EditUserScreen extends StatefulWidget {
 class _EditUserScreenState extends State<EditUserScreen> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
-  TextEditingController _name;
-  TextEditingController _lastname;
-  TextEditingController _email;
-  TextEditingController _password;
+  final TextEditingController _firstname = new TextEditingController();
+  final TextEditingController _lastname = new TextEditingController();
+  final TextEditingController _password = new TextEditingController();
 
-  User user;
   String password;
-  String repeat;
 
   @override
   void initState() {
-    final tmp = Services.auth.user;
-    user = new User.from(tmp);
-    _name = new TextEditingController(text: user.firstname);
-    _lastname = new TextEditingController(text: user.name);
-    _email = new TextEditingController(text: user.email);
+    _firstname.text = Services.auth.user.firstname;
+    _lastname.text = Services.auth.user.name;
     super.initState();
   }
 
   Future<Null> editUser(BuildContext context) async {
     _formKey.currentState.save();
-    if (password != repeat) {
-      return showSnackBar(context, SpotL.of(context).passwordError);
-    }
     if (!_formKey.currentState.validate()) {
       return showSnackBar(context, SpotL.of(context).correctError);
     }
+    if (password != _password.text) {
+      return showSnackBar(context, SpotL.of(context).passwordError);
+    }
     final res = await Services.users.updateUser({
-      'firstname': user.firstname,
-      'name': user.name,
+      'firstname': _firstname.text,
+      'name': _lastname.text,
     }, password);
     showSnackBar(context, res['msg']);
     if (res['success']) {
@@ -77,27 +71,22 @@ class _EditUserScreenState extends State<EditUserScreen> {
                                       decoration: new InputDecoration(
                                           labelText: SpotL.of(Services.loc).firstname,
                                           hintText: SpotL.of(Services.loc).firstnamePh),
-                                      onSaved: (value) {
-                                        user.firstname = value.trim();
-                                      },
                                       validator: validateString,
-                                      controller: _name,
+                                      controller: _firstname,
+                                      initialValue: _firstname.text,
                                     ),
                                     new TextFormField(
                                       key: const Key('lastname'),
                                       decoration: new InputDecoration(
                                           labelText: SpotL.of(context).lastname,
                                           hintText: SpotL.of(Services.loc).lastnamePh),
-                                      onSaved: (value) {
-                                        user.name = value.trim();
-                                      },
                                       validator: validateString,
                                       controller: _lastname,
+                                      initialValue: _lastname.text,
                                     ),
                                     new FocusScope(
                                       node: new FocusScopeNode(),
                                       child: new TextFormField(
-                                        controller: _email,
                                         style: theme.textTheme.subhead.copyWith(
                                           color: theme.disabledColor,
                                         ),
@@ -105,7 +94,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
                                           labelText: SpotL.of(context).email,
                                           hintText: SpotL.of(context).emailPh,
                                         ),
-                                        validator: validateEmail,
+                                        initialValue: Services.auth.user?.email,
                                       ),
                                     ),
                                     new TextFormField(
@@ -123,9 +112,6 @@ class _EditUserScreenState extends State<EditUserScreen> {
                                       decoration: new InputDecoration(
                                           labelText: SpotL.of(context).passwordRepeat,
                                           hintText: SpotL.of(context).passwordRepeatPh),
-                                      onSaved: (value) {
-                                        repeat = value;
-                                      },
                                       controller: _password,
                                       obscureText: true,
                                     ),

@@ -314,6 +314,7 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                                                         labelText: SpotL.of(context).name),
                                                     validator: validateName,
                                                     controller: _nameCtrl,
+                                                    initialValue: _nameCtrl.text,
                                                   ),
                                                   new TextFormField(
                                                     key: const Key('about'),
@@ -321,6 +322,7 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                                                         hintText: SpotL.of(context).aboutPh,
                                                         labelText: SpotL.of(context).about),
                                                     controller: _aboutCtrl,
+                                                    initialValue: _aboutCtrl.text,
                                                   ),
                                                   new FlatButton(
                                                       onPressed: () async {
