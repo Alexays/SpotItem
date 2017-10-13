@@ -40,7 +40,7 @@ class AuthManager extends BasicService {
   User user;
 
   /// Last email used
-  String get lastEmail => _lastEmail;
+  String lastEmail;
 
   /// Google user data
   GoogleSignInAccount get googleUser => _googleUser;
@@ -51,7 +51,6 @@ class AuthManager extends BasicService {
   /// Private variables
   bool _loggedIn = false;
   GoogleSignInAccount _googleUser;
-  String _lastEmail;
   IOWebSocketChannel _ws;
   final dynamic _wsCallback = {};
 
@@ -61,7 +60,7 @@ class AuthManager extends BasicService {
     final _userData = prefs.getString(keyUser) ?? '{}';
     final _provider = prefs.getString(keyProvider);
     final _refreshToken = prefs.getString(keyOauthToken);
-    _lastEmail = prefs.getString(keyLastEmail) ?? '';
+    lastEmail = prefs.getString(keyLastEmail) ?? '';
     try {
       final _user = new User(JSON.decode(_userData));
       if (!_user.isValid() || _refreshToken == null || !providers.contains(_provider)) {
@@ -100,9 +99,9 @@ class AuthManager extends BasicService {
   /// Regenerate access_token.
   ///
   Future<bool> getAccessToken(Client client) async {
-    final response = await client.get('$apiUrl/check/$provider', headers: getHeaders(refreshToken));
     var apiRes;
     try {
+      final response = await client.get('$apiUrl/check/$provider', headers: getHeaders(refreshToken));
       apiRes = new ApiRes(JSON.decode(response.body), response.statusCode);
     } catch (err) {
       apiRes = new ApiRes.classic();
@@ -153,7 +152,7 @@ class AuthManager extends BasicService {
       if (_payload['email'] != null) {
         await SharedPreferences.getInstance()
           ..setString(keyLastEmail, _payload['email']);
-        _lastEmail = _payload['email'];
+        lastEmail = _payload['email'];
       }
       user = new User(response.data['user']);
       accessToken = response.data['access_token'];

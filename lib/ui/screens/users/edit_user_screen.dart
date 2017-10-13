@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:spotitem/services/services.dart';
-import 'package:spotitem/models/api.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/utils.dart';
 import 'package:spotitem/i18n/spot_localization.dart';

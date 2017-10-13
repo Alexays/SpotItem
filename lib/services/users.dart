@@ -19,7 +19,6 @@ class UsersManager extends BasicService {
 
   /// Private variables
   static final _location = new Location();
-  Stream<Map<String, double>> _onLocationChanged;
   List<dynamic> _contacts;
 
   @override
