@@ -7,7 +7,7 @@ class User {
       : id = data['_id'],
         email = data['email'],
         firstname = data['firstname'],
-        name = data['name'],
+        name = data['name'] ?? '',
         avatar = data['avatar'],
         groups = data['groups'] is List ? data['groups'].map((f) => f.toString()).toList() : <String>[];
 

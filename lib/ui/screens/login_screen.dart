@@ -98,14 +98,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                   style: const TextStyle(color: Colors.white),
                                 ),
                                 color: Colors.blue,
-                                onPressed: () {
-                                  Services.auth.handleGoogleSignIn().then((success) {
-                                    if (success) {
-                                      Navigator.pushReplacementNamed(context, '/');
-                                    } else {
-                                      showSnackBar(context, SpotL.of(context).error);
-                                    }
-                                  });
+                                onPressed: () async {
+                                  print('1');
+                                  final success = await Services.auth.handleGoogleSignIn();
+                                  print(success);
+                                  if (success) {
+                                    await Navigator.pushReplacementNamed(context, '/');
+                                  } else {
+                                    showSnackBar(context, SpotL.of(context).error);
+                                  }
                                 },
                               )
                             ],
