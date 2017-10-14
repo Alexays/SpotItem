@@ -23,6 +23,11 @@ class UsersManager extends BasicService {
 
   @override
   Future<bool> init() async {
+    location = await _location.onLocationChanged
+        .firstWhere((location) => location != null)
+        .timeout(new Duration(milliseconds: 250), onTimeout: () {
+      location = null;
+    });
     await _handleGetContact();
     return true;
   }
@@ -35,7 +40,9 @@ class UsersManager extends BasicService {
       return;
     }
     try {
-      location = await _location.onLocationChanged.firstWhere((location) => location != null);
+      location = await _location.getLocation.timeout(new Duration(milliseconds: 250), onTimeout: () {
+        location = null;
+      });
     } on PlatformException {
       location = null;
     }

@@ -173,7 +173,9 @@ class AuthManager extends BasicService {
     if (providers.contains(provider) && refreshToken != null) {
       await iget('/logout/$provider', refreshToken);
     }
-    await saveTokens(null, null, null);
+    await SharedPreferences.getInstance()
+      ..clear();
+    refreshToken = null;
     accessToken = null;
     exp = null;
     provider = null;
