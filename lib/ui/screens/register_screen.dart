@@ -81,7 +81,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   user['name'] = value;
                                 },
                                 controller: _lastname,
-                                validator: validateName,
                               ),
                               new TextFormField(
                                 controller: _email,
