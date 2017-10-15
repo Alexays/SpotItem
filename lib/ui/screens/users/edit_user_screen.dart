@@ -79,7 +79,6 @@ class _EditUserScreenState extends State<EditUserScreen> {
                                       decoration: new InputDecoration(
                                           labelText: SpotL.of(context).lastname,
                                           hintText: SpotL.of(Services.loc).lastnamePh),
-                                      validator: validateString,
                                       controller: _lastname,
                                       initialValue: _lastname.text,
                                     ),
