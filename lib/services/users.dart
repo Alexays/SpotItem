@@ -23,11 +23,13 @@ class UsersManager extends BasicService {
 
   @override
   Future<bool> init() async {
-    location = await _location.onLocationChanged
-        .firstWhere((location) => location != null)
-        .timeout(new Duration(milliseconds: 250), onTimeout: () {
-      location = null;
-    });
+    if (Services.origin == Origin.prod) {
+      location = await _location.onLocationChanged
+          .firstWhere((location) => location != null)
+          .timeout(new Duration(milliseconds: 250), onTimeout: () {
+        location = null;
+      });
+    }
     await _handleGetContact();
     return true;
   }
