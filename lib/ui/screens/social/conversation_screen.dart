@@ -80,11 +80,10 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
     super.initState();
   }
 
-  void newMessage(String res) {
+  void newMessage(Map<String, dynamic> decoded) {
     if (!mounted) {
       return;
     }
-    final decoded = JSON.decode(res);
     if (decoded['type'] == 'MESSAGE') {
       final data = decoded['data'];
       if (data['room'] == conv.id) {
@@ -119,7 +118,7 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
         chat.animation.forward();
         return chat;
       }).toList();
-      Services.auth.ws.sink.add(JSON.encode({'type': 'CONVERSATION_CONNECT', 'room': conv.id}));
+      Services.social.connectConversation(conv.id);
       Services.auth.addCallback('MESSAGE', newMessage);
     });
   }
@@ -129,7 +128,7 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
     for (var message in _messages) {
       message.animation.dispose();
     }
-    Services.auth.ws.sink.add(JSON.encode({'type': 'CONVERSATION_DISCONNECT', 'room': conv.id}));
+    Services.social.disconnectConversation(conv.id);
     Services.auth.delCallback('MESSAGE');
     super.dispose();
   }
@@ -200,10 +199,7 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
         vsync: this,
       ),
     );
-    Services.auth.ws.sink.add(JSON.encode({
-      'type': 'CONVERSATION_MESSAGE',
-      'data': {'room': conv.id, 'sender': Services.auth.user.toString(), 'message': text}
-    }));
+    Services.social.send(conv.id, text);
     setState(() {
       _messages.insert(0, message);
     });

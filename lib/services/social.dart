@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:spotitem/models/api.dart';
 import 'package:spotitem/models/conversation.dart';
 import 'package:spotitem/services/basic.dart';
@@ -40,5 +41,26 @@ class SocialManager extends BasicService {
       return new Conversation(response.data);
     }
     return null;
+  }
+
+  /// Subscribe to conversation
+  Future<Null> connectConversation(String id) async {
+    final header = await getWsHeader('sub');
+    header['path'] = '/conv/$id';
+    Services.auth.ws.sink.add(JSON.encode(header));
+  }
+
+  /// Unsubscribe to conversation
+  Future<Null> disconnectConversation(String id) async {
+    final header = await getWsHeader('unsub');
+    header['path'] = '/conv/$id';
+    Services.auth.ws.sink.add(JSON.encode(header));
+  }
+
+  /// Send message to conversation
+  Future<Null> send(String id, String text) async {
+    final header = await getWsHeader('message');
+    header['message'] = {'room': id, 'sender': Services.auth.user.toString(), 'message': text};
+    Services.auth.ws.sink.add(JSON.encode(header));
   }
 }

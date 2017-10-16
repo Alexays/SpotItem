@@ -99,9 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                                 color: Colors.blue,
                                 onPressed: () async {
-                                  print('1');
                                   final success = await Services.auth.handleGoogleSignIn();
-                                  print(success);
                                   if (success) {
                                     await Navigator.pushReplacementNamed(context, '/');
                                   } else {

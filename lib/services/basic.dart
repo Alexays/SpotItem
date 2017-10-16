@@ -110,6 +110,21 @@ class BasicService {
     return apiRes;
   }
 
+  /// Communicate with websocket server
+  ///
+  /// @param type Request type
+  /// @param data Payload
+  Future<Map<String, dynamic>> getWsHeader(String type) async {
+    final client = new http.Client();
+    final verifiedToken = await Services.auth.verifyToken(client, Services.auth.accessToken).whenComplete(client.close);
+    return {
+      'type': type,
+      'id': Services.auth.user.id,
+      'version': '2',
+      'auth': {'headers': getHeaders(verifiedToken)},
+    };
+  }
+
   /// Save user, refresh_token, provider to storage.
   ///
   /// @param user User data stingified

@@ -9,7 +9,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:web_socket_channel/io.dart';
-import 'package:spotitem/utils.dart';
 import 'package:flutter/material.dart';
 
 GoogleSignIn _googleSignIn = new GoogleSignIn(
@@ -46,12 +45,11 @@ class AuthManager extends BasicService {
   GoogleSignInAccount get googleUser => _googleUser;
 
   /// Ws channel
-  IOWebSocketChannel get ws => _ws;
+  IOWebSocketChannel ws;
 
   /// Private variables
   bool _loggedIn = false;
   GoogleSignInAccount _googleUser;
-  IOWebSocketChannel _ws;
   final dynamic _wsCallback = {};
 
   @override
@@ -74,11 +72,12 @@ class AuthManager extends BasicService {
         case 'google':
           await handleGoogleSignIn(signIn: false);
       }
-      _ws = connectWs();
+      _loggedIn = true;
+      await connectWs();
     } on Exception {
       return _loggedIn = false;
     }
-    return _loggedIn = true;
+    return _loggedIn;
   }
 
   /// Check if access_token is expired and regenerate it if expired.
@@ -160,7 +159,7 @@ class AuthManager extends BasicService {
       exp = new DateTime.fromMillisecondsSinceEpoch(response.data['exp'] * 1000);
       await saveTokens(user.toString(), response.data['refresh_token'], _provider);
       _loggedIn = true;
-      _ws = connectWs();
+      await connectWs();
     }
     return _loggedIn;
   }
@@ -198,13 +197,18 @@ class AuthManager extends BasicService {
   /// Handle web socket push.
   ///
   /// @param res Api ws data
-  void handleWsData(String res) {
+  Future<Null> handleWsData(String res) async {
     final decoded = JSON.decode(res);
-    if (decoded['type'] == 'NOTIFICATION') {
-      return showSnackBar(Services.context, decoded['data']);
+    if (decoded['type'] == 'ping') {
+      final headers = await getWsHeader('ping');
+      Services.auth.ws.sink.add(JSON.encode(headers));
     }
-    if (_wsCallback[decoded['type']] != null) {
-      _wsCallback[decoded['type']](res);
+    if (decoded['type'] != 'pub') {
+      return;
+    }
+    final payload = decoded['message'];
+    if (_wsCallback[payload['type']] != null) {
+      _wsCallback[payload['type']](payload);
     }
   }
 
@@ -212,7 +216,7 @@ class AuthManager extends BasicService {
   ///
   /// @param handler Name of handler
   /// @param callback Function callback
-  void addCallback(String handler, void callback(String res)) {
+  void addCallback(String handler, void callback(Map<String, dynamic> res)) {
     _wsCallback[handler] = callback;
   }
 
@@ -226,14 +230,13 @@ class AuthManager extends BasicService {
 
   /// Connect to web socket
   ///
-  IOWebSocketChannel connectWs() {
+  Future<Null> connectWs() async {
     if (Services.origin == Origin.mock) {
       return null;
     }
-    final channel = new IOWebSocketChannel.connect('ws://$baseHost');
-    channel.sink.add({'type': 'request', 'id': 1, 'method': 'GET', 'path': '/h'});
-    channel.sink.add(JSON.encode({'type': 'CONNECTION', 'userId': Services.auth.user.id}));
-    channel.stream.listen(handleWsData);
-    return channel;
+    Services.auth.ws = new IOWebSocketChannel.connect('ws://$baseHost');
+    Services.auth.ws.stream.listen(handleWsData);
+    final header = await getWsHeader('hello');
+    Services.auth.ws.sink.add(JSON.encode(header));
   }
 }

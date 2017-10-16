@@ -239,7 +239,7 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
   }
 
   Widget _buildUsers(BuildContext context) => new Flexible(
-      child: new ListView.builder(
+        child: new ListView.builder(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           itemCount: group?.users?.length ?? 0,
           itemBuilder: (context, index) {
@@ -257,140 +257,151 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
             if (!group.owners.any((owner) => owner.id == group.users[index].id) &&
                 group.users[index].id != Services.auth.user.id &&
                 isOwner) {
-              buttons.add(new IconButton(
-                icon: const Icon(Icons.arrow_upward),
-                onPressed: () {
-                  showDialog<Null>(
-                    context: context,
-                    child: new AlertDialog(
-                      title: new Text(SpotL.of(context).confirm),
-                      content: new SingleChildScrollView(
-                        child: new ListBody(
-                          children: <Widget>[
-                            new Text(SpotL
-                                .of(context)
-                                .addOwner('${group.users[index].firstname} ${group.users[index].name}')),
-                          ],
+              buttons.add(
+                new IconButton(
+                  icon: const Icon(Icons.arrow_upward),
+                  onPressed: () {
+                    showDialog<Null>(
+                      context: context,
+                      child: new AlertDialog(
+                        title: new Text(SpotL.of(context).confirm),
+                        content: new SingleChildScrollView(
+                          child: new ListBody(
+                            children: <Widget>[
+                              new Text(SpotL
+                                  .of(context)
+                                  .addOwner('${group.users[index].firstname} ${group.users[index].name}')),
+                            ],
+                          ),
                         ),
+                        actions: <Widget>[
+                          new FlatButton(
+                            child: new Text(MaterialLocalizations.of(context).cancelButtonLabel.toUpperCase()),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          new FlatButton(
+                            child: new Text(SpotL.of(context).add.toUpperCase()),
+                            onPressed: () {
+                              _addOwner(context, group.users[index].id);
+                            },
+                          ),
+                        ],
                       ),
-                      actions: <Widget>[
-                        new FlatButton(
-                          child: new Text(MaterialLocalizations.of(context).cancelButtonLabel.toUpperCase()),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                        new FlatButton(
-                          child: new Text(SpotL.of(context).add.toUpperCase()),
-                          onPressed: () {
-                            _addOwner(context, group.users[index].id);
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ));
+                    );
+                  },
+                ),
+              );
             }
             if (group.owners.any((owner) => owner.id == group.users[index].id) &&
                 group.users[index].id != Services.auth.user.id &&
                 isOwner &&
                 group.owners[0].id != group.users[index].id) {
-              buttons.add(new IconButton(
-                icon: const Icon(Icons.arrow_downward),
-                onPressed: () {
-                  showDialog<Null>(
-                    context: context,
-                    child: new AlertDialog(
-                      title: new Text(SpotL.of(context).confirm),
-                      content: new SingleChildScrollView(
-                        child: new ListBody(
-                          children: <Widget>[
-                            new Text(SpotL
-                                .of(context)
-                                .delOwner('${group.users[index].firstname} ${group.users[index].name}')),
-                          ],
+              buttons.add(
+                new IconButton(
+                  icon: const Icon(Icons.arrow_downward),
+                  onPressed: () {
+                    showDialog<Null>(
+                      context: context,
+                      child: new AlertDialog(
+                        title: new Text(SpotL.of(context).confirm),
+                        content: new SingleChildScrollView(
+                          child: new ListBody(
+                            children: <Widget>[
+                              new Text(SpotL
+                                  .of(context)
+                                  .delOwner('${group.users[index].firstname} ${group.users[index].name}')),
+                            ],
+                          ),
                         ),
+                        actions: <Widget>[
+                          new FlatButton(
+                            child: new Text(MaterialLocalizations.of(context).cancelButtonLabel),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          new FlatButton(
+                            child: new Text(MaterialLocalizations.of(context).continueButtonLabel),
+                            onPressed: () {
+                              _removeOwner(context, group.users[index].id);
+                            },
+                          ),
+                        ],
                       ),
-                      actions: <Widget>[
-                        new FlatButton(
-                          child: new Text(MaterialLocalizations.of(context).cancelButtonLabel),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                        new FlatButton(
-                          child: new Text(MaterialLocalizations.of(context).continueButtonLabel),
-                          onPressed: () {
-                            _removeOwner(context, group.users[index].id);
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ));
+                    );
+                  },
+                ),
+              );
             }
             if (isOwner &&
                 group.users[index].id != Services.auth.user.id &&
                 !group.owners.any((owner) => owner.id == group.users[index].id)) {
-              buttons.add(new IconButton(
-                icon: const Icon(Icons.remove_circle_outline),
-                onPressed: () {
-                  showDialog<Null>(
-                    context: context,
-                    child: new AlertDialog(
-                      title: new Text(SpotL.of(context).confirm),
-                      content: new SingleChildScrollView(
-                        child: new ListBody(
-                          children: <Widget>[
-                            new Text(SpotL
-                                .of(context)
-                                .kickUser('${group.users[index].firstname} ${group.users[index].name}')),
-                          ],
+              buttons.add(
+                new IconButton(
+                  icon: const Icon(Icons.remove_circle_outline),
+                  onPressed: () {
+                    showDialog<Null>(
+                      context: context,
+                      child: new AlertDialog(
+                        title: new Text(SpotL.of(context).confirm),
+                        content: new SingleChildScrollView(
+                          child: new ListBody(
+                            children: <Widget>[
+                              new Text(SpotL
+                                  .of(context)
+                                  .kickUser('${group.users[index].firstname} ${group.users[index].name}')),
+                            ],
+                          ),
                         ),
+                        actions: <Widget>[
+                          new FlatButton(
+                            child: new Text(MaterialLocalizations.of(context).cancelButtonLabel),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          new FlatButton(
+                            child: new Text(MaterialLocalizations.of(context).continueButtonLabel),
+                            onPressed: () {
+                              _kickUser(context, group.users[index].id);
+                            },
+                          ),
+                        ],
                       ),
-                      actions: <Widget>[
-                        new FlatButton(
-                          child: new Text(MaterialLocalizations.of(context).cancelButtonLabel),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                        new FlatButton(
-                          child: new Text(MaterialLocalizations.of(context).continueButtonLabel),
-                          onPressed: () {
-                            _kickUser(context, group.users[index].id);
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ));
+                    );
+                  },
+                ),
+              );
             }
             return new GestureDetector(
-                onTap: () {},
-                child: new GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pushNamed('/profile/:${group.users[index].id}');
-                    },
-                    child: new Container(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: new Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: buttons,
-                        ))));
-          }));
+              onTap: () {},
+              child: new GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushNamed('/profile/:${group.users[index].id}');
+                },
+                child: new Container(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: new Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: buttons,
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      );
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-      appBar: new AppBar(
-        title: new Text(group.name),
-        actions: _doButton(context),
-      ),
-      body: new Builder(
+        appBar: new AppBar(
+          title: new Text(group.name),
+          actions: _doButton(context),
+        ),
+        body: new Builder(
           builder: (context) => new Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -409,5 +420,7 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
                       : new Container(),
                   _buildUsers(context),
                 ],
-              )));
+              ),
+        ),
+      );
 }

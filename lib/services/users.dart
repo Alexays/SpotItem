@@ -26,9 +26,7 @@ class UsersManager extends BasicService {
     if (Services.origin == Origin.prod) {
       location = await _location.onLocationChanged
           .firstWhere((location) => location != null)
-          .timeout(new Duration(milliseconds: 250), onTimeout: () {
-        location = null;
-      });
+          .timeout(new Duration(milliseconds: 250), onTimeout: () => location = null);
     }
     await _handleGetContact();
     return true;
