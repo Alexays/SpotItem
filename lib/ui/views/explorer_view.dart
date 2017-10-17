@@ -50,13 +50,10 @@ class _ExplorerViewState extends State<ExplorerView> {
       switch (_sort.isEmpty ? null : _sort.single) {
         case 'name':
           return i1.name.compareTo(i2.name);
-          break;
         case 'dist':
           return i1.dist.compareTo(i2.dist);
-          break;
         default:
           return i1.dist.compareTo(i2.dist);
-          break;
       }
     });
   }
