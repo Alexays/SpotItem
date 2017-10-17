@@ -20,6 +20,9 @@ class _ExplorerViewState extends State<ExplorerView> {
   @override
   void initState() {
     _loadItems().then((res) {
+      if (!mounted) {
+        return;
+      }
       Services.items.tracks.addListener(getTracks);
     });
     super.initState();
@@ -67,6 +70,6 @@ class _ExplorerViewState extends State<ExplorerView> {
   Widget build(BuildContext context) => new RefreshIndicator(
         onRefresh: () => _loadItems(true),
         child:
-            _items == null ? const Center(child: const CircularProgressIndicator()) : new ItemsList(_items, toString()),
+            _items == null ? const Center(child: const CircularProgressIndicator()) : new ItemsList(_items, 'explorer'),
       );
 }
