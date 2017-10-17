@@ -17,6 +17,8 @@ class DiscoverView extends StatefulWidget {
 
 class _DiscoverViewState extends State<DiscoverView> {
   static List<Item> _items;
+  static List<Item> _recents;
+  static List<Item> _groups;
 
   @override
   void initState() {
@@ -31,6 +33,14 @@ class _DiscoverViewState extends State<DiscoverView> {
     }
     setState(() {
       _items = data;
+      _recents = new List<Item>.from(_items).where((item) => !item.tracks.contains('group')).toList();
+      if (_recents.length > 10) {
+        _recents.length = 10;
+      }
+      _groups = new List<Item>.from(_items).where((item) => item.tracks.contains('group')).toList();
+      if (_groups.length > 10) {
+        _groups.length = 10;
+      }
     });
   }
 
@@ -39,10 +49,6 @@ class _DiscoverViewState extends State<DiscoverView> {
       itemBuilder: (context, index) {
         switch (index) {
           case 0:
-            final recents = new List<Item>.from(_items).where((item) => !item.tracks.contains('group')).toList();
-            if (recents.length > 10) {
-              recents.length = 10;
-            }
             return new Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -55,17 +61,13 @@ class _DiscoverViewState extends State<DiscoverView> {
                 ),
                 new Container(
                   height: 200.0,
-                  child: new DiscoverList(recents, 'recents'),
+                  child: new DiscoverList(_recents, 'recents'),
                 ),
               ],
             );
           case 1:
-            final groups = new List<Item>.from(_items).where((item) => item.tracks.contains('group')).toList();
-            if (groups.isEmpty) {
+            if (_groups.isEmpty) {
               return new Container();
-            }
-            if (groups.length > 10) {
-              groups.length = 10;
             }
             return new Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,7 +81,7 @@ class _DiscoverViewState extends State<DiscoverView> {
                 ),
                 new Container(
                   height: 200.0,
-                  child: new DiscoverList(groups, 'group'),
+                  child: new DiscoverList(_groups, 'group'),
                 )
               ],
             );
