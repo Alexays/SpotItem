@@ -23,6 +23,13 @@ class UsersManager extends BasicService {
 
   @override
   Future<bool> init() async {
+    if (Services.origin == Origin.prod) {
+      location = await _location.onLocationChanged
+          .firstWhere((location) => location != null)
+          .timeout(new Duration(milliseconds: 250), onTimeout: () {
+        location = null;
+      });
+    }
     await _handleGetContact();
     return true;
   }
@@ -34,11 +41,6 @@ class UsersManager extends BasicService {
     if ((!force && location != null && location.isNotEmpty) || Services.origin == Origin.mock) {
       return;
     }
-    location = await _location.onLocationChanged
-        .firstWhere((location) => location != null)
-        .timeout(new Duration(milliseconds: 250), onTimeout: () {
-      location = null;
-    });
     try {
       location = await _location.getLocation.timeout(new Duration(milliseconds: 250), onTimeout: () {
         location = null;
