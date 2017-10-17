@@ -24,7 +24,7 @@ class UsersManager extends BasicService {
   @override
   Future<bool> init() async {
     if (Services.origin == Origin.prod) {
-      _location.onLocationChanged.timeout(new Duration(milliseconds: 250), onTimeout: (event) => event.close());
+      _location.onLocationChanged.timeout(new Duration(milliseconds: 500), onTimeout: (event) => event.close());
     }
     await _handleGetContact();
     return true;
