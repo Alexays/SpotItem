@@ -17,7 +17,6 @@ class AddConvScreen extends StatefulWidget {
 
 class _AddConvScreenState extends State<AddConvScreen> {
   String group;
-  String groupName;
 
   @override
   void initState() {
@@ -39,64 +38,23 @@ class _AddConvScreenState extends State<AddConvScreen> {
     }
   }
 
-  Future<Null> _selectGroup(BuildContext context) async {
-    await showDialog<Null>(
-      context: context,
-      child: new SimpleDialog(
-          children: Services.groups.groups
-              .map((f) => new ListTile(
-                    title: new Text(f.name),
-                    onTap: () {
-                      group = f.id;
-                      setState(() {
-                        groupName = f.name;
-                      });
-                      Navigator.of(context).pop();
-                    },
-                  ))
-              .toList()),
-    );
-  }
-
   @override
   Widget build(BuildContext context) => new Scaffold(
         appBar: new AppBar(title: new Text(SpotL.of(context).messages)),
         body: new Builder(
-            builder: (context) => new Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                  new Expanded(
-                    child: new Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        new Center(
-                            child: new Text(
-                          groupName ?? SpotL.of(context).noGroups,
-                        )),
-                        const Padding(padding: const EdgeInsets.all(10.0)),
-                        new RaisedButton(
-                          child: new Text(SpotL.of(context).selectGroup),
-                          onPressed: () {
-                            _selectGroup(context);
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  new Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                    child: new ConstrainedBox(
-                        constraints:
-                            new BoxConstraints.tightFor(height: 48.0, width: MediaQuery.of(context).size.width),
-                        child: new RaisedButton(
-                          color: Theme.of(context).accentColor,
-                          onPressed: () {
+            builder: (context) => Services.groups.groups.isNotEmpty
+                ? new ListView.builder(
+                    itemCount: Services.groups.groups?.length ?? 0,
+                    itemBuilder: (context, index) => new ListTile(
+                          title: new Text(Services.groups.groups[index].name),
+                          onTap: () {
+                            group = Services.groups.groups[index].id;
                             _addConv(context);
                           },
-                          child: new Text(
-                            MaterialLocalizations.of(context).continueButtonLabel.toUpperCase(),
-                            style: new TextStyle(color: Theme.of(context).canvasColor),
-                          ),
-                        )),
-                  ),
-                ])),
+                        ),
+                  )
+                : new Center(
+                    child: new Text(SpotL.of(context).noGroups),
+                  )),
       );
 }
