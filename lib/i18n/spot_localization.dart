@@ -9,6 +9,9 @@ class SpotLDelegate extends LocalizationsDelegate<SpotL> {
   Future<SpotL> load(Locale locale) => SpotL.load(locale);
 
   @override
+  bool isSupported(Locale locale) => true;
+
+  @override
   bool shouldReload(SpotLDelegate old) => false;
 }
 
