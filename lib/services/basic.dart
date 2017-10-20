@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:spotitem/keys.dart';
 import 'package:spotitem/models/api.dart';
 import 'package:spotitem/services/services.dart';
+import 'package:spotitem/i18n/spot_localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Basic Service
@@ -17,6 +19,23 @@ class BasicService {
   /// Default init function of services
   Future<bool> init() async => true;
 
+  void _handleError(error) {
+    showDialog<Null>(
+      context: Services.context,
+      barrierDismissible: false,
+      child: new AlertDialog(
+        title: new Text(SpotL.of(Services.context).error),
+        content: new SingleChildScrollView(
+          child: new ListBody(
+            children: <Widget>[
+              const Text('Sorry, we\'re in maintenance !'),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   /// Http get method.
   ///
   /// @param url Get url
@@ -28,8 +47,10 @@ class BasicService {
     }
     final client = new http.Client();
     final verifiedToken = await Services.auth.verifyToken(client, token);
-    final response =
-        await client.get(Uri.encodeFull('$apiUrl$url'), headers: getHeaders(verifiedToken)).whenComplete(client.close);
+    final response = await client
+        .get(Uri.encodeFull('$apiUrl$url'), headers: getHeaders(verifiedToken))
+        .whenComplete(client.close)
+        .catchError(_handleError);
     var apiRes;
     try {
       apiRes = new ApiRes(JSON.decode(response.body), response.statusCode);
@@ -53,7 +74,8 @@ class BasicService {
     final verifiedToken = await Services.auth.verifyToken(client, token);
     final response = await client
         .post(Uri.encodeFull('$apiUrl$url'), headers: getHeaders(verifiedToken), body: payload)
-        .whenComplete(client.close);
+        .whenComplete(client.close)
+        .catchError(_handleError);
     var apiRes;
     try {
       apiRes = new ApiRes(JSON.decode(response.body), response.statusCode);
@@ -77,7 +99,8 @@ class BasicService {
     final verifiedToken = await Services.auth.verifyToken(client, token);
     final response = await client
         .put(Uri.encodeFull('$apiUrl$url'), headers: getHeaders(verifiedToken), body: payload)
-        .whenComplete(client.close);
+        .whenComplete(client.close)
+        .catchError(_handleError);
     var apiRes;
     try {
       apiRes = new ApiRes(JSON.decode(response.body), response.statusCode);
@@ -100,7 +123,8 @@ class BasicService {
     final verifiedToken = await Services.auth.verifyToken(client, token);
     final response = await client
         .delete(Uri.encodeFull('$apiUrl$url'), headers: getHeaders(verifiedToken))
-        .whenComplete(client.close);
+        .whenComplete(client.close)
+        .catchError(_handleError);
     var apiRes;
     try {
       apiRes = new ApiRes(JSON.decode(response.body), response.statusCode);
