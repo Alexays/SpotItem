@@ -45,19 +45,20 @@ class BasicService {
     if (Services.origin == Origin.mock) {
       return Services.mock;
     }
+    if (url == null) {
+      return new ApiRes.classic();
+    }
     final client = new http.Client();
     final verifiedToken = await Services.auth.verifyToken(client, token);
     final response = await client
         .get(Uri.encodeFull('$apiUrl$url'), headers: getHeaders(verifiedToken))
         .whenComplete(client.close)
         .catchError(_handleError);
-    var apiRes;
     try {
-      apiRes = new ApiRes(JSON.decode(response.body), response.statusCode);
+      return new ApiRes(JSON.decode(response.body), response.statusCode);
     } catch (err) {
-      apiRes = new ApiRes.classic();
+      return new ApiRes.classic();
     }
-    return apiRes;
   }
 
   /// Http post method.
@@ -70,19 +71,21 @@ class BasicService {
     if (Services.origin == Origin.mock) {
       return Services.mock;
     }
+    if (url == null) {
+      return new ApiRes.classic();
+    }
     final client = new http.Client();
     final verifiedToken = await Services.auth.verifyToken(client, token);
     final response = await client
-        .post(Uri.encodeFull('$apiUrl$url'), headers: getHeaders(verifiedToken), body: payload)
+        .post(Uri.encodeFull('$apiUrl$url'), headers: getHeaders(verifiedToken), body: JSON.encode(payload))
         .whenComplete(client.close)
         .catchError(_handleError);
-    var apiRes;
+    print(response.body);
     try {
-      apiRes = new ApiRes(JSON.decode(response.body), response.statusCode);
+      return new ApiRes(JSON.decode(response.body), response.statusCode);
     } catch (err) {
-      apiRes = new ApiRes.classic();
+      return new ApiRes.classic();
     }
-    return apiRes;
   }
 
   /// Http put method.
@@ -95,19 +98,20 @@ class BasicService {
     if (Services.origin == Origin.mock) {
       return Services.mock;
     }
+    if (url == null) {
+      return new ApiRes.classic();
+    }
     final client = new http.Client();
     final verifiedToken = await Services.auth.verifyToken(client, token);
     final response = await client
-        .put(Uri.encodeFull('$apiUrl$url'), headers: getHeaders(verifiedToken), body: payload)
+        .put(Uri.encodeFull('$apiUrl$url'), headers: getHeaders(verifiedToken), body: JSON.encode(payload))
         .whenComplete(client.close)
         .catchError(_handleError);
-    var apiRes;
     try {
-      apiRes = new ApiRes(JSON.decode(response.body), response.statusCode);
+      return new ApiRes(JSON.decode(response.body), response.statusCode);
     } catch (err) {
-      apiRes = new ApiRes.classic();
+      return new ApiRes.classic();
     }
-    return apiRes;
   }
 
   /// Http delete method.
@@ -119,19 +123,20 @@ class BasicService {
     if (Services.origin == Origin.mock) {
       return Services.mock;
     }
+    if (url == null) {
+      return new ApiRes.classic();
+    }
     final client = new http.Client();
     final verifiedToken = await Services.auth.verifyToken(client, token);
     final response = await client
         .delete(Uri.encodeFull('$apiUrl$url'), headers: getHeaders(verifiedToken))
         .whenComplete(client.close)
         .catchError(_handleError);
-    var apiRes;
     try {
-      apiRes = new ApiRes(JSON.decode(response.body), response.statusCode);
+      return new ApiRes(JSON.decode(response.body), response.statusCode);
     } catch (err) {
-      apiRes = new ApiRes.classic();
+      return new ApiRes.classic();
     }
-    return apiRes;
   }
 
   /// Communicate with websocket server

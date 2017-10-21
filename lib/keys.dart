@@ -21,8 +21,8 @@ const String clientSecret = 'et+nWhUB>.Dg[c4z';
 
 /// Api base host
 //const String baseHost = '217.182.65.67:3417';
-const String baseHost = '192.168.1.119:1337';
-//const String baseHost = '192.168.0.21:1337';
+//const String baseHost = '192.168.1.119:1337';
+const String baseHost = '192.168.0.21:1337';
 
 /// Api URL
 const String apiUrl = 'http://$baseHost/api';
@@ -43,5 +43,9 @@ const String geoApiKey = 'AIzaSyCj88TURPJSYF28VhIaslc8JQXTJV19Dvw';
 final List<String> providers = <String>['google', 'local'];
 
 /// Get headers for Api
-Map<String, String> getHeaders([String key]) =>
-    <String, String>{'Authorization': key, 'Spotkey': 'Basic $clientSecret-$version', 'Accept': 'application/json'};
+Map<String, String> getHeaders([String key]) => <String, String>{
+      'Authorization': key,
+      'Spotkey': 'Basic $clientSecret-$version',
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };

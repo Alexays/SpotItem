@@ -73,7 +73,7 @@ class AuthManager extends BasicService {
           await handleGoogleSignIn(signIn: false);
       }
       _loggedIn = true;
-      connectWs();
+      await connectWs();
     } on Exception {
       return _loggedIn = false;
     }
@@ -159,7 +159,7 @@ class AuthManager extends BasicService {
       exp = new DateTime.fromMillisecondsSinceEpoch(response.data['exp'] * 1000);
       await saveTokens(user.toString(), response.data['refresh_token'], _provider);
       _loggedIn = true;
-      connectWs();
+      await connectWs();
     }
     return _loggedIn;
   }
@@ -230,14 +230,13 @@ class AuthManager extends BasicService {
 
   /// Connect to web socket
   ///
-  void connectWs() {
+  Future<Null> connectWs() async {
     if (Services.origin == Origin.mock) {
       return;
     }
     Services.auth.ws = new IOWebSocketChannel.connect('ws://$baseHost');
     Services.auth.ws.stream.listen(handleWsData);
-    getWsHeader('hello').then((header) {
-      Services.auth.ws.sink.add(JSON.encode(header));
-    });
+    final header = getWsHeader('hello');
+    Services.auth.ws.sink.add(JSON.encode(header));
   }
 }

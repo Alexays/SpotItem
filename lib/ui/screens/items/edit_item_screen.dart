@@ -234,12 +234,12 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
       'id': _item.id,
       'name': _nameCtrl.text,
       'about': _aboutCtrl.text,
-      'lat': Services.users.location['latitude'].toString(),
-      'lng': Services.users.location['longitude'].toString(),
-      'images': JSON.encode(finalImages),
+      'lat': Services.users.location['latitude'],
+      'lng': Services.users.location['longitude'],
+      'images': finalImages,
       'location': _location,
-      'tracks': JSON.encode(_tracks),
-      'groups': JSON.encode(groups)
+      'tracks': _tracks,
+      'groups': groups
     });
     Navigator.of(context).pop();
     if (resValid(context, response)) {

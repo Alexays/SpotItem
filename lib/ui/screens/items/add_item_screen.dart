@@ -191,6 +191,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
       final imageBytes = f.readAsBytesSync();
       _images.add('data:image/${f.path.split('.').last};base64,${BASE64.encode(imageBytes)}');
     }
+    if (_location == null || validateString(_location) != null) {
+      Navigator.of(context).pop();
+      return showSnackBar(context, 'Please enable location or choose location !');
+    }
     var location = Services.users.location;
     if (location == null) {
       final geoRes = await geocoding.searchByAddress(_location);
@@ -211,12 +215,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
       'name': _name,
       'about': _about,
       'owner': Services.auth.user.id,
-      'lat': location['latitude'].toString(),
-      'lng': location['longitude'].toString(),
-      'images': JSON.encode(_images),
+      'lat': location['latitude'],
+      'lng': location['longitude'],
+      'images': _images,
       'location': _location,
-      'tracks': JSON.encode(_tracks),
-      'groups': JSON.encode(_groupsId)
+      'tracks': _tracks,
+      'groups': _groupsId
     });
     Navigator.of(context).pop();
     if (resValid(context, response)) {

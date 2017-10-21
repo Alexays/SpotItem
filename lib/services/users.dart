@@ -12,7 +12,7 @@ import 'package:location/location.dart';
 /// User class manager
 class UsersManager extends BasicService {
   /// Location of user
-  Map<String, double> location = {};
+  Map<String, double> location;
 
   /// Contact of user
   List<dynamic> get contacts => _contacts;

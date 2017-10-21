@@ -24,8 +24,8 @@ class GroupsManager extends BasicService {
   /// @returns Api body response
   Future<ApiRes> addGroup(Group group, List<String> users) async {
     final Map<String, dynamic> groupJson = JSON.decode(group.toString());
-    groupJson['users'] = JSON.encode(users);
-    groupJson['owners'] = JSON.encode([Services.auth.user.id]);
+    groupJson['users'] = users;
+    groupJson['owners'] = [Services.auth.user.id];
     groupJson.remove('_id');
     final response = await ipost('/groups', groupJson, Services.auth.accessToken);
     if (response.success && response.data != null) {
