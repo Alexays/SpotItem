@@ -68,10 +68,6 @@ class AuthManager extends BasicService {
       user = _user;
       refreshToken = _refreshToken;
       provider = _provider;
-      switch (_provider) {
-        case 'google':
-          await handleGoogleSignIn(signIn: false);
-      }
       _loggedIn = true;
       await connectWs();
     } on Exception {
@@ -98,6 +94,7 @@ class AuthManager extends BasicService {
   /// Regenerate access_token.
   ///
   Future<bool> getAccessToken(Client client) async {
+    await _checkProvider();
     var apiRes;
     try {
       final response = await client.get('$apiUrl/check/$provider', headers: getHeaders(refreshToken));
@@ -112,6 +109,13 @@ class AuthManager extends BasicService {
     }
     await logout();
     return false;
+  }
+
+  Future<Null> _checkProvider() async {
+    switch (provider) {
+      case 'google':
+        await handleGoogleSignIn(signIn: false);
+    }
   }
 
   /// Pre login with google account.
@@ -236,7 +240,7 @@ class AuthManager extends BasicService {
     }
     Services.auth.ws = new IOWebSocketChannel.connect('ws://$baseHost');
     Services.auth.ws.stream.listen(handleWsData);
-    final header = getWsHeader('hello');
+    final header = await getWsHeader('hello');
     Services.auth.ws.sink.add(JSON.encode(header));
   }
 }
