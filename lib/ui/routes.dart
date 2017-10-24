@@ -13,7 +13,7 @@ import 'package:spotitem/ui/screens/items/item_screen.dart';
 import 'package:spotitem/ui/screens/error_screen.dart';
 import 'package:flutter/material.dart';
 
-/// static Routes
+/// Static Routes
 Map<String, WidgetBuilder> staticRoutes = {
   '/register': (_) => const RegisterScreen(),
   '/profile/edit/': (_) => const EditUserScreen(),

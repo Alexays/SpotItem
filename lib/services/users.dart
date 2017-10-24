@@ -11,6 +11,8 @@ import 'package:location/location.dart';
 
 /// User class manager
 class UsersManager extends BasicService {
+  static MethodChannel platform = const MethodChannel('channel:fr.arouillard.spotitem/deeplink');
+
   /// Location of user
   Map<String, double> location;
 
@@ -26,6 +28,16 @@ class UsersManager extends BasicService {
     if (Services.origin == Origin.prod) {
       _location.onLocationChanged.timeout(new Duration(milliseconds: 500), onTimeout: (event) => event.close());
     }
+    platform.setMethodCallHandler((MethodCall call) async {
+      if (call.method == "linkReceived") {
+        print(call.toString());
+        Map<String, dynamic> passedObjs = call.arguments;
+        if (passedObjs != null) {
+          var path = passedObjs["path"];
+          print(path);
+        }
+      }
+    });
     await _handleGetContact();
     return true;
   }

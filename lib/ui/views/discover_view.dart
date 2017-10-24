@@ -106,8 +106,7 @@ class DiscoverList extends StatelessWidget {
   @override
   Widget build(BuildContext context) => _items.isNotEmpty
       ? new ListView.builder(
-          // For RefreshIndicator
-          physics: const AlwaysScrollableScrollPhysics(),
+          physics: const AlwaysScrollableScrollPhysics(), // For RefreshIndicator
           scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           itemCount: _items?.length,

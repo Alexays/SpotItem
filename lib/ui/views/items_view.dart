@@ -63,8 +63,7 @@ class _ItemsViewState extends State<ItemsView> {
       );
     }
     return new ListView.builder(
-      // For RefreshIndicator
-      physics: const AlwaysScrollableScrollPhysics(),
+      physics: const AlwaysScrollableScrollPhysics(), // For RefreshIndicator
       padding: const EdgeInsets.all(20.0),
       itemCount: _myItems?.length ?? 0,
       itemBuilder: (context, index) => new GestureDetector(
