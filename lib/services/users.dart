@@ -11,6 +11,7 @@ import 'package:location/location.dart';
 
 /// User class manager
 class UsersManager extends BasicService {
+  /// Platform channel to get deep linking route
   static MethodChannel platform = const MethodChannel('channel:fr.arouillard.spotitem/deeplink');
 
   /// Location of user
@@ -28,12 +29,12 @@ class UsersManager extends BasicService {
     if (Services.origin == Origin.prod) {
       _location.onLocationChanged.timeout(new Duration(milliseconds: 500), onTimeout: (event) => event.close());
     }
-    platform.setMethodCallHandler((MethodCall call) async {
-      if (call.method == "linkReceived") {
+    platform.setMethodCallHandler((call) async {
+      if (call.method == 'linkReceived') {
         print(call.toString());
-        Map<String, dynamic> passedObjs = call.arguments;
+        final Map<String, dynamic> passedObjs = call.arguments;
         if (passedObjs != null) {
-          var path = passedObjs["path"];
+          final path = passedObjs['path'];
           print(path);
         }
       }

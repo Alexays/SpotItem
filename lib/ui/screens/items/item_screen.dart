@@ -5,7 +5,7 @@ import 'package:spotitem/models/item.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/utils.dart';
 import 'package:spotitem/keys.dart';
-import 'package:spotitem/ui/widgets/date_picker_bar.dart';
+import 'package:spotitem/ui/widgets/calendar.dart';
 import 'package:spotitem/i18n/spot_localization.dart';
 import 'package:spotitem/ui/screens/items/edit_item_screen.dart';
 
@@ -340,10 +340,7 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
                           ),
                           new Stack(
                             children: <Widget>[
-                              new DayPickerBar(
-                                selectedDate: new DateTime.now(),
-                                onChanged: (date) {},
-                              ),
+                              new Calendar(),
                               const Positioned(
                                 top: 15.0,
                                 left: 15.0,
