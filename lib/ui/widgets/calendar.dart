@@ -35,8 +35,7 @@ class Calendar extends StatelessWidget {
       diff = lastDate.subtract(new Duration(milliseconds: firstDate.millisecondsSinceEpoch));
       nbMonth = diff.month + (diff.year - 1970) * 12 + 1;
     } else {
-      firstDate = new DateTime.now();
-      lastDate = firstDate.add(const Duration(days: 1));
+      lastDate = firstDate = new DateTime.now();
       nbMonth = 1;
     }
     return new Container(
