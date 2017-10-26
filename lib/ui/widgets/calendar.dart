@@ -30,9 +30,9 @@ class Calendar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final datesInt = selectedDates.map((f) => f.millisecondsSinceEpoch);
-    final firstDate = new DateTime.fromMillisecondsSinceEpoch(datesInt.reduce(math.min), isUtc: true);
-    final lastDate = new DateTime.fromMillisecondsSinceEpoch(datesInt.reduce(math.max), isUtc: true);
+    final dates = selectedDates.map((f) => f.millisecondsSinceEpoch);
+    final firstDate = new DateTime.fromMillisecondsSinceEpoch(dates.reduce(math.min));
+    final lastDate = new DateTime.fromMillisecondsSinceEpoch(dates.reduce(math.max));
     final diff = lastDate.subtract(new Duration(milliseconds: firstDate.millisecondsSinceEpoch));
     final nbMonth = diff.month + (diff.year - 1970) * 12 + 1;
     return new Container(
@@ -45,7 +45,7 @@ class Calendar extends StatelessWidget {
                   child: new CalendarMonth(
                     onChanged: onChanged,
                     selectedDates: selectedDates,
-                    currentMonth: new DateTime(firstDate.year + (nbMonth / 12).round(), firstDate.month + index % 12),
+                    currentMonth: new DateTime(firstDate.year + (nbMonth / 12).round(), (firstDate.month + index) % 12),
                     firstDate: firstDate,
                     lastDate: lastDate,
                   ),
