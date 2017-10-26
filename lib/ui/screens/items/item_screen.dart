@@ -340,7 +340,12 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
                           ),
                           new Stack(
                             children: <Widget>[
-                              new Calendar(),
+                              new Calendar(
+                                dates: [new DateTime.now()],
+                                onChanged: (data) {
+                                  print(data);
+                                },
+                              ),
                               const Positioned(
                                 top: 15.0,
                                 left: 15.0,

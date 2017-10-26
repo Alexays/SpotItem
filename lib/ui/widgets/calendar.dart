@@ -202,49 +202,24 @@ class Calendar extends StatelessWidget {
   ///
   /// Rarely used directly. Instead, typically used as part of a [MonthPicker].
   Calendar({
-    @required this.selectedDate,
-    @required this.currentDate,
+    @required this.dates,
     @required this.onChanged,
-    @required this.firstDate,
-    @required this.lastDate,
-    @required this.displayedMonth,
     Key key,
-    this.onMonthHeaderTap,
-    this.selectableDayPredicate,
   })
-      : assert(selectedDate != null),
-        assert(currentDate != null),
+      : assert(dates != null),
         assert(onChanged != null),
-        assert(displayedMonth != null),
-        assert(!firstDate.isAfter(lastDate)),
-        assert(selectedDate.isAfter(firstDate) || selectedDate.isAtSameMomentAs(firstDate)),
         super(key: key);
 
-  /// The currently selected date.
+  /// The currently selected dates.
   ///
-  /// This date is highlighted in the picker.
-  final DateTime selectedDate;
+  /// Dates are highlighted in the picker.
+  final List<DateTime> dates;
 
-  /// The current date at the time the picker is displayed.
-  final DateTime currentDate;
+  /// The current date
+  final DateTime currentDate = new DateTime.now();
 
   /// Called when the user picks a day.
   final ValueChanged<DateTime> onChanged;
-
-  /// Called when the user taps on the header that displays the current month.
-  final VoidCallback onMonthHeaderTap;
-
-  /// The earliest date the user is permitted to pick.
-  final DateTime firstDate;
-
-  /// The latest date the user is permitted to pick.
-  final DateTime lastDate;
-
-  /// The month whose days are displayed by this picker.
-  final DateTime displayedMonth;
-
-  /// Optional user supplied predicate function to customize selectable days.
-  final SelectableDayPredicate selectableDayPredicate;
 
   /// Builds widgets showing abbreviated days of week. The first widget in the
   /// returned list corresponds to the first day of week for the current locale.
@@ -343,10 +318,13 @@ class Calendar extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     final localizations = MaterialLocalizations.of(context);
-    final year = displayedMonth.year;
-    final month = displayedMonth.month;
+    final year = currentDate.year;
+    final month = currentDate.month;
     final daysInMonth = getDaysInMonth(year, month);
     final firstDayOffset = _computeFirstDayOffset(year, month, localizations);
+    final datesInt = dates.map((f) => f.millisecondsSinceEpoch);
+    final firstDate = new DateTime.fromMillisecondsSinceEpoch(datesInt.reduce(math.min), isUtc: true);
+    final lastDate = new DateTime.fromMillisecondsSinceEpoch(datesInt.reduce(math.max), isUtc: true);
     final labels = _getDayHeaders(themeData.textTheme.caption, localizations);
     for (var i = 0; true; i += 1) {
       // 1-based day of month, e.g. 1-31 for January, and 1-29 for February on
@@ -359,14 +337,11 @@ class Calendar extends StatelessWidget {
         labels.add(new Container());
       } else {
         final dayToBuild = new DateTime(year, month, day);
-        final disabled = dayToBuild.isAfter(lastDate) ||
-            dayToBuild.isBefore(firstDate) ||
-            (selectableDayPredicate != null && !selectableDayPredicate(dayToBuild));
+        final disabled = dayToBuild.isAfter(lastDate) || dayToBuild.isBefore(firstDate);
 
         BoxDecoration decoration;
         var itemStyle = themeData.textTheme.body1;
-
-        if (selectedDate.year == year && selectedDate.month == month && selectedDate.day == day) {
+        if (dates.contains(dayToBuild)) {
           // The selected day gets a circle background highlight, and a contrasting text color.
           itemStyle = themeData.accentTextTheme.body2;
           decoration = new BoxDecoration(color: themeData.accentColor, shape: BoxShape.circle);
@@ -406,9 +381,9 @@ class Calendar extends StatelessWidget {
             height: _kDayPickerRowHeight,
             child: new Center(
               child: new GestureDetector(
-                onTap: onMonthHeaderTap != null ? Feedback.wrapForTap(onMonthHeaderTap, context) : null,
+                // onTap: onMonthHeaderTap != null ? Feedback.wrapForTap(onMonthHeaderTap, context) : null,
                 child: new Text(
-                  localizations.formatMonthYear(displayedMonth),
+                  localizations.formatMonthYear(currentDate),
                   style: themeData.textTheme.subhead,
                 ),
               ),
