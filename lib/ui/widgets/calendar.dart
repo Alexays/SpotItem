@@ -29,14 +29,13 @@ class Calendar extends StatelessWidget {
   Widget build(BuildContext context) {
     final dates = selectedDates.map((f) => f.millisecondsSinceEpoch);
     var firstDate, lastDate, diff, nbMonth;
+    lastDate = firstDate = new DateTime.now();
+    nbMonth = 1;
     if (dates.isNotEmpty) {
       firstDate = new DateTime.fromMillisecondsSinceEpoch(dates.reduce(math.min));
       lastDate = new DateTime.fromMillisecondsSinceEpoch(dates.reduce(math.max));
       diff = lastDate.subtract(new Duration(milliseconds: firstDate.millisecondsSinceEpoch));
       nbMonth = diff.month + (diff.year - 1970) * 12 + 1;
-    } else {
-      lastDate = firstDate = new DateTime.now();
-      nbMonth = 1;
     }
     return new Container(
         color: Theme.of(context).canvasColor,
