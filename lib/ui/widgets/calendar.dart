@@ -8,7 +8,7 @@ class Calendar extends StatelessWidget {
   /// Creates a day picker.
   ///
   /// Rarely used directly. Instead, typically used as part of a [MonthPicker].
-  Calendar({
+  const Calendar({
     @required this.selectedDates,
     @required this.onChanged,
     Key key,
@@ -22,19 +22,23 @@ class Calendar extends StatelessWidget {
   /// Dates are highlighted in the picker.
   final List<DateTime> selectedDates;
 
-  /// The current date
-  final DateTime currentDate = new DateTime.now();
-
   /// Called when the user picks a day.
   final ValueChanged<DateTime> onChanged;
 
   @override
   Widget build(BuildContext context) {
     final dates = selectedDates.map((f) => f.millisecondsSinceEpoch);
-    final firstDate = new DateTime.fromMillisecondsSinceEpoch(dates.reduce(math.min));
-    final lastDate = new DateTime.fromMillisecondsSinceEpoch(dates.reduce(math.max));
-    final diff = lastDate.subtract(new Duration(milliseconds: firstDate.millisecondsSinceEpoch));
-    final nbMonth = diff.month + (diff.year - 1970) * 12 + 1;
+    var firstDate, lastDate, diff, nbMonth;
+    if (dates.isNotEmpty) {
+      firstDate = new DateTime.fromMillisecondsSinceEpoch(dates.reduce(math.min));
+      lastDate = new DateTime.fromMillisecondsSinceEpoch(dates.reduce(math.max));
+      diff = lastDate.subtract(new Duration(milliseconds: firstDate.millisecondsSinceEpoch));
+      nbMonth = diff.month + (diff.year - 1970) * 12 + 1;
+    } else {
+      firstDate = new DateTime.now();
+      lastDate = firstDate.add(const Duration(days: 1));
+      nbMonth = 1;
+    }
     return new Container(
         color: Theme.of(context).canvasColor,
         height: 330.0,

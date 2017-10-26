@@ -221,11 +221,11 @@ class CalendarMonth extends StatelessWidget {
           // The selected day gets a circle background highlight, and a contrasting text color.
           itemStyle = themeData.accentTextTheme.body2;
           decoration = new BoxDecoration(color: themeData.accentColor, shape: BoxShape.circle);
-        } else if (disabled) {
-          itemStyle = themeData.textTheme.body1.copyWith(color: themeData.disabledColor);
         } else if (currentDate.year == year && currentDate.month == month && currentDate.day == day) {
           // The current day gets a different text color.
           itemStyle = themeData.textTheme.body2.copyWith(color: themeData.accentColor);
+        } else if (disabled) {
+          itemStyle = themeData.textTheme.body1.copyWith(color: themeData.disabledColor);
         }
 
         Widget dayWidget = new Container(
