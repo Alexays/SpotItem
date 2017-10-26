@@ -11,6 +11,7 @@ class Calendar extends StatelessWidget {
   const Calendar({
     @required this.selectedDates,
     @required this.onChanged,
+    this.allowDisable = false,
     Key key,
   })
       : assert(selectedDates != null),
@@ -21,6 +22,9 @@ class Calendar extends StatelessWidget {
   ///
   /// Dates are highlighted in the picker.
   final List<DateTime> selectedDates;
+
+  ///Disable days which are after lastDay and before Firstday
+  final bool allowDisable;
 
   /// Called when the user picks a day.
   final ValueChanged<DateTime> onChanged;
@@ -42,13 +46,15 @@ class Calendar extends StatelessWidget {
         color: Theme.of(context).canvasColor,
         height: 330.0,
         child: new ListView.builder(
-            itemCount: nbMonth,
+            itemCount: !allowDisable ? nbMonth : null,
             itemBuilder: (context, index) => new Container(
                   height: 330.0,
                   child: new CalendarMonth(
+                    allowDisable: allowDisable,
                     onChanged: onChanged,
                     selectedDates: selectedDates,
-                    currentMonth: new DateTime(firstDate.year + (nbMonth / 12).round(), (firstDate.month + index) % 12),
+                    currentMonth:
+                        new DateTime(firstDate.year + (firstDate.month + index) ~/ 12, (firstDate.month + index) % 12),
                     firstDate: firstDate,
                     lastDate: lastDate,
                   ),
