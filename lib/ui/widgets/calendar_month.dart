@@ -70,6 +70,7 @@ class CalendarMonth extends StatelessWidget {
     @required this.firstDate,
     @required this.lastDate,
     @required this.onChanged,
+    this.allowDisable = true,
     Key key,
   })
       : assert(selectedDates != null),
@@ -83,6 +84,9 @@ class CalendarMonth extends StatelessWidget {
   ///
   /// Dates are highlighted in the picker.
   final List<DateTime> selectedDates;
+
+  /// disable days which are after lastDay and before Firstday
+  final bool allowDisable;
 
   /// Current Month
   final DateTime currentMonth;
@@ -211,7 +215,7 @@ class CalendarMonth extends StatelessWidget {
         labels.add(new Container());
       } else {
         final dayToBuild = new DateTime(year, month, day);
-        final disabled = dayToBuild.isAfter(lastDate) || dayToBuild.isBefore(firstDate);
+        final disabled = (dayToBuild.isAfter(lastDate) || dayToBuild.isBefore(firstDate)) && allowDisable;
 
         BoxDecoration decoration;
         var itemStyle = themeData.textTheme.body1;
