@@ -201,16 +201,16 @@ class CalendarMonth extends StatelessWidget {
   /// Creates a day picker.
   ///
   /// Rarely used directly. Instead, typically used as part of a [MonthPicker].
-  CalendarMonth({
+  const CalendarMonth({
     @required this.selectedDates,
-    @required this.currentDate,
+    @required this.currentMonth,
     @required this.firstDate,
     @required this.lastDate,
     @required this.onChanged,
     Key key,
   })
       : assert(selectedDates != null),
-        assert(currentDate != null),
+        assert(currentMonth != null),
         assert(firstDate != null),
         assert(lastDate != null),
         assert(onChanged != null),
@@ -221,10 +221,13 @@ class CalendarMonth extends StatelessWidget {
   /// Dates are highlighted in the picker.
   final List<DateTime> selectedDates;
 
-  final DateTime currentDate;
+  /// Current Month
+  final DateTime currentMonth;
 
+  /// First date of list
   final DateTime firstDate;
 
+  /// Last date of list
   final DateTime lastDate;
 
   /// Called when the user picks a day.
@@ -327,8 +330,9 @@ class CalendarMonth extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     final localizations = MaterialLocalizations.of(context);
-    final year = currentDate.year;
-    final month = currentDate.month;
+    final currentDate = new DateTime.now();
+    final year = currentMonth.year;
+    final month = currentMonth.month;
     final dates = new List<DateTime>.from(selectedDates);
     final daysInMonth = getDaysInMonth(year, month);
     final firstDayOffset = _computeFirstDayOffset(year, month, localizations);
@@ -391,7 +395,7 @@ class CalendarMonth extends StatelessWidget {
               child: new GestureDetector(
                 // onTap: onMonthHeaderTap != null ? Feedback.wrapForTap(onMonthHeaderTap, context) : null,
                 child: new Text(
-                  localizations.formatMonthYear(currentDate),
+                  localizations.formatMonthYear(currentMonth),
                   style: themeData.textTheme.subhead,
                 ),
               ),

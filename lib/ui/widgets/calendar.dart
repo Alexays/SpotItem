@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/ui/widgets/calendar_month.dart';
 
+/// Calendar list class
 class Calendar extends StatelessWidget {
   /// Creates a day picker.
   ///
@@ -45,7 +46,7 @@ class Calendar extends StatelessWidget {
                   child: new CalendarMonth(
                     onChanged: onChanged,
                     selectedDates: selectedDates,
-                    currentDate: new DateTime(firstDate.year + (nbMonth / 12).round(), firstDate.month + index % 12),
+                    currentMonth: new DateTime(firstDate.year + (nbMonth / 12).round(), firstDate.month + index % 12),
                     firstDate: firstDate,
                     lastDate: lastDate,
                   ),
