@@ -10,7 +10,7 @@ class Item {
         about = data['about'],
         images = data['images'] ?? <String>[],
         lastGeo = data['lastGeo'],
-        calendar = data['calendar'] ?? <dynamic>[],
+        calendar = data['calendar'] ?? <Map<String, dynamic>>[],
         location = data['location'],
         lat = data['lat'],
         lng = data['lng'],
@@ -37,7 +37,7 @@ class Item {
   String lastGeo;
 
   /// Item calendar
-  List<String> calendar;
+  List<Map<String, dynamic>> calendar;
 
   /// Item location
   String location;
