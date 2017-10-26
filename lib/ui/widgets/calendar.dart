@@ -33,8 +33,8 @@ class Calendar extends StatelessWidget {
     final firstDate = new DateTime.fromMillisecondsSinceEpoch(datesInt.reduce(math.min), isUtc: true);
     final lastDate =
         new DateTime.fromMillisecondsSinceEpoch(datesInt.reduce(math.max), isUtc: true).add(const Duration(days: 15));
-    //TO-DO better way
-    final nbMonth = (lastDate.difference(firstDate).inDays / 30).ceil();
+    final diff = lastDate.subtract(new Duration(milliseconds: firstDate.millisecondsSinceEpoch));
+    final nbMonth = diff.month + (diff.year - 1970) * 12;
     return new Container(
         color: Theme.of(context).canvasColor,
         height: 330.0,
@@ -45,7 +45,7 @@ class Calendar extends StatelessWidget {
                   child: new CalendarMonth(
                     onChanged: onChanged,
                     selectedDates: selectedDates,
-                    currentDate: new DateTime(firstDate.year + (nbMonth / 12).round(), firstDate.month + nbMonth % 12),
+                    currentDate: new DateTime(firstDate.year + (nbMonth / 12).round(), firstDate.month + index % 12),
                     firstDate: firstDate,
                     lastDate: lastDate,
                   ),
