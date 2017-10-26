@@ -46,6 +46,9 @@ class SocialManager extends BasicService {
   /// Subscribe to conversation
   Future<Null> connectConversation(String id) async {
     final header = await getWsHeader('sub');
+    if (header == null) {
+      return;
+    }
     header['path'] = '/conv/$id';
     Services.auth.ws.sink.add(JSON.encode(header));
   }

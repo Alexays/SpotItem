@@ -24,17 +24,17 @@ public class MainActivity extends FlutterActivity {
     deepLinkChannel = new MethodChannel(getFlutterView(), CHANNEL);
   }
 
-  @Override
-  public FlutterView createFlutterView(Context context) {
-    final FlutterView view = new FlutterView(this);
-    view.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-    setContentView(view);
-    final String route = getRouteFromIntent();
-    if (route != null) {
-      view.setInitialRoute(route);
-    }
-    return view;
-  }
+  // @Override
+  // public FlutterView createFlutterView(Context context) {
+  //   final FlutterView view = new FlutterView(this);
+  //   view.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+  //   setContentView(view);
+  //   final String route = getRouteFromIntent();
+  //   if (route != null) {
+  //     view.setInitialRoute(route);
+  //   }
+  //   return view;
+  // }
 
   @Override
   protected void onResume() {

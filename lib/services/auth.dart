@@ -205,6 +205,9 @@ class AuthManager extends BasicService {
     final decoded = JSON.decode(res);
     if (decoded['type'] == 'ping') {
       final headers = await getWsHeader('ping');
+      if (headers == null) {
+        return;
+      }
       Services.auth.ws.sink.add(JSON.encode(headers));
     }
     if (decoded['type'] != 'pub') {
@@ -241,6 +244,9 @@ class AuthManager extends BasicService {
     Services.auth.ws = new IOWebSocketChannel.connect('ws://$baseHost');
     Services.auth.ws.stream.listen(handleWsData);
     final header = await getWsHeader('hello');
+    if (header != null) {
+      return;
+    }
     Services.auth.ws.sink.add(JSON.encode(header));
   }
 }

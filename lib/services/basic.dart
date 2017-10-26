@@ -145,13 +145,17 @@ class BasicService {
   /// @param data Payload
   Future<Map<String, dynamic>> getWsHeader(String type) async {
     final client = new http.Client();
-    final verifiedToken = await Services.auth.verifyToken(client, Services.auth.accessToken).whenComplete(client.close);
-    return {
-      'type': type,
-      'id': Services.auth.user.id,
-      'version': '2',
-      'auth': {'headers': getHeaders(verifiedToken)},
-    };
+    if (Services.auth.loggedIn) {
+      final verifiedToken =
+          await Services.auth.verifyToken(client, Services.auth.accessToken).whenComplete(client.close);
+      return {
+        'type': type,
+        'id': Services.auth.user.id,
+        'version': '2',
+        'auth': {'headers': getHeaders(verifiedToken)},
+      };
+    }
+    return null;
   }
 
   /// Save user, refresh_token, provider to storage.
