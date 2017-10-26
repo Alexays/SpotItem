@@ -80,7 +80,6 @@ class BasicService {
         .post(Uri.encodeFull('$apiUrl$url'), headers: getHeaders(verifiedToken), body: JSON.encode(payload))
         .whenComplete(client.close)
         .catchError(_handleError);
-    print(response.body);
     try {
       return new ApiRes(JSON.decode(response.body), response.statusCode);
     } catch (err) {

@@ -202,18 +202,18 @@ class Calendar extends StatelessWidget {
   ///
   /// Rarely used directly. Instead, typically used as part of a [MonthPicker].
   Calendar({
-    @required this.dates,
+    @required this.selectedDates,
     @required this.onChanged,
     Key key,
   })
-      : assert(dates != null),
+      : assert(selectedDates != null),
         assert(onChanged != null),
         super(key: key);
 
   /// The currently selected dates.
   ///
   /// Dates are highlighted in the picker.
-  final List<DateTime> dates;
+  final List<DateTime> selectedDates;
 
   /// The current date
   final DateTime currentDate = new DateTime.now();
@@ -320,11 +320,13 @@ class Calendar extends StatelessWidget {
     final localizations = MaterialLocalizations.of(context);
     final year = currentDate.year;
     final month = currentDate.month;
+    final dates = new List<DateTime>.from(selectedDates);
     final daysInMonth = getDaysInMonth(year, month);
     final firstDayOffset = _computeFirstDayOffset(year, month, localizations);
     final datesInt = dates.map((f) => f.millisecondsSinceEpoch);
     final firstDate = new DateTime.fromMillisecondsSinceEpoch(datesInt.reduce(math.min), isUtc: true);
-    final lastDate = new DateTime.fromMillisecondsSinceEpoch(datesInt.reduce(math.max), isUtc: true);
+    final lastDate =
+        new DateTime.fromMillisecondsSinceEpoch(datesInt.reduce(math.max), isUtc: true).add(const Duration(days: 15));
     final labels = _getDayHeaders(themeData.textTheme.caption, localizations);
     for (var i = 0; true; i += 1) {
       // 1-based day of month, e.g. 1-31 for January, and 1-29 for February on
@@ -341,7 +343,9 @@ class Calendar extends StatelessWidget {
 
         BoxDecoration decoration;
         var itemStyle = themeData.textTheme.body1;
-        if (dates.contains(dayToBuild)) {
+        final len = dates.length;
+        dates.removeWhere((f) => f.day == dayToBuild.day && f.month == dayToBuild.month && f.year == dayToBuild.year);
+        if (dates.length != len) {
           // The selected day gets a circle background highlight, and a contrasting text color.
           itemStyle = themeData.accentTextTheme.body2;
           decoration = new BoxDecoration(color: themeData.accentColor, shape: BoxShape.circle);
@@ -372,7 +376,6 @@ class Calendar extends StatelessWidget {
         labels.add(dayWidget);
       }
     }
-
     return new Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: new Column(
@@ -391,6 +394,7 @@ class Calendar extends StatelessWidget {
           ),
           new Flexible(
             child: new GridView.custom(
+              physics: const NeverScrollableScrollPhysics(),
               gridDelegate: _kCalendarGridDelegate,
               childrenDelegate: new SliverChildListDelegate(labels, addRepaintBoundaries: false),
             ),
