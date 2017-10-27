@@ -343,7 +343,6 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
                               new Container(
                                 height: 330.0,
                                 child: new Calendar(
-                                  allowDisable: true,
                                   selectedDates: [],
                                   onChanged: (data) {
                                     print(data);

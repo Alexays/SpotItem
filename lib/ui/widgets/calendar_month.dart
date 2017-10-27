@@ -235,7 +235,7 @@ class CalendarMonth extends StatelessWidget {
         Widget dayWidget = new Container(
           decoration: decoration,
           child: new Center(
-            child: new Text(day.toString(), style: itemStyle),
+            child: new Text(localizations.formatDecimal(day), style: itemStyle),
           ),
         );
 
