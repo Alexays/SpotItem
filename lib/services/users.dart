@@ -27,7 +27,7 @@ class UsersManager extends BasicService {
   @override
   Future<bool> init() async {
     if (Services.origin == Origin.prod) {
-      _location.onLocationChanged.timeout(new Duration(milliseconds: 500), onTimeout: (event) => event.close());
+      _initLocation();
     }
     platform.setMethodCallHandler((call) async {
       if (call.method == 'linkReceived') {
@@ -41,6 +41,12 @@ class UsersManager extends BasicService {
     });
     await _handleGetContact();
     return true;
+  }
+
+  void _initLocation() {
+    _location.onLocationChanged.first.then((data) {
+      location = data;
+    });
   }
 
   /// Retrieve user location.
