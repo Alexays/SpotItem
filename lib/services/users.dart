@@ -45,6 +45,9 @@ class UsersManager extends BasicService {
 
   void _initLocation() {
     _location.onLocationChanged.first.then((data) {
+      if (location != null && data == null) {
+        return;
+      }
       location = data;
     });
   }
