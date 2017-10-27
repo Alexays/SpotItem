@@ -85,7 +85,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   /// Get image from gallery.
   ///
   Future<Null> getImage() async {
-    final _fileName = await ImagePicker.pickImage();
+    final _fileName = await ImagePicker.pickImage(maxWidth: 720.0);
     setState(() {
       _imagesFile.add(_fileName);
     });

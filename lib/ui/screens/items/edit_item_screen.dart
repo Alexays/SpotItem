@@ -120,7 +120,7 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
   }
 
   Future<Null> getImage() async {
-    final _fileName = await ImagePicker.pickImage();
+    final _fileName = await ImagePicker.pickImage(maxWidth: 720.0);
     if (_fileName != null) {
       setState(() {
         _imagesFile.add(_fileName);
