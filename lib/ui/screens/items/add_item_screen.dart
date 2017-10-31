@@ -7,7 +7,6 @@ import 'package:spotitem/utils.dart';
 import 'package:spotitem/models/group.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:spotitem/i18n/spot_localization.dart';
-import 'package:google_maps_webservice/geocoding.dart';
 import 'package:flutter_google_places_autocomplete/flutter_google_places_autocomplete.dart';
 import 'package:spotitem/keys.dart';
 
@@ -48,9 +47,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
   /// Check groups id
   final List<String> _groupsId = [];
 
-  /// Geocoding class
-  final GoogleMapsGeocoding geocoding = new GoogleMapsGeocoding(geoApiKey);
-
   /// Stepper
   final int _stepLength = 3;
   int _currentStep = 0;
@@ -66,17 +62,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
       });
     });
     if (Services.users.location != null) {
-      geocoding
-          .searchByLocation(new Location(Services.users.location['latitude'], Services.users.location['longitude']))
-          .then((geo) {
-        for (var f in geo.results[0].addressComponents) {
-          if (f.types.contains('locality')) {
-            setState(() {
-              _location = f.shortName;
-            });
-            break;
-          }
-        }
+      Services.users.getCity().then((cityName) {
+        setState(() {
+          _location = cityName;
+        });
       });
     }
     super.initState();
@@ -195,14 +184,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       Navigator.of(context).pop();
       return showSnackBar(context, 'Please enable location or choose location !');
     }
-    var location = Services.users.location;
-    if (location == null) {
-      final geoRes = await geocoding.searchByAddress(_location);
-      location = <String, double>{
-        'latitude': geoRes.results[0].geometry.location.lat,
-        'longitude': geoRes.results[0].geometry.location.lng
-      };
-    }
+    final location = Services.users.location ?? await Services.users.getLocationByAddress(_location);
     if (location == null) {
       Navigator.of(context).pop();
       return showSnackBar(context, 'Please enable location or choose location !');

@@ -8,6 +8,8 @@ import 'package:spotitem/services/basic.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/models/api.dart';
 import 'package:location/location.dart';
+import 'package:google_maps_webservice/geocoding.dart' as geo;
+import 'package:spotitem/keys.dart';
 
 /// User class manager
 class UsersManager extends BasicService {
@@ -23,6 +25,7 @@ class UsersManager extends BasicService {
   /// Private variables
   static final _location = new Location();
   List<dynamic> _contacts;
+  final geo.GoogleMapsGeocoding _geocoding = new geo.GoogleMapsGeocoding(geoApiKey);
 
   @override
   Future<bool> init() async {
@@ -55,18 +58,41 @@ class UsersManager extends BasicService {
   /// Retrieve user location.
   ///
   /// @param force Retrieve user location
-  Future<Null> getLocation({bool force = false}) async {
+  Future<Map<String, double>> getLocation({bool force = false}) async {
     if ((!force && location != null && location.isNotEmpty) || Services.origin == Origin.mock) {
-      return;
+      return location;
     }
     try {
-      location = await _location.getLocation.timeout(new Duration(milliseconds: 250), onTimeout: () {
-        location = null;
-      });
+      return location = await _location.getLocation.timeout(new Duration(milliseconds: 250), onTimeout: () => null);
     } on PlatformException {
-      location = null;
+      return location = null;
     }
-    print(location);
+  }
+
+  /// Retrieve user city location
+  Future<String> getCity() async {
+    final res = await _geocoding
+        .searchByLocation(new geo.Location(Services.users.location['latitude'], Services.users.location['longitude']));
+    for (var f in res.results[0].addressComponents) {
+      if (f.types.contains('locality')) {
+        return f.shortName;
+      }
+    }
+    return null;
+  }
+
+  /// Retrieve location by address
+  Future<Map<String, double>> getLocationByAddress([String address]) async {
+    address ??= await getCity();
+    final geoRes = await _geocoding.searchByAddress(address);
+    final _cityLocation = <String, double>{
+      'latitude': geoRes.results[0].geometry.location.lat,
+      'longitude': geoRes.results[0].geometry.location.lng
+    };
+    if (location == null) {
+      return location = _cityLocation;
+    }
+    return _cityLocation;
   }
 
   /// Get distance between two points.
