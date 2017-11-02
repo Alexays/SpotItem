@@ -231,6 +231,7 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
       'lat': Services.users.location['latitude'],
       'lng': Services.users.location['longitude'],
       'images': finalImages,
+      'calendar': _calendar.toString(),
       'location': _location,
       'tracks': _tracks,
       'groups': groups

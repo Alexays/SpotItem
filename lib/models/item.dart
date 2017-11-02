@@ -5,7 +5,7 @@ import 'package:spotitem/models/user.dart';
 class Event {
   /// Item event class initializer
   Event(Map<String, dynamic> payload)
-      : date = new DateTime.fromMillisecondsSinceEpoch(payload['date']),
+      : date = DateTime.parse(payload['date']),
         holder = payload['holder'],
         data = payload['data'];
 
@@ -19,7 +19,7 @@ class Event {
   final Map<String, dynamic> data;
 
   @override
-  String toString() => '{"date": "$date.millisecondsSinceEpoch", "holder": "$holder", "data": $data}';
+  String toString() => '{"date": "$date", "holder": $holder, "data": $data}';
 }
 
 /// Item Model
