@@ -224,8 +224,13 @@ class CalendarMonth extends StatelessWidget {
             orElse: () => null);
         if (current != null) {
           // The selected day gets a circle background highlight, and a contrasting text color.
-          itemStyle = themeData.accentTextTheme.body2;
-          decoration = new BoxDecoration(color: themeData.accentColor, shape: BoxShape.circle);
+          if (current.holder != null) {
+            itemStyle = themeData.accentTextTheme.body2;
+            decoration = new BoxDecoration(color: themeData.accentColor, shape: BoxShape.circle);
+          } else {
+            itemStyle = themeData.accentTextTheme.body2;
+            decoration = new BoxDecoration(color: themeData.errorColor, shape: BoxShape.circle);
+          }
         } else if (currentDate.year == year && currentDate.month == month && currentDate.day == day) {
           // The current day gets a different text color.
           itemStyle = themeData.textTheme.body2.copyWith(color: themeData.accentColor);
