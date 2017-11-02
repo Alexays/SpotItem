@@ -5,7 +5,7 @@ import 'package:spotitem/models/user.dart';
 class Event {
   /// Item event class initializer
   Event(Map<String, dynamic> payload)
-      : date = new DateTime(payload['date']),
+      : date = new DateTime.fromMillisecondsSinceEpoch(payload['date']),
         holder = payload['holder'] ? new User(payload['holder']) : null,
         data = payload['data'];
 

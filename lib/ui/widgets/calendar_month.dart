@@ -246,7 +246,7 @@ class CalendarMonth extends StatelessWidget {
             behavior: HitTestBehavior.opaque,
             onTap: () {
               if (dates.length == len) {
-                dates.add(new Event({'date': dayToBuild}));
+                dates.add(new Event({'date': dayToBuild.millisecondsSinceEpoch}));
               }
               onChanged(dates);
             },
