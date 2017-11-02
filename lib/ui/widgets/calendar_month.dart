@@ -7,6 +7,7 @@ import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:spotitem/models/item.dart';
 
 const double _kDatePickerHeaderPortraitHeight = 100.0;
 const double _kDatePickerHeaderLandscapeWidth = 168.0;
@@ -83,7 +84,7 @@ class CalendarMonth extends StatelessWidget {
   /// The currently selected dates.
   ///
   /// Dates are highlighted in the picker.
-  final List<DateTime> selectedDates;
+  final List<Event> selectedDates;
 
   /// Disable days which are after lastDay and before Firstday
   final bool allowDisable;
@@ -98,7 +99,7 @@ class CalendarMonth extends StatelessWidget {
   final DateTime lastDate;
 
   /// Called when the user picks a day.
-  final ValueChanged<DateTime> onChanged;
+  final ValueChanged<List<Event>> onChanged;
 
   /// Builds widgets showing abbreviated days of week. The first widget in the
   /// returned list corresponds to the first day of week for the current locale.
@@ -200,7 +201,7 @@ class CalendarMonth extends StatelessWidget {
     final currentDate = new DateTime.now();
     final year = currentMonth.year;
     final month = currentMonth.month;
-    final dates = new List<DateTime>.from(selectedDates);
+    final dates = new List<Event>.from(selectedDates);
     final daysInMonth = getDaysInMonth(year, month);
     final firstDayOffset = _computeFirstDayOffset(year, month, localizations);
     final labels = _getDayHeaders(themeData.textTheme.caption, localizations);
@@ -220,7 +221,8 @@ class CalendarMonth extends StatelessWidget {
         BoxDecoration decoration;
         var itemStyle = themeData.textTheme.body1;
         final len = dates.length;
-        dates.removeWhere((f) => f.day == dayToBuild.day && f.month == dayToBuild.month && f.year == dayToBuild.year);
+        dates.removeWhere(
+            (f) => f.date.day == dayToBuild.day && f.date.month == dayToBuild.month && f.date.year == dayToBuild.year);
         if (dates.length != len) {
           // The selected day gets a circle background highlight, and a contrasting text color.
           itemStyle = themeData.accentTextTheme.body2;
@@ -243,7 +245,10 @@ class CalendarMonth extends StatelessWidget {
           dayWidget = new GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () {
-              onChanged(dayToBuild);
+              if (dates.length == len) {
+                dates.add(new Event({'date': dayToBuild}));
+              }
+              onChanged(dates);
             },
             child: dayWidget,
           );

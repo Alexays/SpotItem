@@ -17,6 +17,9 @@ class Event {
 
   /// Event data
   final Map<String, dynamic> data;
+
+  @override
+  String toString() => '{"date": "$date.millisecondsSinceEpoch", "holder": "$holder?.id", "data": $data}';
 }
 
 /// Item Model
@@ -82,6 +85,8 @@ class Item {
   bool isValid() => id != null && name != null && owner != null;
 
   @override
-  String toString() =>
-      '{"_id": "$id", "name": "$name", "about": "$about", "images": $images, "lastGeo": $lastGeo, "calendar": $calendar, "location": "$location", "lat": $lat, "lng": $lng, "owner": "$owner", "groups": groups, "tracks": $tracks}';
+  String toString() {
+    final _calendar = new List<String>.generate(calendar.length, (i) => calendar[i].toString());
+    return '{"_id": "$id", "name": "$name", "about": "$about", "images": $images, "lastGeo": $lastGeo, "calendar": $_calendar, "location": "$location", "lat": $lat, "lng": $lng, "owner": "$owner", "groups": groups, "tracks": $tracks}';
+  }
 }

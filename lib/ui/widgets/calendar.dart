@@ -28,7 +28,7 @@ class Calendar extends StatelessWidget {
   final bool allowDisable;
 
   /// Called when the user picks a day.
-  final ValueChanged<DateTime> onChanged;
+  final ValueChanged<List<Event>> onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +53,7 @@ class Calendar extends StatelessWidget {
                   child: new CalendarMonth(
                     allowDisable: allowDisable,
                     onChanged: onChanged,
-                    selectedDates: selectedDates.map((f) => f.date),
+                    selectedDates: selectedDates,
                     currentMonth:
                         new DateTime(firstDate.year + (firstDate.month + index) ~/ 12, (firstDate.month + index) % 12),
                     firstDate: firstDate,
