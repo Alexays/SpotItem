@@ -69,7 +69,6 @@ class AuthManager extends BasicService {
       refreshToken = _refreshToken;
       provider = _provider;
       _loggedIn = true;
-      await connectWs();
     } on Exception {
       return _loggedIn = false;
     }
@@ -163,7 +162,6 @@ class AuthManager extends BasicService {
       exp = new DateTime.fromMillisecondsSinceEpoch(response.data['exp'] * 1000);
       await saveTokens(user.toString(), response.data['refresh_token'], _provider);
       _loggedIn = true;
-      await connectWs();
     }
     return _loggedIn;
   }
@@ -208,7 +206,7 @@ class AuthManager extends BasicService {
       if (headers == null) {
         return;
       }
-      Services.auth.ws.sink.add(JSON.encode(headers));
+      ws.sink.add(JSON.encode(headers));
     }
     if (decoded['type'] != 'pub') {
       return;
@@ -241,12 +239,12 @@ class AuthManager extends BasicService {
     if (Services.origin == Origin.mock) {
       return;
     }
-    Services.auth.ws = new IOWebSocketChannel.connect('ws://$baseHost');
-    Services.auth.ws.stream.listen(handleWsData);
+    ws = new IOWebSocketChannel.connect('ws://$baseHost');
+    ws.stream.listen(handleWsData);
     final header = await getWsHeader('hello');
     if (header != null) {
       return;
     }
-    Services.auth.ws.sink.add(JSON.encode(header));
+    ws.sink.add(JSON.encode(header));
   }
 }

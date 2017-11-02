@@ -154,6 +154,9 @@ class BasicService {
         'auth': {'headers': getHeaders(verifiedToken)},
       };
     }
+    if (Services.auth.ws == null) {
+      await Services.auth.connectWs();
+    }
     return null;
   }
 
