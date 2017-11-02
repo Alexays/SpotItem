@@ -247,7 +247,7 @@ class CalendarMonth extends StatelessWidget {
                 selectedDates.removeWhere((f) =>
                     f.date.day == dayToBuild.day && f.date.month == dayToBuild.month && f.date.year == dayToBuild.year);
               } else {
-                selectedDates.add(new Event({'date': dayToBuild.toString()}));
+                selectedDates.add(new Event({'date': dayToBuild.toUtc().toString()}));
               }
               onChanged(selectedDates);
             },

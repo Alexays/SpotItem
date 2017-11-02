@@ -5,7 +5,7 @@ import 'package:spotitem/models/user.dart';
 class Event {
   /// Item event class initializer
   Event(Map<String, dynamic> payload)
-      : date = DateTime.parse(payload['date']),
+      : date = DateTime.parse(payload['date']).toLocal(),
         holder = payload['holder'],
         data = payload['data'];
 
