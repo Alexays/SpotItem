@@ -263,4 +263,7 @@ class SpotL {
 
   /// Delete title
   String get delete => _nameToValue['delete'];
+
+  /// Calendar title
+  String get calendar => _nameToValue['calendar'];
 }

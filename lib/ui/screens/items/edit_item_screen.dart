@@ -290,7 +290,7 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                                             bottom: new TabBar(indicatorWeight: 4.0, tabs: <Tab>[
                                               new Tab(text: SpotL.of(context).about),
                                               new Tab(text: SpotL.of(context).images),
-                                              const Tab(text: 'Calendar'),
+                                              new Tab(text: SpotL.of(context).calendar),
                                               new Tab(text: SpotL.of(context).groups)
                                             ])))
                                   ],

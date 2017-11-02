@@ -9,6 +9,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:spotitem/i18n/spot_localization.dart';
 import 'package:flutter_google_places_autocomplete/flutter_google_places_autocomplete.dart';
 import 'package:spotitem/keys.dart';
+import 'package:spotitem/ui/widgets/calendar.dart';
+import 'package:spotitem/models/item.dart';
 
 /// Add item screen class
 class AddItemScreen extends StatefulWidget {
@@ -46,6 +48,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   /// Check groups id
   final List<String> _groupsId = [];
+
+  List<Event> _calendar = [];
 
   /// Stepper
   final int _stepLength = 3;
@@ -201,6 +205,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       'lng': location['longitude'],
       'images': _images,
       'location': _location,
+      'calendar': _calendar.toString(),
       'tracks': _tracks,
       'groups': _groupsId
     });
@@ -324,6 +329,20 @@ class _AddItemScreenState extends State<AddItemScreen> {
                             title: new Text(SpotL.of(context).images),
                             content: new Container(
                                 height: 120 + 320 * (_imagesFile.length / 3).floorToDouble(), child: getImageGrid()),
+                            isActive: true),
+                        new Step(
+                            title: new Text(SpotL.of(context).calendar),
+                            content: new Container(
+                                height: 320.0,
+                                child: new Calendar(
+                                  allowDisable: true,
+                                  selectedDates: [],
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _calendar = value;
+                                    });
+                                  },
+                                )),
                             isActive: true),
                         new Step(title: new Text(SpotL.of(context).groups), content: getGroups(), isActive: true),
                       ],
