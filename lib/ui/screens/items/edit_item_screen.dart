@@ -420,7 +420,9 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                                             allowDisable: true,
                                             selectedDates: _calendar,
                                             onChanged: (value) {
-                                              _calendar = value;
+                                              setState(() {
+                                                _calendar = value;
+                                              });
                                             },
                                           ),
                                         ),

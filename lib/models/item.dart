@@ -6,20 +6,20 @@ class Event {
   /// Item event class initializer
   Event(Map<String, dynamic> payload)
       : date = new DateTime.fromMillisecondsSinceEpoch(payload['date']),
-        holder = payload['holder'] ? new User(payload['holder']) : null,
+        holder = payload['holder'],
         data = payload['data'];
 
   /// date of event
   final DateTime date;
 
   /// Holder at this date
-  final User holder;
+  final String holder;
 
   /// Event data
   final Map<String, dynamic> data;
 
   @override
-  String toString() => '{"date": "$date.millisecondsSinceEpoch", "holder": "$holder?.id", "data": $data}';
+  String toString() => '{"date": "$date.millisecondsSinceEpoch", "holder": "$holder", "data": $data}';
 }
 
 /// Item Model

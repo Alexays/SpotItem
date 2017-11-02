@@ -217,13 +217,12 @@ class CalendarMonth extends StatelessWidget {
       } else {
         final dayToBuild = new DateTime(year, month, day);
         final disabled = (dayToBuild.isAfter(lastDate) || dayToBuild.isBefore(firstDate)) && !allowDisable;
-
         BoxDecoration decoration;
         var itemStyle = themeData.textTheme.body1;
-        final len = dates.length;
-        dates.removeWhere(
-            (f) => f.date.day == dayToBuild.day && f.date.month == dayToBuild.month && f.date.year == dayToBuild.year);
-        if (dates.length != len) {
+        final current = dates.firstWhere(
+            (f) => f.date.day == dayToBuild.day && f.date.month == dayToBuild.month && f.date.year == dayToBuild.year,
+            orElse: () => null);
+        if (current != null) {
           // The selected day gets a circle background highlight, and a contrasting text color.
           itemStyle = themeData.accentTextTheme.body2;
           decoration = new BoxDecoration(color: themeData.accentColor, shape: BoxShape.circle);
@@ -240,15 +239,17 @@ class CalendarMonth extends StatelessWidget {
             child: new Text(localizations.formatDecimal(day), style: itemStyle),
           ),
         );
-
         if (!disabled) {
           dayWidget = new GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () {
-              if (dates.length == len) {
-                dates.add(new Event({'date': dayToBuild.millisecondsSinceEpoch}));
+              if (current != null) {
+                selectedDates.removeWhere((f) =>
+                    f.date.day == dayToBuild.day && f.date.month == dayToBuild.month && f.date.year == dayToBuild.year);
+              } else {
+                selectedDates.add(new Event({'date': dayToBuild.millisecondsSinceEpoch}));
               }
-              onChanged(dates);
+              onChanged(selectedDates);
             },
             child: dayWidget,
           );
