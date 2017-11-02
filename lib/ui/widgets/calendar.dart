@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/ui/widgets/calendar_month.dart';
+import 'package:spotitem/models/item.dart';
 
 /// Calendar list class
 class Calendar extends StatelessWidget {
@@ -21,7 +22,7 @@ class Calendar extends StatelessWidget {
   /// The currently selected dates.
   ///
   /// Dates are highlighted in the picker.
-  final List<DateTime> selectedDates;
+  final List<Event> selectedDates;
 
   ///Disable days which are after lastDay and before Firstday
   final bool allowDisable;
@@ -31,7 +32,7 @@ class Calendar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dates = selectedDates.map((f) => f.millisecondsSinceEpoch);
+    final dates = selectedDates.map((f) => f.date.millisecondsSinceEpoch);
     var firstDate, lastDate, diff, nbMonth;
     if (dates.isNotEmpty) {
       firstDate = new DateTime.fromMillisecondsSinceEpoch(dates.reduce(math.min));
@@ -52,7 +53,7 @@ class Calendar extends StatelessWidget {
                   child: new CalendarMonth(
                     allowDisable: allowDisable,
                     onChanged: onChanged,
-                    selectedDates: selectedDates,
+                    selectedDates: selectedDates.map((f) => f.date),
                     currentMonth:
                         new DateTime(firstDate.year + (firstDate.month + index) ~/ 12, (firstDate.month + index) % 12),
                     firstDate: firstDate,

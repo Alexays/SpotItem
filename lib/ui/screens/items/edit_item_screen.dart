@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:spotitem/keys.dart';
 import 'package:flutter_google_places_autocomplete/flutter_google_places_autocomplete.dart';
 import 'package:spotitem/i18n/spot_localization.dart';
+import 'package:spotitem/ui/widgets/calendar.dart';
 
 /// Edit item screen
 class EditItemScreen extends StatefulWidget {
@@ -65,6 +66,9 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
   /// Item groups
   List<String> _groupsId = [];
 
+  /// Item calendar
+  List<Event> _calendar = [];
+
   @override
   void initState() {
     if (_item == null) {
@@ -111,6 +115,7 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
         _groupsId = _item.groups ?? [];
         _tracks = _item.tracks ?? [];
         _location = _item.location;
+        _calendar = _item.calendar;
       });
     }
   }
@@ -284,6 +289,7 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                                             bottom: new TabBar(indicatorWeight: 4.0, tabs: <Tab>[
                                               new Tab(text: SpotL.of(context).about),
                                               new Tab(text: SpotL.of(context).images),
+                                              const Tab(text: 'Calendar'),
                                               new Tab(text: SpotL.of(context).groups)
                                             ])))
                                   ],
@@ -408,6 +414,13 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                                                 child: getImageGrid(),
                                               )
                                             ])),
+                                        new Container(
+                                          height: MediaQuery.of(context).size.height,
+                                          child: new Calendar(
+                                            selectedDates: _calendar,
+                                            onChanged: (value) {},
+                                          ),
+                                        ),
                                         _groups != null
                                             ? new Container(margin: const EdgeInsets.all(20.0), child: getGroups())
                                             : const Center(child: const CircularProgressIndicator()),

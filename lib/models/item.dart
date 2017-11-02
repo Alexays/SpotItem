@@ -1,6 +1,24 @@
 import 'dart:convert';
 import 'package:spotitem/models/user.dart';
 
+/// Item event model
+class Event {
+  /// Item event class initializer
+  Event(Map<String, dynamic> payload)
+      : date = new DateTime(payload['date']),
+        holder = payload['holder'] ? new User(payload['holder']) : null,
+        data = payload['data'];
+
+  /// date of event
+  final DateTime date;
+
+  /// Holder at this date
+  final User holder;
+
+  /// Event data
+  final Map<String, dynamic> data;
+}
+
 /// Item Model
 class Item {
   /// Item class initializer
@@ -10,7 +28,7 @@ class Item {
         about = data['about'],
         images = data['images'] ?? <String>[],
         lastGeo = data['lastGeo'],
-        calendar = data['calendar'] ?? <Map<String, dynamic>>[],
+        calendar = data['calendar'] is List ? data['calendar'].map((f) => new Event(f)).toList() : <Event>[],
         location = data['location'],
         lat = data['lat'],
         lng = data['lng'],
@@ -37,7 +55,7 @@ class Item {
   String lastGeo;
 
   /// Item calendar
-  List<Map<String, dynamic>> calendar;
+  List<Event> calendar;
 
   /// Item location
   String location;
