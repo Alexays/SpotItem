@@ -7,8 +7,6 @@ import 'package:spotitem/utils.dart';
 import 'package:spotitem/models/group.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:spotitem/i18n/spot_localization.dart';
-import 'package:flutter_google_places_autocomplete/flutter_google_places_autocomplete.dart';
-import 'package:spotitem/keys.dart';
 import 'package:spotitem/ui/widgets/calendar.dart';
 import 'package:spotitem/models/item.dart';
 
@@ -261,16 +259,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                     ),
                                     new GestureDetector(
                                       onTap: () async {
-                                        final p = await showGooglePlacesAutocomplete(
-                                            context: context,
-                                            apiKey: placeApiKey,
-                                            mode: Mode.fullscreen,
-                                            hint: SpotL.of(context).search,
-                                            language: 'fr',
-                                            components: [new Component(Component.country, 'fr')]);
-                                        if (p?.description != null) {
+                                        final p = await Services.users.autocompleteCity(context);
+                                        if (p != null) {
                                           setState(() {
-                                            _location = p.description;
+                                            _location = p;
                                           });
                                         }
                                       },

@@ -3,13 +3,16 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
 import 'package:spotitem/models/user.dart';
 import 'package:spotitem/services/basic.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/models/api.dart';
+import 'package:spotitem/keys.dart';
+import 'package:spotitem/i18n/spot_localization.dart';
 import 'package:location/location.dart';
 import 'package:google_maps_webservice/geocoding.dart' as geo;
-import 'package:spotitem/keys.dart';
+import 'package:flutter_google_places_autocomplete/flutter_google_places_autocomplete.dart' as places;
 
 /// User class manager
 class UsersManager extends BasicService {
@@ -79,6 +82,18 @@ class UsersManager extends BasicService {
       }
     }
     return null;
+  }
+
+  /// Show autocomplete city
+  Future<String> autocompleteCity(BuildContext context) async {
+    final p = await places.showGooglePlacesAutocomplete(
+        context: context,
+        apiKey: placeApiKey,
+        mode: places.Mode.fullscreen,
+        hint: SpotL.of(context).search,
+        language: 'fr',
+        components: [new places.Component(places.Component.country, 'fr')]);
+    return p?.description;
   }
 
   /// Retrieve location by address
