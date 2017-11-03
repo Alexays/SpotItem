@@ -30,7 +30,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   String _about;
 
   /// Item location
-  String _location;
+  final TextEditingController _location = new TextEditingController();
 
   /// Tracks of item
   List<String> _tracks = [];
@@ -66,7 +66,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     if (Services.users.location != null) {
       Services.users.getCity().then((cityName) {
         setState(() {
-          _location = cityName;
+          _location.text = cityName;
         });
       });
     }
@@ -182,11 +182,11 @@ class _AddItemScreenState extends State<AddItemScreen> {
       final imageBytes = f.readAsBytesSync();
       _images.add('data:image/${f.path.split('.').last};base64,${BASE64.encode(imageBytes)}');
     }
-    if (_location == null || validateString(_location) != null) {
+    if (_location == null || validateString(_location.text) != null) {
       Navigator.of(context).pop();
       return showSnackBar(context, 'Please enable location or choose location !');
     }
-    final location = Services.users.location ?? await Services.users.getLocationByAddress(_location);
+    final location = Services.users.location ?? await Services.users.getLocationByAddress(_location.text);
     if (location == null) {
       Navigator.of(context).pop();
       return showSnackBar(context, 'Please enable location or choose location !');
@@ -254,7 +254,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                         decoration: new InputDecoration(
                                             hintText: SpotL.of(context).locationPh,
                                             labelText: SpotL.of(context).location),
-                                        initialValue: _location,
+                                        controller: _location,
+                                        initialValue: _location.text ?? SpotL.of(context).loading,
                                       ),
                                     ),
                                     new GestureDetector(
@@ -262,7 +263,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                         final p = await Services.users.autocompleteCity(context);
                                         if (p != null) {
                                           setState(() {
-                                            _location = p;
+                                            _location.text = p;
                                           });
                                         }
                                       },
