@@ -50,7 +50,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   List<Event> _calendar = [];
 
   /// Stepper
-  final int _stepLength = 3;
+  final int _stepLength = 4;
   int _currentStep = 0;
 
   @override
