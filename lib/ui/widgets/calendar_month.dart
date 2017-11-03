@@ -125,13 +125,11 @@ class CalendarMonth extends StatelessWidget {
   /// ```
   List<Widget> _getDayHeaders(TextStyle headerStyle, MaterialLocalizations localizations) {
     final result = <Widget>[];
-    for (var i = localizations.firstDayOfWeekIndex; true; i = (i + 1) % 7) {
+    var i = localizations.firstDayOfWeekIndex;
+    do {
       final weekday = localizations.narrowWeekdays[i];
       result.add(new Center(child: new Text(weekday, style: headerStyle)));
-      if (i == (localizations.firstDayOfWeekIndex - 1) % 7) {
-        break;
-      }
-    }
+    } while (i != (localizations.firstDayOfWeekIndex - 1) % 7 && (i = (i + 1) % 7) != null);
     return result;
   }
 
@@ -209,13 +207,10 @@ class CalendarMonth extends StatelessWidget {
     final daysInMonth = getDaysInMonth(year, month);
     final firstDayOffset = _computeFirstDayOffset(year, month, localizations);
     final labels = _getDayHeaders(themeData.textTheme.caption, localizations);
-    for (var i = 0; true; i += 1) {
+    for (var i = 0; ((i - firstDayOffset + 1)) <= daysInMonth; i += 1) {
       // 1-based day of month, e.g. 1-31 for January, and 1-29 for February on
       // a leap year.
       final day = i - firstDayOffset + 1;
-      if (day > daysInMonth) {
-        break;
-      }
       if (day < 1) {
         labels.add(new Container());
       } else {
