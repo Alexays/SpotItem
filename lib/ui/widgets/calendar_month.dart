@@ -204,9 +204,9 @@ class CalendarMonth extends StatelessWidget {
     final daysInMonth = getDaysInMonth(year, month);
     final firstDayOffset = _computeFirstDayOffset(year, month, localizations);
     final labels = _getDayHeaders(themeData.textTheme.caption, localizations);
+    // 1-based day of month, e.g. 1-31 for January, and 1-29 for February on
+    // a leap year.
     for (var i = 0, day; (day = (i - firstDayOffset + 1)) <= daysInMonth; i += 1) {
-      // 1-based day of month, e.g. 1-31 for January, and 1-29 for February on
-      // a leap year.
       if (day < 1) {
         labels.add(new Container());
       } else {
@@ -272,7 +272,9 @@ class CalendarMonth extends StatelessWidget {
             height: _kDayPickerRowHeight,
             child: new Center(
               child: new GestureDetector(
-                // onTap: onMonthHeaderTap != null ? Feedback.wrapForTap(onMonthHeaderTap, context) : null,
+                onTap: () {
+                  //TO-DO select all day of current month
+                },
                 child: new Text(
                   localizations.formatMonthYear(currentMonth),
                   style: themeData.textTheme.subhead,
