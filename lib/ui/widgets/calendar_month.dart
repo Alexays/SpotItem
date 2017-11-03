@@ -71,6 +71,7 @@ class CalendarMonth extends StatelessWidget {
     @required this.firstDate,
     @required this.lastDate,
     @required this.onChanged,
+    this.edit = false,
     this.allowDisable = false,
     Key key,
   })
@@ -85,6 +86,9 @@ class CalendarMonth extends StatelessWidget {
   ///
   /// Dates are highlighted in the picker.
   final List<Event> selectedDates;
+
+  /// Is in edit mode
+  final bool edit;
 
   /// Disable days which are after lastDay and before Firstday
   final bool allowDisable;
@@ -216,12 +220,13 @@ class CalendarMonth extends StatelessWidget {
         labels.add(new Container());
       } else {
         final dayToBuild = new DateTime(year, month, day);
-        final disabled = (dayToBuild.isAfter(lastDate) || dayToBuild.isBefore(firstDate)) && !allowDisable;
         BoxDecoration decoration;
         var itemStyle = themeData.textTheme.body1;
         final current = dates.firstWhere(
             (f) => f.date.day == dayToBuild.day && f.date.month == dayToBuild.month && f.date.year == dayToBuild.year,
             orElse: () => null);
+        final disabled =
+            (dayToBuild.isAfter(lastDate) || dayToBuild.isBefore(firstDate) || current == null) && !allowDisable;
         if (current != null) {
           // The selected day gets a circle background highlight, and a contrasting text color.
           if (current.holder == null) {
@@ -248,6 +253,11 @@ class CalendarMonth extends StatelessWidget {
           dayWidget = new GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () {
+              if (!edit) {
+                return onChanged([
+                  new Event({'date': dayToBuild.toUtc().toString()})
+                ]);
+              }
               if (current != null) {
                 selectedDates.removeWhere((f) =>
                     f.date.day == dayToBuild.day && f.date.month == dayToBuild.month && f.date.year == dayToBuild.year);

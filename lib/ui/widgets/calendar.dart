@@ -12,6 +12,7 @@ class Calendar extends StatelessWidget {
   const Calendar({
     @required this.selectedDates,
     @required this.onChanged,
+    this.edit = false,
     this.allowDisable = false,
     Key key,
   })
@@ -24,7 +25,10 @@ class Calendar extends StatelessWidget {
   /// Dates are highlighted in the picker.
   final List<Event> selectedDates;
 
-  ///Disable days which are after lastDay and before Firstday
+  /// Is in edit mode
+  final bool edit;
+
+  /// Disable days which are after lastDay and before Firstday
   final bool allowDisable;
 
   /// Called when the user picks a day.
@@ -35,8 +39,10 @@ class Calendar extends StatelessWidget {
     final dates = selectedDates.map((f) => f.date.millisecondsSinceEpoch);
     var firstDate, lastDate, diff, nbMonth;
     if (dates.isNotEmpty) {
-      firstDate = new DateTime.fromMillisecondsSinceEpoch(dates.reduce(math.min));
-      lastDate = new DateTime.fromMillisecondsSinceEpoch(dates.reduce(math.max));
+      final _firstDate = new DateTime.fromMillisecondsSinceEpoch(dates.reduce(math.min));
+      final _lastDate = new DateTime.fromMillisecondsSinceEpoch(dates.reduce(math.max));
+      firstDate = new DateTime(_firstDate.year, _firstDate.month, _firstDate.day);
+      lastDate = new DateTime(_lastDate.year, _lastDate.month, _lastDate.day);
       diff = lastDate.subtract(new Duration(milliseconds: firstDate.millisecondsSinceEpoch));
       nbMonth = diff.month + (diff.year - 1970) * 12;
     } else {
@@ -53,6 +59,7 @@ class Calendar extends StatelessWidget {
                   child: new CalendarMonth(
                     allowDisable: allowDisable,
                     onChanged: onChanged,
+                    edit: edit,
                     selectedDates: selectedDates,
                     currentMonth:
                         new DateTime(firstDate.year + (firstDate.month + index) ~/ 12, (firstDate.month + index) % 12),

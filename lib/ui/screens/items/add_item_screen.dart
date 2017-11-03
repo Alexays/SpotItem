@@ -336,6 +336,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                 height: 320.0,
                                 child: new Calendar(
                                   allowDisable: true,
+                                  edit: true,
                                   selectedDates: [],
                                   onChanged: (value) {
                                     setState(() {

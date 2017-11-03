@@ -418,6 +418,7 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                                           height: MediaQuery.of(context).size.height,
                                           child: new Calendar(
                                             allowDisable: true,
+                                            edit: true,
                                             selectedDates: _calendar,
                                             onChanged: (value) {
                                               setState(() {
