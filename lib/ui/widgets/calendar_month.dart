@@ -144,10 +144,7 @@ class CalendarMonth extends StatelessWidget {
   static int getDaysInMonth(int year, int month) {
     if (month == DateTime.FEBRUARY) {
       final isLeapYear = (year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0);
-      if (isLeapYear) {
-        return 29;
-      }
-      return 28;
+      return isLeapYear ? 29 : 28;
     }
     return _kDaysInMonth[month - 1];
   }
@@ -207,10 +204,9 @@ class CalendarMonth extends StatelessWidget {
     final daysInMonth = getDaysInMonth(year, month);
     final firstDayOffset = _computeFirstDayOffset(year, month, localizations);
     final labels = _getDayHeaders(themeData.textTheme.caption, localizations);
-    for (var i = 0; ((i - firstDayOffset + 1)) <= daysInMonth; i += 1) {
+    for (var i = 0, day; (day = (i - firstDayOffset + 1)) <= daysInMonth; i += 1) {
       // 1-based day of month, e.g. 1-31 for January, and 1-29 for February on
       // a leap year.
-      final day = i - firstDayOffset + 1;
       if (day < 1) {
         labels.add(new Container());
       } else {
