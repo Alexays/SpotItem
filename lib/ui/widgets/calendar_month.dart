@@ -129,7 +129,7 @@ class CalendarMonth extends StatelessWidget {
     do {
       final weekday = localizations.narrowWeekdays[i];
       result.add(new Center(child: new Text(weekday, style: headerStyle)));
-    } while (i != (localizations.firstDayOfWeekIndex - 1) % 7 && (i = (i + 1) % 7) != null);
+    } while ((i = (i + 1) % 7) != (localizations.firstDayOfWeekIndex) % 7);
     return result;
   }
 
