@@ -19,7 +19,14 @@ class _ContactScreenState extends State<ContactScreen> {
 
   @override
   void initState() {
-    _contacts = Services.users.contacts ?? [];
+    Services.users.getContact().then((data) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _contacts = data ?? [];
+      });
+    });
     super.initState();
   }
 
@@ -82,18 +89,20 @@ class _ContactScreenState extends State<ContactScreen> {
                         ),
                         onChanged: (value) {
                           _email = value;
-                          setState(() {
-                            _contacts = Services.users.contacts
-                                .where((contact) =>
-                                    contact['names'][0]['displayName'].toString().contains(value) ||
-                                    contact['emailAddresses'][0]['value'].toString().contains(value))
-                                .toList();
+                          Services.users.getContact().then((data) {
+                            setState(() {
+                              _contacts = data
+                                  .where((contact) =>
+                                      contact['names'][0]['displayName'].toString().contains(value) ||
+                                      contact['emailAddresses'][0]['value'].toString().contains(value))
+                                  .toList();
+                            });
                           });
                         },
                       ),
                     )),
                 const Padding(padding: const EdgeInsets.all(10.0)),
-                Services.users.contacts == null || Services.users.contacts.isNotEmpty
+                _contacts == null || _contacts.isNotEmpty
                     ? _contacts != null && _contacts.isNotEmpty
                         ? new Expanded(
                             child: new ListView.builder(

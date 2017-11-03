@@ -22,9 +22,6 @@ class UsersManager extends BasicService {
   /// Location of user
   Map<String, double> location;
 
-  /// Contact of user
-  List<dynamic> get contacts => _contacts;
-
   /// Private variables
   static final _location = new Location();
   List<dynamic> _contacts;
@@ -45,7 +42,6 @@ class UsersManager extends BasicService {
         }
       }
     });
-    await _handleGetContact();
     return true;
   }
 
@@ -167,10 +163,10 @@ class UsersManager extends BasicService {
     return null;
   }
 
-  /// Get contact of user by provider.
+  /// Retrieve contacts of user by provider.
   ///
   /// TO-DO Maybe make pager to get all contacts
-  Future<Null> _handleGetContact() async {
+  Future<Null> _retrieveContact() async {
     final provider = Services.auth.provider;
     if (provider == 'google') {
       final response = await http.get(
@@ -187,6 +183,16 @@ class UsersManager extends BasicService {
       // TO-DO convert to custom format
     } else if (provider == 'local') {
       // TO-DO Maybe get member of user groups
+    }
+  }
+
+  /// Get contacts
+  Future<List<dynamic>> getContact() async {
+    if (_contacts != null) {
+      return _contacts;
+    } else {
+      await _retrieveContact();
+      return _contacts;
     }
   }
 }

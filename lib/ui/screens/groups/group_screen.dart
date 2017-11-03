@@ -45,7 +45,7 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
 
   Future<Null> _kickUser(BuildContext context, String userId) async {
     final response = await Services.groups.kickUser(group.id, userId);
-    if (resValid(context, response)) {
+    if (resValid(context, response) && mounted) {
       setState(() {
         group.users = group.users.where((user) => user.id == userId).toList();
       });

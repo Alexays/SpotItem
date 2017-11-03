@@ -53,10 +53,8 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
   }
 
   void _initForm() {
-    setState(() {
-      nameCtrl.text = _group.name;
-      aboutCtrl.text = _group.about;
-    });
+    nameCtrl.text = _group.name;
+    aboutCtrl.text = _group.about;
   }
 
   Future<Null> editGroup(BuildContext context) async {

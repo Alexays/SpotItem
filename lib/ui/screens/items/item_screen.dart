@@ -103,11 +103,9 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
   @override
   void initState() {
     if (item != null) {
-      setState(() {
-        _tabController = new TabController(vsync: this, length: item.images.length);
-      });
+      _tabController = new TabController(vsync: this, length: item.images.length);
     }
-    if (widget.item == null) {
+    if (item == null) {
       Services.items.getItem(_itemId).then((data) {
         if (!mounted) {
           return;
