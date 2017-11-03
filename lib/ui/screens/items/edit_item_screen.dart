@@ -278,7 +278,7 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                 children: <Widget>[
                   new Expanded(
                       child: new DefaultTabController(
-                          length: 3,
+                          length: 4,
                           child: new NestedScrollView(
                               headerSliverBuilder: (context, innerBoxIsScrolled) => <Widget>[
                                     new AnimatedBuilder(
