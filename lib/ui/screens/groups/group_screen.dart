@@ -376,18 +376,15 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
               );
             }
             return new GestureDetector(
-              onTap: () {},
-              child: new GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pushNamed('/profile/:${group.users[index].id}');
-                },
-                child: new Container(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: new Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: buttons,
-                  ),
+              onTap: () {
+                Navigator.of(context).pushNamed('/profile/:${group.users[index].id}');
+              },
+              child: new Container(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: new Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: buttons,
                 ),
               ),
             );

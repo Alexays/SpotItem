@@ -320,22 +320,39 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                                                     controller: _aboutCtrl,
                                                     initialValue: _aboutCtrl.text,
                                                   ),
-                                                  new FlatButton(
-                                                      onPressed: () async {
-                                                        final p = await showGooglePlacesAutocomplete(
-                                                            context: context,
-                                                            apiKey: placeApiKey,
-                                                            mode: Mode.fullscreen,
-                                                            hint: SpotL.of(context).search,
-                                                            language: 'fr',
-                                                            components: [new Component(Component.country, 'fr')]);
-                                                        if (p?.description != null) {
-                                                          setState(() {
-                                                            _location = p.description;
-                                                          });
-                                                        }
-                                                      },
-                                                      child: new Text(_location ?? SpotL.of(context).location)),
+                                                  new Stack(
+                                                    children: <Widget>[
+                                                      new FocusScope(
+                                                        node: new FocusScopeNode(),
+                                                        child: new TextFormField(
+                                                          decoration: new InputDecoration(
+                                                              hintText: SpotL.of(context).locationPh,
+                                                              labelText: SpotL.of(context).location),
+                                                          initialValue: _location,
+                                                        ),
+                                                      ),
+                                                      new GestureDetector(
+                                                        onTap: () async {
+                                                          final p = await showGooglePlacesAutocomplete(
+                                                              context: context,
+                                                              apiKey: placeApiKey,
+                                                              mode: Mode.fullscreen,
+                                                              hint: SpotL.of(context).search,
+                                                              language: 'fr',
+                                                              components: [new Component(Component.country, 'fr')]);
+                                                          if (p?.description != null) {
+                                                            setState(() {
+                                                              _location = p.description;
+                                                            });
+                                                          }
+                                                        },
+                                                        child: new Container(
+                                                          color: Colors.transparent,
+                                                          height: 75.0,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                   new CheckboxListTile(
                                                     title: new Text(SpotL.of(context).gift),
                                                     value: _tracks.contains('gift'),
