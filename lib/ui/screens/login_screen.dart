@@ -14,7 +14,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _usernameCtrl = new TextEditingController(text: Services.auth.lastEmail);
+  final TextEditingController _usernameCtrl = new TextEditingController();
   final TextEditingController _passwordCtrl = new TextEditingController();
 
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
@@ -64,6 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             autofocus: true,
                             controller: _usernameCtrl,
                             validator: validateEmail,
+                            initialValue: Services.auth.lastEmail,
                             keyboardType: TextInputType.emailAddress,
                           ),
                           new TextFormField(

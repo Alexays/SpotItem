@@ -374,9 +374,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
 
   List<Widget> _buildAppBar(BuildContext context, bool innerBoxIsScrolled) {
     _checkFilter(false);
-    if (page == 0 || (_homeScreenItems[page].fabs?.length ?? 0) > 0)
+    if (page == 0 || (_homeScreenItems[page].fabs?.length ?? 0) > 0) {
       tabsCtrl[page].addListener(_checkFilter);
-    else {
+    } else {
       tabsCtrl[page].removeListener(_checkFilter);
     }
     final widgets = <Widget>[
