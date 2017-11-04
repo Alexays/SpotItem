@@ -131,10 +131,7 @@ class AuthManager extends BasicService {
       }
       if (signIn) {
         final authId = await _googleUser.authentication;
-        return await login({
-          'token': authId.accessToken,
-          'email': _googleUser.email,
-        }, 'google');
+        return await login({'token': authId.accessToken, 'email': _googleUser.email}, 'google');
       }
     } on Exception {
       _googleUser = null;

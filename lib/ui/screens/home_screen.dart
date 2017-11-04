@@ -395,20 +395,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
             _handleSearchBegin();
           },
           controller: _searchController,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 18.0,
-            fontWeight: FontWeight.w500,
+          style: const TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w500),
+          decoration: new InputDecoration.collapsed(
+            hintText: SpotL.of(Services.loc).search,
+            hintStyle: const TextStyle(
+              color: const Color.fromARGB(150, 255, 255, 255),
+              fontSize: 18.0,
+              fontWeight: FontWeight.w500,
+            ),
           ),
-          decoration: new InputDecoration(
-              isDense: true,
-              hintText: SpotL.of(Services.loc).search,
-              hintStyle: const TextStyle(
-                color: const Color.fromARGB(150, 255, 255, 255),
-                fontSize: 18.0,
-                fontWeight: FontWeight.w500,
-              ),
-              hideDivider: true),
           keyboardType: TextInputType.text,
         ),
       ),
@@ -466,7 +461,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
         automaticallyImplyLeading: false,
         centerTitle: true,
         floating: _homeScreenItems[page].sub != null && !_isSearching,
-        title: new Container(
+        title: new DecoratedBox(
             decoration: new BoxDecoration(
                 color: Theme.of(context).accentColor, borderRadius: const BorderRadius.all(const Radius.circular(3.0))),
             child: new Row(children: widgets)),
