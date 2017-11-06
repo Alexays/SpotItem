@@ -10,6 +10,7 @@ import 'package:spotitem/ui/views/social_view.dart';
 import 'package:spotitem/utils.dart';
 import 'package:spotitem/keys.dart';
 import 'package:spotitem/i18n/spot_localization.dart';
+import 'package:qrcode_reader/QRCodeReader.dart';
 
 /// Home screen class
 class HomeScreen extends StatefulWidget {
@@ -244,6 +245,25 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
     });
   }
 
+  void _checkFilter([bool build = true]) {
+    if (!mounted) {
+      return;
+    }
+    if (!build) {
+      _filterAvailable = (page == 0 && tabsCtrl[page].index == 1);
+      return;
+    }
+    setState(() {
+      _filterAvailable = (page == 0 && tabsCtrl[page].index == 1);
+    });
+  }
+
+  void _qrReader() {
+    new QRCodeReader().scan().then((data) {
+      print(data);
+    });
+  }
+
   Widget _buildBottom() {
     if (_isSearching || _homeScreenItems[page].sub == null) {
       return null;
@@ -359,19 +379,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
         ]))
       ]));
 
-  void _checkFilter([bool build = true]) {
-    if (!mounted) {
-      return;
-    }
-    if (!build) {
-      _filterAvailable = (page == 0 && tabsCtrl[page].index == 1);
-      return;
-    }
-    setState(() {
-      _filterAvailable = (page == 0 && tabsCtrl[page].index == 1);
-    });
-  }
-
   List<Widget> _buildAppBar(BuildContext context, bool innerBoxIsScrolled) {
     _checkFilter(false);
     if (page == 0 || (_homeScreenItems[page].fabs?.length ?? 0) > 0) {
@@ -396,7 +403,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
           },
           controller: _searchController,
           style: const TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w500),
-          decoration: new InputDecoration.collapsed(
+          decoration: new InputDecoration(
+            isDense: true,
+            hideDivider: true,
             hintText: SpotL.of(Services.loc).search,
             hintStyle: const TextStyle(
               color: const Color.fromARGB(150, 255, 255, 255),
@@ -412,8 +421,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
       widgets.add(new IconButton(
         alignment: _filterAvailable ? const Alignment(1.5, 0.0) : Alignment.center,
         padding: const EdgeInsets.all(0.0),
-        icon: const Icon(Icons.search),
-        onPressed: _handleSearchBegin,
+        icon: const Icon(Icons.camera),
+        onPressed: _qrReader,
       ));
     }
     if (_isSearching || _filterAvailable) {

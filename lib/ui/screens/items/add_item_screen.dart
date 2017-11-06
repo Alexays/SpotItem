@@ -202,7 +202,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       'lat': location['latitude'],
       'lng': location['longitude'],
       'images': _images,
-      'location': _location,
+      'location': _location.text,
       'calendar': _calendar.toString(),
       'tracks': _tracks,
       'groups': _groupsId
@@ -347,7 +347,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                 child: new Calendar(
                                   allowDisable: true,
                                   edit: true,
-                                  selectedDates: [],
+                                  selectedDates: _calendar,
                                   onChanged: (value) {
                                     setState(() {
                                       _calendar = value;
