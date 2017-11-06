@@ -43,10 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: <Widget>[
                   new Padding(
                     padding: const EdgeInsets.only(top: 15.0),
-                    child: new Image.asset(
-                      'assets/logo.png',
-                      height: MediaQuery.of(context).size.height * 0.25,
-                    ),
+                    child: new Image.asset('assets/logo.png', height: MediaQuery.of(context).size.height * 0.25),
                   ),
                   new Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30.0),
@@ -94,10 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   }),
                               const Padding(padding: const EdgeInsets.symmetric(horizontal: 5.0)),
                               new RaisedButton(
-                                child: const Text(
-                                  'Google',
-                                  style: const TextStyle(color: Colors.white),
-                                ),
+                                child: const Text('Google', style: const TextStyle(color: Colors.white)),
                                 color: Colors.blue,
                                 onPressed: () async {
                                   final success = await Services.auth.handleGoogleSignIn();

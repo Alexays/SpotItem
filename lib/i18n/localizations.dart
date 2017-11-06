@@ -79,7 +79,8 @@ const Map<String, Map<String, String>> localizations = const <String, Map<String
     'delItem': r'Are you sure to delete this item ?',
     'loading': r'Loading...',
     'delete': r'Delete',
-    'calendar': r'Calendar'
+    'calendar': r'Calendar',
+    'book': r'Book'
   },
   'fr': const <String, String>{
     'home': r'Accueil',
@@ -156,6 +157,7 @@ const Map<String, Map<String, String>> localizations = const <String, Map<String
     'delItem': r'Voulez-vous vraiment supprimer cet objet ?',
     'loading': r'Chargement...',
     'delete': r'Supprimer',
-    'calendar': r'Calendrier'
+    'calendar': r'Calendrier',
+    'book': r'Réserver'
   },
 };

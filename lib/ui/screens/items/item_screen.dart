@@ -5,9 +5,9 @@ import 'package:spotitem/models/item.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/utils.dart';
 import 'package:spotitem/keys.dart';
-import 'package:spotitem/ui/widgets/calendar.dart';
 import 'package:spotitem/i18n/spot_localization.dart';
 import 'package:spotitem/ui/screens/items/edit_item_screen.dart';
+import 'package:spotitem/ui/screens/items/book_item_screen.dart';
 
 class _Category extends StatelessWidget {
   const _Category({Key key, this.icon, this.children}) : super(key: key);
@@ -217,144 +217,153 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
         body: new Builder(
             builder: (context) => item == null
                 ? const Center(child: const CircularProgressIndicator())
-                : new CustomScrollView(
-                    slivers: <Widget>[
-                      new SliverAppBar(
-                        title: new Text(
-                          capitalize(item.name),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        expandedHeight: 256.0,
-                        pinned: true,
-                        actions: _doButton(context),
-                        flexibleSpace: new GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          onHorizontalDragUpdate: (details) {
-                            if (!_tabController.indexIsChanging) {
-                              _tabController.animateTo((_tabController.index - details.delta.dx.clamp(-1, 1))
-                                  .clamp(0, _tabController.length - 1));
-                            }
-                          },
-                          child: new FlexibleSpaceBar(
-                            background: new Stack(
-                              alignment: Alignment.center,
-                              fit: StackFit.expand,
-                              children: <Widget>[
-                                new Container(
-                                    color: Theme.of(context).canvasColor,
-                                    child: new TabBarView(
-                                        controller: _tabController,
-                                        children: item.images
-                                            .map((f) => (f == item.images.first)
-                                                ? new Hero(
-                                                    tag: '${item.id}_img_$hash',
-                                                    child: new FadeInImage(
-                                                      placeholder: placeholder,
-                                                      image: new NetworkImage('$apiImgUrl$f'),
-                                                      fit: BoxFit.cover,
-                                                    ))
-                                                : new FadeInImage(
-                                                    placeholder: placeholder,
-                                                    image: new NetworkImage('$apiImgUrl$f'),
-                                                    fit: BoxFit.cover))
-                                            .toList())),
-                                new Positioned(
-                                  bottom: 15.0,
-                                  width: MediaQuery.of(context).size.width,
-                                  child: new Center(
-                                    child: new TabPageSelector(
-                                      controller: _tabController,
-                                      indicatorSize: 8.0,
-                                    ),
+                : new Column(
+                    children: <Widget>[
+                      new Expanded(
+                        child: new CustomScrollView(
+                          slivers: <Widget>[
+                            new SliverAppBar(
+                              title: new Text(
+                                capitalize(item.name),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              expandedHeight: 256.0,
+                              pinned: true,
+                              actions: _doButton(context),
+                              flexibleSpace: new GestureDetector(
+                                behavior: HitTestBehavior.opaque,
+                                onHorizontalDragUpdate: (details) {
+                                  if (!_tabController.indexIsChanging) {
+                                    _tabController.animateTo((_tabController.index - details.delta.dx.clamp(-1, 1))
+                                        .clamp(0, _tabController.length - 1));
+                                  }
+                                },
+                                child: new FlexibleSpaceBar(
+                                  background: new Stack(
+                                    alignment: Alignment.center,
+                                    fit: StackFit.expand,
+                                    children: <Widget>[
+                                      new Container(
+                                          color: Theme.of(context).canvasColor,
+                                          child: new TabBarView(
+                                              controller: _tabController,
+                                              children: item.images
+                                                  .map((f) => (f == item.images.first)
+                                                      ? new Hero(
+                                                          tag: '${item.id}_img_$hash',
+                                                          child: new FadeInImage(
+                                                            placeholder: placeholder,
+                                                            image: new NetworkImage('$apiImgUrl$f'),
+                                                            fit: BoxFit.cover,
+                                                          ))
+                                                      : new FadeInImage(
+                                                          placeholder: placeholder,
+                                                          image: new NetworkImage('$apiImgUrl$f'),
+                                                          fit: BoxFit.cover))
+                                                  .toList())),
+                                      new Positioned(
+                                        bottom: 15.0,
+                                        width: MediaQuery.of(context).size.width,
+                                        child: new Center(
+                                          child: new TabPageSelector(
+                                            controller: _tabController,
+                                            indicatorSize: 8.0,
+                                          ),
+                                        ),
+                                      ),
+                                      // This gradient ensures that the toolbar icons are distinct
+                                      // against the background image.
+                                      new DecoratedBox(
+                                        decoration: new BoxDecoration(
+                                          gradient: new LinearGradient(
+                                            begin: const FractionalOffset(0.5, 0.0),
+                                            end: const FractionalOffset(0.5, 0.40),
+                                            colors: <Color>[const Color(0x60000000), const Color(0x00000000)],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                // This gradient ensures that the toolbar icons are distinct
-                                // against the background image.
-                                new DecoratedBox(
-                                  decoration: new BoxDecoration(
-                                    gradient: new LinearGradient(
-                                      begin: const FractionalOffset(0.5, 0.0),
-                                      end: const FractionalOffset(0.5, 0.40),
-                                      colors: <Color>[const Color(0x60000000), const Color(0x00000000)],
-                                    ),
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
-                          ),
+                            new SliverList(
+                              delegate: new SliverChildListDelegate(<Widget>[
+                                _giftCard(),
+                                new _Category(
+                                  icon: Icons.info,
+                                  children: <Widget>[
+                                    new _ListItem(
+                                      lines: <String>[
+                                        capitalize(item.name),
+                                        SpotL.of(context).name,
+                                      ],
+                                    ),
+                                    new _ListItem(
+                                      lines: <String>[
+                                        item.about,
+                                        SpotL.of(context).about,
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                new _Category(
+                                  icon: Icons.contact_mail,
+                                  children: <Widget>[
+                                    new _ListItem(
+                                      icon: Icons.sms,
+                                      tooltip: 'Send personal e-mail',
+                                      onPressed: () {},
+                                      lines: <String>[
+                                        '${item.owner.firstname} ${item.owner.name}',
+                                        SpotL.of(context).owner,
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                new _Category(
+                                  icon: Icons.location_on,
+                                  children: <Widget>[
+                                    new _ListItem(
+                                      icon: Icons.map,
+                                      tooltip: 'Open map',
+                                      onPressed: () {},
+                                      lines: <String>[
+                                        item.location,
+                                        SpotL.of(context).location,
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                new Container(
+                                  child: new Image.network(
+                                      'https://maps.googleapis.com/maps/api/staticmap?center=${item.lat},${item.lng}&markers=color:blue%7C${item.lat},${item.lng}&zoom=13&maptype=roadmap&size=${getWidth()}x250&key=$staticApiKey'),
+                                ),
+                              ]),
+                            ),
+                          ],
                         ),
                       ),
-                      new SliverList(
-                        delegate: new SliverChildListDelegate(<Widget>[
-                          _giftCard(),
-                          new _Category(
-                            icon: Icons.info,
-                            children: <Widget>[
-                              new _ListItem(
-                                lines: <String>[
-                                  capitalize(item.name),
-                                  SpotL.of(context).name,
-                                ],
+                      new Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                        child: new ConstrainedBox(
+                            constraints:
+                                new BoxConstraints.tightFor(height: 48.0, width: MediaQuery.of(context).size.width),
+                            child: new RaisedButton(
+                              color: Theme.of(context).accentColor,
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    new MaterialPageRoute<Null>(
+                                      fullscreenDialog: true,
+                                      builder: (context) => new BookItemScreen(item: item),
+                                    ));
+                              },
+                              child: new Text(
+                                SpotL.of(context).book.toUpperCase(),
+                                style: new TextStyle(color: Theme.of(context).canvasColor),
                               ),
-                              new _ListItem(
-                                lines: <String>[
-                                  item.about,
-                                  SpotL.of(context).about,
-                                ],
-                              ),
-                            ],
-                          ),
-                          new _Category(
-                            icon: Icons.contact_mail,
-                            children: <Widget>[
-                              new _ListItem(
-                                icon: Icons.sms,
-                                tooltip: 'Send personal e-mail',
-                                onPressed: () {},
-                                lines: <String>[
-                                  '${item.owner.firstname} ${item.owner.name}',
-                                  SpotL.of(context).owner,
-                                ],
-                              ),
-                            ],
-                          ),
-                          new _Category(
-                            icon: Icons.location_on,
-                            children: <Widget>[
-                              new _ListItem(
-                                icon: Icons.map,
-                                tooltip: 'Open map',
-                                onPressed: () {},
-                                lines: <String>[
-                                  item.location,
-                                  SpotL.of(context).location,
-                                ],
-                              ),
-                            ],
-                          ),
-                          new Container(
-                            child: new Image.network(
-                                'https://maps.googleapis.com/maps/api/staticmap?center=${item.lat},${item.lng}&markers=color:blue%7C${item.lat},${item.lng}&zoom=13&maptype=roadmap&size=${getWidth()}x250&key=$staticApiKey'),
-                          ),
-                          new Stack(
-                            children: <Widget>[
-                              new Container(
-                                height: 330.0,
-                                child: new Calendar(
-                                  selectedDates: item.calendar,
-                                  onChanged: (data) {
-                                    print(data);
-                                  },
-                                ),
-                              ),
-                              const Positioned(
-                                top: 15.0,
-                                left: 15.0,
-                                child: const Icon(Icons.today),
-                              )
-                            ],
-                          )
-                        ]),
+                            )),
                       ),
                     ],
                   )),

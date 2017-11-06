@@ -58,17 +58,16 @@ class AuthManager extends BasicService {
   @override
   Future<bool> init() async {
     final prefs = await SharedPreferences.getInstance();
-    final _userData = prefs.getString(keyUser) ?? '{}';
+    final _userBuffer = prefs.getString(keyUser) ?? '{}';
     _refreshToken = prefs.getString(keyOauthToken);
     _provider = prefs.getString(keyProvider);
     _lastEmail = prefs.getString(keyLastEmail) ?? '';
     try {
-      final _user = new User(JSON.decode(_userData));
-      if (!_user.isValid() || _refreshToken == null || !providers.contains(_provider)) {
+      user = new User(JSON.decode(_userBuffer));
+      if (!user.isValid() || _refreshToken == null || !providers.contains(_provider)) {
         await logout();
         return !(_loggedIn = false);
       }
-      user = _user;
       _loggedIn = true;
     } on Exception {
       return _loggedIn = false;
@@ -152,7 +151,7 @@ class AuthManager extends BasicService {
     if (response.success) {
       accessToken = response.data['access_token'];
       exp = new DateTime.fromMillisecondsSinceEpoch(response.data['exp'] * 1000);
-      await saveTokens(response.data['user'], response.data['refresh_token'], _provider, _payload['email']);
+      await saveTokens(response.data['user'], response.data['refresh_token'], loginProvider, _payload['email']);
       _loggedIn = true;
     }
     return _loggedIn;
@@ -247,18 +246,18 @@ class AuthManager extends BasicService {
   /// @param user User data stingified
   /// @param oauthToken The refresh_token
   /// @param provider Login provider
-  Future<Null> saveTokens(Map<String, dynamic> _user, String _oauthToken, String prvdr, String _email) async {
+  Future<Null> saveTokens(Map<String, dynamic> _user, String _oauthToken, String _prvdr, String _email) async {
     user = new User(_user);
     final prefs = await SharedPreferences.getInstance()
       ..setString(keyUser, user.toString())
       ..setString(keyOauthToken, _oauthToken)
-      ..setString(keyProvider, provider)
+      ..setString(keyProvider, _prvdr)
       ..setString(keyLastEmail, _email);
     if (!await prefs.commit()) {
       return await Navigator.of(Services.context).pushNamedAndRemoveUntil('/error', (route) => false);
     }
     _refreshToken = _oauthToken;
-    _provider = prvdr;
+    _provider = _prvdr;
     _lastEmail = _email;
   }
 }

@@ -266,4 +266,7 @@ class SpotL {
 
   /// Calendar title
   String get calendar => _nameToValue['calendar'];
+
+  /// Book title
+  String get book => _nameToValue['book'];
 }

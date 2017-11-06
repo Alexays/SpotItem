@@ -38,6 +38,9 @@ Route<dynamic> configureRoutes(RouteSettings settings) {
       return new MaterialPageRoute<dynamic>(settings: settings, builder: (_) => new ProfileScreen(params[0]));
     case '/items/:params':
       return new MaterialPageRoute<dynamic>(settings: settings, builder: (_) => new ItemPage(itemId: params[0]));
+    case '/items/:params/book':
+      return new MaterialPageRoute<dynamic>(
+          settings: settings, fullscreenDialog: true, builder: (_) => new ItemPage(itemId: params[0]));
     case '/items/:params/edit':
       return new MaterialPageRoute<dynamic>(settings: settings, builder: (_) => new EditItemScreen(itemId: params[0]));
     case '/groups/:params/edit':
