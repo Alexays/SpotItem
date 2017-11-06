@@ -34,9 +34,7 @@ void showLoading(BuildContext context) {
     context: context,
     barrierDismissible: false,
     child: const Dialog(
-      child: const Center(
-        child: const CircularProgressIndicator(),
-      ),
+      child: const LinearProgressIndicator(),
     ),
   );
 }
