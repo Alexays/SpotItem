@@ -33,12 +33,9 @@ void showLoading(BuildContext context) {
   showDialog<Null>(
     context: context,
     barrierDismissible: false,
-    child: new AlertDialog(
-      title: new Text(SpotL.of(context).loading),
-      content: new SingleChildScrollView(
-        child: new ListBody(
-          children: <Widget>[const Center(child: const CircularProgressIndicator())],
-        ),
+    child: const Dialog(
+      child: const Center(
+        child: const CircularProgressIndicator(),
       ),
     ),
   );
