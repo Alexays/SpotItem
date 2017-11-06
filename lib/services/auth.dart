@@ -256,7 +256,9 @@ class AuthManager extends BasicService {
       ..setString(keyUser, _user)
       ..setString(keyOauthToken, _oauthToken)
       ..setString(keyProvider, provider);
-    await prefs.commit();
+    if (!await prefs.commit()) {
+      return await Navigator.of(Services.context).pushNamedAndRemoveUntil('/error', (route) => false);
+    }
     user = new User(_user);
     _refreshToken = _oauthToken;
     _provider = prvdr;

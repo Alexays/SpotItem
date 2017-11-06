@@ -23,6 +23,7 @@ Map<String, WidgetBuilder> staticRoutes = {
   '/contacts': (_) => const ContactScreen(),
   '/settings': (_) => const SettingsScreen(),
   '/debug': (_) => const DebugScreen(),
+  '/error': (_) => const ErrorScreen(),
 };
 
 /// Configure all routes
