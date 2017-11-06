@@ -13,7 +13,7 @@ class Event {
   final DateTime date;
 
   /// Holder at this date
-  final String holder;
+  String holder;
 
   /// Event data
   final Map<String, dynamic> data;

@@ -1,14 +1,9 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
 
 import 'package:spotitem/services/services.dart';
-import 'package:spotitem/utils.dart';
 import 'package:spotitem/models/item.dart';
-import 'package:spotitem/models/group.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:spotitem/keys.dart';
+import 'package:spotitem/utils.dart';
 import 'package:spotitem/i18n/spot_localization.dart';
 import 'package:spotitem/ui/widgets/calendar.dart';
 
@@ -34,6 +29,10 @@ class _BookItemScreenState extends State<BookItemScreen> with TickerProviderStat
 
   final String _itemId;
 
+  final List<Event> calendar = [];
+
+  List<Event> concated = [];
+
   Item _item;
 
   @override
@@ -45,10 +44,21 @@ class _BookItemScreenState extends State<BookItemScreen> with TickerProviderStat
         }
         setState(() {
           _item = data;
+          concated = new List.from(_item.calendar);
         });
       });
     }
     super.initState();
+  }
+
+  Future<Null> bookItem(BuildContext context) async {
+    showLoading(context);
+    final response = await Services.items.bookItem(_item.id, {'dates': calendar});
+    Navigator.of(context).pop();
+    if (resValid(context, response)) {
+      showSnackBar(context, response.msg);
+      await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+    }
   }
 
   @override
@@ -59,9 +69,17 @@ class _BookItemScreenState extends State<BookItemScreen> with TickerProviderStat
                 children: <Widget>[
                   new Expanded(
                     child: new Calendar(
-                      selectedDates: _item.calendar,
+                      selectedDates: concated,
                       onChanged: (data) {
-                        print(data);
+                        final date = data.first..holder = Services.auth.user.id;
+                        setState(() {
+                          if (calendar.contains(date)) {
+                            calendar.remove(date);
+                          } else {
+                            calendar.add(date);
+                          }
+                          concated = new List.from(_item.calendar)..addAll(calendar);
+                        });
                       },
                     ),
                   ),
@@ -73,7 +91,7 @@ class _BookItemScreenState extends State<BookItemScreen> with TickerProviderStat
                         child: new RaisedButton(
                           color: Theme.of(context).accentColor,
                           onPressed: () {
-                            // editItem(context);
+                            bookItem(context);
                           },
                           child: new Text(
                             SpotL.of(context).save.toUpperCase(),

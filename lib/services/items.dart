@@ -115,6 +115,16 @@ class ItemsManager extends BasicService {
     return _myItems;
   }
 
+  /// Delete item by id.
+  ///
+  /// @param id Item Id
+  /// @param payload data
+  /// @returns Api body response
+  Future<ApiRes> bookItem(String itemId, Map<String, dynamic> payload) async {
+    final response = await iput('/items/$itemId/book', payload);
+    return response;
+  }
+
   /// Parse a given qrCode.
   ///
   /// @param QRcode data
