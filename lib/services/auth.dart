@@ -247,16 +247,16 @@ class AuthManager extends BasicService {
   /// @param user User data stingified
   /// @param oauthToken The refresh_token
   /// @param provider Login provider
-  Future<Null> saveTokens(String _user, String _oauthToken, String prvdr, String _email) async {
+  Future<Null> saveTokens(Map<String, dynamic> _user, String _oauthToken, String prvdr, String _email) async {
+    user = new User(_user);
     final prefs = await SharedPreferences.getInstance()
-      ..setString(keyUser, _user)
+      ..setString(keyUser, user.toString())
       ..setString(keyOauthToken, _oauthToken)
       ..setString(keyProvider, provider)
       ..setString(keyLastEmail, _email);
     if (!await prefs.commit()) {
       return await Navigator.of(Services.context).pushNamedAndRemoveUntil('/error', (route) => false);
     }
-    user = new User(_user);
     _refreshToken = _oauthToken;
     _provider = prvdr;
     _lastEmail = _email;
