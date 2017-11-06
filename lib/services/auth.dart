@@ -27,13 +27,13 @@ class AuthManager extends BasicService {
   String accessToken;
 
   /// Token to regenerate access_token
-  String refreshToken;
+  String get refreshToken => _refreshToken;
 
   /// Date of expiration of access_token
   DateTime exp;
 
   /// Login provider (google, local)
-  String provider;
+  String get provider => _provider;
 
   /// User data
   User user;
@@ -51,13 +51,15 @@ class AuthManager extends BasicService {
   bool _loggedIn = false;
   GoogleSignInAccount _googleUser;
   final dynamic _wsCallback = {};
+  String _provider;
+  String _refreshToken;
 
   @override
   Future<bool> init() async {
     final prefs = await SharedPreferences.getInstance();
     final _userData = prefs.getString(keyUser) ?? '{}';
-    final _provider = prefs.getString(keyProvider);
-    final _refreshToken = prefs.getString(keyOauthToken);
+    _refreshToken = prefs.getString(keyOauthToken);
+    _provider = prefs.getString(keyProvider);
     lastEmail = prefs.getString(keyLastEmail) ?? '';
     try {
       final _user = new User(JSON.decode(_userData));
@@ -66,8 +68,6 @@ class AuthManager extends BasicService {
         return !(_loggedIn = false);
       }
       user = _user;
-      refreshToken = _refreshToken;
-      provider = _provider;
       _loggedIn = true;
     } on Exception {
       return _loggedIn = false;
@@ -145,19 +145,18 @@ class AuthManager extends BasicService {
   /// @param payload User payload
   /// @param _provider Login provider
   /// @returns Logged or not
-  Future<bool> login(Map<String, dynamic> _payload, String _provider) async {
+  Future<bool> login(Map<String, dynamic> _payload, String loginProvider) async {
     _loggedIn = false;
-    final response = await ipost('/login/$_provider', _payload);
+    final response = await ipost('/login/$loginProvider', _payload);
     if (response.success) {
       if (_payload['email'] != null) {
         await SharedPreferences.getInstance()
           ..setString(keyLastEmail, _payload['email']);
         lastEmail = _payload['email'];
       }
-      user = new User(response.data['user']);
       accessToken = response.data['access_token'];
       exp = new DateTime.fromMillisecondsSinceEpoch(response.data['exp'] * 1000);
-      await saveTokens(user.toString(), response.data['refresh_token'], _provider);
+      await saveTokens(response.data['user'], response.data['refresh_token'], _provider);
       _loggedIn = true;
     }
     return _loggedIn;
@@ -176,11 +175,11 @@ class AuthManager extends BasicService {
     if (await prefs.clear()) {
       prefs.setString(keyLastEmail, lastEmail ?? '');
     }
-    refreshToken = null;
     accessToken = null;
     exp = null;
-    provider = null;
     user = null;
+    _refreshToken = null;
+    _provider = null;
     _googleUser = null;
     _loggedIn = false;
   }
@@ -245,5 +244,21 @@ class AuthManager extends BasicService {
       return;
     }
     ws.sink.add(JSON.encode(header));
+  }
+
+  /// Save user, refresh_token, provider to storage.
+  ///
+  /// @param user User data stingified
+  /// @param oauthToken The refresh_token
+  /// @param provider Login provider
+  Future<Null> saveTokens(String _user, String _oauthToken, String prvdr) async {
+    final prefs = await SharedPreferences.getInstance()
+      ..setString(keyUser, _user)
+      ..setString(keyOauthToken, _oauthToken)
+      ..setString(keyProvider, provider);
+    await prefs.commit();
+    user = new User(_user);
+    _refreshToken = _oauthToken;
+    _provider = prvdr;
   }
 }

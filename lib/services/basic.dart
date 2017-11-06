@@ -6,7 +6,6 @@ import 'package:spotitem/keys.dart';
 import 'package:spotitem/models/api.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/i18n/spot_localization.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 /// Basic Service
 class BasicService {
@@ -158,20 +157,5 @@ class BasicService {
       await Services.auth.connectWs();
     }
     return null;
-  }
-
-  /// Save user, refresh_token, provider to storage.
-  ///
-  /// @param user User data stingified
-  /// @param oauthToken The refresh_token
-  /// @param provider Login provider
-  Future<Null> saveTokens(String user, String oauthToken, String provider) async {
-    final prefs = await SharedPreferences.getInstance()
-      ..setString(keyUser, user)
-      ..setString(keyOauthToken, oauthToken)
-      ..setString(keyProvider, provider);
-    await prefs.commit();
-    Services.auth.provider = provider;
-    Services.auth.refreshToken = oauthToken;
   }
 }

@@ -3,7 +3,6 @@ import 'package:flutter/gestures.dart';
 import 'package:spotitem/models/user.dart';
 import 'package:spotitem/models/api.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:spotitem/i18n/spot_localization.dart';
 
 /// Email RegExp
 final RegExp emailExp = new RegExp(r'[\w-]+@([\w-]+\.)+[\w-]+');
