@@ -339,7 +339,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                             title: new Text(SpotL.of(context).images),
                             content: new Container(
                                 height: 120 + 320 * (_imagesFile.length / 3).floorToDouble(), child: getImageGrid()),
-                            isActive: true),
+                            isActive: _name.isNotEmpty),
                         new Step(
                             title: new Text(SpotL.of(context).calendar),
                             content: new Container(
@@ -354,8 +354,11 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                     });
                                   },
                                 )),
-                            isActive: true),
-                        new Step(title: new Text(SpotL.of(context).groups), content: getGroups(), isActive: true),
+                            isActive: _imagesFile.isNotEmpty),
+                        new Step(
+                            title: new Text(SpotL.of(context).groups),
+                            content: getGroups(),
+                            isActive: _calendar.isNotEmpty),
                       ],
                       type: StepperType.vertical,
                       onStepTapped: (step) {

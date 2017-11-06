@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:spotitem/models/item.dart';
 import 'package:spotitem/models/api.dart';
 import 'package:flutter/material.dart';
@@ -113,5 +114,18 @@ class ItemsManager extends BasicService {
       return _myItems = response.data.map((f) => new Item(f, Services.users.getDist(f['lat'], f['lng']))).toList();
     }
     return _myItems;
+  }
+
+  /// Parse a given qrCode.
+  ///
+  /// @param QRcode data
+  /// @returns Item id
+  String parseCode(String code) {
+    final parts = code?.split(':');
+    if (parts == null || parts.length != 3 || parts.first != 'SI') {
+      return null;
+    }
+    // parts[1] equal server version used when generating QRcode
+    return parts[2];
   }
 }

@@ -398,9 +398,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
       new Expanded(
         child: new TextField(
           key: const Key('search'),
-          onSubmitted: (data) {
-            _handleSearchBegin();
-          },
+          onSubmitted: (data) => _handleSearchBegin(),
           controller: _searchController,
           style: const TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w500),
           decoration: new InputDecoration(
@@ -421,7 +419,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
       widgets.add(new IconButton(
         alignment: _filterAvailable ? const Alignment(1.5, 0.0) : Alignment.center,
         padding: const EdgeInsets.all(0.0),
-        icon: const Icon(Icons.camera),
+        icon: const Icon(Icons.photo_camera),
         onPressed: _qrReader,
       ));
     }
