@@ -142,7 +142,8 @@ class UsersManager extends BasicService {
     final response = await iput('/users/edit', payload, Services.auth.accessToken);
     if (response.success) {
       Services.auth.accessToken = response.data['token'];
-      await Services.auth.saveTokens(response.data['user'], Services.auth.refreshToken, Services.auth.provider);
+      await Services.auth.saveTokens(
+          response.data['user'], Services.auth.refreshToken, Services.auth.provider, Services.auth.lastEmail);
     }
     return response;
   }

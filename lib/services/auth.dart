@@ -39,7 +39,7 @@ class AuthManager extends BasicService {
   User user;
 
   /// Last email used
-  String lastEmail;
+  String get lastEmail => _lastEmail;
 
   /// Google user data
   GoogleSignInAccount get googleUser => _googleUser;
@@ -53,6 +53,7 @@ class AuthManager extends BasicService {
   final dynamic _wsCallback = {};
   String _provider;
   String _refreshToken;
+  String _lastEmail;
 
   @override
   Future<bool> init() async {
@@ -60,7 +61,7 @@ class AuthManager extends BasicService {
     final _userData = prefs.getString(keyUser) ?? '{}';
     _refreshToken = prefs.getString(keyOauthToken);
     _provider = prefs.getString(keyProvider);
-    lastEmail = prefs.getString(keyLastEmail) ?? '';
+    _lastEmail = prefs.getString(keyLastEmail) ?? '';
     try {
       final _user = new User(JSON.decode(_userData));
       if (!_user.isValid() || _refreshToken == null || !providers.contains(_provider)) {
@@ -149,14 +150,9 @@ class AuthManager extends BasicService {
     _loggedIn = false;
     final response = await ipost('/login/$loginProvider', _payload);
     if (response.success) {
-      if (_payload['email'] != null) {
-        await SharedPreferences.getInstance()
-          ..setString(keyLastEmail, _payload['email']);
-        lastEmail = _payload['email'];
-      }
       accessToken = response.data['access_token'];
       exp = new DateTime.fromMillisecondsSinceEpoch(response.data['exp'] * 1000);
-      await saveTokens(response.data['user'], response.data['refresh_token'], _provider);
+      await saveTokens(response.data['user'], response.data['refresh_token'], _provider, _payload['email']);
       _loggedIn = true;
     }
     return _loggedIn;
@@ -251,16 +247,18 @@ class AuthManager extends BasicService {
   /// @param user User data stingified
   /// @param oauthToken The refresh_token
   /// @param provider Login provider
-  Future<Null> saveTokens(String _user, String _oauthToken, String prvdr) async {
+  Future<Null> saveTokens(String _user, String _oauthToken, String prvdr, String _email) async {
     final prefs = await SharedPreferences.getInstance()
       ..setString(keyUser, _user)
       ..setString(keyOauthToken, _oauthToken)
-      ..setString(keyProvider, provider);
+      ..setString(keyProvider, provider)
+      ..setString(keyLastEmail, _email);
     if (!await prefs.commit()) {
       return await Navigator.of(Services.context).pushNamedAndRemoveUntil('/error', (route) => false);
     }
     user = new User(_user);
     _refreshToken = _oauthToken;
     _provider = prvdr;
+    _lastEmail = _email;
   }
 }
