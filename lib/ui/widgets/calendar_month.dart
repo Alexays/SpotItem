@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:spotitem/models/item.dart';
+import 'package:spotitem/services/services.dart';
 
 const double _kDatePickerHeaderPortraitHeight = 100.0;
 const double _kDatePickerHeaderLandscapeWidth = 168.0;
@@ -220,16 +221,18 @@ class CalendarMonth extends StatelessWidget {
             (dayToBuild.isAfter(lastDate) || dayToBuild.isBefore(firstDate) || current == null) && !allowDisable;
         if (current != null) {
           // The selected day gets a circle background highlight, and a contrasting text color.
-          if (current.holder == null) {
-            itemStyle = themeData.accentTextTheme.body2;
-            decoration = new BoxDecoration(color: themeData.accentColor, shape: BoxShape.circle);
-          } else {
+          if (current.holder == null && !edit) {
+            itemStyle = themeData.textTheme.body2.copyWith(color: themeData.accentColor);
+          } else if (current.holder != null && current.holder != Services.auth.user.id) {
             itemStyle = themeData.accentTextTheme.body2;
             decoration = new BoxDecoration(color: themeData.errorColor, shape: BoxShape.circle);
+          } else {
+            itemStyle = themeData.accentTextTheme.body2;
+            decoration = new BoxDecoration(color: themeData.accentColor, shape: BoxShape.circle);
           }
         } else if (currentDate.year == year && currentDate.month == month && currentDate.day == day) {
           // The current day gets a different text color.
-          itemStyle = themeData.textTheme.body2.copyWith(color: themeData.accentColor);
+          itemStyle = themeData.textTheme.body2.copyWith(color: themeData.secondaryHeaderColor);
         } else if (disabled) {
           itemStyle = themeData.textTheme.body1.copyWith(color: themeData.disabledColor);
         }
@@ -240,20 +243,20 @@ class CalendarMonth extends StatelessWidget {
             child: new Text(localizations.formatDecimal(day), style: itemStyle),
           ),
         );
-        if (!disabled) {
+        if (!disabled && (current?.holder == null || current?.holder == Services.auth.user.id)) {
           dayWidget = new GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () {
               if (!edit) {
                 return onChanged([
-                  new Event({'date': dayToBuild.toUtc().toString()})
+                  new Event({'date': dayToBuild.toString()})
                 ]);
               }
               if (current != null) {
                 selectedDates.removeWhere((f) =>
                     f.date.day == dayToBuild.day && f.date.month == dayToBuild.month && f.date.year == dayToBuild.year);
               } else {
-                selectedDates.add(new Event({'date': dayToBuild.toUtc().toString()}));
+                selectedDates.add(new Event({'date': dayToBuild.toString()}));
               }
               onChanged(selectedDates);
             },

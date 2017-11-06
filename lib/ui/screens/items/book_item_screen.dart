@@ -47,6 +47,8 @@ class _BookItemScreenState extends State<BookItemScreen> with TickerProviderStat
           concated = new List.from(_item.calendar);
         });
       });
+    } else {
+      concated = new List.from(_item.calendar);
     }
     super.initState();
   }
@@ -73,12 +75,21 @@ class _BookItemScreenState extends State<BookItemScreen> with TickerProviderStat
                       onChanged: (data) {
                         final date = data.first..holder = Services.auth.user.id;
                         setState(() {
-                          if (calendar.contains(date)) {
-                            calendar.remove(date);
+                          if (calendar != null &&
+                              calendar.isNotEmpty &&
+                              calendar.firstWhere((f) => f.date == date.date, orElse: () => null) != null) {
+                            calendar.removeWhere((f) => f.date == date.date);
                           } else {
                             calendar.add(date);
                           }
-                          concated = new List.from(_item.calendar)..addAll(calendar);
+                          final tmp = new List<Event>.from(calendar);
+                          concated = new List<Event>.from(_item.calendar).map((f) {
+                            final len = tmp.length;
+                            tmp.removeWhere((d) =>
+                                d.date.day == f.date.day && d.date.month == f.date.month && d.date.year == f.date.year);
+                            f.holder = (tmp.length != len) ? Services.auth.user.id : null;
+                            return f;
+                          }).toList();
                         });
                       },
                     ),
