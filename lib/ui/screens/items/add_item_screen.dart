@@ -227,7 +227,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       steps: [
                         new Step(
                             title: new Text(SpotL.of(context).about),
-                            state: StepState.indexed,
                             content: new Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
                               new Column(children: <Widget>[
                                 new TextFormField(
@@ -334,12 +333,16 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                 ),
                               ])
                             ]),
+                            state: _name != null && _name.isNotEmpty ? StepState.complete : StepState.indexed,
                             isActive: true),
                         new Step(
                             title: new Text(SpotL.of(context).images),
                             content: new Container(
                                 height: 120 + 320 * (_imagesFile.length / 3).floorToDouble(), child: getImageGrid()),
-                            isActive: _name.isNotEmpty),
+                            state: _name != null && _name.isNotEmpty
+                                ? _imagesFile.isNotEmpty ? StepState.complete : StepState.indexed
+                                : StepState.disabled,
+                            isActive: _name != null && _name.isNotEmpty),
                         new Step(
                             title: new Text(SpotL.of(context).calendar),
                             content: new Container(
@@ -354,10 +357,16 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                     });
                                   },
                                 )),
+                            state: _imagesFile.isNotEmpty
+                                ? _calendar.isNotEmpty ? StepState.complete : StepState.indexed
+                                : StepState.disabled,
                             isActive: _imagesFile.isNotEmpty),
                         new Step(
                             title: new Text(SpotL.of(context).groups),
                             content: getGroups(),
+                            state: _calendar.isNotEmpty
+                                ? _groups.isNotEmpty ? StepState.complete : StepState.indexed
+                                : StepState.disabled,
                             isActive: _calendar.isNotEmpty),
                       ],
                       type: StepperType.vertical,
