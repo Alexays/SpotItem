@@ -44,11 +44,11 @@ class _BookItemScreenState extends State<BookItemScreen> {
         }
         setState(() {
           _item = data;
-          concated = new List<Event>.from(_item.calendar);
+          concated = _item.calendar;
         });
       });
     } else {
-      concated = new List<Event>.from(_item.calendar);
+      concated = _item.calendar;
     }
     super.initState();
   }
