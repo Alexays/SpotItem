@@ -24,12 +24,12 @@ class BookItemScreen extends StatefulWidget {
   _BookItemScreenState createState() => new _BookItemScreenState(itemId, item);
 }
 
-class _BookItemScreenState extends State<BookItemScreen> with TickerProviderStateMixin {
+class _BookItemScreenState extends State<BookItemScreen> {
   _BookItemScreenState(this._itemId, this._item);
 
   final String _itemId;
 
-  final List<Event> calendar = [];
+  final List<Event> toAdd = [];
 
   List<Event> concated = [];
 
@@ -44,18 +44,18 @@ class _BookItemScreenState extends State<BookItemScreen> with TickerProviderStat
         }
         setState(() {
           _item = data;
-          concated = new List.from(_item.calendar);
+          concated = new List<Event>.from(_item.calendar);
         });
       });
     } else {
-      concated = new List.from(_item.calendar);
+      concated = new List<Event>.from(_item.calendar);
     }
     super.initState();
   }
 
   Future<Null> bookItem(BuildContext context) async {
     showLoading(context);
-    final response = await Services.items.bookItem(_item.id, {'dates': calendar});
+    final response = await Services.items.bookItem(_item.id, {'dates': toAdd});
     Navigator.of(context).pop();
     if (resValid(context, response)) {
       showSnackBar(context, response.msg);
@@ -73,21 +73,28 @@ class _BookItemScreenState extends State<BookItemScreen> with TickerProviderStat
                     child: new Calendar(
                       selectedDates: concated,
                       onChanged: (data) {
-                        final date = data.first..holder = Services.auth.user.id;
+                        final date = new Event({
+                          'data': data.first.data,
+                          'date': data.first.date.toString(),
+                          'holder': Services.auth.user.id
+                        });
                         setState(() {
-                          if (calendar != null &&
-                              calendar.isNotEmpty &&
-                              calendar.firstWhere((f) => f.date == date.date, orElse: () => null) != null) {
-                            calendar.removeWhere((f) => f.date == date.date);
+                          if (toAdd != null &&
+                              toAdd.isNotEmpty &&
+                              toAdd.firstWhere((f) => f.date == date.date, orElse: () => null) != null) {
+                            toAdd.removeWhere((f) => f.date == date.date);
                           } else {
-                            calendar.add(date);
+                            toAdd.add(date);
                           }
-                          final tmp = new List<Event>.from(calendar);
+                          final tmp = new List<Event>.from(toAdd);
                           concated = new List<Event>.from(_item.calendar).map((f) {
                             final len = tmp.length;
                             tmp.removeWhere((d) =>
                                 d.date.day == f.date.day && d.date.month == f.date.month && d.date.year == f.date.year);
-                            f.holder = (tmp.length != len) ? Services.auth.user.id : null;
+                            if (tmp.length != len) {
+                              return new Event(
+                                  {'data': f.data, 'date': f.date.toString(), 'holder': Services.auth.user.id});
+                            }
                             return f;
                           }).toList();
                         });
