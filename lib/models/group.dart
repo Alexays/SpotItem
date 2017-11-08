@@ -15,10 +15,10 @@ class Group {
   final String id;
 
   /// Group name
-  String name;
+  final String name;
 
   /// Group description
-  String about;
+  final String about;
 
   /// Group users
   List<User> users;

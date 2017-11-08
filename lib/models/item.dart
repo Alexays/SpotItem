@@ -46,22 +46,22 @@ class Item {
   final User owner;
 
   /// Item name
-  String name;
+  final String name;
 
   /// Item description
-  String about;
+  final String about;
 
   /// Item images
-  List<String> images;
+  final List<String> images;
 
   /// Iten last geolocation position
-  String lastGeo;
+  final String lastGeo;
 
   /// Item calendar
-  List<Event> calendar;
+  final List<Event> calendar;
 
   /// Item location
-  String location;
+  final String location;
 
   /// Item lattitude
   double lat;
