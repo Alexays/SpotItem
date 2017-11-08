@@ -90,6 +90,9 @@ class _ContactScreenState extends State<ContactScreen> {
                         onChanged: (value) {
                           _email = value;
                           Services.users.getContact().then((data) {
+                            if (!mounted || data == null) {
+                              return;
+                            }
                             setState(() {
                               _contacts = data
                                   .where((contact) =>
