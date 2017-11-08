@@ -65,6 +65,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
     });
     if (Services.users.location != null) {
       Services.users.getCity().then((cityName) {
+        if (!mounted) {
+          return;
+        }
         setState(() {
           _location.text = cityName;
         });
@@ -77,6 +80,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
   ///
   Future<Null> getImage() async {
     final _fileName = await ImagePicker.pickImage(maxWidth: 720.0);
+    if (!mounted) {
+      return;
+    }
     setState(() {
       _imagesFile.add(_fileName);
     });
@@ -260,7 +266,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                     new GestureDetector(
                                       onTap: () async {
                                         final p = await Services.users.autocompleteCity(context);
-                                        if (p != null) {
+                                        if (mounted && p != null) {
                                           setState(() {
                                             _location.text = p;
                                           });

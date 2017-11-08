@@ -45,7 +45,7 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
 
   Future<Null> _kickUser(BuildContext context, String userId) async {
     final response = await Services.groups.kickUser(group.id, userId);
-    if (resValid(context, response) && mounted) {
+    if (mounted && resValid(context, response) && mounted) {
       setState(() {
         group.users = group.users.where((user) => user.id == userId).toList();
       });
@@ -55,10 +55,7 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
 
   Future<Null> _removeOwner(BuildContext context, String userId) async {
     final response = await Services.groups.removeOwner(group.id, userId);
-    if (resValid(context, response)) {
-      if (!mounted) {
-        return;
-      }
+    if (mounted && resValid(context, response)) {
       setState(() {
         group.owners = group.owners.where((owner) => owner.id != userId).toList();
       });
@@ -68,10 +65,7 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
 
   Future<Null> _addOwner(BuildContext context, String userId) async {
     final response = await Services.groups.addOwner(group.id, userId);
-    if (resValid(context, response)) {
-      if (!mounted) {
-        return;
-      }
+    if (mounted && resValid(context, response)) {
       setState(() {
         if (response.data != null) {
           group = new Group(JSON.decode(response.data));

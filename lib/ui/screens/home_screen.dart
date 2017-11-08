@@ -221,6 +221,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
   }
 
   void _searchCallback() {
+    if (!mounted) {
+      return;
+    }
     setState(() {
       _searchQuery = _searchController.text.toLowerCase();
     });

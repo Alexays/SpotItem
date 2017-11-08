@@ -121,7 +121,7 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
 
   Future<Null> getImage() async {
     final _fileName = await ImagePicker.pickImage(maxWidth: 720.0);
-    if (_fileName != null) {
+    if (mounted && _fileName != null) {
       setState(() {
         _imagesFile.add(_fileName);
         _fileName.readAsBytes().then((data) {
@@ -333,7 +333,7 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                                                       new GestureDetector(
                                                         onTap: () async {
                                                           final p = await Services.users.autocompleteCity(context);
-                                                          if (p != null) {
+                                                          if (mounted && p != null) {
                                                             setState(() {
                                                               _location = p;
                                                             });
