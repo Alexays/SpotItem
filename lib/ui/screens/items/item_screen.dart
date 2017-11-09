@@ -72,7 +72,7 @@ class ItemPage extends StatefulWidget {
     Key key,
     this.item,
     this.itemId,
-    this.hash = 'n',
+    this.hash = 0,
   })
       : assert(item != null || itemId != null),
         super(key: key);
@@ -84,7 +84,7 @@ class ItemPage extends StatefulWidget {
   final Item item;
 
   /// Hash for hero animation
-  final String hash;
+  final num hash;
 
   @override
   _ItemPageState createState() => new _ItemPageState(itemId, item, hash);
@@ -94,7 +94,7 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
   _ItemPageState(this._itemId, this.item, this.hash);
 
   final String _itemId;
-  final String hash;
+  final num hash;
 
   TabController _tabController;
 
@@ -250,7 +250,7 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
                                               children: item.images
                                                   .map((f) => (f == item.images.first)
                                                       ? new Hero(
-                                                          tag: '${item.id}_img_$hash',
+                                                          tag: '${item.id}$hash',
                                                           child: new FadeInImage(
                                                             placeholder: placeholder,
                                                             image: new NetworkImage('$apiImgUrl$f'),
@@ -371,7 +371,7 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
 }
 
 /// Pop a Page with item details
-Future<Null> showItemPage(Item item, String hash, BuildContext context) async {
+Future<Null> showItemPage(Item item, num hash, BuildContext context) async {
   await Navigator.push(
       context,
       new MaterialPageRoute<Null>(

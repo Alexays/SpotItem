@@ -14,14 +14,14 @@ import java.util.HashMap;
 import android.util.Log;
 
 public class MainActivity extends FlutterActivity {
-  private static final String CHANNEL = "channel:fr.arouillard.spotitem/deeplink";
-  private MethodChannel deepLinkChannel;
+  // private static final String CHANNEL = "channel:fr.arouillard.spotitem/deeplink";
+  // private MethodChannel deepLinkChannel;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     GeneratedPluginRegistrant.registerWith(this);
-    deepLinkChannel = new MethodChannel(getFlutterView(), CHANNEL);
+    // deepLinkChannel = new MethodChannel(getFlutterView(), CHANNEL);
   }
 
   // @Override
@@ -36,20 +36,20 @@ public class MainActivity extends FlutterActivity {
   //   return view;
   // }
 
-  @Override
-  protected void onResume() {
-    super.onResume();
-    final String route = getRouteFromIntent();
-    HashMap loc = new HashMap();
-    loc.put("path", route);
-    deepLinkChannel.invokeMethod("linkReceived", loc);
-  }
+  // @Override
+  // protected void onResume() {
+  //   super.onResume();
+  //   final String route = getRouteFromIntent();
+  //   HashMap loc = new HashMap();
+  //   loc.put("path", route);
+  //   deepLinkChannel.invokeMethod("linkReceived", loc);
+  // }
 
-  private String getRouteFromIntent() {
-    final Intent intent = getIntent();
-    if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getData() != null) {
-      return intent.getData().getPath();
-    }
-    return null;
-  }
+  // private String getRouteFromIntent() {
+  //   final Intent intent = getIntent();
+  //   if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getData() != null) {
+  //     return intent.getData().getPath();
+  //   }
+  //   return null;
+  // }
 }
