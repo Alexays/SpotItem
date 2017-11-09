@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:spotitem/models/api.dart';
 import 'package:spotitem/models/group.dart';
 import 'package:spotitem/services/basic.dart';
@@ -22,12 +21,10 @@ class GroupsManager extends BasicService {
   /// @param group Group payload
   /// @param users Users list to add
   /// @returns Api body response
-  Future<ApiRes> addGroup(Group group, List<String> users) async {
-    final Map<String, dynamic> groupJson = JSON.decode(group.toString());
-    groupJson['users'] = users;
-    groupJson['owners'] = [Services.auth.user.id];
-    groupJson.remove('_id');
-    final response = await ipost('/groups', groupJson, Services.auth.accessToken);
+  Future<ApiRes> addGroup(Map<String, dynamic> payload, List<String> users) async {
+    payload['users'] = users;
+    payload['owners'] = [Services.auth.user.id];
+    final response = await ipost('/groups', payload, Services.auth.accessToken);
     if (response.success && response.data != null) {
       Services.auth.user.groups.add(response.data);
     }

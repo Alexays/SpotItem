@@ -28,11 +28,10 @@ Map<String, WidgetBuilder> staticRoutes = {
 
 /// Configure all routes
 Route<dynamic> configureRoutes(RouteSettings settings) {
-  final params = settings.name.split('/').where((f) => f.startsWith(':')).map((f) => f.substring(1)).toList();
-  final routes = settings.name
-      .split('/')
-      .map((f) => params.any((d) => f.length > 1 && d == f.substring(1)) ? ':params' : f)
-      .join('/');
+  final splittedName = settings.name.split('/');
+  final params = splittedName.where((f) => f.startsWith(':')).map((f) => f.substring(1)).toList();
+  final routes =
+      splittedName.map((f) => params.any((d) => f.length > 1 && d == f.substring(1)) ? ':params' : f).join('/');
   switch (routes) {
     case '/profile/:params':
       return new MaterialPageRoute<dynamic>(settings: settings, builder: (_) => new ProfileScreen(params[0]));

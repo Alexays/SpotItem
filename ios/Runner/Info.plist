@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>NSCameraUsageDescription</key>
-	<string>You have to use the camera to scan a barcode, so we need permission</string>
+	<string>You have to use the camera to scan a barcode, take picture, so we need permission</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Needed to access location</string>
 	<key>UIBackgroundModes</key>

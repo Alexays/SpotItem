@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:spotitem/i18n/spot_localization.dart';
 
 /// Chat message class
-//TO-DO REMOVE THIS
 @override
 class ChatMessage extends StatelessWidget {
   /// Chat message initializer
