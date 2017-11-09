@@ -32,16 +32,16 @@ class UsersManager extends BasicService {
     if (Services.origin == Origin.prod) {
       _initLocation();
     }
-    platform.setMethodCallHandler((call) async {
-      if (call.method == 'linkReceived') {
-        print(call.toString());
-        final Map<String, dynamic> passedObjs = call.arguments;
-        if (passedObjs != null) {
-          final path = passedObjs['path'];
-          print(path);
-        }
-      }
-    });
+    // platform.setMethodCallHandler((call) async {
+    //   if (call.method == 'linkReceived') {
+    //     print(call.toString());
+    //     final Map<String, dynamic> passedObjs = call.arguments;
+    //     if (passedObjs != null) {
+    //       final path = passedObjs['path'];
+    //       print(path);
+    //     }
+    //   }
+    // });
     return true;
   }
 

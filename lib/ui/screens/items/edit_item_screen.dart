@@ -374,7 +374,8 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                                                     },
                                                     secondary: const Icon(Icons.lock),
                                                   ),
-                                                  new Flexible(
+                                                  new Container(
+                                                    height: 100.0,
                                                     child: new ListView.builder(
                                                       scrollDirection: Axis.horizontal,
                                                       padding: const EdgeInsets.symmetric(vertical: 15.0),
