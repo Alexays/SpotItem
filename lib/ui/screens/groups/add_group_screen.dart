@@ -29,8 +29,12 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
 
   Future<Null> addGroup(BuildContext context) async {
     _formKey.currentState.save();
-    final response =
-        await Services.groups.addGroup({'name': name, 'about': about, 'owner': Services.auth.user.id}, email);
+    final response = await Services.groups.addGroup({
+      'name': name,
+      'about': about,
+      'owners': [Services.auth.user.id],
+      'users': email
+    });
     if (resValid(context, response)) {
       showSnackBar(context, response.msg);
       await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);

@@ -21,9 +21,7 @@ class GroupsManager extends BasicService {
   /// @param group Group payload
   /// @param users Users list to add
   /// @returns Api body response
-  Future<ApiRes> addGroup(Map<String, dynamic> payload, List<String> users) async {
-    payload['users'] = users;
-    payload['owners'] = [Services.auth.user.id];
+  Future<ApiRes> addGroup(Map<String, dynamic> payload) async {
     final response = await ipost('/groups', payload, Services.auth.accessToken);
     if (response.success && response.data != null) {
       Services.auth.user.groups.add(response.data);
