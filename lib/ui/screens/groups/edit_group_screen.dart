@@ -36,6 +36,7 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
 
   @override
   void initState() {
+    super.initState();
     if (_group == null) {
       Services.groups.getGroup(_groupId).then((res) {
         if (!mounted) {
@@ -49,7 +50,6 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
     } else {
       _initForm();
     }
-    super.initState();
   }
 
   void _initForm() {

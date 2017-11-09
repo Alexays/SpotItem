@@ -70,6 +70,7 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
 
   @override
   void initState() {
+    super.initState();
     if (_item == null) {
       Services.items.getItem(_itemId).then((data) {
         if (!mounted) {
@@ -103,7 +104,6 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
       parent: _controller,
       curve: Curves.ease,
     ));
-    super.initState();
   }
 
   void _initForm() {

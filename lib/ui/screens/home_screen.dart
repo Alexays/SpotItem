@@ -105,6 +105,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
 
   @override
   void initState() {
+    super.initState();
     _controller = new AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 200),
@@ -123,11 +124,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
     ));
     WidgetsBinding.instance.addObserver(this);
     tabsCtrl = _homeScreenItems.map((data) => new TabController(vsync: this, length: data.sub?.length ?? 1)).toList();
-    super.initState();
   }
 
   @override
   void dispose() {
+    super.dispose();
     Services.observer.unsubscribe(this);
     _controller?.dispose();
     _searchController?.dispose();
@@ -137,7 +138,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
       tab?.dispose();
     }
     WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
   }
 
   @override

@@ -19,6 +19,7 @@ class _ContactScreenState extends State<ContactScreen> {
 
   @override
   void initState() {
+    super.initState();
     Services.users.getContact().then((data) {
       if (!mounted) {
         return;
@@ -27,7 +28,6 @@ class _ContactScreenState extends State<ContactScreen> {
         _contacts = data ?? [];
       });
     });
-    super.initState();
   }
 
   Future<Null> _handleEmail(BuildContext context) async {

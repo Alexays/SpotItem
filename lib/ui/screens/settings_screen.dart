@@ -13,11 +13,6 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) => new Scaffold(
       appBar: new AppBar(title: new Text(SpotL.of(context).settings)),
       body: new Builder(

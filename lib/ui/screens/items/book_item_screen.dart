@@ -37,6 +37,7 @@ class _BookItemScreenState extends State<BookItemScreen> {
 
   @override
   void initState() {
+    super.initState();
     if (_item == null) {
       Services.items.getItem(_itemId).then((data) {
         if (!mounted) {
@@ -50,7 +51,6 @@ class _BookItemScreenState extends State<BookItemScreen> {
     } else {
       concated = _item.calendar;
     }
-    super.initState();
   }
 
   Future<Null> bookItem(BuildContext context) async {

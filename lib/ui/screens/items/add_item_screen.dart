@@ -55,6 +55,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   @override
   void initState() {
+    super.initState();
     Services.groups.getGroups().then((data) {
       if (!mounted) {
         return;
@@ -73,7 +74,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
         });
       });
     }
-    super.initState();
   }
 
   /// Get image from gallery.

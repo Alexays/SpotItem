@@ -23,12 +23,12 @@ class _SocialViewState extends State<SocialView> {
 
   @override
   void initState() {
+    super.initState();
     _conversations = Services.social.conversations;
     if (_conversations.isEmpty) {
       _conversations = null;
     }
     _checkConversation();
-    super.initState();
   }
 
   Future<Null> _checkConversation() async {

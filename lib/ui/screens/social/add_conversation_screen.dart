@@ -18,11 +18,6 @@ class AddConvScreen extends StatefulWidget {
 class _AddConvScreenState extends State<AddConvScreen> {
   String group;
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
   Future<Null> _addConv(BuildContext context) async {
     if (group == null) {
       return showSnackBar(context, SpotL.of(context).selectGroup);

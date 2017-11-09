@@ -22,11 +22,6 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
   String location;
   List<String> email = <String>[];
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
   Future<Null> addGroup(BuildContext context) async {
     _formKey.currentState.save();
     final response = await Services.groups.addGroup({

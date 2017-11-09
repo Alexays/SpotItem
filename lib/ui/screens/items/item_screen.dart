@@ -102,6 +102,7 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
 
   @override
   void initState() {
+    super.initState();
     if (item != null) {
       _tabController = new TabController(vsync: this, length: item.images.length);
     }
@@ -118,13 +119,12 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
         });
       });
     }
-    super.initState();
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
     super.dispose();
+    _tabController.dispose();
   }
 
   List<Widget> _doButton(BuildContext context) {

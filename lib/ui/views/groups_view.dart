@@ -25,13 +25,13 @@ class _GroupsViewState extends State<GroupsView> {
 
   @override
   void initState() {
+    super.initState();
     _groups = Services.groups.groups;
     _groupsInv = Services.groups.groupsInv;
     if (_groups.isEmpty) {
       _groups = null;
     }
     _checkGroup();
-    super.initState();
   }
 
   Future<Null> _checkGroup() async {

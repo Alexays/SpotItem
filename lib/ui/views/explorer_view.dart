@@ -19,19 +19,19 @@ class _ExplorerViewState extends State<ExplorerView> {
 
   @override
   void initState() {
+    super.initState();
     _loadItems().then((res) {
       if (!mounted) {
         return;
       }
       Services.items.tracks.addListener(getTracks);
     });
-    super.initState();
   }
 
   @override
   void dispose() {
-    Services.items.tracks.removeListener(getTracks);
     super.dispose();
+    Services.items.tracks.removeListener(getTracks);
   }
 
   void getTracks() {

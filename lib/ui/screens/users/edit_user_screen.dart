@@ -25,9 +25,9 @@ class _EditUserScreenState extends State<EditUserScreen> {
 
   @override
   void initState() {
+    super.initState();
     _firstname.text = Services.auth.user.firstname;
     _lastname.text = Services.auth.user.name;
-    super.initState();
   }
 
   Future<Null> editUser(BuildContext context) async {

@@ -75,8 +75,8 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    _loadConv();
     super.initState();
+    _loadConv();
   }
 
   void newMessage(Map<String, dynamic> decoded) {
@@ -128,12 +128,12 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
 
   @override
   void dispose() {
+    super.dispose();
     for (var message in _messages) {
       message.animation.dispose();
     }
     Services.social.disconnectConversation(conv.id);
     Services.auth.delCallback('MESSAGE');
-    super.dispose();
   }
 
   @override

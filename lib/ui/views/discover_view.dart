@@ -22,8 +22,8 @@ class _DiscoverViewState extends State<DiscoverView> {
 
   @override
   void initState() {
-    _loadItems();
     super.initState();
+    _loadItems();
   }
 
   Future<Null> _loadItems([bool force = false]) async {
