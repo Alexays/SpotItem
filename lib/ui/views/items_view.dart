@@ -68,7 +68,7 @@ class _ItemsViewState extends State<ItemsView> {
       itemCount: _myItems?.length ?? 0,
       itemBuilder: (context, index) => new GestureDetector(
             onTap: () {
-              showItemPage(_myItems[index], 3, context);
+              showItemPage(_myItems[index], '3', context);
             },
             child: new Card(
               child: new Column(

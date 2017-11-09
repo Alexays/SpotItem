@@ -61,7 +61,7 @@ class _DiscoverViewState extends State<DiscoverView> {
                 ),
                 new Container(
                   height: 200.0,
-                  child: new DiscoverList(_recents, 0),
+                  child: new DiscoverList(_recents, '0'),
                 ),
               ],
             );
@@ -81,7 +81,7 @@ class _DiscoverViewState extends State<DiscoverView> {
                 ),
                 new Container(
                   height: 200.0,
-                  child: new DiscoverList(_groups, 1),
+                  child: new DiscoverList(_groups, '1'),
                 )
               ],
             );
@@ -98,7 +98,7 @@ class _DiscoverViewState extends State<DiscoverView> {
 /// Discover list class
 class DiscoverList extends StatelessWidget {
   final List<Item> _items;
-  final num _hash;
+  final String _hash;
 
   /// Discover list initializer
   const DiscoverList(this._items, this._hash);

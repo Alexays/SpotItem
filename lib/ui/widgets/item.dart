@@ -15,7 +15,7 @@ class ItemsListItem extends StatelessWidget {
         super(key: key);
 
   /// Hash for hero animation
-  final num hash;
+  final String hash;
 
   /// Item data
   final Item item;
@@ -176,7 +176,7 @@ class ItemsList extends StatelessWidget {
 
   final List<Item> _items;
 
-  final num _hash;
+  final String _hash;
 
   static final _GridDelegate _gridDelegate = new _GridDelegate();
 

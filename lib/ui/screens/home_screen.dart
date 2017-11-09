@@ -489,7 +489,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
       return [
         new ItemsList(
             Services.items.items.where((item) => _searchWord.any((f) => item.name.toLowerCase().contains(f))).toList(),
-            4)
+            '4')
       ];
     }
     return _homeScreenItems[index].content;
@@ -505,11 +505,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
               Services.context = context;
               return new NestedScrollView(
                   headerSliverBuilder: _buildAppBar,
-                  body: new PageView.builder(
-                      controller: pageCtrl,
-                      itemCount: _homeScreenItems.length,
-                      itemBuilder: (context, index) =>
-                          new TabBarView(controller: tabsCtrl[index], children: _buildChild(context, index))));
+                  body: new PageView(
+                    controller: pageCtrl,
+                    children: new List<Widget>.generate(tabsCtrl.length,
+                        (i) => new TabBarView(controller: tabsCtrl[i], children: _buildChild(context, i))),
+                  ));
             }),
             bottomNavigationBar: _isSearching
                 ? null
