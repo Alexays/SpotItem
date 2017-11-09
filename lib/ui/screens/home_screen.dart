@@ -89,8 +89,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
 
   //Explore
   List<TabController> tabsCtrl;
-  PageController pageCtrl = new PageController();
-  int get page => pageCtrl.hasClients ? pageCtrl.page.round() : 0;
+  int page = 0;
   static const Widget discover = const DiscoverView();
   static const Widget explore = const ExplorerView();
   FloatingActionButton get fab => _homeScreenItems[page].fabs.length > tabsCtrl[page].index
@@ -132,7 +131,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
     Services.observer.unsubscribe(this);
     _controller?.dispose();
     _searchController?.dispose();
-    pageCtrl.dispose();
     tabsCtrl[page]?.removeListener(_checkFilter);
     for (var tab in tabsCtrl) {
       tab?.dispose();
@@ -480,19 +478,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
     ];
   }
 
-  List<Widget> _buildChild(BuildContext context, int index) {
+  Widget _buildChild(BuildContext context) {
     if (_isSearching) {
       if (_searchQuery.isEmpty) {
-        return [new Center(child: new Text(SpotL.of(Services.loc).searchDialog))];
+        return new Center(child: new Text(SpotL.of(Services.loc).searchDialog));
       }
       final _searchWord = _searchQuery.split(' ').where((f) => f.trim().isNotEmpty);
-      return [
-        new ItemsList(
-            Services.items.items.where((item) => _searchWord.any((f) => item.name.toLowerCase().contains(f))).toList(),
-            '4')
-      ];
+      return new ItemsList(
+          Services.items.items.where((item) => _searchWord.any((f) => item.name.toLowerCase().contains(f))).toList(),
+          4);
     }
-    return _homeScreenItems[index].content;
+    return new TabBarView(controller: tabsCtrl[page], children: _homeScreenItems[page].content);
   }
 
   @override
@@ -504,12 +500,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
             body: new Builder(builder: (context) {
               Services.context = context;
               return new NestedScrollView(
-                  headerSliverBuilder: _buildAppBar,
-                  body: new PageView(
-                    controller: pageCtrl,
-                    children: new List<Widget>.generate(tabsCtrl.length,
-                        (i) => new TabBarView(controller: tabsCtrl[i], children: _buildChild(context, i))),
-                  ));
+                headerSliverBuilder: _buildAppBar,
+                body: _buildChild(context),
+              );
             }),
             bottomNavigationBar: _isSearching
                 ? null
@@ -519,9 +512,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
                     items: _homeScreenItems.map((data) => data.item).toList(),
                     onTap: (index) {
                       setState(() {
-                        pageCtrl.jumpToPage(index);
+                        page = index;
                         Services.observer.analytics.setCurrentScreen(
-                          screenName: 'Home/tab${pageCtrl.page.toInt()}',
+                          screenName: 'Home/tabpage',
                         );
                       });
                     },

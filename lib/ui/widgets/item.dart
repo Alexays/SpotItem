@@ -15,7 +15,7 @@ class ItemsListItem extends StatelessWidget {
         super(key: key);
 
   /// Hash for hero animation
-  final String hash;
+  final num hash;
 
   /// Item data
   final Item item;
@@ -33,7 +33,7 @@ class ItemsListItem extends StatelessWidget {
             fit: StackFit.expand,
             children: <Widget>[
               new Hero(
-                  tag: '${item.id}_img_$hash',
+                  tag: '${item.id}$hash',
                   child: new FadeInImage(
                     placeholder: placeholder,
                     image: item.images.isNotEmpty ? new NetworkImage('$apiImgUrl${item.images.first}') : placeholder,
@@ -176,7 +176,7 @@ class ItemsList extends StatelessWidget {
 
   final List<Item> _items;
 
-  final String _hash;
+  final num _hash;
 
   static final _GridDelegate _gridDelegate = new _GridDelegate();
 
