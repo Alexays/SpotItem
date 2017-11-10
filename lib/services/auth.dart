@@ -184,6 +184,7 @@ class AuthManager extends BasicService {
   /// @param payload User payload
   /// @returns Api response
   Future<ApiRes> register(Map<String, dynamic> payload) async {
+    assert(payload != null);
     payload..remove('_id')..remove('groups');
     final response = await ipost('/signup', payload);
     return response;
@@ -193,6 +194,7 @@ class AuthManager extends BasicService {
   ///
   /// @param res Api ws data
   Future<Null> handleWsData(String res) async {
+    assert(res != null);
     final decoded = JSON.decode(res);
     if (decoded['type'] == 'ping') {
       final headers = await getWsHeader('ping');
@@ -215,6 +217,7 @@ class AuthManager extends BasicService {
   /// @param handler Name of handler
   /// @param callback Function callback
   void addCallback(String handler, void callback(Map<String, dynamic> res)) {
+    assert(handler != null && callback != null);
     _wsCallback[handler] = callback;
   }
 
@@ -223,6 +226,7 @@ class AuthManager extends BasicService {
   /// @param handler Name of handler
   /// @param callback Function callback
   void delCallback(String handler) {
+    assert(handler != null);
     _wsCallback[handler] = null;
   }
 
@@ -247,6 +251,7 @@ class AuthManager extends BasicService {
   /// @param oauthToken The refresh_token
   /// @param provider Login provider
   Future<Null> saveTokens(Map<String, dynamic> _user, String _oauthToken, String _prvdr, String _email) async {
+    assert(_user != null && _oauthToken != null && _prvdr != null && _email != null);
     user = new User(_user);
     final prefs = await SharedPreferences.getInstance()
       ..setString(keyUser, user.toString())

@@ -46,6 +46,6 @@ class SpotItemApp extends MaterialApp {
             GlobalWidgetsLocalizations.delegate,
           ],
           supportedLocales: const <Locale>[const Locale('en', 'US'), const Locale('fr', 'FR')],
-          navigatorObservers: <NavigatorObserver>[Services.observer],
+          // navigatorObservers: <NavigatorObserver>[Services.observer],
         );
 }

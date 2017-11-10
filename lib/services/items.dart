@@ -36,6 +36,7 @@ class ItemsManager extends BasicService {
   /// @param payload Item payload
   /// @returns Api body response
   Future<ApiRes> addItem(Map<String, dynamic> payload) async {
+    assert(payload != null);
     final response = await ipost('/items', payload, Services.auth.accessToken);
     return response;
   }
@@ -45,8 +46,8 @@ class ItemsManager extends BasicService {
   /// @param payload Item payload
   /// @returns Api body response
   Future<ApiRes> editItem(Map<String, dynamic> payload) async {
-    final id = payload['id'];
-    payload.remove('id');
+    assert(payload != null);
+    final id = payload.remove('id');
     final response = await iput('/items/$id', payload, Services.auth.accessToken);
     return response;
   }
@@ -56,6 +57,7 @@ class ItemsManager extends BasicService {
   /// @param id Item Id
   /// @returns Api body response
   Future<ApiRes> deleteItem(String id) async {
+    assert(id != null);
     final response = await idelete('/items/$id', Services.auth.accessToken);
     return response;
   }
@@ -94,9 +96,7 @@ class ItemsManager extends BasicService {
   /// @param itemid Item Id
   /// @returns Item class
   Future<Item> getItem(String itemId) async {
-    if (itemId == null) {
-      return null;
-    }
+    assert(itemId != null);
     final response = await iget('/items/$itemId');
     if (response.success) {
       return new Item(response.data, Services.users.getDist(response.data['lat'], response.data['lng']));
@@ -121,6 +121,7 @@ class ItemsManager extends BasicService {
   /// @param payload data
   /// @returns Api body response
   Future<ApiRes> bookItem(String itemId, Map<String, dynamic> payload) async {
+    assert(itemId != null && payload != null);
     final response = await iput('/items/$itemId/book', payload);
     return response;
   }
@@ -130,6 +131,7 @@ class ItemsManager extends BasicService {
   /// @param QRcode data
   /// @returns Item id
   String parseCode(String code) {
+    assert(code != null);
     final parts = code?.split(':');
     if (parts == null || parts.length != 3 || parts.first != 'SI') {
       return null;

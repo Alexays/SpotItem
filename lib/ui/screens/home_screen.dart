@@ -265,7 +265,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
     });
   }
 
-  Widget _buildBottom() {
+  PreferredSizeWidget _buildBottom() {
     if (_isSearching || _homeScreenItems[page].sub == null) {
       return null;
     }
@@ -396,7 +396,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
                 _scaffoldKey.currentState.openDrawer();
               },
             ),
-      new Expanded(
+      new Flexible(
+        fit: FlexFit.tight,
         child: new TextField(
           key: const Key('search'),
           onSubmitted: (data) => _handleSearchBegin(),
@@ -462,13 +463,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
             })
       ]);
     }
+    final haveTab = _homeScreenItems[page].sub != null && !_isSearching;
     return [
       new SliverAppBar(
         pinned: true,
         forceElevated: innerBoxIsScrolled,
         automaticallyImplyLeading: false,
         centerTitle: true,
-        floating: _homeScreenItems[page].sub != null && !_isSearching,
+        snap: haveTab,
+        floating: haveTab,
         title: new DecoratedBox(
             decoration: new BoxDecoration(
                 color: Theme.of(context).accentColor, borderRadius: const BorderRadius.all(const Radius.circular(3.0))),
@@ -488,7 +491,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
           Services.items.items.where((item) => _searchWord.any((f) => item.name.toLowerCase().contains(f))).toList(),
           4);
     }
-    return new TabBarView(controller: tabsCtrl[page], children: _homeScreenItems[page].content);
+    return new TabBarView(
+      controller: tabsCtrl[page],
+      children: _homeScreenItems[page].content,
+    );
   }
 
   @override
@@ -513,9 +519,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
                     onTap: (index) {
                       setState(() {
                         page = index;
-                        Services.observer.analytics.setCurrentScreen(
-                          screenName: 'Home/tabpage',
-                        );
+                        // Services.observer.analytics.setCurrentScreen(
+                        //   screenName: 'Home/tabpage',
+                        // );
                       });
                     },
                   )),

@@ -22,6 +22,7 @@ class GroupsManager extends BasicService {
   /// @param users Users list to add
   /// @returns Api body response
   Future<ApiRes> addGroup(Map<String, dynamic> payload) async {
+    assert(payload != null);
     final response = await ipost('/groups', payload, Services.auth.accessToken);
     if (response.success && response.data != null) {
       Services.auth.user.groups.add(response.data);
@@ -34,6 +35,7 @@ class GroupsManager extends BasicService {
   /// @param group Group payload
   /// @returns Api body response
   Future<ApiRes> editGroup(String groupId, Map<String, dynamic> payload) async {
+    assert(groupId != null && payload != null);
     final response = await iput('/groups/$groupId', payload, Services.auth.accessToken);
     return response;
   }
@@ -57,9 +59,7 @@ class GroupsManager extends BasicService {
   /// @param groupId Group id
   /// @returns Api body response
   Future<ApiRes> getGroup(String groupId) async {
-    if (groupId == null) {
-      return null;
-    }
+    assert(groupId != null);
     final response = await iget('/groups/$groupId', Services.auth.accessToken);
     return response;
   }
@@ -83,9 +83,7 @@ class GroupsManager extends BasicService {
   /// @param groupId Group id
   /// @returns Api body response
   Future<dynamic> delGroup(String groupId) async {
-    if (groupId == null) {
-      return null;
-    }
+    assert(groupId != null);
     final response = await idelete('/groups/$groupId', Services.auth.accessToken);
     if (response.success) {
       Services.auth.user.groups.removeWhere((group) => group == groupId);
@@ -98,9 +96,7 @@ class GroupsManager extends BasicService {
   /// @param groupId Group id
   /// @returns Api body response
   Future<ApiRes> joinGroup(String groupId) async {
-    if (groupId == null) {
-      return null;
-    }
+    assert(groupId != null);
     final response = await ipost('/groups/$groupId', null, Services.auth.accessToken);
     if (response.success) {
       Services.auth.user.groups.add(groupId);
@@ -113,9 +109,7 @@ class GroupsManager extends BasicService {
   /// @param groupId Group id
   /// @returns Api body response
   Future<ApiRes> leaveGroup(String groupId) async {
-    if (groupId == null) {
-      return null;
-    }
+    assert(groupId != null);
     final response = await iget('/groups/leave/$groupId', Services.auth.accessToken);
     if (response.success) {
       Services.auth.user.groups.removeWhere((group) => group == groupId);
@@ -129,9 +123,7 @@ class GroupsManager extends BasicService {
   /// @param userId User id
   /// @returns Api body response
   Future<ApiRes> kickUser(String groupId, String userId) async {
-    if (groupId == null || userId == null) {
-      return null;
-    }
+    assert(groupId != null && userId != null);
     final response = await idelete('/groups/$groupId/$userId', Services.auth.accessToken);
     return response;
   }
@@ -142,9 +134,7 @@ class GroupsManager extends BasicService {
   /// @param userId User id
   /// @returns Api body response
   Future<ApiRes> addUser(String groupId, String userId) async {
-    if (groupId == null || userId == null) {
-      return null;
-    }
+    assert(groupId != null && userId != null);
     final response = await iput('/groups/$groupId/$userId', null, Services.auth.accessToken);
     return response;
   }
@@ -155,9 +145,7 @@ class GroupsManager extends BasicService {
   /// @param userId User id
   /// @returns Api body response
   Future<ApiRes> removeOwner(String groupId, String userId) async {
-    if (groupId == null || userId == null) {
-      return null;
-    }
+    assert(groupId != null && userId != null);
     final response = await idelete('/groups/$groupId/owner/$userId', Services.auth.accessToken);
     return response;
   }
@@ -168,9 +156,7 @@ class GroupsManager extends BasicService {
   /// @param userId User id
   /// @returns Api body response
   Future<ApiRes> addOwner(String groupId, String userId) async {
-    if (groupId == null || userId == null) {
-      return null;
-    }
+    assert(groupId != null && userId != null);
     final response = await iput('/groups/$groupId/owner/$userId', null, Services.auth.accessToken);
     return response;
   }

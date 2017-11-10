@@ -41,11 +41,9 @@ class BasicService {
   /// @param token Token to use to authentificate
   /// @returns Api response
   Future<ApiRes> iget(String url, [String token]) async {
+    assert(url != null);
     if (Services.origin == Origin.mock) {
       return Services.mock;
-    }
-    if (url == null) {
-      return new ApiRes.classic();
     }
     final client = new http.Client();
     final verifiedToken = await Services.auth.verifyToken(client, token);
@@ -67,11 +65,9 @@ class BasicService {
   /// @param token Token to use to authentificate
   /// @returns Api response
   Future<ApiRes> ipost(String url, Map<String, dynamic> payload, [String token]) async {
+    assert(url != null && payload != null);
     if (Services.origin == Origin.mock) {
       return Services.mock;
-    }
-    if (url == null) {
-      return new ApiRes.classic();
     }
     final client = new http.Client();
     final verifiedToken = await Services.auth.verifyToken(client, token);
@@ -93,11 +89,9 @@ class BasicService {
   /// @param token Token to use to authentificate
   /// @returns Api response
   Future<ApiRes> iput(String url, Map<String, dynamic> payload, [String token]) async {
+    assert(url != null && payload != null);
     if (Services.origin == Origin.mock) {
       return Services.mock;
-    }
-    if (url == null) {
-      return new ApiRes.classic();
     }
     final client = new http.Client();
     final verifiedToken = await Services.auth.verifyToken(client, token);
@@ -118,11 +112,9 @@ class BasicService {
   /// @param token Token to use to authentificate
   /// @returns Api response
   Future<ApiRes> idelete(String url, [String token]) async {
+    assert(url != null);
     if (Services.origin == Origin.mock) {
       return Services.mock;
-    }
-    if (url == null) {
-      return new ApiRes.classic();
     }
     final client = new http.Client();
     final verifiedToken = await Services.auth.verifyToken(client, token);
@@ -142,6 +134,7 @@ class BasicService {
   /// @param type Request type
   /// @param data Payload
   Future<Map<String, dynamic>> getWsHeader(String type) async {
+    assert(type != null);
     final client = new http.Client();
     if (Services.auth.loggedIn) {
       final verifiedToken =

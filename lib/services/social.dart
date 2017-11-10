@@ -27,6 +27,7 @@ class SocialManager extends BasicService {
 
   /// Add a conversation
   Future<ApiRes> addConversation(Map<String, String> conversation) async {
+    assert(conversation != null);
     final response = await ipost('/messages', conversation, Services.auth.accessToken);
     if (response.success && response.data != null) {
       _conversations.add(new Conversation(response.data));
@@ -36,6 +37,7 @@ class SocialManager extends BasicService {
 
   /// Add a conversation
   Future<Conversation> getConversation(String id) async {
+    assert(id != null);
     final response = await iget('/messages/$id', Services.auth.accessToken);
     if (response.success && response.data != null) {
       return new Conversation(response.data);
@@ -45,6 +47,7 @@ class SocialManager extends BasicService {
 
   /// Subscribe to conversation
   Future<Null> connectConversation(String id) async {
+    assert(id != null);
     final header = await getWsHeader('sub');
     if (header == null) {
       return;
@@ -55,6 +58,7 @@ class SocialManager extends BasicService {
 
   /// Unsubscribe to conversation
   Future<Null> disconnectConversation(String id) async {
+    assert(id != null);
     final header = await getWsHeader('unsub');
     header['path'] = '/conv/$id';
     Services.auth.ws.sink.add(JSON.encode(header));
@@ -62,6 +66,7 @@ class SocialManager extends BasicService {
 
   /// Send message to conversation
   Future<Null> send(String id, String text) async {
+    assert(id != null && text != null);
     final header = await getWsHeader('message');
     header['message'] = {'room': id, 'sender': Services.auth.user.toString(), 'message': text};
     Services.auth.ws.sink.add(JSON.encode(header));

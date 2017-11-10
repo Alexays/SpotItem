@@ -29,9 +29,7 @@ class UsersManager extends BasicService {
 
   @override
   Future<bool> init() async {
-    if (Services.origin == Origin.prod) {
-      _initLocation();
-    }
+    _initLocation();
     // platform.setMethodCallHandler((call) async {
     //   if (call.method == 'linkReceived') {
     //     print(call.toString());
@@ -46,6 +44,9 @@ class UsersManager extends BasicService {
   }
 
   void _initLocation() {
+    if (Services.origin != Origin.prod) {
+      return;
+    }
     _location.onLocationChanged.first.then((data) {
       if (location != null && data == null) {
         return;
@@ -82,6 +83,7 @@ class UsersManager extends BasicService {
 
   /// Show autocomplete city
   Future<String> autocompleteCity(BuildContext context) async {
+    assert(context != null);
     final p = await places.showGooglePlacesAutocomplete(
         context: context,
         apiKey: placeApiKey,
@@ -136,6 +138,7 @@ class UsersManager extends BasicService {
   /// @param password User password to update
   /// @returns Api body response
   Future<ApiRes> updateUser(Map<String, dynamic> payload, String password) async {
+    assert(payload != null && password != null);
     if (password != null) {
       payload['password'] = password;
     }
@@ -153,9 +156,7 @@ class UsersManager extends BasicService {
   /// @param userId User id
   /// @returns User class
   Future<dynamic> getUser(String userId) async {
-    if (userId == null) {
-      return null;
-    }
+    assert(userId != null);
     final response = await iget('/users/$userId', Services.auth.accessToken);
     if (response.success) {
       return new User(response.data);
