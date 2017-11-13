@@ -81,7 +81,7 @@ class AuthManager extends BasicService {
   /// @returns Valid token
   Future<String> verifyToken(Client client, String token) async {
     if ((token == null && accessToken != null) || token != accessToken) {
-      return token;
+      return token ?? accessToken;
     }
     if ((loggedIn && (exp == null || new DateTime.now().isAfter(exp))) && !await getAccessToken(client)) {
       await Navigator.of(Services.context).pushNamedAndRemoveUntil('/', (route) => false);

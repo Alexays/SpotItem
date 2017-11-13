@@ -35,12 +35,16 @@ class User {
   /// Check if user is valid
   bool isValid() => id != null && firstname != null && email != null;
 
+  /// Convert class to json
+  Map<String, dynamic> toJson() => {
+        '_id': id,
+        'name': name,
+        'email': email,
+        'firstname': firstname,
+        'avatar': avatar,
+        'groups': groups,
+      };
+
   @override
-  String toString() {
-    List<String> _groups;
-    if (groups != null) {
-      _groups = new List<String>.generate(groups.length, (index) => '"${groups[index]}"');
-    }
-    return '{"_id": "$id", "name": "$name", "email": "$email", "firstname": "$firstname", "avatar": "$avatar", "groups": $_groups}';
-  }
+  String toString() => JSON.encode(toJson());
 }

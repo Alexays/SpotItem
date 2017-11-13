@@ -32,10 +32,15 @@ class Group {
   /// Check if a group is valid
   bool isValid() => id != null && name != null;
 
+  /// Convert class to json
+  Map<String, dynamic> toJson() => {
+        '_id': id,
+        'name': name,
+        'about': about,
+        'users': users,
+        'owners': owners,
+      };
+
   @override
-  String toString() {
-    final usersId = new List<String>.generate(users?.length ?? 0, (index) => '"${users[index].id}"');
-    final ownersId = new List<String>.generate(owners?.length ?? 0, (index) => '"${owners[index].id}"');
-    return '{"_id": "$id", "name": "$name", "about": "$about", "users": $usersId, "owners": $ownersId}';
-  }
+  String toString() => JSON.encode(toJson());
 }

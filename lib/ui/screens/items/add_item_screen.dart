@@ -209,7 +209,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       'lng': location['longitude'],
       'images': _images,
       'location': _location.text,
-      'calendar': _calendar.toString(),
+      'calendar': _calendar,
       'tracks': _tracks,
       'groups': _groupsId
     });

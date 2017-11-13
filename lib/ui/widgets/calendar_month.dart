@@ -265,7 +265,6 @@ class CalendarMonth extends StatelessWidget {
             child: dayWidget,
           );
         }
-
         labels.add(dayWidget);
       }
     }

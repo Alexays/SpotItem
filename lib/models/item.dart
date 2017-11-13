@@ -18,8 +18,8 @@ class Event {
   /// Event data
   final Map<String, dynamic> data;
 
-  @override
-  String toString() => '{"date": "$date", "holder": $holder, "data": $data}';
+  /// Convert class to json
+  Map<String, dynamic> toJson() => {'date': '$date', 'holder': holder, 'data': data};
 }
 
 /// Item Model
@@ -84,9 +84,25 @@ class Item {
   /// Check if item is valid
   bool isValid() => id != null && name != null && owner != null;
 
+  /// Convert class to json
+  Map<String, dynamic> toJson() => {
+        '_id': id,
+        'name': name,
+        'about': about,
+        'images': images,
+        'lastGeo': lastGeo,
+        'calendar': calendar.map((f) => f.toJson()).toList(),
+        'location': location,
+        'lat': lat.toString(),
+        'lng': lng.toString(),
+        'owner': owner.toJson(),
+        'groups': groups,
+        'tracks': tracks,
+      };
+
+// final _calendar = new List<String>.generate(calendar.length, (i) => calendar[i].toString());
+//     return '{"_id": "$id", "name": "$name", "about": "$about", "images": $images, "lastGeo": $lastGeo, "calendar": $_calendar, "location": "$location", "lat": $lat, "lng": $lng, "owner": "$owner", "groups": groups, "tracks": $tracks}';
+
   @override
-  String toString() {
-    final _calendar = new List<String>.generate(calendar.length, (i) => calendar[i].toString());
-    return '{"_id": "$id", "name": "$name", "about": "$about", "images": $images, "lastGeo": $lastGeo, "calendar": $_calendar, "location": "$location", "lat": $lat, "lng": $lng, "owner": "$owner", "groups": groups, "tracks": $tracks}';
-  }
+  String toString() => JSON.encode(toJson());
 }

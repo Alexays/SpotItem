@@ -29,7 +29,7 @@ class _BookItemScreenState extends State<BookItemScreen> {
 
   final String _itemId;
 
-  final List<Event> toAdd = [];
+  final List<DateTime> toAdd = [];
 
   List<Event> concated = [];
 
@@ -55,7 +55,7 @@ class _BookItemScreenState extends State<BookItemScreen> {
 
   Future<Null> bookItem(BuildContext context) async {
     showLoading(context);
-    final response = await Services.items.bookItem(_item.id, {'dates': toAdd});
+    final response = await Services.items.bookItem(_item.id, {'dates': toAdd.map((f) => f.toString()).toList()});
     Navigator.of(context).pop();
     if (resValid(context, response)) {
       showSnackBar(context, response.msg);
@@ -81,16 +81,16 @@ class _BookItemScreenState extends State<BookItemScreen> {
                         setState(() {
                           if (toAdd != null &&
                               toAdd.isNotEmpty &&
-                              toAdd.firstWhere((f) => f.date == date.date, orElse: () => null) != null) {
-                            toAdd.removeWhere((f) => f.date == date.date);
+                              toAdd.firstWhere((f) => f == date.date, orElse: () => null) != null) {
+                            toAdd.removeWhere((f) => f == date.date);
                           } else {
-                            toAdd.add(date);
+                            toAdd.add(date.date);
                           }
-                          final tmp = new List<Event>.from(toAdd);
+                          final tmp = new List<DateTime>.from(toAdd);
                           concated = new List<Event>.from(_item.calendar).map((f) {
                             final len = tmp.length;
-                            tmp.removeWhere((d) =>
-                                d.date.day == f.date.day && d.date.month == f.date.month && d.date.year == f.date.year);
+                            tmp.removeWhere(
+                                (d) => d.day == f.date.day && d.month == f.date.month && d.year == f.date.year);
                             if (tmp.length != len) {
                               return new Event(
                                   {'data': f.data, 'date': f.date.toString(), 'holder': Services.auth.user.id});

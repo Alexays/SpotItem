@@ -206,7 +206,6 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
 
   Future<Null> editItem(BuildContext context) async {
     final finalImages = <String>[];
-    final groups = <String>[];
     _formKey.currentState.save();
     if (!_formKey.currentState.validate()) {
       return showSnackBar(context, SpotL.of(context).correctError);
@@ -230,10 +229,10 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
       'lat': Services.users.location['latitude'],
       'lng': Services.users.location['longitude'],
       'images': finalImages,
-      'calendar': _calendar.toString(),
+      'calendar': _calendar.map((f) => f.toJson()).toList(),
       'location': _location,
       'tracks': _tracks,
-      'groups': groups
+      'groups': _groupsId
     });
     Navigator.of(context).pop();
     if (resValid(context, response)) {
