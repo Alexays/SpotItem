@@ -31,8 +31,8 @@ android {
         applicationId "fr.arouillard.spotitem"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 12
-        versionName "0.4.1"
+        versionCode 13
+        versionName "0.4.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 

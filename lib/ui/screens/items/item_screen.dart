@@ -129,7 +129,7 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
 
   List<Widget> _doButton(BuildContext context) {
     final widgets = <Widget>[];
-    if (Services.auth.loggedIn && item != null && item.owner.id == Services.auth.user.id) {
+    if (Services.auth.loggedIn && item?.owner?.id == Services.auth.user.id) {
       widgets.addAll([
         new IconButton(
           icon: const Icon(Icons.delete),

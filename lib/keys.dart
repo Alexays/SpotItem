@@ -1,5 +1,5 @@
 /// Spotitem version
-const String version = '0.4.1';
+const String version = '0.4.2';
 
 /// Storage key of user data
 const String keyUser = 'KEY_USER';
@@ -20,8 +20,8 @@ const String keySettings = 'KEY_SETTINGS';
 const String clientSecret = 'et+nWhUB>.Dg[c4z';
 
 /// Api base host
-//const String baseHost = '217.182.65.67:3417';
-const String baseHost = '192.168.1.120:1337';
+const String baseHost = '217.182.65.67:3417';
+//const String baseHost = '192.168.1.120:1337';
 //const String baseHost = '192.168.0.21:1337';
 
 /// Api URL
