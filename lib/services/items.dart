@@ -4,6 +4,7 @@ import 'package:spotitem/models/api.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/services/basic.dart';
 import 'package:spotitem/services/services.dart';
+import 'package:spotitem/keys.dart';
 
 /// Items class manager
 class ItemsManager extends BasicService {
@@ -132,11 +133,7 @@ class ItemsManager extends BasicService {
   /// @returns Item id
   String parseCode(String code) {
     assert(code != null);
-    final parts = code?.split(':');
-    if (parts == null || parts.length != 3 || parts.first != 'SI') {
-      return null;
-    }
-    // parts[1] equal server version used when generating QRcode
-    return parts[2];
+    final split = code.substring('$apiUrl/items/'.length).split('/');
+    return split[0];
   }
 }
