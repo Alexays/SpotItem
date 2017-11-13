@@ -216,8 +216,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
     Navigator.of(context).pop();
     if (resValid(context, response)) {
       showSnackBar(context, response.msg);
-      await Services.items.getItems(force: true);
+      await Services.items.getItems(force: true); // UNTIL WE HIDE USER ITEM FROM GENERAL LIST
       await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+      //TO-DO SHOW success dialog with Qrcode
     }
   }
 

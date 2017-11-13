@@ -214,11 +214,12 @@ class CalendarMonth extends StatelessWidget {
         final dayToBuild = new DateTime(year, month, day);
         BoxDecoration decoration;
         var itemStyle = themeData.textTheme.body1;
-        final current = dates.firstWhere(
-            (f) => f.date.day == dayToBuild.day && f.date.month == dayToBuild.month && f.date.year == dayToBuild.year,
-            orElse: () => null);
+        final current = dates.firstWhere((f) {
+          return f.date.day == dayToBuild.day && f.date.month == dayToBuild.month && f.date.year == dayToBuild.year;
+        }, orElse: () => null);
         final disabled =
-            (dayToBuild.isAfter(lastDate) || dayToBuild.isBefore(firstDate) || current == null) && !allowDisable;
+            (dayToBuild.isAfter(lastDate) || dayToBuild.isBefore(firstDate) || (context == null && !edit)) &&
+                !allowDisable;
         if (current != null) {
           // The selected day gets a circle background highlight, and a contrasting text color.
           if (current.holder == null && !edit) {
@@ -230,6 +231,7 @@ class CalendarMonth extends StatelessWidget {
             itemStyle = themeData.accentTextTheme.body2;
             decoration = new BoxDecoration(color: themeData.accentColor, shape: BoxShape.circle);
           }
+          //TO-DO disabled style opacity
         } else if (currentDate.year == year && currentDate.month == month && currentDate.day == day) {
           // The current day gets a different text color.
           itemStyle = themeData.textTheme.body2.copyWith(color: themeData.secondaryHeaderColor);

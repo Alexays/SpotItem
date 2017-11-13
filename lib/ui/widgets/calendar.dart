@@ -37,14 +37,14 @@ class Calendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dates = selectedDates.map((f) => f.date.millisecondsSinceEpoch);
-    var firstDate, lastDate, diff, nbMonth;
+    var firstDate, lastDate, nbMonth;
     if (dates.isNotEmpty) {
       final _firstDate = new DateTime.fromMillisecondsSinceEpoch(dates.reduce(math.min));
       final _lastDate = new DateTime.fromMillisecondsSinceEpoch(dates.reduce(math.max));
-      firstDate = new DateTime(_firstDate.year, _firstDate.month, _firstDate.day);
-      lastDate = new DateTime(_lastDate.year, _lastDate.month, _lastDate.day);
-      diff = lastDate.subtract(new Duration(milliseconds: firstDate.millisecondsSinceEpoch));
-      nbMonth = diff.month + (diff.year - 1970) * 12;
+      firstDate = new DateTime(_firstDate.year, _firstDate.month);
+      lastDate = new DateTime(_lastDate.year, _lastDate.month);
+      final diff = lastDate.subtract(new Duration(milliseconds: firstDate.millisecondsSinceEpoch));
+      nbMonth = (diff.day ~/ 28) + diff.month + (diff.year - 1970) * 12; // 28 equal minimum nb of day in a month
     } else {
       lastDate = firstDate = new DateTime.now();
       nbMonth = 1;
