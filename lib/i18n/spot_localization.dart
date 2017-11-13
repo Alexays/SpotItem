@@ -269,4 +269,7 @@ class SpotL {
 
   /// Book title
   String get book => _nameToValue['book'];
+
+  /// Holded title
+  String get holded => _nameToValue['holded'];
 }

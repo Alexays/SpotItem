@@ -5,6 +5,7 @@ import 'package:spotitem/ui/views/explorer_view.dart';
 import 'package:spotitem/ui/views/discover_view.dart';
 import 'package:spotitem/ui/views/map_view.dart';
 import 'package:spotitem/ui/views/items_view.dart';
+import 'package:spotitem/ui/views/holded_view.dart';
 import 'package:spotitem/ui/views/groups_view.dart';
 import 'package:spotitem/ui/views/social_view.dart';
 import 'package:spotitem/utils.dart';
@@ -33,18 +34,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
         new HomeScreenSubItem(SpotL.of(Services.loc).explore, explore),
       ],
     ),
-    new HomeScreenItem(
-        icon: const Icon(Icons.work),
-        title: SpotL.of(Services.loc).items,
-        content: const ItemsView(),
-        fabs: [
-          new FloatingActionButton(
-              child: const Icon(Icons.add),
-              tooltip: 'Add new item',
-              onPressed: () async {
-                await Navigator.of(Services.context).pushNamed('/items/add/');
-              })
-        ]),
+    new HomeScreenItem(icon: const Icon(Icons.work), title: SpotL.of(Services.loc).items, sub: <HomeScreenSubItem>[
+      new HomeScreenSubItem(SpotL.of(Services.loc).items, const ItemsView()),
+      new HomeScreenSubItem(SpotL.of(Services.loc).holded, const HoldedView()),
+    ], fabs: [
+      new FloatingActionButton(
+          child: const Icon(Icons.add),
+          tooltip: 'Add new item',
+          onPressed: () async {
+            await Navigator.of(Services.context).pushNamed('/items/add/');
+          })
+    ]),
     new HomeScreenItem(
       icon: const Icon(Icons.map),
       title: SpotL.of(Services.loc).map,

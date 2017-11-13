@@ -214,11 +214,11 @@ class CalendarMonth extends StatelessWidget {
         final dayToBuild = new DateTime(year, month, day);
         BoxDecoration decoration;
         var itemStyle = themeData.textTheme.body1;
-        final current = dates.firstWhere((f) {
-          return f.date.day == dayToBuild.day && f.date.month == dayToBuild.month && f.date.year == dayToBuild.year;
-        }, orElse: () => null);
+        final current = dates.firstWhere(
+            (f) => f.date.day == dayToBuild.day && f.date.month == dayToBuild.month && f.date.year == dayToBuild.year,
+            orElse: () => null);
         final disabled =
-            (dayToBuild.isAfter(lastDate) || dayToBuild.isBefore(firstDate) || (context == null && !edit)) &&
+            (dayToBuild.isAfter(lastDate) || dayToBuild.isBefore(firstDate) || (current == null && !edit)) &&
                 !allowDisable;
         if (current != null) {
           // The selected day gets a circle background highlight, and a contrasting text color.

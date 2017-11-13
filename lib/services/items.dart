@@ -23,12 +23,16 @@ class ItemsManager extends BasicService {
   /// Get user items
   List<Item> get myItems => _myItems;
 
+  /// Get holded items
+  List<Item> get holded => _holded;
+
   /// ValueNotifier of tracks filter
   final ValueNotifier<List<String>> tracks = new ValueNotifier<List<String>>([]);
 
   /// Private variables
   List<Item> _items = <Item>[];
   List<Item> _myItems = <Item>[];
+  List<Item> _holded = <Item>[];
   final List<String> _sortMethod = ['dist', 'name'];
   final List<String> _categories = ['jeux', 'bebe_jeunesse', 'fete', 'garage', 'objet', 'cuisine', 'jardin'];
 
@@ -125,6 +129,17 @@ class ItemsManager extends BasicService {
     assert(itemId != null && payload != null);
     final response = await iput('/items/$itemId/book', payload);
     return response;
+  }
+
+  /// Get user items.
+  ///
+  /// @returns User items list
+  Future<List<Item>> getHolded() async {
+    final response = await iget('/items/holded', Services.auth.accessToken);
+    if (response.success && response.data is List) {
+      return _holded = response.data.map((f) => new Item(f, Services.users.getDist(f['lat'], f['lng']))).toList();
+    }
+    return _holded;
   }
 
   /// Parse a given qrCode.

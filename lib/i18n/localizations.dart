@@ -80,7 +80,8 @@ const Map<String, Map<String, String>> localizations = const <String, Map<String
     'loading': r'Loading...',
     'delete': r'Delete',
     'calendar': r'Calendar',
-    'book': r'Book'
+    'book': r'Book',
+    'holded': r'Holded'
   },
   'fr': const <String, String>{
     'home': r'Accueil',
@@ -158,6 +159,7 @@ const Map<String, Map<String, String>> localizations = const <String, Map<String
     'loading': r'Chargement...',
     'delete': r'Supprimer',
     'calendar': r'Calendrier',
-    'book': r'Réserver'
+    'book': r'Réserver',
+    'holded': r'Détenu'
   },
 };
