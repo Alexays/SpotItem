@@ -549,14 +549,10 @@ class HomeScreenItem {
   /// Home screen item title
   final String title;
 
-  /// Home item key
-  final Key key;
-
   /// Home screen item initalizer
   HomeScreenItem({_HomeScreenState parent, Widget icon, this.title, Widget content, this.sub, this.fabs})
       : item = new BottomNavigationBarItem(icon: icon, title: new Text(title)),
-        content = sub != null ? sub.map((f) => f.content).toList() : <Widget>[content],
-        key = new PageStorageKey<String>(title);
+        content = sub != null ? sub.map((f) => f.content).toList() : <Widget>[content];
 }
 
 /// Home screen sub item

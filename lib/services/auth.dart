@@ -166,9 +166,11 @@ class AuthManager extends BasicService {
     if (providers.contains(provider) && refreshToken != null) {
       await iget('/logout/$provider', refreshToken);
     }
-    final prefs = await SharedPreferences.getInstance();
-    if (await prefs.clear()) {
-      prefs.setString(keyLastEmail, lastEmail ?? '');
+    if (Services.origin == Origin.prod) {
+      final prefs = await SharedPreferences.getInstance();
+      if (await prefs.clear()) {
+        prefs.setString(keyLastEmail, lastEmail ?? '');
+      }
     }
     accessToken = null;
     exp = null;
@@ -252,14 +254,18 @@ class AuthManager extends BasicService {
   /// @param provider Login provider
   Future<Null> saveTokens(Map<String, dynamic> _user, String _oauthToken, String _prvdr, String _email) async {
     assert(_user != null && _oauthToken != null && _prvdr != null && _email != null);
+    if (Services.origin == Origin.mock) {
+      return;
+    }
     user = new User(_user);
     final prefs = await SharedPreferences.getInstance()
       ..setString(keyUser, user.toString())
       ..setString(keyOauthToken, _oauthToken)
       ..setString(keyProvider, _prvdr)
       ..setString(keyLastEmail, _email);
-    if (!await prefs.commit()) {
-      return await Navigator.of(Services.context).pushNamedAndRemoveUntil('/error', (route) => false);
+    if (!(await prefs.commit())) {
+      await Navigator.of(Services.context).pushNamedAndRemoveUntil('/error', (route) => false);
+      return;
     }
     _refreshToken = _oauthToken;
     _provider = _prvdr;

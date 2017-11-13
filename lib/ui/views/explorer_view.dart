@@ -47,7 +47,7 @@ class _ExplorerViewState extends State<ExplorerView> {
       });
     }
     _items.sort((i1, i2) {
-      switch (_sort.isEmpty ? null : _sort.single) {
+      switch (_sort.isEmpty ? null : _sort.first) {
         case 'name':
           return i1.name.compareTo(i2.name);
         case 'dist':

@@ -205,10 +205,7 @@ void main() {
       await tester.pumpWidget(new SpotItemApp(init: true));
       await tester.pump();
       await tester.pump();
-
       await tester.enterText(find.byKey(const Key('search')), 'Amande');
-      await tester.pump();
-      await tester.tap(find.byIcon(Icons.search));
       await tester.pumpAndSettle();
       expect(find.text('Amande'), findsOneWidget);
       expect(find.text('Magnifique Nutella'), findsNothing);
