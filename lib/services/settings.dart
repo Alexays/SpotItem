@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SettingsManager extends BasicService {
   /// Settings Object
   Settings value;
+
   @override
   Future<bool> init() async {
     final prefs = await SharedPreferences.getInstance();

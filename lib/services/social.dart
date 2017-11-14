@@ -14,7 +14,7 @@ class SocialManager extends BasicService {
   List<Conversation> _conversations = <Conversation>[];
 
   /// Get all conversations
-  Future<List<Conversation>> getConversations() async {
+  Future<List<Conversation>> getAll() async {
     final response = await iget('/messages', Services.auth.accessToken);
     if (response.success) {
       if (!(response.data is List)) {
@@ -26,7 +26,7 @@ class SocialManager extends BasicService {
   }
 
   /// Add a conversation
-  Future<ApiRes> addConversation(Map<String, String> conversation) async {
+  Future<ApiRes> add(Map<String, String> conversation) async {
     assert(conversation != null);
     final response = await ipost('/messages', conversation, Services.auth.accessToken);
     if (response.success && response.data != null) {
@@ -36,7 +36,7 @@ class SocialManager extends BasicService {
   }
 
   /// Add a conversation
-  Future<Conversation> getConversation(String id) async {
+  Future<Conversation> get(String id) async {
     assert(id != null);
     final response = await iget('/messages/$id', Services.auth.accessToken);
     if (response.success && response.data != null) {
@@ -46,7 +46,7 @@ class SocialManager extends BasicService {
   }
 
   /// Subscribe to conversation
-  Future<Null> connectConversation(String id) async {
+  Future<Null> connect(String id) async {
     assert(id != null);
     final header = await getWsHeader('sub');
     if (header == null) {
@@ -57,7 +57,7 @@ class SocialManager extends BasicService {
   }
 
   /// Unsubscribe to conversation
-  Future<Null> disconnectConversation(String id) async {
+  Future<Null> disconnect(String id) async {
     assert(id != null);
     final header = await getWsHeader('unsub');
     header['path'] = '/conv/$id';

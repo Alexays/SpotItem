@@ -26,8 +26,8 @@ class _GroupsViewState extends State<GroupsView> {
   @override
   void initState() {
     super.initState();
-    _groups = Services.groups.groups;
-    _groupsInv = Services.groups.groupsInv;
+    _groups = Services.groups.data;
+    _groupsInv = Services.groups.invitation;
     if (_groups.isEmpty) {
       _groups = null;
     }
@@ -43,8 +43,8 @@ class _GroupsViewState extends State<GroupsView> {
 
   //TO-DO MAYBE don't await it's better :)
   Future<Null> _loadGroups() async {
-    final resGroup = await Services.groups.getGroups();
-    final resInv = await Services.groups.getGroupsInv();
+    final resGroup = await Services.groups.getAll();
+    final resInv = await Services.groups.getInv();
     if (!mounted) {
       return;
     }
@@ -55,7 +55,7 @@ class _GroupsViewState extends State<GroupsView> {
   }
 
   Future<Null> _joinGroup(int index) async {
-    final response = await Services.groups.joinGroup(_groupsInv[index].id);
+    final response = await Services.groups.join(_groupsInv[index].id);
     if (resValid(context, response)) {
       await _loadGroups();
     }

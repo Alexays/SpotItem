@@ -38,7 +38,7 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
   void initState() {
     super.initState();
     if (_group == null) {
-      Services.groups.getGroup(_groupId).then((res) {
+      Services.groups.get(_groupId).then((res) {
         if (!mounted) {
           return;
         }
@@ -62,7 +62,7 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
     if (!_formKey.currentState.validate()) {
       return showSnackBar(context, SpotL.of(context).correctError);
     }
-    final response = await Services.groups.editGroup(_group.id, {'name': nameCtrl.text, 'about': aboutCtrl.text});
+    final response = await Services.groups.edit(_group.id, {'name': nameCtrl.text, 'about': aboutCtrl.text});
     if (resValid(context, response)) {
       showSnackBar(context, response.msg);
       await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);

@@ -37,7 +37,7 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
   }
 
   Future<Null> _leaveGroup(BuildContext context) async {
-    final response = await Services.groups.leaveGroup(group.id);
+    final response = await Services.groups.leave(group.id);
     if (resValid(context, response)) {
       await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
     }
@@ -207,7 +207,7 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
                   new FlatButton(
                     child: new Text(SpotL.of(context).delete.toUpperCase()),
                     onPressed: () async {
-                      await Services.groups.delGroup(group.id);
+                      await Services.groups.delete(group.id);
                       await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
                     },
                   ),

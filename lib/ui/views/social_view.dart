@@ -39,7 +39,7 @@ class _SocialViewState extends State<SocialView> {
   }
 
   Future<Null> _loadConversation() async {
-    final res = await Services.social.getConversations();
+    final res = await Services.social.getAll();
     if (!mounted) {
       return;
     }

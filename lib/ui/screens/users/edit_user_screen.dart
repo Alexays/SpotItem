@@ -38,7 +38,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
     if (password != _password.text) {
       return showSnackBar(context, SpotL.of(context).passwordError);
     }
-    final res = await Services.users.updateUser({
+    final res = await Services.users.edit({
       'firstname': _firstname.text,
       'name': _lastname.text,
     }, password);

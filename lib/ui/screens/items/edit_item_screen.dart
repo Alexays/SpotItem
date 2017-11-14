@@ -84,7 +84,7 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
     } else {
       _initForm();
     }
-    Services.groups.getGroups().then((data) {
+    Services.groups.getAll().then((data) {
       if (!mounted) {
         return;
       }

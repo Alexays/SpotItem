@@ -106,7 +106,7 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
   }
 
   Future<Null> _loadConv() async {
-    final res = await Services.social.getConversation(conv.id);
+    final res = await Services.social.get(conv.id);
     if (res == null || !mounted) {
       return;
     }
@@ -121,7 +121,7 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
         chat.animation.forward();
         return chat;
       }).toList();
-      Services.social.connectConversation(conv.id);
+      Services.social.connect(conv.id);
       Services.auth.addCallback('MESSAGE', newMessage);
     });
   }
@@ -132,7 +132,7 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
     for (var message in _messages) {
       message.animation.dispose();
     }
-    Services.social.disconnectConversation(conv.id);
+    Services.social.disconnect(conv.id);
     Services.auth.delCallback('MESSAGE');
   }
 

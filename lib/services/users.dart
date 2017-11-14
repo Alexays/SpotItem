@@ -137,7 +137,7 @@ class UsersManager extends BasicService {
   /// @param user User data
   /// @param password User password to update
   /// @returns Api body response
-  Future<ApiRes> updateUser(Map<String, dynamic> payload, String password) async {
+  Future<ApiRes> edit(Map<String, dynamic> payload, String password) async {
     assert(payload != null && password != null);
     if (password != null) {
       payload['password'] = password;
@@ -155,7 +155,7 @@ class UsersManager extends BasicService {
   ///
   /// @param userId User id
   /// @returns User class
-  Future<dynamic> getUser(String userId) async {
+  Future<dynamic> get(String userId) async {
     assert(userId != null);
     final response = await iget('/users/$userId', Services.auth.accessToken);
     if (response.success) {

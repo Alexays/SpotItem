@@ -56,7 +56,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   @override
   void initState() {
     super.initState();
-    Services.groups.getGroups().then((data) {
+    Services.groups.getAll().then((data) {
       if (!mounted) {
         return;
       }

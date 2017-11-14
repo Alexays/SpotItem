@@ -22,7 +22,7 @@ class _ItemsViewState extends State<ItemsView> {
   @override
   void initState() {
     super.initState();
-    _myItems = Services.items.myItems;
+    _myItems = Services.items.owned;
     if (_myItems.isEmpty) {
       _myItems = null;
     }

@@ -121,7 +121,7 @@ void main() {
       expect(find.text('From your groups'), findsOneWidget);
       expect(find.text('Magnifique Nutella'), findsOneWidget);
       expect(find.text('Amande'), findsOneWidget);
-      expect(Services.items.items.length, 2);
+      expect(Services.items.data.length, 2);
     });
 
     testWidgets('Show explorer', (tester) async {
@@ -133,7 +133,7 @@ void main() {
       await tester.tap(find.descendant(of: find.byType(TabBar), matching: find.text('Explore')));
       await tester.pumpAndSettle();
       expect(find.text('Magnifique Nutella'), findsOneWidget);
-      expect(Services.items.items.length, 2);
+      expect(Services.items.data.length, 2);
     });
 
     testWidgets('Sort item by name', (tester) async {
@@ -153,7 +153,7 @@ void main() {
       await tester.tap(find.descendant(of: find.byType(CheckedPopupMenuItem), matching: find.text('Name')));
       await tester.pumpAndSettle();
       expect(find.descendant(of: find.byType(ItemsListItem).first, matching: find.text('Amande')), findsOneWidget);
-      expect(Services.items.items.length, 2);
+      expect(Services.items.data.length, 2);
     });
 
     testWidgets('Filter item by gift', (tester) async {
@@ -173,7 +173,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('Amande'), findsNothing);
       expect(find.text('Magnifique Nutella'), findsOneWidget);
-      expect(Services.items.items.length, 2);
+      expect(Services.items.data.length, 2);
       await tester.tap(find.descendant(of: find.byType(SwitchListTile), matching: find.text('Gift')));
       await tester.pumpAndSettle();
     });
@@ -195,7 +195,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('Amande'), findsOneWidget);
       expect(find.text('Magnifique Nutella'), findsNothing);
-      expect(Services.items.items.length, 2);
+      expect(Services.items.data.length, 2);
       await tester.tap(find.descendant(of: find.byType(SwitchListTile), matching: find.text('From your groups')));
       await tester.pumpAndSettle();
     });

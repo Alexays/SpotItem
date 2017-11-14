@@ -18,10 +18,10 @@ class ItemsManager extends BasicService {
   List<String> get exludeTracks => [_sortMethod].expand((x) => x).toList();
 
   /// Get items
-  List<Item> get items => _items;
+  List<Item> get data => _data;
 
   /// Get user items
-  List<Item> get myItems => _myItems;
+  List<Item> get owned => _owned;
 
   /// Get holded items
   List<Item> get holded => _holded;
@@ -30,8 +30,8 @@ class ItemsManager extends BasicService {
   final ValueNotifier<List<String>> tracks = new ValueNotifier<List<String>>([]);
 
   /// Private variables
-  List<Item> _items = <Item>[];
-  List<Item> _myItems = <Item>[];
+  List<Item> _data = <Item>[];
+  List<Item> _owned = <Item>[];
   List<Item> _holded = <Item>[];
   final List<String> _sortMethod = ['dist', 'name'];
   final List<String> _categories = ['jeux', 'bebe_jeunesse', 'fete', 'garage', 'objet', 'cuisine', 'jardin'];
@@ -71,18 +71,18 @@ class ItemsManager extends BasicService {
   ///
   /// @returns Items list
   Future<List<Item>> loadItems() async {
-    if (_items.isEmpty) {
+    if (_data.isEmpty) {
       await Services.users.getLocation();
       final response = await iget(Services.auth.loggedIn != null ? '/items/auth' : '/items',
           Services.auth.loggedIn ? Services.auth.accessToken : null);
       if (response.success && response.data is List) {
-        return _items = response.data
+        return _data = response.data
             .map((f) => new Item(f, Services.users.getDist(f['lat'], f['lng'])))
             .where((item) => item.dist < Services.settings.value.maxDistance)
             .toList();
       }
     }
-    return _items;
+    return _data;
   }
 
   /// Get loaded items or reload it.
@@ -91,7 +91,7 @@ class ItemsManager extends BasicService {
   /// @returns Items list
   Future<List<Item>> getItems({bool force: false}) async {
     if (force) {
-      _items.clear();
+      _data.clear();
     }
     return loadItems();
   }
@@ -115,9 +115,9 @@ class ItemsManager extends BasicService {
   Future<List<Item>> getUserItems() async {
     final response = await iget('/items/user', Services.auth.accessToken);
     if (response.success && response.data is List) {
-      return _myItems = response.data.map((f) => new Item(f, Services.users.getDist(f['lat'], f['lng']))).toList();
+      return _owned = response.data.map((f) => new Item(f, Services.users.getDist(f['lat'], f['lng']))).toList();
     }
-    return _myItems;
+    return _owned;
   }
 
   /// Delete item by id.

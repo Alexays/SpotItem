@@ -22,7 +22,7 @@ class _HoldedViewState extends State<HoldedView> {
   @override
   void initState() {
     super.initState();
-    _holded = Services.items.myItems;
+    _holded = Services.items.holded;
     if (_holded.isEmpty) {
       _holded = null;
     }

@@ -24,7 +24,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
 
   Future<Null> addGroup(BuildContext context) async {
     _formKey.currentState.save();
-    final response = await Services.groups.addGroup({
+    final response = await Services.groups.add({
       'name': name,
       'about': about,
       'owners': [Services.auth.user.id],

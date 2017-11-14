@@ -488,8 +488,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
       }
       final _searchWord = _searchQuery.split(' ').where((f) => f.trim().isNotEmpty);
       return new ItemsList(
-          Services.items.items.where((item) => _searchWord.any((f) => item.name.toLowerCase().contains(f))).toList(),
-          4);
+          Services.items.data.where((item) => _searchWord.any((f) => item.name.toLowerCase().contains(f))).toList(), 4);
     }
     return new TabBarView(
       controller: tabsCtrl[page],

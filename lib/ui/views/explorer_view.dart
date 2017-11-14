@@ -38,7 +38,7 @@ class _ExplorerViewState extends State<ExplorerView> {
     if (!mounted) {
       return;
     }
-    _items = new List<Item>.from(Services.items.items);
+    _items = new List<Item>.from(Services.items.data);
     final _tracks = Services.items.tracks.value.where((f) => !Services.items.exludeTracks.contains(f));
     final _sort = Services.items.tracks.value.where((f) => Services.items.exludeTracks.contains(f));
     if (_tracks != null) {
