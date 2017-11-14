@@ -61,11 +61,11 @@ class _GroupsViewState extends State<GroupsView> {
     }
   }
 
-  Future<Null> _showGroup(int index) async {
+  Future<Null> _showGroup(Group _group) async {
     await Navigator.push(
         context,
         new MaterialPageRoute<Null>(
-          builder: (context) => new GroupPage(group: _groups[index - 1]),
+          builder: (context) => new GroupPage(group: _group),
         ));
   }
 
@@ -95,9 +95,7 @@ class _GroupsViewState extends State<GroupsView> {
               return new Container();
             }
             return new GestureDetector(
-              onTap: () {
-                _showGroup(index);
-              },
+              onTap: () => _showGroup(_groups[index - 1]),
               child: new Card(
                 child: new Column(
                   mainAxisSize: MainAxisSize.min,
