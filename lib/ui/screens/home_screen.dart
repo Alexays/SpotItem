@@ -261,7 +261,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
 
   void _qrReader() {
     new QRCodeReader().scan().then((data) {
-      print(data);
+      final itemId = Services.items.parseCode(data);
+      Navigator.of(context).pushReplacementNamed('items/$itemId');
     });
   }
 

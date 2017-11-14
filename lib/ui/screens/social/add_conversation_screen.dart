@@ -22,9 +22,7 @@ class _AddConvScreenState extends State<AddConvScreen> {
     if (group == null) {
       return showSnackBar(context, SpotL.of(context).selectGroup);
     }
-    final response = await Services.social.add({
-      'group': group,
-    });
+    final response = await Services.social.add({'group': group});
     if (resValid(context, response)) {
       showSnackBar(context, response.msg);
       await Navigator.of(context).pushReplacement(new MaterialPageRoute<Null>(
