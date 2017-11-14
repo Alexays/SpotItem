@@ -21,13 +21,13 @@ class _GroupsViewState extends State<GroupsView> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
 
   static List<Group> _groups;
-  static List<Group> _groupsInv;
+  static List<Group> _inv;
 
   @override
   void initState() {
     super.initState();
     _groups = Services.groups.data;
-    _groupsInv = Services.groups.invitation;
+    _inv = Services.groups.invitation;
     if (_groups.isEmpty) {
       _groups = null;
     }
@@ -50,12 +50,12 @@ class _GroupsViewState extends State<GroupsView> {
     }
     setState(() {
       _groups = resGroup;
-      _groupsInv = resInv;
+      _inv = resInv;
     });
   }
 
-  Future<Null> _joinGroup(int index) async {
-    final response = await Services.groups.join(_groupsInv[index].id);
+  Future<Null> _joinGroup(String id) async {
+    final response = await Services.groups.join(id);
     if (resValid(context, response)) {
       await _loadGroups();
     }
@@ -69,7 +69,7 @@ class _GroupsViewState extends State<GroupsView> {
         ));
   }
 
-  Widget _createList() => _groupsInv != null && _groupsInv.isEmpty && _groups.isEmpty
+  Widget _createList() => _inv != null && _inv.isEmpty && _groups.isEmpty
       ? new Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -89,7 +89,7 @@ class _GroupsViewState extends State<GroupsView> {
           itemCount: (_groups?.length ?? 0) + 1,
           itemBuilder: (context, index) {
             if (index == 0) {
-              if (_groupsInv != null && _groupsInv.isNotEmpty) {
+              if (_inv != null && _inv.isNotEmpty) {
                 return _buildInv();
               }
               return new Container();
@@ -127,16 +127,15 @@ class _GroupsViewState extends State<GroupsView> {
           });
 
   Widget _buildInv() {
-    if (_groupsInv.isEmpty) {
+    if (_inv.isEmpty) {
       return new Container();
     }
     return new Container(
       child: new ExpansionTile(
         leading: const Icon(Icons.mail),
-        title: new Text(SpotL.of(context).nbInv('${_groupsInv?.length.toString()}')),
-        children: new List<Widget>.generate(
-            _groupsInv?.length ?? 0,
-            (index) => new GestureDetector(
+        title: new Text(SpotL.of(context).nbInv(_inv?.length.toString())),
+        children: _inv
+            .map((f) => new GestureDetector(
                 onTap: () {
                   showDialog<Null>(
                     context: context,
@@ -146,7 +145,7 @@ class _GroupsViewState extends State<GroupsView> {
                       content: new SingleChildScrollView(
                         child: new ListBody(
                           children: <Widget>[
-                            new Text(SpotL.of(context).joinGroup('${_groupsInv[index].name}')),
+                            new Text(SpotL.of(context).joinGroup(f.name)),
                           ],
                         ),
                       ),
@@ -160,7 +159,7 @@ class _GroupsViewState extends State<GroupsView> {
                         new FlatButton(
                           child: new Text(MaterialLocalizations.of(context).continueButtonLabel),
                           onPressed: () async {
-                            await _joinGroup(index);
+                            await _joinGroup(f.id);
                             Navigator.of(context).pop();
                           },
                         ),
@@ -174,19 +173,15 @@ class _GroupsViewState extends State<GroupsView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       new ListTile(
-                          leading: new CircleAvatar(child: new Text(_groupsInv[index].name[0])),
-                          title: new Text(_groupsInv[index]?.name),
-                          subtitle: new Text(_groupsInv[index]?.about),
+                          leading: new CircleAvatar(child: new Text(f.name[0])),
+                          title: new Text(f.name),
+                          subtitle: new Text(f.about),
                           trailing: new Row(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               new Text(
-                                _groupsInv[index]
-                                    .users
-                                    .where((user) => user.groups.contains(_groupsInv[index].id))
-                                    .length
-                                    .toString(),
+                                f.users.where((user) => user.groups.contains(f.id)).length.toString(),
                                 style: new TextStyle(fontWeight: FontWeight.w400, fontSize: 15.0),
                               ),
                               const Padding(padding: const EdgeInsets.symmetric(horizontal: 2.0)),
@@ -195,7 +190,8 @@ class _GroupsViewState extends State<GroupsView> {
                           ))
                     ],
                   ),
-                ))),
+                )))
+            .toList(),
       ),
     );
   }

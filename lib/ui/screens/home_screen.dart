@@ -149,8 +149,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
 
   void _showFilter() {
     showModalBottomSheet<Null>(
-        context: context,
-        builder: (context) => new StatefulBuilder(
+      context: context,
+      builder: (context) => new StatefulBuilder(
             builder: (context, switchSetState) => new Column(
                   children: <Widget>[
                     new Container(
@@ -188,11 +188,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
                       title: new Text(SpotL.of(Services.loc).fromYourGroups),
                       value: Services.items.tracks.value.contains('group'),
                       onChanged: (value) {
-                        if (value) {
-                          Services.items.tracks.value.add('group');
-                        } else {
-                          Services.items.tracks.value.remove('group');
-                        }
+                        value ? Services.items.tracks.value.add('group') : Services.items.tracks.value.remove('group');
                         switchSetState(() {
                           Services.items.tracks.value = new List<String>.from(Services.items.tracks.value);
                         });
@@ -203,11 +199,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
                       title: new Text(SpotL.of(Services.loc).gift),
                       value: Services.items.tracks.value.contains('gift'),
                       onChanged: (value) {
-                        if (value) {
-                          Services.items.tracks.value.add('gift');
-                        } else {
-                          Services.items.tracks.value.remove('gift');
-                        }
+                        value ? Services.items.tracks.value.add('gift') : Services.items.tracks.value.remove('gift');
                         switchSetState(() {
                           Services.items.tracks.value = new List<String>.from(Services.items.tracks.value);
                         });
@@ -215,7 +207,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
                       secondary: const Icon(Icons.card_giftcard),
                     )
                   ],
-                )));
+                ),
+          ),
+    );
   }
 
   void _searchCallback() {
@@ -298,10 +292,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
             ],
             onDetailsPressed: () {
               _showDrawerContents = !_showDrawerContents;
-              if (_showDrawerContents)
-                _controller.reverse();
-              else
-                _controller.forward();
+              _showDrawerContents ? _controller.reverse() : _controller.forward();
             }),
         new ClipRect(
             child: new Stack(children: <Widget>[
