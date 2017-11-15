@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:spotitem/models/user.dart';
 import 'package:spotitem/models/api.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:spotitem/i18n/spot_localization.dart';
 
 /// Email RegExp
 final RegExp emailExp = new RegExp(r'[\w-]+@([\w-]+\.)+[\w-]+');
@@ -43,7 +44,6 @@ void showLoading(BuildContext context) {
 }
 
 /// Check if json response is valid
-/// TO-DO show error other
 bool resValid(BuildContext context, ApiRes response) {
   if (response == null) {
     return false;
@@ -51,6 +51,8 @@ bool resValid(BuildContext context, ApiRes response) {
   if (!response.success) {
     if (response.error != null) {
       showSnackBar(context, response.error);
+    } else {
+      showSnackBar(context, SpotL.of(context).error);
     }
     return false;
   }

@@ -107,42 +107,44 @@ class _AddItemScreenState extends State<AddItemScreen> {
     }
     return new Column(children: <Widget>[
       new Center(
-          child: new RaisedButton(
-        child: new Text(SpotL.of(context).addImage),
-        onPressed: getImage,
-      )),
+        child: new RaisedButton(
+          child: new Text(SpotL.of(context).addImage),
+          onPressed: getImage,
+        ),
+      ),
       const Divider(),
       new Flexible(
-          child: new GridView.count(
-        primary: false,
-        crossAxisCount: 3,
-        crossAxisSpacing: 10.0,
-        mainAxisSpacing: 10.0,
-        children: new List<Widget>.generate(
-          _imagesFile.length,
-          (index) => new GridTile(
-                child: new Stack(
-                  children: <Widget>[
-                    new Image.file(_imagesFile[index]),
-                    new Positioned(
-                      top: 2.5,
-                      left: 2.5,
-                      child: new IconButton(
-                        color: const Color.fromARGB(255, 255, 255, 255),
-                        icon: const Icon(Icons.delete),
-                        tooltip: 'Delete this image',
-                        onPressed: () {
-                          setState(() {
-                            _imagesFile.removeAt(index);
-                          });
-                        },
+        child: new GridView.count(
+          primary: false,
+          crossAxisCount: 3,
+          crossAxisSpacing: 10.0,
+          mainAxisSpacing: 10.0,
+          children: new List<Widget>.generate(
+            _imagesFile.length,
+            (index) => new GridTile(
+                  child: new Stack(
+                    children: <Widget>[
+                      new Image.file(_imagesFile[index]),
+                      new Positioned(
+                        top: 2.5,
+                        left: 2.5,
+                        child: new IconButton(
+                          color: const Color.fromARGB(255, 255, 255, 255),
+                          icon: const Icon(Icons.delete),
+                          tooltip: 'Delete this image',
+                          onPressed: () {
+                            setState(() {
+                              _imagesFile.removeAt(index);
+                            });
+                          },
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
+          ),
         ),
-      ))
+      )
     ]);
   }
 
@@ -154,22 +156,18 @@ class _AddItemScreenState extends State<AddItemScreen> {
       return new Center(child: new Text(SpotL.of(context).noGroups));
     }
     return new Column(
-      children: new List<Widget>.generate(
-          _groups.length,
-          (index) => new CheckboxListTile(
-                title: new Text(_groups[index].name),
-                value: _groupsId.contains(_groups[index].id),
+      children: _groups
+          .map((f) => new CheckboxListTile(
+                title: new Text(f.name),
+                value: _groupsId.contains(f.id),
                 onChanged: (value) {
                   setState(() {
-                    if (value) {
-                      _groupsId.add(_groups[index].id);
-                    } else {
-                      _groupsId.remove(_groups[index].id);
-                    }
+                    value ? _groupsId.add(f.id) : _groupsId.remove(f.id);
                   });
                 },
                 secondary: const Icon(Icons.people),
-              )),
+              ))
+          .toList(),
     );
   }
 
@@ -179,7 +177,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
       setState(() {
         _currentStep = 0;
       });
-      return showSnackBar(context, SpotL.of(context).correctError);
+      showSnackBar(context, SpotL.of(context).correctError);
+      return;
     }
     showLoading(context);
     await Services.users.getLocation(force: true);
@@ -191,19 +190,20 @@ class _AddItemScreenState extends State<AddItemScreen> {
     }
     if (_location == null || validateString(_location.text) != null) {
       Navigator.of(context).pop();
-      return showSnackBar(
-          context, 'Please enable location or choose location !');
+      showSnackBar(context, SpotL.of(context).locationError);
+      return;
     }
     final location = Services.users.location ??
         await Services.users.getLocationByAddress(_location.text);
     if (location == null) {
       Navigator.of(context).pop();
-      return showSnackBar(
-          context, 'Please enable location or choose location !');
+      showSnackBar(context, SpotL.of(context).locationError);
+      return;
     }
     if (!Services.auth.user.isValid()) {
       Navigator.of(context).pop();
-      return showSnackBar(context, SpotL.of(context).error);
+      showSnackBar(context, SpotL.of(context).error);
+      return;
     }
     final response = await Services.items.addItem({
       'name': _name,
@@ -218,15 +218,14 @@ class _AddItemScreenState extends State<AddItemScreen> {
       'groups': _groupsId
     });
     Navigator.of(context).pop();
-    if (resValid(context, response)) {
-      showSnackBar(context, response.msg);
-      await Services.items
-          .getItems(force: true); // UNTIL WE HIDE USER ITEM FROM GENERAL LIST
-      await Navigator
-          .of(context)
-          .pushNamedAndRemoveUntil('/', (route) => false);
-      //TO-DO SHOW success dialog with Qrcode
+    if (!resValid(context, response)) {
+      return;
     }
+    showSnackBar(context, response.msg);
+    await Services.items
+        .getItems(force: true); // UNTIL WE HIDE USER ITEM FROM GENERAL LIST
+    await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+    //TO-DO SHOW success dialog with Qrcode
   }
 
   @override

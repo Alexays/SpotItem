@@ -19,8 +19,11 @@ class Event {
   final Map<String, dynamic> data;
 
   /// Convert class to json
-  Map<String, dynamic> toJson() =>
-      {'date': '$date', 'holder': holder, 'data': data};
+  Map<String, dynamic> toJson() => {
+        'date': '$date',
+        'holder': holder,
+        'data': data,
+      };
 }
 
 /// Item Model

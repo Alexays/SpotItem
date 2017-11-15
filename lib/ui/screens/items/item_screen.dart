@@ -119,30 +119,38 @@ class _ItemPageState extends State<ItemPage>
   @override
   void initState() {
     super.initState();
-    if (item != null) {
-      _tabController =
-          new TabController(vsync: this, length: item.images.length);
-    }
-    if (item == null) {
-      Services.items.getItem(_itemId).then((data) {
-        if (!mounted) {
-          return;
-        }
-        setState(() {
-          item = data;
-          if (item != null) {
-            _tabController =
-                new TabController(vsync: this, length: item.images.length);
-          }
-        });
+    _initControler();
+    Services.items.getItem(_itemId).then((data) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        item = data;
+        _initControler();
       });
+    });
+  }
+
+  void _initControler() {
+    if (item == null) {
+      return;
     }
+    _tabController = new TabController(vsync: this, length: item.images.length);
   }
 
   @override
   void dispose() {
     super.dispose();
     _tabController.dispose();
+  }
+
+  Future<Null> _deleteItem(BuildContext context) async {
+    final res = await Services.items.deleteItem(item.id);
+    if (!resValid(context, res)) {
+      return;
+    }
+    await Services.items.getItems(force: true);
+    await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
   }
 
   List<Widget> _doButton(BuildContext context) {
@@ -169,22 +177,11 @@ class _ItemPageState extends State<ItemPage>
                   new FlatButton(
                     child: new Text(
                         MaterialLocalizations.of(context).cancelButtonLabel),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
+                    onPressed: () => Navigator.of(context).pop(),
                   ),
                   new FlatButton(
                     child: new Text(SpotL.of(context).delete.toUpperCase()),
-                    onPressed: () {
-                      Services.items.deleteItem(item.id).then((resp) {
-                        if (resp.success) {
-                          Services.items.getItems(force: true);
-                          Navigator
-                              .of(context)
-                              .pushNamedAndRemoveUntil('/', (route) => false);
-                        }
-                      });
-                    },
+                    onPressed: () => _deleteItem(context),
                   ),
                 ],
               ),
@@ -233,191 +230,194 @@ class _ItemPageState extends State<ItemPage>
 
   String getWidth() => MediaQuery.of(context).size.width.toInt().toString();
 
+  Widget _buildCarrousel(BuildContext context) => new GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onHorizontalDragUpdate: (details) {
+          if (_tabController.indexIsChanging) {
+            return;
+          }
+          _tabController.animateTo(
+              (_tabController.index - details.delta.dx.clamp(-1, 1))
+                  .clamp(0, _tabController.length - 1));
+        },
+        child: new FlexibleSpaceBar(
+          background: new Stack(
+            alignment: Alignment.center,
+            fit: StackFit.expand,
+            children: <Widget>[
+              new Container(
+                color: Theme.of(context).canvasColor,
+                child: new TabBarView(
+                  controller: _tabController,
+                  children: item.images
+                      .map((f) => (f == item.images.first)
+                          ? new Hero(
+                              tag: '${item.id}$hash',
+                              child: new FadeInImage(
+                                placeholder: placeholder,
+                                image: new NetworkImage('$apiImgUrl$f'),
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                          : new FadeInImage(
+                              placeholder: placeholder,
+                              image: new NetworkImage('$apiImgUrl$f'),
+                              fit: BoxFit.cover))
+                      .toList(),
+                ),
+              ),
+              new Positioned(
+                bottom: 15.0,
+                width: MediaQuery.of(context).size.width,
+                child: new Center(
+                  child: new TabPageSelector(
+                    controller: _tabController,
+                    indicatorSize: 8.0,
+                  ),
+                ),
+              ),
+              // This gradient ensures that the toolbar icons are distinct
+              // against the background image.
+              new DecoratedBox(
+                decoration: new BoxDecoration(
+                  gradient: new LinearGradient(
+                    begin: const FractionalOffset(0.5, 0.0),
+                    end: const FractionalOffset(0.5, 0.40),
+                    colors: <Color>[
+                      const Color(0x60000000),
+                      const Color(0x00000000)
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+
+  List<Widget> _buildInfo(BuildContext context) => <Widget>[
+        _giftCard(),
+        new _Category(
+          icon: Icons.info,
+          children: <Widget>[
+            new _ListItem(
+              lines: <String>[
+                capitalize(item.name),
+                SpotL.of(context).name,
+              ],
+            ),
+            new _ListItem(
+              lines: <String>[
+                item.about,
+                SpotL.of(context).about,
+              ],
+            ),
+          ],
+        ),
+        new _Category(
+          icon: Icons.contact_mail,
+          children: <Widget>[
+            new _ListItem(
+              icon: Icons.sms,
+              tooltip: 'Send personal e-mail',
+              onPressed: () {},
+              lines: <String>[
+                '${item.owner.firstname} ${item.owner.name}',
+                SpotL.of(context).owner,
+              ],
+            ),
+          ],
+        ),
+        new _Category(
+          icon: Icons.location_on,
+          children: <Widget>[
+            new _ListItem(
+              icon: Icons.map,
+              tooltip: 'Open map',
+              onPressed: () {},
+              lines: <String>[
+                item.location,
+                SpotL.of(context).location,
+              ],
+            ),
+          ],
+        ),
+        new Container(
+          child: new Image.network(
+              'https://maps.googleapis.com/maps/api/staticmap?center=${item.lat},${item.lng}&markers=color:blue%7C${item.lat},${item.lng}&zoom=13&maptype=roadmap&size=${getWidth()}x250&key=$staticApiKey'),
+        ),
+      ];
+
+  Future<Null> _bookItem(BuildContext context) => Navigator.push(
+      context,
+      new MaterialPageRoute<Null>(
+        fullscreenDialog: true,
+        builder: (context) => new BookItemScreen(item: item),
+      ));
+
   @override
   Widget build(BuildContext context) => new Scaffold(
         body: new Builder(
-            builder: (context) => item == null
-                ? const Center(child: const CircularProgressIndicator())
-                : new Column(
-                    children: <Widget>[
-                      new Expanded(
-                        child: new CustomScrollView(
-                          slivers: <Widget>[
-                            new SliverAppBar(
-                              title: new Text(
-                                capitalize(item.name),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              expandedHeight: 256.0,
-                              pinned: true,
-                              actions: _doButton(context),
-                              flexibleSpace: new GestureDetector(
-                                behavior: HitTestBehavior.opaque,
-                                onHorizontalDragUpdate: (details) {
-                                  if (!_tabController.indexIsChanging) {
-                                    _tabController.animateTo((_tabController
-                                                .index -
-                                            details.delta.dx.clamp(-1, 1))
-                                        .clamp(0, _tabController.length - 1));
-                                  }
-                                },
-                                child: new FlexibleSpaceBar(
-                                  background: new Stack(
-                                    alignment: Alignment.center,
-                                    fit: StackFit.expand,
-                                    children: <Widget>[
-                                      new Container(
-                                          color: Theme.of(context).canvasColor,
-                                          child: new TabBarView(
-                                              controller: _tabController,
-                                              children: item.images
-                                                  .map((f) => (f ==
-                                                          item.images.first)
-                                                      ? new Hero(
-                                                          tag:
-                                                              '${item.id}$hash',
-                                                          child:
-                                                              new FadeInImage(
-                                                            placeholder:
-                                                                placeholder,
-                                                            image: new NetworkImage(
-                                                                '$apiImgUrl$f'),
-                                                            fit: BoxFit.cover,
-                                                          ))
-                                                      : new FadeInImage(
-                                                          placeholder:
-                                                              placeholder,
-                                                          image: new NetworkImage(
-                                                              '$apiImgUrl$f'),
-                                                          fit: BoxFit.cover))
-                                                  .toList())),
-                                      new Positioned(
-                                        bottom: 15.0,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        child: new Center(
-                                          child: new TabPageSelector(
-                                            controller: _tabController,
-                                            indicatorSize: 8.0,
-                                          ),
-                                        ),
-                                      ),
-                                      // This gradient ensures that the toolbar icons are distinct
-                                      // against the background image.
-                                      new DecoratedBox(
-                                        decoration: new BoxDecoration(
-                                          gradient: new LinearGradient(
-                                            begin: const FractionalOffset(
-                                                0.5, 0.0),
-                                            end: const FractionalOffset(
-                                                0.5, 0.40),
-                                            colors: <Color>[
-                                              const Color(0x60000000),
-                                              const Color(0x00000000)
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
+          builder: (context) => item == null
+              ? const Center(child: const CircularProgressIndicator())
+              : new Column(
+                  children: <Widget>[
+                    new Expanded(
+                      child: new CustomScrollView(
+                        slivers: <Widget>[
+                          new SliverAppBar(
+                            title: new Text(
+                              capitalize(item.name),
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            new SliverList(
-                              delegate: new SliverChildListDelegate(<Widget>[
-                                _giftCard(),
-                                new _Category(
-                                  icon: Icons.info,
-                                  children: <Widget>[
-                                    new _ListItem(
-                                      lines: <String>[
-                                        capitalize(item.name),
-                                        SpotL.of(context).name,
-                                      ],
-                                    ),
-                                    new _ListItem(
-                                      lines: <String>[
-                                        item.about,
-                                        SpotL.of(context).about,
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                new _Category(
-                                  icon: Icons.contact_mail,
-                                  children: <Widget>[
-                                    new _ListItem(
-                                      icon: Icons.sms,
-                                      tooltip: 'Send personal e-mail',
-                                      onPressed: () {},
-                                      lines: <String>[
-                                        '${item.owner.firstname} ${item.owner.name}',
-                                        SpotL.of(context).owner,
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                new _Category(
-                                  icon: Icons.location_on,
-                                  children: <Widget>[
-                                    new _ListItem(
-                                      icon: Icons.map,
-                                      tooltip: 'Open map',
-                                      onPressed: () {},
-                                      lines: <String>[
-                                        item.location,
-                                        SpotL.of(context).location,
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                new Container(
-                                  child: new Image.network(
-                                      'https://maps.googleapis.com/maps/api/staticmap?center=${item.lat},${item.lng}&markers=color:blue%7C${item.lat},${item.lng}&zoom=13&maptype=roadmap&size=${getWidth()}x250&key=$staticApiKey'),
-                                ),
-                              ]),
+                            expandedHeight: 256.0,
+                            pinned: true,
+                            actions: _doButton(context),
+                            flexibleSpace: _buildCarrousel(context),
+                          ),
+                          new SliverList(
+                            delegate: new SliverChildListDelegate(
+                              _buildInfo(context),
                             ),
-                          ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    new Container(
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 8.0,
+                        vertical: 4.0,
+                      ),
+                      child: new ConstrainedBox(
+                        constraints: new BoxConstraints.tightFor(
+                            height: 48.0,
+                            width: MediaQuery.of(context).size.width),
+                        child: new RaisedButton(
+                          color: Theme.of(context).accentColor,
+                          onPressed: () => _bookItem(context),
+                          child: new Text(
+                            SpotL.of(context).book.toUpperCase(),
+                            style: new TextStyle(
+                                color: Theme.of(context).canvasColor),
+                          ),
                         ),
                       ),
-                      new Container(
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 8.0, vertical: 4.0),
-                        child: new ConstrainedBox(
-                            constraints: new BoxConstraints.tightFor(
-                                height: 48.0,
-                                width: MediaQuery.of(context).size.width),
-                            child: new RaisedButton(
-                              color: Theme.of(context).accentColor,
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    new MaterialPageRoute<Null>(
-                                      fullscreenDialog: true,
-                                      builder: (context) =>
-                                          new BookItemScreen(item: item),
-                                    ));
-                              },
-                              child: new Text(
-                                SpotL.of(context).book.toUpperCase(),
-                                style: new TextStyle(
-                                    color: Theme.of(context).canvasColor),
-                              ),
-                            )),
-                      ),
-                    ],
-                  )),
+                    ),
+                  ],
+                ),
+        ),
       );
 }
 
 /// Pop a Page with item details
 Future<Null> showItemPage(Item item, num hash, BuildContext context) async {
   await Navigator.push(
-      context,
-      new MaterialPageRoute<Null>(
-        builder: (context) => new ItemPage(
-              item: item,
-              hash: hash,
-            ),
-      ));
+    context,
+    new MaterialPageRoute<Null>(
+      builder: (context) => new ItemPage(
+            item: item,
+            hash: hash,
+          ),
+    ),
+  );
 }

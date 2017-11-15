@@ -149,17 +149,16 @@ class UsersManager extends BasicService {
     if (password != null) {
       payload['password'] = password;
     }
-    final response =
-        await iput('/users/edit', payload, Services.auth.accessToken);
-    if (response.success) {
-      Services.auth.accessToken = response.data['token'];
+    final res = await iput('/users/edit', payload, Services.auth.accessToken);
+    if (res.success) {
+      Services.auth.accessToken = res.data['token'];
       await Services.auth.saveTokens(
-          response.data['user'],
+          res.data['user'],
           Services.auth.refreshToken,
           Services.auth.provider,
           Services.auth.lastEmail);
     }
-    return response;
+    return res;
   }
 
   /// Get user by id.
@@ -168,9 +167,9 @@ class UsersManager extends BasicService {
   /// @returns User class
   Future<dynamic> get(String userId) async {
     assert(userId != null);
-    final response = await iget('/users/$userId', Services.auth.accessToken);
-    if (response.success) {
-      return new User(response.data);
+    final res = await iget('/users/$userId', Services.auth.accessToken);
+    if (res.success) {
+      return new User(res.data);
     }
     return null;
   }
@@ -181,16 +180,16 @@ class UsersManager extends BasicService {
   Future<Null> _retrieveContact() async {
     final provider = Services.auth.provider;
     if (provider == 'google') {
-      final response = await http.get(
+      final res = await http.get(
         'https://people.googleapis.com/v1/people/me/connections'
             '?personFields=names,emailAddresses&pageSize=2000',
         headers: await Services.auth.googleUser.authHeaders,
       );
-      if (response.statusCode != 200) {
-        print('People API ${response.statusCode} response: ${response.body}');
+      if (res.statusCode != 200) {
+        print('People API ${res.statusCode} res: ${res.body}');
         return;
       }
-      _contacts = JSON.decode(response.body)['connections'];
+      _contacts = JSON.decode(res.body)['connections'];
       _contacts = _contacts
           .where((contact) => contact['emailAddresses'] != null)
           .toList();

@@ -55,13 +55,11 @@ class _SocialViewState extends State<SocialView> {
       padding: const EdgeInsets.all(20.0),
       itemCount: _conversations?.length ?? 0,
       itemBuilder: (context, index) => new GestureDetector(
-            onTap: () async {
-              await Navigator.push(
-                  context,
-                  new MaterialPageRoute<Null>(
-                    builder: (context) => new ConvScreen(_conversations[index]),
-                  ));
-            },
+            onTap: () => Navigator.push(
+                context,
+                new MaterialPageRoute<Null>(
+                  builder: (context) => new ConvScreen(_conversations[index]),
+                )),
             child: new Card(
               child: new Column(
                 mainAxisSize: MainAxisSize.min,

@@ -24,18 +24,21 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
 
   Future<Null> addGroup(BuildContext context) async {
     _formKey.currentState.save();
+    if (!_formKey.currentState.validate()) {
+      showSnackBar(context, SpotL.of(context).correctError);
+      return;
+    }
     final response = await Services.groups.add({
       'name': name,
       'about': about,
       'owners': [Services.auth.user.id],
       'users': email
     });
-    if (resValid(context, response)) {
-      showSnackBar(context, response.msg);
-      await Navigator
-          .of(context)
-          .pushNamedAndRemoveUntil('/', (route) => false);
+    if (!resValid(context, response)) {
+      return;
     }
+    showSnackBar(context, response.msg);
+    await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
   }
 
   Future<Null> _addPeople(BuildContext context) async {
@@ -52,93 +55,97 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
     });
   }
 
+  Widget _buildForm(BuildContext context) => new Container(
+      margin: const EdgeInsets.all(20.0),
+      child: new Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            new Form(
+                key: _formKey,
+                child: new Column(children: <Widget>[
+                  new TextFormField(
+                    key: const Key('name'),
+                    decoration: new InputDecoration(
+                      hintText: SpotL.of(context).namePh,
+                      labelText: SpotL.of(Services.loc).name,
+                    ),
+                    validator: validateName,
+                    onSaved: (value) {
+                      name = value.trim();
+                    },
+                  ),
+                  new TextFormField(
+                    key: const Key('about'),
+                    decoration: new InputDecoration(
+                      hintText: SpotL.of(context).aboutPh,
+                      labelText: SpotL.of(context).about,
+                    ),
+                    onSaved: (value) {
+                      about = value.trim();
+                    },
+                  ),
+                  const Divider(),
+                  new Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: email
+                        .map(
+                          (f) => new Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: new Chip(
+                                  label: new Text(f),
+                                  onDeleted: () {
+                                    setState(() {
+                                      email.remove(f);
+                                    });
+                                  },
+                                ),
+                              ),
+                        )
+                        .toList(),
+                  ),
+                  const Divider(),
+                  new RaisedButton(
+                      child: new Text(SpotL.of(context).addSomeone),
+                      onPressed: () => _addPeople(context))
+                ]))
+          ]));
+
   @override
   Widget build(BuildContext context) => new Scaffold(
         appBar: new AppBar(title: new Text(SpotL.of(context).addGroup)),
         body: new Builder(
-            builder: (context) => new Column(children: <Widget>[
+          builder: (context) => new Column(
+                children: <Widget>[
                   new Expanded(
-                      child: new SingleChildScrollView(
-                          child: new Container(
-                              margin: const EdgeInsets.all(20.0),
-                              child: new Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    new Form(
-                                        key: _formKey,
-                                        child: new Column(children: <Widget>[
-                                          new TextFormField(
-                                              key: const Key('name'),
-                                              decoration: new InputDecoration(
-                                                  hintText:
-                                                      SpotL.of(context).namePh,
-                                                  labelText: SpotL
-                                                      .of(Services.loc)
-                                                      .name),
-                                              validator: validateName,
-                                              onSaved: (value) {
-                                                name = value.trim();
-                                              }),
-                                          new TextFormField(
-                                              key: const Key('about'),
-                                              decoration: new InputDecoration(
-                                                  hintText:
-                                                      SpotL.of(context).aboutPh,
-                                                  labelText:
-                                                      SpotL.of(context).about),
-                                              onSaved: (value) {
-                                                about = value.trim();
-                                              }),
-                                          const Divider(),
-                                          new Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: new List<Widget>.generate(
-                                                email.length,
-                                                (index) => new Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            2.0),
-                                                    child: new Chip(
-                                                        label: new Text(
-                                                            email[index]),
-                                                        onDeleted: () {
-                                                          setState(() {
-                                                            email.removeAt(
-                                                                index);
-                                                          });
-                                                        }))),
-                                          ),
-                                          const Divider(),
-                                          new RaisedButton(
-                                              child: new Text(
-                                                  SpotL.of(context).addSomeone),
-                                              onPressed: () {
-                                                _addPeople(context);
-                                              })
-                                        ]))
-                                  ])))),
+                    child: new SingleChildScrollView(
+                      child: _buildForm(context),
+                    ),
+                  ),
                   new Container(
                     margin: const EdgeInsets.symmetric(
-                        horizontal: 8.0, vertical: 4.0),
+                      horizontal: 8.0,
+                      vertical: 4.0,
+                    ),
                     child: new ConstrainedBox(
-                        constraints: new BoxConstraints.tightFor(
-                            height: 48.0,
-                            width: MediaQuery.of(context).size.width),
-                        child: new RaisedButton(
-                          color: Theme.of(context).accentColor,
-                          onPressed: () {
-                            addGroup(context);
-                          },
-                          child: new Text(
-                            SpotL.of(context).addGroup.toUpperCase(),
-                            style: new TextStyle(
-                                color: Theme.of(context).canvasColor),
+                      constraints: new BoxConstraints.tightFor(
+                        height: 48.0,
+                        width: MediaQuery.of(context).size.width,
+                      ),
+                      child: new RaisedButton(
+                        color: Theme.of(context).accentColor,
+                        onPressed: () => addGroup(context),
+                        child: new Text(
+                          SpotL.of(context).addGroup.toUpperCase(),
+                          style: new TextStyle(
+                            color: Theme.of(context).canvasColor,
                           ),
-                        )),
+                        ),
+                      ),
+                    ),
                   ),
-                ])),
+                ],
+              ),
+        ),
       );
 }

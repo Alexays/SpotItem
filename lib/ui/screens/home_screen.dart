@@ -36,52 +36,59 @@ class _HomeScreenState extends State<HomeScreen>
       ],
     ),
     new HomeScreenItem(
-        icon: const Icon(Icons.work),
-        title: SpotL.of(Services.loc).items,
-        sub: <HomeScreenSubItem>[
-          new HomeScreenSubItem(
-              SpotL.of(Services.loc).items, const ItemsView()),
-          new HomeScreenSubItem(
-              SpotL.of(Services.loc).holded, const HoldedView()),
-        ],
-        fabs: [
-          new FloatingActionButton(
-              child: const Icon(Icons.add),
-              tooltip: 'Add new item',
-              onPressed: () async {
-                await Navigator.of(Services.context).pushNamed('/items/add/');
-              })
-        ]),
+      icon: const Icon(Icons.work),
+      title: SpotL.of(Services.loc).items,
+      sub: <HomeScreenSubItem>[
+        new HomeScreenSubItem(
+          SpotL.of(Services.loc).items,
+          const ItemsView(),
+        ),
+        new HomeScreenSubItem(
+          SpotL.of(Services.loc).holded,
+          const HoldedView(),
+        ),
+      ],
+      fabs: [
+        new FloatingActionButton(
+            child: const Icon(Icons.add),
+            tooltip: 'Add new item',
+            onPressed: () =>
+                Navigator.of(Services.context).pushNamed('/items/add/'))
+      ],
+    ),
     new HomeScreenItem(
       icon: const Icon(Icons.map),
       title: SpotL.of(Services.loc).map,
       content: const MapView(),
     ),
     new HomeScreenItem(
-        icon: const Icon(Icons.nature_people),
-        title: SpotL.of(Services.loc).social,
-        sub: <HomeScreenSubItem>[
-          new HomeScreenSubItem(
-              SpotL.of(Services.loc).groups, const GroupsView()),
-          new HomeScreenSubItem(
-              SpotL.of(Services.loc).messages, const SocialView())
-        ],
-        fabs: [
-          new FloatingActionButton(
-              child: const Icon(Icons.person_add),
-              tooltip: 'Add new groups',
-              onPressed: () async {
-                await Navigator.of(Services.context).pushNamed('/groups/add/');
-              }),
-          new FloatingActionButton(
-              child: const Icon(Icons.sms),
-              tooltip: 'Add new messages',
-              onPressed: () async {
-                await Navigator
-                    .of(Services.context)
-                    .pushNamed('/messages/add/');
-              })
-        ]),
+      icon: const Icon(Icons.nature_people),
+      title: SpotL.of(Services.loc).social,
+      sub: <HomeScreenSubItem>[
+        new HomeScreenSubItem(
+          SpotL.of(Services.loc).groups,
+          const GroupsView(),
+        ),
+        new HomeScreenSubItem(
+          SpotL.of(Services.loc).messages,
+          const SocialView(),
+        )
+      ],
+      fabs: [
+        new FloatingActionButton(
+          child: const Icon(Icons.person_add),
+          tooltip: 'Add new groups',
+          onPressed: () =>
+              Navigator.of(Services.context).pushNamed('/groups/add/'),
+        ),
+        new FloatingActionButton(
+          child: const Icon(Icons.sms),
+          tooltip: 'Add new messages',
+          onPressed: () =>
+              Navigator.of(Services.context).pushNamed('/messages/add/'),
+        )
+      ],
+    ),
   ];
 
   // Animation
@@ -309,109 +316,138 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   Widget _buildDrawer(BuildContext context) => new Drawer(
-          child: new ListView(shrinkWrap: true, children: <Widget>[
-        new UserAccountsDrawerHeader(
-            accountName: new Text(
+        child: new ListView(
+          shrinkWrap: true,
+          children: <Widget>[
+            new UserAccountsDrawerHeader(
+              accountName: new Text(
                 '${Services.auth.user?.firstname} ${Services.auth.user?.name}',
-                overflow: TextOverflow.ellipsis),
-            accountEmail: new Text(
-              Services.auth.user?.email ?? '',
-              overflow: TextOverflow.ellipsis,
+                overflow: TextOverflow.ellipsis,
+              ),
+              accountEmail: new Text(
+                Services.auth.user?.email ?? '',
+                overflow: TextOverflow.ellipsis,
+              ),
+              currentAccountPicture: getAvatar(Services.auth.user),
+              otherAccountsPictures: <Widget>[
+                new IconButton(
+                  icon: const Icon(Icons.settings),
+                  color: Colors.white,
+                  onPressed: () => Navigator.pushNamed(context, '/settings'),
+                )
+              ],
+              onDetailsPressed: () {
+                _showDrawerContents = !_showDrawerContents;
+                _showDrawerContents
+                    ? _controller.reverse()
+                    : _controller.forward();
+              },
             ),
-            currentAccountPicture: getAvatar(Services.auth.user),
-            otherAccountsPictures: <Widget>[
-              new IconButton(
-                icon: const Icon(Icons.settings),
-                color: Colors.white,
-                onPressed: () async {
-                  await Navigator.pushNamed(context, '/settings');
-                },
-              )
-            ],
-            onDetailsPressed: () {
-              _showDrawerContents = !_showDrawerContents;
-              _showDrawerContents
-                  ? _controller.reverse()
-                  : _controller.forward();
-            }),
-        new ClipRect(
-            child: new Stack(children: <Widget>[
-          new FadeTransition(
-              opacity: _drawerContentsOpacity,
-              child: new Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    new ListTile(
-                      leading: const Icon(Icons.home),
-                      title: new Text(SpotL.of(Services.loc).home),
-                      selected: true,
-                    ),
-                    new ListTile(
-                        leading: const Icon(Icons.dvr),
-                        title: const Text('Dump App to Console'),
-                        onTap: () {
-                          debugDumpApp();
-                          debugDumpRenderTree();
-                          debugDumpLayerTree();
-                        }),
-                    new ListTile(
-                        leading: const Icon(Icons.developer_board),
-                        title: const Text('Debug'),
-                        onTap: () => Navigator.of(context).pushNamed('/debug')),
-                    new AboutListTile(
-                        icon: const Icon(Icons.info),
-                        applicationVersion: version,
-                        applicationIcon: const Icon(Icons.info),
-                        applicationLegalese: '© 2017 Alexis Rouillard',
-                        aboutBoxChildren: <Widget>[
-                          new Padding(
-                              padding: const EdgeInsets.only(top: 24.0),
-                              child: new RichText(
-                                  text: new TextSpan(children: <TextSpan>[
-                                new TextSpan(
-                                    style: Theme.of(context).textTheme.body2,
-                                    text:
-                                        'Spotitem est un outil de pret de matériels, biens entre amis.\n'
-                                        'En savoir plus a propos de Spotitem sur '),
-                                new LinkTextSpan(
-                                    style: Theme
-                                        .of(context)
-                                        .textTheme
-                                        .body2
-                                        .copyWith(
-                                            color:
-                                                Theme.of(context).accentColor),
-                                    url: 'https://spotitem.fr'),
-                                new TextSpan(
-                                    style: Theme.of(context).textTheme.body2,
-                                    text: '.')
-                              ])))
-                        ])
-                  ])),
-          new SlideTransition(
-              position: _drawerDetailsPosition,
-              child: new FadeTransition(
-                  opacity: new ReverseAnimation(_drawerContentsOpacity),
-                  child: new Column(
+            new ClipRect(
+              child: new Stack(
+                children: <Widget>[
+                  new FadeTransition(
+                    opacity: _drawerContentsOpacity,
+                    child: new Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
                         new ListTile(
-                            leading: const Icon(Icons.edit),
-                            title: new Text(SpotL.of(Services.loc).editProfile),
-                            onTap: () => Navigator
-                                .of(context)
-                                .pushNamed('/profile/edit/')),
+                          leading: const Icon(Icons.home),
+                          title: new Text(SpotL.of(Services.loc).home),
+                          selected: true,
+                        ),
                         new ListTile(
+                          leading: const Icon(Icons.dvr),
+                          title: const Text('Dump App to Console'),
+                          onTap: () {
+                            debugDumpApp();
+                            debugDumpRenderTree();
+                            debugDumpLayerTree();
+                          },
+                        ),
+                        new ListTile(
+                          leading: const Icon(Icons.developer_board),
+                          title: const Text('Debug'),
+                          onTap: () =>
+                              Navigator.of(context).pushNamed('/debug'),
+                        ),
+                        new AboutListTile(
+                          icon: const Icon(Icons.info),
+                          applicationVersion: version,
+                          applicationIcon: const Icon(Icons.info),
+                          applicationLegalese: '© 2017 Alexis Rouillard',
+                          aboutBoxChildren: <Widget>[
+                            new Padding(
+                              padding: const EdgeInsets.only(top: 24.0),
+                              child: new RichText(
+                                text: new TextSpan(
+                                  children: <TextSpan>[
+                                    new TextSpan(
+                                      style: Theme.of(context).textTheme.body2,
+                                      text:
+                                          'Spotitem est un outil de pret de matériels, biens entre amis.\n'
+                                          'En savoir plus a propos de Spotitem sur ',
+                                    ),
+                                    new LinkTextSpan(
+                                      style: Theme
+                                          .of(context)
+                                          .textTheme
+                                          .body2
+                                          .copyWith(
+                                              color: Theme
+                                                  .of(context)
+                                                  .accentColor),
+                                      url: 'https://spotitem.fr',
+                                    ),
+                                    new TextSpan(
+                                      style: Theme.of(context).textTheme.body2,
+                                      text: '.',
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  new SlideTransition(
+                    position: _drawerDetailsPosition,
+                    child: new FadeTransition(
+                      opacity: new ReverseAnimation(_drawerContentsOpacity),
+                      child: new Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          new ListTile(
+                              leading: const Icon(Icons.edit),
+                              title:
+                                  new Text(SpotL.of(Services.loc).editProfile),
+                              onTap: () => Navigator
+                                  .of(context)
+                                  .pushNamed('/profile/edit/')),
+                          new ListTile(
                             leading: const Icon(Icons.exit_to_app),
                             title: new Text(SpotL.of(Services.loc).logout),
-                            onTap: () => Services.auth.logout().then((_) =>
-                                Navigator.of(context).pushNamedAndRemoveUntil(
-                                    '/', (route) => false)))
-                      ])))
-        ]))
-      ]));
+                            onTap: () => Services.auth.logout().then(
+                                  (_) => Navigator
+                                      .of(context)
+                                      .pushNamedAndRemoveUntil(
+                                          '/', (route) => false),
+                                ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
 
   List<Widget> _buildAppBar(BuildContext context, bool innerBoxIsScrolled) {
     _checkFilter(false);
@@ -425,9 +461,7 @@ class _HomeScreenState extends State<HomeScreen>
           ? const BackButton()
           : new IconButton(
               icon: const Icon(Icons.menu),
-              onPressed: () {
-                _scaffoldKey.currentState.openDrawer();
-              },
+              onPressed: () => _scaffoldKey.currentState.openDrawer(),
             ),
       new Flexible(
         fit: FlexFit.tight,
@@ -436,7 +470,10 @@ class _HomeScreenState extends State<HomeScreen>
           onSubmitted: (data) => _handleSearchBegin(),
           controller: _searchController,
           style: const TextStyle(
-              color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w500),
+            color: Colors.white,
+            fontSize: 18.0,
+            fontWeight: FontWeight.w500,
+          ),
           decoration: new InputDecoration(
             isDense: true,
             hideDivider: true,
@@ -452,56 +489,67 @@ class _HomeScreenState extends State<HomeScreen>
       ),
     ];
     if (!_isSearching) {
-      widgets.add(new IconButton(
-        alignment:
-            _filterAvailable ? const Alignment(1.5, 0.0) : Alignment.center,
-        padding: const EdgeInsets.all(0.0),
-        icon: const Icon(Icons.photo_camera),
-        onPressed: _qrReader,
-      ));
+      widgets.add(
+        new IconButton(
+          alignment:
+              _filterAvailable ? const Alignment(1.5, 0.0) : Alignment.center,
+          padding: const EdgeInsets.all(0.0),
+          icon: const Icon(Icons.photo_camera),
+          onPressed: _qrReader,
+        ),
+      );
     }
     if (_isSearching || _filterAvailable) {
-      widgets.addAll([
-        new IconButton(
+      widgets.addAll(
+        [
+          new IconButton(
             padding: const EdgeInsets.all(0.0),
             alignment: Alignment.centerRight,
             icon: const Icon(Icons.filter_list),
             onPressed: () {
               setState(_showFilter);
-            }),
-        new PopupMenuButton(
+            },
+          ),
+          new PopupMenuButton(
             padding: const EdgeInsets.all(0.0),
-            itemBuilder: (context) => Services.items.sortMethod.map((f) {
-                  switch (f) {
-                    case 'name':
-                      return new CheckedPopupMenuItem(
-                          checked: Services.items.tracks.value.contains('name'),
-                          value: f,
-                          child: new Text(SpotL.of(context).name));
-                      break;
-                    case 'dist':
-                      return new CheckedPopupMenuItem(
-                          checked: Services.items.tracks.value
-                                  .contains('dist') ||
-                              !Services.items.tracks.value.any(
-                                  (f) => Services.items.sortMethod.contains(f)),
-                          value: f,
-                          child: new Text(SpotL.of(context).dist));
-                      break;
-                  }
-                }).toList(),
+            itemBuilder: (context) => Services.items.sortMethod.map(
+                  (f) {
+                    switch (f) {
+                      case 'name':
+                        return new CheckedPopupMenuItem(
+                            checked:
+                                Services.items.tracks.value.contains('name'),
+                            value: f,
+                            child: new Text(SpotL.of(context).name));
+                        break;
+                      case 'dist':
+                        return new CheckedPopupMenuItem(
+                            checked:
+                                Services.items.tracks.value.contains('dist') ||
+                                    !Services.items.tracks.value.any((f) =>
+                                        Services.items.sortMethod.contains(f)),
+                            value: f,
+                            child: new Text(SpotL.of(context).dist));
+                        break;
+                    }
+                  },
+                ).toList(),
             onSelected: (action) {
-              setState(() {
-                Services.items.tracks.value = [
-                  Services.items.tracks.value
-                      .where(
-                          (f) => !Services.items.sortMethod.any((d) => d == f))
-                      .toList(),
-                  [action]
-                ].expand((x) => x).toList();
-              });
-            })
-      ]);
+              setState(
+                () {
+                  Services.items.tracks.value = [
+                    Services.items.tracks.value
+                        .where((f) =>
+                            !Services.items.sortMethod.any((d) => d == f))
+                        .toList(),
+                    [action]
+                  ].expand((x) => x).toList();
+                },
+              );
+            },
+          )
+        ],
+      );
     }
     final haveTab = _homeScreenItems[page].sub != null && !_isSearching;
     return [
@@ -513,11 +561,14 @@ class _HomeScreenState extends State<HomeScreen>
         snap: haveTab,
         floating: haveTab,
         title: new DecoratedBox(
-            decoration: new BoxDecoration(
-                color: Theme.of(context).accentColor,
-                borderRadius:
-                    const BorderRadius.all(const Radius.circular(3.0))),
-            child: new Row(children: widgets)),
+          decoration: new BoxDecoration(
+            color: Theme.of(context).accentColor,
+            borderRadius: const BorderRadius.all(
+              const Radius.circular(3.0),
+            ),
+          ),
+          child: new Row(children: widgets),
+        ),
         bottom: _buildBottom(),
       )
     ];
@@ -544,9 +595,10 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   @override
-  Widget build(BuildContext context) =>
-      new Stack(fit: StackFit.expand, children: <Widget>[
-        new Scaffold(
+  Widget build(BuildContext context) => new Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          new Scaffold(
             key: _scaffoldKey,
             drawer: _buildDrawer(context),
             floatingActionButton:
@@ -574,12 +626,14 @@ class _HomeScreenState extends State<HomeScreen>
                         // );
                       });
                     },
-                  )),
-        const Banner(
-          message: 'BETA TEST',
-          location: BannerLocation.bottomStart,
-        ),
-      ]);
+                  ),
+          ),
+          const Banner(
+            message: 'BETA TEST',
+            location: BannerLocation.bottomStart,
+          ),
+        ],
+      );
 }
 
 /// Home screen item

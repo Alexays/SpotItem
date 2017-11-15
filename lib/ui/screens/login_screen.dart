@@ -19,7 +19,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
-  Future<Null> doLogin(BuildContext context) async {
+  Future<Null> _localLogin(BuildContext context) async {
+    final form = _formKey.currentState;
+    if (!form.validate()) {
+      showSnackBar(context, SpotL.of(context).correctError);
+      return;
+    }
     final errorText = SpotL.of(context).loginError;
     if (_formKey.currentState.validate()) {
       final success = await Services.auth.login(
@@ -35,6 +40,14 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  Future<Null> _googleLogin(BuildContext context) async {
+    final success = await Services.auth.handleGoogleSignIn();
+    if (!success) {
+      return showSnackBar(context, SpotL.of(context).error);
+    }
+    await Navigator.pushReplacementNamed(context, '/');
+  }
+
   @override
   Widget build(BuildContext context) => new Scaffold(
       body: new Builder(
@@ -45,8 +58,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: <Widget>[
                   new Padding(
                     padding: const EdgeInsets.only(top: 15.0),
-                    child: new Image.asset('assets/logo.png',
-                        height: MediaQuery.of(context).size.height * 0.25),
+                    child: new Image.asset(
+                      'assets/logo.png',
+                      height: MediaQuery.of(context).size.height * 0.25,
+                    ),
                   ),
                   new Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30.0),
@@ -78,42 +93,26 @@ class _LoginScreenState extends State<LoginScreen> {
                             validator: validatePassword,
                           ),
                           const Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 5.0)),
+                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                          ),
                           new Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               new RaisedButton(
                                   key: const Key('login'),
                                   child: new Text(SpotL.of(Services.loc).login),
-                                  onPressed: () {
-                                    final form = _formKey.currentState;
-                                    if (form.validate()) {
-                                      doLogin(context);
-                                    } else {
-                                      showSnackBar(context,
-                                          SpotL.of(Services.loc).correctError);
-                                    }
-                                  }),
+                                  onPressed: () => _localLogin(context)),
                               const Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 5.0)),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 5.0),
+                              ),
                               new RaisedButton(
-                                child: const Text('Google',
-                                    style:
-                                        const TextStyle(color: Colors.white)),
+                                child: const Text(
+                                  'Google',
+                                  style: const TextStyle(color: Colors.white),
+                                ),
                                 color: Colors.blue,
-                                onPressed: () async {
-                                  final success =
-                                      await Services.auth.handleGoogleSignIn();
-                                  if (success) {
-                                    await Navigator.pushReplacementNamed(
-                                        context, '/');
-                                  } else {
-                                    showSnackBar(
-                                        context, SpotL.of(context).error);
-                                  }
-                                },
+                                onPressed: () => _googleLogin(context),
                               )
                             ],
                           ),
@@ -123,17 +122,16 @@ class _LoginScreenState extends State<LoginScreen> {
                             children: <Widget>[
                               new Text(SpotL.of(context).noAccount),
                               const Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 5.0)),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 5.0),
+                              ),
                               new FlatButton(
                                 child: new Text(
                                   SpotL.of(Services.loc).register,
                                   textAlign: TextAlign.center,
                                 ),
-                                onPressed: () {
-                                  Navigator.pushReplacementNamed(
-                                      context, '/register');
-                                },
+                                onPressed: () => Navigator.pushReplacementNamed(
+                                    context, '/register'),
                               ),
                             ],
                           )

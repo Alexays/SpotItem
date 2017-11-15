@@ -278,4 +278,7 @@ class SpotL {
 
   /// Holded title
   String get holded => _nameToValue['holded'];
+
+  /// Enable or choose location title
+  String get locationError => _nameToValue['locationError'];
 }

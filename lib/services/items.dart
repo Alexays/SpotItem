@@ -51,8 +51,8 @@ class ItemsManager extends BasicService {
   /// @returns Api body response
   Future<ApiRes> addItem(Map<String, dynamic> payload) async {
     assert(payload != null);
-    final response = await ipost('/items', payload, Services.auth.accessToken);
-    return response;
+    final res = await ipost('/items', payload, Services.auth.accessToken);
+    return res;
   }
 
   /// Edit item by id.
@@ -62,19 +62,18 @@ class ItemsManager extends BasicService {
   Future<ApiRes> editItem(Map<String, dynamic> payload) async {
     assert(payload != null);
     final id = payload.remove('id');
-    final response =
-        await iput('/items/$id', payload, Services.auth.accessToken);
-    return response;
+    final res = await iput('/items/$id', payload, Services.auth.accessToken);
+    return res;
   }
 
   /// Delete item by id.
   ///
   /// @param id Item Id
-  /// @returns Api body response
+  /// @returns Api body res
   Future<ApiRes> deleteItem(String id) async {
     assert(id != null);
-    final response = await idelete('/items/$id', Services.auth.accessToken);
-    return response;
+    final res = await idelete('/items/$id', Services.auth.accessToken);
+    return res;
   }
 
   /// Load items filter by token.
@@ -83,11 +82,11 @@ class ItemsManager extends BasicService {
   Future<List<Item>> loadItems() async {
     if (_data.isEmpty) {
       await Services.users.getLocation();
-      final response = await iget(
+      final res = await iget(
           Services.auth.loggedIn != null ? '/items/auth' : '/items',
           Services.auth.loggedIn ? Services.auth.accessToken : null);
-      if (response.success && response.data is List) {
-        return _data = response.data
+      if (res.success && res.data is List) {
+        return _data = res.data
             .map((f) => new Item(f, Services.users.getDist(f['lat'], f['lng'])))
             .where((item) => item.dist < Services.settings.value.maxDistance)
             .toList();
@@ -113,10 +112,10 @@ class ItemsManager extends BasicService {
   /// @returns Item class
   Future<Item> getItem(String itemId) async {
     assert(itemId != null);
-    final response = await iget('/items/$itemId');
-    if (response.success) {
-      return new Item(response.data,
-          Services.users.getDist(response.data['lat'], response.data['lng']));
+    final res = await iget('/items/$itemId');
+    if (res.success) {
+      return new Item(
+          res.data, Services.users.getDist(res.data['lat'], res.data['lng']));
     }
     return null;
   }
@@ -125,9 +124,9 @@ class ItemsManager extends BasicService {
   ///
   /// @returns User items list
   Future<List<Item>> getUserItems() async {
-    final response = await iget('/items/user', Services.auth.accessToken);
-    if (response.success && response.data is List) {
-      return _owned = response.data
+    final res = await iget('/items/user', Services.auth.accessToken);
+    if (res.success && res.data is List) {
+      return _owned = res.data
           .map((f) => new Item(f, Services.users.getDist(f['lat'], f['lng'])))
           .toList();
     }
@@ -141,17 +140,17 @@ class ItemsManager extends BasicService {
   /// @returns Api body response
   Future<ApiRes> bookItem(String itemId, Map<String, dynamic> payload) async {
     assert(itemId != null && payload != null);
-    final response = await iput('/items/$itemId/book', payload);
-    return response;
+    final res = await iput('/items/$itemId/book', payload);
+    return res;
   }
 
   /// Get user items.
   ///
   /// @returns User items list
   Future<List<Item>> getHolded() async {
-    final response = await iget('/items/holded', Services.auth.accessToken);
-    if (response.success && response.data is List) {
-      return _holded = response.data
+    final res = await iget('/items/holded', Services.auth.accessToken);
+    if (res.success && res.data is List) {
+      return _holded = res.data
           .map((f) => new Item(f, Services.users.getDist(f['lat'], f['lng'])))
           .toList();
     }

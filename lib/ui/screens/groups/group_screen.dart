@@ -39,54 +39,71 @@ class _GroupPageState extends State<GroupPage>
 
   Future<Null> _leaveGroup(BuildContext context) async {
     final response = await Services.groups.leave(group.id);
-    if (resValid(context, response)) {
-      await Navigator
-          .of(context)
-          .pushNamedAndRemoveUntil('/', (route) => false);
+    if (!mounted) {
+      return;
     }
+    if (resValid(context, response)) {
+      showSnackBar(context, SpotL.of(context).error);
+      return;
+    }
+    await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
   }
 
   Future<Null> _kickUser(BuildContext context, String userId) async {
     final response = await Services.groups.kickUser(group.id, userId);
-    if (mounted && resValid(context, response) && mounted) {
-      setState(() {
-        group.users = group.users.where((user) => user.id == userId).toList();
-      });
-      Navigator.of(context).pop();
+    if (!mounted) {
+      return;
     }
+    if (resValid(context, response)) {
+      showSnackBar(context, SpotL.of(context).error);
+      return;
+    }
+    setState(() {
+      group.users = group.users.where((user) => user.id == userId).toList();
+    });
+    Navigator.of(context).pop();
   }
 
   Future<Null> _removeOwner(BuildContext context, String userId) async {
     final response = await Services.groups.removeOwner(group.id, userId);
-    if (mounted && resValid(context, response)) {
-      setState(() {
-        group.owners =
-            group.owners.where((owner) => owner.id != userId).toList();
-      });
-      Navigator.of(context).pop();
+    if (!mounted) {
+      return;
     }
+    if (resValid(context, response)) {
+      showSnackBar(context, SpotL.of(context).error);
+      return;
+    }
+    setState(() {
+      group.owners = group.owners.where((owner) => owner.id != userId).toList();
+    });
+    Navigator.of(context).pop();
   }
 
   Future<Null> _addOwner(BuildContext context, String userId) async {
     final response = await Services.groups.addOwner(group.id, userId);
-    if (mounted && resValid(context, response)) {
-      setState(() {
-        if (response.data != null) {
-          group = new Group(JSON.decode(response.data));
-        }
-      });
-      Navigator.of(context).pop();
+    if (!mounted) {
+      return;
     }
+    if (resValid(context, response)) {
+      showSnackBar(context, SpotL.of(context).error);
+      return;
+    }
+    setState(() {
+      if (response.data != null) {
+        group = new Group(JSON.decode(response.data));
+      }
+    });
+    Navigator.of(context).pop();
   }
 
   Future<Null> _addPeople(BuildContext context) async {
     final String _email = await Navigator.pushNamed(context, '/contacts');
-    if (_email == null) {
+    if (!mounted || _email == null) {
       return;
     }
     final res = await Services.groups.addUser(group.id, _email);
-    if (!res.success) {
-      showSnackBar(context, res.msg);
+    if (!resValid(context, res)) {
+      return;
     }
   }
 
@@ -107,19 +124,19 @@ class _GroupPageState extends State<GroupPage>
           children: <Widget>[
             getAvatar(group.owners[0]),
             new Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
+              padding: const EdgeInsets.symmetric(
+                vertical: 8.0,
+                horizontal: 20.0,
+              ),
               child: new Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children:
-                      (accountEmailLine != null && accountNameLine != null)
-                          ? <Widget>[accountNameLine, accountEmailLine]
-                          : <Widget>[accountNameLine ?? accountEmailLine]),
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: (accountEmailLine != null && accountNameLine != null)
+                    ? <Widget>[accountNameLine, accountEmailLine]
+                    : <Widget>[accountNameLine ?? accountEmailLine],
+              ),
             ),
-            new Expanded(
-              child: new Container(),
-            ),
+            new Expanded(child: new Container()),
             new Text(
               '${(group?.users?.length ?? 0 + 1).toString()} ${SpotL.of(context).members}',
               style: const TextStyle(color: Colors.white),
@@ -169,14 +186,16 @@ class _GroupPageState extends State<GroupPage>
               actions: <Widget>[
                 new FlatButton(
                   child: new Text(
-                      MaterialLocalizations.of(context).cancelButtonLabel),
+                    MaterialLocalizations.of(context).cancelButtonLabel,
+                  ),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
                 ),
                 new FlatButton(
                   child: new Text(
-                      MaterialLocalizations.of(context).continueButtonLabel),
+                    MaterialLocalizations.of(context).continueButtonLabel,
+                  ),
                   onPressed: () {
                     _leaveGroup(context);
                   },
@@ -234,10 +253,11 @@ class _GroupPageState extends State<GroupPage>
           tooltip: 'Edit',
           onPressed: () async {
             await Navigator.push(
-                context,
-                new MaterialPageRoute<Null>(
-                  builder: (context) => new EditGroupScreen(group: group),
-                ));
+              context,
+              new MaterialPageRoute<Null>(
+                builder: (context) => new EditGroupScreen(group: group),
+              ),
+            );
           },
         )
       ]);
@@ -245,163 +265,156 @@ class _GroupPageState extends State<GroupPage>
     return top;
   }
 
+  Widget _buildSetOwnerButton(BuildContext context, int index) =>
+      new IconButton(
+        icon: const Icon(Icons.arrow_upward),
+        onPressed: () {
+          showDialog<Null>(
+            context: context,
+            child: new AlertDialog(
+              title: new Text(SpotL.of(context).confirm),
+              content: new SingleChildScrollView(
+                child: new ListBody(
+                  children: <Widget>[
+                    new Text(SpotL.of(context).addOwner(
+                        '${group.users[index].firstname} ${group.users[index].name}')),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                new FlatButton(
+                  child: new Text(MaterialLocalizations
+                      .of(context)
+                      .cancelButtonLabel
+                      .toUpperCase()),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                new FlatButton(
+                  child: new Text(
+                    SpotL.of(context).add.toUpperCase(),
+                  ),
+                  onPressed: () {
+                    _addOwner(context, group.users[index].id);
+                  },
+                ),
+              ],
+            ),
+          );
+        },
+      );
+
+  Widget _buildUnsetOwnerButton(BuildContext context, int index) =>
+      new IconButton(
+        icon: const Icon(Icons.arrow_downward),
+        onPressed: () {
+          showDialog<Null>(
+            context: context,
+            child: new AlertDialog(
+              title: new Text(SpotL.of(context).confirm),
+              content: new SingleChildScrollView(
+                child: new ListBody(
+                  children: <Widget>[
+                    new Text(SpotL.of(context).delOwner(
+                        '${group.users[index].firstname} ${group.users[index].name}')),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                new FlatButton(
+                  child: new Text(
+                      MaterialLocalizations.of(context).cancelButtonLabel),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                new FlatButton(
+                  child: new Text(
+                      MaterialLocalizations.of(context).continueButtonLabel),
+                  onPressed: () {
+                    _removeOwner(context, group.users[index].id);
+                  },
+                ),
+              ],
+            ),
+          );
+        },
+      );
+
+  Widget _buildKickUser(BuildContext context, int index) => new IconButton(
+        icon: const Icon(Icons.remove_circle_outline),
+        onPressed: () {
+          showDialog<Null>(
+            context: context,
+            child: new AlertDialog(
+              title: new Text(SpotL.of(context).confirm),
+              content: new SingleChildScrollView(
+                child: new ListBody(
+                  children: <Widget>[
+                    new Text(SpotL.of(context).kickUser(
+                        '${group.users[index].firstname} ${group.users[index].name}')),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                new FlatButton(
+                  child: new Text(
+                      MaterialLocalizations.of(context).cancelButtonLabel),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                new FlatButton(
+                  child: new Text(
+                      MaterialLocalizations.of(context).continueButtonLabel),
+                  onPressed: () {
+                    _kickUser(context, group.users[index].id);
+                  },
+                ),
+              ],
+            ),
+          );
+        },
+      );
+
   Widget _buildUsers(BuildContext context) => new Flexible(
         child: new ListView.builder(
           shrinkWrap: true,
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           itemCount: group?.users?.length ?? 0,
           itemBuilder: (context, index) {
+            final user = group.users[index];
             final buttons = <Widget>[
-              getAvatar(group.users[index]),
+              getAvatar(user),
               const Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4.0)),
-              new Text(
-                  '${group.users[index].firstname} ${group.users[index].name}'),
+                padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              ),
+              new Text('${user.firstname} ${user.name}'),
               new Expanded(child: new Container()),
             ];
-            if (group.owners
-                .any((owner) => owner.id == group.users[index].id)) {
-              buttons.add(const Icon(
-                Icons.star,
-              ));
+            if (group.owners.any((owner) => owner.id == user.id)) {
+              buttons.add(const Icon(Icons.star));
             }
-            if (!group.owners
-                    .any((owner) => owner.id == group.users[index].id) &&
-                group.users[index].id != Services.auth.user.id &&
+            if (!group.owners.any((owner) => owner.id == user.id) &&
+                user.id != Services.auth.user.id &&
                 isOwner) {
-              buttons.add(
-                new IconButton(
-                  icon: const Icon(Icons.arrow_upward),
-                  onPressed: () {
-                    showDialog<Null>(
-                      context: context,
-                      child: new AlertDialog(
-                        title: new Text(SpotL.of(context).confirm),
-                        content: new SingleChildScrollView(
-                          child: new ListBody(
-                            children: <Widget>[
-                              new Text(SpotL.of(context).addOwner(
-                                  '${group.users[index].firstname} ${group.users[index].name}')),
-                            ],
-                          ),
-                        ),
-                        actions: <Widget>[
-                          new FlatButton(
-                            child: new Text(MaterialLocalizations
-                                .of(context)
-                                .cancelButtonLabel
-                                .toUpperCase()),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                          new FlatButton(
-                            child:
-                                new Text(SpotL.of(context).add.toUpperCase()),
-                            onPressed: () {
-                              _addOwner(context, group.users[index].id);
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              );
+              buttons.add(_buildSetOwnerButton(context, index));
             }
-            if (group.owners
-                    .any((owner) => owner.id == group.users[index].id) &&
-                group.users[index].id != Services.auth.user.id &&
+            if (group.owners.any((owner) => owner.id == user.id) &&
+                user.id != Services.auth.user.id &&
                 isOwner &&
-                group.owners[0].id != group.users[index].id) {
-              buttons.add(
-                new IconButton(
-                  icon: const Icon(Icons.arrow_downward),
-                  onPressed: () {
-                    showDialog<Null>(
-                      context: context,
-                      child: new AlertDialog(
-                        title: new Text(SpotL.of(context).confirm),
-                        content: new SingleChildScrollView(
-                          child: new ListBody(
-                            children: <Widget>[
-                              new Text(SpotL.of(context).delOwner(
-                                  '${group.users[index].firstname} ${group.users[index].name}')),
-                            ],
-                          ),
-                        ),
-                        actions: <Widget>[
-                          new FlatButton(
-                            child: new Text(MaterialLocalizations
-                                .of(context)
-                                .cancelButtonLabel),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                          new FlatButton(
-                            child: new Text(MaterialLocalizations
-                                .of(context)
-                                .continueButtonLabel),
-                            onPressed: () {
-                              _removeOwner(context, group.users[index].id);
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              );
+                group.owners[0].id != user.id) {
+              buttons.add(_buildUnsetOwnerButton(context, index));
             }
             if (isOwner &&
-                group.users[index].id != Services.auth.user.id &&
-                !group.owners
-                    .any((owner) => owner.id == group.users[index].id)) {
-              buttons.add(
-                new IconButton(
-                  icon: const Icon(Icons.remove_circle_outline),
-                  onPressed: () {
-                    showDialog<Null>(
-                      context: context,
-                      child: new AlertDialog(
-                        title: new Text(SpotL.of(context).confirm),
-                        content: new SingleChildScrollView(
-                          child: new ListBody(
-                            children: <Widget>[
-                              new Text(SpotL.of(context).kickUser(
-                                  '${group.users[index].firstname} ${group.users[index].name}')),
-                            ],
-                          ),
-                        ),
-                        actions: <Widget>[
-                          new FlatButton(
-                            child: new Text(MaterialLocalizations
-                                .of(context)
-                                .cancelButtonLabel),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                          new FlatButton(
-                            child: new Text(MaterialLocalizations
-                                .of(context)
-                                .continueButtonLabel),
-                            onPressed: () {
-                              _kickUser(context, group.users[index].id);
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              );
+                user.id != Services.auth.user.id &&
+                !group.owners.any((owner) => owner.id == user.id)) {
+              buttons.add(_buildKickUser(context, index));
             }
             return new GestureDetector(
-              onTap: () => Navigator
-                  .of(context)
-                  .pushNamed('/profile/:${group.users[index].id}'),
+              onTap: () =>
+                  Navigator.of(context).pushNamed('/profile/:${user.id}'),
               child: new Container(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: new Row(
@@ -431,13 +444,14 @@ class _GroupPageState extends State<GroupPage>
                       ? new Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: new Center(
-                              child: new RaisedButton(
-                            onPressed: () {
-                              _addPeople(context);
-                            },
-                            child: new Text(
-                                SpotL.of(context).addSomeone.toUpperCase()),
-                          )))
+                            child: new RaisedButton(
+                              onPressed: () => _addPeople(context),
+                              child: new Text(
+                                SpotL.of(context).addSomeone.toUpperCase(),
+                              ),
+                            ),
+                          ),
+                        )
                       : new Container(),
                   _buildUsers(context),
                 ],

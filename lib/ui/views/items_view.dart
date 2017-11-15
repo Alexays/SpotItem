@@ -56,9 +56,8 @@ class _ItemsViewState extends State<ItemsView> {
           const Padding(padding: const EdgeInsets.all(10.0)),
           new RaisedButton(
             child: new Text(SpotL.of(Services.loc).addItem),
-            onPressed: () async {
-              await Navigator.of(Services.context).pushNamed('/items/add/');
-            },
+            onPressed: () =>
+                Navigator.of(Services.context).pushNamed('/items/add/'),
           ),
         ],
       );

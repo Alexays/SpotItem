@@ -36,8 +36,10 @@ class ChatMessage extends StatelessWidget {
               new Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  new Text(text.sender.firstname ?? '',
-                      style: Theme.of(context).textTheme.subhead),
+                  new Text(
+                    text.sender.firstname ?? '',
+                    style: Theme.of(context).textTheme.subhead,
+                  ),
                   new Container(
                     margin: const EdgeInsets.only(top: 5.0),
                     child: text.message != text.message
@@ -115,17 +117,18 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
     setState(() {
       _messages = res.conversation.map((f) {
         final chat = new ChatMessage(
-            text: f,
-            animation: new AnimationController(
-              duration: new Duration(milliseconds: 500),
-              vsync: this,
-            ));
+          text: f,
+          animation: new AnimationController(
+            duration: new Duration(milliseconds: 500),
+            vsync: this,
+          ),
+        );
         chat.animation.forward();
         return chat;
       }).toList();
-      Services.social.connect(conv.id);
-      Services.auth.addCallback('MESSAGE', newMessage);
     });
+    await Services.social.connect(conv.id);
+    Services.auth.addCallback('MESSAGE', newMessage);
   }
 
   @override
@@ -141,23 +144,25 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) => new Scaffold(
         appBar: new AppBar(
-            title: new Text(conv.group?.name ?? conv.users.join(', '))),
+          title: new Text(conv.group?.name ?? conv.users.join(', ')),
+        ),
         body: new Builder(
             builder: (context) => _messages == null
                 ? const Center(child: const CircularProgressIndicator())
                 : new Column(children: <Widget>[
                     new Flexible(
-                        child: _messages.isNotEmpty
-                            ? new ListView.builder(
-                                shrinkWrap: true,
-                                padding: const EdgeInsets.all(8.0),
-                                reverse: true,
-                                itemBuilder: (_, index) => _messages[index],
-                                itemCount: _messages.length,
-                              )
-                            : new Center(
-                                child: new Text(SpotL.of(context).noMessages),
-                              )),
+                      child: _messages.isNotEmpty
+                          ? new ListView.builder(
+                              shrinkWrap: true,
+                              padding: const EdgeInsets.all(8.0),
+                              reverse: true,
+                              itemBuilder: (_, index) => _messages[index],
+                              itemCount: _messages.length,
+                            )
+                          : new Center(
+                              child: new Text(SpotL.of(context).noMessages),
+                            ),
+                    ),
                     const Divider(height: 1.0),
                     new Container(
                       decoration:
@@ -170,34 +175,36 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
   Widget _buildTextComposer() => new IconTheme(
         data: new IconThemeData(color: Theme.of(context).accentColor),
         child: new Container(
-            margin: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: new Row(children: <Widget>[
-              new Flexible(
-                child: new TextField(
-                  controller: _textController,
-                  onChanged: (text) {
-                    setState(() {
-                      _isComposing = text.isNotEmpty;
-                    });
-                  },
-                  onSubmitted: _handleSubmitted,
-                  decoration: new InputDecoration.collapsed(
-                      hintText: SpotL.of(context).send),
-                ),
+          margin: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: new Row(children: <Widget>[
+            new Flexible(
+              child: new TextField(
+                controller: _textController,
+                onChanged: (text) {
+                  setState(() {
+                    _isComposing = text.isNotEmpty;
+                  });
+                },
+                onSubmitted: _handleSubmitted,
+                decoration: new InputDecoration.collapsed(
+                    hintText: SpotL.of(context).send),
               ),
-              new Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 4.0),
-                  child: new IconButton(
-                    icon: new Icon(Icons.send),
-                    onPressed: _isComposing
-                        ? () => _handleSubmitted(_textController.text)
-                        : null,
-                  )),
-            ]),
-            decoration: new BoxDecoration(
-                border: new Border(
-                    top:
-                        new BorderSide(color: Theme.of(context).accentColor)))),
+            ),
+            new Container(
+                margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                child: new IconButton(
+                  icon: new Icon(Icons.send),
+                  onPressed: _isComposing
+                      ? () => _handleSubmitted(_textController.text)
+                      : null,
+                )),
+          ]),
+          decoration: new BoxDecoration(
+            border: new Border(
+              top: new BorderSide(color: Theme.of(context).accentColor),
+            ),
+          ),
+        ),
       );
 
   void _handleSubmitted(String text) {

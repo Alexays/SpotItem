@@ -20,36 +20,40 @@ class _AddConvScreenState extends State<AddConvScreen> {
 
   Future<Null> _addConv(BuildContext context) async {
     if (group == null) {
-      return showSnackBar(context, SpotL.of(context).selectGroup);
+      showSnackBar(context, SpotL.of(context).selectGroup);
+      return;
     }
     final response = await Services.social.add({'group': group});
-    if (resValid(context, response)) {
-      showSnackBar(context, response.msg);
-      await Navigator.of(context).pushReplacement(new MaterialPageRoute<Null>(
-            builder: (context) =>
-                new ConvScreen(new Conversation(response.data)),
-          ));
+    if (!resValid(context, response)) {
+      return;
     }
+    showSnackBar(context, response.msg);
+    await Navigator.of(context).pushReplacement(
+          new MaterialPageRoute<Null>(
+            builder: (context) => new ConvScreen(
+                  new Conversation(response.data),
+                ),
+          ),
+        );
   }
 
   @override
   Widget build(BuildContext context) => new Scaffold(
         appBar: new AppBar(title: new Text(SpotL.of(context).messages)),
         body: new Builder(
-            builder: (context) => Services.groups.data.isNotEmpty
-                ? new ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: Services.groups.data?.length ?? 0,
-                    itemBuilder: (context, index) => new ListTile(
-                          title: new Text(Services.groups.data[index].name),
-                          onTap: () {
-                            group = Services.groups.data[index].id;
-                            _addConv(context);
-                          },
-                        ),
-                  )
-                : new Center(
-                    child: new Text(SpotL.of(context).noGroups),
-                  )),
+          builder: (context) => Services.groups.data.isNotEmpty
+              ? new ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: Services.groups.data?.length ?? 0,
+                  itemBuilder: (context, index) => new ListTile(
+                        title: new Text(Services.groups.data[index].name),
+                        onTap: () {
+                          group = Services.groups.data[index].id;
+                          _addConv(context);
+                        },
+                      ),
+                )
+              : new Center(child: new Text(SpotL.of(context).noGroups)),
+        ),
       );
 }

@@ -23,11 +23,11 @@ class GroupsManager extends BasicService {
   /// @returns Api body response
   Future<ApiRes> add(Map<String, dynamic> payload) async {
     assert(payload != null);
-    final response = await ipost('/groups', payload, Services.auth.accessToken);
-    if (response.success && response.data != null) {
-      Services.auth.user.groups.add(response.data);
+    final res = await ipost('/groups', payload, Services.auth.accessToken);
+    if (res.success && res.data != null) {
+      Services.auth.user.groups.add(res.data);
     }
-    return response;
+    return res;
   }
 
   /// Edit group, not users in group.
@@ -36,21 +36,21 @@ class GroupsManager extends BasicService {
   /// @returns Api body response
   Future<ApiRes> edit(String groupId, Map<String, dynamic> payload) async {
     assert(groupId != null && payload != null);
-    final response =
+    final res =
         await iput('/groups/$groupId', payload, Services.auth.accessToken);
-    return response;
+    return res;
   }
 
   /// Get user groups.
   ///
   /// @returns Groups list
   Future<List<Group>> getAll() async {
-    final response = await iget('/groups', Services.auth.accessToken);
-    if (response.success) {
-      if (!(response.data is List)) {
+    final res = await iget('/groups', Services.auth.accessToken);
+    if (res.success) {
+      if (!(res.data is List)) {
         return <Group>[];
       }
-      return _data = response.data.map((f) => new Group(f)).toList();
+      return _data = res.data.map((f) => new Group(f)).toList();
     }
     return _data;
   }
@@ -61,20 +61,20 @@ class GroupsManager extends BasicService {
   /// @returns Api body response
   Future<ApiRes> get(String groupId) async {
     assert(groupId != null);
-    final response = await iget('/groups/$groupId', Services.auth.accessToken);
-    return response;
+    final res = await iget('/groups/$groupId', Services.auth.accessToken);
+    return res;
   }
 
   /// Get user groups invitation.
   ///
   /// @returns Invitation groups list
   Future<List<Group>> getInv() async {
-    final response = await iget('/groups/inv', Services.auth.accessToken);
-    if (response.success) {
-      if (!(response.data is List)) {
+    final res = await iget('/groups/inv', Services.auth.accessToken);
+    if (res.success) {
+      if (!(res.data is List)) {
         return <Group>[];
       }
-      return _invitation = response.data.map((f) => new Group(f)).toList();
+      return _invitation = res.data.map((f) => new Group(f)).toList();
     }
     return _invitation;
   }
@@ -85,12 +85,11 @@ class GroupsManager extends BasicService {
   /// @returns Api body response
   Future<dynamic> delete(String groupId) async {
     assert(groupId != null);
-    final response =
-        await idelete('/groups/$groupId', Services.auth.accessToken);
-    if (response.success) {
+    final res = await idelete('/groups/$groupId', Services.auth.accessToken);
+    if (res.success) {
       Services.auth.user.groups.removeWhere((group) => group == groupId);
     }
-    return response;
+    return res;
   }
 
   /// Join group by id.
@@ -99,12 +98,11 @@ class GroupsManager extends BasicService {
   /// @returns Api body response
   Future<ApiRes> join(String groupId) async {
     assert(groupId != null);
-    final response =
-        await ipost('/groups/$groupId', null, Services.auth.accessToken);
-    if (response.success) {
+    final res = await iget('/groups/$groupId/join', Services.auth.accessToken);
+    if (res.success) {
       Services.auth.user.groups.add(groupId);
     }
-    return response;
+    return res;
   }
 
   /// Leave a group by id.
@@ -113,12 +111,11 @@ class GroupsManager extends BasicService {
   /// @returns Api body response
   Future<ApiRes> leave(String groupId) async {
     assert(groupId != null);
-    final response =
-        await iget('/groups/leave/$groupId', Services.auth.accessToken);
-    if (response.success) {
+    final res = await iget('/groups/leave/$groupId', Services.auth.accessToken);
+    if (res.success) {
       Services.auth.user.groups.removeWhere((group) => group == groupId);
     }
-    return response;
+    return res;
   }
 
   /// Kick user of group by id's.
@@ -128,9 +125,9 @@ class GroupsManager extends BasicService {
   /// @returns Api body response
   Future<ApiRes> kickUser(String groupId, String userId) async {
     assert(groupId != null && userId != null);
-    final response =
+    final res =
         await idelete('/groups/$groupId/$userId', Services.auth.accessToken);
-    return response;
+    return res;
   }
 
   /// Add a user to group by id's
@@ -140,9 +137,9 @@ class GroupsManager extends BasicService {
   /// @returns Api body response
   Future<ApiRes> addUser(String groupId, String userId) async {
     assert(groupId != null && userId != null);
-    final response =
+    final res =
         await iput('/groups/$groupId/$userId', null, Services.auth.accessToken);
-    return response;
+    return res;
   }
 
   /// Remove a owner of group by id's.
@@ -152,9 +149,9 @@ class GroupsManager extends BasicService {
   /// @returns Api body response
   Future<ApiRes> removeOwner(String groupId, String userId) async {
     assert(groupId != null && userId != null);
-    final response = await idelete(
+    final res = await idelete(
         '/groups/$groupId/owner/$userId', Services.auth.accessToken);
-    return response;
+    return res;
   }
 
   /// Add a owner to group by id's
@@ -164,8 +161,8 @@ class GroupsManager extends BasicService {
   /// @returns Api body response
   Future<ApiRes> addOwner(String groupId, String userId) async {
     assert(groupId != null && userId != null);
-    final response = await iput(
+    final res = await iput(
         '/groups/$groupId/owner/$userId', null, Services.auth.accessToken);
-    return response;
+    return res;
   }
 }
