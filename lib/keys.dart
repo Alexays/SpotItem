@@ -31,7 +31,7 @@ const String apiUrl = 'http://$baseHost/api';
 const String apiImgUrl = '$apiUrl/img/';
 
 /// Google map static Api key
-const String staticApiKey = 'AIzaSyAJh3ASTwUBo06fQai_PZJa-R9czeRC2D0';
+const String staticApiKey = 'AIzaSyDB3j3IsDc6ciCIdWzn1X5dB3xNOE0p3OQ';
 
 /// Google place Api key
 const String placeApiKey = 'AIzaSyASWp3kPIbc3SR9962dhQLWMtJQWvQqRcs';
