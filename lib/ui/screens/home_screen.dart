@@ -22,7 +22,8 @@ class HomeScreen extends StatefulWidget {
   State createState() => new _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, WidgetsBindingObserver, RouteAware {
+class _HomeScreenState extends State<HomeScreen>
+    with TickerProviderStateMixin, WidgetsBindingObserver, RouteAware {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   static final List<HomeScreenItem> _homeScreenItems = <HomeScreenItem>[
@@ -34,17 +35,23 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
         new HomeScreenSubItem(SpotL.of(Services.loc).explore, explore),
       ],
     ),
-    new HomeScreenItem(icon: const Icon(Icons.work), title: SpotL.of(Services.loc).items, sub: <HomeScreenSubItem>[
-      new HomeScreenSubItem(SpotL.of(Services.loc).items, const ItemsView()),
-      new HomeScreenSubItem(SpotL.of(Services.loc).holded, const HoldedView()),
-    ], fabs: [
-      new FloatingActionButton(
-          child: const Icon(Icons.add),
-          tooltip: 'Add new item',
-          onPressed: () async {
-            await Navigator.of(Services.context).pushNamed('/items/add/');
-          })
-    ]),
+    new HomeScreenItem(
+        icon: const Icon(Icons.work),
+        title: SpotL.of(Services.loc).items,
+        sub: <HomeScreenSubItem>[
+          new HomeScreenSubItem(
+              SpotL.of(Services.loc).items, const ItemsView()),
+          new HomeScreenSubItem(
+              SpotL.of(Services.loc).holded, const HoldedView()),
+        ],
+        fabs: [
+          new FloatingActionButton(
+              child: const Icon(Icons.add),
+              tooltip: 'Add new item',
+              onPressed: () async {
+                await Navigator.of(Services.context).pushNamed('/items/add/');
+              })
+        ]),
     new HomeScreenItem(
       icon: const Icon(Icons.map),
       title: SpotL.of(Services.loc).map,
@@ -54,8 +61,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
         icon: const Icon(Icons.nature_people),
         title: SpotL.of(Services.loc).social,
         sub: <HomeScreenSubItem>[
-          new HomeScreenSubItem(SpotL.of(Services.loc).groups, const GroupsView()),
-          new HomeScreenSubItem(SpotL.of(Services.loc).messages, const SocialView())
+          new HomeScreenSubItem(
+              SpotL.of(Services.loc).groups, const GroupsView()),
+          new HomeScreenSubItem(
+              SpotL.of(Services.loc).messages, const SocialView())
         ],
         fabs: [
           new FloatingActionButton(
@@ -68,7 +77,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
               child: const Icon(Icons.sms),
               tooltip: 'Add new messages',
               onPressed: () async {
-                await Navigator.of(Services.context).pushNamed('/messages/add/');
+                await Navigator
+                    .of(Services.context)
+                    .pushNamed('/messages/add/');
               })
         ]),
   ];
@@ -92,9 +103,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
   int page = 0;
   static const Widget discover = const DiscoverView();
   static const Widget explore = const ExplorerView();
-  FloatingActionButton get fab => _homeScreenItems[page].fabs.length > tabsCtrl[page].index
-      ? _homeScreenItems[page].fabs[tabsCtrl[page].index]
-      : null;
+  FloatingActionButton get fab =>
+      _homeScreenItems[page].fabs.length > tabsCtrl[page].index
+          ? _homeScreenItems[page].fabs[tabsCtrl[page].index]
+          : null;
 
   @override
   void didChangeDependencies() {
@@ -122,7 +134,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
       curve: Curves.fastOutSlowIn,
     ));
     WidgetsBinding.instance.addObserver(this);
-    tabsCtrl = _homeScreenItems.map((data) => new TabController(vsync: this, length: data.sub?.length ?? 1)).toList();
+    tabsCtrl = _homeScreenItems
+        .map((data) =>
+            new TabController(vsync: this, length: data.sub?.length ?? 1))
+        .toList();
   }
 
   @override
@@ -140,7 +155,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused || state == AppLifecycleState.inactive) {
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.inactive) {
       print('background');
     } else if (state == AppLifecycleState.resumed) {
       print('foreground');
@@ -161,26 +177,37 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
                           padding: const EdgeInsets.symmetric(vertical: 15.0),
                           itemCount: Services.items.categories.length,
                           itemExtent: 75.0,
-                          itemBuilder: (context, index) => !Services.items.tracks.value
+                          itemBuilder: (context, index) => !Services
+                                  .items.tracks.value
                                   .contains(Services.items.categories[index])
                               ? new FlatButton(
-                                  child: new Image.asset('assets/${Services.items.categories[index]}.png'),
+                                  child: new Image.asset(
+                                      'assets/${Services.items.categories[index]}.png'),
                                   onPressed: () {
-                                    Services.items.tracks.value = Services.items.tracks.value
-                                        .where((f) => !Services.items.categories.any((d) => d == f))
+                                    Services.items.tracks.value = Services
+                                        .items.tracks.value
+                                        .where((f) => !Services.items.categories
+                                            .any((d) => d == f))
                                         .toList();
-                                    Services.items.tracks.value.add(Services.items.categories[index]);
+                                    Services.items.tracks.value
+                                        .add(Services.items.categories[index]);
                                     switchSetState(() {
-                                      Services.items.tracks.value = new List<String>.from(Services.items.tracks.value);
+                                      Services.items.tracks.value =
+                                          new List<String>.from(
+                                              Services.items.tracks.value);
                                     });
                                   },
                                 )
                               : new RaisedButton(
-                                  child: new Image.asset('assets/${Services.items.categories[index]}.png'),
+                                  child: new Image.asset(
+                                      'assets/${Services.items.categories[index]}.png'),
                                   onPressed: () {
-                                    Services.items.tracks.value.remove(Services.items.categories[index]);
+                                    Services.items.tracks.value.remove(
+                                        Services.items.categories[index]);
                                     switchSetState(() {
-                                      Services.items.tracks.value = new List<String>.from(Services.items.tracks.value);
+                                      Services.items.tracks.value =
+                                          new List<String>.from(
+                                              Services.items.tracks.value);
                                     });
                                   },
                                 )),
@@ -189,9 +216,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
                       title: new Text(SpotL.of(Services.loc).fromYourGroups),
                       value: Services.items.tracks.value.contains('group'),
                       onChanged: (value) {
-                        value ? Services.items.tracks.value.add('group') : Services.items.tracks.value.remove('group');
+                        value
+                            ? Services.items.tracks.value.add('group')
+                            : Services.items.tracks.value.remove('group');
                         switchSetState(() {
-                          Services.items.tracks.value = new List<String>.from(Services.items.tracks.value);
+                          Services.items.tracks.value = new List<String>.from(
+                              Services.items.tracks.value);
                         });
                       },
                       secondary: const Icon(Icons.lock),
@@ -200,9 +230,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
                       title: new Text(SpotL.of(Services.loc).gift),
                       value: Services.items.tracks.value.contains('gift'),
                       onChanged: (value) {
-                        value ? Services.items.tracks.value.add('gift') : Services.items.tracks.value.remove('gift');
+                        value
+                            ? Services.items.tracks.value.add('gift')
+                            : Services.items.tracks.value.remove('gift');
                         switchSetState(() {
-                          Services.items.tracks.value = new List<String>.from(Services.items.tracks.value);
+                          Services.items.tracks.value = new List<String>.from(
+                              Services.items.tracks.value);
                         });
                       },
                       secondary: const Icon(Icons.card_giftcard),
@@ -268,14 +301,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
     return new TabBar(
       controller: tabsCtrl[page],
       indicatorWeight: 4.0,
-      tabs: _homeScreenItems[page].sub.map((f) => new Tab(text: f.title)).toList(),
+      tabs: _homeScreenItems[page]
+          .sub
+          .map((f) => new Tab(text: f.title))
+          .toList(),
     );
   }
 
   Widget _buildDrawer(BuildContext context) => new Drawer(
           child: new ListView(shrinkWrap: true, children: <Widget>[
         new UserAccountsDrawerHeader(
-            accountName: new Text('${Services.auth.user?.firstname} ${Services.auth.user?.name}',
+            accountName: new Text(
+                '${Services.auth.user?.firstname} ${Services.auth.user?.name}',
                 overflow: TextOverflow.ellipsis),
             accountEmail: new Text(
               Services.auth.user?.email ?? '',
@@ -293,7 +330,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
             ],
             onDetailsPressed: () {
               _showDrawerContents = !_showDrawerContents;
-              _showDrawerContents ? _controller.reverse() : _controller.forward();
+              _showDrawerContents
+                  ? _controller.reverse()
+                  : _controller.forward();
             }),
         new ClipRect(
             child: new Stack(children: <Widget>[
@@ -332,16 +371,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
                                   text: new TextSpan(children: <TextSpan>[
                                 new TextSpan(
                                     style: Theme.of(context).textTheme.body2,
-                                    text: 'Spotitem est un outil de pret de matériels, biens entre amis.\n'
+                                    text:
+                                        'Spotitem est un outil de pret de matériels, biens entre amis.\n'
                                         'En savoir plus a propos de Spotitem sur '),
                                 new LinkTextSpan(
                                     style: Theme
                                         .of(context)
                                         .textTheme
                                         .body2
-                                        .copyWith(color: Theme.of(context).accentColor),
+                                        .copyWith(
+                                            color:
+                                                Theme.of(context).accentColor),
                                     url: 'https://spotitem.fr'),
-                                new TextSpan(style: Theme.of(context).textTheme.body2, text: '.')
+                                new TextSpan(
+                                    style: Theme.of(context).textTheme.body2,
+                                    text: '.')
                               ])))
                         ])
                   ])),
@@ -356,13 +400,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
                         new ListTile(
                             leading: const Icon(Icons.edit),
                             title: new Text(SpotL.of(Services.loc).editProfile),
-                            onTap: () => Navigator.of(context).pushNamed('/profile/edit/')),
+                            onTap: () => Navigator
+                                .of(context)
+                                .pushNamed('/profile/edit/')),
                         new ListTile(
                             leading: const Icon(Icons.exit_to_app),
                             title: new Text(SpotL.of(Services.loc).logout),
-                            onTap: () => Services.auth
-                                .logout()
-                                .then((_) => Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false)))
+                            onTap: () => Services.auth.logout().then((_) =>
+                                Navigator.of(context).pushNamedAndRemoveUntil(
+                                    '/', (route) => false)))
                       ])))
         ]))
       ]));
@@ -389,7 +435,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
           key: const Key('search'),
           onSubmitted: (data) => _handleSearchBegin(),
           controller: _searchController,
-          style: const TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w500),
+          style: const TextStyle(
+              color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w500),
           decoration: new InputDecoration(
             isDense: true,
             hideDivider: true,
@@ -406,7 +453,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
     ];
     if (!_isSearching) {
       widgets.add(new IconButton(
-        alignment: _filterAvailable ? const Alignment(1.5, 0.0) : Alignment.center,
+        alignment:
+            _filterAvailable ? const Alignment(1.5, 0.0) : Alignment.center,
         padding: const EdgeInsets.all(0.0),
         icon: const Icon(Icons.photo_camera),
         onPressed: _qrReader,
@@ -433,8 +481,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
                       break;
                     case 'dist':
                       return new CheckedPopupMenuItem(
-                          checked: Services.items.tracks.value.contains('dist') ||
-                              !Services.items.tracks.value.any((f) => Services.items.sortMethod.contains(f)),
+                          checked: Services.items.tracks.value
+                                  .contains('dist') ||
+                              !Services.items.tracks.value.any(
+                                  (f) => Services.items.sortMethod.contains(f)),
                           value: f,
                           child: new Text(SpotL.of(context).dist));
                       break;
@@ -443,7 +493,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
             onSelected: (action) {
               setState(() {
                 Services.items.tracks.value = [
-                  Services.items.tracks.value.where((f) => !Services.items.sortMethod.any((d) => d == f)).toList(),
+                  Services.items.tracks.value
+                      .where(
+                          (f) => !Services.items.sortMethod.any((d) => d == f))
+                      .toList(),
                   [action]
                 ].expand((x) => x).toList();
               });
@@ -461,7 +514,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
         floating: haveTab,
         title: new DecoratedBox(
             decoration: new BoxDecoration(
-                color: Theme.of(context).accentColor, borderRadius: const BorderRadius.all(const Radius.circular(3.0))),
+                color: Theme.of(context).accentColor,
+                borderRadius:
+                    const BorderRadius.all(const Radius.circular(3.0))),
             child: new Row(children: widgets)),
         bottom: _buildBottom(),
       )
@@ -473,9 +528,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
       if (_searchQuery.isEmpty) {
         return new Center(child: new Text(SpotL.of(Services.loc).searchDialog));
       }
-      final _searchWord = _searchQuery.split(' ').where((f) => f.trim().isNotEmpty);
+      final _searchWord =
+          _searchQuery.split(' ').where((f) => f.trim().isNotEmpty);
       return new ItemsList(
-          Services.items.data.where((item) => _searchWord.any((f) => item.name.toLowerCase().contains(f))).toList(), 4);
+          Services.items.data
+              .where((item) =>
+                  _searchWord.any((f) => item.name.toLowerCase().contains(f)))
+              .toList(),
+          4);
     }
     return new TabBarView(
       controller: tabsCtrl[page],
@@ -484,11 +544,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
   }
 
   @override
-  Widget build(BuildContext context) => new Stack(fit: StackFit.expand, children: <Widget>[
+  Widget build(BuildContext context) =>
+      new Stack(fit: StackFit.expand, children: <Widget>[
         new Scaffold(
             key: _scaffoldKey,
             drawer: _buildDrawer(context),
-            floatingActionButton: _isSearching || _homeScreenItems[page].fabs == null ? null : fab,
+            floatingActionButton:
+                _isSearching || _homeScreenItems[page].fabs == null
+                    ? null
+                    : fab,
             body: new Builder(builder: (context) {
               Services.context = context;
               return new NestedScrollView(
@@ -536,9 +600,17 @@ class HomeScreenItem {
   final String title;
 
   /// Home screen item initalizer
-  HomeScreenItem({_HomeScreenState parent, Widget icon, this.title, Widget content, this.sub, this.fabs})
+  HomeScreenItem(
+      {_HomeScreenState parent,
+      Widget icon,
+      this.title,
+      Widget content,
+      this.sub,
+      this.fabs})
       : item = new BottomNavigationBarItem(icon: icon, title: new Text(title)),
-        content = sub != null ? sub.map((f) => f.content).toList() : <Widget>[content];
+        content = sub != null
+            ? sub.map((f) => f.content).toList()
+            : <Widget>[content];
 }
 
 /// Home screen sub item

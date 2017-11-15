@@ -29,7 +29,8 @@ class EditItemScreen extends StatefulWidget {
   _EditItemScreenState createState() => new _EditItemScreenState(itemId, item);
 }
 
-class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStateMixin {
+class _EditItemScreenState extends State<EditItemScreen>
+    with TickerProviderStateMixin {
   _EditItemScreenState(this._itemId, this._item);
 
   final String _itemId;
@@ -128,7 +129,8 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
           if (!mounted) {
             return;
           }
-          _images.add('data:image/${_fileName.path.split('.').last};base64,${BASE64.encode(data)}');
+          _images.add(
+              'data:image/${_fileName.path.split('.').last};base64,${BASE64.encode(data)}');
         });
       });
     }
@@ -155,7 +157,8 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
       primary: false,
       crossAxisCount: (_item.images.length + _imagesFile.length),
       crossAxisSpacing: 10.0,
-      children: new List<Widget>.generate((_item.images.length + _imagesFile.length), (index) {
+      children: new List<Widget>.generate(
+          (_item.images.length + _imagesFile.length), (index) {
         if (index < _item.images.length) {
           return new GridTile(
               child: new Stack(
@@ -213,10 +216,12 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
     showLoading(context);
     _item.images.forEach(finalImages.add);
     _images.forEach(finalImages.add);
-    final location = Services.users.location ?? await Services.users.getLocationByAddress(_location);
+    final location = Services.users.location ??
+        await Services.users.getLocationByAddress(_location);
     if (location == null) {
       Navigator.of(context).pop();
-      return showSnackBar(context, 'Please enable location or choose location !');
+      return showSnackBar(
+          context, 'Please enable location or choose location !');
     }
     if (!Services.auth.user.isValid()) {
       Navigator.of(context).pop();
@@ -238,7 +243,9 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
     if (resValid(context, response)) {
       showSnackBar(context, response.msg);
       await Services.items.getItems(force: true);
-      await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+      await Navigator
+          .of(context)
+          .pushNamedAndRemoveUntil('/', (route) => false);
     }
   }
 
@@ -280,36 +287,48 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                       child: new DefaultTabController(
                         length: 4,
                         child: new NestedScrollView(
-                          headerSliverBuilder: (context, innerBoxIsScrolled) => <Widget>[
+                          headerSliverBuilder: (context, innerBoxIsScrolled) =>
+                              <Widget>[
                                 new AnimatedBuilder(
                                   animation: _bottomSize,
                                   builder: (context, child) => new SliverAppBar(
                                         pinned: true,
-                                        title: new Text(_item?.name ?? SpotL.of(context).loading),
+                                        title: new Text(_item?.name ??
+                                            SpotL.of(context).loading),
                                         bottom: new TabBar(
                                           indicatorWeight: 4.0,
                                           tabs: <Tab>[
-                                            new Tab(text: SpotL.of(context).about),
-                                            new Tab(text: SpotL.of(context).images),
-                                            new Tab(text: SpotL.of(context).calendar),
-                                            new Tab(text: SpotL.of(context).groups)
+                                            new Tab(
+                                                text: SpotL.of(context).about),
+                                            new Tab(
+                                                text: SpotL.of(context).images),
+                                            new Tab(
+                                                text:
+                                                    SpotL.of(context).calendar),
+                                            new Tab(
+                                                text: SpotL.of(context).groups)
                                           ],
                                         ),
                                       ),
                                 ),
                               ],
                           body: _item == null
-                              ? const Center(child: const CircularProgressIndicator())
+                              ? const Center(
+                                  child: const CircularProgressIndicator())
                               : new TabBarView(
                                   children: <Widget>[
                                     new ListView(
                                       shrinkWrap: true,
-                                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20.0),
                                       children: <Widget>[
                                         new TextFormField(
                                           key: const Key('name'),
                                           decoration: new InputDecoration(
-                                              hintText: SpotL.of(context).namePh, labelText: SpotL.of(context).name),
+                                              hintText:
+                                                  SpotL.of(context).namePh,
+                                              labelText:
+                                                  SpotL.of(context).name),
                                           validator: validateName,
                                           controller: _nameCtrl,
                                           initialValue: _nameCtrl.text,
@@ -317,7 +336,10 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                                         new TextFormField(
                                           key: const Key('about'),
                                           decoration: new InputDecoration(
-                                              hintText: SpotL.of(context).aboutPh, labelText: SpotL.of(context).about),
+                                              hintText:
+                                                  SpotL.of(context).aboutPh,
+                                              labelText:
+                                                  SpotL.of(context).about),
                                           controller: _aboutCtrl,
                                           initialValue: _aboutCtrl.text,
                                         ),
@@ -327,14 +349,19 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                                               node: new FocusScopeNode(),
                                               child: new TextFormField(
                                                 decoration: new InputDecoration(
-                                                    hintText: SpotL.of(context).locationPh,
-                                                    labelText: SpotL.of(context).location),
+                                                    hintText: SpotL
+                                                        .of(context)
+                                                        .locationPh,
+                                                    labelText: SpotL
+                                                        .of(context)
+                                                        .location),
                                                 initialValue: _location,
                                               ),
                                             ),
                                             new GestureDetector(
                                               onTap: () async {
-                                                final p = await Services.users.autocompleteCity(context);
+                                                final p = await Services.users
+                                                    .autocompleteCity(context);
                                                 if (mounted && p != null) {
                                                   setState(() {
                                                     _location = p;
@@ -349,7 +376,8 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                                           ],
                                         ),
                                         new CheckboxListTile(
-                                          title: new Text(SpotL.of(context).gift),
+                                          title:
+                                              new Text(SpotL.of(context).gift),
                                           value: _tracks.contains('gift'),
                                           onChanged: (value) {
                                             setState(() {
@@ -360,10 +388,12 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                                               }
                                             });
                                           },
-                                          secondary: const Icon(Icons.card_giftcard),
+                                          secondary:
+                                              const Icon(Icons.card_giftcard),
                                         ),
                                         new CheckboxListTile(
-                                          title: new Text(SpotL.of(context).private),
+                                          title: new Text(
+                                              SpotL.of(context).private),
                                           value: _tracks.contains('private'),
                                           onChanged: (value) {
                                             setState(() {
@@ -381,48 +411,74 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                                           child: new ListView.builder(
                                             shrinkWrap: true,
                                             scrollDirection: Axis.horizontal,
-                                            padding: const EdgeInsets.symmetric(vertical: 15.0),
-                                            itemCount: Services.items.categories.length,
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 15.0),
+                                            itemCount: Services
+                                                .items.categories.length,
                                             itemExtent: 75.0,
-                                            itemBuilder: (context, index) => !_tracks
-                                                    .contains(Services.items.categories[index])
-                                                ? new FlatButton(
-                                                    child: new Image.asset(
-                                                        'assets/${Services.items.categories[index]}.png'),
-                                                    onPressed: () {
-                                                      _tracks = _tracks
-                                                          .where((f) => !Services.items.categories.any((d) => d == f))
-                                                          .toList()
-                                                            ..add(Services.items.categories[index]);
-                                                      setState(() {
-                                                        _tracks = new List<String>.from(_tracks);
-                                                      });
-                                                    },
-                                                  )
-                                                : new RaisedButton(
-                                                    child: new Image.asset(
-                                                        'assets/${Services.items.categories[index]}.png'),
-                                                    onPressed: () {
-                                                      _tracks.remove(Services.items.categories[index]);
-                                                      setState(() {
-                                                        _tracks = new List<String>.from(_tracks);
-                                                      });
-                                                    },
-                                                  ),
+                                            itemBuilder: (context, index) =>
+                                                !_tracks.contains(Services.items
+                                                        .categories[index])
+                                                    ? new FlatButton(
+                                                        child: new Image.asset(
+                                                            'assets/${Services.items.categories[index]}.png'),
+                                                        onPressed: () {
+                                                          _tracks = _tracks
+                                                              .where((f) =>
+                                                                  !Services
+                                                                      .items
+                                                                      .categories
+                                                                      .any((d) =>
+                                                                          d ==
+                                                                          f))
+                                                              .toList()
+                                                                ..add(Services
+                                                                        .items
+                                                                        .categories[
+                                                                    index]);
+                                                          setState(() {
+                                                            _tracks = new List<
+                                                                    String>.from(
+                                                                _tracks);
+                                                          });
+                                                        },
+                                                      )
+                                                    : new RaisedButton(
+                                                        child: new Image.asset(
+                                                            'assets/${Services.items.categories[index]}.png'),
+                                                        onPressed: () {
+                                                          _tracks.remove(Services
+                                                                  .items
+                                                                  .categories[
+                                                              index]);
+                                                          setState(() {
+                                                            _tracks = new List<
+                                                                    String>.from(
+                                                                _tracks);
+                                                          });
+                                                        },
+                                                      ),
                                           ),
                                         ),
-                                        new Image.network('$apiUrl/items/${_item.id}/code')
+                                        new Image.network(
+                                            '$apiUrl/items/${_item.id}/code')
                                       ],
                                     ),
                                     new Container(
                                       margin: const EdgeInsets.all(20.0),
                                       child: new Column(
                                         children: [
-                                          (_item.images.length + _imagesFile.length) > 0
+                                          (_item.images.length +
+                                                      _imagesFile.length) >
+                                                  0
                                               ? new Padding(
-                                                  padding: const EdgeInsets.only(bottom: 15.0),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 15.0),
                                                   child: new RaisedButton(
-                                                    child: new Text(SpotL.of(context).addImage),
+                                                    child: new Text(SpotL
+                                                        .of(context)
+                                                        .addImage),
                                                     onPressed: getImage,
                                                   ))
                                               : new Container(),
@@ -433,7 +489,8 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                                       ),
                                     ),
                                     new Container(
-                                      height: MediaQuery.of(context).size.height,
+                                      height:
+                                          MediaQuery.of(context).size.height,
                                       child: new Calendar(
                                         allowDisable: true,
                                         edit: true,
@@ -446,8 +503,12 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                                       ),
                                     ),
                                     _groups != null
-                                        ? new Container(margin: const EdgeInsets.all(20.0), child: getGroups())
-                                        : const Center(child: const CircularProgressIndicator()),
+                                        ? new Container(
+                                            margin: const EdgeInsets.all(20.0),
+                                            child: getGroups())
+                                        : const Center(
+                                            child:
+                                                const CircularProgressIndicator()),
                                   ],
                                 ),
                         ),
@@ -455,10 +516,12 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                     ),
                   ),
                   new Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 4.0),
                     child: new ConstrainedBox(
-                        constraints:
-                            new BoxConstraints.tightFor(height: 48.0, width: MediaQuery.of(context).size.width),
+                        constraints: new BoxConstraints.tightFor(
+                            height: 48.0,
+                            width: MediaQuery.of(context).size.width),
                         child: new RaisedButton(
                           color: Theme.of(context).accentColor,
                           onPressed: () {
@@ -466,7 +529,8 @@ class _EditItemScreenState extends State<EditItemScreen> with TickerProviderStat
                           },
                           child: new Text(
                             SpotL.of(context).save.toUpperCase(),
-                            style: new TextStyle(color: Theme.of(context).canvasColor),
+                            style: new TextStyle(
+                                color: Theme.of(context).canvasColor),
                           ),
                         )),
                   ),

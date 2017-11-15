@@ -21,7 +21,8 @@ class ChatMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => new SizeTransition(
-        sizeFactor: new CurvedAnimation(parent: animation, curve: Curves.easeOut),
+        sizeFactor:
+            new CurvedAnimation(parent: animation, curve: Curves.easeOut),
         axisAlignment: 0.0,
         child: new Container(
           margin: const EdgeInsets.symmetric(vertical: 10.0),
@@ -35,7 +36,8 @@ class ChatMessage extends StatelessWidget {
               new Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  new Text(text.sender.firstname ?? '', style: Theme.of(context).textTheme.subhead),
+                  new Text(text.sender.firstname ?? '',
+                      style: Theme.of(context).textTheme.subhead),
                   new Container(
                     margin: const EdgeInsets.only(top: 5.0),
                     child: text.message != text.message
@@ -138,7 +140,8 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-        appBar: new AppBar(title: new Text(conv.group?.name ?? conv.users.join(', '))),
+        appBar: new AppBar(
+            title: new Text(conv.group?.name ?? conv.users.join(', '))),
         body: new Builder(
             builder: (context) => _messages == null
                 ? const Center(child: const CircularProgressIndicator())
@@ -157,7 +160,8 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
                               )),
                     const Divider(height: 1.0),
                     new Container(
-                      decoration: new BoxDecoration(color: Theme.of(context).cardColor),
+                      decoration:
+                          new BoxDecoration(color: Theme.of(context).cardColor),
                       child: _buildTextComposer(),
                     ),
                   ])),
@@ -177,18 +181,23 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
                     });
                   },
                   onSubmitted: _handleSubmitted,
-                  decoration: new InputDecoration.collapsed(hintText: SpotL.of(context).send),
+                  decoration: new InputDecoration.collapsed(
+                      hintText: SpotL.of(context).send),
                 ),
               ),
               new Container(
                   margin: const EdgeInsets.symmetric(horizontal: 4.0),
                   child: new IconButton(
                     icon: new Icon(Icons.send),
-                    onPressed: _isComposing ? () => _handleSubmitted(_textController.text) : null,
+                    onPressed: _isComposing
+                        ? () => _handleSubmitted(_textController.text)
+                        : null,
                   )),
             ]),
-            decoration:
-                new BoxDecoration(border: new Border(top: new BorderSide(color: Theme.of(context).accentColor)))),
+            decoration: new BoxDecoration(
+                border: new Border(
+                    top:
+                        new BorderSide(color: Theme.of(context).accentColor)))),
       );
 
   void _handleSubmitted(String text) {
@@ -197,7 +206,10 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
       _isComposing = false;
     });
     final message = new ChatMessage(
-      text: new Message({'sender': JSON.decode(Services.auth.user.toString()), 'message': text}),
+      text: new Message({
+        'sender': JSON.decode(Services.auth.user.toString()),
+        'message': text
+      }),
       animation: new AnimationController(
         duration: new Duration(milliseconds: 700),
         vsync: this,

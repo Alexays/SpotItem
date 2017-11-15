@@ -37,10 +37,12 @@ class SpotL {
       locale.countryCode.isEmpty ? locale.languageCode : locale.toString();
 
   /// Load langs files
-  static Future<SpotL> load(Locale locale) => new SynchronousFuture(new SpotL(locale));
+  static Future<SpotL> load(Locale locale) =>
+      new SynchronousFuture(new SpotL(locale));
 
   /// Context
-  static SpotL of(BuildContext context) => Localizations.of<SpotL>(context, SpotL);
+  static SpotL of(BuildContext context) =>
+      Localizations.of<SpotL>(context, SpotL);
 
   /// Home title
   String get home => _nameToValue['home'];
@@ -223,16 +225,19 @@ class SpotL {
   String get deleteGroup => _nameToValue['deleteGroup'];
 
   /// Leave group title
-  String addOwner(String name) => _nameToValue['addOwner'].replaceFirst(r'$name', name);
+  String addOwner(String name) =>
+      _nameToValue['addOwner'].replaceFirst(r'$name', name);
 
   /// Leave group title
-  String delOwner(String name) => _nameToValue['delOwner'].replaceFirst(r'$name', name);
+  String delOwner(String name) =>
+      _nameToValue['delOwner'].replaceFirst(r'$name', name);
 
   /// Add title
   String get add => _nameToValue['add'];
 
   /// Kick user title
-  String kickUser(String name) => _nameToValue['kickUser'].replaceFirst(r'$name', name);
+  String kickUser(String name) =>
+      _nameToValue['kickUser'].replaceFirst(r'$name', name);
 
   /// Select group title
   String get selectGroup => _nameToValue['selectGroup'];
@@ -247,7 +252,8 @@ class SpotL {
   String nbInv(String nb) => _nameToValue['nbInv'].replaceFirst(r'$nb', nb);
 
   /// Number invitation title
-  String joinGroup(String name) => _nameToValue['joinGroup'].replaceFirst(r'$name', name);
+  String joinGroup(String name) =>
+      _nameToValue['joinGroup'].replaceFirst(r'$name', name);
 
   /// Dist title
   String get dist => _nameToValue['dist'];

@@ -26,7 +26,8 @@ class _AddConvScreenState extends State<AddConvScreen> {
     if (resValid(context, response)) {
       showSnackBar(context, response.msg);
       await Navigator.of(context).pushReplacement(new MaterialPageRoute<Null>(
-            builder: (context) => new ConvScreen(new Conversation(response.data)),
+            builder: (context) =>
+                new ConvScreen(new Conversation(response.data)),
           ));
     }
   }

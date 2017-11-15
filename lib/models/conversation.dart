@@ -9,8 +9,9 @@ class Conversation {
       : id = data['_id'],
         users = data['users'],
         group = new Group(data['group']),
-        conversation =
-            data['conversation'] is List ? data['conversation'].map((f) => new Message(f)).toList() : <Message>[];
+        conversation = data['conversation'] is List
+            ? data['conversation'].map((f) => new Message(f)).toList()
+            : <Message>[];
 
   /// Conversation id
   final String id;
@@ -25,7 +26,8 @@ class Conversation {
   final List<Message> conversation;
 
   /// Create item from JSON object
-  factory Conversation.from(Conversation conversation) => new Conversation(JSON.decode(conversation.toString()));
+  factory Conversation.from(Conversation conversation) =>
+      new Conversation(JSON.decode(conversation.toString()));
 
   /// Check if item is valid
   bool isValid() => id != null && (users != null || group != null);
@@ -41,7 +43,9 @@ class Conversation {
 class Message {
   /// Message class initializer
   Message(Map<String, dynamic> data)
-      : sender = data['sender'] is Map<String, dynamic> ? new User(data['sender']) : new User({'_id': data['sender']}),
+      : sender = data['sender'] is Map<String, dynamic>
+            ? new User(data['sender'])
+            : new User({'_id': data['sender']}),
         message = data['message'];
 
   /// Sender of message

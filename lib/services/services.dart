@@ -113,13 +113,14 @@ class Services {
         print('onResume: $message');
       },
     );
-    _singleton._firebaseMessaging
-        .requestNotificationPermissions(const IosNotificationSettings(sound: true, badge: true, alert: true));
+    _singleton._firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(sound: true, badge: true, alert: true));
     _singleton._firebaseMessaging.onIosSettingsRegistered.listen((settings) {
       print('Settings registered: $settings');
     });
     _singleton._analytics = new FirebaseAnalytics();
-    _singleton._observer = new FirebaseAnalyticsObserver(analytics: _singleton._analytics);
+    _singleton._observer =
+        new FirebaseAnalyticsObserver(analytics: _singleton._analytics);
     return !bool.contains(false);
   }
 }

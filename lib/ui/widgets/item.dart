@@ -36,7 +36,9 @@ class ItemsListItem extends StatelessWidget {
                   tag: '${item.id}$hash',
                   child: new FadeInImage(
                     placeholder: placeholder,
-                    image: item.images.isNotEmpty ? new NetworkImage('$apiImgUrl${item.images.first}') : placeholder,
+                    image: item.images.isNotEmpty
+                        ? new NetworkImage('$apiImgUrl${item.images.first}')
+                        : placeholder,
                     fit: BoxFit.cover,
                   )),
               // new Positioned(
@@ -90,22 +92,36 @@ const int _rowsPerBlock = 5;
 
 int _minIndexInRow(int rowIndex) {
   final blockIndex = rowIndex ~/ _rowsPerBlock;
-  return const <int>[0, 2, 4, 6, 7][rowIndex % _rowsPerBlock] + blockIndex * _childrenPerBlock;
+  return const <int>[0, 2, 4, 6, 7][rowIndex % _rowsPerBlock] +
+      blockIndex * _childrenPerBlock;
 }
 
 int _maxIndexInRow(int rowIndex) {
   final blockIndex = rowIndex ~/ _rowsPerBlock;
-  return const <int>[1, 3, 5, 6, 7][rowIndex % _rowsPerBlock] + blockIndex * _childrenPerBlock;
+  return const <int>[1, 3, 5, 6, 7][rowIndex % _rowsPerBlock] +
+      blockIndex * _childrenPerBlock;
 }
 
 int _rowAtIndex(int index) {
   final blockCount = index ~/ _childrenPerBlock;
-  return const <int>[0, 0, 1, 1, 2, 2, 3, 4][index - blockCount * _childrenPerBlock] + blockCount * _rowsPerBlock;
+  return const <int>[
+        0,
+        0,
+        1,
+        1,
+        2,
+        2,
+        3,
+        4
+      ][index - blockCount * _childrenPerBlock] +
+      blockCount * _rowsPerBlock;
 }
 
-int _columnAtIndex(int index) => const <int>[0, 1, 0, 1, 0, 1, 0, 0][index % _childrenPerBlock];
+int _columnAtIndex(int index) =>
+    const <int>[0, 1, 0, 1, 0, 1, 0, 0][index % _childrenPerBlock];
 
-int _columnSpanAtIndex(int index) => const <int>[1, 1, 1, 1, 1, 1, 2, 2][index % _childrenPerBlock];
+int _columnSpanAtIndex(int index) =>
+    const <int>[1, 1, 1, 1, 1, 1, 2, 2][index % _childrenPerBlock];
 
 class _GridLayout extends SliverGridLayout {
   const _GridLayout({
@@ -121,10 +137,12 @@ class _GridLayout extends SliverGridLayout {
   final double tileWidth;
 
   @override
-  int getMinChildIndexForScrollOffset(double scrollOffset) => _minIndexInRow(scrollOffset ~/ rowStride);
+  int getMinChildIndexForScrollOffset(double scrollOffset) =>
+      _minIndexInRow(scrollOffset ~/ rowStride);
 
   @override
-  int getMaxChildIndexForScrollOffset(double scrollOffset) => _maxIndexInRow(scrollOffset ~/ rowStride);
+  int getMaxChildIndexForScrollOffset(double scrollOffset) =>
+      _maxIndexInRow(scrollOffset ~/ rowStride);
 
   @override
   SliverGridGeometry getGeometryForChildIndex(int index) {

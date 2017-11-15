@@ -20,7 +20,8 @@ class SocialManager extends BasicService {
       if (!(response.data is List)) {
         return <Conversation>[];
       }
-      return _conversations = response.data.map((f) => new Conversation(f)).toList();
+      return _conversations =
+          response.data.map((f) => new Conversation(f)).toList();
     }
     return _conversations;
   }
@@ -28,7 +29,8 @@ class SocialManager extends BasicService {
   /// Add a conversation
   Future<ApiRes> add(Map<String, String> conversation) async {
     assert(conversation != null);
-    final response = await ipost('/messages', conversation, Services.auth.accessToken);
+    final response =
+        await ipost('/messages', conversation, Services.auth.accessToken);
     if (response.success && response.data != null) {
       _conversations.add(new Conversation(response.data));
     }
@@ -68,7 +70,11 @@ class SocialManager extends BasicService {
   Future<Null> send(String id, String text) async {
     assert(id != null && text != null);
     final header = await getWsHeader('message');
-    header['message'] = {'room': id, 'sender': Services.auth.user.toString(), 'message': text};
+    header['message'] = {
+      'room': id,
+      'sender': Services.auth.user.toString(),
+      'message': text
+    };
     Services.auth.ws.sink.add(JSON.encode(header));
   }
 }

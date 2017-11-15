@@ -17,13 +17,15 @@ const Duration _kMonthScrollDuration = const Duration(milliseconds: 200);
 const double _kDayPickerRowHeight = 42.0;
 const int _kMaxDayPickerRowCount = 6; // A 31 day month that starts on Saturday.
 // Two extra rows: one for the day-of-week header and one for the month header.
-const double _kMaxDayPickerHeight = _kDayPickerRowHeight * (_kMaxDayPickerRowCount + 2);
+const double _kMaxDayPickerHeight =
+    _kDayPickerRowHeight * (_kMaxDayPickerRowCount + 2);
 
 const double _kMonthPickerPortraitWidth = 330.0;
 const double _kMonthPickerLandscapeWidth = 344.0;
 
 const double _kDialogActionBarHeight = 52.0;
-const double _kDatePickerLandscapeHeight = _kMaxDayPickerHeight + _kDialogActionBarHeight;
+const double _kDatePickerLandscapeHeight =
+    _kMaxDayPickerHeight + _kDialogActionBarHeight;
 
 class _CalendarGridDelegate extends SliverGridDelegate {
   const _CalendarGridDelegate();
@@ -32,8 +34,8 @@ class _CalendarGridDelegate extends SliverGridDelegate {
   SliverGridLayout getLayout(SliverConstraints constraints) {
     final columnCount = DateTime.DAYS_PER_WEEK;
     final tileWidth = constraints.crossAxisExtent / columnCount;
-    final tileHeight =
-        math.min(_kDayPickerRowHeight, constraints.viewportMainAxisExtent / (_kMaxDayPickerRowCount + 1));
+    final tileHeight = math.min(_kDayPickerRowHeight,
+        constraints.viewportMainAxisExtent / (_kMaxDayPickerRowCount + 1));
     return new SliverGridRegularTileLayout(
       crossAxisCount: columnCount,
       mainAxisStride: tileHeight,
@@ -48,7 +50,8 @@ class _CalendarGridDelegate extends SliverGridDelegate {
   bool shouldRelayout(_CalendarGridDelegate oldDelegate) => false;
 }
 
-const _CalendarGridDelegate _kCalendarGridDelegate = const _CalendarGridDelegate();
+const _CalendarGridDelegate _kCalendarGridDelegate =
+    const _CalendarGridDelegate();
 
 /// Displays the days of a given month and allows choosing a day.
 ///
@@ -124,7 +127,8 @@ class CalendarMonth extends StatelessWidget {
   /// _ _ _ _ 1 2 3
   /// 4 5 6 7 8 9 10
   /// ```
-  List<Widget> _getDayHeaders(TextStyle headerStyle, MaterialLocalizations localizations) {
+  List<Widget> _getDayHeaders(
+      TextStyle headerStyle, MaterialLocalizations localizations) {
     final result = <Widget>[];
     var i = localizations.firstDayOfWeekIndex;
     do {
@@ -135,7 +139,20 @@ class CalendarMonth extends StatelessWidget {
   }
 
   // Do not use this directly - call getDaysInMonth instead.
-  static const List<int> _kDaysInMonth = const <int>[31, -1, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  static const List<int> _kDaysInMonth = const <int>[
+    31,
+    -1,
+    31,
+    30,
+    31,
+    30,
+    31,
+    31,
+    30,
+    31,
+    30,
+    31
+  ];
 
   /// Returns the number of days in a month, according to the proleptic
   /// Gregorian calendar.
@@ -144,7 +161,8 @@ class CalendarMonth extends StatelessWidget {
   /// 1582. It will not give valid results for dates prior to that time.
   static int getDaysInMonth(int year, int month) {
     if (month == DateTime.FEBRUARY) {
-      final isLeapYear = (year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0);
+      final isLeapYear =
+          (year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0);
       return isLeapYear ? 29 : 28;
     }
     return _kDaysInMonth[month - 1];
@@ -182,7 +200,8 @@ class CalendarMonth extends StatelessWidget {
   ///   into the [MaterialLocalizations.narrowWeekdays] list.
   /// - [MaterialLocalizations.narrowWeekdays] list provides localized names of
   ///   days of week, always starting with Sunday and ending with Saturday.
-  int _computeFirstDayOffset(int year, int month, MaterialLocalizations localizations) {
+  int _computeFirstDayOffset(
+      int year, int month, MaterialLocalizations localizations) {
     // 0-based day of week, with 0 representing Monday.
     final weekdayFromMonday = new DateTime(year, month).weekday - 1;
     // 0-based day of week, with 0 representing Sunday.
@@ -207,7 +226,9 @@ class CalendarMonth extends StatelessWidget {
     final labels = _getDayHeaders(themeData.textTheme.caption, localizations);
     // 1-based day of month, e.g. 1-31 for January, and 1-29 for February on
     // a leap year.
-    for (var i = 0, day; (day = (i - firstDayOffset + 1)) <= daysInMonth; i += 1) {
+    for (var i = 0, day;
+        (day = (i - firstDayOffset + 1)) <= daysInMonth;
+        i += 1) {
       if (day < 1) {
         labels.add(new Container());
       } else {
@@ -215,29 +236,41 @@ class CalendarMonth extends StatelessWidget {
         BoxDecoration decoration;
         var itemStyle = themeData.textTheme.body1;
         final current = dates.firstWhere(
-            (f) => f.date.day == dayToBuild.day && f.date.month == dayToBuild.month && f.date.year == dayToBuild.year,
+            (f) =>
+                f.date.day == dayToBuild.day &&
+                f.date.month == dayToBuild.month &&
+                f.date.year == dayToBuild.year,
             orElse: () => null);
-        final disabled =
-            (((dayToBuild.isAfter(lastDate) || dayToBuild.isBefore(firstDate)) || (current != null && !edit)) ||
-                    (current == null && !edit)) &&
-                !allowDisable;
+        final disabled = (((dayToBuild.isAfter(lastDate) ||
+                        dayToBuild.isBefore(firstDate)) ||
+                    (current != null && !edit)) ||
+                (current == null && !edit)) &&
+            !allowDisable;
         if (current != null) {
           // The selected day gets a circle background highlight, and a contrasting text color.
           if (current.holder == null && !edit) {
-            itemStyle = themeData.textTheme.body2.copyWith(color: themeData.accentColor);
-          } else if (current.holder != null && current.holder != Services.auth.user.id) {
+            itemStyle = themeData.textTheme.body2
+                .copyWith(color: themeData.accentColor);
+          } else if (current.holder != null &&
+              current.holder != Services.auth.user.id) {
             itemStyle = themeData.accentTextTheme.body2;
-            decoration = new BoxDecoration(color: themeData.errorColor, shape: BoxShape.circle);
+            decoration = new BoxDecoration(
+                color: themeData.errorColor, shape: BoxShape.circle);
           } else {
             itemStyle = themeData.accentTextTheme.body2;
-            decoration = new BoxDecoration(color: themeData.accentColor, shape: BoxShape.circle);
+            decoration = new BoxDecoration(
+                color: themeData.accentColor, shape: BoxShape.circle);
           }
           //TO-DO disabled style opacity
-        } else if (currentDate.year == year && currentDate.month == month && currentDate.day == day) {
+        } else if (currentDate.year == year &&
+            currentDate.month == month &&
+            currentDate.day == day) {
           // The current day gets a different text color.
-          itemStyle = themeData.textTheme.body2.copyWith(color: themeData.secondaryHeaderColor);
+          itemStyle = themeData.textTheme.body2
+              .copyWith(color: themeData.secondaryHeaderColor);
         } else if (disabled) {
-          itemStyle = themeData.textTheme.body1.copyWith(color: themeData.disabledColor);
+          itemStyle = themeData.textTheme.body1
+              .copyWith(color: themeData.disabledColor);
         }
 
         Widget dayWidget = new Container(
@@ -246,7 +279,9 @@ class CalendarMonth extends StatelessWidget {
             child: new Text(localizations.formatDecimal(day), style: itemStyle),
           ),
         );
-        if (!disabled && (current?.holder == null || current?.holder == Services.auth.user.id)) {
+        if (!disabled &&
+            (current?.holder == null ||
+                current?.holder == Services.auth.user.id)) {
           dayWidget = new GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () {
@@ -257,7 +292,9 @@ class CalendarMonth extends StatelessWidget {
               }
               if (current != null) {
                 selectedDates.removeWhere((f) =>
-                    f.date.day == dayToBuild.day && f.date.month == dayToBuild.month && f.date.year == dayToBuild.year);
+                    f.date.day == dayToBuild.day &&
+                    f.date.month == dayToBuild.month &&
+                    f.date.year == dayToBuild.year);
               } else {
                 selectedDates.add(new Event({'date': dayToBuild.toString()}));
               }
@@ -291,7 +328,8 @@ class CalendarMonth extends StatelessWidget {
             child: new GridView.custom(
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: _kCalendarGridDelegate,
-              childrenDelegate: new SliverChildListDelegate(labels, addRepaintBoundaries: false),
+              childrenDelegate: new SliverChildListDelegate(labels,
+                  addRepaintBoundaries: false),
             ),
           ),
         ],

@@ -17,7 +17,8 @@ class ItemsView extends StatefulWidget {
 
 class _ItemsViewState extends State<ItemsView> {
   List<Item> _myItems;
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      new GlobalKey<RefreshIndicatorState>();
 
   @override
   void initState() {
@@ -106,5 +107,7 @@ class _ItemsViewState extends State<ItemsView> {
   Widget build(BuildContext context) => new RefreshIndicator(
       key: _refreshIndicatorKey,
       onRefresh: _loadItems,
-      child: _myItems == null ? const Center(child: const CircularProgressIndicator()) : getList());
+      child: _myItems == null
+          ? const Center(child: const CircularProgressIndicator())
+          : getList());
 }

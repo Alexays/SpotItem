@@ -186,16 +186,20 @@ class _AddItemScreenState extends State<AddItemScreen> {
     _images.clear();
     for (var f in _imagesFile) {
       final imageBytes = f.readAsBytesSync();
-      _images.add('data:image/${f.path.split('.').last};base64,${BASE64.encode(imageBytes)}');
+      _images.add(
+          'data:image/${f.path.split('.').last};base64,${BASE64.encode(imageBytes)}');
     }
     if (_location == null || validateString(_location.text) != null) {
       Navigator.of(context).pop();
-      return showSnackBar(context, 'Please enable location or choose location !');
+      return showSnackBar(
+          context, 'Please enable location or choose location !');
     }
-    final location = Services.users.location ?? await Services.users.getLocationByAddress(_location.text);
+    final location = Services.users.location ??
+        await Services.users.getLocationByAddress(_location.text);
     if (location == null) {
       Navigator.of(context).pop();
-      return showSnackBar(context, 'Please enable location or choose location !');
+      return showSnackBar(
+          context, 'Please enable location or choose location !');
     }
     if (!Services.auth.user.isValid()) {
       Navigator.of(context).pop();
@@ -216,8 +220,11 @@ class _AddItemScreenState extends State<AddItemScreen> {
     Navigator.of(context).pop();
     if (resValid(context, response)) {
       showSnackBar(context, response.msg);
-      await Services.items.getItems(force: true); // UNTIL WE HIDE USER ITEM FROM GENERAL LIST
-      await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+      await Services.items
+          .getItems(force: true); // UNTIL WE HIDE USER ITEM FROM GENERAL LIST
+      await Navigator
+          .of(context)
+          .pushNamedAndRemoveUntil('/', (route) => false);
       //TO-DO SHOW success dialog with Qrcode
     }
   }
@@ -234,121 +241,159 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       steps: [
                         new Step(
                             title: new Text(SpotL.of(context).about),
-                            content: new Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
-                              new Column(children: <Widget>[
-                                new TextFormField(
-                                    key: const Key('name'),
-                                    decoration: new InputDecoration(
-                                        hintText: SpotL.of(context).namePh, labelText: SpotL.of(context).name),
-                                    validator: validateName,
-                                    onSaved: (value) {
-                                      _name = value.trim();
-                                    }),
-                                new TextFormField(
-                                    key: const Key('about'),
-                                    decoration: new InputDecoration(
-                                        hintText: SpotL.of(Services.loc).aboutPh, labelText: SpotL.of(context).about),
-                                    validator: validateString,
-                                    onSaved: (value) {
-                                      _about = value.trim();
-                                    }),
-                                new Stack(
-                                  children: <Widget>[
-                                    new FocusScope(
-                                      node: new FocusScopeNode(),
-                                      child: new TextFormField(
+                            content: new Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  new Column(children: <Widget>[
+                                    new TextFormField(
+                                        key: const Key('name'),
                                         decoration: new InputDecoration(
-                                            hintText: SpotL.of(context).locationPh,
-                                            labelText: SpotL.of(context).location),
-                                        controller: _location,
-                                        initialValue: _location.text ?? SpotL.of(context).loading,
-                                      ),
+                                            hintText: SpotL.of(context).namePh,
+                                            labelText: SpotL.of(context).name),
+                                        validator: validateName,
+                                        onSaved: (value) {
+                                          _name = value.trim();
+                                        }),
+                                    new TextFormField(
+                                        key: const Key('about'),
+                                        decoration: new InputDecoration(
+                                            hintText:
+                                                SpotL.of(Services.loc).aboutPh,
+                                            labelText: SpotL.of(context).about),
+                                        validator: validateString,
+                                        onSaved: (value) {
+                                          _about = value.trim();
+                                        }),
+                                    new Stack(
+                                      children: <Widget>[
+                                        new FocusScope(
+                                          node: new FocusScopeNode(),
+                                          child: new TextFormField(
+                                            decoration: new InputDecoration(
+                                                hintText: SpotL
+                                                    .of(context)
+                                                    .locationPh,
+                                                labelText:
+                                                    SpotL.of(context).location),
+                                            controller: _location,
+                                            initialValue: _location.text ??
+                                                SpotL.of(context).loading,
+                                          ),
+                                        ),
+                                        new GestureDetector(
+                                          onTap: () async {
+                                            final p = await Services.users
+                                                .autocompleteCity(context);
+                                            if (mounted && p != null) {
+                                              setState(() {
+                                                _location.text = p;
+                                              });
+                                            }
+                                          },
+                                          child: new Container(
+                                            color: Colors.transparent,
+                                            height: 75.0,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    new GestureDetector(
-                                      onTap: () async {
-                                        final p = await Services.users.autocompleteCity(context);
-                                        if (mounted && p != null) {
+                                    const Divider(),
+                                    new CheckboxListTile(
+                                        title: new Text(SpotL.of(context).gift),
+                                        value: _tracks.contains('gift'),
+                                        onChanged: (value) {
                                           setState(() {
-                                            _location.text = p;
+                                            if (value) {
+                                              _tracks.add('gift');
+                                            } else {
+                                              _tracks.remove('gift');
+                                            }
                                           });
-                                        }
-                                      },
-                                      child: new Container(
-                                        color: Colors.transparent,
-                                        height: 75.0,
-                                      ),
+                                        },
+                                        secondary:
+                                            const Icon(Icons.card_giftcard)),
+                                    new CheckboxListTile(
+                                        title:
+                                            new Text(SpotL.of(context).private),
+                                        value: _tracks.contains('private'),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            if (value) {
+                                              _tracks.add('private');
+                                            } else {
+                                              _tracks.remove('private');
+                                            }
+                                          });
+                                        },
+                                        secondary: const Icon(Icons.lock)),
+                                    new Container(
+                                      height: 100.0,
+                                      child: new ListView.builder(
+                                          shrinkWrap: true,
+                                          scrollDirection: Axis.horizontal,
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 15.0),
+                                          itemCount:
+                                              Services.items.categories.length,
+                                          itemExtent: 75.0,
+                                          itemBuilder: (context, index) =>
+                                              !_tracks.contains(Services
+                                                      .items.categories[index])
+                                                  ? new FlatButton(
+                                                      child: new Image.asset(
+                                                          'assets/${Services.items.categories[index]}.png'),
+                                                      onPressed: () {
+                                                        _tracks = _tracks
+                                                            .where((f) =>
+                                                                !Services.items
+                                                                    .categories
+                                                                    .any((d) =>
+                                                                        d == f))
+                                                            .toList()
+                                                              ..add(Services
+                                                                      .items
+                                                                      .categories[
+                                                                  index]);
+                                                        setState(() {
+                                                          _tracks = new List<
+                                                                  String>.from(
+                                                              _tracks);
+                                                        });
+                                                      },
+                                                    )
+                                                  : new RaisedButton(
+                                                      child: new Image.asset(
+                                                          'assets/${Services.items.categories[index]}.png'),
+                                                      onPressed: () {
+                                                        _tracks.remove(Services
+                                                            .items
+                                                            .categories[index]);
+                                                        setState(() {
+                                                          _tracks = new List<
+                                                                  String>.from(
+                                                              _tracks);
+                                                        });
+                                                      },
+                                                    )),
                                     ),
-                                  ],
-                                ),
-                                const Divider(),
-                                new CheckboxListTile(
-                                    title: new Text(SpotL.of(context).gift),
-                                    value: _tracks.contains('gift'),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        if (value) {
-                                          _tracks.add('gift');
-                                        } else {
-                                          _tracks.remove('gift');
-                                        }
-                                      });
-                                    },
-                                    secondary: const Icon(Icons.card_giftcard)),
-                                new CheckboxListTile(
-                                    title: new Text(SpotL.of(context).private),
-                                    value: _tracks.contains('private'),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        if (value) {
-                                          _tracks.add('private');
-                                        } else {
-                                          _tracks.remove('private');
-                                        }
-                                      });
-                                    },
-                                    secondary: const Icon(Icons.lock)),
-                                new Container(
-                                  height: 100.0,
-                                  child: new ListView.builder(
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.horizontal,
-                                      padding: const EdgeInsets.symmetric(vertical: 15.0),
-                                      itemCount: Services.items.categories.length,
-                                      itemExtent: 75.0,
-                                      itemBuilder: (context, index) => !_tracks
-                                              .contains(Services.items.categories[index])
-                                          ? new FlatButton(
-                                              child: new Image.asset('assets/${Services.items.categories[index]}.png'),
-                                              onPressed: () {
-                                                _tracks = _tracks
-                                                    .where((f) => !Services.items.categories.any((d) => d == f))
-                                                    .toList()
-                                                      ..add(Services.items.categories[index]);
-                                                setState(() {
-                                                  _tracks = new List<String>.from(_tracks);
-                                                });
-                                              },
-                                            )
-                                          : new RaisedButton(
-                                              child: new Image.asset('assets/${Services.items.categories[index]}.png'),
-                                              onPressed: () {
-                                                _tracks.remove(Services.items.categories[index]);
-                                                setState(() {
-                                                  _tracks = new List<String>.from(_tracks);
-                                                });
-                                              },
-                                            )),
-                                ),
-                              ])
-                            ]),
-                            state: _name != null && _name.isNotEmpty ? StepState.complete : StepState.indexed,
+                                  ])
+                                ]),
+                            state: _name != null && _name.isNotEmpty
+                                ? StepState.complete
+                                : StepState.indexed,
                             isActive: true),
                         new Step(
                             title: new Text(SpotL.of(context).images),
                             content: new Container(
-                                height: 120 + 320 * (_imagesFile.length / 3).floorToDouble(), child: getImageGrid()),
+                                height: 120 +
+                                    320 *
+                                        (_imagesFile.length / 3)
+                                            .floorToDouble(),
+                                child: getImageGrid()),
                             state: _name != null && _name.isNotEmpty
-                                ? _imagesFile.isNotEmpty ? StepState.complete : StepState.indexed
+                                ? _imagesFile.isNotEmpty
+                                    ? StepState.complete
+                                    : StepState.indexed
                                 : StepState.disabled,
                             isActive: _name != null && _name.isNotEmpty),
                         new Step(
@@ -366,14 +411,18 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                   },
                                 )),
                             state: _imagesFile.isNotEmpty
-                                ? _calendar.isNotEmpty ? StepState.complete : StepState.indexed
+                                ? _calendar.isNotEmpty
+                                    ? StepState.complete
+                                    : StepState.indexed
                                 : StepState.disabled,
                             isActive: _imagesFile.isNotEmpty),
                         new Step(
                             title: new Text(SpotL.of(context).groups),
                             content: getGroups(),
                             state: _calendar.isNotEmpty
-                                ? _groups.isNotEmpty ? StepState.complete : StepState.indexed
+                                ? _groups.isNotEmpty
+                                    ? StepState.complete
+                                    : StepState.indexed
                                 : StepState.disabled,
                             isActive: _calendar.isNotEmpty),
                       ],
@@ -385,7 +434,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       },
                       onStepCancel: () {
                         setState(() {
-                          _currentStep = _currentStep > 0 ? _currentStep - 1 : 0;
+                          _currentStep =
+                              _currentStep > 0 ? _currentStep - 1 : 0;
                         });
                       },
                       onStepContinue: () {

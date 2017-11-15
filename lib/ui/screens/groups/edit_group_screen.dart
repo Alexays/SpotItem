@@ -20,7 +20,8 @@ class EditGroupScreen extends StatefulWidget {
   final Group group;
 
   @override
-  _EditGroupScreenState createState() => new _EditGroupScreenState(groupId, group);
+  _EditGroupScreenState createState() =>
+      new _EditGroupScreenState(groupId, group);
 }
 
 class _EditGroupScreenState extends State<EditGroupScreen> {
@@ -62,10 +63,13 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
     if (!_formKey.currentState.validate()) {
       return showSnackBar(context, SpotL.of(context).correctError);
     }
-    final response = await Services.groups.edit(_group.id, {'name': nameCtrl.text, 'about': aboutCtrl.text});
+    final response = await Services.groups
+        .edit(_group.id, {'name': nameCtrl.text, 'about': aboutCtrl.text});
     if (resValid(context, response)) {
       showSnackBar(context, response.msg);
-      await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+      await Navigator
+          .of(context)
+          .pushNamedAndRemoveUntil('/', (route) => false);
     }
   }
 
@@ -81,32 +85,43 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
                         child: new SingleChildScrollView(
                             child: new Container(
                                 margin: const EdgeInsets.all(20.0),
-                                child: new Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
-                                  new Form(
-                                      key: _formKey,
-                                      child: new Column(children: <Widget>[
-                                        new TextFormField(
-                                          key: const Key('name'),
-                                          decoration: new InputDecoration(
-                                              hintText: SpotL.of(context).namePh, labelText: SpotL.of(context).name),
-                                          controller: nameCtrl,
-                                          initialValue: nameCtrl.text,
-                                          validator: validateName,
-                                        ),
-                                        new TextFormField(
-                                          key: const Key('about'),
-                                          decoration: new InputDecoration(
-                                              hintText: SpotL.of(context).aboutPh, labelText: SpotL.of(context).about),
-                                          controller: aboutCtrl,
-                                          initialValue: aboutCtrl.text,
-                                        ),
-                                      ]))
-                                ])))),
+                                child: new Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      new Form(
+                                          key: _formKey,
+                                          child: new Column(children: <Widget>[
+                                            new TextFormField(
+                                              key: const Key('name'),
+                                              decoration: new InputDecoration(
+                                                  hintText:
+                                                      SpotL.of(context).namePh,
+                                                  labelText:
+                                                      SpotL.of(context).name),
+                                              controller: nameCtrl,
+                                              initialValue: nameCtrl.text,
+                                              validator: validateName,
+                                            ),
+                                            new TextFormField(
+                                              key: const Key('about'),
+                                              decoration: new InputDecoration(
+                                                  hintText:
+                                                      SpotL.of(context).aboutPh,
+                                                  labelText:
+                                                      SpotL.of(context).about),
+                                              controller: aboutCtrl,
+                                              initialValue: aboutCtrl.text,
+                                            ),
+                                          ]))
+                                    ])))),
                     new Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 4.0),
                       child: new ConstrainedBox(
-                          constraints:
-                              new BoxConstraints.tightFor(height: 48.0, width: MediaQuery.of(context).size.width),
+                          constraints: new BoxConstraints.tightFor(
+                              height: 48.0,
+                              width: MediaQuery.of(context).size.width),
                           child: new RaisedButton(
                             color: Theme.of(context).accentColor,
                             onPressed: () async {
@@ -114,7 +129,8 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
                             },
                             child: new Text(
                               SpotL.of(context).save.toUpperCase(),
-                              style: new TextStyle(color: Theme.of(context).canvasColor),
+                              style: new TextStyle(
+                                  color: Theme.of(context).canvasColor),
                             ),
                           )),
                     ),

@@ -37,7 +37,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) => new Scaffold(
         appBar: new AppBar(
-            title: _user != null ? new Text('${_user.firstname} ${_user.name}') : new Text(SpotL.of(context).loading)),
+            title: _user != null
+                ? new Text('${_user.firstname} ${_user.name}')
+                : new Text(SpotL.of(context).loading)),
         body: new Builder(
             builder: (context) => _user != null
                 ? new SingleChildScrollView(
@@ -46,7 +48,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: new Column(
                           children: <Widget>[
                             new Center(child: getAvatar(_user)),
-                            const Padding(padding: const EdgeInsets.symmetric(vertical: 10.0)),
+                            const Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10.0)),
                             new Text('${_user.firstname} ${_user.name}'),
                           ],
                         )))

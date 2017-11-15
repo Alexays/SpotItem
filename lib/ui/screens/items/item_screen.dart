@@ -20,16 +20,20 @@ class _Category extends StatelessWidget {
     final themeData = Theme.of(context);
     return new Container(
         padding: const EdgeInsets.symmetric(vertical: 10.0),
-        decoration: new BoxDecoration(border: new Border(bottom: new BorderSide(color: themeData.dividerColor))),
+        decoration: new BoxDecoration(
+            border: new Border(
+                bottom: new BorderSide(color: themeData.dividerColor))),
         child: new DefaultTextStyle(
             style: Theme.of(context).textTheme.subhead,
-            child: new Row(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
-              new Container(
-                  padding: const EdgeInsets.symmetric(vertical: 14.0),
-                  width: 72.0,
-                  child: new Icon(icon, color: themeData.primaryColor)),
-              new Expanded(child: new Column(children: children))
-            ])));
+            child: new Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  new Container(
+                      padding: const EdgeInsets.symmetric(vertical: 14.0),
+                      width: 72.0,
+                      child: new Icon(icon, color: themeData.primaryColor)),
+                  new Expanded(child: new Column(children: children))
+                ])));
   }
 }
 
@@ -46,21 +50,32 @@ class _ListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    final List<Widget> columnChildren = lines.sublist(0, lines.length - 1).map((line) => new Text(line)).toList()
-      ..insert(0, new Text(lines.last, style: themeData.textTheme.caption));
+    final List<Widget> columnChildren = lines
+        .sublist(0, lines.length - 1)
+        .map((line) => new Text(line))
+        .toList()
+          ..insert(0, new Text(lines.last, style: themeData.textTheme.caption));
 
     final rowChildren = <Widget>[
-      new Expanded(child: new Column(crossAxisAlignment: CrossAxisAlignment.start, children: columnChildren))
+      new Expanded(
+          child: new Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: columnChildren))
     ];
     if (icon != null) {
       rowChildren.add(new SizedBox(
           width: 72.0,
-          child: new IconButton(icon: new Icon(icon), color: themeData.primaryColor, onPressed: onPressed)));
+          child: new IconButton(
+              icon: new Icon(icon),
+              color: themeData.primaryColor,
+              onPressed: onPressed)));
     }
     return new MergeSemantics(
       child: new Padding(
           padding: const EdgeInsets.symmetric(vertical: 6.0),
-          child: new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: rowChildren)),
+          child: new Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: rowChildren)),
     );
   }
 }
@@ -90,7 +105,8 @@ class ItemPage extends StatefulWidget {
   _ItemPageState createState() => new _ItemPageState(itemId, item, hash);
 }
 
-class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin {
+class _ItemPageState extends State<ItemPage>
+    with SingleTickerProviderStateMixin {
   _ItemPageState(this._itemId, this.item, this.hash);
 
   final String _itemId;
@@ -104,7 +120,8 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
   void initState() {
     super.initState();
     if (item != null) {
-      _tabController = new TabController(vsync: this, length: item.images.length);
+      _tabController =
+          new TabController(vsync: this, length: item.images.length);
     }
     if (item == null) {
       Services.items.getItem(_itemId).then((data) {
@@ -114,7 +131,8 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
         setState(() {
           item = data;
           if (item != null) {
-            _tabController = new TabController(vsync: this, length: item.images.length);
+            _tabController =
+                new TabController(vsync: this, length: item.images.length);
           }
         });
       });
@@ -149,7 +167,8 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
                 ),
                 actions: <Widget>[
                   new FlatButton(
-                    child: new Text(MaterialLocalizations.of(context).cancelButtonLabel),
+                    child: new Text(
+                        MaterialLocalizations.of(context).cancelButtonLabel),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -160,7 +179,9 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
                       Services.items.deleteItem(item.id).then((resp) {
                         if (resp.success) {
                           Services.items.getItems(force: true);
-                          Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+                          Navigator
+                              .of(context)
+                              .pushNamedAndRemoveUntil('/', (route) => false);
                         }
                       });
                     },
@@ -234,7 +255,9 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
                                 behavior: HitTestBehavior.opaque,
                                 onHorizontalDragUpdate: (details) {
                                   if (!_tabController.indexIsChanging) {
-                                    _tabController.animateTo((_tabController.index - details.delta.dx.clamp(-1, 1))
+                                    _tabController.animateTo((_tabController
+                                                .index -
+                                            details.delta.dx.clamp(-1, 1))
                                         .clamp(0, _tabController.length - 1));
                                   }
                                 },
@@ -248,22 +271,30 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
                                           child: new TabBarView(
                                               controller: _tabController,
                                               children: item.images
-                                                  .map((f) => (f == item.images.first)
+                                                  .map((f) => (f ==
+                                                          item.images.first)
                                                       ? new Hero(
-                                                          tag: '${item.id}$hash',
-                                                          child: new FadeInImage(
-                                                            placeholder: placeholder,
-                                                            image: new NetworkImage('$apiImgUrl$f'),
+                                                          tag:
+                                                              '${item.id}$hash',
+                                                          child:
+                                                              new FadeInImage(
+                                                            placeholder:
+                                                                placeholder,
+                                                            image: new NetworkImage(
+                                                                '$apiImgUrl$f'),
                                                             fit: BoxFit.cover,
                                                           ))
                                                       : new FadeInImage(
-                                                          placeholder: placeholder,
-                                                          image: new NetworkImage('$apiImgUrl$f'),
+                                                          placeholder:
+                                                              placeholder,
+                                                          image: new NetworkImage(
+                                                              '$apiImgUrl$f'),
                                                           fit: BoxFit.cover))
                                                   .toList())),
                                       new Positioned(
                                         bottom: 15.0,
-                                        width: MediaQuery.of(context).size.width,
+                                        width:
+                                            MediaQuery.of(context).size.width,
                                         child: new Center(
                                           child: new TabPageSelector(
                                             controller: _tabController,
@@ -276,9 +307,14 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
                                       new DecoratedBox(
                                         decoration: new BoxDecoration(
                                           gradient: new LinearGradient(
-                                            begin: const FractionalOffset(0.5, 0.0),
-                                            end: const FractionalOffset(0.5, 0.40),
-                                            colors: <Color>[const Color(0x60000000), const Color(0x00000000)],
+                                            begin: const FractionalOffset(
+                                                0.5, 0.0),
+                                            end: const FractionalOffset(
+                                                0.5, 0.40),
+                                            colors: <Color>[
+                                              const Color(0x60000000),
+                                              const Color(0x00000000)
+                                            ],
                                           ),
                                         ),
                                       ),
@@ -345,10 +381,12 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
                         ),
                       ),
                       new Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 8.0, vertical: 4.0),
                         child: new ConstrainedBox(
-                            constraints:
-                                new BoxConstraints.tightFor(height: 48.0, width: MediaQuery.of(context).size.width),
+                            constraints: new BoxConstraints.tightFor(
+                                height: 48.0,
+                                width: MediaQuery.of(context).size.width),
                             child: new RaisedButton(
                               color: Theme.of(context).accentColor,
                               onPressed: () {
@@ -356,12 +394,14 @@ class _ItemPageState extends State<ItemPage> with SingleTickerProviderStateMixin
                                     context,
                                     new MaterialPageRoute<Null>(
                                       fullscreenDialog: true,
-                                      builder: (context) => new BookItemScreen(item: item),
+                                      builder: (context) =>
+                                          new BookItemScreen(item: item),
                                     ));
                               },
                               child: new Text(
                                 SpotL.of(context).book.toUpperCase(),
-                                style: new TextStyle(color: Theme.of(context).canvasColor),
+                                style: new TextStyle(
+                                    color: Theme.of(context).canvasColor),
                               ),
                             )),
                       ),

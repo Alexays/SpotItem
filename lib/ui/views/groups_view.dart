@@ -18,7 +18,8 @@ class GroupsView extends StatefulWidget {
 class _GroupsViewState extends State<GroupsView> {
   _GroupsViewState();
 
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      new GlobalKey<RefreshIndicatorState>();
 
   static List<Group> _groups;
   static List<Group> _inv;
@@ -105,8 +106,9 @@ class _GroupsViewState extends State<GroupsView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   new ListTile(
-                      leading:
-                          new CircleAvatar(backgroundColor: Colors.grey, child: new Text(_groups[index - 1].name[0])),
+                      leading: new CircleAvatar(
+                          backgroundColor: Colors.grey,
+                          child: new Text(_groups[index - 1].name[0])),
                       title: new Text(_groups[index - 1].name),
                       subtitle: new Text(_groups[index - 1].about),
                       trailing: new Row(
@@ -114,10 +116,14 @@ class _GroupsViewState extends State<GroupsView> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           new Text(
-                            (_groups[index - 1].users?.length ?? '?').toString(),
-                            style: new TextStyle(fontWeight: FontWeight.w400, fontSize: 15.0),
+                            (_groups[index - 1].users?.length ?? '?')
+                                .toString(),
+                            style: new TextStyle(
+                                fontWeight: FontWeight.w400, fontSize: 15.0),
                           ),
-                          const Padding(padding: const EdgeInsets.symmetric(horizontal: 2.0)),
+                          const Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 2.0)),
                           const Icon(Icons.people)
                         ],
                       ))
@@ -153,13 +159,17 @@ class _GroupsViewState extends State<GroupsView> {
                       ),
                       actions: <Widget>[
                         new FlatButton(
-                          child: new Text(MaterialLocalizations.of(context).cancelButtonLabel),
+                          child: new Text(MaterialLocalizations
+                              .of(context)
+                              .cancelButtonLabel),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
                         ),
                         new FlatButton(
-                          child: new Text(MaterialLocalizations.of(context).continueButtonLabel),
+                          child: new Text(MaterialLocalizations
+                              .of(context)
+                              .continueButtonLabel),
                           onPressed: () async {
                             await _joinGroup(f.id);
                             Navigator.of(context).pop();
@@ -183,10 +193,17 @@ class _GroupsViewState extends State<GroupsView> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               new Text(
-                                f.users.where((user) => user.groups.contains(f.id)).length.toString(),
-                                style: new TextStyle(fontWeight: FontWeight.w400, fontSize: 15.0),
+                                f.users
+                                    .where((user) => user.groups.contains(f.id))
+                                    .length
+                                    .toString(),
+                                style: new TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 15.0),
                               ),
-                              const Padding(padding: const EdgeInsets.symmetric(horizontal: 2.0)),
+                              const Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 2.0)),
                               const Icon(Icons.people)
                             ],
                           ))
@@ -202,5 +219,7 @@ class _GroupsViewState extends State<GroupsView> {
   Widget build(BuildContext context) => new RefreshIndicator(
       key: _refreshIndicatorKey,
       onRefresh: _loadGroups,
-      child: _groups == null ? const Center(child: const CircularProgressIndicator()) : _createList());
+      child: _groups == null
+          ? const Center(child: const CircularProgressIndicator())
+          : _createList());
 }

@@ -17,7 +17,8 @@ class SocialView extends StatefulWidget {
 class _SocialViewState extends State<SocialView> {
   _SocialViewState();
 
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      new GlobalKey<RefreshIndicatorState>();
 
   static List<Conversation> _conversations;
 
@@ -103,7 +104,9 @@ class _SocialViewState extends State<SocialView> {
                     new RaisedButton(
                       child: new Text(SpotL.of(context).createConv),
                       onPressed: () async {
-                        await Navigator.of(Services.context).pushNamed('/messages/add/');
+                        await Navigator
+                            .of(Services.context)
+                            .pushNamed('/messages/add/');
                       },
                     ),
                   ],

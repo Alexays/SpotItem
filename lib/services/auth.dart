@@ -64,7 +64,9 @@ class AuthManager extends BasicService {
     _lastEmail = prefs.getString(keyLastEmail) ?? '';
     try {
       user = new User(JSON.decode(_userBuffer));
-      if (!user.isValid() || _refreshToken == null || !providers.contains(_provider)) {
+      if (!user.isValid() ||
+          _refreshToken == null ||
+          !providers.contains(_provider)) {
         await logout();
         return !(_loggedIn = false);
       }
@@ -83,8 +85,11 @@ class AuthManager extends BasicService {
     if ((token == null && accessToken != null) || token != accessToken) {
       return token ?? accessToken;
     }
-    if ((loggedIn && (exp == null || new DateTime.now().isAfter(exp))) && !await getAccessToken(client)) {
-      await Navigator.of(Services.context).pushNamedAndRemoveUntil('/', (route) => false);
+    if ((loggedIn && (exp == null || new DateTime.now().isAfter(exp))) &&
+        !await getAccessToken(client)) {
+      await Navigator
+          .of(Services.context)
+          .pushNamedAndRemoveUntil('/', (route) => false);
       return null;
     }
     return accessToken;
@@ -96,14 +101,16 @@ class AuthManager extends BasicService {
     await _checkProvider();
     var apiRes;
     try {
-      final response = await client.get('$apiUrl/check/$provider', headers: getHeaders(refreshToken));
+      final response = await client.get('$apiUrl/check/$provider',
+          headers: getHeaders(refreshToken));
       apiRes = new ApiRes(JSON.decode(response.body), response.statusCode);
     } catch (err) {
       apiRes = new ApiRes.classic();
     }
     if (apiRes.success) {
       accessToken = apiRes.data['access_token'];
-      exp = new DateTime.fromMillisecondsSinceEpoch((apiRes.data['exp'] * 1000) - 30);
+      exp = new DateTime.fromMillisecondsSinceEpoch(
+          (apiRes.data['exp'] * 1000) - 30);
       return true;
     }
     await logout();
@@ -124,14 +131,18 @@ class AuthManager extends BasicService {
   /// TO-DO don't send user data, just get it on API with access_token
   Future<bool> handleGoogleSignIn({bool signIn = true}) async {
     try {
-      _googleUser = signIn ? await _googleSignIn.signIn() : await _googleSignIn.signInSilently();
+      _googleUser = signIn
+          ? await _googleSignIn.signIn()
+          : await _googleSignIn.signInSilently();
       if (_googleUser == null) {
         await logout();
         return false;
       }
       if (signIn) {
         final authId = await _googleUser.authentication;
-        return await login({'token': authId.accessToken, 'email': _googleUser.email}, 'google');
+        return await login(
+            {'token': authId.accessToken, 'email': _googleUser.email},
+            'google');
       }
     } on Exception {
       _googleUser = null;
@@ -145,13 +156,16 @@ class AuthManager extends BasicService {
   /// @param payload User payload
   /// @param _provider Login provider
   /// @returns Logged or not
-  Future<bool> login(Map<String, dynamic> _payload, String loginProvider) async {
+  Future<bool> login(
+      Map<String, dynamic> _payload, String loginProvider) async {
     _loggedIn = false;
     final response = await ipost('/login/$loginProvider', _payload);
     if (response.success) {
       accessToken = response.data['access_token'];
-      exp = new DateTime.fromMillisecondsSinceEpoch(response.data['exp'] * 1000);
-      await saveTokens(response.data['user'], response.data['refresh_token'], loginProvider, _payload['email']);
+      exp =
+          new DateTime.fromMillisecondsSinceEpoch(response.data['exp'] * 1000);
+      await saveTokens(response.data['user'], response.data['refresh_token'],
+          loginProvider, _payload['email']);
       _loggedIn = true;
     }
     return _loggedIn;
@@ -252,8 +266,12 @@ class AuthManager extends BasicService {
   /// @param user User data stingified
   /// @param oauthToken The refresh_token
   /// @param provider Login provider
-  Future<Null> saveTokens(Map<String, dynamic> _user, String _oauthToken, String _prvdr, String _email) async {
-    assert(_user != null && _oauthToken != null && _prvdr != null && _email != null);
+  Future<Null> saveTokens(Map<String, dynamic> _user, String _oauthToken,
+      String _prvdr, String _email) async {
+    assert(_user != null &&
+        _oauthToken != null &&
+        _prvdr != null &&
+        _email != null);
     user = new User(_user);
     final prefs = await SharedPreferences.getInstance()
       ..setString(keyUser, user.toString())
@@ -261,7 +279,9 @@ class AuthManager extends BasicService {
       ..setString(keyProvider, _prvdr)
       ..setString(keyLastEmail, _email);
     if (Services.origin == Origin.prod && !(await prefs.commit())) {
-      await Navigator.of(Services.context).pushNamedAndRemoveUntil('/error', (route) => false);
+      await Navigator
+          .of(Services.context)
+          .pushNamedAndRemoveUntil('/error', (route) => false);
       return;
     }
     _refreshToken = _oauthToken;

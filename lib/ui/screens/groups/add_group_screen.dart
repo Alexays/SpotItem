@@ -32,7 +32,9 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
     });
     if (resValid(context, response)) {
       showSnackBar(context, response.msg);
-      await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+      await Navigator
+          .of(context)
+          .pushNamedAndRemoveUntil('/', (route) => false);
     }
   }
 
@@ -59,55 +61,72 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                       child: new SingleChildScrollView(
                           child: new Container(
                               margin: const EdgeInsets.all(20.0),
-                              child: new Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
-                                new Form(
-                                    key: _formKey,
-                                    child: new Column(children: <Widget>[
-                                      new TextFormField(
-                                          key: const Key('name'),
-                                          decoration: new InputDecoration(
-                                              hintText: SpotL.of(context).namePh,
-                                              labelText: SpotL.of(Services.loc).name),
-                                          validator: validateName,
-                                          onSaved: (value) {
-                                            name = value.trim();
-                                          }),
-                                      new TextFormField(
-                                          key: const Key('about'),
-                                          decoration: new InputDecoration(
-                                              hintText: SpotL.of(context).aboutPh, labelText: SpotL.of(context).about),
-                                          onSaved: (value) {
-                                            about = value.trim();
-                                          }),
-                                      const Divider(),
-                                      new Column(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: new List<Widget>.generate(
-                                            email.length,
-                                            (index) => new Padding(
-                                                padding: const EdgeInsets.all(2.0),
-                                                child: new Chip(
-                                                    label: new Text(email[index]),
-                                                    onDeleted: () {
-                                                      setState(() {
-                                                        email.removeAt(index);
-                                                      });
-                                                    }))),
-                                      ),
-                                      const Divider(),
-                                      new RaisedButton(
-                                          child: new Text(SpotL.of(context).addSomeone),
-                                          onPressed: () {
-                                            _addPeople(context);
-                                          })
-                                    ]))
-                              ])))),
+                              child: new Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    new Form(
+                                        key: _formKey,
+                                        child: new Column(children: <Widget>[
+                                          new TextFormField(
+                                              key: const Key('name'),
+                                              decoration: new InputDecoration(
+                                                  hintText:
+                                                      SpotL.of(context).namePh,
+                                                  labelText: SpotL
+                                                      .of(Services.loc)
+                                                      .name),
+                                              validator: validateName,
+                                              onSaved: (value) {
+                                                name = value.trim();
+                                              }),
+                                          new TextFormField(
+                                              key: const Key('about'),
+                                              decoration: new InputDecoration(
+                                                  hintText:
+                                                      SpotL.of(context).aboutPh,
+                                                  labelText:
+                                                      SpotL.of(context).about),
+                                              onSaved: (value) {
+                                                about = value.trim();
+                                              }),
+                                          const Divider(),
+                                          new Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: new List<Widget>.generate(
+                                                email.length,
+                                                (index) => new Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            2.0),
+                                                    child: new Chip(
+                                                        label: new Text(
+                                                            email[index]),
+                                                        onDeleted: () {
+                                                          setState(() {
+                                                            email.removeAt(
+                                                                index);
+                                                          });
+                                                        }))),
+                                          ),
+                                          const Divider(),
+                                          new RaisedButton(
+                                              child: new Text(
+                                                  SpotL.of(context).addSomeone),
+                                              onPressed: () {
+                                                _addPeople(context);
+                                              })
+                                        ]))
+                                  ])))),
                   new Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 4.0),
                     child: new ConstrainedBox(
-                        constraints:
-                            new BoxConstraints.tightFor(height: 48.0, width: MediaQuery.of(context).size.width),
+                        constraints: new BoxConstraints.tightFor(
+                            height: 48.0,
+                            width: MediaQuery.of(context).size.width),
                         child: new RaisedButton(
                           color: Theme.of(context).accentColor,
                           onPressed: () {
@@ -115,7 +134,8 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                           },
                           child: new Text(
                             SpotL.of(context).addGroup.toUpperCase(),
-                            style: new TextStyle(color: Theme.of(context).canvasColor),
+                            style: new TextStyle(
+                                color: Theme.of(context).canvasColor),
                           ),
                         )),
                   ),

@@ -18,7 +18,11 @@ class SpotItemApp extends MaterialApp {
           title: 'SpotItem',
           home: new Builder(builder: (context) {
             Services.loc = context;
-            return init ? Services.auth.loggedIn ? const HomeScreen() : const LoginScreen() : const ErrorScreen();
+            return init
+                ? Services.auth.loggedIn
+                    ? const HomeScreen()
+                    : const LoginScreen()
+                : const ErrorScreen();
           }),
           theme: new ThemeData(
             accentColor: const Color(0xFF06A6D2),
@@ -45,7 +49,10 @@ class SpotItemApp extends MaterialApp {
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
           ],
-          supportedLocales: const <Locale>[const Locale('en', 'US'), const Locale('fr', 'FR')],
+          supportedLocales: const <Locale>[
+            const Locale('en', 'US'),
+            const Locale('fr', 'FR')
+          ],
           // navigatorObservers: <NavigatorObserver>[Services.observer],
         );
 }

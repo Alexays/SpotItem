@@ -19,7 +19,8 @@ class Event {
   final Map<String, dynamic> data;
 
   /// Convert class to json
-  Map<String, dynamic> toJson() => {'date': '$date', 'holder': holder, 'data': data};
+  Map<String, dynamic> toJson() =>
+      {'date': '$date', 'holder': holder, 'data': data};
 }
 
 /// Item Model
@@ -31,13 +32,17 @@ class Item {
         about = data['about'],
         images = data['images'] ?? <String>[],
         lastGeo = data['lastGeo'],
-        calendar = data['calendar'] is List ? data['calendar'].map((f) => new Event(f)).toList() : <Event>[],
+        calendar = data['calendar'] is List
+            ? data['calendar'].map((f) => new Event(f)).toList()
+            : <Event>[],
         location = data['location'],
         lat = data['lat'],
         lng = data['lng'],
         tracks = data['tracks'] ?? <String>[],
         groups = data['groups'] ?? <String>[],
-        owner = data['owner'] is Map<String, dynamic> ? new User(data['owner']) : new User({'_id': data['owner']});
+        owner = data['owner'] is Map<String, dynamic>
+            ? new User(data['owner'])
+            : new User({'_id': data['owner']});
 
   /// Item id
   final String id;
@@ -79,7 +84,8 @@ class Item {
   List<String> groups;
 
   /// Create item from JSON object
-  factory Item.from(Item item) => new Item(JSON.decode(item.toString()), item.dist);
+  factory Item.from(Item item) =>
+      new Item(JSON.decode(item.toString()), item.dist);
 
   /// Check if item is valid
   bool isValid() => id != null && name != null && owner != null;

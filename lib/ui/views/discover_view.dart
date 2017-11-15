@@ -33,11 +33,15 @@ class _DiscoverViewState extends State<DiscoverView> {
     }
     setState(() {
       _items = data;
-      _recents = new List<Item>.from(_items).where((item) => !item.tracks.contains('group')).toList();
+      _recents = new List<Item>.from(_items)
+          .where((item) => !item.tracks.contains('group'))
+          .toList();
       if (_recents.length > 10) {
         _recents.length = 10;
       }
-      _groups = new List<Item>.from(_items).where((item) => item.tracks.contains('group')).toList();
+      _groups = new List<Item>.from(_items)
+          .where((item) => item.tracks.contains('group'))
+          .toList();
       if (_groups.length > 10) {
         _groups.length = 10;
       }
@@ -57,7 +61,8 @@ class _DiscoverViewState extends State<DiscoverView> {
                   padding: const EdgeInsets.all(10.0),
                   child: new Text(
                     SpotL.of(Services.loc).recentItems,
-                    style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 20.0),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w400, fontSize: 20.0),
                   ),
                 ),
                 new Container(
@@ -77,7 +82,8 @@ class _DiscoverViewState extends State<DiscoverView> {
                   padding: const EdgeInsets.all(10.0),
                   child: new Text(
                     SpotL.of(Services.loc).fromYourGroups,
-                    style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 22.0),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w400, fontSize: 22.0),
                   ),
                 ),
                 new Container(
@@ -92,7 +98,9 @@ class _DiscoverViewState extends State<DiscoverView> {
   @override
   Widget build(BuildContext context) => new RefreshIndicator(
         onRefresh: () => _loadItems(true),
-        child: _items == null ? const Center(child: const CircularProgressIndicator()) : _buildDiscover(),
+        child: _items == null
+            ? const Center(child: const CircularProgressIndicator())
+            : _buildDiscover(),
       );
 }
 
@@ -108,7 +116,8 @@ class DiscoverList extends StatelessWidget {
   Widget build(BuildContext context) => _items.isNotEmpty
       ? new ListView.builder(
           shrinkWrap: true,
-          physics: const AlwaysScrollableScrollPhysics(), // For RefreshIndicator
+          physics:
+              const AlwaysScrollableScrollPhysics(), // For RefreshIndicator
           scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           itemCount: _items?.length,

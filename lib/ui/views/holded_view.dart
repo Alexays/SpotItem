@@ -17,7 +17,8 @@ class HoldedView extends StatefulWidget {
 
 class _HoldedViewState extends State<HoldedView> {
   List<Item> _holded;
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<RefreshIndicatorState>();
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      new GlobalKey<RefreshIndicatorState>();
 
   @override
   void initState() {
@@ -99,5 +100,7 @@ class _HoldedViewState extends State<HoldedView> {
   Widget build(BuildContext context) => new RefreshIndicator(
       key: _refreshIndicatorKey,
       onRefresh: _loadItems,
-      child: _holded == null ? const Center(child: const CircularProgressIndicator()) : getList());
+      child: _holded == null
+          ? const Center(child: const CircularProgressIndicator())
+          : getList());
 }

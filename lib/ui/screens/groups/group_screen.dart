@@ -23,7 +23,8 @@ class GroupPage extends StatefulWidget {
   _GroupPageState createState() => new _GroupPageState(group);
 }
 
-class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMixin {
+class _GroupPageState extends State<GroupPage>
+    with SingleTickerProviderStateMixin {
   _GroupPageState(this.group);
 
   Group group;
@@ -39,7 +40,9 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
   Future<Null> _leaveGroup(BuildContext context) async {
     final response = await Services.groups.leave(group.id);
     if (resValid(context, response)) {
-      await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+      await Navigator
+          .of(context)
+          .pushNamedAndRemoveUntil('/', (route) => false);
     }
   }
 
@@ -57,7 +60,8 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
     final response = await Services.groups.removeOwner(group.id, userId);
     if (mounted && resValid(context, response)) {
       setState(() {
-        group.owners = group.owners.where((owner) => owner.id != userId).toList();
+        group.owners =
+            group.owners.where((owner) => owner.id != userId).toList();
       });
       Navigator.of(context).pop();
     }
@@ -103,13 +107,15 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
           children: <Widget>[
             getAvatar(group.owners[0]),
             new Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20.0),
               child: new Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: (accountEmailLine != null && accountNameLine != null)
-                      ? <Widget>[accountNameLine, accountEmailLine]
-                      : <Widget>[accountNameLine ?? accountEmailLine]),
+                  children:
+                      (accountEmailLine != null && accountNameLine != null)
+                          ? <Widget>[accountNameLine, accountEmailLine]
+                          : <Widget>[accountNameLine ?? accountEmailLine]),
             ),
             new Expanded(
               child: new Container(),
@@ -162,13 +168,15 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
               ),
               actions: <Widget>[
                 new FlatButton(
-                  child: new Text(MaterialLocalizations.of(context).cancelButtonLabel),
+                  child: new Text(
+                      MaterialLocalizations.of(context).cancelButtonLabel),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
                 ),
                 new FlatButton(
-                  child: new Text(MaterialLocalizations.of(context).continueButtonLabel),
+                  child: new Text(
+                      MaterialLocalizations.of(context).continueButtonLabel),
                   onPressed: () {
                     _leaveGroup(context);
                   },
@@ -179,7 +187,9 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
         },
       )
     ];
-    if (Services.auth.loggedIn && group != null && group.owners[0].id == Services.auth.user.id) {
+    if (Services.auth.loggedIn &&
+        group != null &&
+        group.owners[0].id == Services.auth.user.id) {
       top.addAll([
         new IconButton(
           icon: const Icon(Icons.delete),
@@ -199,7 +209,8 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
                 ),
                 actions: <Widget>[
                   new FlatButton(
-                    child: new Text(MaterialLocalizations.of(context).cancelButtonLabel),
+                    child: new Text(
+                        MaterialLocalizations.of(context).cancelButtonLabel),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -208,7 +219,9 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
                     child: new Text(SpotL.of(context).delete.toUpperCase()),
                     onPressed: () async {
                       await Services.groups.delete(group.id);
-                      await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+                      await Navigator
+                          .of(context)
+                          .pushNamedAndRemoveUntil('/', (route) => false);
                     },
                   ),
                 ],
@@ -240,16 +253,20 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
           itemBuilder: (context, index) {
             final buttons = <Widget>[
               getAvatar(group.users[index]),
-              const Padding(padding: const EdgeInsets.symmetric(horizontal: 4.0)),
-              new Text('${group.users[index].firstname} ${group.users[index].name}'),
+              const Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0)),
+              new Text(
+                  '${group.users[index].firstname} ${group.users[index].name}'),
               new Expanded(child: new Container()),
             ];
-            if (group.owners.any((owner) => owner.id == group.users[index].id)) {
+            if (group.owners
+                .any((owner) => owner.id == group.users[index].id)) {
               buttons.add(const Icon(
                 Icons.star,
               ));
             }
-            if (!group.owners.any((owner) => owner.id == group.users[index].id) &&
+            if (!group.owners
+                    .any((owner) => owner.id == group.users[index].id) &&
                 group.users[index].id != Services.auth.user.id &&
                 isOwner) {
               buttons.add(
@@ -263,21 +280,24 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
                         content: new SingleChildScrollView(
                           child: new ListBody(
                             children: <Widget>[
-                              new Text(SpotL
-                                  .of(context)
-                                  .addOwner('${group.users[index].firstname} ${group.users[index].name}')),
+                              new Text(SpotL.of(context).addOwner(
+                                  '${group.users[index].firstname} ${group.users[index].name}')),
                             ],
                           ),
                         ),
                         actions: <Widget>[
                           new FlatButton(
-                            child: new Text(MaterialLocalizations.of(context).cancelButtonLabel.toUpperCase()),
+                            child: new Text(MaterialLocalizations
+                                .of(context)
+                                .cancelButtonLabel
+                                .toUpperCase()),
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
                           ),
                           new FlatButton(
-                            child: new Text(SpotL.of(context).add.toUpperCase()),
+                            child:
+                                new Text(SpotL.of(context).add.toUpperCase()),
                             onPressed: () {
                               _addOwner(context, group.users[index].id);
                             },
@@ -289,7 +309,8 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
                 ),
               );
             }
-            if (group.owners.any((owner) => owner.id == group.users[index].id) &&
+            if (group.owners
+                    .any((owner) => owner.id == group.users[index].id) &&
                 group.users[index].id != Services.auth.user.id &&
                 isOwner &&
                 group.owners[0].id != group.users[index].id) {
@@ -304,21 +325,24 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
                         content: new SingleChildScrollView(
                           child: new ListBody(
                             children: <Widget>[
-                              new Text(SpotL
-                                  .of(context)
-                                  .delOwner('${group.users[index].firstname} ${group.users[index].name}')),
+                              new Text(SpotL.of(context).delOwner(
+                                  '${group.users[index].firstname} ${group.users[index].name}')),
                             ],
                           ),
                         ),
                         actions: <Widget>[
                           new FlatButton(
-                            child: new Text(MaterialLocalizations.of(context).cancelButtonLabel),
+                            child: new Text(MaterialLocalizations
+                                .of(context)
+                                .cancelButtonLabel),
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
                           ),
                           new FlatButton(
-                            child: new Text(MaterialLocalizations.of(context).continueButtonLabel),
+                            child: new Text(MaterialLocalizations
+                                .of(context)
+                                .continueButtonLabel),
                             onPressed: () {
                               _removeOwner(context, group.users[index].id);
                             },
@@ -332,7 +356,8 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
             }
             if (isOwner &&
                 group.users[index].id != Services.auth.user.id &&
-                !group.owners.any((owner) => owner.id == group.users[index].id)) {
+                !group.owners
+                    .any((owner) => owner.id == group.users[index].id)) {
               buttons.add(
                 new IconButton(
                   icon: const Icon(Icons.remove_circle_outline),
@@ -344,21 +369,24 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
                         content: new SingleChildScrollView(
                           child: new ListBody(
                             children: <Widget>[
-                              new Text(SpotL
-                                  .of(context)
-                                  .kickUser('${group.users[index].firstname} ${group.users[index].name}')),
+                              new Text(SpotL.of(context).kickUser(
+                                  '${group.users[index].firstname} ${group.users[index].name}')),
                             ],
                           ),
                         ),
                         actions: <Widget>[
                           new FlatButton(
-                            child: new Text(MaterialLocalizations.of(context).cancelButtonLabel),
+                            child: new Text(MaterialLocalizations
+                                .of(context)
+                                .cancelButtonLabel),
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
                           ),
                           new FlatButton(
-                            child: new Text(MaterialLocalizations.of(context).continueButtonLabel),
+                            child: new Text(MaterialLocalizations
+                                .of(context)
+                                .continueButtonLabel),
                             onPressed: () {
                               _kickUser(context, group.users[index].id);
                             },
@@ -371,7 +399,9 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
               );
             }
             return new GestureDetector(
-              onTap: () => Navigator.of(context).pushNamed('/profile/:${group.users[index].id}'),
+              onTap: () => Navigator
+                  .of(context)
+                  .pushNamed('/profile/:${group.users[index].id}'),
               child: new Container(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: new Row(
@@ -405,7 +435,8 @@ class _GroupPageState extends State<GroupPage> with SingleTickerProviderStateMix
                             onPressed: () {
                               _addPeople(context);
                             },
-                            child: new Text(SpotL.of(context).addSomeone.toUpperCase()),
+                            child: new Text(
+                                SpotL.of(context).addSomeone.toUpperCase()),
                           )))
                       : new Container(),
                   _buildUsers(context),

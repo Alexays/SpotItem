@@ -3,7 +3,8 @@
 // found in the LICENSE file.
 
 /// Localizations for Spotitem App
-const Map<String, Map<String, String>> localizations = const <String, Map<String, String>>{
+const Map<String, Map<String, String>> localizations =
+    const <String, Map<String, String>>{
   'en': const <String, String>{
     'home': r'Home',
     'logout': r'Logout',
@@ -144,7 +145,8 @@ const Map<String, Map<String, String>> localizations = const <String, Map<String
     'members': r'Membre(s)',
     'leaveGroup': r'Voulez-vous vraiment quitter le groupe ?',
     'deleteGroup': r'Voulez-vous vraiment supprimer le groupe ?',
-    'addOwner': r'Voulez-vous vraiment ajouter $name en tant que co-propriétaire ?',
+    'addOwner':
+        r'Voulez-vous vraiment ajouter $name en tant que co-propriétaire ?',
     'delOwner': r'Voulez-vous vraiment supprimer $name des co-propriétaires ?',
     'add': r'Ajouter',
     'kickUser': r'Voulez-vous vraiment enlever $name du groupe ?',

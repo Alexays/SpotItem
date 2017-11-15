@@ -27,14 +27,23 @@ class ItemsManager extends BasicService {
   List<Item> get holded => _holded;
 
   /// ValueNotifier of tracks filter
-  final ValueNotifier<List<String>> tracks = new ValueNotifier<List<String>>([]);
+  final ValueNotifier<List<String>> tracks =
+      new ValueNotifier<List<String>>([]);
 
   /// Private variables
   List<Item> _data = <Item>[];
   List<Item> _owned = <Item>[];
   List<Item> _holded = <Item>[];
   final List<String> _sortMethod = ['dist', 'name'];
-  final List<String> _categories = ['jeux', 'bebe_jeunesse', 'fete', 'garage', 'objet', 'cuisine', 'jardin'];
+  final List<String> _categories = [
+    'jeux',
+    'bebe_jeunesse',
+    'fete',
+    'garage',
+    'objet',
+    'cuisine',
+    'jardin'
+  ];
 
   /// Add item.
   ///
@@ -53,7 +62,8 @@ class ItemsManager extends BasicService {
   Future<ApiRes> editItem(Map<String, dynamic> payload) async {
     assert(payload != null);
     final id = payload.remove('id');
-    final response = await iput('/items/$id', payload, Services.auth.accessToken);
+    final response =
+        await iput('/items/$id', payload, Services.auth.accessToken);
     return response;
   }
 
@@ -73,7 +83,8 @@ class ItemsManager extends BasicService {
   Future<List<Item>> loadItems() async {
     if (_data.isEmpty) {
       await Services.users.getLocation();
-      final response = await iget(Services.auth.loggedIn != null ? '/items/auth' : '/items',
+      final response = await iget(
+          Services.auth.loggedIn != null ? '/items/auth' : '/items',
           Services.auth.loggedIn ? Services.auth.accessToken : null);
       if (response.success && response.data is List) {
         return _data = response.data
@@ -104,7 +115,8 @@ class ItemsManager extends BasicService {
     assert(itemId != null);
     final response = await iget('/items/$itemId');
     if (response.success) {
-      return new Item(response.data, Services.users.getDist(response.data['lat'], response.data['lng']));
+      return new Item(response.data,
+          Services.users.getDist(response.data['lat'], response.data['lng']));
     }
     return null;
   }
@@ -115,7 +127,9 @@ class ItemsManager extends BasicService {
   Future<List<Item>> getUserItems() async {
     final response = await iget('/items/user', Services.auth.accessToken);
     if (response.success && response.data is List) {
-      return _owned = response.data.map((f) => new Item(f, Services.users.getDist(f['lat'], f['lng']))).toList();
+      return _owned = response.data
+          .map((f) => new Item(f, Services.users.getDist(f['lat'], f['lng'])))
+          .toList();
     }
     return _owned;
   }
@@ -137,7 +151,9 @@ class ItemsManager extends BasicService {
   Future<List<Item>> getHolded() async {
     final response = await iget('/items/holded', Services.auth.accessToken);
     if (response.success && response.data is List) {
-      return _holded = response.data.map((f) => new Item(f, Services.users.getDist(f['lat'], f['lng']))).toList();
+      return _holded = response.data
+          .map((f) => new Item(f, Services.users.getDist(f['lat'], f['lng'])))
+          .toList();
     }
     return _holded;
   }

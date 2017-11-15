@@ -55,11 +55,14 @@ class _BookItemScreenState extends State<BookItemScreen> {
 
   Future<Null> bookItem(BuildContext context) async {
     showLoading(context);
-    final response = await Services.items.bookItem(_item.id, {'dates': toAdd.map((f) => f.toString()).toList()});
+    final response = await Services.items
+        .bookItem(_item.id, {'dates': toAdd.map((f) => f.toString()).toList()});
     Navigator.of(context).pop();
     if (resValid(context, response)) {
       showSnackBar(context, response.msg);
-      await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+      await Navigator
+          .of(context)
+          .pushNamedAndRemoveUntil('/', (route) => false);
     }
   }
 
@@ -80,19 +83,27 @@ class _BookItemScreenState extends State<BookItemScreen> {
                         });
                         setState(() {
                           if (toAdd?.isNotEmpty == true &&
-                              toAdd.firstWhere((f) => f == date.date, orElse: () => null) != null) {
+                              toAdd.firstWhere((f) => f == date.date,
+                                      orElse: () => null) !=
+                                  null) {
                             toAdd.removeWhere((f) => f == date.date);
                           } else {
                             toAdd.add(date.date);
                           }
                           final tmp = new List<DateTime>.from(toAdd);
-                          concated = new List<Event>.from(_item.calendar).map((f) {
+                          concated =
+                              new List<Event>.from(_item.calendar).map((f) {
                             final len = tmp.length;
-                            tmp.removeWhere(
-                                (d) => d.day == f.date.day && d.month == f.date.month && d.year == f.date.year);
+                            tmp.removeWhere((d) =>
+                                d.day == f.date.day &&
+                                d.month == f.date.month &&
+                                d.year == f.date.year);
                             if (tmp.length != len) {
-                              return new Event(
-                                  {'data': f.data, 'date': f.date.toString(), 'holder': Services.auth.user.id});
+                              return new Event({
+                                'data': f.data,
+                                'date': f.date.toString(),
+                                'holder': Services.auth.user.id
+                              });
                             }
                             return f;
                           }).toList();
@@ -101,10 +112,12 @@ class _BookItemScreenState extends State<BookItemScreen> {
                     ),
                   ),
                   new Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 4.0),
                     child: new ConstrainedBox(
-                        constraints:
-                            new BoxConstraints.tightFor(height: 48.0, width: MediaQuery.of(context).size.width),
+                        constraints: new BoxConstraints.tightFor(
+                            height: 48.0,
+                            width: MediaQuery.of(context).size.width),
                         child: new RaisedButton(
                           color: Theme.of(context).accentColor,
                           onPressed: () {
@@ -112,7 +125,8 @@ class _BookItemScreenState extends State<BookItemScreen> {
                           },
                           child: new Text(
                             SpotL.of(context).book.toUpperCase(),
-                            style: new TextStyle(color: Theme.of(context).canvasColor),
+                            style: new TextStyle(
+                                color: Theme.of(context).canvasColor),
                           ),
                         )),
                   ),

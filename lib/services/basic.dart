@@ -64,7 +64,8 @@ class BasicService {
   /// @param payload The payload
   /// @param token Token to use to authentificate
   /// @returns Api response
-  Future<ApiRes> ipost(String url, Map<String, dynamic> payload, [String token]) async {
+  Future<ApiRes> ipost(String url, Map<String, dynamic> payload,
+      [String token]) async {
     assert(url != null && payload != null);
     if (Services.origin == Origin.mock) {
       return Services.mock;
@@ -72,7 +73,8 @@ class BasicService {
     final client = new http.Client();
     final verifiedToken = await Services.auth.verifyToken(client, token);
     final response = await client
-        .post(Uri.encodeFull('$apiUrl$url'), headers: getHeaders(verifiedToken), body: JSON.encode(payload))
+        .post(Uri.encodeFull('$apiUrl$url'),
+            headers: getHeaders(verifiedToken), body: JSON.encode(payload))
         .whenComplete(client.close)
         .catchError(_handleError);
     try {
@@ -88,7 +90,8 @@ class BasicService {
   /// @param payload The payload
   /// @param token Token to use to authentificate
   /// @returns Api response
-  Future<ApiRes> iput(String url, Map<String, dynamic> payload, [String token]) async {
+  Future<ApiRes> iput(String url, Map<String, dynamic> payload,
+      [String token]) async {
     assert(url != null && payload != null);
     if (Services.origin == Origin.mock) {
       return Services.mock;
@@ -96,7 +99,8 @@ class BasicService {
     final client = new http.Client();
     final verifiedToken = await Services.auth.verifyToken(client, token);
     final response = await client
-        .put(Uri.encodeFull('$apiUrl$url'), headers: getHeaders(verifiedToken), body: JSON.encode(payload))
+        .put(Uri.encodeFull('$apiUrl$url'),
+            headers: getHeaders(verifiedToken), body: JSON.encode(payload))
         .whenComplete(client.close)
         .catchError(_handleError);
     try {
@@ -119,7 +123,8 @@ class BasicService {
     final client = new http.Client();
     final verifiedToken = await Services.auth.verifyToken(client, token);
     final response = await client
-        .delete(Uri.encodeFull('$apiUrl$url'), headers: getHeaders(verifiedToken))
+        .delete(Uri.encodeFull('$apiUrl$url'),
+            headers: getHeaders(verifiedToken))
         .whenComplete(client.close)
         .catchError(_handleError);
     try {
@@ -137,8 +142,9 @@ class BasicService {
     assert(type != null);
     final client = new http.Client();
     if (Services.auth.loggedIn) {
-      final verifiedToken =
-          await Services.auth.verifyToken(client, Services.auth.accessToken).whenComplete(client.close);
+      final verifiedToken = await Services.auth
+          .verifyToken(client, Services.auth.accessToken)
+          .whenComplete(client.close);
       return {
         'type': type,
         'id': Services.auth.user.id,

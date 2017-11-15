@@ -20,12 +20,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 shrinkWrap: true,
                 padding: const EdgeInsets.all(20.0),
                 children: [
-                  new Text('${SpotL.of(context).maxDistance}: ${Services.settings.value.maxDistance}km'),
+                  new Text(
+                      '${SpotL.of(context).maxDistance}: ${Services.settings.value.maxDistance}km'),
                   new Slider(
                     value: Services.settings.value.maxDistance / 100,
                     onChanged: (value) {
                       setState(() {
-                        Services.settings.value.maxDistance = (value * 100).toInt();
+                        Services.settings.value.maxDistance =
+                            (value * 100).toInt();
                         Services.settings.saveSettings();
                       });
                     },

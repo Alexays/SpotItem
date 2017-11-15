@@ -29,22 +29,35 @@ Map<String, WidgetBuilder> staticRoutes = {
 /// Configure all routes
 Route<dynamic> configureRoutes(RouteSettings settings) {
   final splittedName = settings.name.split('/');
-  final params = splittedName.where((f) => f.startsWith(':')).map((f) => f.substring(1)).toList();
-  final routes =
-      splittedName.map((f) => params.any((d) => f.length > 1 && d == f.substring(1)) ? ':params' : f).join('/');
+  final params = splittedName
+      .where((f) => f.startsWith(':'))
+      .map((f) => f.substring(1))
+      .toList();
+  final routes = splittedName
+      .map((f) => params.any((d) => f.length > 1 && d == f.substring(1))
+          ? ':params'
+          : f)
+      .join('/');
   switch (routes) {
     case '/profile/:params':
-      return new MaterialPageRoute<dynamic>(settings: settings, builder: (_) => new ProfileScreen(params[0]));
+      return new MaterialPageRoute<dynamic>(
+          settings: settings, builder: (_) => new ProfileScreen(params[0]));
     case '/items/:params':
-      return new MaterialPageRoute<dynamic>(settings: settings, builder: (_) => new ItemPage(itemId: params[0]));
+      return new MaterialPageRoute<dynamic>(
+          settings: settings, builder: (_) => new ItemPage(itemId: params[0]));
     case '/items/:params/book':
       return new MaterialPageRoute<dynamic>(
-          settings: settings, fullscreenDialog: true, builder: (_) => new ItemPage(itemId: params[0]));
+          settings: settings,
+          fullscreenDialog: true,
+          builder: (_) => new ItemPage(itemId: params[0]));
     case '/items/:params/edit':
-      return new MaterialPageRoute<dynamic>(settings: settings, builder: (_) => new EditItemScreen(itemId: params[0]));
+      return new MaterialPageRoute<dynamic>(
+          settings: settings,
+          builder: (_) => new EditItemScreen(itemId: params[0]));
     case '/groups/:params/edit':
       return new MaterialPageRoute<dynamic>(
-          settings: settings, builder: (_) => new EditGroupScreen(groupId: params[0]));
+          settings: settings,
+          builder: (_) => new EditGroupScreen(groupId: params[0]));
     default:
       return errorRoute(settings);
   }
@@ -52,4 +65,5 @@ Route<dynamic> configureRoutes(RouteSettings settings) {
 
 /// On error routes
 Route<dynamic> errorRoute(RouteSettings settings) =>
-    new MaterialPageRoute<dynamic>(settings: settings, builder: (_) => const ErrorScreen());
+    new MaterialPageRoute<dynamic>(
+        settings: settings, builder: (_) => const ErrorScreen());

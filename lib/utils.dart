@@ -18,13 +18,17 @@ const AssetImage placeholder = const AssetImage('assets/placeholder.png');
 
 /// Return Circle avatar of images or initial
 Widget getAvatar(User user, [double radius = 30.0]) {
-  final image = user?.avatar != null && user.avatar.contains('.') ? new NetworkImage(user.avatar) : null;
+  final image = user?.avatar != null && user.avatar.contains('.')
+      ? new NetworkImage(user.avatar)
+      : null;
   return new CircleAvatar(
       radius: radius,
       backgroundColor: Colors.grey,
       backgroundImage: image,
-      child:
-          image == null ? new Text('${user?.firstname?.substring(0, 1) ?? '?'}${user?.name?.substring(0, 1)}') : null);
+      child: image == null
+          ? new Text(
+              '${user?.firstname?.substring(0, 1) ?? '?'}${user?.name?.substring(0, 1)}')
+          : null);
 }
 
 /// Show a loading popup
@@ -144,5 +148,8 @@ String limitString(String str, int lenght) {
 class LinkTextSpan extends TextSpan {
   /// LinkTextSpan initializer
   LinkTextSpan({TextStyle style, String url, String text})
-      : super(style: style, text: text ?? url, recognizer: new TapGestureRecognizer()..onTap = () => launch(url));
+      : super(
+            style: style,
+            text: text ?? url,
+            recognizer: new TapGestureRecognizer()..onTap = () => launch(url));
 }

@@ -66,7 +66,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               new TextFormField(
                                 key: const Key('name'),
                                 decoration: new InputDecoration(
-                                    labelText: SpotL.of(context).firstname, hintText: SpotL.of(context).firstnamePh),
+                                    labelText: SpotL.of(context).firstname,
+                                    hintText: SpotL.of(context).firstnamePh),
                                 onSaved: (value) {
                                   user['firstname'] = value;
                                 },
@@ -76,7 +77,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               new TextFormField(
                                 key: const Key('lastname'),
                                 decoration: new InputDecoration(
-                                    labelText: SpotL.of(context).lastname, hintText: SpotL.of(context).lastnamePh),
+                                    labelText: SpotL.of(context).lastname,
+                                    hintText: SpotL.of(context).lastnamePh),
                                 onSaved: (value) {
                                   user['name'] = value;
                                 },
@@ -118,22 +120,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 controller: _password,
                                 obscureText: true,
                               ),
-                              new Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-                                new RaisedButton(
-                                  child: new Text(SpotL.of(context).haveAccount),
-                                  onPressed: () {
-                                    Navigator.pushReplacementNamed(context, '/');
-                                  },
-                                ),
-                                const Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                                ),
-                                new RaisedButton(
-                                    child: new Text(SpotL.of(context).register),
-                                    onPressed: () {
-                                      doRegister(context);
-                                    })
-                              ]),
+                              new Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    new RaisedButton(
+                                      child: new Text(
+                                          SpotL.of(context).haveAccount),
+                                      onPressed: () {
+                                        Navigator.pushReplacementNamed(
+                                            context, '/');
+                                      },
+                                    ),
+                                    const Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 5.0),
+                                    ),
+                                    new RaisedButton(
+                                        child: new Text(
+                                            SpotL.of(context).register),
+                                        onPressed: () {
+                                          doRegister(context);
+                                        })
+                                  ]),
                             ],
                           )),
                     ))),
