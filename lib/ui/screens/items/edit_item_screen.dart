@@ -37,9 +37,6 @@ class _EditItemScreenState extends State<EditItemScreen>
 
   Item _item;
 
-  AnimationController _controller;
-  Animation<Size> _bottomSize;
-
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   /// Item name
@@ -93,18 +90,6 @@ class _EditItemScreenState extends State<EditItemScreen>
         _groups = data;
       });
     });
-    _controller = new AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 200),
-    );
-    _bottomSize = new SizeTween(
-      begin: new Size.fromHeight(kTextTabBarHeight + 40.0),
-      end: new Size.fromHeight(kTextTabBarHeight + 280.0),
-    )
-        .animate(new CurvedAnimation(
-      parent: _controller,
-      curve: Curves.ease,
-    ));
   }
 
   void _initForm() {
@@ -278,262 +263,225 @@ class _EditItemScreenState extends State<EditItemScreen>
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-      body: new Builder(
-          builder: (context) => new Column(
-                children: <Widget>[
-                  new Form(
-                    key: _formKey,
-                    child: new Expanded(
-                      child: new DefaultTabController(
-                        length: 4,
-                        child: new NestedScrollView(
-                          headerSliverBuilder: (context, innerBoxIsScrolled) =>
-                              <Widget>[
-                                new AnimatedBuilder(
-                                  animation: _bottomSize,
-                                  builder: (context, child) => new SliverAppBar(
-                                        pinned: true,
-                                        title: new Text(_item?.name ??
-                                            SpotL.of(context).loading),
-                                        bottom: new TabBar(
-                                          indicatorWeight: 4.0,
-                                          tabs: <Tab>[
-                                            new Tab(
-                                                text: SpotL.of(context).about),
-                                            new Tab(
-                                                text: SpotL.of(context).images),
-                                            new Tab(
-                                                text:
-                                                    SpotL.of(context).calendar),
-                                            new Tab(
-                                                text: SpotL.of(context).groups)
-                                          ],
-                                        ),
-                                      ),
-                                ),
-                              ],
-                          body: _item == null
-                              ? const Center(
-                                  child: const CircularProgressIndicator())
-                              : new TabBarView(
-                                  children: <Widget>[
-                                    new ListView(
-                                      shrinkWrap: true,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20.0),
-                                      children: <Widget>[
-                                        new TextFormField(
-                                          key: const Key('name'),
-                                          decoration: new InputDecoration(
-                                              hintText:
-                                                  SpotL.of(context).namePh,
-                                              labelText:
-                                                  SpotL.of(context).name),
-                                          validator: validateName,
-                                          controller: _nameCtrl,
-                                          initialValue: _nameCtrl.text,
-                                        ),
-                                        new TextFormField(
-                                          key: const Key('about'),
-                                          decoration: new InputDecoration(
-                                              hintText:
-                                                  SpotL.of(context).aboutPh,
-                                              labelText:
-                                                  SpotL.of(context).about),
-                                          controller: _aboutCtrl,
-                                          initialValue: _aboutCtrl.text,
-                                        ),
-                                        new Stack(
-                                          children: <Widget>[
-                                            new FocusScope(
-                                              node: new FocusScopeNode(),
-                                              child: new TextFormField(
-                                                decoration: new InputDecoration(
-                                                    hintText: SpotL
-                                                        .of(context)
-                                                        .locationPh,
-                                                    labelText: SpotL
-                                                        .of(context)
-                                                        .location),
-                                                initialValue: _location,
-                                              ),
-                                            ),
-                                            new GestureDetector(
-                                              onTap: () async {
-                                                final p = await Services.users
-                                                    .autocompleteCity(context);
-                                                if (mounted && p != null) {
-                                                  setState(() {
-                                                    _location = p;
-                                                  });
-                                                }
-                                              },
-                                              child: new Container(
-                                                color: Colors.transparent,
-                                                height: 75.0,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        new CheckboxListTile(
-                                          title:
-                                              new Text(SpotL.of(context).gift),
-                                          value: _tracks.contains('gift'),
-                                          onChanged: (value) {
-                                            setState(() {
-                                              if (value) {
-                                                _tracks.add('gift');
-                                              } else {
-                                                _tracks.remove('gift');
-                                              }
-                                            });
-                                          },
-                                          secondary:
-                                              const Icon(Icons.card_giftcard),
-                                        ),
-                                        new CheckboxListTile(
-                                          title: new Text(
-                                              SpotL.of(context).private),
-                                          value: _tracks.contains('private'),
-                                          onChanged: (value) {
-                                            setState(() {
-                                              if (value) {
-                                                _tracks.add('private');
-                                              } else {
-                                                _tracks.remove('private');
-                                              }
-                                            });
-                                          },
-                                          secondary: const Icon(Icons.lock),
-                                        ),
-                                        new Container(
-                                          height: 100.0,
-                                          child: new ListView.builder(
-                                            shrinkWrap: true,
-                                            scrollDirection: Axis.horizontal,
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 15.0),
-                                            itemCount: Services
-                                                .items.categories.length,
-                                            itemExtent: 75.0,
-                                            itemBuilder: (context, index) =>
-                                                !_tracks.contains(Services.items
-                                                        .categories[index])
-                                                    ? new FlatButton(
-                                                        child: new Image.asset(
-                                                            'assets/${Services.items.categories[index]}.png'),
-                                                        onPressed: () {
-                                                          _tracks = _tracks
-                                                              .where((f) =>
-                                                                  !Services
-                                                                      .items
-                                                                      .categories
-                                                                      .any((d) =>
-                                                                          d ==
-                                                                          f))
-                                                              .toList()
-                                                                ..add(Services
-                                                                        .items
-                                                                        .categories[
-                                                                    index]);
-                                                          setState(() {
-                                                            _tracks = new List<
-                                                                    String>.from(
-                                                                _tracks);
-                                                          });
-                                                        },
-                                                      )
-                                                    : new RaisedButton(
-                                                        child: new Image.asset(
-                                                            'assets/${Services.items.categories[index]}.png'),
-                                                        onPressed: () {
-                                                          _tracks.remove(Services
-                                                                  .items
-                                                                  .categories[
-                                                              index]);
-                                                          setState(() {
-                                                            _tracks = new List<
-                                                                    String>.from(
-                                                                _tracks);
-                                                          });
-                                                        },
-                                                      ),
-                                          ),
-                                        ),
-                                        new Image.network(
-                                            '$apiUrl/items/${_item.id}/code')
-                                      ],
-                                    ),
-                                    new Container(
-                                      margin: const EdgeInsets.all(20.0),
-                                      child: new Column(
-                                        children: [
-                                          (_item.images.length +
-                                                      _imagesFile.length) >
-                                                  0
-                                              ? new Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          bottom: 15.0),
-                                                  child: new RaisedButton(
-                                                    child: new Text(SpotL
-                                                        .of(context)
-                                                        .addImage),
-                                                    onPressed: getImage,
-                                                  ))
-                                              : new Container(),
-                                          new Flexible(
-                                            child: getImageGrid(),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    new Container(
-                                      height:
-                                          MediaQuery.of(context).size.height,
-                                      child: new Calendar(
-                                        allowDisable: true,
-                                        edit: true,
-                                        selectedDates: _calendar,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _calendar = value;
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                    _groups != null
-                                        ? new Container(
-                                            margin: const EdgeInsets.all(20.0),
-                                            child: getGroups())
-                                        : const Center(
-                                            child:
-                                                const CircularProgressIndicator()),
-                                  ],
-                                ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  new Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 8.0, vertical: 4.0),
-                    child: new ConstrainedBox(
-                        constraints: new BoxConstraints.tightFor(
-                            height: 48.0,
-                            width: MediaQuery.of(context).size.width),
-                        child: new RaisedButton(
-                          color: Theme.of(context).accentColor,
-                          onPressed: () {
-                            editItem(context);
-                          },
-                          child: new Text(
-                            SpotL.of(context).save.toUpperCase(),
-                            style: new TextStyle(
-                                color: Theme.of(context).canvasColor),
+        body: new Builder(
+          builder: (context) => new DefaultTabController(
+                length: 4,
+                child: new NestedScrollView(
+                  headerSliverBuilder: (context, innerBoxIsScrolled) =>
+                      <Widget>[
+                        new SliverAppBar(
+                          pinned: true,
+                          floating: true,
+                          snap: true,
+                          title: new Text(
+                              _item?.name ?? SpotL.of(context).loading),
+                          bottom: new TabBar(
+                            indicatorWeight: 4.0,
+                            tabs: <Tab>[
+                              new Tab(text: SpotL.of(context).about),
+                              new Tab(text: SpotL.of(context).images),
+                              new Tab(text: SpotL.of(context).calendar),
+                              new Tab(text: SpotL.of(context).groups)
+                            ],
                           ),
-                        )),
-                  ),
-                ],
-              )));
+                        ),
+                      ],
+                  body: _item == null
+                      ? const Center(child: const CircularProgressIndicator())
+                      : new TabBarView(
+                          children: <Widget>[
+                            new Form(
+                              key: _formKey,
+                              child: new ListView(
+                                shrinkWrap: true,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0),
+                                children: <Widget>[
+                                  new TextFormField(
+                                    key: const Key('name'),
+                                    decoration: new InputDecoration(
+                                        hintText: SpotL.of(context).namePh,
+                                        labelText: SpotL.of(context).name),
+                                    validator: validateName,
+                                    controller: _nameCtrl,
+                                    initialValue: _nameCtrl.text,
+                                  ),
+                                  new TextFormField(
+                                    key: const Key('about'),
+                                    decoration: new InputDecoration(
+                                        hintText: SpotL.of(context).aboutPh,
+                                        labelText: SpotL.of(context).about),
+                                    controller: _aboutCtrl,
+                                    initialValue: _aboutCtrl.text,
+                                  ),
+                                  new Stack(
+                                    children: <Widget>[
+                                      new FocusScope(
+                                        node: new FocusScopeNode(),
+                                        child: new TextFormField(
+                                          decoration: new InputDecoration(
+                                              hintText:
+                                                  SpotL.of(context).locationPh,
+                                              labelText:
+                                                  SpotL.of(context).location),
+                                          initialValue: _location,
+                                        ),
+                                      ),
+                                      new GestureDetector(
+                                        onTap: () async {
+                                          final p = await Services.users
+                                              .autocompleteCity(context);
+                                          if (mounted && p != null) {
+                                            setState(() {
+                                              _location = p;
+                                            });
+                                          }
+                                        },
+                                        child: new Container(
+                                          color: Colors.transparent,
+                                          height: 75.0,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  new CheckboxListTile(
+                                    title: new Text(SpotL.of(context).gift),
+                                    value: _tracks.contains('gift'),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        if (value) {
+                                          _tracks.add('gift');
+                                        } else {
+                                          _tracks.remove('gift');
+                                        }
+                                      });
+                                    },
+                                    secondary: const Icon(Icons.card_giftcard),
+                                  ),
+                                  new CheckboxListTile(
+                                    title: new Text(SpotL.of(context).private),
+                                    value: _tracks.contains('private'),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        if (value) {
+                                          _tracks.add('private');
+                                        } else {
+                                          _tracks.remove('private');
+                                        }
+                                      });
+                                    },
+                                    secondary: const Icon(Icons.lock),
+                                  ),
+                                  new Container(
+                                    height: 100.0,
+                                    child: new ListView.builder(
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.horizontal,
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 15.0),
+                                      itemCount:
+                                          Services.items.categories.length,
+                                      itemExtent: 75.0,
+                                      itemBuilder: (context, index) => !_tracks
+                                              .contains(Services
+                                                  .items.categories[index])
+                                          ? new FlatButton(
+                                              child: new Image.asset(
+                                                  'assets/${Services.items.categories[index]}.png'),
+                                              onPressed: () {
+                                                _tracks = _tracks
+                                                    .where((f) => !Services
+                                                        .items.categories
+                                                        .any((d) => d == f))
+                                                    .toList()
+                                                      ..add(Services.items
+                                                          .categories[index]);
+                                                setState(() {
+                                                  _tracks =
+                                                      new List<String>.from(
+                                                          _tracks);
+                                                });
+                                              },
+                                            )
+                                          : new RaisedButton(
+                                              child: new Image.asset(
+                                                  'assets/${Services.items.categories[index]}.png'),
+                                              onPressed: () {
+                                                _tracks.remove(Services
+                                                    .items.categories[index]);
+                                                setState(() {
+                                                  _tracks =
+                                                      new List<String>.from(
+                                                          _tracks);
+                                                });
+                                              },
+                                            ),
+                                    ),
+                                  ),
+                                  new Image.network(
+                                      '$apiUrl/items/${_item.id}/code')
+                                ],
+                              ),
+                            ),
+                            new Container(
+                              margin: const EdgeInsets.all(20.0),
+                              child: new Column(
+                                children: [
+                                  (_item.images.length + _imagesFile.length) > 0
+                                      ? new Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 15.0),
+                                          child: new RaisedButton(
+                                            child: new Text(
+                                                SpotL.of(context).addImage),
+                                            onPressed: getImage,
+                                          ))
+                                      : new Container(),
+                                  new Flexible(
+                                    child: getImageGrid(),
+                                  )
+                                ],
+                              ),
+                            ),
+                            new Container(
+                              height: MediaQuery.of(context).size.height,
+                              child: new Calendar(
+                                allowDisable: true,
+                                edit: true,
+                                selectedDates: _calendar,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _calendar = value;
+                                  });
+                                },
+                              ),
+                            ),
+                            _groups != null
+                                ? new Container(
+                                    margin: const EdgeInsets.all(20.0),
+                                    child: getGroups())
+                                : const Center(
+                                    child: const CircularProgressIndicator()),
+                          ],
+                        ),
+                ),
+              ),
+        ),
+        bottomNavigationBar: new Container(
+          margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+          child: new ConstrainedBox(
+              constraints: new BoxConstraints.tightFor(
+                  height: 48.0, width: MediaQuery.of(context).size.width),
+              child: new RaisedButton(
+                color: Theme.of(context).accentColor,
+                onPressed: () {
+                  editItem(context);
+                },
+                child: new Text(
+                  SpotL.of(context).save.toUpperCase(),
+                  style: new TextStyle(color: Theme.of(context).canvasColor),
+                ),
+              )),
+        ),
+      );
 }

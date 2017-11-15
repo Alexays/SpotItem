@@ -56,13 +56,14 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
   }
 
   Widget _buildForm(BuildContext context) => new Container(
-      margin: const EdgeInsets.all(20.0),
-      child: new Column(
+        margin: const EdgeInsets.all(20.0),
+        child: new Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             new Form(
-                key: _formKey,
-                child: new Column(children: <Widget>[
+              key: _formKey,
+              child: new Column(
+                children: <Widget>[
                   new TextFormField(
                     key: const Key('name'),
                     decoration: new InputDecoration(
@@ -106,46 +107,45 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                   ),
                   const Divider(),
                   new RaisedButton(
-                      child: new Text(SpotL.of(context).addSomeone),
-                      onPressed: () => _addPeople(context))
-                ]))
-          ]));
+                    child: new Text(SpotL.of(context).addSomeone),
+                    onPressed: () => _addPeople(context),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
 
   @override
   Widget build(BuildContext context) => new Scaffold(
         appBar: new AppBar(title: new Text(SpotL.of(context).addGroup)),
         body: new Builder(
-          builder: (context) => new Column(
-                children: <Widget>[
-                  new Expanded(
-                    child: new SingleChildScrollView(
-                      child: _buildForm(context),
-                    ),
-                  ),
-                  new Container(
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 8.0,
-                      vertical: 4.0,
-                    ),
-                    child: new ConstrainedBox(
-                      constraints: new BoxConstraints.tightFor(
-                        height: 48.0,
-                        width: MediaQuery.of(context).size.width,
-                      ),
-                      child: new RaisedButton(
-                        color: Theme.of(context).accentColor,
-                        onPressed: () => addGroup(context),
-                        child: new Text(
-                          SpotL.of(context).addGroup.toUpperCase(),
-                          style: new TextStyle(
-                            color: Theme.of(context).canvasColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+          builder: (context) => new SingleChildScrollView(
+                child: _buildForm(context),
               ),
+        ),
+        bottomNavigationBar: new Container(
+          margin: const EdgeInsets.symmetric(
+            horizontal: 8.0,
+            vertical: 4.0,
+          ),
+          child: new ConstrainedBox(
+            constraints: new BoxConstraints.tightFor(
+              height: 48.0,
+              width: MediaQuery.of(context).size.width,
+            ),
+            child: new RaisedButton(
+              color: Theme.of(context).accentColor,
+              onPressed: () => addGroup(context),
+              child: new Text(
+                SpotL.of(context).addGroup.toUpperCase(),
+                style: new TextStyle(
+                  color: Theme.of(context).canvasColor,
+                ),
+              ),
+            ),
+          ),
         ),
       );
 }

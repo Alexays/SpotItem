@@ -145,15 +145,15 @@ class BasicService {
       final verifiedToken = await Services.auth
           .verifyToken(client, Services.auth.accessToken)
           .whenComplete(client.close);
+      if (Services.auth.ws == null) {
+        await Services.auth.connectWs();
+      }
       return {
         'type': type,
         'id': Services.auth.user.id,
         'version': '2',
         'auth': {'headers': getHeaders(verifiedToken)},
       };
-    }
-    if (Services.auth.ws == null) {
-      await Services.auth.connectWs();
     }
     return null;
   }

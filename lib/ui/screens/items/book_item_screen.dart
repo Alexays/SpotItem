@@ -68,68 +68,60 @@ class _BookItemScreenState extends State<BookItemScreen> {
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-      appBar: new AppBar(title: new Text(SpotL.of(context).book)),
-      body: new Builder(
-          builder: (context) => new Column(
-                children: <Widget>[
-                  new Expanded(
-                    child: new Calendar(
-                      selectedDates: concated,
-                      onChanged: (data) {
-                        final date = new Event({
-                          'data': data.first.data,
-                          'date': data.first.date.toString(),
+        appBar: new AppBar(title: new Text(SpotL.of(context).book)),
+        body: new Builder(
+          builder: (context) => new Calendar(
+                selectedDates: concated,
+                onChanged: (data) {
+                  final date = new Event({
+                    'data': data.first.data,
+                    'date': data.first.date.toString(),
+                    'holder': Services.auth.user.id
+                  });
+                  setState(() {
+                    if (toAdd?.isNotEmpty == true &&
+                        toAdd.firstWhere((f) => f == date.date,
+                                orElse: () => null) !=
+                            null) {
+                      toAdd.removeWhere((f) => f == date.date);
+                    } else {
+                      toAdd.add(date.date);
+                    }
+                    final tmp = new List<DateTime>.from(toAdd);
+                    concated = new List<Event>.from(_item.calendar).map((f) {
+                      final len = tmp.length;
+                      tmp.removeWhere((d) =>
+                          d.day == f.date.day &&
+                          d.month == f.date.month &&
+                          d.year == f.date.year);
+                      if (tmp.length != len) {
+                        return new Event({
+                          'data': f.data,
+                          'date': f.date.toString(),
                           'holder': Services.auth.user.id
                         });
-                        setState(() {
-                          if (toAdd?.isNotEmpty == true &&
-                              toAdd.firstWhere((f) => f == date.date,
-                                      orElse: () => null) !=
-                                  null) {
-                            toAdd.removeWhere((f) => f == date.date);
-                          } else {
-                            toAdd.add(date.date);
-                          }
-                          final tmp = new List<DateTime>.from(toAdd);
-                          concated =
-                              new List<Event>.from(_item.calendar).map((f) {
-                            final len = tmp.length;
-                            tmp.removeWhere((d) =>
-                                d.day == f.date.day &&
-                                d.month == f.date.month &&
-                                d.year == f.date.year);
-                            if (tmp.length != len) {
-                              return new Event({
-                                'data': f.data,
-                                'date': f.date.toString(),
-                                'holder': Services.auth.user.id
-                              });
-                            }
-                            return f;
-                          }).toList();
-                        });
-                      },
-                    ),
-                  ),
-                  new Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 8.0, vertical: 4.0),
-                    child: new ConstrainedBox(
-                        constraints: new BoxConstraints.tightFor(
-                            height: 48.0,
-                            width: MediaQuery.of(context).size.width),
-                        child: new RaisedButton(
-                          color: Theme.of(context).accentColor,
-                          onPressed: () {
-                            bookItem(context);
-                          },
-                          child: new Text(
-                            SpotL.of(context).book.toUpperCase(),
-                            style: new TextStyle(
-                                color: Theme.of(context).canvasColor),
-                          ),
-                        )),
-                  ),
-                ],
-              )));
+                      }
+                      return f;
+                    }).toList();
+                  });
+                },
+              ),
+        ),
+        bottomNavigationBar: new Container(
+          margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+          child: new ConstrainedBox(
+              constraints: new BoxConstraints.tightFor(
+                  height: 48.0, width: MediaQuery.of(context).size.width),
+              child: new RaisedButton(
+                color: Theme.of(context).accentColor,
+                onPressed: () {
+                  bookItem(context);
+                },
+                child: new Text(
+                  SpotL.of(context).book.toUpperCase(),
+                  style: new TextStyle(color: Theme.of(context).canvasColor),
+                ),
+              )),
+        ),
+      );
 }

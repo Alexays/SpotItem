@@ -114,37 +114,35 @@ class _EditUserScreenState extends State<EditUserScreen> {
       ));
 
   @override
-  Widget build(BuildContext context) => new Scaffold(
-        appBar: new AppBar(title: new Text(SpotL.of(context).editProfile)),
-        body: new Builder(builder: (context) {
-          final theme = Theme.of(context);
-          return new Column(children: <Widget>[
-            new Expanded(
-              child: new SingleChildScrollView(
-                child: _buildForm(context, theme),
-              ),
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return new Scaffold(
+      appBar: new AppBar(title: new Text(SpotL.of(context).editProfile)),
+      body: new Builder(
+        builder: (context) => new SingleChildScrollView(
+              child: _buildForm(context, theme),
             ),
-            new Container(
-              margin: const EdgeInsets.symmetric(
-                horizontal: 8.0,
-                vertical: 4.0,
-              ),
-              child: new ConstrainedBox(
-                constraints: new BoxConstraints.tightFor(
-                  height: 48.0,
-                  width: MediaQuery.of(context).size.width,
-                ),
-                child: new RaisedButton(
-                  color: theme.accentColor,
-                  onPressed: () => editUser(context),
-                  child: new Text(
-                    SpotL.of(context).save.toUpperCase(),
-                    style: new TextStyle(color: theme.canvasColor),
-                  ),
-                ),
-              ),
+      ),
+      bottomNavigationBar: new Container(
+        margin: const EdgeInsets.symmetric(
+          horizontal: 8.0,
+          vertical: 4.0,
+        ),
+        child: new ConstrainedBox(
+          constraints: new BoxConstraints.tightFor(
+            height: 48.0,
+            width: MediaQuery.of(context).size.width,
+          ),
+          child: new RaisedButton(
+            color: theme.accentColor,
+            onPressed: () => editUser(context),
+            child: new Text(
+              SpotL.of(context).save.toUpperCase(),
+              style: new TextStyle(color: theme.canvasColor),
             ),
-          ]);
-        }),
-      );
+          ),
+        ),
+      ),
+    );
+  }
 }

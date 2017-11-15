@@ -61,14 +61,15 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
   Future<Null> editGroup(BuildContext context) async {
     _formKey.currentState.save();
     if (!_formKey.currentState.validate()) {
-      return showSnackBar(context, SpotL.of(context).correctError);
+      showSnackBar(context, SpotL.of(context).correctError);
+      return;
     }
     final response = await Services.groups.edit(_group.id, {
       'name': nameCtrl.text,
       'about': aboutCtrl.text,
     });
     if (!resValid(context, response)) {
-      return showSnackBar(context, SpotL.of(context).error);
+      return;
     }
     showSnackBar(context, response.msg);
     await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
@@ -104,38 +105,34 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-      appBar: new AppBar(title: new Text(SpotL.of(context).editGroup)),
-      body: new Builder(
+        appBar: new AppBar(title: new Text(SpotL.of(context).editGroup)),
+        body: new Builder(
           builder: (context) => _group == null
               ? const Center(child: const CircularProgressIndicator())
-              : new Column(
-                  children: <Widget>[
-                    new Expanded(
-                      child: new SingleChildScrollView(
-                        child: _buildForm(context),
-                      ),
-                    ),
-                    new Container(
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 8.0,
-                        vertical: 4.0,
-                      ),
-                      child: new ConstrainedBox(
-                          constraints: new BoxConstraints.tightFor(
-                            height: 48.0,
-                            width: MediaQuery.of(context).size.width,
-                          ),
-                          child: new RaisedButton(
-                            color: Theme.of(context).accentColor,
-                            onPressed: () async => await editGroup(context),
-                            child: new Text(
-                              SpotL.of(context).save.toUpperCase(),
-                              style: new TextStyle(
-                                color: Theme.of(context).canvasColor,
-                              ),
-                            ),
-                          )),
-                    ),
-                  ],
-                )));
+              : new SingleChildScrollView(
+                  child: _buildForm(context),
+                ),
+        ),
+        bottomNavigationBar: new Container(
+          margin: const EdgeInsets.symmetric(
+            horizontal: 8.0,
+            vertical: 4.0,
+          ),
+          child: new ConstrainedBox(
+              constraints: new BoxConstraints.tightFor(
+                height: 48.0,
+                width: MediaQuery.of(context).size.width,
+              ),
+              child: new RaisedButton(
+                color: Theme.of(context).accentColor,
+                onPressed: () async => await editGroup(context),
+                child: new Text(
+                  SpotL.of(context).save.toUpperCase(),
+                  style: new TextStyle(
+                    color: Theme.of(context).canvasColor,
+                  ),
+                ),
+              )),
+        ),
+      );
 }
