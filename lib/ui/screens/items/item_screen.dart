@@ -119,7 +119,10 @@ class _ItemPageState extends State<ItemPage>
   @override
   void initState() {
     super.initState();
-    _initControler();
+    if (item != null) {
+      _initControler();
+      return;
+    }
     Services.items.getItem(_itemId).then((data) {
       if (!mounted) {
         return;
