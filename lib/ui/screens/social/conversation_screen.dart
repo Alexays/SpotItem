@@ -146,6 +146,7 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
                     new Flexible(
                         child: _messages.isNotEmpty
                             ? new ListView.builder(
+                                shrinkWrap: true,
                                 padding: const EdgeInsets.all(8.0),
                                 reverse: true,
                                 itemBuilder: (_, index) => _messages[index],

@@ -156,6 +156,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
                     new Container(
                       height: 100.0,
                       child: new ListView.builder(
+                          shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
                           padding: const EdgeInsets.symmetric(vertical: 15.0),
                           itemCount: Services.items.categories.length,
@@ -272,7 +273,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
   }
 
   Widget _buildDrawer(BuildContext context) => new Drawer(
-          child: new ListView(children: <Widget>[
+          child: new ListView(shrinkWrap: true, children: <Widget>[
         new UserAccountsDrawerHeader(
             accountName: new Text('${Services.auth.user?.firstname} ${Services.auth.user?.name}',
                 overflow: TextOverflow.ellipsis),

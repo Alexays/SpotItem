@@ -45,6 +45,7 @@ class _DiscoverViewState extends State<DiscoverView> {
   }
 
   Widget _buildDiscover() => new ListView.builder(
+      shrinkWrap: true,
       itemCount: 2,
       itemBuilder: (context, index) {
         switch (index) {
@@ -106,6 +107,7 @@ class DiscoverList extends StatelessWidget {
   @override
   Widget build(BuildContext context) => _items.isNotEmpty
       ? new ListView.builder(
+          shrinkWrap: true,
           physics: const AlwaysScrollableScrollPhysics(), // For RefreshIndicator
           scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.symmetric(horizontal: 8.0),

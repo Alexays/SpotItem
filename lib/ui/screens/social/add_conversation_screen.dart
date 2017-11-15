@@ -37,6 +37,7 @@ class _AddConvScreenState extends State<AddConvScreen> {
         body: new Builder(
             builder: (context) => Services.groups.data.isNotEmpty
                 ? new ListView.builder(
+                    shrinkWrap: true,
                     itemCount: Services.groups.data?.length ?? 0,
                     itemBuilder: (context, index) => new ListTile(
                           title: new Text(Services.groups.data[index].name),

@@ -56,6 +56,7 @@ class _HoldedViewState extends State<HoldedView> {
       );
     }
     return new ListView.builder(
+      shrinkWrap: true,
       physics: const AlwaysScrollableScrollPhysics(), // For RefreshIndicator
       padding: const EdgeInsets.all(20.0),
       itemCount: _holded?.length ?? 0,

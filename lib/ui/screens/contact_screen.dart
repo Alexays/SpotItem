@@ -111,6 +111,7 @@ class _ContactScreenState extends State<ContactScreen> {
                     ? _contacts.isNotEmpty
                         ? new Expanded(
                             child: new ListView.builder(
+                                shrinkWrap: true,
                                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                 itemCount: _contacts?.length ?? 0,
                                 itemBuilder: (context, index) => new ListTile(
