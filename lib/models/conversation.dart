@@ -19,10 +19,10 @@ class Conversation {
   final List<String> users;
 
   /// Conversation group
-  Group group;
+  final Group group;
 
   /// Messages
-  List<Message> conversation;
+  final List<Message> conversation;
 
   /// Create item from JSON object
   factory Conversation.from(Conversation conversation) => new Conversation(JSON.decode(conversation.toString()));
