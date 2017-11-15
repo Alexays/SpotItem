@@ -69,64 +69,67 @@ class _GroupsViewState extends State<GroupsView> {
         ));
   }
 
-  Widget _createList() => _inv != null && _inv.isEmpty && _groups.isEmpty
-      ? new Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            new Center(child: new Text(SpotL.of(context).noGroups)),
-            const Padding(padding: const EdgeInsets.all(10.0)),
-            new RaisedButton(
-              child: new Text(SpotL.of(context).addGroup),
-              onPressed: () async {
-                await Navigator.of(Services.context).pushNamed('/groups/add/');
-              },
-            ),
-          ],
-        )
-      : new ListView.builder(
-          shrinkWrap: true,
-          physics: const AlwaysScrollableScrollPhysics(),
-          padding: const EdgeInsets.all(20.0),
-          itemCount: (_groups?.length ?? 0) + 1,
-          itemBuilder: (context, index) {
-            if (index == 0) {
-              if (_inv?.isNotEmpty == true) {
-                return _buildInv();
-              }
-              return new Container();
+  Widget _createList() {
+    if (_inv?.isEmpty == true && _groups.isEmpty) {
+      return new Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          new Center(child: new Text(SpotL.of(context).noGroups)),
+          const Padding(padding: const EdgeInsets.all(10.0)),
+          new RaisedButton(
+            child: new Text(SpotL.of(context).addGroup),
+            onPressed: () async {
+              await Navigator.of(Services.context).pushNamed('/groups/add/');
+            },
+          ),
+        ],
+      );
+    }
+    return new ListView.builder(
+        shrinkWrap: true,
+        physics: const AlwaysScrollableScrollPhysics(),
+        padding: const EdgeInsets.all(20.0),
+        itemCount: (_groups?.length ?? 0) + 1,
+        itemBuilder: (context, index) {
+          if (index == 0) {
+            if (_inv?.isNotEmpty == true) {
+              return _buildInv();
             }
-            return new GestureDetector(
-              onTap: () => _showGroup(_groups[index - 1]),
-              child: new Card(
-                child: new Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    new ListTile(
-                        leading:
-                            new CircleAvatar(backgroundColor: Colors.grey, child: new Text(_groups[index - 1].name[0])),
-                        title: new Text(_groups[index - 1].name),
-                        subtitle: new Text(_groups[index - 1].about),
-                        trailing: new Row(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            new Text(
-                              (_groups[index - 1].users?.length ?? '?').toString(),
-                              style: new TextStyle(fontWeight: FontWeight.w400, fontSize: 15.0),
-                            ),
-                            const Padding(padding: const EdgeInsets.symmetric(horizontal: 2.0)),
-                            const Icon(Icons.people)
-                          ],
-                        ))
-                  ],
-                ),
+            return new Container();
+          }
+          return new GestureDetector(
+            onTap: () => _showGroup(_groups[index - 1]),
+            child: new Card(
+              child: new Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  new ListTile(
+                      leading:
+                          new CircleAvatar(backgroundColor: Colors.grey, child: new Text(_groups[index - 1].name[0])),
+                      title: new Text(_groups[index - 1].name),
+                      subtitle: new Text(_groups[index - 1].about),
+                      trailing: new Row(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          new Text(
+                            (_groups[index - 1].users?.length ?? '?').toString(),
+                            style: new TextStyle(fontWeight: FontWeight.w400, fontSize: 15.0),
+                          ),
+                          const Padding(padding: const EdgeInsets.symmetric(horizontal: 2.0)),
+                          const Icon(Icons.people)
+                        ],
+                      ))
+                ],
               ),
-            );
-          });
+            ),
+          );
+        });
+  }
 
   Widget _buildInv() {
-    if (_inv.isEmpty) {
+    if (_inv?.isEmpty == true) {
       return new Container();
     }
     return new Container(
