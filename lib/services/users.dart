@@ -59,7 +59,7 @@ class UsersManager extends BasicService {
   ///
   /// @param force Retrieve user location
   Future<Map<String, double>> getLocation({bool force = false}) async {
-    if ((!force && location != null && location.isNotEmpty) || Services.origin == Origin.mock) {
+    if ((!force && location?.isNotEmpty == true) || Services.origin == Origin.mock) {
       return location;
     }
     try {

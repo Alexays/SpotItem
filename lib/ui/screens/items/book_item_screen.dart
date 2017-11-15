@@ -79,8 +79,7 @@ class _BookItemScreenState extends State<BookItemScreen> {
                           'holder': Services.auth.user.id
                         });
                         setState(() {
-                          if (toAdd != null &&
-                              toAdd.isNotEmpty &&
+                          if (toAdd?.isNotEmpty == true &&
                               toAdd.firstWhere((f) => f == date.date, orElse: () => null) != null) {
                             toAdd.removeWhere((f) => f == date.date);
                           } else {

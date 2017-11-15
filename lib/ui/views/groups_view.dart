@@ -90,7 +90,7 @@ class _GroupsViewState extends State<GroupsView> {
           itemCount: (_groups?.length ?? 0) + 1,
           itemBuilder: (context, index) {
             if (index == 0) {
-              if (_inv != null && _inv.isNotEmpty) {
+              if (_inv?.isNotEmpty == true) {
                 return _buildInv();
               }
               return new Container();

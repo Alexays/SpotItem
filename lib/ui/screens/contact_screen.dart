@@ -107,7 +107,7 @@ class _ContactScreenState extends State<ContactScreen> {
                       ),
                     )),
                 const Padding(padding: const EdgeInsets.all(10.0)),
-                _contacts.isNotEmpty || (_email != null && _email.isNotEmpty)
+                _contacts?.isNotEmpty == true || _email?.isNotEmpty == true
                     ? _contacts.isNotEmpty
                         ? new Expanded(
                             child: new ListView.builder(
