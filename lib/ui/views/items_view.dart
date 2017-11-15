@@ -68,9 +68,7 @@ class _ItemsViewState extends State<ItemsView> {
       padding: const EdgeInsets.all(20.0),
       itemCount: _myItems?.length ?? 0,
       itemBuilder: (context, index) => new GestureDetector(
-            onTap: () {
-              showItemPage(_myItems[index], 3, context);
-            },
+            onTap: () => showItemPage(_myItems[index], 3, context),
             child: new Card(
               child: new Column(
                 mainAxisSize: MainAxisSize.min,

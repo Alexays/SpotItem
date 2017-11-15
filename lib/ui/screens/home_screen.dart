@@ -319,9 +319,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
                     new ListTile(
                         leading: const Icon(Icons.developer_board),
                         title: const Text('Debug'),
-                        onTap: () {
-                          Navigator.of(context).pushNamed('/debug');
-                        }),
+                        onTap: () => Navigator.of(context).pushNamed('/debug')),
                     new AboutListTile(
                         icon: const Icon(Icons.info),
                         applicationVersion: version,
@@ -358,17 +356,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, 
                         new ListTile(
                             leading: const Icon(Icons.edit),
                             title: new Text(SpotL.of(Services.loc).editProfile),
-                            onTap: () {
-                              Navigator.of(context).pushNamed('/profile/edit/');
-                            }),
+                            onTap: () => Navigator.of(context).pushNamed('/profile/edit/')),
                         new ListTile(
                             leading: const Icon(Icons.exit_to_app),
                             title: new Text(SpotL.of(Services.loc).logout),
-                            onTap: () {
-                              Services.auth
-                                  .logout()
-                                  .then((_) => Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false));
-                            })
+                            onTap: () => Services.auth
+                                .logout()
+                                .then((_) => Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false)))
                       ])))
         ]))
       ]));

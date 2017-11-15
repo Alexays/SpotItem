@@ -117,9 +117,7 @@ class _ContactScreenState extends State<ContactScreen> {
                                 itemBuilder: (context, index) => new ListTile(
                                       title: new Text(_contacts[index]['names'][0]['displayName']),
                                       leading: const Icon(Icons.people),
-                                      onTap: () {
-                                        _getMail(index);
-                                      },
+                                      onTap: () => _getMail(index),
                                     )))
                         : new RaisedButton(
                             child: new Text(SpotL.of(context).addSomeone),

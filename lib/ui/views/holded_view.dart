@@ -61,9 +61,7 @@ class _HoldedViewState extends State<HoldedView> {
       padding: const EdgeInsets.all(20.0),
       itemCount: _holded?.length ?? 0,
       itemBuilder: (context, index) => new GestureDetector(
-            onTap: () {
-              showItemPage(_holded[index], 3, context);
-            },
+            onTap: () => showItemPage(_holded[index], 3, context),
             child: new Card(
               child: new Column(
                 mainAxisSize: MainAxisSize.min,
