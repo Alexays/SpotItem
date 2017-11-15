@@ -100,9 +100,6 @@ class Item {
         'tracks': tracks,
       };
 
-// final _calendar = new List<String>.generate(calendar.length, (i) => calendar[i].toString());
-//     return '{"_id": "$id", "name": "$name", "about": "$about", "images": $images, "lastGeo": $lastGeo, "calendar": $_calendar, "location": "$location", "lat": $lat, "lng": $lng, "owner": "$owner", "groups": groups, "tracks": $tracks}';
-
   @override
   String toString() => JSON.encode(toJson());
 }
