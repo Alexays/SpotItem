@@ -112,7 +112,7 @@ class _BookItemScreenState extends State<BookItemScreen> {
                             bookItem(context);
                           },
                           child: new Text(
-                            SpotL.of(context).save.toUpperCase(),
+                            SpotL.of(context).book.toUpperCase(),
                             style: new TextStyle(color: Theme.of(context).canvasColor),
                           ),
                         )),
