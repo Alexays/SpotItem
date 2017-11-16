@@ -135,15 +135,17 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
               height: 48.0,
               width: MediaQuery.of(context).size.width,
             ),
-            child: new RaisedButton(
-              color: Theme.of(context).accentColor,
-              onPressed: () => addGroup(context),
-              child: new Text(
-                SpotL.of(context).addGroup.toUpperCase(),
-                style: new TextStyle(
-                  color: Theme.of(context).canvasColor,
-                ),
-              ),
+            child: new Builder(
+              builder: (context) => new RaisedButton(
+                    color: Theme.of(context).accentColor,
+                    onPressed: () => addGroup(context),
+                    child: new Text(
+                      SpotL.of(context).addGroup.toUpperCase(),
+                      style: new TextStyle(
+                        color: Theme.of(context).canvasColor,
+                      ),
+                    ),
+                  ),
             ),
           ),
         ),

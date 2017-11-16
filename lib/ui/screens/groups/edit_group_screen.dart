@@ -119,20 +119,23 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
             vertical: 4.0,
           ),
           child: new ConstrainedBox(
-              constraints: new BoxConstraints.tightFor(
-                height: 48.0,
-                width: MediaQuery.of(context).size.width,
-              ),
-              child: new RaisedButton(
-                color: Theme.of(context).accentColor,
-                onPressed: () async => await editGroup(context),
-                child: new Text(
-                  SpotL.of(context).save.toUpperCase(),
-                  style: new TextStyle(
-                    color: Theme.of(context).canvasColor,
+            constraints: new BoxConstraints.tightFor(
+              height: 48.0,
+              width: MediaQuery.of(context).size.width,
+            ),
+            child: new Builder(
+              builder: (context) => new RaisedButton(
+                    color: Theme.of(context).accentColor,
+                    onPressed: () async => await editGroup(context),
+                    child: new Text(
+                      SpotL.of(context).save.toUpperCase(),
+                      style: new TextStyle(
+                        color: Theme.of(context).canvasColor,
+                      ),
+                    ),
                   ),
-                ),
-              )),
+            ),
+          ),
         ),
       );
 }

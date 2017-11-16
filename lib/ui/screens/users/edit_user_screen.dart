@@ -139,13 +139,15 @@ class _EditUserScreenState extends State<EditUserScreen> {
             height: 48.0,
             width: MediaQuery.of(context).size.width,
           ),
-          child: new RaisedButton(
-            color: theme.accentColor,
-            onPressed: () => editUser(context),
-            child: new Text(
-              SpotL.of(context).save.toUpperCase(),
-              style: new TextStyle(color: theme.canvasColor),
-            ),
+          child: new Builder(
+            builder: (context) => new RaisedButton(
+                  color: theme.accentColor,
+                  onPressed: () => editUser(context),
+                  child: new Text(
+                    SpotL.of(context).save.toUpperCase(),
+                    style: new TextStyle(color: theme.canvasColor),
+                  ),
+                ),
           ),
         ),
       ),
