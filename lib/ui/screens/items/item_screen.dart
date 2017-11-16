@@ -401,7 +401,8 @@ class _ItemPageState extends State<ItemPage>
                           child: new Text(
                             SpotL.of(context).book.toUpperCase(),
                             style: new TextStyle(
-                                color: Theme.of(context).canvasColor),
+                              color: Theme.of(context).canvasColor,
+                            ),
                           ),
                         ),
                       ),

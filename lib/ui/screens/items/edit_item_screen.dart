@@ -105,7 +105,7 @@ class _EditItemScreenState extends State<EditItemScreen>
     }
   }
 
-  Future<Null> getImage() async {
+  Future<Null> _getImage() async {
     final _fileName = await ImagePicker.pickImage(maxWidth: 720.0);
     if (mounted && _fileName != null) {
       setState(() {
@@ -121,7 +121,7 @@ class _EditItemScreenState extends State<EditItemScreen>
     }
   }
 
-  Widget getImageGrid() {
+  Widget _getImageGrid() {
     if ((_item.images.length + _imagesFile.length) < 1) {
       return new Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -133,7 +133,7 @@ class _EditItemScreenState extends State<EditItemScreen>
           ),
           new RaisedButton(
             child: new Text(SpotL.of(context).addImage),
-            onPressed: getImage,
+            onPressed: _getImage,
           )
         ],
       );
@@ -192,11 +192,12 @@ class _EditItemScreenState extends State<EditItemScreen>
     );
   }
 
-  Future<Null> editItem(BuildContext context) async {
+  Future<Null> _editItem(BuildContext context) async {
     final finalImages = <String>[];
     _formKey.currentState.save();
     if (!_formKey.currentState.validate()) {
-      return showSnackBar(context, SpotL.of(context).correctError);
+      showSnackBar(context, SpotL.of(context).correctError);
+      return;
     }
     showLoading(context);
     _item.images.forEach(finalImages.add);
@@ -205,12 +206,13 @@ class _EditItemScreenState extends State<EditItemScreen>
         await Services.users.getLocationByAddress(_location);
     if (location == null) {
       Navigator.of(context).pop();
-      return showSnackBar(
-          context, 'Please enable location or choose location !');
+      showSnackBar(context, SpotL.of(context).locationError);
+      return;
     }
     if (!Services.auth.user.isValid()) {
       Navigator.of(context).pop();
-      return showSnackBar(context, SpotL.of(context).error);
+      showSnackBar(context, SpotL.of(context).error);
+      return;
     }
     final response = await Services.items.editItem({
       'id': _item.id,
@@ -226,15 +228,14 @@ class _EditItemScreenState extends State<EditItemScreen>
     });
     Navigator.of(context).pop();
     if (resValid(context, response)) {
-      showSnackBar(context, response.msg);
-      await Services.items.getItems(force: true);
-      await Navigator
-          .of(context)
-          .pushNamedAndRemoveUntil('/', (route) => false);
+      return;
     }
+    showSnackBar(context, response.msg);
+    await Services.items.getItems(force: true);
+    await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
   }
 
-  Widget getGroups() {
+  Widget _getGroups() {
     if (_groups == null) {
       return const Center(child: const CircularProgressIndicator());
     }
@@ -243,23 +244,178 @@ class _EditItemScreenState extends State<EditItemScreen>
     }
     return new Column(
       children: new List<Widget>.generate(
-          _groups.length,
-          (index) => new CheckboxListTile(
-                title: new Text(_groups[index].name),
-                value: _groupsId.contains(_groups[index].id),
-                onChanged: (value) {
-                  setState(() {
-                    if (value) {
-                      _groupsId.add(_groups[index].id);
-                    } else {
-                      _groupsId.remove(_groups[index].id);
-                    }
-                  });
-                },
-                secondary: const Icon(Icons.people),
-              )),
+        _groups.length,
+        (index) => new CheckboxListTile(
+              title: new Text(_groups[index].name),
+              value: _groupsId.contains(_groups[index].id),
+              onChanged: (value) {
+                setState(() {
+                  value
+                      ? _groupsId.add(_groups[index].id)
+                      : _groupsId.remove(_groups[index].id);
+                });
+              },
+              secondary: const Icon(Icons.people),
+            ),
+      ),
     );
   }
+
+  Widget _buildForm(BuildContext context) => new Form(
+        key: _formKey,
+        child: new ListView(
+          shrinkWrap: true,
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          children: <Widget>[
+            new TextFormField(
+              key: const Key('name'),
+              decoration: new InputDecoration(
+                  hintText: SpotL.of(context).namePh,
+                  labelText: SpotL.of(context).name),
+              validator: validateName,
+              controller: _nameCtrl,
+              initialValue: _nameCtrl.text,
+            ),
+            new TextFormField(
+              key: const Key('about'),
+              decoration: new InputDecoration(
+                  hintText: SpotL.of(context).aboutPh,
+                  labelText: SpotL.of(context).about),
+              controller: _aboutCtrl,
+              initialValue: _aboutCtrl.text,
+            ),
+            new Stack(
+              children: <Widget>[
+                new FocusScope(
+                  node: new FocusScopeNode(),
+                  child: new TextFormField(
+                    decoration: new InputDecoration(
+                        hintText: SpotL.of(context).locationPh,
+                        labelText: SpotL.of(context).location),
+                    initialValue: _location,
+                  ),
+                ),
+                new GestureDetector(
+                  onTap: () async {
+                    final p = await Services.users.autocompleteCity(context);
+                    if (mounted && p != null) {
+                      setState(() {
+                        _location = p;
+                      });
+                    }
+                  },
+                  child: new Container(
+                    color: Colors.transparent,
+                    height: 75.0,
+                  ),
+                ),
+              ],
+            ),
+            new CheckboxListTile(
+              title: new Text(SpotL.of(context).gift),
+              value: _tracks.contains('gift'),
+              onChanged: (value) {
+                setState(() {
+                  if (value) {
+                    _tracks.add('gift');
+                  } else {
+                    _tracks.remove('gift');
+                  }
+                });
+              },
+              secondary: const Icon(Icons.card_giftcard),
+            ),
+            new CheckboxListTile(
+              title: new Text(SpotL.of(context).private),
+              value: _tracks.contains('private'),
+              onChanged: (value) {
+                setState(() {
+                  if (value) {
+                    _tracks.add('private');
+                  } else {
+                    _tracks.remove('private');
+                  }
+                });
+              },
+              secondary: const Icon(Icons.lock),
+            ),
+            new Container(
+              height: 100.0,
+              child: new ListView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(vertical: 15.0),
+                itemCount: Services.items.categories.length,
+                itemExtent: 75.0,
+                itemBuilder: (context, index) => !_tracks
+                        .contains(Services.items.categories[index])
+                    ? new FlatButton(
+                        child: new Image.asset(
+                            'assets/${Services.items.categories[index]}.png'),
+                        onPressed: () {
+                          _tracks = _tracks
+                              .where((f) =>
+                                  !Services.items.categories.any((d) => d == f))
+                              .toList()
+                                ..add(Services.items.categories[index]);
+                          setState(() {
+                            _tracks = new List<String>.from(_tracks);
+                          });
+                        },
+                      )
+                    : new RaisedButton(
+                        child: new Image.asset(
+                            'assets/${Services.items.categories[index]}.png'),
+                        onPressed: () {
+                          _tracks.remove(Services.items.categories[index]);
+                          setState(() {
+                            _tracks = new List<String>.from(_tracks);
+                          });
+                        },
+                      ),
+              ),
+            ),
+            new Image.network('$apiUrl/items/${_item.id}/code')
+          ],
+        ),
+      );
+
+  Widget _buildImages(BuildContext context) => new Container(
+        margin: const EdgeInsets.all(20.0),
+        child: new Column(children: [
+          (_item.images.length + _imagesFile.length) > 0
+              ? new Padding(
+                  padding: const EdgeInsets.only(bottom: 15.0),
+                  child: new RaisedButton(
+                    child: new Text(SpotL.of(context).addImage),
+                    onPressed: _getImage,
+                  ),
+                )
+              : new Container(),
+          new Flexible(child: _getImageGrid())
+        ]),
+      );
+
+  Widget _buildCalendar(BuildContext context) => new Container(
+        height: MediaQuery.of(context).size.height,
+        child: new Calendar(
+          allowDisable: true,
+          edit: true,
+          selectedDates: _calendar,
+          onChanged: (value) {
+            setState(() {
+              _calendar = value;
+            });
+          },
+        ),
+      );
+
+  Widget _buildGroups(BuildContext context) => _groups != null
+      ? new Container(
+          margin: const EdgeInsets.all(20.0),
+          child: _getGroups(),
+        )
+      : const Center(child: const CircularProgressIndicator());
 
   @override
   Widget build(BuildContext context) => new Scaffold(
@@ -290,178 +446,10 @@ class _EditItemScreenState extends State<EditItemScreen>
                       ? const Center(child: const CircularProgressIndicator())
                       : new TabBarView(
                           children: <Widget>[
-                            new Form(
-                              key: _formKey,
-                              child: new ListView(
-                                shrinkWrap: true,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20.0),
-                                children: <Widget>[
-                                  new TextFormField(
-                                    key: const Key('name'),
-                                    decoration: new InputDecoration(
-                                        hintText: SpotL.of(context).namePh,
-                                        labelText: SpotL.of(context).name),
-                                    validator: validateName,
-                                    controller: _nameCtrl,
-                                    initialValue: _nameCtrl.text,
-                                  ),
-                                  new TextFormField(
-                                    key: const Key('about'),
-                                    decoration: new InputDecoration(
-                                        hintText: SpotL.of(context).aboutPh,
-                                        labelText: SpotL.of(context).about),
-                                    controller: _aboutCtrl,
-                                    initialValue: _aboutCtrl.text,
-                                  ),
-                                  new Stack(
-                                    children: <Widget>[
-                                      new FocusScope(
-                                        node: new FocusScopeNode(),
-                                        child: new TextFormField(
-                                          decoration: new InputDecoration(
-                                              hintText:
-                                                  SpotL.of(context).locationPh,
-                                              labelText:
-                                                  SpotL.of(context).location),
-                                          initialValue: _location,
-                                        ),
-                                      ),
-                                      new GestureDetector(
-                                        onTap: () async {
-                                          final p = await Services.users
-                                              .autocompleteCity(context);
-                                          if (mounted && p != null) {
-                                            setState(() {
-                                              _location = p;
-                                            });
-                                          }
-                                        },
-                                        child: new Container(
-                                          color: Colors.transparent,
-                                          height: 75.0,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  new CheckboxListTile(
-                                    title: new Text(SpotL.of(context).gift),
-                                    value: _tracks.contains('gift'),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        if (value) {
-                                          _tracks.add('gift');
-                                        } else {
-                                          _tracks.remove('gift');
-                                        }
-                                      });
-                                    },
-                                    secondary: const Icon(Icons.card_giftcard),
-                                  ),
-                                  new CheckboxListTile(
-                                    title: new Text(SpotL.of(context).private),
-                                    value: _tracks.contains('private'),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        if (value) {
-                                          _tracks.add('private');
-                                        } else {
-                                          _tracks.remove('private');
-                                        }
-                                      });
-                                    },
-                                    secondary: const Icon(Icons.lock),
-                                  ),
-                                  new Container(
-                                    height: 100.0,
-                                    child: new ListView.builder(
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.horizontal,
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 15.0),
-                                      itemCount:
-                                          Services.items.categories.length,
-                                      itemExtent: 75.0,
-                                      itemBuilder: (context, index) => !_tracks
-                                              .contains(Services
-                                                  .items.categories[index])
-                                          ? new FlatButton(
-                                              child: new Image.asset(
-                                                  'assets/${Services.items.categories[index]}.png'),
-                                              onPressed: () {
-                                                _tracks = _tracks
-                                                    .where((f) => !Services
-                                                        .items.categories
-                                                        .any((d) => d == f))
-                                                    .toList()
-                                                      ..add(Services.items
-                                                          .categories[index]);
-                                                setState(() {
-                                                  _tracks =
-                                                      new List<String>.from(
-                                                          _tracks);
-                                                });
-                                              },
-                                            )
-                                          : new RaisedButton(
-                                              child: new Image.asset(
-                                                  'assets/${Services.items.categories[index]}.png'),
-                                              onPressed: () {
-                                                _tracks.remove(Services
-                                                    .items.categories[index]);
-                                                setState(() {
-                                                  _tracks =
-                                                      new List<String>.from(
-                                                          _tracks);
-                                                });
-                                              },
-                                            ),
-                                    ),
-                                  ),
-                                  new Image.network(
-                                      '$apiUrl/items/${_item.id}/code')
-                                ],
-                              ),
-                            ),
-                            new Container(
-                              margin: const EdgeInsets.all(20.0),
-                              child: new Column(
-                                children: [
-                                  (_item.images.length + _imagesFile.length) > 0
-                                      ? new Padding(
-                                          padding: const EdgeInsets.only(
-                                              bottom: 15.0),
-                                          child: new RaisedButton(
-                                            child: new Text(
-                                                SpotL.of(context).addImage),
-                                            onPressed: getImage,
-                                          ))
-                                      : new Container(),
-                                  new Flexible(
-                                    child: getImageGrid(),
-                                  )
-                                ],
-                              ),
-                            ),
-                            new Container(
-                              height: MediaQuery.of(context).size.height,
-                              child: new Calendar(
-                                allowDisable: true,
-                                edit: true,
-                                selectedDates: _calendar,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _calendar = value;
-                                  });
-                                },
-                              ),
-                            ),
-                            _groups != null
-                                ? new Container(
-                                    margin: const EdgeInsets.all(20.0),
-                                    child: getGroups())
-                                : const Center(
-                                    child: const CircularProgressIndicator()),
+                            _buildForm(context),
+                            _buildImages(context),
+                            _buildCalendar(context),
+                            _buildGroups(context),
                           ],
                         ),
                 ),
@@ -470,18 +458,17 @@ class _EditItemScreenState extends State<EditItemScreen>
         bottomNavigationBar: new Container(
           margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
           child: new ConstrainedBox(
-              constraints: new BoxConstraints.tightFor(
-                  height: 48.0, width: MediaQuery.of(context).size.width),
-              child: new RaisedButton(
-                color: Theme.of(context).accentColor,
-                onPressed: () {
-                  editItem(context);
-                },
-                child: new Text(
-                  SpotL.of(context).save.toUpperCase(),
-                  style: new TextStyle(color: Theme.of(context).canvasColor),
-                ),
-              )),
+            constraints: new BoxConstraints.tightFor(
+                height: 48.0, width: MediaQuery.of(context).size.width),
+            child: new RaisedButton(
+              color: Theme.of(context).accentColor,
+              onPressed: () => _editItem(context),
+              child: new Text(
+                SpotL.of(context).save.toUpperCase(),
+                style: new TextStyle(color: Theme.of(context).canvasColor),
+              ),
+            ),
+          ),
         ),
       );
 }

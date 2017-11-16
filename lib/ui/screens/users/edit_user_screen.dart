@@ -52,19 +52,20 @@ class _EditUserScreenState extends State<EditUserScreen> {
   }
 
   Widget _buildForm(BuildContext context, ThemeData theme) => new Container(
-      margin: const EdgeInsets.all(20.0),
-      child: new Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          new Form(
+        margin: const EdgeInsets.all(20.0),
+        child: new Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            new Form(
               key: _formKey,
               child: new Column(
                 children: <Widget>[
                   new TextFormField(
                     key: const Key('name'),
                     decoration: new InputDecoration(
-                        labelText: SpotL.of(Services.loc).firstname,
-                        hintText: SpotL.of(Services.loc).firstnamePh),
+                      labelText: SpotL.of(Services.loc).firstname,
+                      hintText: SpotL.of(Services.loc).firstnamePh,
+                    ),
                     validator: validateString,
                     controller: _firstname,
                     initialValue: _firstname.text,
@@ -72,8 +73,9 @@ class _EditUserScreenState extends State<EditUserScreen> {
                   new TextFormField(
                     key: const Key('lastname'),
                     decoration: new InputDecoration(
-                        labelText: SpotL.of(context).lastname,
-                        hintText: SpotL.of(Services.loc).lastnamePh),
+                      labelText: SpotL.of(context).lastname,
+                      hintText: SpotL.of(Services.loc).lastnamePh,
+                    ),
                     controller: _lastname,
                     initialValue: _lastname.text,
                   ),
@@ -93,8 +95,9 @@ class _EditUserScreenState extends State<EditUserScreen> {
                   new TextFormField(
                     key: const Key('password'),
                     decoration: new InputDecoration(
-                        labelText: SpotL.of(context).password,
-                        hintText: SpotL.of(context).passwordPh),
+                      labelText: SpotL.of(context).password,
+                      hintText: SpotL.of(context).passwordPh,
+                    ),
                     onSaved: (value) {
                       password = value;
                     },
@@ -103,15 +106,18 @@ class _EditUserScreenState extends State<EditUserScreen> {
                   new TextFormField(
                     key: const Key('repeat'),
                     decoration: new InputDecoration(
-                        labelText: SpotL.of(context).passwordRepeat,
-                        hintText: SpotL.of(context).passwordRepeatPh),
+                      labelText: SpotL.of(context).passwordRepeat,
+                      hintText: SpotL.of(context).passwordRepeatPh,
+                    ),
                     controller: _password,
                     obscureText: true,
                   ),
                 ],
-              )),
-        ],
-      ));
+              ),
+            ),
+          ],
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {

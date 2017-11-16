@@ -187,7 +187,8 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
                 },
                 onSubmitted: _handleSubmitted,
                 decoration: new InputDecoration.collapsed(
-                    hintText: SpotL.of(context).send),
+                  hintText: SpotL.of(context).send,
+                ),
               ),
             ),
             new Container(
@@ -201,7 +202,9 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
           ]),
           decoration: new BoxDecoration(
             border: new Border(
-              top: new BorderSide(color: Theme.of(context).accentColor),
+              top: new BorderSide(
+                color: Theme.of(context).accentColor,
+              ),
             ),
           ),
         ),

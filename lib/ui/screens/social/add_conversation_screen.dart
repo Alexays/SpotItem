@@ -39,21 +39,19 @@ class _AddConvScreenState extends State<AddConvScreen> {
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-        appBar: new AppBar(title: new Text(SpotL.of(context).messages)),
-        body: new Builder(
-          builder: (context) => Services.groups.data.isNotEmpty
-              ? new ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: Services.groups.data?.length ?? 0,
-                  itemBuilder: (context, index) => new ListTile(
-                        title: new Text(Services.groups.data[index].name),
-                        onTap: () {
-                          group = Services.groups.data[index].id;
-                          _addConv(context);
-                        },
-                      ),
-                )
-              : new Center(child: new Text(SpotL.of(context).noGroups)),
-        ),
-      );
+      appBar: new AppBar(title: new Text(SpotL.of(context).messages)),
+      body: new Builder(
+        builder: (context) => Services.groups.data.isNotEmpty
+            ? new ListView.builder(
+                shrinkWrap: true,
+                itemCount: Services.groups.data?.length ?? 0,
+                itemBuilder: (context, index) => new ListTile(
+                    title: new Text(Services.groups.data[index].name),
+                    onTap: () {
+                      group = Services.groups.data[index].id;
+                      _addConv(context);
+                    }),
+              )
+            : new Center(child: new Text(SpotL.of(context).noGroups)),
+      ));
 }
