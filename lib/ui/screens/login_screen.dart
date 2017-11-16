@@ -50,9 +50,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-      body: new Builder(
-          builder: (context) => new Container(
-                  child: new Column(
+        body: new Builder(
+          builder: (context) {
+            Services.context = context;
+            return new Container(
+              child: new Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
@@ -140,5 +142,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ],
-              ))));
+              ),
+            );
+          },
+        ),
+      );
 }

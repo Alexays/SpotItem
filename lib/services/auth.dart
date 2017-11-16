@@ -113,6 +113,9 @@ class AuthManager extends BasicService {
           (apiRes.data['exp'] * 1000) - 30);
       return true;
     }
+    if (apiRes.msg == 'Bad Spotkey') {
+      await handleOudtated();
+    }
     await logout();
     return false;
   }

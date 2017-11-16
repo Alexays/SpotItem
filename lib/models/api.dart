@@ -4,7 +4,7 @@ class ApiRes {
   ApiRes(Map<String, dynamic> data, this.statusCode)
       : success = data['success'] ?? false,
         data = data['data'],
-        msg = data['msg'],
+        msg = data['message'],
         error = data['error'];
 
   /// Create classic ApiRes with failed status

@@ -53,102 +53,102 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-        body: new Builder(
-          builder: (context) => new SingleChildScrollView(
+        body: new Builder(builder: (context) {
+          Services.context = context;
+          return new SingleChildScrollView(
+            child: new Container(
+              padding: const EdgeInsets.all(20.0),
+              child: new Card(
                 child: new Container(
-                  padding: const EdgeInsets.all(20.0),
-                  child: new Card(
-                    child: new Container(
-                      margin: const EdgeInsets.all(15.0),
-                      child: new Form(
-                        key: _formKey,
-                        autovalidate: true,
-                        child: new Column(
+                  margin: const EdgeInsets.all(15.0),
+                  child: new Form(
+                    key: _formKey,
+                    autovalidate: true,
+                    child: new Column(
+                      children: <Widget>[
+                        new TextFormField(
+                          key: const Key('name'),
+                          decoration: new InputDecoration(
+                              labelText: SpotL.of(context).firstname,
+                              hintText: SpotL.of(context).firstnamePh),
+                          onSaved: (value) {
+                            user['firstname'] = value;
+                          },
+                          controller: _name,
+                          validator: validateName,
+                        ),
+                        new TextFormField(
+                          key: const Key('lastname'),
+                          decoration: new InputDecoration(
+                              labelText: SpotL.of(context).lastname,
+                              hintText: SpotL.of(context).lastnamePh),
+                          onSaved: (value) {
+                            user['name'] = value;
+                          },
+                          controller: _lastname,
+                        ),
+                        new TextFormField(
+                          controller: _email,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: new InputDecoration(
+                            labelText: SpotL.of(context).email,
+                            hintText: SpotL.of(context).emailPh,
+                          ),
+                          onSaved: (value) {
+                            user['email'] = value;
+                          },
+                          validator: validateEmail,
+                        ),
+                        new TextFormField(
+                          key: const Key('password'),
+                          decoration: new InputDecoration(
+                            labelText: SpotL.of(context).password,
+                            hintText: SpotL.of(context).passwordPh,
+                          ),
+                          onSaved: (value) {
+                            password = value;
+                          },
+                          obscureText: true,
+                          validator: validatePassword,
+                        ),
+                        new TextFormField(
+                          key: const Key('repeat'),
+                          decoration: new InputDecoration(
+                            labelText: SpotL.of(context).passwordRepeat,
+                            hintText: SpotL.of(context).passwordRepeatPh,
+                          ),
+                          onSaved: (value) {
+                            repeat = value;
+                          },
+                          controller: _password,
+                          obscureText: true,
+                        ),
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            new TextFormField(
-                              key: const Key('name'),
-                              decoration: new InputDecoration(
-                                  labelText: SpotL.of(context).firstname,
-                                  hintText: SpotL.of(context).firstnamePh),
-                              onSaved: (value) {
-                                user['firstname'] = value;
-                              },
-                              controller: _name,
-                              validator: validateName,
+                            new RaisedButton(
+                              child: new Text(SpotL.of(context).haveAccount),
+                              onPressed: () =>
+                                  Navigator.pushReplacementNamed(context, '/'),
                             ),
-                            new TextFormField(
-                              key: const Key('lastname'),
-                              decoration: new InputDecoration(
-                                  labelText: SpotL.of(context).lastname,
-                                  hintText: SpotL.of(context).lastnamePh),
-                              onSaved: (value) {
-                                user['name'] = value;
-                              },
-                              controller: _lastname,
-                            ),
-                            new TextFormField(
-                              controller: _email,
-                              keyboardType: TextInputType.emailAddress,
-                              decoration: new InputDecoration(
-                                labelText: SpotL.of(context).email,
-                                hintText: SpotL.of(context).emailPh,
+                            const Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 5.0,
                               ),
-                              onSaved: (value) {
-                                user['email'] = value;
-                              },
-                              validator: validateEmail,
                             ),
-                            new TextFormField(
-                              key: const Key('password'),
-                              decoration: new InputDecoration(
-                                labelText: SpotL.of(context).password,
-                                hintText: SpotL.of(context).passwordPh,
-                              ),
-                              onSaved: (value) {
-                                password = value;
-                              },
-                              obscureText: true,
-                              validator: validatePassword,
-                            ),
-                            new TextFormField(
-                              key: const Key('repeat'),
-                              decoration: new InputDecoration(
-                                labelText: SpotL.of(context).passwordRepeat,
-                                hintText: SpotL.of(context).passwordRepeatPh,
-                              ),
-                              onSaved: (value) {
-                                repeat = value;
-                              },
-                              controller: _password,
-                              obscureText: true,
-                            ),
-                            new Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                new RaisedButton(
-                                  child:
-                                      new Text(SpotL.of(context).haveAccount),
-                                  onPressed: () => Navigator
-                                      .pushReplacementNamed(context, '/'),
-                                ),
-                                const Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 5.0,
-                                  ),
-                                ),
-                                new RaisedButton(
-                                  child: new Text(SpotL.of(context).register),
-                                  onPressed: () => doRegister(context),
-                                ),
-                              ],
+                            new RaisedButton(
+                              child: new Text(SpotL.of(context).register),
+                              onPressed: () => doRegister(context),
                             ),
                           ],
                         ),
-                      ),
+                      ],
                     ),
                   ),
                 ),
               ),
-        ),
+            ),
+          );
+        }),
       );
 }

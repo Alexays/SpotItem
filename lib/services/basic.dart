@@ -18,6 +18,24 @@ class BasicService {
   /// Default init function of services
   Future<bool> init() async => true;
 
+  /// Show a dialog to inform user have an outdated version.
+  ///
+  /// @returns Future dialog
+  Future<Null> handleOudtated() async => await showDialog<Null>(
+        context: Services.context,
+        child: new AlertDialog(
+          title: new Text(SpotL.of(Services.context).error),
+          content: new SingleChildScrollView(
+            child: new ListBody(
+              children: <Widget>[
+                const Text(
+                    'You are running an outdated version of Spotitem. Please use the latest version available.'),
+              ],
+            ),
+          ),
+        ),
+      );
+
   void _handleError(error) {
     showDialog<Null>(
       context: Services.context,
@@ -52,7 +70,11 @@ class BasicService {
         .whenComplete(client.close)
         .catchError(_handleError);
     try {
-      return new ApiRes(JSON.decode(response.body), response.statusCode);
+      final res = new ApiRes(JSON.decode(response.body), response.statusCode);
+      if (res.msg == 'Bad Spotkey') {
+        await handleOudtated();
+      }
+      return res;
     } catch (err) {
       return new ApiRes.classic();
     }
@@ -78,7 +100,12 @@ class BasicService {
         .whenComplete(client.close)
         .catchError(_handleError);
     try {
-      return new ApiRes(JSON.decode(response.body), response.statusCode);
+      final res = new ApiRes(JSON.decode(response.body), response.statusCode);
+      print(res.msg);
+      if (res.msg == 'Bad Spotkey') {
+        await handleOudtated();
+      }
+      return res;
     } catch (err) {
       return new ApiRes.classic();
     }
@@ -104,7 +131,11 @@ class BasicService {
         .whenComplete(client.close)
         .catchError(_handleError);
     try {
-      return new ApiRes(JSON.decode(response.body), response.statusCode);
+      final res = new ApiRes(JSON.decode(response.body), response.statusCode);
+      if (res.msg == 'Bad Spotkey') {
+        await handleOudtated();
+      }
+      return res;
     } catch (err) {
       return new ApiRes.classic();
     }
@@ -128,7 +159,11 @@ class BasicService {
         .whenComplete(client.close)
         .catchError(_handleError);
     try {
-      return new ApiRes(JSON.decode(response.body), response.statusCode);
+      final res = new ApiRes(JSON.decode(response.body), response.statusCode);
+      if (res.msg == 'Bad Spotkey') {
+        await handleOudtated();
+      }
+      return res;
     } catch (err) {
       return new ApiRes.classic();
     }
