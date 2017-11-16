@@ -2,13 +2,14 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/utils.dart';
 import 'package:spotitem/models/group.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:spotitem/i18n/spot_localization.dart';
 import 'package:spotitem/ui/widgets/calendar.dart';
 import 'package:spotitem/models/item.dart';
+import 'package:spotitem/keys.dart';
 
 /// Add item screen class
 class AddItemScreen extends StatefulWidget {
@@ -225,7 +226,16 @@ class _AddItemScreenState extends State<AddItemScreen> {
     await Services.items
         .getItems(force: true); // UNTIL WE HIDE USER ITEM FROM GENERAL LIST
     await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
-    //TO-DO SHOW success dialog with Qrcode
+    await showDialog<Null>(
+      context: context,
+      child: new SimpleDialog(
+          title: new Text(SpotL.of(Services.loc).confirm),
+          children: [
+            new Container(
+              child: new Image.network('$apiUrl/items/${response.data}/code'),
+            ),
+          ]),
+    );
   }
 
   Widget _buildForm(BuildContext context) => new Column(

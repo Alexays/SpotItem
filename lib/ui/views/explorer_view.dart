@@ -24,17 +24,17 @@ class _ExplorerViewState extends State<ExplorerView> {
       if (!mounted) {
         return;
       }
-      Services.items.tracks.addListener(getTracks);
+      Services.items.tracks.addListener(_getTracks);
     });
   }
 
   @override
   void dispose() {
     super.dispose();
-    Services.items.tracks.removeListener(getTracks);
+    Services.items.tracks.removeListener(_getTracks);
   }
 
-  void getTracks() {
+  void _getTracks() {
     if (!mounted) {
       return;
     }
@@ -65,7 +65,7 @@ class _ExplorerViewState extends State<ExplorerView> {
 
   Future<Null> _loadItems([bool force = false]) async {
     await Services.items.getItems(force: force);
-    getTracks();
+    _getTracks();
   }
 
   @override
