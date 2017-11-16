@@ -227,7 +227,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
         .getItems(force: true); // UNTIL WE HIDE USER ITEM FROM GENERAL LIST
     await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
     await showDialog<Null>(
-      context: context,
+      context: Services.context,
       child: new SimpleDialog(
           title: new Text(SpotL.of(Services.loc).confirm),
           children: [
