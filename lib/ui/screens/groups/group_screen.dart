@@ -188,17 +188,13 @@ class _GroupPageState extends State<GroupPage>
                   child: new Text(
                     MaterialLocalizations.of(context).cancelButtonLabel,
                   ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
+                  onPressed: () => Navigator.of(context).pop(),
                 ),
                 new FlatButton(
                   child: new Text(
                     MaterialLocalizations.of(context).continueButtonLabel,
                   ),
-                  onPressed: () {
-                    _leaveGroup(context);
-                  },
+                  onPressed: () => _leaveGroup(context),
                 ),
               ],
             ),
@@ -230,9 +226,7 @@ class _GroupPageState extends State<GroupPage>
                   new FlatButton(
                     child: new Text(
                         MaterialLocalizations.of(context).cancelButtonLabel),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
+                    onPressed: () => Navigator.of(context).pop(),
                   ),
                   new FlatButton(
                     child: new Text(SpotL.of(context).delete.toUpperCase()),
@@ -287,17 +281,13 @@ class _GroupPageState extends State<GroupPage>
                       .of(context)
                       .cancelButtonLabel
                       .toUpperCase()),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
+                  onPressed: () => Navigator.of(context).pop(),
                 ),
                 new FlatButton(
                   child: new Text(
                     SpotL.of(context).add.toUpperCase(),
                   ),
-                  onPressed: () {
-                    _addOwner(context, group.users[index].id);
-                  },
+                  onPressed: () => _addOwner(context, group.users[index].id),
                 ),
               ],
             ),
@@ -325,16 +315,12 @@ class _GroupPageState extends State<GroupPage>
                 new FlatButton(
                   child: new Text(
                       MaterialLocalizations.of(context).cancelButtonLabel),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
+                  onPressed: () => Navigator.of(context).pop(),
                 ),
                 new FlatButton(
                   child: new Text(
                       MaterialLocalizations.of(context).continueButtonLabel),
-                  onPressed: () {
-                    _removeOwner(context, group.users[index].id);
-                  },
+                  onPressed: () => _removeOwner(context, group.users[index].id),
                 ),
               ],
             ),
@@ -361,16 +347,12 @@ class _GroupPageState extends State<GroupPage>
                 new FlatButton(
                   child: new Text(
                       MaterialLocalizations.of(context).cancelButtonLabel),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
+                  onPressed: () => Navigator.of(context).pop(),
                 ),
                 new FlatButton(
                   child: new Text(
                       MaterialLocalizations.of(context).continueButtonLabel),
-                  onPressed: () {
-                    _kickUser(context, group.users[index].id);
-                  },
+                  onPressed: () => _kickUser(context, group.users[index].id),
                 ),
               ],
             ),

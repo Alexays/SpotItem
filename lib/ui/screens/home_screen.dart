@@ -506,46 +506,39 @@ class _HomeScreenState extends State<HomeScreen>
             padding: const EdgeInsets.all(0.0),
             alignment: Alignment.centerRight,
             icon: const Icon(Icons.filter_list),
-            onPressed: () {
-              setState(_showFilter);
-            },
+            onPressed: () => setState(_showFilter),
           ),
           new PopupMenuButton(
             padding: const EdgeInsets.all(0.0),
-            itemBuilder: (context) => Services.items.sortMethod.map(
-                  (f) {
-                    switch (f) {
-                      case 'name':
-                        return new CheckedPopupMenuItem(
-                            checked:
-                                Services.items.tracks.value.contains('name'),
-                            value: f,
-                            child: new Text(SpotL.of(context).name));
-                        break;
-                      case 'dist':
-                        return new CheckedPopupMenuItem(
-                            checked:
-                                Services.items.tracks.value.contains('dist') ||
-                                    !Services.items.tracks.value.any((f) =>
-                                        Services.items.sortMethod.contains(f)),
-                            value: f,
-                            child: new Text(SpotL.of(context).dist));
-                        break;
-                    }
-                  },
-                ).toList(),
+            itemBuilder: (context) => Services.items.sortMethod.map((f) {
+                  switch (f) {
+                    case 'name':
+                      return new CheckedPopupMenuItem(
+                          checked: Services.items.tracks.value.contains('name'),
+                          value: f,
+                          child: new Text(SpotL.of(context).name));
+                      break;
+                    case 'dist':
+                      return new CheckedPopupMenuItem(
+                          checked: Services.items.tracks.value
+                                  .contains('dist') ||
+                              !Services.items.tracks.value.any(
+                                  (f) => Services.items.sortMethod.contains(f)),
+                          value: f,
+                          child: new Text(SpotL.of(context).dist));
+                      break;
+                  }
+                }).toList(),
             onSelected: (action) {
-              setState(
-                () {
-                  Services.items.tracks.value = [
-                    Services.items.tracks.value
-                        .where((f) =>
-                            !Services.items.sortMethod.any((d) => d == f))
-                        .toList(),
-                    [action]
-                  ].expand((x) => x).toList();
-                },
-              );
+              setState(() {
+                Services.items.tracks.value = [
+                  Services.items.tracks.value
+                      .where(
+                          (f) => !Services.items.sortMethod.any((d) => d == f))
+                      .toList(),
+                  [action]
+                ].expand((x) => x).toList();
+              });
             },
           )
         ],
@@ -620,9 +613,9 @@ class _HomeScreenState extends State<HomeScreen>
                     onTap: (index) {
                       setState(() {
                         page = index;
-                        // Services.observer.analytics.setCurrentScreen(
-                        //   screenName: 'Home/tabpage',
-                        // );
+                        Services.observer.analytics.setCurrentScreen(
+                          screenName: 'Home/tabpage',
+                        );
                       });
                     },
                   ),

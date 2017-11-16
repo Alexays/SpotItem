@@ -114,9 +114,7 @@ class _BookItemScreenState extends State<BookItemScreen> {
                   height: 48.0, width: MediaQuery.of(context).size.width),
               child: new RaisedButton(
                 color: Theme.of(context).accentColor,
-                onPressed: () {
-                  bookItem(context);
-                },
+                onPressed: () => bookItem(context),
                 child: new Text(
                   SpotL.of(context).book.toUpperCase(),
                   style: new TextStyle(color: Theme.of(context).canvasColor),
