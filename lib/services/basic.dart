@@ -101,7 +101,6 @@ class BasicService {
         .catchError(_handleError);
     try {
       final res = new ApiRes(JSON.decode(response.body), response.statusCode);
-      print(res.msg);
       if (res.msg == 'Bad Spotkey') {
         await handleOudtated();
       }
