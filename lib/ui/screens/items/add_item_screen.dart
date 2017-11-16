@@ -225,7 +225,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
     showSnackBar(context, response.msg);
     await Services.items
         .getItems(force: true); // UNTIL WE HIDE USER ITEM FROM GENERAL LIST
-    await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
     await showDialog<Null>(
       context: Services.context,
       child: new SimpleDialog(
@@ -236,6 +235,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
             ),
           ]),
     );
+    await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
   }
 
   Widget _buildForm(BuildContext context) => new Column(
