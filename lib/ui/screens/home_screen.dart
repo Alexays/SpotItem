@@ -579,12 +579,11 @@ class _HomeScreenState extends State<HomeScreen>
       if (_searchQuery.isEmpty) {
         return new Center(child: new Text(SpotL.of(Services.loc).searchDialog));
       }
-      final _searchWord =
-          _searchQuery.split(' ').where((f) => f.trim().isNotEmpty);
+      final _query = _searchQuery.split(' ').where((f) => f.trim().isNotEmpty);
       return new ItemsList(
           Services.items.data
               .where((item) =>
-                  _searchWord.any((f) => item.name.toLowerCase().contains(f)))
+                  _query.any((f) => item.name.toLowerCase().contains(f)))
               .toList(),
           4);
     }
@@ -654,13 +653,14 @@ class HomeScreenItem {
   final String title;
 
   /// Home screen item initalizer
-  HomeScreenItem(
-      {_HomeScreenState parent,
-      Widget icon,
-      this.title,
-      Widget content,
-      this.sub,
-      this.fabs})
+  HomeScreenItem({
+    _HomeScreenState parent,
+    Widget icon,
+    this.title,
+    Widget content,
+    this.sub,
+    this.fabs,
+  })
       : item = new BottomNavigationBarItem(icon: icon, title: new Text(title)),
         content = sub != null
             ? sub.map((f) => f.content).toList()

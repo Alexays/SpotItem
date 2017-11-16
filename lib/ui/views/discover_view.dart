@@ -48,54 +48,60 @@ class _DiscoverViewState extends State<DiscoverView> {
     });
   }
 
+  Widget _buildRecents(BuildContext context) => new Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          new Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: new Text(
+              SpotL.of(Services.loc).recentItems,
+              style: const TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: 20.0,
+              ),
+            ),
+          ),
+          new Container(
+            height: 200.0,
+            child: new DiscoverList(_recents, 0),
+          ),
+        ],
+      );
+
+  Widget _buildGroups(BuildContext context) {
+    if (_groups.isEmpty) {
+      return new Container();
+    }
+    return new Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        new Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: new Text(
+            SpotL.of(Services.loc).fromYourGroups,
+            style: const TextStyle(
+              fontWeight: FontWeight.w400,
+              fontSize: 22.0,
+            ),
+          ),
+        ),
+        new Container(
+          height: 200.0,
+          child: new DiscoverList(_groups, 1),
+        )
+      ],
+    );
+  }
+
   Widget _buildDiscover() => new ListView.builder(
         shrinkWrap: true,
         itemCount: 2,
         itemBuilder: (context, index) {
           switch (index) {
             case 0:
-              return new Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  new Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: new Text(
-                      SpotL.of(Services.loc).recentItems,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 20.0,
-                      ),
-                    ),
-                  ),
-                  new Container(
-                    height: 200.0,
-                    child: new DiscoverList(_recents, 0),
-                  ),
-                ],
-              );
+              return _buildRecents(context);
             case 1:
-              if (_groups.isEmpty) {
-                return new Container();
-              }
-              return new Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  new Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: new Text(
-                      SpotL.of(Services.loc).fromYourGroups,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 22.0,
-                      ),
-                    ),
-                  ),
-                  new Container(
-                    height: 200.0,
-                    child: new DiscoverList(_groups, 1),
-                  )
-                ],
-              );
+              return _buildGroups(context);
           }
         },
       );
@@ -130,9 +136,7 @@ class DiscoverList extends StatelessWidget {
           itemBuilder: (context, index) => new ItemsListItem(
                 item: _items[index],
                 hash: _hash,
-                onPressed: () {
-                  showItemPage(_items[index], _hash, context);
-                },
+                onPressed: () => showItemPage(_items[index], _hash, context),
               ),
         )
       : new Center(child: new Text(SpotL.of(Services.loc).noItems));
