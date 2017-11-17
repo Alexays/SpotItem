@@ -27,63 +27,68 @@ class ItemsListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return new GestureDetector(
-        onTap: onPressed,
-        child: new Card(
-          child: new Stack(
-            fit: StackFit.expand,
-            children: <Widget>[
-              new Hero(
-                  tag: '${item.id}$hash',
-                  child: new FadeInImage(
-                    placeholder: placeholder,
-                    image: item.images.isNotEmpty
-                        ? new NetworkImage('$apiImgUrl${item.images.first}')
-                        : placeholder,
-                    fit: BoxFit.cover,
-                  )),
-              // new Positioned(
-              //   top: 15.0,
-              //   right: 15.0,
-              //   child: new IconButton(
-              //     color: const Color.fromARGB(255, 255, 255, 255),
-              //     icon: const Icon(Icons.star_border),
-              //     tooltip: 'Fav this item',
-              //     onPressed: () {},
-              //   ),
-              // ),
-              new Positioned(
-                bottom: 0.0,
-                left: 0.0,
-                right: 0.0,
-                child: new Row(children: <Widget>[
-                  new Expanded(
-                      child: new Container(
-                          padding: const EdgeInsets.all(11.0),
-                          color: theme.secondaryHeaderColor.withOpacity(0.75),
-                          height: 37.5,
-                          child: new Text(
-                            capitalize(item.name),
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ))),
-                  item.dist >= 0
-                      ? new Container(
-                          padding: const EdgeInsets.all(10.0),
-                          color: theme.primaryColor.withOpacity(0.75),
-                          height: 37.5,
-                          child: new Text(
-                            distString(item.dist),
-                            style: theme.primaryTextTheme.subhead,
-                          ))
-                      : new Container(),
-                ]),
+      onTap: onPressed,
+      child: new Card(
+        child: new Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            new Hero(
+              tag: '${item.id}$hash',
+              child: new FadeInImage(
+                placeholder: placeholder,
+                image: item.images.isNotEmpty
+                    ? new NetworkImage('$apiImgUrl${item.images.first}')
+                    : placeholder,
+                fit: BoxFit.cover,
               ),
-            ],
-          ),
-        ));
+            ),
+            // new Positioned(
+            //   top: 15.0,
+            //   right: 15.0,
+            //   child: new IconButton(
+            //     color: const Color.fromARGB(255, 255, 255, 255),
+            //     icon: const Icon(Icons.star_border),
+            //     tooltip: 'Fav this item',
+            //     onPressed: () {},
+            //   ),
+            // ),
+            new Positioned(
+              bottom: 0.0,
+              left: 0.0,
+              right: 0.0,
+              child: new Row(children: <Widget>[
+                new Expanded(
+                  child: new Container(
+                    padding: const EdgeInsets.all(11.0),
+                    color: theme.secondaryHeaderColor.withOpacity(0.75),
+                    height: 37.5,
+                    child: new Text(
+                      capitalize(item.name),
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ),
+                item.dist >= 0
+                    ? new Container(
+                        padding: const EdgeInsets.all(10.0),
+                        color: theme.primaryColor.withOpacity(0.75),
+                        height: 37.5,
+                        child: new Text(
+                          distString(item.dist),
+                          style: theme.primaryTextTheme.subhead,
+                        ),
+                      )
+                    : new Container(),
+              ]),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 

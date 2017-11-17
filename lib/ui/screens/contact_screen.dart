@@ -61,55 +61,56 @@ class _ContactScreenState extends State<ContactScreen> {
   }
 
   Widget _buildSearch(BuildContext context) => new Container(
-      margin: const EdgeInsets.all(15.0),
-      decoration: new BoxDecoration(
-        color: Theme.of(context).accentColor,
-        borderRadius: const BorderRadius.all(
-          const Radius.circular(3.0),
-        ),
-      ),
-      child: new Container(
-        margin: const EdgeInsets.symmetric(horizontal: 15.0),
-        child: new TextField(
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 16.0,
-            fontWeight: FontWeight.w500,
+        margin: const EdgeInsets.all(15.0),
+        decoration: new BoxDecoration(
+          color: Theme.of(context).accentColor,
+          borderRadius: const BorderRadius.all(
+            const Radius.circular(3.0),
           ),
-          decoration: new InputDecoration(
-            hideDivider: true,
-            hintText: SpotL.of(context).searchContact,
-            errorText:
-                _contacts?.isEmpty == true ? validateEmail(_email) : null,
-            hintStyle: const TextStyle(
-              color: const Color.fromARGB(150, 255, 255, 255),
+        ),
+        child: new Container(
+          margin: const EdgeInsets.symmetric(horizontal: 15.0),
+          child: new TextField(
+            style: const TextStyle(
+              color: Colors.white,
               fontSize: 16.0,
               fontWeight: FontWeight.w500,
             ),
-          ),
-          onChanged: (value) {
-            setState(() {
-              _email = value;
-            });
-            Services.users.getContact().then((data) {
-              if (!mounted || data == null) {
-                return;
-              }
+            decoration: new InputDecoration(
+              hideDivider: true,
+              hintText: SpotL.of(context).searchContact,
+              errorText:
+                  _contacts?.isEmpty == true ? validateEmail(_email) : null,
+              hintStyle: const TextStyle(
+                color: const Color.fromARGB(150, 255, 255, 255),
+                fontSize: 16.0,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            onChanged: (value) {
               setState(() {
-                _contacts = data
-                    .where((contact) =>
-                        contact['names'][0]['displayName']
-                            .toString()
-                            .contains(value) ||
-                        contact['emailAddresses'][0]['value']
-                            .toString()
-                            .contains(value))
-                    .toList();
+                _email = value;
               });
-            });
-          },
+              Services.users.getContact().then((data) {
+                if (!mounted || data == null) {
+                  return;
+                }
+                setState(() {
+                  _contacts = data
+                      .where((contact) =>
+                          contact['names'][0]['displayName']
+                              .toString()
+                              .contains(value) ||
+                          contact['emailAddresses'][0]['value']
+                              .toString()
+                              .contains(value))
+                      .toList();
+                });
+              });
+            },
+          ),
         ),
-      ));
+      );
 
   Widget _buildList(BuildContext context) => _contacts?.isNotEmpty == true ||
           _email?.isNotEmpty == true

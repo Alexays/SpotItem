@@ -58,24 +58,26 @@ class Calendar extends StatelessWidget {
       nbMonth = 1;
     }
     return new Container(
-        color: Theme.of(context).canvasColor,
-        height: 330.0,
-        child: new ListView.builder(
-            shrinkWrap: true,
-            itemCount: !allowDisable ? nbMonth : null,
-            itemBuilder: (context, index) => new Container(
-                  height: 330.0,
-                  child: new CalendarMonth(
-                    allowDisable: allowDisable,
-                    onChanged: onChanged,
-                    edit: edit,
-                    selectedDates: selectedDates,
-                    currentMonth: new DateTime(
-                        firstDate.year + (firstDate.month + index) ~/ 12,
-                        (firstDate.month + index) % 12),
-                    firstDate: firstDate,
-                    lastDate: lastDate,
-                  ),
-                )));
+      color: Theme.of(context).canvasColor,
+      height: 330.0,
+      child: new ListView.builder(
+        shrinkWrap: true,
+        itemCount: !allowDisable ? nbMonth : null,
+        itemBuilder: (context, index) => new Container(
+              height: 330.0,
+              child: new CalendarMonth(
+                allowDisable: allowDisable,
+                onChanged: onChanged,
+                edit: edit,
+                selectedDates: selectedDates,
+                currentMonth: new DateTime(
+                    firstDate.year + (firstDate.month + index) ~/ 12,
+                    (firstDate.month + index) % 12),
+                firstDate: firstDate,
+                lastDate: lastDate,
+              ),
+            ),
+      ),
+    );
   }
 }

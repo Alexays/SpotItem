@@ -17,15 +17,17 @@ class ErrorScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: new SingleChildScrollView(
-          child: new Container(
-              margin: const EdgeInsets.all(20.0),
-              child: new Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  const Text(
-                      'Error while loading Spotitem, to try fix this problem we disconnect you from our server and delete all your settings, sorry :(, so close app and relaunch it :)'),
-                ],
-              ))),
+        child: new Container(
+          margin: const EdgeInsets.all(20.0),
+          child: new Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              const Text(
+                  'Error while loading Spotitem, to try fix this problem we disconnect you from our server and delete all your settings, sorry :(, so close app and relaunch it :)'),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

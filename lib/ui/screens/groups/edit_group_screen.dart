@@ -76,18 +76,20 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
   }
 
   Widget _buildForm(BuildContext context) => new Container(
-      margin: const EdgeInsets.all(20.0),
-      child: new Column(
+        margin: const EdgeInsets.all(20.0),
+        child: new Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             new Form(
-                key: _formKey,
-                child: new Column(children: <Widget>[
+              key: _formKey,
+              child: new Column(
+                children: <Widget>[
                   new TextFormField(
                     key: const Key('name'),
                     decoration: new InputDecoration(
-                        hintText: SpotL.of(context).namePh,
-                        labelText: SpotL.of(context).name),
+                      hintText: SpotL.of(context).namePh,
+                      labelText: SpotL.of(context).name,
+                    ),
                     controller: nameCtrl,
                     initialValue: nameCtrl.text,
                     validator: validateName,
@@ -95,13 +97,18 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
                   new TextFormField(
                     key: const Key('about'),
                     decoration: new InputDecoration(
-                        hintText: SpotL.of(context).aboutPh,
-                        labelText: SpotL.of(context).about),
+                      hintText: SpotL.of(context).aboutPh,
+                      labelText: SpotL.of(context).about,
+                    ),
                     controller: aboutCtrl,
                     initialValue: aboutCtrl.text,
                   ),
-                ]))
-          ]));
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
 
   @override
   Widget build(BuildContext context) => new Scaffold(

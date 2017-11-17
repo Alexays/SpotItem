@@ -19,21 +19,27 @@ class _Category extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     return new Container(
-        padding: const EdgeInsets.symmetric(vertical: 10.0),
-        decoration: new BoxDecoration(
-            border: new Border(
-                bottom: new BorderSide(color: themeData.dividerColor))),
-        child: new DefaultTextStyle(
-            style: Theme.of(context).textTheme.subhead,
-            child: new Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  new Container(
-                      padding: const EdgeInsets.symmetric(vertical: 14.0),
-                      width: 72.0,
-                      child: new Icon(icon, color: themeData.primaryColor)),
-                  new Expanded(child: new Column(children: children))
-                ])));
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      decoration: new BoxDecoration(
+        border: new Border(
+          bottom: new BorderSide(color: themeData.dividerColor),
+        ),
+      ),
+      child: new DefaultTextStyle(
+        style: Theme.of(context).textTheme.subhead,
+        child: new Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            new Container(
+              padding: const EdgeInsets.symmetric(vertical: 14.0),
+              width: 72.0,
+              child: new Icon(icon, color: themeData.primaryColor),
+            ),
+            new Expanded(child: new Column(children: children))
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -63,12 +69,15 @@ class _ListItem extends StatelessWidget {
               children: columnChildren))
     ];
     if (icon != null) {
-      rowChildren.add(new SizedBox(
+      rowChildren.add(
+        new SizedBox(
           width: 72.0,
           child: new IconButton(
               icon: new Icon(icon),
               color: themeData.primaryColor,
-              onPressed: onPressed)));
+              onPressed: onPressed),
+        ),
+      );
     }
     return new MergeSemantics(
       child: new Padding(
