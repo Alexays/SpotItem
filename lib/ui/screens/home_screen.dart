@@ -297,7 +297,7 @@ class _HomeScreenState extends State<HomeScreen>
   void _qrReader() {
     new QRCodeReader().scan().then((data) {
       final itemId = Services.items.parseCode(data);
-      Navigator.of(context).pushReplacementNamed('items/$itemId');
+      Navigator.of(context).pushReplacementNamed('/items/:$itemId');
     });
   }
 

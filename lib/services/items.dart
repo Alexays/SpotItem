@@ -163,7 +163,11 @@ class ItemsManager extends BasicService {
   /// @returns Item id
   String parseCode(String code) {
     assert(code != null);
-    final split = code.substring('$apiUrl/items/'.length).split('/');
-    return split[0];
+    final parsed = code.substring('$apiUrl/items/'.length);
+    if (parsed.contains('/')) {
+      final split = parsed.split('/');
+      return split[0].trim();
+    }
+    return parsed.trim();
   }
 }
