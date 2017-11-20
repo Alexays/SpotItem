@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 
 /// Static Routes
 Map<String, WidgetBuilder> staticRoutes = {
-  '/register': (_) => const RegisterScreen(),
+  '/register': (_) => new RegisterScreen(),
   '/profile/edit/': (_) => const EditUserScreen(),
   '/items/add/': (_) => const AddItemScreen(),
   '/groups/add/': (_) => const AddGroupScreen(),

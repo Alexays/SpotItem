@@ -6,36 +6,20 @@ import 'package:spotitem/utils.dart';
 import 'package:spotitem/i18n/spot_localization.dart';
 
 /// Register screen class
-class RegisterScreen extends StatefulWidget {
-  /// Register screen initializer
-  const RegisterScreen();
+class RegisterScreen extends StatelessWidget {
+  /// It's constructor
+  RegisterScreen();
 
-  @override
-  State createState() => new _RegisterScreenState();
-}
-
-class _RegisterScreenState extends State<RegisterScreen> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-  TextEditingController _name;
-  TextEditingController _lastname;
-  TextEditingController _email;
-  TextEditingController _password;
+  final TextEditingController _name = new TextEditingController();
+  final TextEditingController _lastname = new TextEditingController();
+  final TextEditingController _email = new TextEditingController();
+  final TextEditingController _password = new TextEditingController();
+  final TextEditingController _repeat = new TextEditingController();
 
-  dynamic user = {};
-  String password;
-  String repeat;
-
-  @override
-  void initState() {
-    super.initState();
-    _name = new TextEditingController(text: user['firstname']);
-    _lastname = new TextEditingController(text: user['name']);
-    _email = new TextEditingController(text: user['email']);
-  }
-
-  Future<Null> doRegister(BuildContext context) async {
+  Future<Null> _doRegister(BuildContext context) async {
     final form = _formKey.currentState..save();
-    if (password != repeat) {
+    if (_password.text != _repeat.text) {
       showSnackBar(context, SpotL.of(context).passwordError);
       return;
     }
@@ -43,8 +27,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
       showSnackBar(context, SpotL.of(context).correctError);
       return;
     }
-    user['password'] = password;
-    final res = await Services.auth.register(user);
+    final res = await Services.auth.register({
+      'firstname': _name.text,
+      'name': _lastname.text,
+      'email': _email.text,
+      'password': _password.text,
+    });
     if (!resValid(context, res)) {
       return;
     }
@@ -71,9 +59,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           decoration: new InputDecoration(
                               labelText: SpotL.of(context).firstname,
                               hintText: SpotL.of(context).firstnamePh),
-                          onSaved: (value) {
-                            user['firstname'] = value;
-                          },
                           controller: _name,
                           validator: validateName,
                         ),
@@ -82,21 +67,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           decoration: new InputDecoration(
                               labelText: SpotL.of(context).lastname,
                               hintText: SpotL.of(context).lastnamePh),
-                          onSaved: (value) {
-                            user['name'] = value;
-                          },
                           controller: _lastname,
                         ),
                         new TextFormField(
-                          controller: _email,
                           keyboardType: TextInputType.emailAddress,
                           decoration: new InputDecoration(
                             labelText: SpotL.of(context).email,
                             hintText: SpotL.of(context).emailPh,
                           ),
-                          onSaved: (value) {
-                            user['email'] = value;
-                          },
+                          controller: _email,
                           validator: validateEmail,
                         ),
                         new TextFormField(
@@ -105,10 +84,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             labelText: SpotL.of(context).password,
                             hintText: SpotL.of(context).passwordPh,
                           ),
-                          onSaved: (value) {
-                            password = value;
-                          },
                           obscureText: true,
+                          controller: _password,
                           validator: validatePassword,
                         ),
                         new TextFormField(
@@ -117,10 +94,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             labelText: SpotL.of(context).passwordRepeat,
                             hintText: SpotL.of(context).passwordRepeatPh,
                           ),
-                          onSaved: (value) {
-                            repeat = value;
-                          },
-                          controller: _password,
+                          controller: _repeat,
                           obscureText: true,
                         ),
                         new Row(
@@ -138,7 +112,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             new RaisedButton(
                               child: new Text(SpotL.of(context).register),
-                              onPressed: () => doRegister(context),
+                              onPressed: () => _doRegister(context),
                             ),
                           ],
                         ),

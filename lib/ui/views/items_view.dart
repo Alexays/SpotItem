@@ -63,7 +63,6 @@ class _ItemsViewState extends State<ItemsView> {
       );
     }
     return new ListView.builder(
-      shrinkWrap: true,
       physics: const AlwaysScrollableScrollPhysics(), // For RefreshIndicator
       padding: const EdgeInsets.all(20.0),
       itemCount: _myItems?.length ?? 0,
