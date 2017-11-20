@@ -11,7 +11,6 @@ import 'package:spotitem/ui/views/social_view.dart';
 import 'package:spotitem/utils.dart';
 import 'package:spotitem/keys.dart';
 import 'package:spotitem/i18n/spot_localization.dart';
-import 'package:qrcode_reader/QRCodeReader.dart';
 
 /// Home screen class
 class HomeScreen extends StatefulWidget {
@@ -294,13 +293,6 @@ class _HomeScreenState extends State<HomeScreen>
     });
   }
 
-  void _qrReader() {
-    new QRCodeReader().scan().then((data) {
-      final itemId = Services.items.parseCode(data);
-      Navigator.of(context).pushReplacementNamed('/items/:$itemId');
-    });
-  }
-
   PreferredSizeWidget _buildBottom() {
     if (_isSearching || _homeScreenItems[page].sub == null) {
       return null;
@@ -494,7 +486,7 @@ class _HomeScreenState extends State<HomeScreen>
               _filterAvailable ? const Alignment(1.5, 0.0) : Alignment.center,
           padding: const EdgeInsets.all(0.0),
           icon: const Icon(Icons.photo_camera),
-          onPressed: _qrReader,
+          onPressed: () => Services.items.qrReader(context),
         ),
       );
     }

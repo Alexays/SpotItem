@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:spotitem/services/basic.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/keys.dart';
+import 'package:qrcode_reader/QRCodeReader.dart';
 
 /// Items class manager
 class ItemsManager extends BasicService {
@@ -169,5 +170,12 @@ class ItemsManager extends BasicService {
       return split[0].trim();
     }
     return parsed.trim();
+  }
+
+  /// Read QrCode
+  Future<Null> qrReader(BuildContext context) async {
+    final buffer = await new QRCodeReader().scan();
+    final itemId = Services.items.parseCode(buffer);
+    await Navigator.of(context).pushReplacementNamed('/items/:$itemId');
   }
 }
