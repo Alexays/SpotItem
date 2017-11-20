@@ -64,27 +64,32 @@ class _ListItem extends StatelessWidget {
 
     final rowChildren = <Widget>[
       new Expanded(
-          child: new Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: columnChildren))
+        child: new Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: columnChildren,
+        ),
+      )
     ];
     if (icon != null) {
       rowChildren.add(
         new SizedBox(
           width: 72.0,
           child: new IconButton(
-              icon: new Icon(icon),
-              color: themeData.primaryColor,
-              onPressed: onPressed),
+            icon: new Icon(icon),
+            color: themeData.primaryColor,
+            onPressed: onPressed,
+          ),
         ),
       );
     }
     return new MergeSemantics(
       child: new Padding(
-          padding: const EdgeInsets.symmetric(vertical: 6.0),
-          child: new Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: rowChildren)),
+        padding: const EdgeInsets.symmetric(vertical: 6.0),
+        child: new Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: rowChildren,
+        ),
+      ),
     );
   }
 }
@@ -205,10 +210,11 @@ class _ItemPageState extends State<ItemPage>
           tooltip: 'Edit',
           onPressed: () {
             Navigator.push(
-                context,
-                new MaterialPageRoute<Null>(
-                  builder: (context) => new EditItemScreen(item: item),
-                ));
+              context,
+              new MaterialPageRoute<Null>(
+                builder: (context) => new EditItemScreen(item: item),
+              ),
+            );
           },
         )
       ]);
@@ -274,7 +280,8 @@ class _ItemPageState extends State<ItemPage>
                           : new FadeInImage(
                               placeholder: placeholder,
                               image: new NetworkImage('$apiImgUrl$f'),
-                              fit: BoxFit.cover))
+                              fit: BoxFit.cover,
+                            ))
                       .toList(),
                 ),
               ),
