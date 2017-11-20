@@ -463,8 +463,7 @@ class _HomeScreenState extends State<HomeScreen>
               icon: const Icon(Icons.menu),
               onPressed: () => _scaffoldKey.currentState.openDrawer(),
             ),
-      new Flexible(
-        fit: FlexFit.tight,
+      new Expanded(
         child: new TextField(
           key: const Key('search'),
           onSubmitted: (data) => _handleSearchBegin(),
@@ -486,7 +485,7 @@ class _HomeScreenState extends State<HomeScreen>
           ),
           keyboardType: TextInputType.text,
         ),
-      ),
+      )
     ];
     if (!_isSearching) {
       widgets.add(
@@ -563,7 +562,7 @@ class _HomeScreenState extends State<HomeScreen>
           child: new Row(children: widgets),
         ),
         bottom: _buildBottom(),
-      )
+      ),
     ];
   }
 
