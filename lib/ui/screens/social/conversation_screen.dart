@@ -146,30 +146,32 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
         appBar: new AppBar(
           title: new Text(conv.group?.name ?? conv.users.join(', ')),
         ),
-        body: new Builder(
-            builder: (context) => _messages == null
-                ? const Center(child: const CircularProgressIndicator())
-                : new Column(children: <Widget>[
-                    new Flexible(
-                      child: _messages.isNotEmpty
-                          ? new ListView.builder(
-                              shrinkWrap: true,
-                              padding: const EdgeInsets.all(8.0),
-                              reverse: true,
-                              itemBuilder: (_, index) => _messages[index],
-                              itemCount: _messages.length,
-                            )
-                          : new Center(
-                              child: new Text(SpotL.of(context).noMessages),
-                            ),
-                    ),
-                    const Divider(height: 1.0),
-                    new Container(
-                      decoration:
-                          new BoxDecoration(color: Theme.of(context).cardColor),
-                      child: _buildTextComposer(),
-                    ),
-                  ])),
+        body: new Builder(builder: (context) {
+          Services.context = context;
+          return _messages == null
+              ? const Center(child: const CircularProgressIndicator())
+              : new Column(children: <Widget>[
+                  new Flexible(
+                    child: _messages.isNotEmpty
+                        ? new ListView.builder(
+                            shrinkWrap: true,
+                            padding: const EdgeInsets.all(8.0),
+                            reverse: true,
+                            itemBuilder: (_, index) => _messages[index],
+                            itemCount: _messages.length,
+                          )
+                        : new Center(
+                            child: new Text(SpotL.of(context).noMessages),
+                          ),
+                  ),
+                  const Divider(height: 1.0),
+                  new Container(
+                    decoration:
+                        new BoxDecoration(color: Theme.of(context).cardColor),
+                    child: _buildTextComposer(),
+                  ),
+                ]);
+        }),
       );
 
   Widget _buildTextComposer() => new IconTheme(

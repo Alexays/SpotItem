@@ -138,13 +138,16 @@ class _ContactScreenState extends State<ContactScreen> {
   Widget build(BuildContext context) => new Scaffold(
         appBar: new AppBar(title: new Text(SpotL.of(context).addSomeone)),
         body: new Builder(
-          builder: (context) => new Column(
-                children: <Widget>[
-                  _buildSearch(context),
-                  const Padding(padding: const EdgeInsets.all(10.0)),
-                  _buildList(context),
-                ],
-              ),
+          builder: (context) {
+            Services.context = context;
+            return new Column(
+              children: <Widget>[
+                _buildSearch(context),
+                const Padding(padding: const EdgeInsets.all(10.0)),
+                _buildList(context),
+              ],
+            );
+          },
         ),
       );
 }

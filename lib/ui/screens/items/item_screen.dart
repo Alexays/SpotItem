@@ -377,54 +377,57 @@ class _ItemPageState extends State<ItemPage>
   @override
   Widget build(BuildContext context) => new Scaffold(
         body: new Builder(
-          builder: (context) => item == null
-              ? const Center(child: const CircularProgressIndicator())
-              : new Column(
-                  children: <Widget>[
-                    new Expanded(
-                      child: new CustomScrollView(
-                        slivers: <Widget>[
-                          new SliverAppBar(
-                            title: new Text(
-                              capitalize(item.name),
-                              overflow: TextOverflow.ellipsis,
+          builder: (context) {
+            Services.context = context;
+            return item == null
+                ? const Center(child: const CircularProgressIndicator())
+                : new Column(
+                    children: <Widget>[
+                      new Expanded(
+                        child: new CustomScrollView(
+                          slivers: <Widget>[
+                            new SliverAppBar(
+                              title: new Text(
+                                capitalize(item.name),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              expandedHeight: 256.0,
+                              pinned: true,
+                              actions: _doButton(context),
+                              flexibleSpace: _buildCarrousel(context),
                             ),
-                            expandedHeight: 256.0,
-                            pinned: true,
-                            actions: _doButton(context),
-                            flexibleSpace: _buildCarrousel(context),
-                          ),
-                          new SliverList(
-                            delegate: new SliverChildListDelegate(
-                              _buildInfo(context),
+                            new SliverList(
+                              delegate: new SliverChildListDelegate(
+                                _buildInfo(context),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    new Container(
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 8.0,
-                        vertical: 4.0,
-                      ),
-                      child: new ConstrainedBox(
-                        constraints: new BoxConstraints.tightFor(
-                            height: 48.0,
-                            width: MediaQuery.of(context).size.width),
-                        child: new RaisedButton(
-                          color: Theme.of(context).accentColor,
-                          onPressed: () => _bookItem(context),
-                          child: new Text(
-                            SpotL.of(context).book.toUpperCase(),
-                            style: new TextStyle(
-                              color: Theme.of(context).canvasColor,
+                      new Container(
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 8.0,
+                          vertical: 4.0,
+                        ),
+                        child: new ConstrainedBox(
+                          constraints: new BoxConstraints.tightFor(
+                              height: 48.0,
+                              width: MediaQuery.of(context).size.width),
+                          child: new RaisedButton(
+                            color: Theme.of(context).accentColor,
+                            onPressed: () => _bookItem(context),
+                            child: new Text(
+                              SpotL.of(context).book.toUpperCase(),
+                              style: new TextStyle(
+                                color: Theme.of(context).canvasColor,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  );
+          },
         ),
       );
 }

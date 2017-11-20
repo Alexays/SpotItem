@@ -125,9 +125,12 @@ class _EditUserScreenState extends State<EditUserScreen> {
     return new Scaffold(
       appBar: new AppBar(title: new Text(SpotL.of(context).editProfile)),
       body: new Builder(
-        builder: (context) => new SingleChildScrollView(
-              child: _buildForm(context, theme),
-            ),
+        builder: (context) {
+          Services.context = context;
+          return new SingleChildScrollView(
+            child: _buildForm(context, theme),
+          );
+        },
       ),
       bottomNavigationBar: new Container(
         margin: const EdgeInsets.symmetric(

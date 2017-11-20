@@ -121,9 +121,12 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
   Widget build(BuildContext context) => new Scaffold(
         appBar: new AppBar(title: new Text(SpotL.of(context).addGroup)),
         body: new Builder(
-          builder: (context) => new SingleChildScrollView(
-                child: _buildForm(context),
-              ),
+          builder: (context) {
+            Services.context = context;
+            return new SingleChildScrollView(
+              child: _buildForm(context),
+            );
+          },
         ),
         bottomNavigationBar: new Container(
           margin: const EdgeInsets.symmetric(

@@ -417,27 +417,30 @@ class _GroupPageState extends State<GroupPage>
           actions: _doButton(context),
         ),
         body: new Builder(
-          builder: (context) => new Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  _buildHeader(context),
-                  isOwner
-                      ? new Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: new Center(
-                            child: new RaisedButton(
-                              onPressed: () => _addPeople(context),
-                              child: new Text(
-                                SpotL.of(context).addSomeone.toUpperCase(),
-                              ),
+          builder: (context) {
+            Services.context = context;
+            return new Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                _buildHeader(context),
+                isOwner
+                    ? new Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: new Center(
+                          child: new RaisedButton(
+                            onPressed: () => _addPeople(context),
+                            child: new Text(
+                              SpotL.of(context).addSomeone.toUpperCase(),
                             ),
                           ),
-                        )
-                      : new Container(),
-                  _buildUsers(context),
-                ],
-              ),
+                        ),
+                      )
+                    : new Container(),
+                _buildUsers(context),
+              ],
+            );
+          },
         ),
       );
 }

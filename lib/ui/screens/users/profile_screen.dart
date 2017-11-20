@@ -53,9 +53,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
             title: new Text('${_user.firstname} ${_user.name}'),
           ),
           body: new Builder(
-            builder: (context) => new SingleChildScrollView(
-                  child: _buildProfile(context),
-                ),
+            builder: (context) {
+              Services.context = context;
+              return new SingleChildScrollView(
+                child: _buildProfile(context),
+              );
+            },
           ),
         )
       : const Center(child: const CircularProgressIndicator());

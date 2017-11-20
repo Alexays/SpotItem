@@ -420,40 +420,42 @@ class _EditItemScreenState extends State<EditItemScreen>
   @override
   Widget build(BuildContext context) => new Scaffold(
         body: new Builder(
-          builder: (context) => new DefaultTabController(
-                length: 4,
-                child: new NestedScrollView(
-                  headerSliverBuilder: (context, innerBoxIsScrolled) =>
-                      <Widget>[
-                        new SliverAppBar(
-                          pinned: true,
-                          floating: true,
-                          snap: true,
-                          title: new Text(
-                              _item?.name ?? SpotL.of(context).loading),
-                          bottom: new TabBar(
-                            indicatorWeight: 4.0,
-                            tabs: <Tab>[
-                              new Tab(text: SpotL.of(context).about),
-                              new Tab(text: SpotL.of(context).images),
-                              new Tab(text: SpotL.of(context).calendar),
-                              new Tab(text: SpotL.of(context).groups)
-                            ],
-                          ),
-                        ),
-                      ],
-                  body: _item == null
-                      ? const Center(child: const CircularProgressIndicator())
-                      : new TabBarView(
-                          children: <Widget>[
-                            _buildForm(context),
-                            _buildImages(context),
-                            _buildCalendar(context),
-                            _buildGroups(context),
+          builder: (context) {
+            Services.context = context;
+            return new DefaultTabController(
+              length: 4,
+              child: new NestedScrollView(
+                headerSliverBuilder: (context, innerBoxIsScrolled) => <Widget>[
+                      new SliverAppBar(
+                        pinned: true,
+                        floating: true,
+                        snap: true,
+                        title:
+                            new Text(_item?.name ?? SpotL.of(context).loading),
+                        bottom: new TabBar(
+                          indicatorWeight: 4.0,
+                          tabs: <Tab>[
+                            new Tab(text: SpotL.of(context).about),
+                            new Tab(text: SpotL.of(context).images),
+                            new Tab(text: SpotL.of(context).calendar),
+                            new Tab(text: SpotL.of(context).groups)
                           ],
                         ),
-                ),
+                      ),
+                    ],
+                body: _item == null
+                    ? const Center(child: const CircularProgressIndicator())
+                    : new TabBarView(
+                        children: <Widget>[
+                          _buildForm(context),
+                          _buildImages(context),
+                          _buildCalendar(context),
+                          _buildGroups(context),
+                        ],
+                      ),
               ),
+            );
+          },
         ),
         bottomNavigationBar: new Container(
           margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
