@@ -99,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen>
   Animation<Offset> _drawerDetailsPosition;
 
   // Bool
-  bool _showDrawerContents = true;
+  bool _hideDrawerContents = false;
   bool _isSearching = false;
   bool _filterAvailable = false;
 
@@ -337,8 +337,8 @@ class _HomeScreenState extends State<HomeScreen>
                 )
               ],
               onDetailsPressed: () {
-                _showDrawerContents = !_showDrawerContents;
-                _showDrawerContents
+                _hideDrawerContents = !_hideDrawerContents;
+                _hideDrawerContents
                     ? _controller.reverse()
                     : _controller.forward();
               },
