@@ -31,8 +31,10 @@ class _HomeScreenState extends State<HomeScreen>
       icon: const Icon(Icons.explore),
       title: SpotL.of(Services.loc).explore,
       sub: <HomeScreenSubItem>[
-        new HomeScreenSubItem(SpotL.of(Services.loc).discover, discover),
-        new HomeScreenSubItem(SpotL.of(Services.loc).explore, explore),
+        new HomeScreenSubItem(
+            SpotL.of(Services.loc).discover, const DiscoverView()),
+        new HomeScreenSubItem(
+            SpotL.of(Services.loc).explore, const ExplorerView()),
       ],
     ),
     new HomeScreenItem(
@@ -103,13 +105,11 @@ class _HomeScreenState extends State<HomeScreen>
 
   // Search
   final TextEditingController _searchController = new TextEditingController();
-  String _searchQuery = '';
+  String _searchQuery;
 
   //Explore
   List<TabController> tabsCtrl;
   int page = 0;
-  static const Widget discover = const DiscoverView();
-  static const Widget explore = const ExplorerView();
   FloatingActionButton get fab =>
       _homeScreenItems[page].fabs.length > tabsCtrl[page].index
           ? _homeScreenItems[page].fabs[tabsCtrl[page].index]

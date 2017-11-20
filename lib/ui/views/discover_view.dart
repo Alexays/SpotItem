@@ -16,9 +16,9 @@ class DiscoverView extends StatefulWidget {
 }
 
 class _DiscoverViewState extends State<DiscoverView> {
-  static List<Item> _items;
-  static List<Item> _recents;
-  static List<Item> _groups;
+  List<Item> _items;
+  List<Item> _recents;
+  List<Item> _groups;
 
   @override
   void initState() {
@@ -93,18 +93,14 @@ class _DiscoverViewState extends State<DiscoverView> {
     );
   }
 
-  Widget _buildDiscover() => new ListView.builder(
-        shrinkWrap: true,
-        itemCount: 2,
-        itemBuilder: (context, index) {
-          switch (index) {
-            case 0:
-              return _buildRecents(context);
-            case 1:
-              return _buildGroups(context);
-          }
-        },
-      );
+  Widget _buildDiscover() {
+    final _widgets = [_buildRecents, _buildGroups];
+    return new ListView.builder(
+      shrinkWrap: true,
+      itemCount: _widgets.length,
+      itemBuilder: (context, index) => _widgets[index](context),
+    );
+  }
 
   @override
   Widget build(BuildContext context) => new RefreshIndicator(
@@ -126,8 +122,7 @@ class DiscoverList extends StatelessWidget {
   @override
   Widget build(BuildContext context) => _items.isNotEmpty
       ? new ListView.builder(
-          physics:
-              const AlwaysScrollableScrollPhysics(), // For RefreshIndicator
+          physics: const AlwaysScrollableScrollPhysics(), // RefreshIndicator
           scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           itemCount: _items?.length,
