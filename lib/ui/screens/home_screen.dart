@@ -286,11 +286,11 @@ class _HomeScreenState extends State<HomeScreen>
       return;
     }
     if (!build) {
-      _filterAvailable = (page == 0 && tabsCtrl[page].index == 1);
+      _filterAvailable = page == 0 && tabsCtrl[page].index == 1;
       return;
     }
     setState(() {
-      _filterAvailable = (page == 0 && tabsCtrl[page].index == 1);
+      _filterAvailable;
     });
   }
 
