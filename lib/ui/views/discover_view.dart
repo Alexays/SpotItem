@@ -54,7 +54,7 @@ class _DiscoverViewState extends State<DiscoverView> {
           new Padding(
             padding: const EdgeInsets.all(10.0),
             child: new Text(
-              SpotL.of(Services.loc).recentItems,
+              SpotL.of(Services.context).recentItems,
               style: const TextStyle(
                 fontWeight: FontWeight.w400,
                 fontSize: 20.0,
@@ -78,7 +78,7 @@ class _DiscoverViewState extends State<DiscoverView> {
         new Padding(
           padding: const EdgeInsets.all(10.0),
           child: new Text(
-            SpotL.of(Services.loc).fromYourGroups,
+            SpotL.of(Services.context).fromYourGroups,
             style: const TextStyle(
               fontWeight: FontWeight.w400,
               fontSize: 22.0,
@@ -133,5 +133,5 @@ class DiscoverList extends StatelessWidget {
                 onPressed: () => showItemPage(_items[index], _hash, context),
               ),
         )
-      : new Center(child: new Text(SpotL.of(Services.loc).noItems));
+      : new Center(child: new Text(SpotL.of(Services.context).noItems));
 }

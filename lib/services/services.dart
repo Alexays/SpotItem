@@ -43,9 +43,6 @@ class Services {
   /// Social Service
   static final SocialManager social = _singleton._socialManager;
 
-  /// Loc context
-  static BuildContext loc = _singleton._loc;
-
   /// Context
   static BuildContext context = _singleton._context;
 
@@ -72,7 +69,6 @@ class Services {
   SettingsManager _settingsManager;
   SocialManager _socialManager;
   BuildContext _context;
-  BuildContext _loc;
   FirebaseMessaging _firebaseMessaging;
   FirebaseAnalytics _analytics;
   FirebaseAnalyticsObserver _observer;

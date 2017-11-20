@@ -52,7 +52,7 @@ class _HoldedViewState extends State<HoldedView> {
       return new Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          new Center(child: new Text(SpotL.of(Services.loc).noItems)),
+          new Center(child: new Text(SpotL.of(Services.context).noItems)),
         ],
       );
     }

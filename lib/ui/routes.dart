@@ -1,5 +1,7 @@
 import 'package:spotitem/ui/screens/register_screen.dart';
 import 'package:spotitem/ui/screens/items/add_item_screen.dart';
+import 'package:spotitem/ui/screens/items/book_item_screen.dart';
+import 'package:spotitem/ui/screens/items/scanned_item_screen.dart';
 import 'package:spotitem/ui/screens/items/edit_item_screen.dart';
 import 'package:spotitem/ui/screens/users/profile_screen.dart';
 import 'package:spotitem/ui/screens/users/edit_user_screen.dart';
@@ -49,7 +51,12 @@ Route<dynamic> configureRoutes(RouteSettings settings) {
       return new MaterialPageRoute<dynamic>(
           settings: settings,
           fullscreenDialog: true,
-          builder: (_) => new ItemPage(itemId: params[0]));
+          builder: (_) => new BookItemScreen(itemId: params[0]));
+    case '/items/:params/scanned':
+      return new MaterialPageRoute<dynamic>(
+          settings: settings,
+          fullscreenDialog: true,
+          builder: (_) => new ScannedItemScreen(itemId: params[0]));
     case '/items/:params/edit':
       return new MaterialPageRoute<dynamic>(
           settings: settings,

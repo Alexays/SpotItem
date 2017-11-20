@@ -28,24 +28,24 @@ class _HomeScreenState extends State<HomeScreen>
   static final List<HomeScreenItem> _homeScreenItems = <HomeScreenItem>[
     new HomeScreenItem(
       icon: const Icon(Icons.explore),
-      title: SpotL.of(Services.loc).explore,
+      title: SpotL.of(Services.context).explore,
       sub: <HomeScreenSubItem>[
         new HomeScreenSubItem(
-            SpotL.of(Services.loc).discover, const DiscoverView()),
+            SpotL.of(Services.context).discover, const DiscoverView()),
         new HomeScreenSubItem(
-            SpotL.of(Services.loc).explore, const ExplorerView()),
+            SpotL.of(Services.context).explore, const ExplorerView()),
       ],
     ),
     new HomeScreenItem(
       icon: const Icon(Icons.work),
-      title: SpotL.of(Services.loc).items,
+      title: SpotL.of(Services.context).items,
       sub: <HomeScreenSubItem>[
         new HomeScreenSubItem(
-          SpotL.of(Services.loc).items,
+          SpotL.of(Services.context).items,
           const ItemsView(),
         ),
         new HomeScreenSubItem(
-          SpotL.of(Services.loc).holded,
+          SpotL.of(Services.context).holded,
           const HoldedView(),
         ),
       ],
@@ -59,19 +59,19 @@ class _HomeScreenState extends State<HomeScreen>
     ),
     new HomeScreenItem(
       icon: const Icon(Icons.map),
-      title: SpotL.of(Services.loc).map,
+      title: SpotL.of(Services.context).map,
       content: const MapView(),
     ),
     new HomeScreenItem(
       icon: const Icon(Icons.nature_people),
-      title: SpotL.of(Services.loc).social,
+      title: SpotL.of(Services.context).social,
       sub: <HomeScreenSubItem>[
         new HomeScreenSubItem(
-          SpotL.of(Services.loc).groups,
+          SpotL.of(Services.context).groups,
           const GroupsView(),
         ),
         new HomeScreenSubItem(
-          SpotL.of(Services.loc).messages,
+          SpotL.of(Services.context).messages,
           const SocialView(),
         )
       ],
@@ -219,7 +219,8 @@ class _HomeScreenState extends State<HomeScreen>
                                 )),
                     ),
                     new SwitchListTile(
-                      title: new Text(SpotL.of(Services.loc).fromYourGroups),
+                      title:
+                          new Text(SpotL.of(Services.context).fromYourGroups),
                       value: Services.items.tracks.value.contains('group'),
                       onChanged: (value) {
                         value
@@ -233,7 +234,7 @@ class _HomeScreenState extends State<HomeScreen>
                       secondary: const Icon(Icons.lock),
                     ),
                     new SwitchListTile(
-                      title: new Text(SpotL.of(Services.loc).gift),
+                      title: new Text(SpotL.of(Services.context).gift),
                       value: Services.items.tracks.value.contains('gift'),
                       onChanged: (value) {
                         value
@@ -346,7 +347,7 @@ class _HomeScreenState extends State<HomeScreen>
                       children: <Widget>[
                         new ListTile(
                           leading: const Icon(Icons.home),
-                          title: new Text(SpotL.of(Services.loc).home),
+                          title: new Text(SpotL.of(Services.context).home),
                           selected: true,
                         ),
                         new ListTile(
@@ -415,14 +416,14 @@ class _HomeScreenState extends State<HomeScreen>
                         children: <Widget>[
                           new ListTile(
                               leading: const Icon(Icons.edit),
-                              title:
-                                  new Text(SpotL.of(Services.loc).editProfile),
+                              title: new Text(
+                                  SpotL.of(Services.context).editProfile),
                               onTap: () => Navigator
                                   .of(context)
                                   .pushNamed('/profile/edit/')),
                           new ListTile(
                             leading: const Icon(Icons.exit_to_app),
-                            title: new Text(SpotL.of(Services.loc).logout),
+                            title: new Text(SpotL.of(Services.context).logout),
                             onTap: () => Services.auth.logout().then(
                                   (_) => Navigator
                                       .of(context)
@@ -468,7 +469,7 @@ class _HomeScreenState extends State<HomeScreen>
           decoration: new InputDecoration(
             isDense: true,
             hideDivider: true,
-            hintText: SpotL.of(Services.loc).search,
+            hintText: SpotL.of(Services.context).search,
             hintStyle: const TextStyle(
               color: const Color.fromARGB(150, 255, 255, 255),
               fontSize: 18.0,
@@ -561,7 +562,8 @@ class _HomeScreenState extends State<HomeScreen>
   Widget _buildChild(BuildContext context) {
     if (_isSearching) {
       if (_searchQuery.isEmpty) {
-        return new Center(child: new Text(SpotL.of(Services.loc).searchDialog));
+        return new Center(
+            child: new Text(SpotL.of(Services.context).searchDialog));
       }
       final _query = _searchQuery.split(' ').where((f) => f.trim().isNotEmpty);
       return new ItemsList(

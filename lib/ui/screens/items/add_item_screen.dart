@@ -228,7 +228,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     await showDialog<Null>(
       context: Services.context,
       child: new SimpleDialog(
-          title: new Text(SpotL.of(Services.loc).confirm),
+          title: new Text(SpotL.of(Services.context).confirm),
           children: [
             new Container(
               child: new Image.network('$apiUrl/items/${response.data}/code'),
@@ -254,7 +254,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
           new TextFormField(
             key: const Key('about'),
             decoration: new InputDecoration(
-              hintText: SpotL.of(Services.loc).aboutPh,
+              hintText: SpotL.of(Services.context).aboutPh,
               labelText: SpotL.of(context).about,
             ),
             validator: validateString,
@@ -354,91 +354,92 @@ class _AddItemScreenState extends State<AddItemScreen> {
   @override
   Widget build(BuildContext context) => new Scaffold(
         appBar: new AppBar(title: new Text(SpotL.of(context).addItem)),
-        body: new Builder(
-          builder: (context) => new Container(
-                child: new Form(
-                  key: _formKey,
-                  child: new Stepper(
-                    currentStep: _currentStep,
-                    steps: [
-                      new Step(
-                        title: new Text(SpotL.of(context).about),
-                        content: _buildForm(context),
-                        state: _name != null && _name.isNotEmpty
-                            ? StepState.complete
-                            : StepState.indexed,
-                        isActive: true,
-                      ),
-                      new Step(
-                        title: new Text(SpotL.of(context).images),
-                        content: new Container(
-                          height: (120 + 320 * (_imagesFile.length / 3))
-                              .floorToDouble(),
-                          child: _getImageGrid(),
-                        ),
-                        state: _name != null && _name.isNotEmpty
-                            ? _imagesFile.isNotEmpty
-                                ? StepState.complete
-                                : StepState.indexed
-                            : StepState.disabled,
-                        isActive: _name != null && _name.isNotEmpty,
-                      ),
-                      new Step(
-                        title: new Text(SpotL.of(context).calendar),
-                        content: new Container(
-                          height: 320.0,
-                          child: new Calendar(
-                            allowDisable: true,
-                            edit: true,
-                            selectedDates: _calendar,
-                            onChanged: (value) {
-                              setState(() {
-                                _calendar = value;
-                              });
-                            },
-                          ),
-                        ),
-                        state: _imagesFile.isNotEmpty
-                            ? _calendar.isNotEmpty
-                                ? StepState.complete
-                                : StepState.indexed
-                            : StepState.disabled,
-                        isActive: _imagesFile.isNotEmpty,
-                      ),
-                      new Step(
-                        title: new Text(SpotL.of(context).groups),
-                        content: _getGroups(),
-                        state: _calendar.isNotEmpty
-                            ? _groups.isNotEmpty
-                                ? StepState.complete
-                                : StepState.indexed
-                            : StepState.disabled,
-                        isActive: _calendar.isNotEmpty,
-                      ),
-                    ],
-                    type: StepperType.vertical,
-                    onStepTapped: (step) {
-                      setState(() {
-                        _currentStep = step;
-                      });
-                    },
-                    onStepCancel: () {
-                      setState(() {
-                        _currentStep = _currentStep > 0 ? _currentStep - 1 : 0;
-                      });
-                    },
-                    onStepContinue: () {
-                      setState(() {
-                        if (_currentStep < _stepLength - 1) {
-                          _currentStep = _currentStep + 1;
-                        } else {
-                          _addItem(context);
-                        }
-                      });
-                    },
+        body: new Builder(builder: (context) {
+          Services.context = context;
+          return new Container(
+            child: new Form(
+              key: _formKey,
+              child: new Stepper(
+                currentStep: _currentStep,
+                steps: [
+                  new Step(
+                    title: new Text(SpotL.of(context).about),
+                    content: _buildForm(context),
+                    state: _name != null && _name.isNotEmpty
+                        ? StepState.complete
+                        : StepState.indexed,
+                    isActive: true,
                   ),
-                ),
+                  new Step(
+                    title: new Text(SpotL.of(context).images),
+                    content: new Container(
+                      height: (120 + 320 * (_imagesFile.length / 3))
+                          .floorToDouble(),
+                      child: _getImageGrid(),
+                    ),
+                    state: _name != null && _name.isNotEmpty
+                        ? _imagesFile.isNotEmpty
+                            ? StepState.complete
+                            : StepState.indexed
+                        : StepState.disabled,
+                    isActive: _name != null && _name.isNotEmpty,
+                  ),
+                  new Step(
+                    title: new Text(SpotL.of(context).calendar),
+                    content: new Container(
+                      height: 320.0,
+                      child: new Calendar(
+                        allowDisable: true,
+                        edit: true,
+                        selectedDates: _calendar,
+                        onChanged: (value) {
+                          setState(() {
+                            _calendar = value;
+                          });
+                        },
+                      ),
+                    ),
+                    state: _imagesFile.isNotEmpty
+                        ? _calendar.isNotEmpty
+                            ? StepState.complete
+                            : StepState.indexed
+                        : StepState.disabled,
+                    isActive: _imagesFile.isNotEmpty,
+                  ),
+                  new Step(
+                    title: new Text(SpotL.of(context).groups),
+                    content: _getGroups(),
+                    state: _calendar.isNotEmpty
+                        ? _groups.isNotEmpty
+                            ? StepState.complete
+                            : StepState.indexed
+                        : StepState.disabled,
+                    isActive: _calendar.isNotEmpty,
+                  ),
+                ],
+                type: StepperType.vertical,
+                onStepTapped: (step) {
+                  setState(() {
+                    _currentStep = step;
+                  });
+                },
+                onStepCancel: () {
+                  setState(() {
+                    _currentStep = _currentStep > 0 ? _currentStep - 1 : 0;
+                  });
+                },
+                onStepContinue: () {
+                  setState(() {
+                    if (_currentStep < _stepLength - 1) {
+                      _currentStep = _currentStep + 1;
+                    } else {
+                      _addItem(context);
+                    }
+                  });
+                },
               ),
-        ),
+            ),
+          );
+        }),
       );
 }

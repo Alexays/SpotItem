@@ -17,7 +17,7 @@ class SpotItemApp extends MaterialApp {
       : super(
           title: 'SpotItem',
           home: new Builder(builder: (context) {
-            Services.loc = context;
+            Services.context = context;
             return init
                 ? Services.auth.loggedIn
                     ? const HomeScreen()

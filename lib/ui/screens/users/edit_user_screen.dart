@@ -63,8 +63,8 @@ class _EditUserScreenState extends State<EditUserScreen> {
                   new TextFormField(
                     key: const Key('name'),
                     decoration: new InputDecoration(
-                      labelText: SpotL.of(Services.loc).firstname,
-                      hintText: SpotL.of(Services.loc).firstnamePh,
+                      labelText: SpotL.of(Services.context).firstname,
+                      hintText: SpotL.of(Services.context).firstnamePh,
                     ),
                     validator: validateString,
                     controller: _firstname,
@@ -74,7 +74,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
                     key: const Key('lastname'),
                     decoration: new InputDecoration(
                       labelText: SpotL.of(context).lastname,
-                      hintText: SpotL.of(Services.loc).lastnamePh,
+                      hintText: SpotL.of(Services.context).lastnamePh,
                     ),
                     controller: _lastname,
                     initialValue: _lastname.text,

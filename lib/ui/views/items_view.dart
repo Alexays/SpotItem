@@ -52,10 +52,10 @@ class _ItemsViewState extends State<ItemsView> {
       return new Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          new Center(child: new Text(SpotL.of(Services.loc).noItems)),
+          new Center(child: new Text(SpotL.of(Services.context).noItems)),
           const Padding(padding: const EdgeInsets.all(10.0)),
           new RaisedButton(
-            child: new Text(SpotL.of(Services.loc).addItem),
+            child: new Text(SpotL.of(Services.context).addItem),
             onPressed: () =>
                 Navigator.of(Services.context).pushNamed('/items/add/'),
           ),

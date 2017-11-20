@@ -83,7 +83,8 @@ const Map<String, Map<String, String>> localizations =
     'calendar': r'Calendar',
     'book': r'Book',
     'holded': r'Holded',
-    'locationError': r'Please enable location or choose location !'
+    'locationError': r'Please enable location or choose location !',
+    'updateLocation': r'Do you want to update the location ?'
   },
   'fr': const <String, String>{
     'home': r'Accueil',
@@ -164,6 +165,7 @@ const Map<String, Map<String, String>> localizations =
     'calendar': r'Calendrier',
     'book': r'Réserver',
     'holded': r'Détenu',
-    'locationError': r'Veuillez activer ou choisir votre emplacement !'
+    'locationError': r'Veuillez activer ou choisir votre emplacement !',
+    'updateLoction': r'Voulez-vous mettre à jour la position ?'
   },
 };

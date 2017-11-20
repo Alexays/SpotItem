@@ -43,7 +43,7 @@ class _ContactScreenState extends State<ContactScreen> {
     final res = await showDialog<Null>(
       context: context,
       child: new SimpleDialog(
-        title: new Text(SpotL.of(Services.loc).confirm),
+        title: new Text(SpotL.of(Services.context).confirm),
         children: emails.map(
           (f) => new ListTile(
                 title: new Text(f['value']),

@@ -176,6 +176,6 @@ class ItemsManager extends BasicService {
   Future<Null> qrReader(BuildContext context) async {
     final buffer = await new QRCodeReader().scan();
     final itemId = Services.items.parseCode(buffer);
-    await Navigator.of(context).pushReplacementNamed('/items/:$itemId');
+    await Navigator.of(context).pushReplacementNamed('/items/:$itemId/scanned');
   }
 }

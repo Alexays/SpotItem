@@ -281,4 +281,7 @@ class SpotL {
 
   /// Enable or choose location title
   String get locationError => _nameToValue['locationError'];
+
+  /// Update location message
+  String get updateLocation => _nameToValue['updateLocation'];
 }
