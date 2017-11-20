@@ -26,12 +26,10 @@ class LoginScreen extends StatelessWidget {
           'local');
       if (success) {
         await Navigator.pushReplacementNamed(context, '/');
-      } else {
-        showSnackBar(context, errorText);
+        return;
       }
-    } else {
-      showSnackBar(context, errorText);
     }
+    showSnackBar(context, errorText);
   }
 
   Future<Null> _googleLogin(BuildContext context) async {
