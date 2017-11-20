@@ -18,7 +18,7 @@ class RegisterScreen extends StatelessWidget {
   final TextEditingController _repeat = new TextEditingController();
 
   Future<Null> _doRegister(BuildContext context) async {
-    final form = _formKey.currentState..save();
+    final form = _formKey.currentState;
     if (_password.text != _repeat.text) {
       showSnackBar(context, SpotL.of(context).passwordError);
       return;

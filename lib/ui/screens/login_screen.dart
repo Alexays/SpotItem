@@ -8,10 +8,10 @@ import 'package:spotitem/utils.dart';
 class LoginScreen extends StatelessWidget {
   /// It's constructor
   LoginScreen();
-  final TextEditingController _usernameCtrl = new TextEditingController();
-  final TextEditingController _passwordCtrl = new TextEditingController();
 
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+  final TextEditingController _usernameCtrl = new TextEditingController();
+  final TextEditingController _passwordCtrl = new TextEditingController();
 
   Future<Null> _localLogin(BuildContext context) async {
     final form = _formKey.currentState;
