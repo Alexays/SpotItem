@@ -110,6 +110,7 @@ void main() {
         }
       ],
     }, 200);
+
     testWidgets('Login appear', (tester) async {
       await Services.setup(Origin.mock);
       await tester.pumpWidget(new SpotItemApp(init: true));

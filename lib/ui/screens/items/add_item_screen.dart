@@ -231,7 +231,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
           title: new Text(SpotL.of(Services.context).confirm),
           children: [
             new Container(
-              child: new Image.network('$apiUrl/items/${response.data}/code'),
+              child: new Image.network('$apiUrl/items/${response.data}/code',
+                  headers: getHeaders(Services.auth.accessToken)),
             ),
           ]),
     );

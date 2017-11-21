@@ -375,7 +375,8 @@ class _EditItemScreenState extends State<EditItemScreen>
                       ),
               ),
             ),
-            new Image.network('$apiUrl/items/${_item.id}/code')
+            new Image.network('$apiUrl/items/${_item.id}/code',
+                headers: getHeaders(Services.auth.accessToken))
           ],
         ),
       );
