@@ -87,6 +87,17 @@ class UsersManager extends BasicService {
     return null;
   }
 
+  /// Get location by address
+  Future<Map<String, double>> locationByAddress(String address) async {
+    assert(address != null);
+    final res = await _geocoding.searchByAddress(address);
+    final _location = res.results[0].geometry.location;
+    return {
+      'latitude': _location.lat,
+      'longitude': _location.lng,
+    };
+  }
+
   /// Show autocomplete city
   Future<String> autocompleteCity(BuildContext context) async {
     assert(context != null);

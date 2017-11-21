@@ -158,6 +158,13 @@ class ItemsManager extends BasicService {
     return _holded;
   }
 
+  /// Update location of a item if user has item
+  Future<ApiRes> updateLocation(String itemId, Map<String, double> loc) async {
+    assert(itemId != null && loc != null);
+    final res = await iput('/items/$itemId/location', loc);
+    return res;
+  }
+
   /// Parse a given qrCode.
   ///
   /// @param QRcode data

@@ -368,11 +368,12 @@ class _ItemPageState extends State<ItemPage>
       ];
 
   Future<Null> _bookItem(BuildContext context) => Navigator.push(
-      context,
-      new MaterialPageRoute<Null>(
-        fullscreenDialog: true,
-        builder: (context) => new BookItemScreen(item: item),
-      ));
+        context,
+        new MaterialPageRoute<Null>(
+          fullscreenDialog: true,
+          builder: (context) => new BookItemScreen(item: item),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) => new Scaffold(

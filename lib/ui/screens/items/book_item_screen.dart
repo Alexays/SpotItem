@@ -57,13 +57,12 @@ class _BookItemScreenState extends State<BookItemScreen> {
     showLoading(context);
     final response = await Services.items
         .bookItem(_item.id, {'dates': toAdd.map((f) => f.toString()).toList()});
-    Navigator.of(context).pop();
-    if (resValid(context, response)) {
-      showSnackBar(context, response.msg);
-      await Navigator
-          .of(context)
-          .pushNamedAndRemoveUntil('/', (route) => false);
+    if (!resValid(context, response)) {
+      Navigator.of(context).pop();
+      return;
     }
+    showSnackBar(context, response.msg);
+    await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
   }
 
   @override

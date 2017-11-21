@@ -227,7 +227,7 @@ class _EditItemScreenState extends State<EditItemScreen>
       'groups': _groupsId
     });
     Navigator.of(context).pop();
-    if (resValid(context, response)) {
+    if (!resValid(context, response)) {
       return;
     }
     showSnackBar(context, response.msg);

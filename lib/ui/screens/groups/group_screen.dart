@@ -42,7 +42,7 @@ class _GroupPageState extends State<GroupPage>
     if (!mounted) {
       return;
     }
-    if (resValid(context, response)) {
+    if (!resValid(context, response)) {
       showSnackBar(context, SpotL.of(context).error);
       return;
     }
@@ -54,7 +54,7 @@ class _GroupPageState extends State<GroupPage>
     if (!mounted) {
       return;
     }
-    if (resValid(context, response)) {
+    if (!resValid(context, response)) {
       showSnackBar(context, SpotL.of(context).error);
       return;
     }
@@ -69,7 +69,7 @@ class _GroupPageState extends State<GroupPage>
     if (!mounted) {
       return;
     }
-    if (resValid(context, response)) {
+    if (!resValid(context, response)) {
       showSnackBar(context, SpotL.of(context).error);
       return;
     }
@@ -84,7 +84,7 @@ class _GroupPageState extends State<GroupPage>
     if (!mounted) {
       return;
     }
-    if (resValid(context, response)) {
+    if (!resValid(context, response)) {
       showSnackBar(context, SpotL.of(context).error);
       return;
     }

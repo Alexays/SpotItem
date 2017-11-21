@@ -28,6 +28,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
       showSnackBar(context, SpotL.of(context).correctError);
       return;
     }
+    showLoading(context);
     final response = await Services.groups.add({
       'name': name,
       'about': about,
@@ -35,6 +36,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
       'users': email
     });
     if (!resValid(context, response)) {
+      Navigator.of(context).pop();
       return;
     }
     showSnackBar(context, response.msg);

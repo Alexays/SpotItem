@@ -64,11 +64,13 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
       showSnackBar(context, SpotL.of(context).correctError);
       return;
     }
+    showLoading(context);
     final response = await Services.groups.edit(_group.id, {
       'name': nameCtrl.text,
       'about': aboutCtrl.text,
     });
     if (!resValid(context, response)) {
+      Navigator.of(context).pop();
       return;
     }
     showSnackBar(context, response.msg);

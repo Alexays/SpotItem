@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:flutter/foundation.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:spotitem/utils.dart';
@@ -8,7 +8,7 @@ import 'package:spotitem/i18n/spot_localization.dart';
 /// Edit item screen
 class ScannedItemScreen extends StatefulWidget {
   /// Edit item screen initializer
-  const ScannedItemScreen({Key key, this.itemId})
+  const ScannedItemScreen({@required this.itemId, Key key})
       : assert(itemId != null),
         super(key: key);
 
@@ -24,12 +24,27 @@ class _ScannedItemScreenState extends State<ScannedItemScreen> {
 
   final String _itemId;
 
+  /// TO-DO retrieve item data and check if in calendar user is
+  /// here then if true ask update location else show item page
   @override
   void initState() {
     super.initState();
   }
 
-  Future<Null> _updateLocation(BuildContext context) {}
+  Future<Null> _updateLocation(BuildContext context) async {
+    showLoading(context);
+    var _location = await Services.users.getLocation();
+    if (_location == null) {
+      final address = await Services.users.autocompleteCity(context);
+      if (address == null) {
+        showSnackBar(context, SpotL.of(context).locationError);
+        return;
+      }
+      _location = await Services.users.locationByAddress(address);
+      await Services.items.updateLocation(_itemId, _location);
+    }
+    Navigator.of(context).pop();
+  }
 
   @override
   Widget build(BuildContext context) => new Scaffold(
