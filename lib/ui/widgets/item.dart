@@ -6,6 +6,7 @@ import 'package:spotitem/ui/screens/items/item_screen.dart';
 import 'package:spotitem/keys.dart';
 import 'package:spotitem/utils.dart';
 import 'package:spotitem/i18n/spot_localization.dart';
+import 'package:spotitem/services/services.dart';
 
 /// Items list item
 class ItemsListItem extends StatelessWidget {
@@ -37,7 +38,13 @@ class ItemsListItem extends StatelessWidget {
               child: new FadeInImage(
                 placeholder: placeholder,
                 image: item.images.isNotEmpty
-                    ? new NetworkImage('$apiImgUrl${item.images.first}')
+                    ? new NetworkImage(
+                        '$apiImgUrl${item.images.first}',
+                        headers: getHeaders(
+                          key: Services.auth.accessToken,
+                          type: contentType.image,
+                        ),
+                      )
                     : placeholder,
                 fit: BoxFit.cover,
               ),

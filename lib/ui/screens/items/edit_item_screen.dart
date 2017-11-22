@@ -148,7 +148,13 @@ class _EditItemScreenState extends State<EditItemScreen>
           return new GridTile(
               child: new Stack(
             children: <Widget>[
-              new Image.network('$apiImgUrl${_item.images[index]}'),
+              new Image.network(
+                '$apiImgUrl${_item.images[index]}',
+                headers: getHeaders(
+                  key: Services.auth.accessToken,
+                  type: contentType.image,
+                ),
+              ),
               new Positioned(
                 top: 2.5,
                 left: 2.5,
@@ -376,8 +382,13 @@ class _EditItemScreenState extends State<EditItemScreen>
                       ),
               ),
             ),
-            new Image.network('$apiUrl/items/${_item.id}/code',
-                headers: getHeaders(Services.auth.accessToken))
+            new Image.network(
+              '$apiUrl/items/${_item.id}/code',
+              headers: getHeaders(
+                key: Services.auth.accessToken,
+                type: contentType.image,
+              ),
+            )
           ],
         ),
       );

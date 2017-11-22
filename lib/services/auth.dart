@@ -82,7 +82,9 @@ class AuthManager extends BasicService {
   /// @param token Token will be user to access API
   /// @returns Valid token
   Future<String> verifyToken(Client client, String token) async {
-    if ((token == null && accessToken != null) || token != accessToken) {
+    if ((token == null && accessToken != null) ||
+        token != accessToken ||
+        Services.debug) {
       return token ?? accessToken;
     }
     if ((loggedIn && (exp == null || new DateTime.now().isAfter(exp))) &&
@@ -103,7 +105,7 @@ class AuthManager extends BasicService {
     try {
       final response = await client.get(
         '$apiUrl/check/$provider',
-        headers: getHeaders(refreshToken),
+        headers: getHeaders(key: refreshToken),
       );
       apiRes = new ApiRes(JSON.decode(response.body), response.statusCode);
     } catch (err) {
@@ -194,7 +196,7 @@ class AuthManager extends BasicService {
     if (providers.contains(provider) && refreshToken != null) {
       await iget('/logout/$provider', refreshToken);
     }
-    if (Services.origin == Origin.prod) {
+    if (!Services.debug) {
       final prefs = await SharedPreferences.getInstance();
       if (await prefs.clear()) {
         prefs.setString(keyLastEmail, lastEmail ?? '');
@@ -263,7 +265,7 @@ class AuthManager extends BasicService {
   /// Connect to web socket
   ///
   Future<Null> connectWs() async {
-    if (Services.origin == Origin.mock) {
+    if (!Services.debug) {
       return;
     }
     ws = new IOWebSocketChannel.connect('ws://$baseHost');
@@ -292,7 +294,7 @@ class AuthManager extends BasicService {
       ..setString(keyOauthToken, _oauthToken)
       ..setString(keyProvider, _prvdr)
       ..setString(keyLastEmail, _email);
-    if (Services.origin == Origin.prod && !(await prefs.commit())) {
+    if (!Services.debug && !(await prefs.commit())) {
       await Navigator
           .of(Services.context)
           .pushNamedAndRemoveUntil('/error', (route) => false);

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter/services.dart';
 import 'package:spotitem/keys.dart';
 import 'package:spotitem/models/api.dart';
 import 'package:spotitem/services/services.dart';
@@ -60,13 +60,11 @@ class BasicService {
   /// @returns Api response
   Future<ApiRes> iget(String url, [String token]) async {
     assert(url != null);
-    if (Services.origin == Origin.mock) {
-      return Services.mock;
-    }
-    final client = new http.Client();
+    final client = createHttpClient();
     final verifiedToken = await Services.auth.verifyToken(client, token);
     final response = await client
-        .get(Uri.encodeFull('$apiUrl$url'), headers: getHeaders(verifiedToken))
+        .get(Uri.encodeFull('$apiUrl$url'),
+            headers: getHeaders(key: verifiedToken))
         .whenComplete(client.close)
         .catchError(_handleError);
     try {
@@ -89,14 +87,11 @@ class BasicService {
   Future<ApiRes> ipost(String url, Map<String, dynamic> payload,
       [String token]) async {
     assert(url != null && payload != null);
-    if (Services.origin == Origin.mock) {
-      return Services.mock;
-    }
-    final client = new http.Client();
+    final client = createHttpClient();
     final verifiedToken = await Services.auth.verifyToken(client, token);
     final response = await client
         .post(Uri.encodeFull('$apiUrl$url'),
-            headers: getHeaders(verifiedToken), body: JSON.encode(payload))
+            headers: getHeaders(key: verifiedToken), body: JSON.encode(payload))
         .whenComplete(client.close)
         .catchError(_handleError);
     try {
@@ -119,14 +114,11 @@ class BasicService {
   Future<ApiRes> iput(String url, Map<String, dynamic> payload,
       [String token]) async {
     assert(url != null && payload != null);
-    if (Services.origin == Origin.mock) {
-      return Services.mock;
-    }
-    final client = new http.Client();
+    final client = createHttpClient();
     final verifiedToken = await Services.auth.verifyToken(client, token);
     final response = await client
         .put(Uri.encodeFull('$apiUrl$url'),
-            headers: getHeaders(verifiedToken), body: JSON.encode(payload))
+            headers: getHeaders(key: verifiedToken), body: JSON.encode(payload))
         .whenComplete(client.close)
         .catchError(_handleError);
     try {
@@ -147,14 +139,11 @@ class BasicService {
   /// @returns Api response
   Future<ApiRes> idelete(String url, [String token]) async {
     assert(url != null);
-    if (Services.origin == Origin.mock) {
-      return Services.mock;
-    }
-    final client = new http.Client();
+    final client = createHttpClient();
     final verifiedToken = await Services.auth.verifyToken(client, token);
     final response = await client
         .delete(Uri.encodeFull('$apiUrl$url'),
-            headers: getHeaders(verifiedToken))
+            headers: getHeaders(key: verifiedToken))
         .whenComplete(client.close)
         .catchError(_handleError);
     try {
@@ -174,7 +163,7 @@ class BasicService {
   /// @param data Payload
   Future<Map<String, dynamic>> getWsHeader(String type) async {
     assert(type != null);
-    final client = new http.Client();
+    final client = createHttpClient();
     if (Services.auth.loggedIn) {
       final verifiedToken = await Services.auth
           .verifyToken(client, Services.auth.accessToken)
@@ -186,7 +175,7 @@ class BasicService {
         'type': type,
         'id': Services.auth.user.id,
         'version': '2',
-        'auth': {'headers': getHeaders(verifiedToken)},
+        'auth': {'headers': getHeaders(key: verifiedToken)},
       };
     }
     return null;

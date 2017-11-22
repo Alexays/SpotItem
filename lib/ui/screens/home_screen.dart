@@ -332,8 +332,8 @@ class _HomeScreenState extends State<HomeScreen>
               onDetailsPressed: () {
                 _hideDrawerContents = !_hideDrawerContents;
                 _hideDrawerContents
-                    ? _controller.reverse()
-                    : _controller.forward();
+                    ? _controller.forward()
+                    : _controller.reverse();
               },
             ),
             new ClipRect(

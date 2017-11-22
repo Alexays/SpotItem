@@ -273,13 +273,25 @@ class _ItemPageState extends State<ItemPage>
                               tag: '${item.id}$hash',
                               child: new FadeInImage(
                                 placeholder: placeholder,
-                                image: new NetworkImage('$apiImgUrl$f'),
+                                image: new NetworkImage(
+                                  '$apiImgUrl$f',
+                                  headers: getHeaders(
+                                    key: Services.auth.accessToken,
+                                    type: contentType.image,
+                                  ),
+                                ),
                                 fit: BoxFit.cover,
                               ),
                             )
                           : new FadeInImage(
                               placeholder: placeholder,
-                              image: new NetworkImage('$apiImgUrl$f'),
+                              image: new NetworkImage(
+                                '$apiImgUrl$f',
+                                headers: getHeaders(
+                                  key: Services.auth.accessToken,
+                                  type: contentType.image,
+                                ),
+                              ),
                               fit: BoxFit.cover,
                             ))
                       .toList(),
