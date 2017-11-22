@@ -309,12 +309,12 @@ class _ItemPageState extends State<ItemPage>
               ),
               // This gradient ensures that the toolbar icons are distinct
               // against the background image.
-              new DecoratedBox(
-                decoration: new BoxDecoration(
-                  gradient: new LinearGradient(
-                    begin: const FractionalOffset(0.5, 0.0),
-                    end: const FractionalOffset(0.5, 0.40),
-                    colors: <Color>[
+              const DecoratedBox(
+                decoration: const BoxDecoration(
+                  gradient: const LinearGradient(
+                    begin: const Alignment(0.0, -1.0),
+                    end: const Alignment(0.0, -0.4),
+                    colors: const <Color>[
                       const Color(0x60000000),
                       const Color(0x00000000)
                     ],
