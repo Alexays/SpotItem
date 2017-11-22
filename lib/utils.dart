@@ -19,7 +19,7 @@ const AssetImage placeholder = const AssetImage('assets/placeholder.png');
 
 /// Return Circle avatar of images or initial
 Widget getAvatar(User user, [double radius = 30.0]) {
-  final image = user?.avatar != null && user.avatar.contains('.')
+  final image = user?.avatar?.contains('.') != null
       ? new NetworkImage(user.avatar)
       : null;
   return new CircleAvatar(
@@ -141,7 +141,10 @@ Widget getIcon(String tracks, [Color color]) {
 /// Limit length of string
 String limitString(String str, int lenght) {
   if (str.length > lenght) {
-    return '${str.substring(0, lenght)}...';
+    final sup = str.substring(lenght);
+    if (sup.length > 3) {
+      return '${str.substring(0, lenght)}...';
+    }
   }
   return str;
 }
