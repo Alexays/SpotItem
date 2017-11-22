@@ -52,8 +52,8 @@ enum contentType {
 }
 
 final _contentType = {
-  'image': 'image/jpg',
-  'json': 'application/json',
+  contentType.image: 'image/jpg',
+  contentType.json: 'application/json',
 };
 
 /// Get headers for Api

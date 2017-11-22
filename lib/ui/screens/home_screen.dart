@@ -481,6 +481,13 @@ class _HomeScreenState extends State<HomeScreen>
       )
     ];
     if (!_isSearching) {
+      //TO-DO find a other way to enter search mode in test
+      if (Services.debug) {
+        widgets.add(new IconButton(
+          icon: const Icon(Icons.search),
+          onPressed: _handleSearchBegin,
+        ));
+      }
       widgets.add(
         new IconButton(
           alignment:
