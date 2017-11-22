@@ -67,8 +67,10 @@ class UsersManager extends BasicService {
       return location;
     }
     try {
-      return location = await _location.getLocation
-          .timeout(new Duration(milliseconds: 250), onTimeout: () => null);
+      return location = await _location.getLocation.timeout(
+        new Duration(milliseconds: 250),
+        onTimeout: () => null,
+      );
     } on PlatformException {
       return location = null;
     }
@@ -76,9 +78,15 @@ class UsersManager extends BasicService {
 
   /// Retrieve user city location
   Future<String> getCity() async {
-    final res = await _geocoding.searchByLocation(new geo.Location(
-        Services.users.location['latitude'],
-        Services.users.location['longitude']));
+    if (location == null) {
+      return null;
+    }
+    final res = await _geocoding.searchByLocation(
+      new geo.Location(
+        location['latitude'],
+        location['longitude'],
+      ),
+    );
     for (var f in res.results[0].addressComponents) {
       if (f.types.contains('locality')) {
         return f.shortName;

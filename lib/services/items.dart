@@ -159,9 +159,10 @@ class ItemsManager extends BasicService {
   }
 
   /// Update location of a item if user has item
-  Future<ApiRes> updateLocation(String itemId, Map<String, double> loc) async {
-    assert(itemId != null && loc != null);
-    final res = await iput('/items/$itemId/location', loc);
+  Future<ApiRes> updateLocation(
+      String itemId, Map<String, dynamic> payload) async {
+    assert(itemId != null && payload != null);
+    final res = await iput('/items/$itemId/location', payload);
     return res;
   }
 

@@ -242,22 +242,20 @@ class _EditItemScreenState extends State<EditItemScreen>
     if (_groups.isEmpty) {
       return new Center(child: new Text(SpotL.of(context).noGroups));
     }
-    return new Column(
-      children: new List<Widget>.generate(
-        _groups.length,
-        (index) => new CheckboxListTile(
-              title: new Text(_groups[index].name),
-              value: _groupsId.contains(_groups[index].id),
-              onChanged: (value) {
-                setState(() {
-                  value
-                      ? _groupsId.add(_groups[index].id)
-                      : _groupsId.remove(_groups[index].id);
-                });
-              },
-              secondary: const Icon(Icons.people),
-            ),
-      ),
+    return new ListView.builder(
+      itemCount: _groups.length,
+      itemBuilder: (context, index) => new CheckboxListTile(
+            title: new Text(_groups[index].name),
+            value: _groupsId.contains(_groups[index].id),
+            onChanged: (value) {
+              setState(() {
+                value
+                    ? _groupsId.add(_groups[index].id)
+                    : _groupsId.remove(_groups[index].id);
+              });
+            },
+            secondary: const Icon(Icons.people),
+          ),
     );
   }
 
@@ -270,8 +268,9 @@ class _EditItemScreenState extends State<EditItemScreen>
             new TextFormField(
               key: const Key('name'),
               decoration: new InputDecoration(
-                  hintText: SpotL.of(context).namePh,
-                  labelText: SpotL.of(context).name),
+                hintText: SpotL.of(context).namePh,
+                labelText: SpotL.of(context).name,
+              ),
               validator: validateName,
               controller: _nameCtrl,
               initialValue: _nameCtrl.text,
@@ -279,8 +278,9 @@ class _EditItemScreenState extends State<EditItemScreen>
             new TextFormField(
               key: const Key('about'),
               decoration: new InputDecoration(
-                  hintText: SpotL.of(context).aboutPh,
-                  labelText: SpotL.of(context).about),
+                hintText: SpotL.of(context).aboutPh,
+                labelText: SpotL.of(context).about,
+              ),
               controller: _aboutCtrl,
               initialValue: _aboutCtrl.text,
             ),
@@ -290,8 +290,9 @@ class _EditItemScreenState extends State<EditItemScreen>
                   node: new FocusScopeNode(),
                   child: new TextFormField(
                     decoration: new InputDecoration(
-                        hintText: SpotL.of(context).locationPh,
-                        labelText: SpotL.of(context).location),
+                      hintText: SpotL.of(context).locationPh,
+                      labelText: SpotL.of(context).location,
+                    ),
                     initialValue: _location,
                   ),
                 ),
@@ -431,8 +432,9 @@ class _EditItemScreenState extends State<EditItemScreen>
                         pinned: true,
                         floating: true,
                         snap: true,
-                        title:
-                            new Text(_item?.name ?? SpotL.of(context).loading),
+                        title: new Text(
+                          _item?.name ?? SpotL.of(context).loading,
+                        ),
                         bottom: new TabBar(
                           indicatorWeight: 4.0,
                           tabs: <Tab>[
@@ -471,8 +473,9 @@ class _EditItemScreenState extends State<EditItemScreen>
                     onPressed: () => _editItem(context),
                     child: new Text(
                       SpotL.of(context).save.toUpperCase(),
-                      style:
-                          new TextStyle(color: Theme.of(context).canvasColor),
+                      style: new TextStyle(
+                        color: Theme.of(context).canvasColor,
+                      ),
                     ),
                   ),
             ),

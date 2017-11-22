@@ -33,16 +33,18 @@ class _ScannedItemScreenState extends State<ScannedItemScreen> {
 
   Future<Null> _updateLocation(BuildContext context) async {
     showLoading(context);
-    var _location = await Services.users.getLocation();
+    Map<String, dynamic> _location = await Services.users.getLocation();
+    var _address = await Services.users.getCity();
     if (_location == null) {
-      final address = await Services.users.autocompleteCity(context);
-      if (address == null) {
+      _address = await Services.users.autocompleteCity(context);
+      if (_address == null) {
         showSnackBar(context, SpotL.of(context).locationError);
         return;
       }
-      _location = await Services.users.locationByAddress(address);
-      await Services.items.updateLocation(_itemId, _location);
+      _location = await Services.users.locationByAddress(_address);
     }
+    _location['location'] = _address;
+    await Services.items.updateLocation(_itemId, _location);
     Navigator.of(context).pop();
   }
 
