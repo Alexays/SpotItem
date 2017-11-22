@@ -101,23 +101,26 @@ class AuthManager extends BasicService {
     await _checkProvider();
     var apiRes;
     try {
-      final response = await client.get('$apiUrl/check/$provider',
-          headers: getHeaders(refreshToken));
+      final response = await client.get(
+        '$apiUrl/check/$provider',
+        headers: getHeaders(refreshToken),
+      );
       apiRes = new ApiRes(JSON.decode(response.body), response.statusCode);
     } catch (err) {
       apiRes = new ApiRes.classic();
     }
-    if (apiRes.success) {
-      accessToken = apiRes.data['access_token'];
-      exp = new DateTime.fromMillisecondsSinceEpoch(
-          (apiRes.data['exp'] * 1000) - 30);
-      return true;
+    if (!apiRes.success) {
+      if (apiRes.msg == 'Bad Spotkey') {
+        await handleOudtated();
+      }
+      await logout();
+      return false;
     }
-    if (apiRes.msg == 'Bad Spotkey') {
-      await handleOudtated();
-    }
-    await logout();
-    return false;
+    accessToken = apiRes.data['access_token'];
+    exp = new DateTime.fromMillisecondsSinceEpoch(
+      (apiRes.data['exp'] * 1000) - 30,
+    );
+    return true;
   }
 
   Future<Null> _checkProvider() async {
@@ -144,8 +147,9 @@ class AuthManager extends BasicService {
       if (signIn) {
         final authId = await _googleUser.authentication;
         return await login(
-            {'token': authId.accessToken, 'email': _googleUser.email},
-            'google');
+          {'token': authId.accessToken, 'email': _googleUser.email},
+          'google',
+        );
       }
     } on Exception {
       _googleUser = null;
@@ -160,15 +164,22 @@ class AuthManager extends BasicService {
   /// @param _provider Login provider
   /// @returns Logged or not
   Future<bool> login(
-      Map<String, dynamic> _payload, String loginProvider) async {
+    Map<String, dynamic> _payload,
+    String loginProvider,
+  ) async {
     _loggedIn = false;
     final response = await ipost('/login/$loginProvider', _payload);
     if (response.success) {
       accessToken = response.data['access_token'];
-      exp =
-          new DateTime.fromMillisecondsSinceEpoch(response.data['exp'] * 1000);
-      await saveTokens(response.data['user'], response.data['refresh_token'],
-          loginProvider, _payload['email']);
+      exp = new DateTime.fromMillisecondsSinceEpoch(
+        response.data['exp'] * 1000,
+      );
+      await saveTokens(
+        response.data['user'],
+        response.data['refresh_token'],
+        loginProvider,
+        _payload['email'],
+      );
       _loggedIn = true;
     }
     return _loggedIn;
