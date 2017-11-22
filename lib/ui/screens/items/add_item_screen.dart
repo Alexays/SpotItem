@@ -195,7 +195,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       return;
     }
     final location = Services.users.location ??
-        await Services.users.getLocationByAddress(_location.text);
+        await Services.users.locationByAddress(_location.text);
     if (location == null) {
       Navigator.of(context).pop();
       showSnackBar(context, SpotL.of(context).locationError);

@@ -209,7 +209,7 @@ class _EditItemScreenState extends State<EditItemScreen>
     _item.images.forEach(finalImages.add);
     _images.forEach(finalImages.add);
     final location = Services.users.location ??
-        await Services.users.getLocationByAddress(_location);
+        await Services.users.locationByAddress(_location);
     if (location == null) {
       Navigator.of(context).pop();
       showSnackBar(context, SpotL.of(context).locationError);
