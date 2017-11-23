@@ -25,15 +25,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   '${SpotL.of(context).maxDistance}: ${Services.settings.value.maxDistance}km'),
               new Slider(
                 value: Services.settings.value.maxDistance / 100,
-                onChanged: (value) {
-                  setState(
-                    () {
+                onChanged: (value) => setState(() {
                       Services.settings.value.maxDistance =
                           (value * 100).toInt();
                       Services.settings.saveSettings();
-                    },
-                  );
-                },
+                    }),
               ),
             ],
           );

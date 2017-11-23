@@ -73,39 +73,37 @@ class _BookItemScreenState extends State<BookItemScreen> {
             Services.context = context;
             return new Calendar(
               selectedDates: concated,
-              onChanged: (data) {
-                final date = new Event({
-                  'data': data.first.data,
-                  'date': data.first.date.toString(),
-                  'holder': Services.auth.user.id
-                });
-                setState(() {
-                  if (toAdd?.isNotEmpty == true &&
-                      toAdd.firstWhere((f) => f == date.date,
-                              orElse: () => null) !=
-                          null) {
-                    toAdd.removeWhere((f) => f == date.date);
-                  } else {
-                    toAdd.add(date.date);
-                  }
-                  final tmp = new List<DateTime>.from(toAdd);
-                  concated = new List<Event>.from(_item.calendar).map((f) {
-                    final len = tmp.length;
-                    tmp.removeWhere((d) =>
-                        d.day == f.date.day &&
-                        d.month == f.date.month &&
-                        d.year == f.date.year);
-                    if (tmp.length != len) {
-                      return new Event({
-                        'data': f.data,
-                        'date': f.date.toString(),
-                        'holder': Services.auth.user.id
-                      });
+              onChanged: (data) => setState(() {
+                    final date = new Event({
+                      'data': data.first.data,
+                      'date': data.first.date.toString(),
+                      'holder': Services.auth.user.id
+                    });
+                    if (toAdd?.isNotEmpty == true &&
+                        toAdd.firstWhere((f) => f == date.date,
+                                orElse: () => null) !=
+                            null) {
+                      toAdd.removeWhere((f) => f == date.date);
+                    } else {
+                      toAdd.add(date.date);
                     }
-                    return f;
-                  }).toList();
-                });
-              },
+                    final tmp = new List<DateTime>.from(toAdd);
+                    concated = new List<Event>.from(_item.calendar).map((f) {
+                      final len = tmp.length;
+                      tmp.removeWhere((d) =>
+                          d.day == f.date.day &&
+                          d.month == f.date.month &&
+                          d.year == f.date.year);
+                      if (tmp.length != len) {
+                        return new Event({
+                          'data': f.data,
+                          'date': f.date.toString(),
+                          'holder': Services.auth.user.id
+                        });
+                      }
+                      return f;
+                    }).toList();
+                  }),
             );
           },
         ),

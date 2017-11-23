@@ -182,11 +182,9 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
             new Flexible(
               child: new TextField(
                 controller: _textController,
-                onChanged: (text) {
-                  setState(() {
-                    _isComposing = text.isNotEmpty;
-                  });
-                },
+                onChanged: (text) => setState(() {
+                      _isComposing = text.isNotEmpty;
+                    }),
                 onSubmitted: _handleSubmitted,
                 decoration: new InputDecoration.collapsed(
                   hintText: SpotL.of(context).send,

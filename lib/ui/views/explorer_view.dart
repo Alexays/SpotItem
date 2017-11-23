@@ -41,8 +41,6 @@ class _ExplorerViewState extends State<ExplorerView> {
     _items = new List<Item>.from(Services.items.data);
     final _tracks = Services.items.tracks.value
         .where((f) => !Services.items.exludeTracks.contains(f));
-    final _sort = Services.items.tracks.value
-        .where((f) => Services.items.exludeTracks.contains(f));
     if (_tracks != null) {
       setState(() {
         _items = _items
@@ -51,6 +49,8 @@ class _ExplorerViewState extends State<ExplorerView> {
             .toList();
       });
     }
+    final _sort = Services.items.tracks.value
+        .where((f) => Services.items.exludeTracks.contains(f));
     _items.sort((i1, i2) {
       switch (_sort.isEmpty ? null : _sort.first) {
         case 'name':

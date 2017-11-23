@@ -93,32 +93,34 @@ class _EditItemScreenState extends State<EditItemScreen>
   }
 
   void _initForm() {
-    if (_item != null) {
-      setState(() {
-        _nameCtrl.text = _item.name;
-        _aboutCtrl.text = _item.about;
-        _groupsId = _item.groups ?? [];
-        _tracks = _item.tracks ?? [];
-        _location = _item.location;
-        _calendar = _item.calendar;
-      });
+    if (_item == null) {
+      return;
     }
+    setState(() {
+      _nameCtrl.text = _item.name;
+      _aboutCtrl.text = _item.about;
+      _groupsId = _item.groups ?? [];
+      _tracks = _item.tracks ?? [];
+      _location = _item.location;
+      _calendar = _item.calendar;
+    });
   }
 
   Future<Null> _getImage() async {
     final _fileName = await ImagePicker.pickImage(maxWidth: 720.0);
-    if (mounted && _fileName != null) {
-      setState(() {
-        _imagesFile.add(_fileName);
-        _fileName.readAsBytes().then((data) {
-          if (!mounted) {
-            return;
-          }
-          _images.add(
-              'data:image/${_fileName.path.split('.').last};base64,${BASE64.encode(data)}');
-        });
-      });
+    if (!mounted || _fileName == null) {
+      return;
     }
+    setState(() {
+      _imagesFile.add(_fileName);
+      _fileName.readAsBytes().then((data) {
+        if (!mounted) {
+          return;
+        }
+        _images.add(
+            'data:image/${_fileName.path.split('.').last};base64,${BASE64.encode(data)}');
+      });
+    });
   }
 
   Widget _getImageGrid() {
@@ -162,11 +164,9 @@ class _EditItemScreenState extends State<EditItemScreen>
                   color: const Color.fromARGB(255, 255, 255, 255),
                   icon: const Icon(Icons.delete),
                   tooltip: 'Delete this image',
-                  onPressed: () {
-                    setState(() {
-                      _item.images.removeAt(index);
-                    });
-                  },
+                  onPressed: () => setState(() {
+                        _item.images.removeAt(index);
+                      }),
                 ),
               ),
             ],
@@ -183,12 +183,10 @@ class _EditItemScreenState extends State<EditItemScreen>
                   color: const Color.fromARGB(255, 255, 255, 255),
                   icon: const Icon(Icons.delete),
                   tooltip: 'Delete this image',
-                  onPressed: () {
-                    setState(() {
-                      _imagesFile.removeAt(index);
-                      _images.removeAt(index);
-                    });
-                  },
+                  onPressed: () => setState(() {
+                        _imagesFile.removeAt(index);
+                        _images.removeAt(index);
+                      }),
                 ),
               ),
             ],
@@ -253,13 +251,11 @@ class _EditItemScreenState extends State<EditItemScreen>
       itemBuilder: (context, index) => new CheckboxListTile(
             title: new Text(_groups[index].name),
             value: _groupsId.contains(_groups[index].id),
-            onChanged: (value) {
-              setState(() {
-                value
-                    ? _groupsId.add(_groups[index].id)
-                    : _groupsId.remove(_groups[index].id);
-              });
-            },
+            onChanged: (value) => setState(() {
+                  value
+                      ? _groupsId.add(_groups[index].id)
+                      : _groupsId.remove(_groups[index].id);
+                }),
             secondary: const Icon(Icons.people),
           ),
     );
@@ -305,11 +301,12 @@ class _EditItemScreenState extends State<EditItemScreen>
                 new GestureDetector(
                   onTap: () async {
                     final p = await Services.users.autocompleteCity(context);
-                    if (mounted && p != null) {
-                      setState(() {
-                        _location = p;
-                      });
+                    if (!mounted || p == null) {
+                      return;
                     }
+                    setState(() {
+                      _location = p;
+                    });
                   },
                   child: new Container(
                     color: Colors.transparent,
@@ -321,29 +318,17 @@ class _EditItemScreenState extends State<EditItemScreen>
             new CheckboxListTile(
               title: new Text(SpotL.of(context).gift),
               value: _tracks.contains('gift'),
-              onChanged: (value) {
-                setState(() {
-                  if (value) {
-                    _tracks.add('gift');
-                  } else {
-                    _tracks.remove('gift');
-                  }
-                });
-              },
+              onChanged: (value) => setState(() {
+                    value ? _tracks.add('gift') : _tracks.remove('gift');
+                  }),
               secondary: const Icon(Icons.card_giftcard),
             ),
             new CheckboxListTile(
               title: new Text(SpotL.of(context).private),
               value: _tracks.contains('private'),
-              onChanged: (value) {
-                setState(() {
-                  if (value) {
-                    _tracks.add('private');
-                  } else {
-                    _tracks.remove('private');
-                  }
-                });
-              },
+              onChanged: (value) => setState(() {
+                    value ? _tracks.add('private') : _tracks.remove('private');
+                  }),
               secondary: const Icon(Icons.lock),
             ),
             new Container(
@@ -358,27 +343,26 @@ class _EditItemScreenState extends State<EditItemScreen>
                         .contains(Services.items.categories[index])
                     ? new FlatButton(
                         child: new Image.asset(
-                            'assets/${Services.items.categories[index]}.png'),
-                        onPressed: () {
-                          _tracks = _tracks
-                              .where((f) =>
-                                  !Services.items.categories.any((d) => d == f))
-                              .toList()
-                                ..add(Services.items.categories[index]);
-                          setState(() {
-                            _tracks = new List<String>.from(_tracks);
-                          });
-                        },
+                          'assets/${Services.items.categories[index]}.png',
+                        ),
+                        onPressed: () => setState(() {
+                              _tracks = _tracks
+                                  .where((f) => !Services.items.categories
+                                      .any((d) => d == f))
+                                  .toList()
+                                    ..add(Services.items.categories[index]);
+                              // TO-DO check whitout this
+                              // _tracks = new List<String>.from(_tracks);
+                            }),
                       )
                     : new RaisedButton(
                         child: new Image.asset(
                             'assets/${Services.items.categories[index]}.png'),
-                        onPressed: () {
-                          _tracks.remove(Services.items.categories[index]);
-                          setState(() {
-                            _tracks = new List<String>.from(_tracks);
-                          });
-                        },
+                        onPressed: () => setState(() {
+                              _tracks.remove(Services.items.categories[index]);
+                              // TO-DO check whitout this
+                              // _tracks = new List<String>.from(_tracks);
+                            }),
                       ),
               ),
             ),
@@ -415,11 +399,9 @@ class _EditItemScreenState extends State<EditItemScreen>
           allowDisable: true,
           edit: true,
           selectedDates: _calendar,
-          onChanged: (value) {
-            setState(() {
-              _calendar = value;
-            });
-          },
+          onChanged: (value) => setState(() {
+                _calendar = value;
+              }),
         ),
       );
 

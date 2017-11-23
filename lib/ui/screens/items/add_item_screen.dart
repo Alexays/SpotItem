@@ -133,11 +133,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
                           color: const Color.fromARGB(255, 255, 255, 255),
                           icon: const Icon(Icons.delete),
                           tooltip: 'Delete this image',
-                          onPressed: () {
-                            setState(() {
-                              _imagesFile.removeAt(index);
-                            });
-                          },
+                          onPressed: () => setState(() {
+                                _imagesFile.removeAt(index);
+                              }),
                         ),
                       ),
                     ],
@@ -161,11 +159,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
           .map((f) => new CheckboxListTile(
                 title: new Text(f.name),
                 value: _groupsId.contains(f.id),
-                onChanged: (value) {
-                  setState(() {
-                    value ? _groupsId.add(f.id) : _groupsId.remove(f.id);
-                  });
-                },
+                onChanged: (value) => setState(() {
+                      value ? _groupsId.add(f.id) : _groupsId.remove(f.id);
+                    }),
                 secondary: const Icon(Icons.people),
               ))
           .toList(),
@@ -301,21 +297,17 @@ class _AddItemScreenState extends State<AddItemScreen> {
           new CheckboxListTile(
             title: new Text(SpotL.of(context).gift),
             value: _tracks.contains('gift'),
-            onChanged: (value) {
-              setState(() {
-                value ? _tracks.add('gift') : _tracks.remove('gift');
-              });
-            },
+            onChanged: (value) => setState(() {
+                  value ? _tracks.add('gift') : _tracks.remove('gift');
+                }),
             secondary: const Icon(Icons.card_giftcard),
           ),
           new CheckboxListTile(
             title: new Text(SpotL.of(context).private),
             value: _tracks.contains('private'),
-            onChanged: (value) {
-              setState(() {
-                value ? _tracks.add('private') : _tracks.remove('private');
-              });
-            },
+            onChanged: (value) => setState(() {
+                  value ? _tracks.add('private') : _tracks.remove('private');
+                }),
             secondary: const Icon(Icons.lock),
           ),
           new Container(
@@ -331,26 +323,24 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   ? new FlatButton(
                       child: new Image.asset(
                           'assets/${Services.items.categories[index]}.png'),
-                      onPressed: () {
-                        _tracks = _tracks
-                            .where((f) =>
-                                !Services.items.categories.any((d) => d == f))
-                            .toList()
-                              ..add(Services.items.categories[index]);
-                        setState(() {
-                          _tracks = new List<String>.from(_tracks);
-                        });
-                      },
+                      onPressed: () => setState(() {
+                            _tracks = _tracks
+                                .where((f) => !Services.items.categories
+                                    .any((d) => d == f))
+                                .toList()
+                                  ..add(Services.items.categories[index]);
+                            // TO-DO check without this
+                            // _tracks = new List<String>.from(_tracks);
+                          }),
                     )
                   : new RaisedButton(
                       child: new Image.asset(
                           'assets/${Services.items.categories[index]}.png'),
-                      onPressed: () {
-                        _tracks.remove(Services.items.categories[index]);
-                        setState(() {
-                          _tracks = new List<String>.from(_tracks);
-                        });
-                      },
+                      onPressed: () => setState(() {
+                            _tracks.remove(Services.items.categories[index]);
+                            // TO-DO check without this
+                            //_tracks = new List<String>.from(_tracks);
+                          }),
                     ),
             ),
           ),
@@ -398,11 +388,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
                         allowDisable: true,
                         edit: true,
                         selectedDates: _calendar,
-                        onChanged: (value) {
-                          setState(() {
-                            _calendar = value;
-                          });
-                        },
+                        onChanged: (value) => setState(() {
+                              _calendar = value;
+                            }),
                       ),
                     ),
                     state: _imagesFile.isNotEmpty
@@ -424,25 +412,19 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   ),
                 ],
                 type: StepperType.vertical,
-                onStepTapped: (step) {
-                  setState(() {
-                    _currentStep = step;
-                  });
-                },
-                onStepCancel: () {
-                  setState(() {
-                    _currentStep = _currentStep > 0 ? _currentStep - 1 : 0;
-                  });
-                },
-                onStepContinue: () {
-                  setState(() {
-                    if (_currentStep < _stepLength - 1) {
-                      _currentStep = _currentStep + 1;
-                    } else {
-                      _addItem(context);
-                    }
-                  });
-                },
+                onStepTapped: (step) => setState(() {
+                      _currentStep = step;
+                    }),
+                onStepCancel: () => setState(() {
+                      _currentStep = _currentStep > 0 ? _currentStep - 1 : 0;
+                    }),
+                onStepContinue: () => setState(() {
+                      if (_currentStep < _stepLength - 1) {
+                        _currentStep = _currentStep + 1;
+                      } else {
+                        _addItem(context);
+                      }
+                    }),
               ),
             ),
           );

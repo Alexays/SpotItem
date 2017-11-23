@@ -51,58 +51,56 @@ class ItemsListItem extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return new GestureDetector(
-      onTap: onPressed,
-      child: new Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          new Card(
-            child: new Stack(
-              children: <Widget>[
-                new Hero(
-                  tag: '${item.id}$hash',
-                  child: new FadeInImage(
-                    height: 192.0, // TO-DO weird value
-                    placeholder: placeholder,
-                    image: item.images.isNotEmpty
-                        ? new NetworkImage(
-                            '$apiImgUrl${item.images.first}',
-                            headers: getHeaders(
-                              key: Services.auth.accessToken,
-                              type: contentType.image,
-                            ),
-                          )
-                        : placeholder,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                new Positioned(
-                  left: 0.0,
-                  right: 0.0,
-                  bottom: 0.0,
-                  child: new Container(
-                    decoration: const BoxDecoration(
-                      gradient: const LinearGradient(
-                        begin: const Alignment(0.0, 1.0),
-                        end: const Alignment(0.0, -1.0),
-                        colors: const <Color>[
-                          Colors.black38,
-                          Colors.black12,
-                        ],
-                      ),
+  Widget build(BuildContext context) => new GestureDetector(
+        onTap: onPressed,
+        child: new Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            new Card(
+              child: new Stack(
+                children: <Widget>[
+                  new Hero(
+                    tag: '${item.id}$hash',
+                    child: new FadeInImage(
+                      height: 192.0, // TO-DO weird value
+                      placeholder: placeholder,
+                      image: item.images.isNotEmpty
+                          ? new NetworkImage(
+                              '$apiImgUrl${item.images.first}',
+                              headers: getHeaders(
+                                key: Services.auth.accessToken,
+                                type: contentType.image,
+                              ),
+                            )
+                          : placeholder,
+                      fit: BoxFit.cover,
                     ),
-                    padding: const EdgeInsets.all(10.0),
-                    child: _buildInfo(context),
                   ),
-                ),
-              ],
+                  new Positioned(
+                    left: 0.0,
+                    right: 0.0,
+                    bottom: 0.0,
+                    child: new Container(
+                      decoration: const BoxDecoration(
+                        gradient: const LinearGradient(
+                          begin: const Alignment(0.0, 1.0),
+                          end: const Alignment(0.0, -1.0),
+                          colors: const <Color>[
+                            Colors.black38,
+                            Colors.black12,
+                          ],
+                        ),
+                      ),
+                      padding: const EdgeInsets.all(10.0),
+                      child: _buildInfo(context),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
+          ],
+        ),
+      );
 }
 
 const int _childrenPerBlock = 8;

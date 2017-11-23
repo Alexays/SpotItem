@@ -267,14 +267,14 @@ class _HomeScreenState extends State<HomeScreen>
       return;
     }
     _searchCallback();
-    ModalRoute.of(context).addLocalHistoryEntry(new LocalHistoryEntry(
-      onRemove: () {
-        setState(() {
-          _searchController.removeListener(_searchCallback);
-          _isSearching = false;
-        });
-      },
-    ));
+    ModalRoute.of(context).addLocalHistoryEntry(
+          new LocalHistoryEntry(
+            onRemove: () => setState(() {
+                  _searchController.removeListener(_searchCallback);
+                  _isSearching = false;
+                }),
+          ),
+        );
     setState(() {
       _searchController.addListener(_searchCallback);
       _isSearching = true;
@@ -528,17 +528,15 @@ class _HomeScreenState extends State<HomeScreen>
                       break;
                   }
                 }).toList(),
-            onSelected: (action) {
-              setState(() {
-                Services.items.tracks.value = [
-                  Services.items.tracks.value
-                      .where(
-                          (f) => !Services.items.sortMethod.any((d) => d == f))
-                      .toList(),
-                  [action]
-                ].expand((x) => x).toList();
-              });
-            },
+            onSelected: (action) => setState(() {
+                  Services.items.tracks.value = [
+                    Services.items.tracks.value
+                        .where((f) =>
+                            !Services.items.sortMethod.any((d) => d == f))
+                        .toList(),
+                    [action]
+                  ].expand((x) => x).toList();
+                }),
           )
         ],
       );
@@ -610,14 +608,12 @@ class _HomeScreenState extends State<HomeScreen>
                     type: BottomNavigationBarType.fixed,
                     currentIndex: page,
                     items: _homeScreenItems.map((data) => data.item).toList(),
-                    onTap: (index) {
-                      setState(() {
-                        page = index;
-                        Services.observer.analytics.setCurrentScreen(
-                          screenName: 'Home/tabpage',
-                        );
-                      });
-                    },
+                    onTap: (index) => setState(() {
+                          page = index;
+                          Services.observer.analytics.setCurrentScreen(
+                            screenName: 'Home/tabpage',
+                          );
+                        }),
                   ),
           ),
           const Banner(

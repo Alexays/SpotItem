@@ -97,11 +97,9 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                                 padding: const EdgeInsets.all(2.0),
                                 child: new Chip(
                                   label: new Text(f),
-                                  onDeleted: () {
-                                    setState(() {
-                                      email.remove(f);
-                                    });
-                                  },
+                                  onDeleted: () => setState(() {
+                                        email.remove(f);
+                                      }),
                                 ),
                               ),
                         )
