@@ -377,21 +377,25 @@ class _EditItemScreenState extends State<EditItemScreen>
         ),
       );
 
-  Widget _buildImages(BuildContext context) => new Container(
-        margin: const EdgeInsets.all(20.0),
-        child: new Column(children: [
-          (_item.images.length + _imagesFile.length) > 0
-              ? new Padding(
-                  padding: const EdgeInsets.only(bottom: 15.0),
-                  child: new RaisedButton(
-                    child: new Text(SpotL.of(context).addImage),
-                    onPressed: _getImage,
-                  ),
-                )
-              : new Container(),
-          new Flexible(child: _getImageGrid())
-        ]),
+  Widget _buildImages(BuildContext context) {
+    final widgets = <Widget>[new Flexible(child: _getImageGrid())];
+    if ((_item.images.length + _imagesFile.length) > 0) {
+      widgets.insert(
+        0,
+        new Padding(
+          padding: const EdgeInsets.only(bottom: 15.0),
+          child: new RaisedButton(
+            child: new Text(SpotL.of(context).addImage),
+            onPressed: _getImage,
+          ),
+        ),
       );
+    }
+    return new Container(
+      margin: const EdgeInsets.all(20.0),
+      child: new Column(children: widgets),
+    );
+  }
 
   Widget _buildCalendar(BuildContext context) => new Container(
         height: MediaQuery.of(context).size.height,
