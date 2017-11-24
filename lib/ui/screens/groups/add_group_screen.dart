@@ -70,7 +70,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                     key: const Key('name'),
                     decoration: new InputDecoration(
                       hintText: SpotL.of(context).namePh,
-                      labelText: SpotL.of(Services.context).name,
+                      labelText: SpotL.of(context).name,
                     ),
                     validator: validateName,
                     onSaved: (value) {

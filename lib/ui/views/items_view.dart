@@ -47,17 +47,16 @@ class _ItemsViewState extends State<ItemsView> {
     });
   }
 
-  Widget getList() {
+  Widget _getList(BuildContext context) {
     if (_myItems.isEmpty) {
       return new Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          new Center(child: new Text(SpotL.of(Services.context).noItems)),
+          new Center(child: new Text(SpotL.of(context).noItems)),
           const Padding(padding: const EdgeInsets.all(10.0)),
           new RaisedButton(
-            child: new Text(SpotL.of(Services.context).addItem),
-            onPressed: () =>
-                Navigator.of(Services.context).pushNamed('/items/add/'),
+            child: new Text(SpotL.of(context).addItem),
+            onPressed: () => Navigator.of(context).pushNamed('/items/add/'),
           ),
         ],
       );
@@ -103,9 +102,10 @@ class _ItemsViewState extends State<ItemsView> {
 
   @override
   Widget build(BuildContext context) => new RefreshIndicator(
-      key: _refreshIndicatorKey,
-      onRefresh: _loadItems,
-      child: _myItems == null
-          ? const Center(child: const CircularProgressIndicator())
-          : getList());
+        key: _refreshIndicatorKey,
+        onRefresh: _loadItems,
+        child: _myItems == null
+            ? const Center(child: const CircularProgressIndicator())
+            : _getList(context),
+      );
 }

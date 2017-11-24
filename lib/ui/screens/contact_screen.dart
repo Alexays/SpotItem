@@ -38,21 +38,19 @@ class _ContactScreenState extends State<ContactScreen> {
     Navigator.pop(context, _email);
   }
 
-  Future<Null> _getMail(int index) async {
+  Future<Null> _getMail(BuildContext context, int index) async {
     final emails = _contacts[index]['emailAddresses'];
     final res = await showDialog<Null>(
       context: context,
       child: new SimpleDialog(
-        title: new Text(SpotL.of(Services.context).confirm),
-        children: emails.map(
-          (f) => new ListTile(
-                title: new Text(f['value']),
-                onTap: () {
-                  _email = f['value'];
-                  _handleEmail(context);
-                },
-              ),
-        ),
+        title: new Text(SpotL.of(context).confirm),
+        children: emails.map((f) => new ListTile(
+              title: new Text(f['value']),
+              onTap: () {
+                _email = f['value'];
+                _handleEmail(context);
+              },
+            )),
       ),
     );
     if (res != null) {
@@ -124,7 +122,7 @@ class _ContactScreenState extends State<ContactScreen> {
                       title:
                           new Text(_contacts[index]['names'][0]['displayName']),
                       leading: const Icon(Icons.people),
-                      onTap: () => _getMail(index),
+                      onTap: () => _getMail(context, index),
                     ),
               ),
             )

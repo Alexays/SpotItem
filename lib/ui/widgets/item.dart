@@ -31,76 +31,88 @@ class ItemsListItem extends StatelessWidget {
         child: new Text(
           capitalize(item.name),
           overflow: TextOverflow.ellipsis,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
+          style: theme.primaryTextTheme.subhead.copyWith(
+            color: Colors.black,
           ),
         ),
       ),
     ];
     if (item.dist >= 0) {
-      widgets.add(new Chip(
-        backgroundColor: theme.primaryColor,
-        label: new Text(
+      widgets.add(
+        new Text(
           distString(item.dist),
-          style: theme.primaryTextTheme.subhead.copyWith(fontSize: 14.0),
+          style: theme.textTheme.subhead.copyWith(fontSize: 14.0),
         ),
-      ));
+      );
     }
-    return new Row(children: widgets);
+    return new Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        new Row(children: widgets),
+        new Text(
+          '${item.owner.firstname} ${item.owner.name}',
+          style: theme.primaryTextTheme.subhead.copyWith(
+            fontSize: 12.0,
+            color: Colors.black54,
+          ),
+        ),
+      ],
+    );
   }
 
   @override
-  Widget build(BuildContext context) => new GestureDetector(
-        onTap: onPressed,
-        child: new Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            new Card(
-              child: new Stack(
-                children: <Widget>[
-                  new Hero(
-                    tag: '${item.id}$hash',
-                    child: new FadeInImage(
-                      height: 192.0, // TO-DO weird value
-                      placeholder: placeholder,
-                      image: item.images.isNotEmpty
-                          ? new NetworkImage(
-                              '$apiImgUrl${item.images.first}',
-                              headers: getHeaders(
-                                key: Services.auth.accessToken,
-                                type: contentType.image,
-                              ),
-                            )
-                          : placeholder,
-                      fit: BoxFit.cover,
-                    ),
+  Widget build(BuildContext context) {
+    final widgets = <Widget>[
+      new Hero(
+        tag: '${item.id}$hash',
+        child: new FadeInImage(
+          width: 250.0,
+          height: 200.0,
+          fit: BoxFit.cover,
+          placeholder: placeholder,
+          image: item.images.isNotEmpty
+              ? new NetworkImage(
+                  '$apiImgUrl${item.images.first}',
+                  headers: getHeaders(
+                    key: Services.auth.accessToken,
+                    type: contentType.image,
                   ),
-                  new Positioned(
-                    left: 0.0,
-                    right: 0.0,
-                    bottom: 0.0,
-                    child: new Container(
-                      decoration: const BoxDecoration(
-                        gradient: const LinearGradient(
-                          begin: const Alignment(0.0, 1.0),
-                          end: const Alignment(0.0, -1.0),
-                          colors: const <Color>[
-                            Colors.black38,
-                            Colors.black12,
-                          ],
-                        ),
-                      ),
-                      padding: const EdgeInsets.all(10.0),
-                      child: _buildInfo(context),
-                    ),
-                  ),
-                ],
-              ),
+                )
+              : placeholder,
+        ),
+      ),
+    ];
+    if (item.dist >= 0) {
+      widgets.add(
+        new Positioned(
+          left: 10.0,
+          bottom: 10.0,
+          child: new Container(
+            color: Colors.black.withOpacity(0.75),
+            padding: const EdgeInsets.symmetric(
+              vertical: 10.0,
+              horizontal: 15.0,
             ),
-          ],
+            child: new Text(
+              distString(item.dist),
+              style: Theme.of(context).primaryTextTheme.subhead.copyWith(
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+            ),
+          ),
         ),
       );
+    }
+    return new GestureDetector(
+      onTap: onPressed,
+      child: new Card(
+        child: new Stack(
+          children: widgets,
+        ),
+      ),
+    );
+  }
 }
 
 const int _childrenPerBlock = 8;

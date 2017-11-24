@@ -107,8 +107,8 @@ class _HomeScreenState extends State<HomeScreen>
   String _searchQuery;
 
   //Explore
-  List<TabController> tabsCtrl;
   int page = 0;
+  List<TabController> tabsCtrl;
   FloatingActionButton get fab =>
       _homeScreenItems[page].fabs.length > tabsCtrl[page].index
           ? _homeScreenItems[page].fabs[tabsCtrl[page].index]
@@ -169,7 +169,7 @@ class _HomeScreenState extends State<HomeScreen>
     }
   }
 
-  void _showFilter() {
+  void _showFilter(BuildContext context) {
     showModalBottomSheet<Null>(
       context: context,
       builder: (context) => new StatefulBuilder(
@@ -219,8 +219,7 @@ class _HomeScreenState extends State<HomeScreen>
                                 )),
                     ),
                     new SwitchListTile(
-                      title:
-                          new Text(SpotL.of(Services.context).fromYourGroups),
+                      title: new Text(SpotL.of(context).fromYourGroups),
                       value: Services.items.tracks.value.contains('group'),
                       onChanged: (value) {
                         value
@@ -234,7 +233,7 @@ class _HomeScreenState extends State<HomeScreen>
                       secondary: const Icon(Icons.lock),
                     ),
                     new SwitchListTile(
-                      title: new Text(SpotL.of(Services.context).gift),
+                      title: new Text(SpotL.of(context).gift),
                       value: Services.items.tracks.value.contains('gift'),
                       onChanged: (value) {
                         value
@@ -308,6 +307,67 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
+  Widget _buildDrawerList(BuildContext context) {
+    final theme = Theme.of(context);
+    return new Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        new ListTile(
+          leading: const Icon(Icons.home),
+          title: new Text(SpotL.of(context).home),
+          selected: true,
+        ),
+        new ListTile(
+          leading: const Icon(Icons.dvr),
+          title: const Text('Dump App to Console'),
+          onTap: () {
+            debugDumpApp();
+            debugDumpRenderTree();
+            debugDumpLayerTree();
+          },
+        ),
+        new ListTile(
+          leading: const Icon(Icons.developer_board),
+          title: const Text('Debug'),
+          onTap: () => Navigator.of(context).pushNamed('/debug'),
+        ),
+        new AboutListTile(
+          icon: const Icon(Icons.info),
+          applicationVersion: version,
+          applicationIcon: const Icon(Icons.info),
+          applicationLegalese: '© 2017 Alexis Rouillard',
+          aboutBoxChildren: <Widget>[
+            new Padding(
+              padding: const EdgeInsets.only(top: 24.0),
+              child: new RichText(
+                text: new TextSpan(
+                  children: <TextSpan>[
+                    new TextSpan(
+                      style: theme.textTheme.body2,
+                      text:
+                          'Spotitem est un outil de pret de matériels, biens entre amis.\n'
+                          'En savoir plus a propos de Spotitem sur ',
+                    ),
+                    new LinkTextSpan(
+                      style: theme.textTheme.body2
+                          .copyWith(color: theme.accentColor),
+                      url: 'https://spotitem.fr',
+                    ),
+                    new TextSpan(
+                      style: theme.textTheme.body2,
+                      text: '.',
+                    )
+                  ],
+                ),
+              ),
+            )
+          ],
+        )
+      ],
+    );
+  }
+
   Widget _buildDrawer(BuildContext context) => new Drawer(
         child: new ListView(
           shrinkWrap: true,
@@ -341,70 +401,7 @@ class _HomeScreenState extends State<HomeScreen>
                 children: <Widget>[
                   new FadeTransition(
                     opacity: _drawerContentsOpacity,
-                    child: new Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        new ListTile(
-                          leading: const Icon(Icons.home),
-                          title: new Text(SpotL.of(Services.context).home),
-                          selected: true,
-                        ),
-                        new ListTile(
-                          leading: const Icon(Icons.dvr),
-                          title: const Text('Dump App to Console'),
-                          onTap: () {
-                            debugDumpApp();
-                            debugDumpRenderTree();
-                            debugDumpLayerTree();
-                          },
-                        ),
-                        new ListTile(
-                          leading: const Icon(Icons.developer_board),
-                          title: const Text('Debug'),
-                          onTap: () =>
-                              Navigator.of(context).pushNamed('/debug'),
-                        ),
-                        new AboutListTile(
-                          icon: const Icon(Icons.info),
-                          applicationVersion: version,
-                          applicationIcon: const Icon(Icons.info),
-                          applicationLegalese: '© 2017 Alexis Rouillard',
-                          aboutBoxChildren: <Widget>[
-                            new Padding(
-                              padding: const EdgeInsets.only(top: 24.0),
-                              child: new RichText(
-                                text: new TextSpan(
-                                  children: <TextSpan>[
-                                    new TextSpan(
-                                      style: Theme.of(context).textTheme.body2,
-                                      text:
-                                          'Spotitem est un outil de pret de matériels, biens entre amis.\n'
-                                          'En savoir plus a propos de Spotitem sur ',
-                                    ),
-                                    new LinkTextSpan(
-                                      style: Theme
-                                          .of(context)
-                                          .textTheme
-                                          .body2
-                                          .copyWith(
-                                              color: Theme
-                                                  .of(context)
-                                                  .accentColor),
-                                      url: 'https://spotitem.fr',
-                                    ),
-                                    new TextSpan(
-                                      style: Theme.of(context).textTheme.body2,
-                                      text: '.',
-                                    )
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
+                    child: _buildDrawerList(context),
                   ),
                   new SlideTransition(
                     position: _drawerDetailsPosition,
@@ -416,14 +413,13 @@ class _HomeScreenState extends State<HomeScreen>
                         children: <Widget>[
                           new ListTile(
                               leading: const Icon(Icons.edit),
-                              title: new Text(
-                                  SpotL.of(Services.context).editProfile),
+                              title: new Text(SpotL.of(context).editProfile),
                               onTap: () => Navigator
                                   .of(context)
                                   .pushNamed('/profile/edit/')),
                           new ListTile(
                             leading: const Icon(Icons.exit_to_app),
-                            title: new Text(SpotL.of(Services.context).logout),
+                            title: new Text(SpotL.of(context).logout),
                             onTap: () => Services.auth.logout().then(
                                   (_) => Navigator
                                       .of(context)
@@ -469,7 +465,7 @@ class _HomeScreenState extends State<HomeScreen>
           decoration: new InputDecoration(
             isDense: true,
             hideDivider: true,
-            hintText: SpotL.of(Services.context).search,
+            hintText: SpotL.of(context).search,
             hintStyle: const TextStyle(
               color: const Color.fromARGB(150, 255, 255, 255),
               fontSize: 18.0,
@@ -505,7 +501,7 @@ class _HomeScreenState extends State<HomeScreen>
             padding: const EdgeInsets.all(0.0),
             alignment: Alignment.centerRight,
             icon: const Icon(Icons.filter_list),
-            onPressed: () => setState(_showFilter),
+            onPressed: () => setState(() => _showFilter(context)),
           ),
           new PopupMenuButton(
             padding: const EdgeInsets.all(0.0),
@@ -567,8 +563,7 @@ class _HomeScreenState extends State<HomeScreen>
   Widget _buildChild(BuildContext context) {
     if (_isSearching) {
       if (_searchQuery.isEmpty) {
-        return new Center(
-            child: new Text(SpotL.of(Services.context).searchDialog));
+        return new Center(child: new Text(SpotL.of(context).searchDialog));
       }
       final _query = _searchQuery.split(' ').where((f) => f.trim().isNotEmpty);
       return new ItemsList(

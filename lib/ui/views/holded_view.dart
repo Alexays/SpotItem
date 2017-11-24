@@ -47,12 +47,12 @@ class _HoldedViewState extends State<HoldedView> {
     });
   }
 
-  Widget getList() {
+  Widget _getList(BuildContext context) {
     if (_holded.isEmpty) {
       return new Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          new Center(child: new Text(SpotL.of(Services.context).noItems)),
+          new Center(child: new Text(SpotL.of(context).noItems)),
         ],
       );
     }
@@ -102,5 +102,5 @@ class _HoldedViewState extends State<HoldedView> {
       onRefresh: _loadItems,
       child: _holded == null
           ? const Center(child: const CircularProgressIndicator())
-          : getList());
+          : _getList(context));
 }

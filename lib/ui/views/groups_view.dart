@@ -70,7 +70,7 @@ class _GroupsViewState extends State<GroupsView> {
         ));
   }
 
-  Widget _createList() {
+  Widget _createList(BuildContext context) {
     if (_inv?.isEmpty == true && _groups.isEmpty) {
       return new Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -80,7 +80,7 @@ class _GroupsViewState extends State<GroupsView> {
           new RaisedButton(
             child: new Text(SpotL.of(context).addGroup),
             onPressed: () async {
-              await Navigator.of(Services.context).pushNamed('/groups/add/');
+              await Navigator.of(context).pushNamed('/groups/add/');
             },
           ),
         ],
@@ -228,5 +228,5 @@ class _GroupsViewState extends State<GroupsView> {
       onRefresh: _loadGroups,
       child: _groups == null
           ? const Center(child: const CircularProgressIndicator())
-          : _createList());
+          : _createList(context));
 }

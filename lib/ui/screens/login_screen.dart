@@ -72,8 +72,8 @@ class LoginScreen extends StatelessWidget {
                             new TextFormField(
                               key: const Key('email'),
                               decoration: new InputDecoration(
-                                hintText: SpotL.of(Services.context).emailPh,
-                                labelText: SpotL.of(Services.context).email,
+                                hintText: SpotL.of(context).emailPh,
+                                labelText: SpotL.of(context).email,
                               ),
                               autofocus: true,
                               controller: _usernameCtrl,
@@ -100,8 +100,7 @@ class LoginScreen extends StatelessWidget {
                               children: <Widget>[
                                 new RaisedButton(
                                     key: const Key('login'),
-                                    child: new Text(
-                                        SpotL.of(Services.context).login),
+                                    child: new Text(SpotL.of(context).login),
                                     onPressed: () => _localLogin(context)),
                                 const Padding(
                                   padding: const EdgeInsets.symmetric(
@@ -128,7 +127,7 @@ class LoginScreen extends StatelessWidget {
                                 ),
                                 new FlatButton(
                                   child: new Text(
-                                    SpotL.of(Services.context).register,
+                                    SpotL.of(context).register,
                                     textAlign: TextAlign.center,
                                   ),
                                   onPressed: () =>

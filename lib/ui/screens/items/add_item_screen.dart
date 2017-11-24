@@ -222,9 +222,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
     await Services.items
         .getItems(force: true); // UNTIL WE HIDE USER ITEM FROM GENERAL LIST
     await showDialog<Null>(
-      context: Services.context,
+      context: context,
       child: new SimpleDialog(
-          title: new Text(SpotL.of(Services.context).confirm),
+          title: new Text(SpotL.of(context).confirm),
           children: [
             new Container(
               child: new Image.network(
@@ -256,7 +256,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
           new TextFormField(
             key: const Key('about'),
             decoration: new InputDecoration(
-              hintText: SpotL.of(Services.context).aboutPh,
+              hintText: SpotL.of(context).aboutPh,
               labelText: SpotL.of(context).about,
             ),
             validator: validateString,

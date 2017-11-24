@@ -351,7 +351,7 @@ class _EditItemScreenState extends State<EditItemScreen>
                                       .any((d) => d == f))
                                   .toList()
                                     ..add(Services.items.categories[index]);
-                              // TO-DO check whitout this
+                              // TODO(test): check whitout this.
                               // _tracks = new List<String>.from(_tracks);
                             }),
                       )

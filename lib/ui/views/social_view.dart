@@ -106,7 +106,7 @@ class _SocialViewState extends State<SocialView> {
                         child: new Text(SpotL.of(context).createConv),
                         onPressed: () async {
                           await Navigator
-                              .of(Services.context)
+                              .of(context)
                               .pushNamed('/messages/add/');
                         },
                       ),
