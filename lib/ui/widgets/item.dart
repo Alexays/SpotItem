@@ -36,28 +36,15 @@ class ItemsListItem extends StatelessWidget {
           ),
         ),
       ),
+      new Text(
+        '${item.owner.firstname} ${item.owner.name}',
+        style: theme.primaryTextTheme.subhead.copyWith(
+          fontSize: 12.0,
+          color: Colors.black54,
+        ),
+      ),
     ];
-    if (item.dist >= 0) {
-      widgets.add(
-        new Text(
-          distString(item.dist),
-          style: theme.textTheme.subhead.copyWith(fontSize: 14.0),
-        ),
-      );
-    }
-    return new Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        new Row(children: widgets),
-        new Text(
-          '${item.owner.firstname} ${item.owner.name}',
-          style: theme.primaryTextTheme.subhead.copyWith(
-            fontSize: 12.0,
-            color: Colors.black54,
-          ),
-        ),
-      ],
-    );
+    return new Row(children: widgets);
   }
 
   @override
@@ -106,10 +93,20 @@ class ItemsListItem extends StatelessWidget {
     }
     return new GestureDetector(
       onTap: onPressed,
-      child: new Card(
-        child: new Stack(
-          children: widgets,
-        ),
+      child: new Column(
+        children: <Widget>[
+          new Expanded(
+            child: new Card(
+              child: new Stack(
+                children: widgets,
+              ),
+            ),
+          ),
+          new Padding(
+            padding: const EdgeInsets.symmetric(vertical: 7.5, horizontal: 5.0),
+            child: _buildInfo(context),
+          ),
+        ],
       ),
     );
   }
