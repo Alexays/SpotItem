@@ -164,20 +164,20 @@ class BasicService {
   Future<Map<String, dynamic>> getWsHeader(String type) async {
     assert(type != null);
     final client = createHttpClient();
-    if (Services.auth.loggedIn) {
-      final verifiedToken = await Services.auth
-          .verifyToken(client, Services.auth.accessToken)
-          .whenComplete(client.close);
-      if (Services.auth.ws == null) {
-        await Services.auth.connectWs();
-      }
-      return {
-        'type': type,
-        'id': Services.auth.user.id,
-        'version': '2',
-        'auth': {'headers': getHeaders(key: verifiedToken)},
-      };
+    if (!Services.auth.loggedIn) {
+      return null;
     }
-    return null;
+    final verifiedToken = await Services.auth
+        .verifyToken(client, Services.auth.accessToken)
+        .whenComplete(client.close);
+    if (Services.auth.ws == null) {
+      await Services.auth.connectWs();
+    }
+    return {
+      'type': type,
+      'id': Services.auth.user.id,
+      'version': '2',
+      'auth': {'headers': getHeaders(key: verifiedToken)},
+    };
   }
 }

@@ -265,7 +265,7 @@ class AuthManager extends BasicService {
   /// Connect to web socket
   ///
   Future<Null> connectWs() async {
-    if (!Services.debug) {
+    if (Services.debug) {
       return;
     }
     ws = new IOWebSocketChannel.connect('ws://$baseHost');
