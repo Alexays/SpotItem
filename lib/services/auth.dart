@@ -271,7 +271,7 @@ class AuthManager extends BasicService {
     ws = new IOWebSocketChannel.connect('ws://$baseHost');
     ws.stream.listen(handleWsData);
     final header = await getWsHeader('hello');
-    if (header != null) {
+    if (header == null) {
       return;
     }
     ws.sink.add(JSON.encode(header));
