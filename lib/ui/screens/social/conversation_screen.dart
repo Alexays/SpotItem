@@ -150,28 +150,22 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
           Services.context = context;
           return _messages == null
               ? const Center(child: const CircularProgressIndicator())
-              : new Column(children: <Widget>[
-                  new Flexible(
-                    child: _messages.isNotEmpty
-                        ? new ListView.builder(
-                            shrinkWrap: true,
-                            padding: const EdgeInsets.all(8.0),
-                            reverse: true,
-                            itemBuilder: (_, index) => _messages[index],
-                            itemCount: _messages.length,
-                          )
-                        : new Center(
-                            child: new Text(SpotL.of(context).noMessages),
-                          ),
-                  ),
-                  const Divider(height: 1.0),
-                  new Container(
-                    decoration:
-                        new BoxDecoration(color: Theme.of(context).cardColor),
-                    child: _buildTextComposer(),
-                  ),
-                ]);
+              : _messages.isNotEmpty
+                  ? new ListView.builder(
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.all(8.0),
+                      reverse: true,
+                      itemBuilder: (_, index) => _messages[index],
+                      itemCount: _messages.length,
+                    )
+                  : new Center(
+                      child: new Text(SpotL.of(context).noMessages),
+                    );
         }),
+        bottomNavigationBar: new Container(
+          decoration: new BoxDecoration(color: Theme.of(context).cardColor),
+          child: _buildTextComposer(),
+        ),
       );
 
   Widget _buildTextComposer() => new IconTheme(
