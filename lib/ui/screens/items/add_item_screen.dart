@@ -223,19 +223,17 @@ class _AddItemScreenState extends State<AddItemScreen> {
         .getItems(force: true); // UNTIL WE HIDE USER ITEM FROM GENERAL LIST
     await showDialog<Null>(
       context: context,
-      child: new SimpleDialog(
-          title: new Text(SpotL.of(context).confirm),
-          children: [
-            new Container(
-              child: new Image.network(
-                '$apiUrl/items/${response.data}/code',
-                headers: getHeaders(
-                  key: Services.auth.accessToken,
-                  type: contentType.image,
-                ),
-              ),
+      child: new SimpleDialog(children: [
+        new Container(
+          child: new Image.network(
+            '$apiUrl/items/${response.data}/code',
+            headers: getHeaders(
+              key: Services.auth.accessToken,
+              type: contentType.image,
             ),
-          ]),
+          ),
+        ),
+      ]),
     );
     await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
   }
@@ -369,6 +367,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                           .floorToDouble(),
                       child: _getImageGrid(),
                     ),
+                    // TO-DO setState name when it changed
                     state: _name != null && _name.isNotEmpty
                         ? _imagesFile.isNotEmpty
                             ? StepState.complete
