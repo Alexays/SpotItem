@@ -107,7 +107,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
       );
     }
     return new GridView.count(
-      shrinkWrap: true,
       primary: false,
       crossAxisCount: 3,
       crossAxisSpacing: 10.0,

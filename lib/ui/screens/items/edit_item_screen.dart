@@ -108,18 +108,15 @@ class _EditItemScreenState extends State<EditItemScreen>
 
   Future<Null> _getImage() async {
     final _fileName = await ImagePicker.pickImage(maxWidth: 720.0);
-    if (!mounted || _fileName == null) {
+    final imageData = await _fileName.readAsBytes();
+    if (!mounted) {
       return;
     }
     setState(() {
       _imagesFile.add(_fileName);
-      _fileName.readAsBytes().then((data) {
-        if (!mounted) {
-          return;
-        }
-        _images.add(
-            'data:image/${_fileName.path.split('.').last};base64,${BASE64.encode(data)}');
-      });
+      _images.add(
+        'data:image/${_fileName.path.split('.').last};base64,${BASE64.encode(imageData)}',
+      );
     });
   }
 
@@ -142,7 +139,6 @@ class _EditItemScreenState extends State<EditItemScreen>
       );
     }
     return new GridView.count(
-      shrinkWrap: true,
       primary: false,
       padding: const EdgeInsets.all(15.0),
       crossAxisCount: 3,
@@ -152,7 +148,7 @@ class _EditItemScreenState extends State<EditItemScreen>
         if (i == 0) {
           return new GridTile(
             child: new GestureDetector(
-              onTap: () async => _getImage(),
+              onTap: _getImage,
               child: new Card(
                 child: new Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
