@@ -106,45 +106,58 @@ class _AddItemScreenState extends State<AddItemScreen> {
         ],
       );
     }
-    return new Column(children: <Widget>[
-      new Center(
-        child: new RaisedButton(
-          child: new Text(SpotL.of(context).addImage),
-          onPressed: _getImage,
-        ),
-      ),
-      const Divider(),
-      new Flexible(
-        child: new GridView.count(
-          primary: false,
-          crossAxisCount: 3,
-          crossAxisSpacing: 10.0,
-          mainAxisSpacing: 10.0,
-          children: new List<Widget>.generate(
-            _imagesFile.length,
-            (index) => new GridTile(
-                  child: new Stack(
+    return new GridView.count(
+      shrinkWrap: true,
+      primary: false,
+      crossAxisCount: 3,
+      crossAxisSpacing: 10.0,
+      children: new List<Widget>.generate(
+        _imagesFile.length + 1,
+        (i) {
+          final index = i - 1;
+          if (i == 0) {
+            return new GridTile(
+              child: new GestureDetector(
+                onTap: _getImage,
+                child: new Card(
+                  child: new Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      new Image.file(_imagesFile[index]),
-                      new Positioned(
-                        top: 2.5,
-                        left: 2.5,
-                        child: new IconButton(
-                          color: const Color.fromARGB(255, 255, 255, 255),
-                          icon: const Icon(Icons.delete),
-                          tooltip: 'Delete this image',
-                          onPressed: () => setState(() {
-                                _imagesFile.removeAt(index);
-                              }),
-                        ),
-                      ),
+                      const Icon(Icons.add),
+                      new Text(SpotL.of(context).addImage),
                     ],
                   ),
                 ),
-          ),
-        ),
-      )
-    ]);
+              ),
+            );
+          }
+          return new GridTile(
+            child: new Stack(
+              fit: StackFit.expand,
+              children: <Widget>[
+                new Image.file(
+                  _imagesFile[index],
+                  fit: BoxFit.cover,
+                ),
+                new Positioned(
+                  top: 2.5,
+                  left: 2.5,
+                  child: new IconButton(
+                    color: const Color.fromARGB(255, 255, 255, 255),
+                    icon: const Icon(Icons.delete),
+                    tooltip: 'Delete this image',
+                    onPressed: () => setState(() {
+                          _imagesFile.removeAt(index);
+                        }),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
   }
 
   Widget _getGroups() {

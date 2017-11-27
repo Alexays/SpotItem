@@ -196,34 +196,33 @@ class _EditItemScreenState extends State<EditItemScreen>
               ),
             ),
           );
-        } else {
-          return new GridTile(
-            child: new Card(
-              child: new Stack(
-                fit: StackFit.expand,
-                children: <Widget>[
-                  new Image.file(
-                    _imagesFile[index - _item.images.length],
-                    fit: BoxFit.cover,
-                  ),
-                  new Positioned(
-                    top: 2.5,
-                    left: 2.5,
-                    child: new IconButton(
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                      icon: const Icon(Icons.delete),
-                      tooltip: 'Delete this image',
-                      onPressed: () => setState(() {
-                            _imagesFile.removeAt(index);
-                            _images.removeAt(index);
-                          }),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
         }
+        return new GridTile(
+          child: new Card(
+            child: new Stack(
+              fit: StackFit.expand,
+              children: <Widget>[
+                new Image.file(
+                  _imagesFile[index - _item.images.length],
+                  fit: BoxFit.cover,
+                ),
+                new Positioned(
+                  top: 2.5,
+                  left: 2.5,
+                  child: new IconButton(
+                    color: const Color.fromARGB(255, 255, 255, 255),
+                    icon: const Icon(Icons.delete),
+                    tooltip: 'Delete this image',
+                    onPressed: () => setState(() {
+                          _imagesFile.removeAt(index);
+                          _images.removeAt(index);
+                        }),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
       }),
     );
   }

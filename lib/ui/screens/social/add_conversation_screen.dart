@@ -6,19 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:spotitem/ui/screens/social/conversation_screen.dart';
 import 'package:spotitem/i18n/spot_localization.dart';
 
-/// Add Conv screen class
-class AddConvScreen extends StatefulWidget {
-  /// Add Conv screen initalizer
+/// Add conversation screen class
+class AddConvScreen extends StatelessWidget {
+  /// Add conversation screen constructor
   const AddConvScreen();
-
-  @override
-  _AddConvScreenState createState() => new _AddConvScreenState();
-}
-
-class _AddConvScreenState extends State<AddConvScreen> {
-  String group;
-
-  Future<Null> _addConv(BuildContext context) async {
+  Future<Null> _addConv(BuildContext context, String group) async {
     if (group == null) {
       showSnackBar(context, SpotL.of(context).selectGroup);
       return;
@@ -48,11 +40,10 @@ class _AddConvScreenState extends State<AddConvScreen> {
                   shrinkWrap: true,
                   itemCount: Services.groups.data?.length ?? 0,
                   itemBuilder: (context, index) => new ListTile(
-                      title: new Text(Services.groups.data[index].name),
-                      onTap: () {
-                        group = Services.groups.data[index].id;
-                        _addConv(context);
-                      }),
+                        title: new Text(Services.groups.data[index].name),
+                        onTap: () =>
+                            _addConv(context, Services.groups.data[index].id),
+                      ),
                 )
               : new Center(child: new Text(SpotL.of(context).noGroups));
         },
