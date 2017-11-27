@@ -31,7 +31,7 @@ class ChatMessage extends StatelessWidget {
             children: <Widget>[
               new Container(
                 margin: const EdgeInsets.only(right: 16.0),
-                child: getAvatar(text.sender),
+                child: getAvatar(text.sender, 20.0),
               ),
               new Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
