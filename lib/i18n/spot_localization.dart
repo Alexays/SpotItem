@@ -276,8 +276,11 @@ class SpotL {
   /// Book title
   String get book => _nameToValue['book'];
 
-  /// Holded title
+  /// Holded items title
   String get holded => _nameToValue['holded'];
+
+  /// No holded items title
+  String get noHolded => _nameToValue['noHolded'];
 
   /// Enable or choose location title
   String get locationError => _nameToValue['locationError'];
