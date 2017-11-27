@@ -152,7 +152,7 @@ class UsersManager extends BasicService {
   /// @param password User password to update
   /// @returns Api body response
   Future<ApiRes> edit(Map<String, dynamic> payload, String password) async {
-    assert(payload != null && password != null);
+    assert(payload != null);
     if (password != null) {
       payload['password'] = password;
     }

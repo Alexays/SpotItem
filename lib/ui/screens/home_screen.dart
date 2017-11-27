@@ -178,45 +178,37 @@ class _HomeScreenState extends State<HomeScreen>
                     new Container(
                       height: 100.0,
                       child: new ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          padding: const EdgeInsets.symmetric(vertical: 15.0),
-                          itemCount: Services.items.categories.length,
-                          itemExtent: 75.0,
-                          itemBuilder: (context, index) => !Services
-                                  .items.tracks.value
-                                  .contains(Services.items.categories[index])
-                              ? new FlatButton(
-                                  child: new Image.asset(
-                                      'assets/${Services.items.categories[index]}.png'),
-                                  onPressed: () {
-                                    Services.items.tracks.value = Services
-                                        .items.tracks.value
-                                        .where((f) => !Services.items.categories
-                                            .any((d) => d == f))
-                                        .toList();
-                                    Services.items.tracks.value
-                                        .add(Services.items.categories[index]);
-                                    switchSetState(() {
-                                      Services.items.tracks.value =
-                                          new List<String>.from(
-                                              Services.items.tracks.value);
-                                    });
-                                  },
-                                )
-                              : new RaisedButton(
-                                  child: new Image.asset(
-                                      'assets/${Services.items.categories[index]}.png'),
-                                  onPressed: () {
-                                    Services.items.tracks.value.remove(
-                                        Services.items.categories[index]);
-                                    switchSetState(() {
-                                      Services.items.tracks.value =
-                                          new List<String>.from(
-                                              Services.items.tracks.value);
-                                    });
-                                  },
-                                )),
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        padding: const EdgeInsets.symmetric(vertical: 15.0),
+                        itemCount: Services.items.categories.length,
+                        itemExtent: 75.0,
+                        itemBuilder: (context, index) => !Services
+                                .items.tracks.value
+                                .contains(Services.items.categories[index])
+                            ? new FlatButton(
+                                child: new Image.asset(
+                                    'assets/${Services.items.categories[index]}.png'),
+                                onPressed: () => switchSetState(() {
+                                      Services.items.tracks.value = Services
+                                          .items.tracks.value
+                                          .where((f) => !Services
+                                              .items.categories
+                                              .any((d) => d == f))
+                                          .toList()
+                                            ..add(Services
+                                                .items.categories[index]);
+                                    }),
+                              )
+                            : new RaisedButton(
+                                child: new Image.asset(
+                                    'assets/${Services.items.categories[index]}.png'),
+                                onPressed: () => switchSetState(() {
+                                      Services.items.tracks.value.remove(
+                                          Services.items.categories[index]);
+                                    }),
+                              ),
+                      ),
                     ),
                     new SwitchListTile(
                       title: new Text(SpotL.of(context).fromYourGroups),

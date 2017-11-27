@@ -351,8 +351,6 @@ class _EditItemScreenState extends State<EditItemScreen>
                                       .any((d) => d == f))
                                   .toList()
                                     ..add(Services.items.categories[index]);
-                              // TODO(test): check whitout this.
-                              // _tracks = new List<String>.from(_tracks);
                             }),
                       )
                     : new RaisedButton(
@@ -360,8 +358,6 @@ class _EditItemScreenState extends State<EditItemScreen>
                             'assets/${Services.items.categories[index]}.png'),
                         onPressed: () => setState(() {
                               _tracks.remove(Services.items.categories[index]);
-                              // TO-DO check whitout this
-                              // _tracks = new List<String>.from(_tracks);
                             }),
                       ),
               ),

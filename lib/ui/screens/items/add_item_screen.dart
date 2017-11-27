@@ -329,8 +329,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
                                     .any((d) => d == f))
                                 .toList()
                                   ..add(Services.items.categories[index]);
-                            // TO-DO check without this
-                            // _tracks = new List<String>.from(_tracks);
                           }),
                     )
                   : new RaisedButton(
@@ -338,8 +336,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
                           'assets/${Services.items.categories[index]}.png'),
                       onPressed: () => setState(() {
                             _tracks.remove(Services.items.categories[index]);
-                            // TO-DO check without this
-                            //_tracks = new List<String>.from(_tracks);
                           }),
                     ),
             ),
