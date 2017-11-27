@@ -28,7 +28,7 @@ const String baseHost = '217.182.65.67:3417';
 const String apiUrl = 'http://$baseHost/api';
 
 /// Api img URL
-const String apiImgUrl = '$apiUrl/img/';
+const String imgUrl = '$apiUrl/img/';
 
 /// Google map static Api key
 const String staticApiKey = 'AIzaSyDB3j3IsDc6ciCIdWzn1X5dB3xNOE0p3OQ';

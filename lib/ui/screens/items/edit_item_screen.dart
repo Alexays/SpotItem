@@ -151,7 +151,7 @@ class _EditItemScreenState extends State<EditItemScreen>
               child: new Stack(
             children: <Widget>[
               new Image.network(
-                '$apiImgUrl${_item.images[index]}',
+                '$imgUrl${_item.images[index]}',
                 headers: getHeaders(
                   key: Services.auth.accessToken,
                   type: contentType.image,

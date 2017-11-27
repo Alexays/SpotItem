@@ -61,7 +61,7 @@ class ItemsListItem extends StatelessWidget {
           placeholder: placeholder,
           image: item.images.isNotEmpty
               ? new NetworkImage(
-                  '$apiImgUrl${item.images.first}',
+                  '$imgUrl${item.images.first}',
                   headers: getHeaders(
                     key: Services.auth.accessToken,
                     type: contentType.image,

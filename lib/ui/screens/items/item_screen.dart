@@ -274,7 +274,7 @@ class _ItemPageState extends State<ItemPage>
                               child: new FadeInImage(
                                 placeholder: placeholder,
                                 image: new NetworkImage(
-                                  '$apiImgUrl$f',
+                                  '$imgUrl$f',
                                   headers: getHeaders(
                                     key: Services.auth.accessToken,
                                     type: contentType.image,
@@ -286,7 +286,7 @@ class _ItemPageState extends State<ItemPage>
                           : new FadeInImage(
                               placeholder: placeholder,
                               image: new NetworkImage(
-                                '$apiImgUrl$f',
+                                '$imgUrl$f',
                                 headers: getHeaders(
                                   key: Services.auth.accessToken,
                                   type: contentType.image,
