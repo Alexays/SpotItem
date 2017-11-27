@@ -241,11 +241,11 @@ class CalendarMonth extends StatelessWidget {
                 f.date.month == dayToBuild.month &&
                 f.date.year == dayToBuild.year,
             orElse: () => null);
-        final disabled = (((dayToBuild.isAfter(lastDate) ||
-                        dayToBuild.isBefore(firstDate)) ||
-                    (current != null && !edit)) ||
-                (current == null && !edit)) &&
-            !allowDisable;
+        final outOfDate =
+            dayToBuild.isAfter(lastDate) || dayToBuild.isBefore(firstDate);
+        final disabled = !allowDisable &&
+            outOfDate &&
+            ((current != null && edit) || current == null && !edit);
         if (current != null) {
           // The selected day gets a circle background highlight, and a contrasting text color.
           if (current.holder == null && !edit) {

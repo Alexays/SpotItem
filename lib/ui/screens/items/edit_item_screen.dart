@@ -31,13 +31,12 @@ class EditItemScreen extends StatefulWidget {
 
 class _EditItemScreenState extends State<EditItemScreen>
     with TickerProviderStateMixin {
+  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   _EditItemScreenState(this._itemId, this._item);
 
   final String _itemId;
 
   Item _item;
-
-  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   /// Item name
   final TextEditingController _nameCtrl = new TextEditingController();
@@ -274,6 +273,7 @@ class _EditItemScreenState extends State<EditItemScreen>
       return new Center(child: new Text(SpotL.of(context).noGroups));
     }
     return new ListView.builder(
+      padding: const EdgeInsets.all(10.0),
       itemCount: _groups.length,
       itemBuilder: (context, index) => new CheckboxListTile(
             title: new Text(_groups[index].name),
@@ -288,116 +288,113 @@ class _EditItemScreenState extends State<EditItemScreen>
     );
   }
 
-  Widget _buildForm(BuildContext context) => new Form(
-        key: _formKey,
-        child: new ListView(
-          shrinkWrap: true,
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          children: <Widget>[
-            new TextFormField(
-              key: const Key('name'),
-              decoration: new InputDecoration(
-                hintText: SpotL.of(context).namePh,
-                labelText: SpotL.of(context).name,
-              ),
-              validator: validateName,
-              controller: _nameCtrl,
-              initialValue: _nameCtrl.text,
+  Widget _buildForm(BuildContext context) => new ListView(
+        shrinkWrap: true,
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        children: <Widget>[
+          new TextFormField(
+            key: const Key('name'),
+            decoration: new InputDecoration(
+              hintText: SpotL.of(context).namePh,
+              labelText: SpotL.of(context).name,
             ),
-            new TextFormField(
-              key: const Key('about'),
-              decoration: new InputDecoration(
-                hintText: SpotL.of(context).aboutPh,
-                labelText: SpotL.of(context).about,
-              ),
-              controller: _aboutCtrl,
-              initialValue: _aboutCtrl.text,
+            validator: validateName,
+            controller: _nameCtrl,
+            initialValue: _nameCtrl.text,
+          ),
+          new TextFormField(
+            key: const Key('about'),
+            decoration: new InputDecoration(
+              hintText: SpotL.of(context).aboutPh,
+              labelText: SpotL.of(context).about,
             ),
-            new Stack(
-              children: <Widget>[
-                new FocusScope(
-                  node: new FocusScopeNode(),
-                  child: new TextFormField(
-                    decoration: new InputDecoration(
-                      hintText: SpotL.of(context).locationPh,
-                      labelText: SpotL.of(context).location,
-                    ),
-                    initialValue: _location,
+            controller: _aboutCtrl,
+            initialValue: _aboutCtrl.text,
+          ),
+          new Stack(
+            children: <Widget>[
+              new FocusScope(
+                node: new FocusScopeNode(),
+                child: new TextFormField(
+                  decoration: new InputDecoration(
+                    hintText: SpotL.of(context).locationPh,
+                    labelText: SpotL.of(context).location,
                   ),
+                  initialValue: _location,
                 ),
-                new GestureDetector(
-                  onTap: () async {
-                    final p = await Services.users.autocompleteCity(context);
-                    if (!mounted || p == null) {
-                      return;
-                    }
-                    setState(() {
-                      _location = p;
-                    });
-                  },
-                  child: new Container(
-                    color: Colors.transparent,
-                    height: 75.0,
-                  ),
+              ),
+              new GestureDetector(
+                onTap: () async {
+                  final p = await Services.users.autocompleteCity(context);
+                  if (!mounted || p == null) {
+                    return;
+                  }
+                  setState(() {
+                    _location = p;
+                  });
+                },
+                child: new Container(
+                  color: Colors.transparent,
+                  height: 75.0,
                 ),
-              ],
-            ),
-            new CheckboxListTile(
-              title: new Text(SpotL.of(context).gift),
-              value: _tracks.contains('gift'),
-              onChanged: (value) => setState(() {
-                    value ? _tracks.add('gift') : _tracks.remove('gift');
-                  }),
-              secondary: const Icon(Icons.card_giftcard),
-            ),
-            new CheckboxListTile(
-              title: new Text(SpotL.of(context).private),
-              value: _tracks.contains('private'),
-              onChanged: (value) => setState(() {
-                    value ? _tracks.add('private') : _tracks.remove('private');
-                  }),
-              secondary: const Icon(Icons.lock),
-            ),
-            new Container(
-              height: 100.0,
-              child: new ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(vertical: 15.0),
-                itemCount: Services.items.categories.length,
-                itemExtent: 75.0,
-                itemBuilder: (context, index) => !_tracks
-                        .contains(Services.items.categories[index])
-                    ? new FlatButton(
-                        child: new Image.asset(
-                          'assets/${Services.items.categories[index]}.png',
-                        ),
-                        onPressed: () => setState(() {
-                              _tracks = _tracks
-                                  .where((f) => !Services.items.categories
-                                      .any((d) => d == f))
-                                  .toList()
-                                    ..add(Services.items.categories[index]);
-                            }),
-                      )
-                    : new RaisedButton(
-                        child: new Image.asset(
-                            'assets/${Services.items.categories[index]}.png'),
-                        onPressed: () => setState(() {
-                              _tracks.remove(Services.items.categories[index]);
-                            }),
+              ),
+            ],
+          ),
+          new CheckboxListTile(
+            title: new Text(SpotL.of(context).gift),
+            value: _tracks.contains('gift'),
+            onChanged: (value) => setState(() {
+                  value ? _tracks.add('gift') : _tracks.remove('gift');
+                }),
+            secondary: const Icon(Icons.card_giftcard),
+          ),
+          new CheckboxListTile(
+            title: new Text(SpotL.of(context).private),
+            value: _tracks.contains('private'),
+            onChanged: (value) => setState(() {
+                  value ? _tracks.add('private') : _tracks.remove('private');
+                }),
+            secondary: const Icon(Icons.lock),
+          ),
+          new Container(
+            height: 100.0,
+            child: new ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(vertical: 15.0),
+              itemCount: Services.items.categories.length,
+              itemExtent: 75.0,
+              itemBuilder: (context, index) => !_tracks
+                      .contains(Services.items.categories[index])
+                  ? new FlatButton(
+                      child: new Image.asset(
+                        'assets/${Services.items.categories[index]}.png',
                       ),
-              ),
+                      onPressed: () => setState(() {
+                            _tracks = _tracks
+                                .where((f) => !Services.items.categories
+                                    .any((d) => d == f))
+                                .toList()
+                                  ..add(Services.items.categories[index]);
+                          }),
+                    )
+                  : new RaisedButton(
+                      child: new Image.asset(
+                          'assets/${Services.items.categories[index]}.png'),
+                      onPressed: () => setState(() {
+                            _tracks.remove(Services.items.categories[index]);
+                          }),
+                    ),
             ),
-            new Image.network(
-              '$apiUrl/items/${_item.id}/code',
-              headers: getHeaders(
-                key: Services.auth.accessToken,
-                type: contentType.image,
-              ),
-            )
-          ],
-        ),
+          ),
+          new Image.network(
+            '$apiUrl/items/${_item.id}/code',
+            headers: getHeaders(
+              key: Services.auth.accessToken,
+              type: contentType.image,
+            ),
+          )
+        ],
       );
 
   Widget _buildCalendar(BuildContext context) => new Container(
@@ -413,52 +410,53 @@ class _EditItemScreenState extends State<EditItemScreen>
       );
 
   Widget _buildGroups(BuildContext context) => _groups != null
-      ? new Container(
-          margin: const EdgeInsets.all(20.0),
-          child: _getGroups(),
-        )
+      ? _getGroups()
       : const Center(child: const CircularProgressIndicator());
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-        body: new Builder(
-          builder: (context) {
-            Services.context = context;
-            return new DefaultTabController(
-              length: 4,
-              child: new NestedScrollView(
-                headerSliverBuilder: (context, innerBoxIsScrolled) => <Widget>[
-                      new SliverAppBar(
-                        pinned: true,
-                        floating: true,
-                        snap: true,
-                        title: new Text(
-                          _item?.name ?? SpotL.of(context).loading,
+        body: new Form(
+          key: _formKey,
+          child: new Builder(
+            builder: (context) {
+              Services.context = context;
+              return new DefaultTabController(
+                length: 4,
+                child: new NestedScrollView(
+                  headerSliverBuilder: (context, innerBoxIsScrolled) =>
+                      <Widget>[
+                        new SliverAppBar(
+                          pinned: true,
+                          floating: true,
+                          snap: true,
+                          title: new Text(
+                            _item?.name ?? SpotL.of(context).loading,
+                          ),
+                          bottom: new TabBar(
+                            indicatorWeight: 4.0,
+                            tabs: <Tab>[
+                              new Tab(text: SpotL.of(context).about),
+                              new Tab(text: SpotL.of(context).images),
+                              new Tab(text: SpotL.of(context).calendar),
+                              new Tab(text: SpotL.of(context).groups)
+                            ],
+                          ),
                         ),
-                        bottom: new TabBar(
-                          indicatorWeight: 4.0,
-                          tabs: <Tab>[
-                            new Tab(text: SpotL.of(context).about),
-                            new Tab(text: SpotL.of(context).images),
-                            new Tab(text: SpotL.of(context).calendar),
-                            new Tab(text: SpotL.of(context).groups)
+                      ],
+                  body: _item == null
+                      ? const Center(child: const CircularProgressIndicator())
+                      : new TabBarView(
+                          children: <Widget>[
+                            _buildForm(context),
+                            _buildImages(context),
+                            _buildCalendar(context),
+                            _buildGroups(context),
                           ],
                         ),
-                      ),
-                    ],
-                body: _item == null
-                    ? const Center(child: const CircularProgressIndicator())
-                    : new TabBarView(
-                        children: <Widget>[
-                          _buildForm(context),
-                          _buildImages(context),
-                          _buildCalendar(context),
-                          _buildGroups(context),
-                        ],
-                      ),
-              ),
-            );
-          },
+                ),
+              );
+            },
+          ),
         ),
         bottomNavigationBar: new Container(
           margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),

@@ -565,10 +565,14 @@ class _HomeScreenState extends State<HomeScreen>
               .toList(),
           4);
     }
-    return new TabBarView(
-      controller: tabsCtrl[page],
-      children: _homeScreenItems[page].content,
-    );
+    if (tabsCtrl[page].length > 1) {
+      return new TabBarView(
+        key: _homeScreenItems[page].key,
+        controller: tabsCtrl[page],
+        children: _homeScreenItems[page].contents,
+      );
+    }
+    return _homeScreenItems[page].content;
   }
 
   @override
@@ -616,8 +620,11 @@ class HomeScreenItem {
   /// Home screen item
   final BottomNavigationBarItem item;
 
+  /// Home screen item contents
+  final List<Widget> contents;
+
   /// Home screen item content
-  final List<Widget> content;
+  final Widget content;
 
   /// Home screen item tabs
   final List<HomeScreenSubItem> sub;
@@ -628,19 +635,21 @@ class HomeScreenItem {
   /// Home screen item title
   final String title;
 
+  /// Tabs key
+  final Key key;
+
   /// Home screen item initalizer
   HomeScreenItem({
     _HomeScreenState parent,
     Widget icon,
     this.title,
-    Widget content,
+    this.content,
     this.sub,
     this.fabs,
   })
       : item = new BottomNavigationBarItem(icon: icon, title: new Text(title)),
-        content = sub != null
-            ? sub.map((f) => f.content).toList()
-            : <Widget>[content];
+        key = new Key(title),
+        contents = sub != null ? sub.map((f) => f.content).toList() : null;
 }
 
 /// Home screen sub item

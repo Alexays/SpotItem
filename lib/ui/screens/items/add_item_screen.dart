@@ -21,8 +21,8 @@ class AddItemScreen extends StatefulWidget {
 }
 
 class _AddItemScreenState extends State<AddItemScreen> {
-  /// Add form
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+  _AddItemScreenState();
 
   /// Item name
   String _name;
@@ -356,11 +356,11 @@ class _AddItemScreenState extends State<AddItemScreen> {
   @override
   Widget build(BuildContext context) => new Scaffold(
         appBar: new AppBar(title: new Text(SpotL.of(context).addItem)),
-        body: new Builder(builder: (context) {
-          Services.context = context;
-          return new Container(
-            child: new Form(
-              key: _formKey,
+        body: new Form(
+          key: _formKey,
+          child: new Builder(builder: (context) {
+            Services.context = context;
+            return new Container(
               child: new Stepper(
                 currentStep: _currentStep,
                 steps: [
@@ -433,8 +433,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
                       }
                     }),
               ),
-            ),
-          );
-        }),
+            );
+          }),
+        ),
       );
 }

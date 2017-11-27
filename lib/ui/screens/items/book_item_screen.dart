@@ -120,8 +120,9 @@ class _BookItemScreenState extends State<BookItemScreen> {
                     onPressed: () => bookItem(context),
                     child: new Text(
                       SpotL.of(context).book.toUpperCase(),
-                      style:
-                          new TextStyle(color: Theme.of(context).canvasColor),
+                      style: new TextStyle(
+                        color: Theme.of(context).canvasColor,
+                      ),
                     ),
                   ),
             ),
