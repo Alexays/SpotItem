@@ -123,8 +123,9 @@ class _EditItemScreenState extends State<EditItemScreen>
     });
   }
 
-  Widget _getImageGrid() {
-    if ((_item.images.length + _imagesFile.length) < 1) {
+  Widget _buildImages(BuildContext context) {
+    final length = _item.images.length + _imagesFile.length;
+    if (length < 1) {
       return new Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -141,56 +142,87 @@ class _EditItemScreenState extends State<EditItemScreen>
       );
     }
     return new GridView.count(
+      shrinkWrap: true,
       primary: false,
-      crossAxisCount: (_item.images.length + _imagesFile.length),
+      padding: const EdgeInsets.all(15.0),
+      crossAxisCount: 3,
       crossAxisSpacing: 10.0,
-      children: new List<Widget>.generate(
-          (_item.images.length + _imagesFile.length), (index) {
+      children: new List<Widget>.generate(length + 1, (i) {
+        final index = i - 1;
+        if (i == 0) {
+          return new GridTile(
+            child: new GestureDetector(
+              onTap: () async => _getImage(),
+              child: new Card(
+                child: new Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    const Icon(Icons.add),
+                    new Text(SpotL.of(context).addImage),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }
         if (index < _item.images.length) {
           return new GridTile(
+            child: new Card(
               child: new Stack(
-            children: <Widget>[
-              new Image.network(
-                '$imgUrl${_item.images[index]}',
-                headers: getHeaders(
-                  key: Services.auth.accessToken,
-                  type: contentType.image,
-                ),
+                fit: StackFit.expand,
+                children: <Widget>[
+                  new Image.network(
+                    '$imgUrl${_item.images[index]}',
+                    headers: getHeaders(
+                      key: Services.auth.accessToken,
+                      type: contentType.image,
+                    ),
+                    fit: BoxFit.cover,
+                  ),
+                  new Positioned(
+                    top: 2.5,
+                    left: 2.5,
+                    child: new IconButton(
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      icon: const Icon(Icons.delete),
+                      tooltip: 'Delete this image',
+                      onPressed: () => setState(() {
+                            _item.images.removeAt(index);
+                          }),
+                    ),
+                  ),
+                ],
               ),
-              new Positioned(
-                top: 2.5,
-                left: 2.5,
-                child: new IconButton(
-                  color: const Color.fromARGB(255, 255, 255, 255),
-                  icon: const Icon(Icons.delete),
-                  tooltip: 'Delete this image',
-                  onPressed: () => setState(() {
-                        _item.images.removeAt(index);
-                      }),
-                ),
-              ),
-            ],
-          ));
+            ),
+          );
         } else {
           return new GridTile(
+            child: new Card(
               child: new Stack(
-            children: <Widget>[
-              new Image.file(_imagesFile[index - _item.images.length]),
-              new Positioned(
-                top: 2.5,
-                left: 2.5,
-                child: new IconButton(
-                  color: const Color.fromARGB(255, 255, 255, 255),
-                  icon: const Icon(Icons.delete),
-                  tooltip: 'Delete this image',
-                  onPressed: () => setState(() {
-                        _imagesFile.removeAt(index);
-                        _images.removeAt(index);
-                      }),
-                ),
+                fit: StackFit.expand,
+                children: <Widget>[
+                  new Image.file(
+                    _imagesFile[index - _item.images.length],
+                    fit: BoxFit.cover,
+                  ),
+                  new Positioned(
+                    top: 2.5,
+                    left: 2.5,
+                    child: new IconButton(
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      icon: const Icon(Icons.delete),
+                      tooltip: 'Delete this image',
+                      onPressed: () => setState(() {
+                            _imagesFile.removeAt(index);
+                            _images.removeAt(index);
+                          }),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ));
+            ),
+          );
         }
       }),
     );
@@ -372,26 +404,6 @@ class _EditItemScreenState extends State<EditItemScreen>
           ],
         ),
       );
-
-  Widget _buildImages(BuildContext context) {
-    final widgets = <Widget>[new Flexible(child: _getImageGrid())];
-    if ((_item.images.length + _imagesFile.length) > 0) {
-      widgets.insert(
-        0,
-        new Padding(
-          padding: const EdgeInsets.only(bottom: 15.0),
-          child: new RaisedButton(
-            child: new Text(SpotL.of(context).addImage),
-            onPressed: _getImage,
-          ),
-        ),
-      );
-    }
-    return new Container(
-      margin: const EdgeInsets.all(20.0),
-      child: new Column(children: widgets),
-    );
-  }
 
   Widget _buildCalendar(BuildContext context) => new Container(
         height: MediaQuery.of(context).size.height,
