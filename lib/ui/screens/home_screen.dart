@@ -34,7 +34,6 @@ class _HomeScreenState extends State<HomeScreen>
   // Bool
   bool _hideDrawerContents = false;
   bool _isSearching = false;
-  bool _filterAvailable = false;
   bool _filterBarExpanded = false;
 
   // Search
@@ -151,7 +150,6 @@ class _HomeScreenState extends State<HomeScreen>
     Services.observer.unsubscribe(this);
     _controller?.dispose();
     _searchController?.dispose();
-    tabsCtrl[page]?.removeListener(_checkFilter);
     for (var tab in tabsCtrl) {
       tab?.dispose();
     }
@@ -271,19 +269,6 @@ class _HomeScreenState extends State<HomeScreen>
     });
   }
 
-  void _checkFilter([bool build = true]) {
-    if (!mounted) {
-      return;
-    }
-    if (!build) {
-      _filterAvailable = page == 0 && tabsCtrl[page].index == 1;
-      return;
-    }
-    setState(() {
-      _filterAvailable;
-    });
-  }
-
   Widget _buildFilterBar(BuildContext context) {
     final widgets = <Widget>[
       new Row(
@@ -313,19 +298,22 @@ class _HomeScreenState extends State<HomeScreen>
                   minWidth: ButtonTheme.of(context).minWidth,
                   minHeight: ButtonTheme.of(context).height,
                 ),
-                child: new Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    const Text(
-                      'Sort by',
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                    const Icon(
-                      Icons.arrow_drop_down,
-                      color: Colors.white,
-                    )
-                  ],
+                child: new Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: new Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      const Text(
+                        'Sort by',
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      const Icon(
+                        Icons.arrow_drop_down,
+                        color: Colors.white,
+                      )
+                    ],
+                  ),
                 ),
               ),
               itemBuilder: (context) => Services.items.sortMethod.map((f) {
@@ -394,24 +382,26 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
                 width: MediaQuery.of(context).size.width * 30 / 100,
                 child: new ListView(
-                  padding: const EdgeInsets.all(10.0),
-                  itemExtent: 30.0,
+                  itemExtent: 40.0,
                   children: <Widget>[
                     new InkWell(
                       onTap: () {},
-                      child: new Row(
-                        children: <Widget>[
-                          new Expanded(
-                            child: new Text(
-                              'Categories',
-                              style: const TextStyle(color: Colors.white),
+                      child: new Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: new Row(
+                          children: <Widget>[
+                            new Expanded(
+                              child: new Text(
+                                'Categories',
+                                style: const TextStyle(color: Colors.white),
+                              ),
                             ),
-                          ),
-                          const Icon(
-                            Icons.chevron_right,
-                            color: Colors.white,
-                          )
-                        ],
+                            const Icon(
+                              Icons.chevron_right,
+                              color: Colors.white,
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -461,25 +451,23 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   Widget _buildBottomBar(BuildContext context) {
-    if (_isSearching ||
-        (_homeScreenItems[page].sub == null &&
-            _homeScreenItems[page].filter == false)) {
-      return null;
-    }
-    if (_homeScreenItems[page].filter == true) {
+    if (_homeScreenItems[page].filter == true || _isSearching) {
       return new PreferredSize(
         preferredSize: new Size.fromHeight(_filterBarExpanded ? 161.0 : 36.0),
         child: _buildFilterBar(context),
       );
     }
-    return new TabBar(
-      controller: tabsCtrl[page],
-      indicatorWeight: 4.0,
-      tabs: _homeScreenItems[page]
-          .sub
-          .map((f) => new Tab(text: f.title))
-          .toList(),
-    );
+    if (_homeScreenItems[page].sub != null) {
+      return new TabBar(
+        controller: tabsCtrl[page],
+        indicatorWeight: 4.0,
+        tabs: _homeScreenItems[page]
+            .sub
+            .map((f) => new Tab(text: f.title))
+            .toList(),
+      );
+    }
+    return null;
   }
 
   Widget _buildDrawer(BuildContext context) {
@@ -613,12 +601,6 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   List<Widget> _buildAppBar(BuildContext context, bool innerBoxIsScrolled) {
-    _checkFilter(false);
-    if (page == 0 || (_homeScreenItems[page].fabs?.length ?? 0) > 0) {
-      tabsCtrl[page].addListener(_checkFilter);
-    } else {
-      tabsCtrl[page].removeListener(_checkFilter);
-    }
     final widgets = <Widget>[
       _isSearching
           ? const BackButton()
@@ -660,55 +642,10 @@ class _HomeScreenState extends State<HomeScreen>
       }
       widgets.add(
         new IconButton(
-          alignment:
-              _filterAvailable ? const Alignment(1.5, 0.0) : Alignment.center,
           padding: const EdgeInsets.all(0.0),
           icon: const Icon(Icons.photo_camera),
           onPressed: () => Services.items.qrReader(context),
         ),
-      );
-    }
-    if (_isSearching || _filterAvailable) {
-      widgets.addAll(
-        [
-          new IconButton(
-            padding: const EdgeInsets.all(0.0),
-            alignment: Alignment.centerRight,
-            icon: const Icon(Icons.filter_list),
-            onPressed: () => setState(() => _showFilter(context)),
-          ),
-          new PopupMenuButton(
-            padding: const EdgeInsets.all(0.0),
-            itemBuilder: (context) => Services.items.sortMethod.map((f) {
-                  switch (f) {
-                    case 'name':
-                      return new CheckedPopupMenuItem(
-                          checked: Services.items.tracks.value.contains('name'),
-                          value: f,
-                          child: new Text(SpotL.of(context).name));
-                      break;
-                    case 'dist':
-                      return new CheckedPopupMenuItem(
-                          checked: Services.items.tracks.value
-                                  .contains('dist') ||
-                              !Services.items.tracks.value.any(
-                                  (f) => Services.items.sortMethod.contains(f)),
-                          value: f,
-                          child: new Text(SpotL.of(context).dist));
-                      break;
-                  }
-                }).toList(),
-            onSelected: (action) => setState(() {
-                  Services.items.tracks.value = [
-                    Services.items.tracks.value
-                        .where((f) =>
-                            !Services.items.sortMethod.any((d) => d == f))
-                        .toList(),
-                    [action]
-                  ].expand((x) => x).toList();
-                }),
-          ),
-        ],
       );
     }
     final haveTab = _homeScreenItems[page].sub != null && !_isSearching;
