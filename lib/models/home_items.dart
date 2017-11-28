@@ -38,7 +38,8 @@ class HomeScreenItem {
   })
       : item = new BottomNavigationBarItem(icon: icon, title: new Text(title)),
         key = new Key(title),
-        contents = sub != null ? sub.map((f) => f.content).toList() : null;
+        contents = sub != null ? sub.map((f) => f.content).toList() : null,
+        assert(bottom == null || sub == null);
 }
 
 /// Home screen sub item

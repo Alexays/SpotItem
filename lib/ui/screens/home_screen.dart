@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/ui/widgets/item.dart';
-import 'package:spotitem/ui/widgets/home_items.dart';
+import 'package:spotitem/models/home_items.dart';
+import 'package:spotitem/ui/widgets/filter_bar.dart';
 import 'package:spotitem/ui/views/explorer_view.dart';
 import 'package:spotitem/ui/views/discover_view.dart';
 import 'package:spotitem/ui/views/map_view.dart';
@@ -31,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen>
       icon: const Icon(Icons.explore),
       title: SpotL.of(Services.context).explore,
       content: const ExplorerView(),
+      bottom: const FilterBar(),
     ),
     new HomeScreenItem(
       icon: const Icon(Icons.work),
@@ -281,8 +283,10 @@ class _HomeScreenState extends State<HomeScreen>
     });
   }
 
-  PreferredSizeWidget _buildBottom() {
-    if (_isSearching || _homeScreenItems[page].sub == null) {
+  Widget _buildBottom() {
+    if (_isSearching ||
+        (_homeScreenItems[page].sub == null &&
+            _homeScreenItems[page].bottom == null)) {
       return null;
     }
     if (_homeScreenItems[page].bottom != null) {
@@ -524,7 +528,7 @@ class _HomeScreenState extends State<HomeScreen>
                     [action]
                   ].expand((x) => x).toList();
                 }),
-          )
+          ),
         ],
       );
     }
