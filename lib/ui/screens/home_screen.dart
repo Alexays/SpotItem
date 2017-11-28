@@ -460,7 +460,7 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  Widget _buildBottom(BuildContext context) {
+  Widget _buildBottomBar(BuildContext context) {
     if (_isSearching ||
         (_homeScreenItems[page].sub == null &&
             _homeScreenItems[page].filter == false)) {
@@ -482,9 +482,9 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  Widget _buildDrawerList(BuildContext context) {
+  Widget _buildDrawer(BuildContext context) {
     final theme = Theme.of(context);
-    return new Column(
+    final drawerList = new Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
@@ -541,77 +541,76 @@ class _HomeScreenState extends State<HomeScreen>
         )
       ],
     );
-  }
-
-  Widget _buildDrawer(BuildContext context) => new Drawer(
-        child: new ListView(
-          shrinkWrap: true,
-          children: <Widget>[
-            new UserAccountsDrawerHeader(
-              accountName: new Text(
-                '${Services.auth.user?.firstname} ${Services.auth.user?.name}',
-                overflow: TextOverflow.ellipsis,
-              ),
-              accountEmail: new Text(
-                Services.auth.user?.email ?? '',
-                overflow: TextOverflow.ellipsis,
-              ),
-              currentAccountPicture: getAvatar(Services.auth.user),
-              otherAccountsPictures: <Widget>[
-                new IconButton(
-                  icon: const Icon(Icons.settings),
-                  color: Colors.white,
-                  onPressed: () => Navigator.pushNamed(context, '/settings'),
-                )
-              ],
-              onDetailsPressed: () {
-                _hideDrawerContents = !_hideDrawerContents;
-                _hideDrawerContents
-                    ? _controller.forward()
-                    : _controller.reverse();
-              },
+    return new Drawer(
+      child: new ListView(
+        shrinkWrap: true,
+        children: <Widget>[
+          new UserAccountsDrawerHeader(
+            accountName: new Text(
+              '${Services.auth.user?.firstname} ${Services.auth.user?.name}',
+              overflow: TextOverflow.ellipsis,
             ),
-            new ClipRect(
-              child: new Stack(
-                children: <Widget>[
-                  new FadeTransition(
-                    opacity: _drawerContentsOpacity,
-                    child: _buildDrawerList(context),
-                  ),
-                  new SlideTransition(
-                    position: _drawerDetailsPosition,
-                    child: new FadeTransition(
-                      opacity: new ReverseAnimation(_drawerContentsOpacity),
-                      child: new Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          new ListTile(
-                              leading: const Icon(Icons.edit),
-                              title: new Text(SpotL.of(context).editProfile),
-                              onTap: () => Navigator
-                                  .of(context)
-                                  .pushNamed('/profile/edit/')),
-                          new ListTile(
-                            leading: const Icon(Icons.exit_to_app),
-                            title: new Text(SpotL.of(context).logout),
-                            onTap: () => Services.auth.logout().then(
-                                  (_) => Navigator
-                                      .of(context)
-                                      .pushNamedAndRemoveUntil(
-                                          '/', (route) => false),
-                                ),
-                          ),
-                        ],
-                      ),
+            accountEmail: new Text(
+              Services.auth.user?.email ?? '',
+              overflow: TextOverflow.ellipsis,
+            ),
+            currentAccountPicture: getAvatar(Services.auth.user),
+            otherAccountsPictures: <Widget>[
+              new IconButton(
+                icon: const Icon(Icons.settings),
+                color: Colors.white,
+                onPressed: () => Navigator.pushNamed(context, '/settings'),
+              )
+            ],
+            onDetailsPressed: () {
+              _hideDrawerContents = !_hideDrawerContents;
+              _hideDrawerContents
+                  ? _controller.forward()
+                  : _controller.reverse();
+            },
+          ),
+          new ClipRect(
+            child: new Stack(
+              children: <Widget>[
+                new FadeTransition(
+                  opacity: _drawerContentsOpacity,
+                  child: drawerList,
+                ),
+                new SlideTransition(
+                  position: _drawerDetailsPosition,
+                  child: new FadeTransition(
+                    opacity: new ReverseAnimation(_drawerContentsOpacity),
+                    child: new Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        new ListTile(
+                            leading: const Icon(Icons.edit),
+                            title: new Text(SpotL.of(context).editProfile),
+                            onTap: () => Navigator
+                                .of(context)
+                                .pushNamed('/profile/edit/')),
+                        new ListTile(
+                          leading: const Icon(Icons.exit_to_app),
+                          title: new Text(SpotL.of(context).logout),
+                          onTap: () => Services.auth.logout().then(
+                                (_) => Navigator
+                                    .of(context)
+                                    .pushNamedAndRemoveUntil(
+                                        '/', (route) => false),
+                              ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
+  }
 
   List<Widget> _buildAppBar(BuildContext context, bool innerBoxIsScrolled) {
     _checkFilter(false);
@@ -730,7 +729,7 @@ class _HomeScreenState extends State<HomeScreen>
           ),
           child: new Row(children: widgets),
         ),
-        bottom: _buildBottom(context),
+        bottom: _buildBottomBar(context),
       ),
     ];
   }
