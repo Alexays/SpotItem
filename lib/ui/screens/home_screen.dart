@@ -292,11 +292,14 @@ class _HomeScreenState extends State<HomeScreen>
     }
     if (_homeScreenItems[page].filter == true) {
       return new FilterBar(
-        onChanged: (data) {},
+        onChanged: (data) => setState(() {
+              Services.items.tracks.value = data;
+            }),
         onExpand: (isExpanded) => setState(() {
               _filterBarExpanded = !isExpanded;
             }),
         isExpanded: _filterBarExpanded,
+        tracks: Services.items.tracks.value,
       );
     }
     return new TabBar(
