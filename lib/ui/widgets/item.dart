@@ -37,15 +37,6 @@ class ItemsListItem extends StatelessWidget {
         ),
       ),
     ];
-    if (item.owner.firstname != null || item.owner.name != null) {
-      widgets.add(new Text(
-        '${item.owner.firstname ?? ''} ${item.owner.name ?? ''}',
-        style: theme.primaryTextTheme.subhead.copyWith(
-          fontSize: 12.0,
-          color: Colors.black54,
-        ),
-      ));
-    }
     return new Row(children: widgets);
   }
 

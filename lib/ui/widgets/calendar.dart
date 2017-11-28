@@ -39,19 +39,25 @@ class Calendar extends StatelessWidget {
     final dates = selectedDates.map((f) => f.date.millisecondsSinceEpoch);
     var firstDate, lastDate, nbMonth;
     if (dates.isNotEmpty) {
-      final _firstDate =
-          new DateTime.fromMillisecondsSinceEpoch(dates.reduce(math.min));
-      final _lastDate =
-          new DateTime.fromMillisecondsSinceEpoch(dates.reduce(math.max));
+      final _firstDate = new DateTime.fromMillisecondsSinceEpoch(
+        dates.reduce(math.min),
+      );
+      final _lastDate = new DateTime.fromMillisecondsSinceEpoch(
+        dates.reduce(math.max),
+      );
       firstDate = new DateTime(_firstDate.year, _firstDate.month);
       lastDate = new DateTime(_lastDate.year, _lastDate.month);
       final diff = lastDate.subtract(
-          new Duration(milliseconds: firstDate.millisecondsSinceEpoch));
+        new Duration(milliseconds: firstDate.millisecondsSinceEpoch),
+      );
       nbMonth = (diff.day ~/ 28) +
           diff.month +
           (diff.year - 1970) * 12; // 28 equal minimum nb of day in a month
-      firstDate =
-          new DateTime(_firstDate.year, _firstDate.month, _firstDate.day);
+      firstDate = new DateTime(
+        _firstDate.year,
+        _firstDate.month,
+        _firstDate.day,
+      );
       lastDate = new DateTime(_lastDate.year, _lastDate.month, _lastDate.day);
     } else {
       lastDate = firstDate = new DateTime.now();
