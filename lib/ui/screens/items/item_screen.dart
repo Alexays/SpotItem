@@ -417,23 +417,17 @@ class _ItemPageState extends State<ItemPage>
                           ],
                         ),
                       ),
-                      new Container(
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 8.0,
-                          vertical: 4.0,
-                        ),
-                        child: new ConstrainedBox(
-                          constraints: new BoxConstraints.tightFor(
-                              height: 48.0,
-                              width: MediaQuery.of(context).size.width),
-                          child: new RaisedButton(
-                            color: Theme.of(context).accentColor,
-                            onPressed: () => _bookItem(context),
-                            child: new Text(
-                              SpotL.of(context).book.toUpperCase(),
-                              style: new TextStyle(
-                                color: Theme.of(context).canvasColor,
-                              ),
+                      new ConstrainedBox(
+                        constraints: new BoxConstraints.tightFor(
+                            height: 48.0,
+                            width: MediaQuery.of(context).size.width),
+                        child: new RaisedButton(
+                          color: Theme.of(context).accentColor,
+                          onPressed: () => _bookItem(context),
+                          child: new Text(
+                            SpotL.of(context).book.toUpperCase(),
+                            style: new TextStyle(
+                              color: Theme.of(context).canvasColor,
                             ),
                           ),
                         ),

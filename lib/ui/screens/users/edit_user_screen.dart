@@ -132,26 +132,20 @@ class _EditUserScreenState extends State<EditUserScreen> {
           );
         },
       ),
-      bottomNavigationBar: new Container(
-        margin: const EdgeInsets.symmetric(
-          horizontal: 8.0,
-          vertical: 4.0,
+      bottomNavigationBar: new ConstrainedBox(
+        constraints: new BoxConstraints.tightFor(
+          height: 48.0,
+          width: MediaQuery.of(context).size.width,
         ),
-        child: new ConstrainedBox(
-          constraints: new BoxConstraints.tightFor(
-            height: 48.0,
-            width: MediaQuery.of(context).size.width,
-          ),
-          child: new Builder(
-            builder: (context) => new RaisedButton(
-                  color: theme.accentColor,
-                  onPressed: () => editUser(context),
-                  child: new Text(
-                    SpotL.of(context).save.toUpperCase(),
-                    style: new TextStyle(color: theme.canvasColor),
-                  ),
+        child: new Builder(
+          builder: (context) => new RaisedButton(
+                color: theme.accentColor,
+                onPressed: () => editUser(context),
+                child: new Text(
+                  SpotL.of(context).save.toUpperCase(),
+                  style: new TextStyle(color: theme.canvasColor),
                 ),
-          ),
+              ),
         ),
       ),
     );

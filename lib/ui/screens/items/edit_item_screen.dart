@@ -458,25 +458,22 @@ class _EditItemScreenState extends State<EditItemScreen>
             },
           ),
         ),
-        bottomNavigationBar: new Container(
-          margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-          child: new ConstrainedBox(
-            constraints: new BoxConstraints.tightFor(
-              height: 48.0,
-              width: MediaQuery.of(context).size.width,
-            ),
-            child: new Builder(
-              builder: (context) => new RaisedButton(
-                    color: Theme.of(context).accentColor,
-                    onPressed: () => _editItem(context),
-                    child: new Text(
-                      SpotL.of(context).save.toUpperCase(),
-                      style: new TextStyle(
-                        color: Theme.of(context).canvasColor,
-                      ),
+        bottomNavigationBar: new ConstrainedBox(
+          constraints: new BoxConstraints.tightFor(
+            height: 48.0,
+            width: MediaQuery.of(context).size.width,
+          ),
+          child: new Builder(
+            builder: (context) => new RaisedButton(
+                  color: Theme.of(context).accentColor,
+                  onPressed: () => _editItem(context),
+                  child: new Text(
+                    SpotL.of(context).save.toUpperCase(),
+                    style: new TextStyle(
+                      color: Theme.of(context).canvasColor,
                     ),
                   ),
-            ),
+                ),
           ),
         ),
       );

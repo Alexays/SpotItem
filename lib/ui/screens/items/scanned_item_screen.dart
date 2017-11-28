@@ -59,42 +59,39 @@ class _ScannedItemScreenState extends State<ScannedItemScreen> {
             );
           },
         ),
-        bottomNavigationBar: new Container(
-          margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-          child: new ConstrainedBox(
-            constraints: new BoxConstraints.tightFor(
-              height: 48.0,
-              width: MediaQuery.of(context).size.width,
-            ),
-            child: new Builder(
-              builder: (context) => new Column(
-                    children: <Widget>[
-                      new RaisedButton(
-                        color: Theme.of(context).canvasColor,
-                        onPressed: () => Navigator
+        bottomNavigationBar: new ConstrainedBox(
+          constraints: new BoxConstraints.tightFor(
+            height: 48.0,
+            width: MediaQuery.of(context).size.width,
+          ),
+          child: new Builder(
+            builder: (context) => new Column(
+                  children: <Widget>[
+                    new RaisedButton(
+                      color: Theme.of(context).canvasColor,
+                      onPressed: () => Navigator
+                          .of(context)
+                          .pushReplacementNamed('/items/:$_itemId'),
+                      child: new Text(
+                        MaterialLocalizations
                             .of(context)
-                            .pushReplacementNamed('/items/:$_itemId'),
-                        child: new Text(
-                          MaterialLocalizations
-                              .of(context)
-                              .cancelButtonLabel
-                              .toUpperCase(),
-                          style: new TextStyle(
-                              color: Theme.of(context).canvasColor),
-                        ),
+                            .cancelButtonLabel
+                            .toUpperCase(),
+                        style:
+                            new TextStyle(color: Theme.of(context).canvasColor),
                       ),
-                      new RaisedButton(
-                        color: Theme.of(context).accentColor,
-                        onPressed: () => _updateLocation(context),
-                        child: new Text(
-                          SpotL.of(context).save.toUpperCase(),
-                          style: new TextStyle(
-                              color: Theme.of(context).canvasColor),
-                        ),
+                    ),
+                    new RaisedButton(
+                      color: Theme.of(context).accentColor,
+                      onPressed: () => _updateLocation(context),
+                      child: new Text(
+                        SpotL.of(context).save.toUpperCase(),
+                        style:
+                            new TextStyle(color: Theme.of(context).canvasColor),
                       ),
-                    ],
-                  ),
-            ),
+                    ),
+                  ],
+                ),
           ),
         ),
       );
