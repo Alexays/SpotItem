@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/ui/widgets/item.dart';
 import 'package:spotitem/models/home_items.dart';
-import 'package:spotitem/ui/widgets/filter_bar.dart';
 import 'package:spotitem/ui/views/explorer_view.dart';
 import 'package:spotitem/ui/views/discover_view.dart';
 import 'package:spotitem/ui/views/map_view.dart';
@@ -99,10 +98,11 @@ class _HomeScreenState extends State<HomeScreen>
         ],
         fabs: [
           new FloatingActionButton(
-              child: const Icon(Icons.add),
-              tooltip: 'Add new item',
-              onPressed: () =>
-                  Navigator.of(Services.context).pushNamed('/items/add/'))
+            child: const Icon(Icons.add),
+            tooltip: 'Add new item',
+            onPressed: () =>
+                Navigator.of(Services.context).pushNamed('/items/add/'),
+          )
         ],
       ),
       new HomeScreenItem(
@@ -284,22 +284,194 @@ class _HomeScreenState extends State<HomeScreen>
     });
   }
 
-  Widget _buildBottom() {
+  Widget _buildFilterBarMenu(BuildContext context) => new Row(
+        children: <Widget>[
+          new MaterialButton(
+            onPressed: () => setState(() {
+                  _filterBarExpanded = !_filterBarExpanded;
+                }),
+            child: new Row(
+              children: <Widget>[
+                const Text(
+                  'Filter',
+                  style: const TextStyle(color: Colors.white),
+                ),
+                const Icon(
+                  Icons.arrow_drop_down,
+                  color: Colors.white,
+                )
+              ],
+            ),
+          ),
+          new Expanded(
+            child: new PopupMenuButton(
+              padding: ButtonTheme.of(context).padding,
+              child: new ConstrainedBox(
+                constraints: new BoxConstraints(
+                  minWidth: ButtonTheme.of(context).minWidth,
+                  minHeight: ButtonTheme.of(context).height,
+                ),
+                child: new Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    const Text(
+                      'Sort by',
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    const Icon(
+                      Icons.arrow_drop_down,
+                      color: Colors.white,
+                    )
+                  ],
+                ),
+              ),
+              itemBuilder: (context) => Services.items.sortMethod.map((f) {
+                    switch (f) {
+                      case 'name':
+                        return new CheckedPopupMenuItem(
+                          checked: Services.items.tracks.value.contains('name'),
+                          value: f,
+                          child: new Text(SpotL.of(context).name),
+                        );
+                      case 'dist':
+                        return new CheckedPopupMenuItem(
+                          checked: Services.items.tracks.value
+                                  .contains('dist') ||
+                              !Services.items.tracks.value.any(
+                                  (f) => Services.items.sortMethod.contains(f)),
+                          value: f,
+                          child: new Text(SpotL.of(context).dist),
+                        );
+                    }
+                  }).toList(),
+              onSelected: (action) => setState(() {
+                    Services.items.tracks.value = [
+                      Services.items.tracks.value
+                          .where((f) =>
+                              !Services.items.sortMethod.any((d) => d == f))
+                          .toList(),
+                      [action]
+                    ].expand((x) => x).toList();
+                  }),
+            ),
+          ),
+          new MaterialButton(
+            onPressed: () {},
+            child: new Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                const Text(
+                  'Advanced',
+                  style: const TextStyle(color: Colors.white),
+                ),
+                const Icon(
+                  Icons.arrow_drop_down,
+                  color: Colors.white,
+                )
+              ],
+            ),
+          ),
+        ],
+      );
+
+  Widget _buildFilterBar(BuildContext context) {
+    final widgets = [
+      _buildFilterBarMenu(context),
+    ];
+    if (_filterBarExpanded) {
+      widgets.add(
+        new Container(
+          height: 125.0,
+          width: MediaQuery.of(context).size.width,
+          child: new Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              new Container(
+                decoration: new BoxDecoration(
+                  border: new Border.all(
+                    color: Theme.of(context).accentColor,
+                  ),
+                ),
+                width: MediaQuery.of(context).size.width * 30 / 100,
+                child: new ListView(
+                  padding: const EdgeInsets.all(10.0),
+                  itemExtent: 30.0,
+                  children: <Widget>[
+                    new InkWell(
+                      onTap: () {},
+                      child: new Row(
+                        children: <Widget>[
+                          new Expanded(
+                            child: new Text(
+                              'Categories',
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                          ),
+                          const Icon(
+                            Icons.chevron_right,
+                            color: Colors.white,
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              new Expanded(
+                child: new Container(
+                  height: 125.0,
+                  color: Theme.of(context).accentColor,
+                  child: new GridView.count(
+                    padding: const EdgeInsets.all(15.0),
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 10.0,
+                    children: Services.items.categories.map((f) {
+                      if (Services.items.tracks.value.contains(f)) {
+                        new RaisedButton(
+                          child: new Image.asset('assets/$f.png'),
+                          onPressed: () => setState(() {
+                                Services.items.tracks.value.remove(f);
+                              }),
+                        );
+                      }
+                      return new FlatButton(
+                        child: new Image.asset('assets/$f.png'),
+                        onPressed: () => setState(() {
+                              Services.items.tracks.value = Services
+                                  .items.tracks.value
+                                  .where((f) => !Services.items.categories
+                                      .any((d) => d == f))
+                                  .toList()
+                                    ..add(f);
+                            }),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      );
+    }
+    return new Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: widgets,
+    );
+  }
+
+  Widget _buildBottom(BuildContext context) {
     if (_isSearching ||
         (_homeScreenItems[page].sub == null &&
             _homeScreenItems[page].filter == false)) {
       return null;
     }
     if (_homeScreenItems[page].filter == true) {
-      return new FilterBar(
-        onChanged: (data) => setState(() {
-              Services.items.tracks.value = data;
-            }),
-        onExpand: (isExpanded) => setState(() {
-              _filterBarExpanded = !isExpanded;
-            }),
-        isExpanded: _filterBarExpanded,
-        tracks: Services.items.tracks.value,
+      return new PreferredSize(
+        preferredSize: new Size.fromHeight(_filterBarExpanded ? 161.0 : 36.0),
+        child: _buildFilterBar(context),
       );
     }
     return new TabBar(
@@ -560,7 +732,7 @@ class _HomeScreenState extends State<HomeScreen>
           ),
           child: new Row(children: widgets),
         ),
-        bottom: _buildBottom(),
+        bottom: _buildBottom(context),
       ),
     ];
   }
