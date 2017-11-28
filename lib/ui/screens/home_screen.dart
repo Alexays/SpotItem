@@ -284,7 +284,9 @@ class _HomeScreenState extends State<HomeScreen>
     });
   }
 
-  Widget _buildFilterBarMenu(BuildContext context) => new Row(
+  Widget _buildFilterBar(BuildContext context) {
+    final widgets = <Widget>[
+      new Row(
         children: <Widget>[
           new MaterialButton(
             onPressed: () => setState(() {
@@ -374,11 +376,7 @@ class _HomeScreenState extends State<HomeScreen>
             ),
           ),
         ],
-      );
-
-  Widget _buildFilterBar(BuildContext context) {
-    final widgets = [
-      _buildFilterBarMenu(context),
+      )
     ];
     if (_filterBarExpanded) {
       widgets.add(
