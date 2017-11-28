@@ -410,30 +410,14 @@ class _GroupPageState extends State<GroupPage>
         ),
       );
 
-  Widget _buildGroup(BuildContext context) {
-    final widgets = [_buildHeader(context), _buildUsers(context)];
-    if (isOwner) {
-      widgets.insert(
-        1,
-        new Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: new Center(
-            child: new RaisedButton(
-              onPressed: () => _addPeople(context),
-              child: new Text(
-                SpotL.of(context).addSomeone.toUpperCase(),
-              ),
-            ),
-          ),
-        ),
+  Widget _buildGroup(BuildContext context) => new Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          _buildHeader(context),
+          _buildUsers(context),
+        ],
       );
-    }
-    return new Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: widgets,
-    );
-  }
 
   @override
   Widget build(BuildContext context) => new Scaffold(
@@ -447,5 +431,25 @@ class _GroupPageState extends State<GroupPage>
             return _buildGroup(context);
           },
         ),
+        bottomNavigationBar: isOwner
+            ? new ConstrainedBox(
+                constraints: new BoxConstraints.tightFor(
+                  height: 48.0,
+                  width: MediaQuery.of(context).size.width,
+                ),
+                child: new Builder(
+                  builder: (context) => new RaisedButton(
+                        color: Theme.of(context).accentColor,
+                        onPressed: () => _addPeople(context),
+                        child: new Text(
+                          SpotL.of(context).addSomeone.toUpperCase(),
+                          style: new TextStyle(
+                            color: Theme.of(context).canvasColor,
+                          ),
+                        ),
+                      ),
+                ),
+              )
+            : null,
       );
 }

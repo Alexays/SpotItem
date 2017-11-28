@@ -58,7 +58,7 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
     aboutCtrl.text = _group.about;
   }
 
-  Future<Null> editGroup(BuildContext context) async {
+  Future<Null> _editGroup(BuildContext context) async {
     _formKey.currentState.save();
     if (!_formKey.currentState.validate()) {
       showSnackBar(context, SpotL.of(context).correctError);
@@ -133,7 +133,7 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
           child: new Builder(
             builder: (context) => new RaisedButton(
                   color: Theme.of(context).accentColor,
-                  onPressed: () async => await editGroup(context),
+                  onPressed: () => _editGroup(context),
                   child: new Text(
                     SpotL.of(context).save.toUpperCase(),
                     style: new TextStyle(
