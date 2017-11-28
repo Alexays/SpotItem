@@ -28,9 +28,7 @@ class FilterBar extends StatelessWidget implements PreferredSizeWidget {
 
   /// Size of filter bar, default is 36.0 (height of button)
   @override
-  Size get preferredSize {
-    return new Size.fromHeight(isExpanded ? 161.0 : 36.0);
-  }
+  Size get preferredSize => new Size.fromHeight(isExpanded ? 161.0 : 36.0);
 
   Widget _buildBar(BuildContext context) => new Row(
         children: <Widget>[
@@ -174,21 +172,20 @@ class FilterBar extends StatelessWidget implements PreferredSizeWidget {
                     crossAxisCount: 3,
                     crossAxisSpacing: 10.0,
                     children: Services.items.categories.map((f) {
-                      return !tracks.contains(f)
-                          ? new FlatButton(
-                              child: new Image.asset('assets/$f.png'),
-                              onPressed: () => onChanged(tracks
-                                  .where((f) => !Services.items.categories
-                                      .any((d) => d == f))
-                                  .toList()
-                                    ..add(f)),
-                            )
-                          : new RaisedButton(
-                              child: new Image.asset('assets/$f.png'),
-                              onPressed: () {
-                                tracks.remove(f);
-                              },
-                            );
+                      if (tracks.contains(f)) {
+                        new RaisedButton(
+                          child: new Image.asset('assets/$f.png'),
+                          onPressed: () => tracks.remove(f),
+                        );
+                      }
+                      return new FlatButton(
+                        child: new Image.asset('assets/$f.png'),
+                        onPressed: () => onChanged(tracks
+                            .where((f) =>
+                                !Services.items.categories.any((d) => d == f))
+                            .toList()
+                              ..add(f)),
+                      );
                     }).toList(),
                   ),
                 ),
