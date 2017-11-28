@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/ui/widgets/item.dart';
+import 'package:spotitem/ui/widgets/home_items.dart';
 import 'package:spotitem/ui/views/explorer_view.dart';
 import 'package:spotitem/ui/views/discover_view.dart';
 import 'package:spotitem/ui/views/map_view.dart';
@@ -29,12 +30,7 @@ class _HomeScreenState extends State<HomeScreen>
     new HomeScreenItem(
       icon: const Icon(Icons.explore),
       title: SpotL.of(Services.context).explore,
-      sub: <HomeScreenSubItem>[
-        new HomeScreenSubItem(
-            SpotL.of(Services.context).discover, const DiscoverView()),
-        new HomeScreenSubItem(
-            SpotL.of(Services.context).explore, const ExplorerView()),
-      ],
+      content: const ExplorerView(),
     ),
     new HomeScreenItem(
       icon: const Icon(Icons.work),
@@ -288,6 +284,9 @@ class _HomeScreenState extends State<HomeScreen>
   PreferredSizeWidget _buildBottom() {
     if (_isSearching || _homeScreenItems[page].sub == null) {
       return null;
+    }
+    if (_homeScreenItems[page].bottom != null) {
+      return _homeScreenItems[page].bottom;
     }
     return new TabBar(
       controller: tabsCtrl[page],
@@ -613,53 +612,4 @@ class _HomeScreenState extends State<HomeScreen>
           ),
         ],
       );
-}
-
-/// Home screen item
-class HomeScreenItem {
-  /// Home screen item
-  final BottomNavigationBarItem item;
-
-  /// Home screen item contents
-  final List<Widget> contents;
-
-  /// Home screen item content
-  final Widget content;
-
-  /// Home screen item tabs
-  final List<HomeScreenSubItem> sub;
-
-  /// Home screen item fabs
-  final List<FloatingActionButton> fabs;
-
-  /// Home screen item title
-  final String title;
-
-  /// Tabs key
-  final Key key;
-
-  /// Home screen item initalizer
-  HomeScreenItem({
-    _HomeScreenState parent,
-    Widget icon,
-    this.title,
-    this.content,
-    this.sub,
-    this.fabs,
-  })
-      : item = new BottomNavigationBarItem(icon: icon, title: new Text(title)),
-        key = new Key(title),
-        contents = sub != null ? sub.map((f) => f.content).toList() : null;
-}
-
-/// Home screen sub item
-class HomeScreenSubItem {
-  /// Home screen sub item title
-  final String title;
-
-  /// Home screen sub item content
-  final Widget content;
-
-  /// Home screen sub item initializer
-  const HomeScreenSubItem(this.title, this.content);
 }
