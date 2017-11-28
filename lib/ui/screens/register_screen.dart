@@ -30,7 +30,7 @@ class RegisterScreen extends StatelessWidget {
     final res = await Services.auth.register({
       'firstname': _name.text,
       'name': _lastname.text,
-      'email': _email.text,
+      'email': _email.text.toLowerCase(),
       'password': _password.text,
     });
     if (!resValid(context, res)) {

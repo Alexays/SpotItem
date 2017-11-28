@@ -47,7 +47,7 @@ class _ContactScreenState extends State<ContactScreen> {
         children: emails.map((f) => new ListTile(
               title: new Text(f['value']),
               onTap: () {
-                _email = f['value'];
+                _email = f['value'].toLowerCase();
                 _handleEmail(context);
               },
             )),
