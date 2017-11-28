@@ -75,6 +75,7 @@ class _ContactScreenState extends State<ContactScreen> {
               fontWeight: FontWeight.w500,
             ),
             decoration: new InputDecoration(
+              isDense: true,
               hideDivider: true,
               hintText: SpotL.of(context).searchContact,
               errorText:
