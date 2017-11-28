@@ -50,9 +50,8 @@ class Calendar extends StatelessWidget {
       final diff = lastDate.subtract(
         new Duration(milliseconds: firstDate.millisecondsSinceEpoch),
       );
-      nbMonth = (diff.day ~/ 28) +
-          diff.month +
-          (diff.year - 1970) * 12; // 28 equal minimum nb of day in a month
+      // 28 equal minimum nb of day in a month
+      nbMonth = (diff.day ~/ 28) + diff.month + (diff.year - 1970) * 12;
       firstDate = new DateTime(
         _firstDate.year,
         _firstDate.month,
