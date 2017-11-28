@@ -69,19 +69,18 @@ class FilterBar extends StatelessWidget implements PreferredSizeWidget {
                   switch (f) {
                     case 'name':
                       return new CheckedPopupMenuItem(
-                          checked: Services.items.tracks.value.contains('name'),
-                          value: f,
-                          child: new Text(SpotL.of(context).name));
-                      break;
+                        checked: Services.items.tracks.value.contains('name'),
+                        value: f,
+                        child: new Text(SpotL.of(context).name),
+                      );
                     case 'dist':
                       return new CheckedPopupMenuItem(
-                          checked: Services.items.tracks.value
-                                  .contains('dist') ||
-                              !Services.items.tracks.value.any(
-                                  (f) => Services.items.sortMethod.contains(f)),
-                          value: f,
-                          child: new Text(SpotL.of(context).dist));
-                      break;
+                        checked: Services.items.tracks.value.contains('dist') ||
+                            !Services.items.tracks.value.any(
+                                (f) => Services.items.sortMethod.contains(f)),
+                        value: f,
+                        child: new Text(SpotL.of(context).dist),
+                      );
                   }
                 }).toList(),
             onSelected: (action) => onChanged(
