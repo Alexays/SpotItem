@@ -8,16 +8,24 @@ class FilterBar extends StatelessWidget implements PreferredSizeWidget {
   /// Filter Bar initializer
   const FilterBar({
     @required this.onChanged,
+    @required this.onExpand,
+    this.isExpanded = false,
     Key key,
   });
 
-  /// Called when the user picks a day.
+  /// Called when the tracks changed.
   final ValueChanged<List<String>> onChanged;
+
+  /// Called when the filter bar expand
+  final ValueChanged<bool> onExpand;
+
+  /// Fitler bar is expanded
+  final bool isExpanded;
 
   /// Size of filter bar, default is 36.0 (height of button)
   @override
   Size get preferredSize {
-    return new Size.fromHeight(36.0);
+    return new Size.fromHeight(isExpanded ? 110.0 : 36.0);
   }
 
   @override
@@ -26,7 +34,7 @@ class FilterBar extends StatelessWidget implements PreferredSizeWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         new MaterialButton(
-          onPressed: () {},
+          onPressed: () => onExpand(isExpanded),
           child: new Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.start,

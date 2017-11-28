@@ -12,7 +12,7 @@ class HomeScreenItem {
   final Widget content;
 
   /// Home screen sub app bar widget
-  final Widget bottom;
+  final bool filter;
 
   /// Home screen item tabs
   final List<HomeScreenSubItem> sub;
@@ -33,13 +33,12 @@ class HomeScreenItem {
     this.title,
     this.content,
     this.sub,
-    this.bottom,
+    this.filter = false,
     this.fabs,
   })
       : item = new BottomNavigationBarItem(icon: icon, title: new Text(title)),
         key = new Key(title),
-        contents = sub != null ? sub.map((f) => f.content).toList() : null,
-        assert(bottom == null || sub == null);
+        contents = sub != null ? sub.map((f) => f.content).toList() : null;
 }
 
 /// Home screen sub item
