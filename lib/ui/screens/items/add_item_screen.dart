@@ -325,32 +325,33 @@ class _AddItemScreenState extends State<AddItemScreen> {
           new Container(
             height: 100.0,
             child: new ListView.builder(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(vertical: 15.0),
-              itemCount: Services.items.categories.length,
-              itemExtent: 75.0,
-              itemBuilder: (context, index) => !_tracks
-                      .contains(Services.items.categories[index])
-                  ? new FlatButton(
-                      child: new Image.asset(
-                          'assets/${Services.items.categories[index]}.png'),
-                      onPressed: () => setState(() {
-                            _tracks = _tracks
-                                .where((f) => !Services.items.categories
-                                    .any((d) => d == f))
-                                .toList()
-                                  ..add(Services.items.categories[index]);
-                          }),
-                    )
-                  : new RaisedButton(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(vertical: 15.0),
+                itemCount: Services.items.categories.length,
+                itemExtent: 75.0,
+                itemBuilder: (context, index) {
+                  if (_tracks.contains(Services.items.categories[index])) {
+                    return new RaisedButton(
                       child: new Image.asset(
                           'assets/${Services.items.categories[index]}.png'),
                       onPressed: () => setState(() {
                             _tracks.remove(Services.items.categories[index]);
                           }),
-                    ),
-            ),
+                    );
+                  }
+                  return new FlatButton(
+                    child: new Image.asset(
+                        'assets/${Services.items.categories[index]}.png'),
+                    onPressed: () => setState(() {
+                          _tracks = _tracks
+                              .where((f) =>
+                                  !Services.items.categories.any((d) => d == f))
+                              .toList()
+                                ..add(Services.items.categories[index]);
+                        }),
+                  );
+                }),
           ),
         ],
       );
