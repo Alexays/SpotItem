@@ -89,77 +89,59 @@ class _AddItemScreenState extends State<AddItemScreen> {
     });
   }
 
-  Widget _getImageGrid() {
-    if (_imagesFile.isEmpty) {
-      return new Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          new Text(SpotL.of(context).noImages),
-          const Padding(
-            padding: const EdgeInsets.all(10.0),
-          ),
-          new RaisedButton(
-            child: new Text(SpotL.of(context).addImage),
-            onPressed: _getImage,
-          )
-        ],
-      );
-    }
-    return new GridView.count(
-      primary: false,
-      crossAxisCount: 3,
-      crossAxisSpacing: 10.0,
-      children: new List<Widget>.generate(
-        _imagesFile.length + 1,
-        (i) {
-          final index = i - 1;
-          if (i == 0) {
-            return new GridTile(
-              child: new GestureDetector(
-                onTap: _getImage,
-                child: new Card(
-                  child: new Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      const Icon(Icons.add),
-                      new Text(SpotL.of(context).addImage),
-                    ],
+  Widget _getImageGrid() => new GridView.count(
+        primary: false,
+        crossAxisCount: 3,
+        crossAxisSpacing: 10.0,
+        children: new List<Widget>.generate(
+          _imagesFile.length + 1,
+          (i) {
+            final index = i - 1;
+            if (i == 0) {
+              return new GridTile(
+                child: new GestureDetector(
+                  onTap: _getImage,
+                  child: new Card(
+                    child: new Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        const Icon(Icons.add),
+                        new Text(SpotL.of(context).addImage),
+                      ],
+                    ),
                   ),
                 ),
+              );
+            }
+            return new GridTile(
+              child: new Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  new Image.file(
+                    _imagesFile[index],
+                    fit: BoxFit.cover,
+                  ),
+                  new Positioned(
+                    top: 2.5,
+                    left: 2.5,
+                    child: new IconButton(
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      icon: const Icon(Icons.delete),
+                      tooltip: 'Delete this image',
+                      onPressed: () => setState(() {
+                            _imagesFile = _imagesFile
+                                .where((f) => f != _imagesFile[index])
+                                .toList();
+                          }),
+                    ),
+                  ),
+                ],
               ),
             );
-          }
-          return new GridTile(
-            child: new Stack(
-              fit: StackFit.expand,
-              children: <Widget>[
-                new Image.file(
-                  _imagesFile[index],
-                  fit: BoxFit.cover,
-                ),
-                new Positioned(
-                  top: 2.5,
-                  left: 2.5,
-                  child: new IconButton(
-                    color: const Color.fromARGB(255, 255, 255, 255),
-                    icon: const Icon(Icons.delete),
-                    tooltip: 'Delete this image',
-                    onPressed: () => setState(() {
-                          _imagesFile = _imagesFile
-                              .where((f) => f != _imagesFile[index])
-                              .toList();
-                        }),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
+          },
+        ),
+      );
 
   Widget _getGroups() {
     if (_groups == null) {

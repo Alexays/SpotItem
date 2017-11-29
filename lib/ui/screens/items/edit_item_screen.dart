@@ -121,22 +121,6 @@ class _EditItemScreenState extends State<EditItemScreen>
 
   Widget _buildImages(BuildContext context) {
     final length = _item.images.length + _imagesFile.length;
-    if (length < 1) {
-      return new Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          new Text(SpotL.of(context).noImages),
-          const Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
-          ),
-          new RaisedButton(
-            child: new Text(SpotL.of(context).addImage),
-            onPressed: _getImage,
-          )
-        ],
-      );
-    }
     return new GridView.count(
       primary: false,
       padding: const EdgeInsets.all(15.0),
