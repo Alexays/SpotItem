@@ -49,6 +49,7 @@ class _EditGroupScreenState extends State<EditGroupScreen> {
         });
       });
     } else {
+      _group = new Group.from(_group);
       _initForm();
     }
   }
