@@ -280,9 +280,8 @@ class _HomeScreenState extends State<HomeScreen>
       new Row(
         children: <Widget>[
           new MaterialButton(
-            onPressed: () => setState(() {
-                  _filterBarExpanded = !_filterBarExpanded;
-                }),
+            onPressed: () =>
+                setState(() => _filterBarExpanded = !_filterBarExpanded),
             child: new Row(
               children: <Widget>[
                 new Text(
@@ -344,15 +343,14 @@ class _HomeScreenState extends State<HomeScreen>
                       );
                   }
                 }).toList(),
-            onSelected: (action) => setState(() {
-                  Services.items.tracks.value = [
-                    Services.items.tracks.value
-                        .where((f) =>
-                            !Services.items.sortMethod.any((d) => d == f))
-                        .toList(),
-                    [action]
-                  ].expand((x) => x).toList();
-                }),
+            onSelected: (action) =>
+                setState(() => Services.items.tracks.value = [
+                      Services.items.tracks.value
+                          .where((f) =>
+                              !Services.items.sortMethod.any((d) => d == f))
+                          .toList(),
+                      [action]
+                    ].expand((x) => x).toList()),
           ),
         ],
       )
@@ -376,9 +374,7 @@ class _HomeScreenState extends State<HomeScreen>
                   children: new List<Widget>.generate(
                       Services.items.filters.length,
                       (index) => new InkWell(
-                            onTap: () {
-                              filterIndex = index;
-                            },
+                            onTap: () => filterIndex = index,
                             child: new Padding(
                               padding: const EdgeInsets.symmetric(
                                 vertical: 5.0,
@@ -417,24 +413,22 @@ class _HomeScreenState extends State<HomeScreen>
                         if (Services.items.tracks.value.contains(f)) {
                           return new RaisedButton(
                             child: new Image.asset('assets/$f.png'),
-                            onPressed: () => setState(() {
-                                  Services.items.tracks.value = Services
-                                      .items.tracks.value
-                                      .where((d) => d != f)
-                                      .toList();
-                                }),
+                            onPressed: () => setState(() =>
+                                Services.items.tracks.value = Services
+                                    .items.tracks.value
+                                    .where((d) => d != f)
+                                    .toList()),
                           );
                         }
                         return new FlatButton(
                           child: new Image.asset('assets/$f.png'),
-                          onPressed: () => setState(() {
-                                Services.items.tracks.value = Services
-                                    .items.tracks.value
-                                    .where((f) => !Services.items.categories
-                                        .any((d) => d == f))
-                                    .toList()
-                                      ..add(f);
-                              }),
+                          onPressed: () => setState(() =>
+                              Services.items.tracks.value = Services
+                                  .items.tracks.value
+                                  .where((f) => !Services.items.categories
+                                      .any((d) => d == f))
+                                  .toList()
+                                    ..add(f)),
                         );
                       }).toList(),
                     ),
