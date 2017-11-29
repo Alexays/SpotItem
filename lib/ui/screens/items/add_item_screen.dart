@@ -37,7 +37,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   List<String> _tracks = [];
 
   /// Images taken from gallery
-  final List<File> _imagesFile = [];
+  List<File> _imagesFile = [];
 
   /// Base64 images
   final List<String> _images = [];
@@ -147,7 +147,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     icon: const Icon(Icons.delete),
                     tooltip: 'Delete this image',
                     onPressed: () => setState(() {
-                          _imagesFile.removeAt(index);
+                          _imagesFile = _imagesFile
+                              .where((f) => f != _imagesFile[index])
+                              .toList();
                         }),
                   ),
                 ),
