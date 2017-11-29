@@ -11,8 +11,8 @@ class HomeScreenItem {
   /// Home screen item content
   final Widget content;
 
-  /// Home screen sub app bar widget
-  final bool filter;
+  /// Home screen item content used when filters length greater than 0
+  final Widget filter;
 
   /// Home screen item tabs
   final List<HomeScreenSubItem> sub;
@@ -33,7 +33,7 @@ class HomeScreenItem {
     this.title,
     this.content,
     this.sub,
-    this.filter = false,
+    this.filter,
     this.fabs,
   })
       : item = new BottomNavigationBarItem(icon: icon, title: new Text(title)),

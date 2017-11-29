@@ -80,8 +80,8 @@ class _HomeScreenState extends State<HomeScreen>
       new HomeScreenItem(
         icon: const Icon(Icons.explore),
         title: SpotL.of(Services.context).explore,
-        content: const ExplorerView(),
-        filter: true,
+        content: const DiscoverView(),
+        filter: const ExplorerView(),
       ),
       new HomeScreenItem(
         icon: const Icon(Icons.work),
@@ -447,7 +447,7 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   Widget _buildBottomBar(BuildContext context) {
-    if (_homeScreenItems[page].filter == true || _isSearching) {
+    if (_homeScreenItems[page].filter != null || _isSearching) {
       return new PreferredSize(
         preferredSize: new Size.fromHeight(_filterBarExpanded ? 361.0 : 36.0),
         child: _buildFilterBar(context),
@@ -689,6 +689,10 @@ class _HomeScreenState extends State<HomeScreen>
         controller: tabsCtrl[page],
         children: _homeScreenItems[page].contents,
       );
+    }
+    if (_homeScreenItems[page].filter != null &&
+        Services.items.tracks.value.isNotEmpty) {
+      return _homeScreenItems[page].filter;
     }
     return _homeScreenItems[page].content;
   }
