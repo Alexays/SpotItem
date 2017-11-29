@@ -413,7 +413,10 @@ class _HomeScreenState extends State<HomeScreen>
                           return new RaisedButton(
                             child: new Image.asset('assets/$f.png'),
                             onPressed: () => setState(() {
-                                  Services.items.tracks.value.remove(f);
+                                  Services.items.tracks.value = Services
+                                      .items.tracks.value
+                                      .where((d) => d != f)
+                                      .toList();
                                 }),
                           );
                         }
