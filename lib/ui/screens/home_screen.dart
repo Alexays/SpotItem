@@ -167,81 +167,6 @@ class _HomeScreenState extends State<HomeScreen>
     }
   }
 
-  void _showFilter(BuildContext context) {
-    showModalBottomSheet<Null>(
-      context: context,
-      builder: (context) => new StatefulBuilder(
-            builder: (context, switchSetState) => new Column(
-                  children: <Widget>[
-                    new Container(
-                      height: 100.0,
-                      child: new ListView.builder(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        padding: const EdgeInsets.symmetric(vertical: 15.0),
-                        itemCount: Services.items.categories.length,
-                        itemExtent: 75.0,
-                        itemBuilder: (context, index) => !Services
-                                .items.tracks.value
-                                .contains(Services.items.categories[index])
-                            ? new FlatButton(
-                                child: new Image.asset(
-                                    'assets/${Services.items.categories[index]}.png'),
-                                onPressed: () => switchSetState(() {
-                                      Services.items.tracks.value = Services
-                                          .items.tracks.value
-                                          .where((f) => !Services
-                                              .items.categories
-                                              .any((d) => d == f))
-                                          .toList()
-                                            ..add(Services
-                                                .items.categories[index]);
-                                    }),
-                              )
-                            : new RaisedButton(
-                                child: new Image.asset(
-                                    'assets/${Services.items.categories[index]}.png'),
-                                onPressed: () => switchSetState(() {
-                                      Services.items.tracks.value.remove(
-                                          Services.items.categories[index]);
-                                    }),
-                              ),
-                      ),
-                    ),
-                    new SwitchListTile(
-                      title: new Text(SpotL.of(context).fromYourGroups),
-                      value: Services.items.tracks.value.contains('group'),
-                      onChanged: (value) {
-                        value
-                            ? Services.items.tracks.value.add('group')
-                            : Services.items.tracks.value.remove('group');
-                        switchSetState(() {
-                          Services.items.tracks.value = new List<String>.from(
-                              Services.items.tracks.value);
-                        });
-                      },
-                      secondary: const Icon(Icons.lock),
-                    ),
-                    new SwitchListTile(
-                      title: new Text(SpotL.of(context).gift),
-                      value: Services.items.tracks.value.contains('gift'),
-                      onChanged: (value) {
-                        value
-                            ? Services.items.tracks.value.add('gift')
-                            : Services.items.tracks.value.remove('gift');
-                        switchSetState(() {
-                          Services.items.tracks.value = new List<String>.from(
-                              Services.items.tracks.value);
-                        });
-                      },
-                      secondary: const Icon(Icons.card_giftcard),
-                    )
-                  ],
-                ),
-          ),
-    );
-  }
-
   void _searchCallback() {
     if (!mounted) {
       return;
@@ -356,6 +281,69 @@ class _HomeScreenState extends State<HomeScreen>
       )
     ];
     if (_filterBarExpanded) {
+      var expandFilter;
+      final categoriesGrid = new GridView.count(
+        padding: const EdgeInsets.all(15.0),
+        crossAxisCount: 3,
+        crossAxisSpacing: 10.0,
+        children: Services.items.categories.map((f) {
+          if (Services.items.tracks.value.contains(f)) {
+            return new RaisedButton(
+              child: new Image.asset('assets/$f.png'),
+              onPressed: () => setState(() => Services.items.tracks.value =
+                  Services.items.tracks.value.where((d) => d != f).toList()),
+            );
+          }
+          return new FlatButton(
+            child: new Image.asset('assets/$f.png'),
+            onPressed: () => setState(() =>
+                Services.items.tracks.value = Services.items.tracks.value
+                    .where((f) => !Services.items.categories.any((d) => d == f))
+                    .toList()
+                      ..add(f)),
+          );
+        }).toList(),
+      );
+      final advancedList = new ListView(
+        children: <Widget>[
+          new SwitchListTile(
+            title: new Text(SpotL.of(context).fromYourGroups),
+            value: Services.items.tracks.value.contains('group'),
+            onChanged: (value) {
+              value
+                  ? Services.items.tracks.value.add('group')
+                  : Services.items.tracks.value.remove('group');
+              setState(() {
+                Services.items.tracks.value =
+                    new List<String>.from(Services.items.tracks.value);
+              });
+            },
+            secondary: const Icon(Icons.lock),
+          ),
+          new SwitchListTile(
+            title: new Text(SpotL.of(context).gift),
+            value: Services.items.tracks.value.contains('gift'),
+            onChanged: (value) {
+              value
+                  ? Services.items.tracks.value.add('gift')
+                  : Services.items.tracks.value.remove('gift');
+              setState(() {
+                Services.items.tracks.value =
+                    new List<String>.from(Services.items.tracks.value);
+              });
+            },
+            secondary: const Icon(Icons.card_giftcard),
+          )
+        ],
+      );
+      switch (filterIndex) {
+        case 0:
+          expandFilter = categoriesGrid;
+          break;
+        case 1:
+          expandFilter = advancedList;
+          break;
+      }
       widgets.add(
         new Container(
           height: 325.0,
@@ -374,8 +362,11 @@ class _HomeScreenState extends State<HomeScreen>
                   children: new List<Widget>.generate(
                       Services.items.filters.length,
                       (index) => new InkWell(
-                            onTap: () => filterIndex = index,
-                            child: new Padding(
+                            onTap: () => setState(() => filterIndex = index),
+                            child: new Container(
+                              color: filterIndex == index
+                                  ? Theme.of(context).accentColor
+                                  : null,
                               padding: const EdgeInsets.symmetric(
                                 vertical: 5.0,
                                 horizontal: 7.5,
@@ -405,33 +396,7 @@ class _HomeScreenState extends State<HomeScreen>
                   color: Theme.of(context).accentColor,
                   child: new Material(
                     color: Colors.transparent,
-                    child: new GridView.count(
-                      padding: const EdgeInsets.all(15.0),
-                      crossAxisCount: 3,
-                      crossAxisSpacing: 10.0,
-                      children: Services.items.categories.map((f) {
-                        if (Services.items.tracks.value.contains(f)) {
-                          return new RaisedButton(
-                            child: new Image.asset('assets/$f.png'),
-                            onPressed: () => setState(() =>
-                                Services.items.tracks.value = Services
-                                    .items.tracks.value
-                                    .where((d) => d != f)
-                                    .toList()),
-                          );
-                        }
-                        return new FlatButton(
-                          child: new Image.asset('assets/$f.png'),
-                          onPressed: () => setState(() =>
-                              Services.items.tracks.value = Services
-                                  .items.tracks.value
-                                  .where((f) => !Services.items.categories
-                                      .any((d) => d == f))
-                                  .toList()
-                                    ..add(f)),
-                        );
-                      }).toList(),
-                    ),
+                    child: expandFilter,
                   ),
                 ),
               )
