@@ -31,6 +31,12 @@ class ItemsManager extends BasicService {
   final ValueNotifier<List<String>> tracks =
       new ValueNotifier<List<String>>([]);
 
+  /// Filters of explorer
+  final filters = [
+    {'name': 'Categories', 'type': 'grid'},
+    {'name': 'Advanced', 'type': 'grid'}
+  ];
+
   /// Private variables
   List<Item> _data = <Item>[];
   List<Item> _owned = <Item>[];

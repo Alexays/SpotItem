@@ -41,8 +41,9 @@ class _HomeScreenState extends State<HomeScreen>
   String _searchQuery;
 
   //Explore
-  List<HomeScreenItem> _homeScreenItems;
   int page = 0;
+  int filterIndex = 0;
+  List<HomeScreenItem> _homeScreenItems;
   List<TabController> tabsCtrl;
   FloatingActionButton get fab =>
       _homeScreenItems[page].fabs.length > tabsCtrl[page].index
@@ -356,7 +357,6 @@ class _HomeScreenState extends State<HomeScreen>
         ],
       )
     ];
-    final filters = ['Categories', 'Advanced'];
     if (_filterBarExpanded) {
       widgets.add(
         new Container(
@@ -370,34 +370,37 @@ class _HomeScreenState extends State<HomeScreen>
                     color: Theme.of(context).accentColor,
                   ),
                 ),
-                width: MediaQuery.of(context).size.width * 30 / 100,
+                width: MediaQuery.of(context).size.width * 0.3,
                 child: new ListView(
                   itemExtent: 40.0,
-                  children: filters.map((f) {
-                    return new InkWell(
-                      onTap: () {},
-                      child: new Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 5.0,
-                          horizontal: 7.5,
-                        ),
-                        child: new Row(
-                          children: <Widget>[
-                            new Expanded(
-                              child: new Text(
-                                f,
-                                style: const TextStyle(color: Colors.white),
+                  children: new List<Widget>.generate(
+                      Services.items.filters.length,
+                      (index) => new InkWell(
+                            onTap: () {
+                              filterIndex = index;
+                            },
+                            child: new Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 5.0,
+                                horizontal: 7.5,
+                              ),
+                              child: new Row(
+                                children: <Widget>[
+                                  new Expanded(
+                                    child: new Text(
+                                      Services.items.filters[index]['name'],
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                  const Icon(
+                                    Icons.chevron_right,
+                                    color: Colors.white,
+                                  )
+                                ],
                               ),
                             ),
-                            const Icon(
-                              Icons.chevron_right,
-                              color: Colors.white,
-                            )
-                          ],
-                        ),
-                      ),
-                    );
-                  }).toList(),
+                          )),
                 ),
               ),
               new Expanded(
