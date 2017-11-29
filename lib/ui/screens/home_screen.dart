@@ -271,6 +271,8 @@ class _HomeScreenState extends State<HomeScreen>
 
   Widget _buildFilterBar(BuildContext context) {
     final tracksLen = Services.items.tracks.value.length;
+    final spotL = SpotL.of(context);
+    final buttonTheme = ButtonTheme.of(context);
     final widgets = <Widget>[
       new Row(
         children: <Widget>[
@@ -281,7 +283,9 @@ class _HomeScreenState extends State<HomeScreen>
             child: new Row(
               children: <Widget>[
                 new Text(
-                  tracksLen > 0 ? 'Filter ($tracksLen)' : 'Filter',
+                  tracksLen > 0
+                      ? '${spotL.filters} ($tracksLen)'
+                      : spotL.filters,
                   style: const TextStyle(color: Colors.white),
                 ),
                 const Icon(
@@ -295,11 +299,11 @@ class _HomeScreenState extends State<HomeScreen>
             child: new Container(),
           ),
           new PopupMenuButton(
-            padding: ButtonTheme.of(context).padding,
+            padding: buttonTheme.padding,
             child: new ConstrainedBox(
               constraints: new BoxConstraints(
-                minWidth: ButtonTheme.of(context).minWidth,
-                minHeight: ButtonTheme.of(context).height,
+                minWidth: buttonTheme.minWidth,
+                minHeight: buttonTheme.height,
               ),
               child: new Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -307,8 +311,8 @@ class _HomeScreenState extends State<HomeScreen>
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    const Text(
-                      'Sort by',
+                    new Text(
+                      spotL.sortBy,
                       style: const TextStyle(color: Colors.white),
                     ),
                     const Icon(
@@ -325,7 +329,7 @@ class _HomeScreenState extends State<HomeScreen>
                       return new CheckedPopupMenuItem(
                         checked: Services.items.tracks.value.contains('name'),
                         value: f,
-                        child: new Text(SpotL.of(context).name),
+                        child: new Text(spotL.name),
                       );
                     case 'dist':
                       return new CheckedPopupMenuItem(
@@ -333,7 +337,7 @@ class _HomeScreenState extends State<HomeScreen>
                             !Services.items.tracks.value.any(
                                 (f) => Services.items.sortMethod.contains(f)),
                         value: f,
-                        child: new Text(SpotL.of(context).dist),
+                        child: new Text(spotL.dist),
                       );
                   }
                 }).toList(),
@@ -350,6 +354,7 @@ class _HomeScreenState extends State<HomeScreen>
         ],
       )
     ];
+    final filters = ['Categories', 'Advanced'];
     if (_filterBarExpanded) {
       widgets.add(
         new Container(
@@ -366,16 +371,19 @@ class _HomeScreenState extends State<HomeScreen>
                 width: MediaQuery.of(context).size.width * 30 / 100,
                 child: new ListView(
                   itemExtent: 40.0,
-                  children: <Widget>[
-                    new InkWell(
+                  children: filters.map((f) {
+                    return new InkWell(
                       onTap: () {},
                       child: new Padding(
-                        padding: const EdgeInsets.all(5.0),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 5.0,
+                          horizontal: 7.5,
+                        ),
                         child: new Row(
                           children: <Widget>[
                             new Expanded(
                               child: new Text(
-                                'Categories',
+                                f,
                                 style: const TextStyle(color: Colors.white),
                               ),
                             ),
@@ -386,8 +394,8 @@ class _HomeScreenState extends State<HomeScreen>
                           ],
                         ),
                       ),
-                    ),
-                  ],
+                    );
+                  }).toList(),
                 ),
               ),
               new Expanded(

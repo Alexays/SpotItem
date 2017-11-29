@@ -287,4 +287,10 @@ class SpotL {
 
   /// Update location message
   String get updateLocation => _nameToValue['updateLocation'];
+
+  /// Sort by title
+  String get sortBy => _nameToValue['sortBy'];
+
+  /// Filters title
+  String get filters => _nameToValue['filters'];
 }

@@ -85,7 +85,9 @@ const Map<String, Map<String, String>> localizations =
     'holded': r'Holded',
     'noHolded': r'No holded items',
     'locationError': r'Please enable location or choose location !',
-    'updateLocation': r'Do you want to update the location ?'
+    'updateLocation': r'Do you want to update the location ?',
+    'sortBy': r'Sort by',
+    'filters': r'Filters'
   },
   'fr': const <String, String>{
     'home': r'Accueil',
@@ -168,6 +170,8 @@ const Map<String, Map<String, String>> localizations =
     'holded': r'Détenu',
     'noHolded': r'Aucun objet détenu',
     'locationError': r'Veuillez activer ou choisir votre emplacement !',
-    'updateLoction': r'Voulez-vous mettre à jour la position ?'
+    'updateLoction': r'Voulez-vous mettre à jour la position ?',
+    'sortBy': r'Trier par',
+    'filters': r'Filtres'
   },
 };
