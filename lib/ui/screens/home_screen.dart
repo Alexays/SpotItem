@@ -369,8 +369,7 @@ class _HomeScreenState extends State<HomeScreen>
     if (_filterBarExpanded) {
       widgets.add(
         new Container(
-          height: 125.0,
-          width: MediaQuery.of(context).size.width,
+          height: 325.0,
           child: new Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -409,33 +408,36 @@ class _HomeScreenState extends State<HomeScreen>
               ),
               new Expanded(
                 child: new Container(
-                  height: 125.0,
+                  height: 325.0,
                   color: Theme.of(context).accentColor,
-                  child: new GridView.count(
-                    padding: const EdgeInsets.all(15.0),
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 10.0,
-                    children: Services.items.categories.map((f) {
-                      if (Services.items.tracks.value.contains(f)) {
-                        new RaisedButton(
+                  child: new Material(
+                    color: Colors.transparent,
+                    child: new GridView.count(
+                      padding: const EdgeInsets.all(15.0),
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 10.0,
+                      children: Services.items.categories.map((f) {
+                        if (Services.items.tracks.value.contains(f)) {
+                          return new RaisedButton(
+                            child: new Image.asset('assets/$f.png'),
+                            onPressed: () => setState(() {
+                                  Services.items.tracks.value.remove(f);
+                                }),
+                          );
+                        }
+                        return new FlatButton(
                           child: new Image.asset('assets/$f.png'),
                           onPressed: () => setState(() {
-                                Services.items.tracks.value.remove(f);
+                                Services.items.tracks.value = Services
+                                    .items.tracks.value
+                                    .where((f) => !Services.items.categories
+                                        .any((d) => d == f))
+                                    .toList()
+                                      ..add(f);
                               }),
                         );
-                      }
-                      return new FlatButton(
-                        child: new Image.asset('assets/$f.png'),
-                        onPressed: () => setState(() {
-                              Services.items.tracks.value = Services
-                                  .items.tracks.value
-                                  .where((f) => !Services.items.categories
-                                      .any((d) => d == f))
-                                  .toList()
-                                    ..add(f);
-                            }),
-                      );
-                    }).toList(),
+                      }).toList(),
+                    ),
                   ),
                 ),
               )
@@ -453,7 +455,7 @@ class _HomeScreenState extends State<HomeScreen>
   Widget _buildBottomBar(BuildContext context) {
     if (_homeScreenItems[page].filter == true || _isSearching) {
       return new PreferredSize(
-        preferredSize: new Size.fromHeight(_filterBarExpanded ? 161.0 : 36.0),
+        preferredSize: new Size.fromHeight(_filterBarExpanded ? 361.0 : 36.0),
         child: _buildFilterBar(context),
       );
     }

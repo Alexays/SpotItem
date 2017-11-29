@@ -7,8 +7,7 @@ dependencies:
   http: '^0.11.3+14'
   shared_preferences: '^0.2.5'
   image_picker: '^0.1.4'
-  location:
-    path: '../flutterlocation'
+  location: '^1.1.7'
   qrcode_reader: '^0.3.2'
   url_launcher: '^0.4.2+5'
   web_socket_channel: '^1.0.6'
