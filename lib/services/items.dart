@@ -32,9 +32,9 @@ class ItemsManager extends BasicService {
       new ValueNotifier<List<String>>([]);
 
   /// Filters of explorer
-  final filters = [
-    {'name': 'Categories', 'type': 'grid'},
-    {'name': 'Advanced', 'type': 'grid'}
+  final List<String> filters = [
+    'Categories',
+    'Advanced',
   ];
 
   /// Private variables

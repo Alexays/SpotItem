@@ -375,7 +375,7 @@ class _HomeScreenState extends State<HomeScreen>
                                 children: <Widget>[
                                   new Expanded(
                                     child: new Text(
-                                      Services.items.filters[index]['name'],
+                                      Services.items.filters[index],
                                       style:
                                           const TextStyle(color: Colors.white),
                                     ),
