@@ -331,18 +331,18 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 itemCount: Services.items.categories.length,
                 itemExtent: 75.0,
                 itemBuilder: (context, index) {
+                  final image = new Image.asset(
+                      'assets/${Services.items.categories[index]}.png');
                   if (_tracks.contains(Services.items.categories[index])) {
                     return new RaisedButton(
-                      child: new Image.asset(
-                          'assets/${Services.items.categories[index]}.png'),
+                      child: image,
                       onPressed: () => setState(() {
                             _tracks.remove(Services.items.categories[index]);
                           }),
                     );
                   }
                   return new FlatButton(
-                    child: new Image.asset(
-                        'assets/${Services.items.categories[index]}.png'),
+                    child: image,
                     onPressed: () => setState(() {
                           _tracks = _tracks
                               .where((f) =>
