@@ -666,7 +666,10 @@ class _HomeScreenState extends State<HomeScreen>
               const Radius.circular(3.0),
             ),
           ),
-          child: new Row(children: widgets),
+          child: new Material(
+            color: Colors.transparent,
+            child: new Row(children: widgets),
+          ),
         ),
         bottom: _buildBottomBar(context),
       ),
