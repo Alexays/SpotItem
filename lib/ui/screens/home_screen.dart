@@ -292,77 +292,60 @@ class _HomeScreenState extends State<HomeScreen>
             ),
           ),
           new Expanded(
-            child: new PopupMenuButton(
-              padding: ButtonTheme.of(context).padding,
-              child: new ConstrainedBox(
-                constraints: new BoxConstraints(
-                  minWidth: ButtonTheme.of(context).minWidth,
-                  minHeight: ButtonTheme.of(context).height,
-                ),
-                child: new Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: new Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      const Text(
-                        'Sort by',
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      const Icon(
-                        Icons.arrow_drop_down,
-                        color: Colors.white,
-                      )
-                    ],
-                  ),
+            child: new Container(),
+          ),
+          new PopupMenuButton(
+            padding: ButtonTheme.of(context).padding,
+            child: new ConstrainedBox(
+              constraints: new BoxConstraints(
+                minWidth: ButtonTheme.of(context).minWidth,
+                minHeight: ButtonTheme.of(context).height,
+              ),
+              child: new Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: new Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    const Text(
+                      'Sort by',
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    const Icon(
+                      Icons.arrow_drop_down,
+                      color: Colors.white,
+                    )
+                  ],
                 ),
               ),
-              itemBuilder: (context) => Services.items.sortMethod.map((f) {
-                    switch (f) {
-                      case 'name':
-                        return new CheckedPopupMenuItem(
-                          checked: Services.items.tracks.value.contains('name'),
-                          value: f,
-                          child: new Text(SpotL.of(context).name),
-                        );
-                      case 'dist':
-                        return new CheckedPopupMenuItem(
-                          checked: Services.items.tracks.value
-                                  .contains('dist') ||
-                              !Services.items.tracks.value.any(
-                                  (f) => Services.items.sortMethod.contains(f)),
-                          value: f,
-                          child: new Text(SpotL.of(context).dist),
-                        );
-                    }
-                  }).toList(),
-              onSelected: (action) => setState(() {
-                    Services.items.tracks.value = [
-                      Services.items.tracks.value
-                          .where((f) =>
-                              !Services.items.sortMethod.any((d) => d == f))
-                          .toList(),
-                      [action]
-                    ].expand((x) => x).toList();
-                  }),
             ),
-          ),
-          new MaterialButton(
-            onPressed: () {},
-            child: new Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                const Text(
-                  'Advanced',
-                  style: const TextStyle(color: Colors.white),
-                ),
-                const Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.white,
-                )
-              ],
-            ),
+            itemBuilder: (context) => Services.items.sortMethod.map((f) {
+                  switch (f) {
+                    case 'name':
+                      return new CheckedPopupMenuItem(
+                        checked: Services.items.tracks.value.contains('name'),
+                        value: f,
+                        child: new Text(SpotL.of(context).name),
+                      );
+                    case 'dist':
+                      return new CheckedPopupMenuItem(
+                        checked: Services.items.tracks.value.contains('dist') ||
+                            !Services.items.tracks.value.any(
+                                (f) => Services.items.sortMethod.contains(f)),
+                        value: f,
+                        child: new Text(SpotL.of(context).dist),
+                      );
+                  }
+                }).toList(),
+            onSelected: (action) => setState(() {
+                  Services.items.tracks.value = [
+                    Services.items.tracks.value
+                        .where((f) =>
+                            !Services.items.sortMethod.any((d) => d == f))
+                        .toList(),
+                    [action]
+                  ].expand((x) => x).toList();
+                }),
           ),
         ],
       )
