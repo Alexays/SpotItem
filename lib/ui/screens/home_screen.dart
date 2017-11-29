@@ -376,8 +376,9 @@ class _HomeScreenState extends State<HomeScreen>
                                   new Expanded(
                                     child: new Text(
                                       Services.items.filters[index],
-                                      style:
-                                          const TextStyle(color: Colors.white),
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   ),
                                   const Icon(
