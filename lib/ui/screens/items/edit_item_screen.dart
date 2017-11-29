@@ -79,6 +79,7 @@ class _EditItemScreenState extends State<EditItemScreen>
         });
       });
     } else {
+      _item = new Item.from(_item);
       _initForm();
     }
     Services.groups.getAll().then((data) {
