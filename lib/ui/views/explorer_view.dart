@@ -42,24 +42,24 @@ class _ExplorerViewState extends State<ExplorerView> {
     final _tracks = Services.items.tracks.value
         .where((f) => !Services.items.exludeTracks.contains(f));
     if (_tracks != null) {
-      setState(() {
-        _items = _items
-            .where(
-                (item) => _tracks.every((track) => item.tracks.contains(track)))
-            .toList();
-      });
+      _items = _items
+          .where(
+              (item) => _tracks.every((track) => item.tracks.contains(track)))
+          .toList();
     }
     final _sort = Services.items.tracks.value
         .where((f) => Services.items.exludeTracks.contains(f));
-    _items.sort((i1, i2) {
-      switch (_sort.isEmpty ? null : _sort.first) {
-        case 'name':
-          return i1.name.compareTo(i2.name);
-        case 'dist':
-          return i1.dist.compareTo(i2.dist);
-        default:
-          return i1.dist.compareTo(i2.dist);
-      }
+    setState(() {
+      _items.sort((i1, i2) {
+        switch (_sort.isEmpty ? null : _sort.first) {
+          case 'name':
+            return i1.name.compareTo(i2.name);
+          case 'dist':
+            return i1.dist.compareTo(i2.dist);
+          default:
+            return i1.dist.compareTo(i2.dist);
+        }
+      });
     });
   }
 
