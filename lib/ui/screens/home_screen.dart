@@ -270,6 +270,7 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   Widget _buildFilterBar(BuildContext context) {
+    final tracksLen = Services.items.tracks.value.length;
     final widgets = <Widget>[
       new Row(
         children: <Widget>[
@@ -279,8 +280,8 @@ class _HomeScreenState extends State<HomeScreen>
                 }),
             child: new Row(
               children: <Widget>[
-                const Text(
-                  'Filter',
+                new Text(
+                  tracksLen > 0 ? 'Filter ($tracksLen)' : 'Filter',
                   style: const TextStyle(color: Colors.white),
                 ),
                 const Icon(
