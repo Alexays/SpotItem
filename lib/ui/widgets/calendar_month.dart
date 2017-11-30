@@ -261,7 +261,7 @@ class CalendarMonth extends StatelessWidget {
             decoration = new BoxDecoration(
                 color: themeData.accentColor, shape: BoxShape.circle);
           }
-          //TO-DO disabled style opacity
+          //TODO: disabled style opacity
         } else if (currentDate.year == year &&
             currentDate.month == month &&
             currentDate.day == day) {
@@ -315,7 +315,7 @@ class CalendarMonth extends StatelessWidget {
             child: new Center(
               child: new GestureDetector(
                 onTap: () {
-                  //TO-DO select all day of current month
+                  //TODO: select all day of current month
                 },
                 child: new Text(
                   localizations.formatMonthYear(currentMonth),

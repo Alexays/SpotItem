@@ -219,7 +219,7 @@ class _ConvScreenState extends State<ConvScreen> with TickerProviderStateMixin {
         vsync: this,
       ),
     );
-    //TO-DO show a tick when message was send
+    //TODO: show a tick when message was send
     Services.social.send(conv.id, text);
     setState(() {
       _messages.insert(0, message);

@@ -24,7 +24,7 @@ class _ScannedItemScreenState extends State<ScannedItemScreen> {
 
   final String _itemId;
 
-  /// TO-DO retrieve item data and check if in calendar user is
+  /// TODO: retrieve item data and check if in calendar user is
   /// here then if true ask update location else show item page
   @override
   void initState() {

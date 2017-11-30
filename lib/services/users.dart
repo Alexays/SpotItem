@@ -183,7 +183,7 @@ class UsersManager extends BasicService {
 
   /// Retrieve contacts of user by provider.
   ///
-  /// TO-DO Maybe make pager to get all contacts
+  /// TODO: Maybe make pager to get all contacts
   Future<Null> _retrieveContact() async {
     final provider = Services.auth.provider;
     if (provider == 'google') {
@@ -200,9 +200,9 @@ class UsersManager extends BasicService {
       _contacts = _contacts
           .where((contact) => contact['emailAddresses'] != null)
           .toList();
-      // TO-DO convert to custom format
+      // TODO: convert to custom format
     } else if (provider == 'local') {
-      // TO-DO Maybe get member of user groups
+      // TODO: Maybe get member of user groups
     }
   }
 

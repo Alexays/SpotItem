@@ -42,7 +42,7 @@ class _GroupsViewState extends State<GroupsView> {
     await _loadGroups();
   }
 
-  //TO-DO MAYBE don't await it's better :)
+  //TODO: MAYBE don't await it's better :)
   Future<Null> _loadGroups() async {
     final resGroup = await Services.groups.getAll();
     final resInv = await Services.groups.getInv();

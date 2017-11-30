@@ -10,7 +10,7 @@ analyzer:
     # treat missing returns as a warning (not a hint)
     missing_return: warning
     # allow having TODOs in the code
-    todo: ignore
+    # todo: ignore
   exclude:
     - lib/i18n/**
 linter:

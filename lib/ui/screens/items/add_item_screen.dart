@@ -364,7 +364,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                           .floorToDouble(),
                       child: _getImageGrid(),
                     ),
-                    // TO-DO setState name when it changed
+                    // TODO: setState name when it changed
                     state: _name != null && _name.isNotEmpty
                         ? _imagesFile.isNotEmpty
                             ? StepState.complete
