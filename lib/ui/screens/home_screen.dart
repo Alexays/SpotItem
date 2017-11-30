@@ -196,9 +196,7 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   Widget _buildFilterBar(BuildContext context) {
-    final tracksLen = Services.items.tracks.value
-        .where((f) => !Services.items.exludeTracks.contains(f))
-        .length;
+    final tracksLen = Services.items.exludeTracks.length;
     final spotL = SpotL.of(context);
     final buttonTheme = ButtonTheme.of(context);
     final widgets = <Widget>[

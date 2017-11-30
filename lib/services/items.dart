@@ -15,8 +15,13 @@ class ItemsManager extends BasicService {
   /// Get items sort method
   List<String> get sortMethod => _sortMethod;
 
-  /// Get sort method and categories to exlude when filter items
-  List<String> get exludeTracks => [_sortMethod].expand((x) => x).toList();
+  /// Get tracks without excluded tracks
+  List<String> get excludeTracks =>
+      tracks.value.where((f) => !_excludedTracks.contains(f));
+
+  /// Get tracks with excluded tracks
+  List<String> get excludedTracks =>
+      tracks.value.where((f) => _excludedTracks.contains(f));
 
   /// Get items
   List<Item> get data => _data;
@@ -38,6 +43,7 @@ class ItemsManager extends BasicService {
   ];
 
   /// Private variables
+  List<String> get _excludedTracks => [_sortMethod].expand((x) => x).toList();
   List<Item> _data = <Item>[];
   List<Item> _owned = <Item>[];
   List<Item> _holded = <Item>[];
