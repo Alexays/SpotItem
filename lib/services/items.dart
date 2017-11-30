@@ -17,11 +17,11 @@ class ItemsManager extends BasicService {
 
   /// Get tracks without excluded tracks
   List<String> get excludeTracks =>
-      tracks.value.where((f) => !_excludedTracks.contains(f));
+      tracks.value.where((f) => !_excludedTracks.contains(f)).toList();
 
   /// Get tracks with excluded tracks
   List<String> get excludedTracks =>
-      tracks.value.where((f) => _excludedTracks.contains(f));
+      tracks.value.where((f) => _excludedTracks.contains(f)).toList();
 
   /// Get items
   List<Item> get data => _data;

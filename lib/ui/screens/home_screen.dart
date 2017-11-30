@@ -45,10 +45,10 @@ class _HomeScreenState extends State<HomeScreen>
   int filterIndex = 0;
   List<HomeScreenItem> _homeScreenItems;
   List<TabController> tabsCtrl;
-  FloatingActionButton get fab =>
-      _homeScreenItems[page].fabs.length > tabsCtrl[page].index
-          ? _homeScreenItems[page].fabs[tabsCtrl[page].index]
-          : null;
+  FloatingActionButton get fab => _isSearching ||
+          ((_homeScreenItems[page].fabs?.length ?? 0) > tabsCtrl[page].index)
+      ? _homeScreenItems[page].fabs[tabsCtrl[page].index]
+      : null;
 
   @override
   void didChangeDependencies() {
@@ -668,10 +668,7 @@ class _HomeScreenState extends State<HomeScreen>
           new Scaffold(
             key: _scaffoldKey,
             drawer: _buildDrawer(context),
-            floatingActionButton:
-                _isSearching || _homeScreenItems[page].fabs == null
-                    ? null
-                    : fab,
+            floatingActionButton: fab,
             body: new Builder(builder: (context) {
               Services.context = context;
               return new NestedScrollView(
