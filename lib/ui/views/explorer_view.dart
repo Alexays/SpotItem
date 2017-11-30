@@ -39,7 +39,7 @@ class _ExplorerViewState extends State<ExplorerView> {
       return;
     }
     _items = new List<Item>.from(Services.items.data);
-    final _tracks = Services.items.exludeTracks;
+    final _tracks = Services.items.excludeTracks;
     if (_tracks != null) {
       _items = _items
           .where(
@@ -47,7 +47,7 @@ class _ExplorerViewState extends State<ExplorerView> {
           .toList();
     }
     final _sort = Services.items.tracks.value
-        .where((f) => Services.items.exludedTracks.contains(f));
+        .where((f) => Services.items.excludedTracks.contains(f));
     setState(() {
       _items.sort((i1, i2) {
         switch (_sort.isEmpty ? null : _sort.first) {
