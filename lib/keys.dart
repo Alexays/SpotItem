@@ -51,7 +51,7 @@ enum contentType {
   json
 }
 
-final _contentType = {
+final Map<contentType, String> _contentType = <contentType, String>{
   contentType.image: 'image/jpg',
   contentType.json: 'application/json',
 };
