@@ -335,9 +335,18 @@ class CalendarMonth extends StatelessWidget {
                     ..addAll(monthDates);
                   onChanged(selectedDates);
                 },
-                child: new Text(
-                  localizations.formatMonthYear(currentMonth),
-                  style: themeData.textTheme.subhead,
+                child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    new Text(
+                      localizations.formatMonthYear(currentMonth),
+                      style: themeData.textTheme.subhead,
+                    ),
+                    const Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 2.5),
+                    ),
+                    const Icon(Icons.select_all)
+                  ],
                 ),
               ),
             ),
