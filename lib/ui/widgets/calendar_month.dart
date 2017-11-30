@@ -224,10 +224,7 @@ class CalendarMonth extends StatelessWidget {
       ]);
     }
     if (current != null) {
-      selectedDates.removeWhere((f) =>
-          f.date.day == dayToBuild.day &&
-          f.date.month == dayToBuild.month &&
-          f.date.year == dayToBuild.year);
+      selectedDates.removeWhere((f) => compareDates(f.date, dayToBuild));
     } else {
       selectedDates.add(
         new Event({
@@ -263,10 +260,7 @@ class CalendarMonth extends StatelessWidget {
         BoxDecoration decoration;
         var itemStyle = themeData.textTheme.body1;
         final current = dates.firstWhere(
-            (f) =>
-                f.date.day == dayToBuild.day &&
-                f.date.month == dayToBuild.month &&
-                f.date.year == dayToBuild.year,
+            (f) => compareDates(f.date, dayToBuild),
             orElse: () => null);
         final outOfDate =
             dayToBuild.isAfter(lastDate) || dayToBuild.isBefore(firstDate);
