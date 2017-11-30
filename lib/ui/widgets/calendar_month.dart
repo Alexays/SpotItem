@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:spotitem/models/item.dart';
 import 'package:spotitem/services/services.dart';
+import 'package:spotitem/utils.dart';
 
 const double _kDatePickerHeaderPortraitHeight = 100.0;
 const double _kDatePickerHeaderLandscapeWidth = 168.0;
@@ -216,7 +217,10 @@ class CalendarMonth extends StatelessWidget {
   void _handleAction(BuildContext context, Event current, DateTime dayToBuild) {
     if (!edit) {
       return onChanged([
-        new Event({'date': dayToBuild.toString()})
+        new Event({
+          'date': dayToBuild.toString(),
+          'holder': Services.auth.user.id,
+        })
       ]);
     }
     if (current != null) {
@@ -225,7 +229,12 @@ class CalendarMonth extends StatelessWidget {
           f.date.month == dayToBuild.month &&
           f.date.year == dayToBuild.year);
     } else {
-      selectedDates.add(new Event({'date': dayToBuild.toString()}));
+      selectedDates.add(
+        new Event({
+          'date': dayToBuild.toString(),
+          'holder': Services.auth.user.id,
+        }),
+      );
     }
     onChanged(selectedDates);
   }
@@ -241,6 +250,7 @@ class CalendarMonth extends StatelessWidget {
     final daysInMonth = getDaysInMonth(year, month);
     final firstDayOffset = _computeFirstDayOffset(year, month, localizations);
     final labels = _getDayHeaders(themeData.textTheme.caption, localizations);
+    final monthDates = <Event>[];
     // 1-based day of month, e.g. 1-31 for January, and 1-29 for February on
     // a leap year.
     for (var i = 0, day;
@@ -299,6 +309,14 @@ class CalendarMonth extends StatelessWidget {
         if (!disabled &&
             (current?.holder == null ||
                 current?.holder == Services.auth.user.id)) {
+          monthDates.add(
+            new Event({
+              'date': dayToBuild.toString(),
+              'data': current?.data,
+              'holder': Services.auth.user.id,
+            }),
+          );
+
           dayWidget = new GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () => _handleAction(context, current, dayToBuild),
@@ -317,7 +335,11 @@ class CalendarMonth extends StatelessWidget {
             child: new Center(
               child: new GestureDetector(
                 onTap: () {
-                  //TODO: select all day of current month
+                  selectedDates
+                    ..removeWhere((f) =>
+                        monthDates.any((d) => compareDates(d.date, f.date)))
+                    ..addAll(monthDates);
+                  onChanged(selectedDates);
                 },
                 child: new Text(
                   localizations.formatMonthYear(currentMonth),

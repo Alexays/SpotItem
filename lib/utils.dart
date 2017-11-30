@@ -138,6 +138,10 @@ Widget getIcon(String tracks, [Color color]) {
   }
 }
 
+/// Compare Dates (Year, Month, Day)
+bool compareDates(DateTime d1, DateTime d2) =>
+    d1.year == d2.year && d1.month == d2.month && d1.day == d2.day;
+
 /// Limit length of string
 String limitString(String str, int lenght) {
   if (str.length > lenght) {

@@ -29,7 +29,7 @@ class _BookItemScreenState extends State<BookItemScreen> {
 
   final String _itemId;
 
-  final List<DateTime> toAdd = [];
+  final List<Event> toAdd = [];
 
   List<Event> concated = [];
 
@@ -45,11 +45,11 @@ class _BookItemScreenState extends State<BookItemScreen> {
         }
         setState(() {
           _item = data;
-          concated = _item.calendar;
+          concated = new List<Event>.from(_item.calendar);
         });
       });
     } else {
-      concated = _item.calendar;
+      concated = new List<Event>.from(_item.calendar);
     }
   }
 
@@ -65,6 +65,35 @@ class _BookItemScreenState extends State<BookItemScreen> {
     await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
   }
 
+  void _getNewSelectedDates(List<Event> data) {
+    final len = toAdd.length;
+    toAdd.removeWhere(
+      (f) => data.any((d) => d.date == f.date),
+    );
+    if (len == toAdd.length) {
+      toAdd.addAll(data);
+    }
+  }
+
+  void _mergeDates() {
+    final tmp = new List<Event>.from(toAdd);
+    concated = new List<Event>.generate(_item.calendar.length, (i) {
+      final event = _item.calendar[i];
+      Event date;
+      tmp.removeWhere((d) {
+        if (compareDates(d.date, event.date)) {
+          date = d;
+          return true;
+        }
+        return false;
+      });
+      if (date != null) {
+        return date;
+      }
+      return event;
+    });
+  }
+
   @override
   Widget build(BuildContext context) => new Scaffold(
         appBar: new AppBar(title: new Text(SpotL.of(context).book)),
@@ -74,35 +103,8 @@ class _BookItemScreenState extends State<BookItemScreen> {
             return new Calendar(
               selectedDates: concated,
               onChanged: (data) => setState(() {
-                    final date = new Event({
-                      'data': data.first.data,
-                      'date': data.first.date.toString(),
-                      'holder': Services.auth.user.id
-                    });
-                    if (toAdd?.isNotEmpty == true &&
-                        toAdd.firstWhere((f) => f == date.date,
-                                orElse: () => null) !=
-                            null) {
-                      toAdd.removeWhere((f) => f == date.date);
-                    } else {
-                      toAdd.add(date.date);
-                    }
-                    final tmp = new List<DateTime>.from(toAdd);
-                    concated = new List<Event>.from(_item.calendar).map((f) {
-                      final len = tmp.length;
-                      tmp.removeWhere((d) =>
-                          d.day == f.date.day &&
-                          d.month == f.date.month &&
-                          d.year == f.date.year);
-                      if (tmp.length != len) {
-                        return new Event({
-                          'data': f.data,
-                          'date': f.date.toString(),
-                          'holder': Services.auth.user.id
-                        });
-                      }
-                      return f;
-                    }).toList();
+                    _getNewSelectedDates(data);
+                    _mergeDates();
                   }),
             );
           },
