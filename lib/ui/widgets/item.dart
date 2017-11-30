@@ -130,7 +130,7 @@ int _rowAtIndex(int index) {
         2,
         2,
         3,
-        4
+        4,
       ][index - blockCount * _childrenPerBlock] +
       blockCount * _rowsPerBlock;
 }
