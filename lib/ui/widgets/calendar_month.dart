@@ -213,6 +213,23 @@ class CalendarMonth extends StatelessWidget {
     return (weekdayFromMonday - firstDayOfWeekFromMonday) % 7;
   }
 
+  void _handleAction(BuildContext context, Event current, DateTime dayToBuild) {
+    if (!edit) {
+      return onChanged([
+        new Event({'date': dayToBuild.toString()})
+      ]);
+    }
+    if (current != null) {
+      selectedDates.removeWhere((f) =>
+          f.date.day == dayToBuild.day &&
+          f.date.month == dayToBuild.month &&
+          f.date.year == dayToBuild.year);
+    } else {
+      selectedDates.add(new Event({'date': dayToBuild.toString()}));
+    }
+    onChanged(selectedDates);
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
@@ -284,22 +301,7 @@ class CalendarMonth extends StatelessWidget {
                 current?.holder == Services.auth.user.id)) {
           dayWidget = new GestureDetector(
             behavior: HitTestBehavior.opaque,
-            onTap: () {
-              if (!edit) {
-                return onChanged([
-                  new Event({'date': dayToBuild.toString()})
-                ]);
-              }
-              if (current != null) {
-                selectedDates.removeWhere((f) =>
-                    f.date.day == dayToBuild.day &&
-                    f.date.month == dayToBuild.month &&
-                    f.date.year == dayToBuild.year);
-              } else {
-                selectedDates.add(new Event({'date': dayToBuild.toString()}));
-              }
-              onChanged(selectedDates);
-            },
+            onTap: () => _handleAction(context, current, dayToBuild),
             child: dayWidget,
           );
         }

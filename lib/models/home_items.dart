@@ -5,8 +5,8 @@ class HomeScreenItem {
   /// Home screen item
   final BottomNavigationBarItem item;
 
-  /// Home screen item content or contents
-  final dynamic content;
+  /// Home screen item body wich can be widget or a list of widgets
+  final dynamic body;
 
   /// Home screen item content used when filters length greater than 0
   final Widget filter;
@@ -35,7 +35,7 @@ class HomeScreenItem {
   })
       : item = new BottomNavigationBarItem(icon: icon, title: new Text(title)),
         key = new Key(title),
-        content = sub != null ? sub.map((f) => f.content).toList() : null;
+        body = sub != null ? sub.map((f) => f.content).toList() : content;
 }
 
 /// Home screen sub item

@@ -647,14 +647,14 @@ class _HomeScreenState extends State<HomeScreen>
       return new TabBarView(
         key: _homeScreenItems[page].key,
         controller: tabsCtrl[page],
-        children: _homeScreenItems[page].content,
+        children: _homeScreenItems[page].body,
       );
     }
     if (_homeScreenItems[page].filter != null &&
         Services.items.tracks.value.isNotEmpty) {
       return _homeScreenItems[page].filter;
     }
-    return _homeScreenItems[page].content;
+    return _homeScreenItems[page].body;
   }
 
   @override
