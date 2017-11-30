@@ -32,11 +32,16 @@ class Conversation {
   /// Check if item is valid
   bool isValid() => id != null && (users != null || group != null);
 
+  /// Convert class to json
+  Map<String, dynamic> toJson() => {
+        '_id': id,
+        'users': users,
+        'group': group,
+        'messages': conversation.map((f) => f.toJson()).toList(),
+      };
+
   @override
-  String toString() {
-    final messages = conversation.map((message) => message.toString()).toList();
-    return '{"_id": "$id", "users": $users, "group": "$group", "messages": $messages}';
-  }
+  String toString() => JSON.encode(toJson());
 }
 
 /// Message model
@@ -54,6 +59,12 @@ class Message {
   /// Message data
   String message;
 
+  /// Convert class to json
+  Map<String, dynamic> toJson() => {
+        'sender': sender,
+        'message': message,
+      };
+
   @override
-  String toString() => '{"sender": $sender, "message": "$message"}';
+  String toString() => JSON.encode(toJson());
 }
