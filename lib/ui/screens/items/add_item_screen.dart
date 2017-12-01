@@ -198,6 +198,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
       showSnackBar(context, SpotL.of(context).error);
       return;
     }
+    // Sort dates in proper order for more efficient calendar
+    _calendar.sort((i1, i2) => i1.date.compareTo(i2.date));
     final response = await Services.items.addItem({
       'name': _name,
       'about': _about,

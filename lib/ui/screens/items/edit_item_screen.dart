@@ -229,6 +229,8 @@ class _EditItemScreenState extends State<EditItemScreen>
       showSnackBar(context, SpotL.of(context).error);
       return;
     }
+    // Sort dates in proper order for more efficient calendar
+    _calendar.sort((i1, i2) => i1.date.compareTo(i2.date));
     final response = await Services.items.editItem({
       'id': _item.id,
       'name': _nameCtrl.text,
@@ -236,7 +238,7 @@ class _EditItemScreenState extends State<EditItemScreen>
       'lat': Services.users.location['latitude'],
       'lng': Services.users.location['longitude'],
       'images': finalImages,
-      'calendar': _calendar.map((f) => f.toJson()).toList(),
+      'calendar': _calendar,
       'location': _location,
       'tracks': _tracks,
       'groups': _groupsId
