@@ -150,7 +150,7 @@ class GroupsManager extends BasicService {
   Future<ApiRes> removeOwner(String groupId, String userId) async {
     assert(groupId != null && userId != null);
     final res = await idelete(
-        '/groups/$groupId/owner/$userId', Services.auth.accessToken);
+        '/groups/$groupId/owners/$userId', Services.auth.accessToken);
     return res;
   }
 
@@ -162,7 +162,7 @@ class GroupsManager extends BasicService {
   Future<ApiRes> addOwner(String groupId, String userId) async {
     assert(groupId != null && userId != null);
     final res = await iput(
-        '/groups/$groupId/owner/$userId', null, Services.auth.accessToken);
+        '/groups/$groupId/owners', {'id': userId}, Services.auth.accessToken);
     return res;
   }
 }
