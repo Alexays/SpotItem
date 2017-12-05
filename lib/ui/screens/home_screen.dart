@@ -604,16 +604,15 @@ class _HomeScreenState extends State<HomeScreen>
         ),
       );
     }
-    final isFloating = (_homeScreenItems[page].sub != null && !_isSearching) ||
-        (_homeScreenItems[page].filter != null || _isSearching);
+    final bottomBar = _buildBottomBar(context);
     return [
       new SliverAppBar(
         pinned: true,
         forceElevated: innerBoxIsScrolled,
         automaticallyImplyLeading: false,
         centerTitle: true,
-        snap: isFloating,
-        floating: isFloating,
+        snap: bottomBar != null,
+        floating: bottomBar != null,
         title: new DecoratedBox(
           decoration: new BoxDecoration(
             color: Theme.of(context).accentColor,
@@ -626,7 +625,7 @@ class _HomeScreenState extends State<HomeScreen>
             child: new Row(children: widgets),
           ),
         ),
-        bottom: _buildBottomBar(context),
+        bottom: bottomBar,
       ),
     ];
   }
