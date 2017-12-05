@@ -69,7 +69,7 @@ class _EditItemScreenState extends State<EditItemScreen>
   void initState() {
     super.initState();
     if (_item == null) {
-      Services.items.getItem(_itemId).then((data) {
+      Services.items.get(_itemId).then((data) {
         if (!mounted) {
           return;
         }
@@ -231,7 +231,7 @@ class _EditItemScreenState extends State<EditItemScreen>
     }
     // Sort dates in proper order for more efficient calendar
     _calendar.sort((i1, i2) => i1.date.compareTo(i2.date));
-    final response = await Services.items.editItem({
+    final response = await Services.items.edit({
       'id': _item.id,
       'name': _nameCtrl.text,
       'about': _aboutCtrl.text,
@@ -248,7 +248,7 @@ class _EditItemScreenState extends State<EditItemScreen>
       return;
     }
     showSnackBar(context, response.msg);
-    await Services.items.getItems(force: true);
+    await Services.items.getAll(force: true);
     await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
   }
 

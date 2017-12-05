@@ -40,30 +40,30 @@ class _ExplorerViewState extends State<ExplorerView> {
     }
     _items = new List<Item>.from(Services.items.data);
     final _tracks = Services.items.excludeTracks;
-    if (_tracks != null) {
-      _items = _items
-          .where(
-              (item) => _tracks.every((track) => item.tracks.contains(track)))
-          .toList();
-    }
-    final _sort = Services.items.tracks.value
-        .where((f) => Services.items.excludedTracks.contains(f));
     setState(() {
-      _items.sort((i1, i2) {
-        switch (_sort.isEmpty ? null : _sort.first) {
-          case 'name':
-            return i1.name.compareTo(i2.name);
-          case 'dist':
-            return i1.dist.compareTo(i2.dist);
-          default:
-            return i1.dist.compareTo(i2.dist);
-        }
-      });
+      if (_tracks != null) {
+        _items = _items
+            .where(
+                (item) => _tracks.every((track) => item.tracks.contains(track)))
+            .toList();
+      }
+      final _sort = Services.items.tracks.value
+          .where((f) => Services.items.excludedTracks.contains(f));
+      if (_sort?.isNotEmpty == true) {
+        _items.sort((i1, i2) {
+          switch (_sort.isEmpty ? null : _sort.first) {
+            case 'name':
+              return i1.name.compareTo(i2.name);
+            case 'dist':
+              return i1.dist.compareTo(i2.dist);
+          }
+        });
+      }
     });
   }
 
   Future<Null> _loadItems([bool force = false]) async {
-    await Services.items.getItems(force: force);
+    await Services.items.getAll(force: force);
     _getTracks();
   }
 

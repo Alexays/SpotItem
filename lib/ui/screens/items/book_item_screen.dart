@@ -39,7 +39,7 @@ class _BookItemScreenState extends State<BookItemScreen> {
   void initState() {
     super.initState();
     if (_item == null) {
-      Services.items.getItem(_itemId).then((data) {
+      Services.items.get(_itemId).then((data) {
         if (!mounted) {
           return;
         }
@@ -56,7 +56,7 @@ class _BookItemScreenState extends State<BookItemScreen> {
   Future<Null> bookItem(BuildContext context) async {
     showLoading(context);
     final response = await Services.items
-        .bookItem(_item.id, {'dates': toAdd.map((f) => f.toString()).toList()});
+        .book(_item.id, {'dates': toAdd.map((f) => f.toString()).toList()});
     if (!resValid(context, response)) {
       Navigator.of(context).pop();
       return;

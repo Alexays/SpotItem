@@ -47,7 +47,7 @@ class ItemsManager extends BasicService {
   List<Item> _data = <Item>[];
   List<Item> _owned = <Item>[];
   List<Item> _holded = <Item>[];
-  final List<String> _sortMethod = ['dist', 'name'];
+  final List<String> _sortMethod = ['none', 'dist', 'name'];
   final List<String> _categories = [
     'jeux',
     'bebe_jeunesse',
@@ -62,7 +62,7 @@ class ItemsManager extends BasicService {
   ///
   /// @param payload Item payload
   /// @returns Api body response
-  Future<ApiRes> addItem(Map<String, dynamic> payload) async {
+  Future<ApiRes> add(Map<String, dynamic> payload) async {
     assert(payload != null);
     final res = await ipost('/items', payload, Services.auth.accessToken);
     return res;
@@ -72,7 +72,7 @@ class ItemsManager extends BasicService {
   ///
   /// @param payload Item payload
   /// @returns Api body response
-  Future<ApiRes> editItem(Map<String, dynamic> payload) async {
+  Future<ApiRes> edit(Map<String, dynamic> payload) async {
     assert(payload != null);
     final id = payload.remove('id');
     final res = await iput('/items/$id', payload, Services.auth.accessToken);
@@ -83,7 +83,7 @@ class ItemsManager extends BasicService {
   ///
   /// @param id Item Id
   /// @returns Api body res
-  Future<ApiRes> deleteItem(String id) async {
+  Future<ApiRes> delete(String id) async {
     assert(id != null);
     final res = await idelete('/items/$id', Services.auth.accessToken);
     return res;
@@ -92,7 +92,7 @@ class ItemsManager extends BasicService {
   /// Load items filter by token.
   ///
   /// @returns Items list
-  Future<List<Item>> loadItems() async {
+  Future<List<Item>> load() async {
     if (_data.isEmpty) {
       await Services.users.getLocation();
       final res = await iget(
@@ -112,18 +112,18 @@ class ItemsManager extends BasicService {
   ///
   /// @param force Force reload of items
   /// @returns Items list
-  Future<List<Item>> getItems({bool force: false}) async {
+  Future<List<Item>> getAll({bool force: false}) async {
     if (force) {
       _data.clear();
     }
-    return loadItems();
+    return load();
   }
 
   /// Get item by id.
   ///
   /// @param itemid Item Id
   /// @returns Item class
-  Future<Item> getItem(String itemId) async {
+  Future<Item> get(String itemId) async {
     assert(itemId != null);
     final res = await iget('/items/$itemId');
     if (res.success) {
@@ -136,7 +136,7 @@ class ItemsManager extends BasicService {
   /// Get user items.
   ///
   /// @returns User items list
-  Future<List<Item>> getUserItems() async {
+  Future<List<Item>> getUser() async {
     final res = await iget('/items/user', Services.auth.accessToken);
     if (res.success && res.data is List) {
       return _owned = res.data
@@ -151,7 +151,7 @@ class ItemsManager extends BasicService {
   /// @param id Item Id
   /// @param payload data
   /// @returns Api body response
-  Future<ApiRes> bookItem(String itemId, Map<String, dynamic> payload) async {
+  Future<ApiRes> book(String itemId, Map<String, dynamic> payload) async {
     assert(itemId != null && payload != null);
     final res = await iput('/items/$itemId/book', payload);
     return res;

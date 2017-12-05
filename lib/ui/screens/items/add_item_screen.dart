@@ -200,7 +200,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     }
     // Sort dates in proper order for more efficient calendar
     _calendar.sort((i1, i2) => i1.date.compareTo(i2.date));
-    final response = await Services.items.addItem({
+    final response = await Services.items.add({
       'name': _name,
       'about': _about,
       'owner': Services.auth.user.id,
@@ -218,7 +218,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
     }
     showSnackBar(context, response.msg);
     await Services.items
-        .getItems(force: true); // UNTIL WE HIDE USER ITEM FROM GENERAL LIST
+        .getAll(force: true); // UNTIL WE HIDE USER ITEM FROM GENERAL LIST
     await showDialog<Null>(
       context: context,
       child: new SimpleDialog(children: [

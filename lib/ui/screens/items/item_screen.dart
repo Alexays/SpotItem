@@ -137,7 +137,7 @@ class _ItemPageState extends State<ItemPage>
       _initControler();
       return;
     }
-    Services.items.getItem(_itemId).then((data) {
+    Services.items.get(_itemId).then((data) {
       if (!mounted) {
         return;
       }
@@ -162,11 +162,11 @@ class _ItemPageState extends State<ItemPage>
   }
 
   Future<Null> _deleteItem(BuildContext context) async {
-    final res = await Services.items.deleteItem(item.id);
+    final res = await Services.items.delete(item.id);
     if (!resValid(context, res)) {
       return;
     }
-    await Services.items.getItems(force: true);
+    await Services.items.getAll(force: true);
     await Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
   }
 

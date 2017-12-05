@@ -27,7 +27,7 @@ class _DiscoverViewState extends State<DiscoverView> {
   }
 
   Future<Null> _loadItems([bool force = false]) async {
-    final data = await Services.items.getItems(force: force);
+    final data = await Services.items.getAll(force: force);
     if (!mounted || data == null) {
       return;
     }

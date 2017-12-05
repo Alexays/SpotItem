@@ -137,7 +137,7 @@ void main() {
       await tester.longPress(find.byKey(const Key('login')));
       await tester.pump();
       await tester.pump();
-      expect(find.text('Discover'), findsOneWidget);
+      expect(find.text('Recent items'), findsOneWidget);
     });
 
     testWidgets('Show discover and group item', (tester) async {
@@ -145,35 +145,32 @@ void main() {
       await tester.pumpWidget(new SpotItemApp(init: true));
       await tester.pump();
       await tester.pump();
-      expect(find.text('Discover'), findsOneWidget);
+      expect(find.text('Recent items'), findsOneWidget);
       expect(find.text('From your groups'), findsOneWidget);
       expect(find.text('Magnifique Nutella'), findsOneWidget);
       expect(find.text('Amande'), findsOneWidget);
       expect(Services.items.data.length, 2);
     });
 
-    testWidgets('Show explorer', (tester) async {
-      createHttpClient = mockClient(mockItems);
-      await tester.pumpWidget(new SpotItemApp(init: true));
-      await tester.pump();
-      await tester.pump();
-      expect(find.text('Discover'), findsOneWidget);
-      await tester.tap(find.descendant(
-          of: find.byType(TabBar), matching: find.text('Explore')));
-      await tester.pumpAndSettle();
-      expect(find.text('Magnifique Nutella'), findsOneWidget);
-      expect(Services.items.data.length, 2);
-    });
+    // testWidgets('Show explorer', (tester) async {
+    //   createHttpClient = mockClient(mockItems);
+    //   await tester.pumpWidget(new SpotItemApp(init: true));
+    //   await tester.pump();
+    //   await tester.pump();
+    //   expect(find.text('Recent items'), findsOneWidget);
+    //   await tester.tap(find.descendant(
+    //       of: find.byType(TabBar), matching: find.text('Explore')));
+    //   await tester.pumpAndSettle();
+    //   expect(find.text('Magnifique Nutella'), findsOneWidget);
+    //   expect(Services.items.data.length, 2);
+    // });
 
     testWidgets('Sort item by name', (tester) async {
       createHttpClient = mockClient(mockItems);
       await tester.pumpWidget(new SpotItemApp(init: true));
       await tester.pump();
       await tester.pump();
-      expect(find.text('Discover'), findsOneWidget);
-      await tester.tap(find.descendant(
-          of: find.byType(TabBar), matching: find.text('Explore')));
-      await tester.pumpAndSettle();
+      expect(find.text('Recent items'), findsOneWidget);
       expect(find.text('Magnifique Nutella'), findsOneWidget);
       expect(find.text('Amande'), findsOneWidget);
       expect(
@@ -192,6 +189,11 @@ void main() {
               matching: find.text('Amande')),
           findsOneWidget);
       expect(Services.items.data.length, 2);
+      await tester.tap(find.byType(PopupMenuButton));
+      await tester.pumpAndSettle();
+      await tester.tap(find.descendant(
+          of: find.byType(CheckedPopupMenuItem), matching: find.text('None')));
+      await tester.pumpAndSettle();
     });
 
     testWidgets('Filter item by gift', (tester) async {
@@ -199,18 +201,12 @@ void main() {
       await tester.pumpWidget(new SpotItemApp(init: true));
       await tester.pump();
       await tester.pump();
-      expect(find.text('Discover'), findsOneWidget);
-      await tester.tap(find.descendant(
-          of: find.byType(TabBar), matching: find.text('Explore')));
-      await tester.pumpAndSettle();
+      expect(find.text('Recent items'), findsOneWidget);
       expect(find.text('Magnifique Nutella'), findsOneWidget);
       expect(find.text('Amande'), findsOneWidget);
-      expect(
-          find.descendant(
-              of: find.byType(ItemsListItem).first,
-              matching: find.text('Amande')),
-          findsOneWidget);
-      await tester.tap(find.byIcon(Icons.filter_list));
+      await tester.tap(find.byKey(const Key('filters')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const Key('Advanced')));
       await tester.pumpAndSettle();
       await tester.tap(find.descendant(
           of: find.byType(SwitchListTile), matching: find.text('Gift')));
@@ -228,18 +224,12 @@ void main() {
       await tester.pumpWidget(new SpotItemApp(init: true));
       await tester.pump();
       await tester.pump();
-      expect(find.text('Discover'), findsOneWidget);
-      await tester.tap(find.descendant(
-          of: find.byType(TabBar), matching: find.text('Explore')));
-      await tester.pumpAndSettle();
+      expect(find.text('Recent items'), findsOneWidget);
       expect(find.text('Magnifique Nutella'), findsOneWidget);
       expect(find.text('Amande'), findsOneWidget);
-      expect(
-          find.descendant(
-              of: find.byType(ItemsListItem).first,
-              matching: find.text('Amande')),
-          findsOneWidget);
-      await tester.tap(find.byIcon(Icons.filter_list));
+      await tester.tap(find.byKey(const Key('filters')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const Key('Advanced')));
       await tester.pumpAndSettle();
       await tester.tap(find.descendant(
           of: find.byType(SwitchListTile),
@@ -272,7 +262,7 @@ void main() {
       expect(find.text('Type something to search...'), findsOneWidget);
       await tester.tap(find.byWidget(const BackButton()));
       await tester.pumpAndSettle();
-      expect(find.text('Discover'), findsOneWidget);
+      expect(find.text('Recent items'), findsOneWidget);
     });
 
     testWidgets('Show item page', (tester) async {

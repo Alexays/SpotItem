@@ -199,6 +199,7 @@ class _HomeScreenState extends State<HomeScreen>
       new Row(
         children: <Widget>[
           new MaterialButton(
+            key: const Key('filters'),
             onPressed: () =>
                 setState(() => _filterBarExpanded = !_filterBarExpanded),
             child: new Row(
@@ -254,22 +255,35 @@ class _HomeScreenState extends State<HomeScreen>
                       );
                     case 'dist':
                       return new CheckedPopupMenuItem(
-                        checked: Services.items.tracks.value.contains('dist') ||
-                            !Services.items.tracks.value.any(
-                                (f) => Services.items.sortMethod.contains(f)),
+                        checked: Services.items.tracks.value.contains('dist'),
                         value: f,
                         child: new Text(spotL.dist),
                       );
+                    case 'none':
+                      return new CheckedPopupMenuItem(
+                        checked: !Services.items.tracks.value
+                            .any((f) => Services.items.sortMethod.contains(f)),
+                        value: f,
+                        child: new Text(spotL.none),
+                      );
                   }
                 }).toList(),
-            onSelected: (action) =>
-                setState(() => Services.items.tracks.value = [
-                      Services.items.tracks.value
-                          .where((f) =>
-                              !Services.items.sortMethod.any((d) => d == f))
-                          .toList(),
-                      [action]
-                    ].expand((x) => x).toList()),
+            onSelected: (action) => setState(() {
+                  if (action == 'none') {
+                    Services.items.tracks.value = Services.items.tracks.value
+                        .where((f) =>
+                            !Services.items.sortMethod.any((d) => d == f))
+                        .toList();
+                    return;
+                  }
+                  Services.items.tracks.value = [
+                    Services.items.tracks.value
+                        .where((f) =>
+                            !Services.items.sortMethod.any((d) => d == f))
+                        .toList(),
+                    [action]
+                  ].expand((x) => x).toList();
+                }),
           ),
         ],
       )
@@ -356,6 +370,7 @@ class _HomeScreenState extends State<HomeScreen>
                   children: new List<Widget>.generate(
                       Services.items.filters.length,
                       (index) => new InkWell(
+                            key: new Key(Services.items.filters[index]),
                             onTap: () => setState(() => filterIndex = index),
                             child: new Container(
                               color: filterIndex == index

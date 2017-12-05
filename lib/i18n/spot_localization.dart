@@ -293,4 +293,7 @@ class SpotL {
 
   /// Filters title
   String get filters => _nameToValue['filters'];
+
+  /// None title
+  String get none => _nameToValue['none'];
 }

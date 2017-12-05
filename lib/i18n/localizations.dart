@@ -87,7 +87,8 @@ const Map<String, Map<String, String>> localizations =
     'locationError': r'Please enable location or choose location !',
     'updateLocation': r'Do you want to update the location ?',
     'sortBy': r'Sort by',
-    'filters': r'Filters'
+    'filters': r'Filters',
+    'none': r'None'
   },
   'fr': const <String, String>{
     'home': r'Accueil',
@@ -172,6 +173,7 @@ const Map<String, Map<String, String>> localizations =
     'locationError': r'Veuillez activer ou choisir votre emplacement !',
     'updateLoction': r'Voulez-vous mettre à jour la position ?',
     'sortBy': r'Trier par',
-    'filters': r'Filtres'
+    'filters': r'Filtres',
+    'none': r'Aucun'
   },
 };
