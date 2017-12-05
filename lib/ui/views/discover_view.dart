@@ -96,7 +96,6 @@ class _DiscoverViewState extends State<DiscoverView> {
   Widget _buildDiscover() {
     final _widgets = [_buildRecents, _buildGroups];
     return new ListView.builder(
-      shrinkWrap: true,
       itemCount: _widgets.length,
       itemBuilder: (context, index) => _widgets[index](context),
     );
