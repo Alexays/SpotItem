@@ -604,15 +604,16 @@ class _HomeScreenState extends State<HomeScreen>
         ),
       );
     }
-    final haveTab = _homeScreenItems[page].sub != null && !_isSearching;
+    final isFloating = (_homeScreenItems[page].sub != null && !_isSearching) ||
+        (_homeScreenItems[page].filter != null || _isSearching);
     return [
       new SliverAppBar(
         pinned: true,
         forceElevated: innerBoxIsScrolled,
         automaticallyImplyLeading: false,
         centerTitle: true,
-        snap: haveTab,
-        floating: haveTab,
+        snap: isFloating,
+        floating: isFloating,
         title: new DecoratedBox(
           decoration: new BoxDecoration(
             color: Theme.of(context).accentColor,
