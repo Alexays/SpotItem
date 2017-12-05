@@ -415,9 +415,18 @@ class _HomeScreenState extends State<HomeScreen>
         ),
       );
     }
-    return new Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: widgets,
+    return new Container(
+      decoration: const BoxDecoration(
+        gradient: const LinearGradient(
+          begin: const Alignment(0.0, -1.0),
+          end: const Alignment(0.0, -0.4),
+          colors: const <Color>[Colors.black12, const Color(0x00000000)],
+        ),
+      ),
+      child: new Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: widgets,
+      ),
     );
   }
 

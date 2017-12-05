@@ -126,7 +126,7 @@ class GroupsManager extends BasicService {
   Future<ApiRes> kickUser(String groupId, String userId) async {
     assert(groupId != null && userId != null);
     final res = await idelete(
-      '/groups/$groupId/$userId',
+      '/groups/$groupId/users/$userId',
       Services.auth.accessToken,
     );
     return res;
@@ -139,9 +139,9 @@ class GroupsManager extends BasicService {
   /// @returns Api body response
   Future<ApiRes> addUser(String groupId, String userId) async {
     assert(groupId != null && userId != null);
-    final res = await iput(
-      '/groups/$groupId/$userId',
-      null,
+    final res = await ipost(
+      '/groups/$groupId/users',
+      {'id': userId},
       Services.auth.accessToken,
     );
     return res;
@@ -168,7 +168,7 @@ class GroupsManager extends BasicService {
   /// @returns Api body response
   Future<ApiRes> addOwner(String groupId, String userId) async {
     assert(groupId != null && userId != null);
-    final res = await iput(
+    final res = await ipost(
       '/groups/$groupId/owners',
       {'id': userId},
       Services.auth.accessToken,
