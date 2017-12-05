@@ -510,17 +510,15 @@ class _HomeScreenState extends State<HomeScreen>
       ],
     );
     return new Drawer(
-      child: new ListView(
-        shrinkWrap: true,
+      child: new Column(
         children: <Widget>[
           new UserAccountsDrawerHeader(
+            margin: EdgeInsets.zero,
             accountName: new Text(
               '${Services.auth.user?.firstname} ${Services.auth.user?.name}',
-              overflow: TextOverflow.ellipsis,
             ),
             accountEmail: new Text(
               Services.auth.user?.email ?? '',
-              overflow: TextOverflow.ellipsis,
             ),
             currentAccountPicture: getAvatar(Services.auth.user),
             otherAccountsPictures: <Widget>[
@@ -537,42 +535,53 @@ class _HomeScreenState extends State<HomeScreen>
                   : _controller.reverse();
             },
           ),
-          new ClipRect(
-            child: new Stack(
-              children: <Widget>[
-                new FadeTransition(
-                  opacity: _drawerContentsOpacity,
-                  child: drawerList,
-                ),
-                new SlideTransition(
-                  position: _drawerDetailsPosition,
-                  child: new FadeTransition(
-                    opacity: new ReverseAnimation(_drawerContentsOpacity),
-                    child: new Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        new ListTile(
-                            leading: const Icon(Icons.edit),
-                            title: new Text(SpotL.of(context).editProfile),
-                            onTap: () => Navigator
-                                .of(context)
-                                .pushNamed('/profile/edit/')),
-                        new ListTile(
-                          leading: const Icon(Icons.exit_to_app),
-                          title: new Text(SpotL.of(context).logout),
-                          onTap: () => Services.auth.logout().then(
-                                (_) => Navigator
-                                    .of(context)
-                                    .pushNamedAndRemoveUntil(
-                                        '/', (route) => false),
+          new MediaQuery.removePadding(
+            context: context,
+            // DrawerHeader consumes top MediaQuery padding.
+            removeTop: true,
+            child: new Expanded(
+              child: new ListView(
+                padding: const EdgeInsets.only(top: 8.0),
+                children: <Widget>[
+                  new Stack(
+                    children: <Widget>[
+                      new FadeTransition(
+                        opacity: _drawerContentsOpacity,
+                        child: drawerList,
+                      ),
+                      new SlideTransition(
+                        position: _drawerDetailsPosition,
+                        child: new FadeTransition(
+                          opacity: new ReverseAnimation(_drawerContentsOpacity),
+                          child: new Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              new ListTile(
+                                  leading: const Icon(Icons.edit),
+                                  title:
+                                      new Text(SpotL.of(context).editProfile),
+                                  onTap: () => Navigator
+                                      .of(context)
+                                      .pushNamed('/profile/edit/')),
+                              new ListTile(
+                                leading: const Icon(Icons.exit_to_app),
+                                title: new Text(SpotL.of(context).logout),
+                                onTap: () => Services.auth.logout().then(
+                                      (_) => Navigator
+                                          .of(context)
+                                          .pushNamedAndRemoveUntil(
+                                              '/', (route) => false),
+                                    ),
                               ),
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],
