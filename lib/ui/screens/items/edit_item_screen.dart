@@ -276,7 +276,6 @@ class _EditItemScreenState extends State<EditItemScreen>
   }
 
   Widget _buildForm(BuildContext context) => new ListView(
-        shrinkWrap: true,
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         children: <Widget>[
           new TextFormField(
@@ -346,7 +345,6 @@ class _EditItemScreenState extends State<EditItemScreen>
           new Container(
             height: 100.0,
             child: new ListView.builder(
-              shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(vertical: 15.0),
               itemCount: Services.items.categories.length,

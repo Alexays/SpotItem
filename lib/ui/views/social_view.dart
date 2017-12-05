@@ -50,7 +50,6 @@ class _SocialViewState extends State<SocialView> {
   }
 
   Widget _createList() => new ListView.builder(
-        shrinkWrap: true,
         physics: const AlwaysScrollableScrollPhysics(),
         padding: const EdgeInsets.all(20.0),
         itemCount: _conversations?.length ?? 0,

@@ -66,7 +66,6 @@ class Calendar extends StatelessWidget {
       color: Theme.of(context).canvasColor,
       height: 330.0,
       child: new ListView.builder(
-        shrinkWrap: true,
         itemCount: allowDisable ? null : nbMonth,
         itemBuilder: (context, index) => new Container(
               height: 330.0,

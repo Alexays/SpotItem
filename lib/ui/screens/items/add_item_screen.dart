@@ -309,7 +309,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
           new Container(
             height: 100.0,
             child: new ListView.builder(
-                shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(vertical: 15.0),
                 itemCount: Services.items.categories.length,

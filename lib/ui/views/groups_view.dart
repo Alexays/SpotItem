@@ -87,7 +87,6 @@ class _GroupsViewState extends State<GroupsView> {
       );
     }
     return new ListView.builder(
-        shrinkWrap: true,
         physics: const AlwaysScrollableScrollPhysics(),
         padding: const EdgeInsets.all(20.0),
         itemCount: (_groups?.length ?? 0) + 1,

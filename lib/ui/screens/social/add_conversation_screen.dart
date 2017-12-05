@@ -37,7 +37,6 @@ class AddConvScreen extends StatelessWidget {
           Services.context = context;
           return Services.groups.data.isNotEmpty
               ? new ListView.builder(
-                  shrinkWrap: true,
                   itemCount: Services.groups.data?.length ?? 0,
                   itemBuilder: (context, index) => new ListTile(
                         title: new Text(Services.groups.data[index].name),

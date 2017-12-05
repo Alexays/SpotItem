@@ -18,7 +18,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
         body: new Builder(builder: (context) {
           Services.context = context;
           return new ListView(
-            shrinkWrap: true,
             padding: const EdgeInsets.all(20.0),
             children: [
               new Text(
