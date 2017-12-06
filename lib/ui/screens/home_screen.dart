@@ -341,7 +341,7 @@ class _HomeScreenState extends State<HomeScreen>
       }
       widgets.add(
         new Container(
-          height: 325.0,
+          height: 225.0,
           child: new Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -389,7 +389,7 @@ class _HomeScreenState extends State<HomeScreen>
               ),
               new Expanded(
                 child: new Container(
-                  height: 325.0,
+                  height: 225.0,
                   color: Theme.of(context).accentColor,
                   child: new Material(
                     color: Colors.transparent,
@@ -411,7 +411,7 @@ class _HomeScreenState extends State<HomeScreen>
   Widget _buildBottomBar(BuildContext context) {
     if (_homeScreenItems[page].filter != null || _isSearching) {
       return new PreferredSize(
-        preferredSize: new Size.fromHeight(_filterBarExpanded ? 361.0 : 36.0),
+        preferredSize: new Size.fromHeight(_filterBarExpanded ? 261.0 : 36.0),
         child: _buildFilterBar(context),
       );
     }
