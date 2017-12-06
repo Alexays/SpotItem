@@ -290,66 +290,53 @@ class _HomeScreenState extends State<HomeScreen>
     ];
     if (_filterBarExpanded) {
       var expandFilter;
-      final categoriesGrid = new GridView.count(
-        padding: const EdgeInsets.all(15.0),
-        crossAxisCount: 3,
-        crossAxisSpacing: 10.0,
-        children: Services.items.categories.map((f) {
-          if (Services.items.tracks.value.contains(f)) {
-            return new RaisedButton(
-              child: new Image.asset('assets/$f.png'),
-              onPressed: () => setState(() => Services.items.tracks.value =
-                  Services.items.tracks.value.where((d) => d != f).toList()),
-            );
-          }
-          return new FlatButton(
-            child: new Image.asset('assets/$f.png'),
-            onPressed: () => setState(() =>
-                Services.items.tracks.value = Services.items.tracks.value
-                    .where((f) => !Services.items.categories.any((d) => d == f))
-                    .toList()
-                      ..add(f)),
+      final filter = Services.items.filters[filterIndex];
+      switch (filter['type']) {
+        case 'grid':
+          expandFilter = new GridView.count(
+            padding: const EdgeInsets.all(15.0),
+            crossAxisCount: 3,
+            crossAxisSpacing: 10.0,
+            children: filter['data'].map((f) {
+              if (Services.items.tracks.value.contains(f)) {
+                return new RaisedButton(
+                  child: new Image.asset('assets/$f.png'),
+                  onPressed: () => setState(() => Services.items.tracks.value =
+                      Services.items.tracks.value
+                          .where((d) => d != f)
+                          .toList()),
+                );
+              }
+              return new FlatButton(
+                child: new Image.asset('assets/$f.png'),
+                onPressed: () => setState(() =>
+                    Services.items.tracks.value = Services.items.tracks.value
+                        .where((f) => !filter['data'].any((d) => d == f))
+                        .toList()
+                          ..add(f)),
+              );
+            }).toList(),
           );
-        }).toList(),
-      );
-      final advancedList = new ListView(
-        children: <Widget>[
-          new SwitchListTile(
-            title: new Text(SpotL.of(context).fromYourGroups),
-            value: Services.items.tracks.value.contains('group'),
-            onChanged: (value) {
-              value
-                  ? Services.items.tracks.value.add('group')
-                  : Services.items.tracks.value.remove('group');
-              setState(() {
-                Services.items.tracks.value =
-                    new List<String>.from(Services.items.tracks.value);
-              });
-            },
-            secondary: const Icon(Icons.lock),
-          ),
-          new SwitchListTile(
-            title: new Text(SpotL.of(context).gift),
-            value: Services.items.tracks.value.contains('gift'),
-            onChanged: (value) {
-              value
-                  ? Services.items.tracks.value.add('gift')
-                  : Services.items.tracks.value.remove('gift');
-              setState(() {
-                Services.items.tracks.value =
-                    new List<String>.from(Services.items.tracks.value);
-              });
-            },
-            secondary: const Icon(Icons.card_giftcard),
-          )
-        ],
-      );
-      switch (filterIndex) {
-        case 0:
-          expandFilter = categoriesGrid;
           break;
-        case 1:
-          expandFilter = advancedList;
+        case 'list':
+          expandFilter = new ListView(
+            children: filter['data']
+                .map((f) => new SwitchListTile(
+                      title: new Text(SpotL.of(context).fromYourGroups),
+                      value: Services.items.tracks.value.contains(f),
+                      onChanged: (value) {
+                        value
+                            ? Services.items.tracks.value.add(f)
+                            : Services.items.tracks.value.remove(f);
+                        setState(() {
+                          Services.items.tracks.value = new List<String>.from(
+                              Services.items.tracks.value);
+                        });
+                      },
+                      secondary: getIcon(f),
+                    ))
+                .toList(),
+          );
           break;
       }
       widgets.add(
@@ -370,7 +357,7 @@ class _HomeScreenState extends State<HomeScreen>
                   children: new List<Widget>.generate(
                       Services.items.filters.length,
                       (index) => new InkWell(
-                            key: new Key(Services.items.filters[index]),
+                            key: new Key(Services.items.filters[index]['name']),
                             onTap: () => setState(() => filterIndex = index),
                             child: new Container(
                               color: filterIndex == index
@@ -384,7 +371,7 @@ class _HomeScreenState extends State<HomeScreen>
                                 children: <Widget>[
                                   new Expanded(
                                     child: new Text(
-                                      Services.items.filters[index],
+                                      Services.items.filters[index]['name'],
                                       style: const TextStyle(
                                         color: Colors.white,
                                       ),

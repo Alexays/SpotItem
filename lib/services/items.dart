@@ -37,9 +37,9 @@ class ItemsManager extends BasicService {
       new ValueNotifier<List<String>>([]);
 
   /// Filters of explorer
-  final List<String> filters = [
-    'Categories',
-    'Advanced',
+  final List<Map<String, dynamic>> filters = [
+    {'name': 'Categories', 'type': 'grid', 'data': _categories},
+    {'name': 'Advanced', 'type': 'list', 'data': _tracks},
   ];
 
   /// Private variables
@@ -48,7 +48,8 @@ class ItemsManager extends BasicService {
   List<Item> _owned = <Item>[];
   List<Item> _holded = <Item>[];
   final List<String> _sortMethod = ['none', 'dist', 'name'];
-  final List<String> _categories = [
+  static final List<String> _tracks = ['gift', 'group'];
+  static final List<String> _categories = [
     'jeux',
     'bebe_jeunesse',
     'fete',
