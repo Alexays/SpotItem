@@ -79,9 +79,7 @@ class _GroupsViewState extends State<GroupsView> {
           const Padding(padding: const EdgeInsets.all(10.0)),
           new RaisedButton(
             child: new Text(SpotL.of(context).addGroup),
-            onPressed: () async {
-              await Navigator.of(context).pushNamed('/groups/add/');
-            },
+            onPressed: () => Navigator.of(context).pushNamed('/groups/add/'),
           ),
         ],
       );
@@ -106,8 +104,9 @@ class _GroupsViewState extends State<GroupsView> {
                 children: <Widget>[
                   new ListTile(
                       leading: new CircleAvatar(
-                          backgroundColor: Colors.grey,
-                          child: new Text(_groups[index - 1].name[0])),
+                        backgroundColor: Colors.grey,
+                        child: new Text(_groups[index - 1].name[0]),
+                      ),
                       title: new Text(_groups[index - 1].name),
                       subtitle: new Text(_groups[index - 1].about),
                       trailing: new Row(
@@ -115,14 +114,17 @@ class _GroupsViewState extends State<GroupsView> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           new Text(
-                            (_groups[index - 1].users?.length ?? '?')
-                                .toString(),
+                            _groups[index - 1].users?.length ?? '?'.toString(),
                             style: new TextStyle(
-                                fontWeight: FontWeight.w400, fontSize: 15.0),
+                              fontWeight: FontWeight.w400,
+                              fontSize: 15.0,
+                            ),
                           ),
                           const Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 2.0)),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 2.0,
+                            ),
+                          ),
                           const Icon(Icons.people)
                         ],
                       ))
@@ -142,80 +144,78 @@ class _GroupsViewState extends State<GroupsView> {
         leading: const Icon(Icons.mail),
         title: new Text(SpotL.of(context).nbInv(_inv?.length.toString())),
         children: _inv
-            .map(
-              (f) => new GestureDetector(
-                    onTap: () {
-                      showDialog<Null>(
-                        context: context,
-                        barrierDismissible: false,
-                        child: new AlertDialog(
-                          title: new Text(SpotL.of(context).confirm),
-                          content: new SingleChildScrollView(
-                            child: new ListBody(
-                              children: <Widget>[
-                                new Text(SpotL.of(context).joinGroup(f.name)),
-                              ],
-                            ),
+            .map((f) => new GestureDetector(
+                  onTap: () {
+                    showDialog<Null>(
+                      context: context,
+                      barrierDismissible: false,
+                      child: new AlertDialog(
+                        title: new Text(SpotL.of(context).confirm),
+                        content: new SingleChildScrollView(
+                          child: new ListBody(
+                            children: <Widget>[
+                              new Text(SpotL.of(context).joinGroup(f.name)),
+                            ],
                           ),
-                          actions: <Widget>[
-                            new FlatButton(
-                              child: new Text(MaterialLocalizations
-                                  .of(context)
-                                  .cancelButtonLabel),
-                              onPressed: () => Navigator.of(context).pop(),
-                            ),
-                            new FlatButton(
-                              child: new Text(MaterialLocalizations
-                                  .of(context)
-                                  .continueButtonLabel),
-                              onPressed: () async {
-                                await _joinGroup(f.id);
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
                         ),
-                      );
-                    },
-                    child: new Card(
-                      child: new Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          new ListTile(
-                              leading: new CircleAvatar(
-                                child: new Text(f.name[0]),
-                              ),
-                              title: new Text(f.name),
-                              subtitle: new Text(f.about),
-                              trailing: new Row(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  new Text(
-                                    f.users
-                                        .where((user) =>
-                                            user.groups.contains(f.id))
-                                        .length
-                                        .toString(),
-                                    style: new TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 15.0,
-                                    ),
-                                  ),
-                                  const Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 2.0,
-                                    ),
-                                  ),
-                                  const Icon(Icons.people)
-                                ],
-                              ))
+                        actions: <Widget>[
+                          new FlatButton(
+                            child: new Text(MaterialLocalizations
+                                .of(context)
+                                .cancelButtonLabel),
+                            onPressed: () => Navigator.of(context).pop(),
+                          ),
+                          new FlatButton(
+                            child: new Text(MaterialLocalizations
+                                .of(context)
+                                .continueButtonLabel),
+                            onPressed: () async {
+                              await _joinGroup(f.id);
+                              Navigator.of(context).pop();
+                            },
+                          ),
                         ],
                       ),
+                    );
+                  },
+                  child: new Card(
+                    child: new Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        new ListTile(
+                            leading: new CircleAvatar(
+                              child: new Text(f.name[0]),
+                            ),
+                            title: new Text(f.name),
+                            subtitle: new Text(f.about),
+                            trailing: new Row(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                new Text(
+                                  f.users
+                                      .where(
+                                          (user) => user.groups.contains(f.id))
+                                      .length
+                                      .toString(),
+                                  style: new TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 15.0,
+                                  ),
+                                ),
+                                const Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 2.0,
+                                  ),
+                                ),
+                                const Icon(Icons.people)
+                              ],
+                            ))
+                      ],
                     ),
                   ),
-            )
+                ))
             .toList(),
       ),
     );

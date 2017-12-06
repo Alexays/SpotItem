@@ -78,7 +78,7 @@ class _DiscoverViewState extends State<DiscoverView> {
         new Padding(
           padding: const EdgeInsets.all(10.0),
           child: new Text(
-            SpotL.of(context).fromYourGroups,
+            SpotL.of(context).trackgroup,
             style: const TextStyle(
               fontWeight: FontWeight.w400,
               fontSize: 22.0,

@@ -322,7 +322,7 @@ class _HomeScreenState extends State<HomeScreen>
           expandFilter = new ListView(
             children: filter['data']
                 .map((f) => new SwitchListTile(
-                      title: new Text(SpotL.of(context).fromYourGroups),
+                      title: new Text(SpotL.of(context).custom('track$f')),
                       value: Services.items.tracks.value.contains(f),
                       onChanged: (value) {
                         value

@@ -44,6 +44,9 @@ class SpotL {
   static SpotL of(BuildContext context) =>
       Localizations.of<SpotL>(context, SpotL);
 
+  /// Custom localization
+  String custom(String name) => _nameToValue[name];
+
   /// Home title
   String get home => _nameToValue['home'];
 
@@ -105,7 +108,7 @@ class SpotL {
   String get recentItems => _nameToValue['recentItems'];
 
   /// From your groups title
-  String get fromYourGroups => _nameToValue['fromYourGroups'];
+  String get trackgroup => _nameToValue['trackgroup'];
 
   /// No items title
   String get noItems => _nameToValue['noItems'];
