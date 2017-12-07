@@ -1,6 +1,3 @@
-/// Spotitem version
-const String version = '0.5.3';
-
 /// Storage key of user data
 const String keyUser = 'KEY_USER';
 
@@ -50,18 +47,3 @@ enum contentType {
   /// JSON
   json
 }
-
-final Map<contentType, String> _contentType = <contentType, String>{
-  contentType.image: 'image/jpg',
-  contentType.json: 'application/json',
-};
-
-/// Get headers for Api
-Map<String, String> getHeaders(
-        {String key, contentType type: contentType.json}) =>
-    <String, String>{
-      'Authorization': key,
-      'Spotkey': 'Basic $clientSecret-$version',
-      'Accept': 'application/json',
-      'Content-Type': _contentType[type],
-    };

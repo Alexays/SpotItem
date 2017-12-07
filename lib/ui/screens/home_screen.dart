@@ -10,7 +10,6 @@ import 'package:spotitem/ui/views/holded_view.dart';
 import 'package:spotitem/ui/views/groups_view.dart';
 import 'package:spotitem/ui/views/social_view.dart';
 import 'package:spotitem/utils.dart';
-import 'package:spotitem/keys.dart';
 import 'package:spotitem/i18n/spot_localization.dart';
 
 /// Home screen class
@@ -455,7 +454,7 @@ class _HomeScreenState extends State<HomeScreen>
         ),
         new AboutListTile(
           icon: const Icon(Icons.info),
-          applicationVersion: version,
+          applicationVersion: Services.settings.version,
           applicationIcon: const Icon(Icons.info),
           applicationLegalese: '© 2017 Alexis Rouillard',
           aboutBoxChildren: <Widget>[

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:spotitem/keys.dart';
+import 'package:spotitem/utils.dart';
 import 'package:http/http.dart';
 import 'package:spotitem/models/api.dart';
 import 'package:spotitem/models/user.dart';

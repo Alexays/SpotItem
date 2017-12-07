@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:spotitem/models/user.dart';
-import 'package:spotitem/models/api.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:spotitem/i18n/spot_localization.dart';
+import 'package:spotitem/models/user.dart';
+import 'package:spotitem/models/api.dart';
+import 'package:spotitem/keys.dart';
+import 'package:spotitem/services/services.dart';
 
 /// Email RegExp
 final RegExp emailExp = new RegExp(r'[\w-]+@([\w-]+\.)+[\w-]+');
@@ -136,6 +138,23 @@ Widget getIcon(String tracks, [Color color]) {
     default:
       return const Text('');
   }
+}
+
+/// Get headers for Api
+Map<String, String> getHeaders({
+  String key,
+  contentType type: contentType.json,
+}) {
+  final _contentType = <contentType, String>{
+    contentType.image: 'image/jpg',
+    contentType.json: 'application/json',
+  };
+  return <String, String>{
+    'Authorization': key,
+    'Spotkey': 'Basic $clientSecret-$Services.settings.version',
+    'Accept': 'application/json',
+    'Content-Type': _contentType[type],
+  };
 }
 
 /// Compare Dates (Year, Month, Day)
