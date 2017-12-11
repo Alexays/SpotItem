@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:spotitem/keys.dart';
 import 'package:spotitem/utils.dart';
 import 'package:http/http.dart';
@@ -9,7 +10,6 @@ import 'package:spotitem/services/basic.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spotitem/services/services.dart';
-import 'package:web_socket_channel/io.dart';
 import 'package:flutter/material.dart';
 
 GoogleSignIn _googleSignIn = new GoogleSignIn(
@@ -46,7 +46,7 @@ class AuthManager extends BasicService {
   GoogleSignInAccount get googleUser => _googleUser;
 
   /// Ws channel
-  IOWebSocketChannel ws;
+  WebSocket ws;
 
   /// Private variables
   bool _loggedIn = false;
@@ -233,7 +233,7 @@ class AuthManager extends BasicService {
       if (headers == null) {
         return;
       }
-      ws.sink.add(JSON.encode(headers));
+      ws.add(JSON.encode(headers));
     }
     if (decoded['type'] != 'pub') {
       return;
@@ -268,13 +268,13 @@ class AuthManager extends BasicService {
     if (Services.debug) {
       return;
     }
-    ws = new IOWebSocketChannel.connect('ws://$baseHost');
-    ws.stream.listen(handleWsData);
+    ws = await WebSocket.connect('ws://$baseHost')
+      ..listen(handleWsData);
     final header = await getWsHeader('hello');
     if (header == null) {
       return;
     }
-    ws.sink.add(JSON.encode(header));
+    ws.add(JSON.encode(header));
   }
 
   /// Save user, refresh_token, provider to storage.

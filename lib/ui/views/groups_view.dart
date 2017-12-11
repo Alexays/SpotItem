@@ -21,8 +21,8 @@ class _GroupsViewState extends State<GroupsView> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
 
-  static List<Group> _groups;
-  static List<Group> _inv;
+  List<Group> _groups;
+  List<Group> _inv;
 
   @override
   void initState() {
@@ -64,14 +64,15 @@ class _GroupsViewState extends State<GroupsView> {
 
   Future<Null> _showGroup(Group _group) async {
     await Navigator.push(
-        context,
-        new MaterialPageRoute<Null>(
-          builder: (context) => new GroupPage(group: _group),
-        ));
+      context,
+      new MaterialPageRoute<Null>(
+        builder: (context) => new GroupPage(group: _group),
+      ),
+    );
   }
 
   Widget _createList(BuildContext context) {
-    if (_inv?.isEmpty == true && _groups.isEmpty) {
+    if (_inv.isEmpty && _groups.isEmpty) {
       return new Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -90,31 +91,98 @@ class _GroupsViewState extends State<GroupsView> {
         itemCount: (_groups?.length ?? 0) + 1,
         itemBuilder: (context, index) {
           if (index == 0) {
-            if (_inv?.isNotEmpty == true) {
+            if (_inv.isNotEmpty) {
               return _buildInv();
             }
             return new Container();
           }
-          return new GestureDetector(
-            onTap: () => _showGroup(_groups[index - 1]),
-            child: new Card(
-              child: new Column(
+          return new Card(
+            child: new ListTile(
+              onTap: () => _showGroup(_groups[index - 1]),
+              leading: new CircleAvatar(
+                backgroundColor: Colors.grey,
+                child: new Text(_groups[index - 1].name[0]),
+              ),
+              title: new Text(_groups[index - 1].name),
+              subtitle: new Text(_groups[index - 1].about),
+              trailing: new Row(
                 mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  new ListTile(
+                  new Text(
+                    (_groups[index - 1].users?.length ?? '?').toString(),
+                    style: new TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 15.0,
+                    ),
+                  ),
+                  const Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 2.0,
+                    ),
+                  ),
+                  const Icon(Icons.people)
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  Widget _buildInv() => new Container(
+        child: new ExpansionTile(
+          leading: const Icon(Icons.mail),
+          title: new Text(SpotL.of(context).nbInv(_inv?.length.toString())),
+          children: _inv
+              .map((f) => new Card(
+                    child: new ListTile(
+                      onTap: () {
+                        showDialog<Null>(
+                          context: context,
+                          barrierDismissible: false,
+                          child: new AlertDialog(
+                            title: new Text(SpotL.of(context).confirm),
+                            content: new SingleChildScrollView(
+                              child: new ListBody(
+                                children: <Widget>[
+                                  new Text(SpotL.of(context).joinGroup(f.name)),
+                                ],
+                              ),
+                            ),
+                            actions: <Widget>[
+                              new FlatButton(
+                                child: new Text(MaterialLocalizations
+                                    .of(context)
+                                    .cancelButtonLabel),
+                                onPressed: () => Navigator.of(context).pop(),
+                              ),
+                              new FlatButton(
+                                child: new Text(MaterialLocalizations
+                                    .of(context)
+                                    .continueButtonLabel),
+                                onPressed: () async {
+                                  await _joinGroup(f.id);
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                      },
                       leading: new CircleAvatar(
-                        backgroundColor: Colors.grey,
-                        child: new Text(_groups[index - 1].name[0]),
+                        child: new Text(f.name[0]),
                       ),
-                      title: new Text(_groups[index - 1].name),
-                      subtitle: new Text(_groups[index - 1].about),
+                      title: new Text(f.name),
+                      subtitle: new Text(f.about),
                       trailing: new Row(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           new Text(
-                            _groups[index - 1].users?.length ?? '?'.toString(),
+                            f.users
+                                .where((user) => user.groups.contains(f.id))
+                                .length
+                                .toString(),
                             style: new TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 15.0,
@@ -127,99 +195,12 @@ class _GroupsViewState extends State<GroupsView> {
                           ),
                           const Icon(Icons.people)
                         ],
-                      ))
-                ],
-              ),
-            ),
-          );
-        });
-  }
-
-  Widget _buildInv() {
-    if (_inv?.isEmpty == true) {
-      return new Container();
-    }
-    return new Container(
-      child: new ExpansionTile(
-        leading: const Icon(Icons.mail),
-        title: new Text(SpotL.of(context).nbInv(_inv?.length.toString())),
-        children: _inv
-            .map((f) => new GestureDetector(
-                  onTap: () {
-                    showDialog<Null>(
-                      context: context,
-                      barrierDismissible: false,
-                      child: new AlertDialog(
-                        title: new Text(SpotL.of(context).confirm),
-                        content: new SingleChildScrollView(
-                          child: new ListBody(
-                            children: <Widget>[
-                              new Text(SpotL.of(context).joinGroup(f.name)),
-                            ],
-                          ),
-                        ),
-                        actions: <Widget>[
-                          new FlatButton(
-                            child: new Text(MaterialLocalizations
-                                .of(context)
-                                .cancelButtonLabel),
-                            onPressed: () => Navigator.of(context).pop(),
-                          ),
-                          new FlatButton(
-                            child: new Text(MaterialLocalizations
-                                .of(context)
-                                .continueButtonLabel),
-                            onPressed: () async {
-                              await _joinGroup(f.id);
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
                       ),
-                    );
-                  },
-                  child: new Card(
-                    child: new Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        new ListTile(
-                            leading: new CircleAvatar(
-                              child: new Text(f.name[0]),
-                            ),
-                            title: new Text(f.name),
-                            subtitle: new Text(f.about),
-                            trailing: new Row(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                new Text(
-                                  f.users
-                                      .where(
-                                          (user) => user.groups.contains(f.id))
-                                      .length
-                                      .toString(),
-                                  style: new TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 15.0,
-                                  ),
-                                ),
-                                const Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 2.0,
-                                  ),
-                                ),
-                                const Icon(Icons.people)
-                              ],
-                            ))
-                      ],
                     ),
-                  ),
-                ))
-            .toList(),
-      ),
-    );
-  }
+                  ))
+              .toList(),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) => new RefreshIndicator(

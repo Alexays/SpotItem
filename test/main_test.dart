@@ -301,7 +301,7 @@ void main() {
       expect(
           find.descendant(
               of: find.byType(FloatingActionButton),
-              matching: find.icon(Icons.add)),
+              matching: find.byIcon(Icons.add)),
           findsOneWidget); // View fab add item
       expect(find.byIcon(Icons.card_giftcard), findsOneWidget);
       expect(find.byIcon(Icons.group), findsOneWidget);

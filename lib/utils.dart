@@ -151,7 +151,7 @@ Map<String, String> getHeaders({
   };
   return <String, String>{
     'Authorization': key,
-    'Spotkey': 'Basic $clientSecret-$Services.settings.version',
+    'Spotkey': 'Basic $clientSecret-${Services.settings.version}',
     'Accept': 'application/json',
     'Content-Type': _contentType[type],
   };

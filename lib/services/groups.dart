@@ -74,7 +74,8 @@ class GroupsManager extends BasicService {
       if (!(res.data is List)) {
         return <Group>[];
       }
-      return _invitation = res.data.map((f) => new Group(f)).toList();
+      return _invitation =
+          res.data.map((f) => new Group(f, invitation: true)).toList();
     }
     return _invitation;
   }

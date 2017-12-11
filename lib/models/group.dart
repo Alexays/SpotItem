@@ -3,8 +3,8 @@ import 'package:spotitem/models/user.dart';
 
 /// Group model
 class Group {
-  /// Group class initializer
-  Group(Map<String, dynamic> data)
+  /// Create a new group
+  Group(Map<String, dynamic> data, {this.invitation = false})
       : id = data['_id'],
         name = data['name'],
         about = data['about'],
@@ -29,6 +29,9 @@ class Group {
 
   /// Group owner
   List<User> owners;
+
+  /// Group is invitation
+  bool invitation;
 
   /// Create a group from JSON object
   factory Group.from(Group group) => new Group(JSON.decode(group.toString()));

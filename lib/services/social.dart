@@ -54,7 +54,7 @@ class SocialManager extends BasicService {
       return;
     }
     header['path'] = '/conv/$id';
-    Services.auth.ws.sink.add(JSON.encode(header));
+    Services.auth.ws.add(JSON.encode(header));
   }
 
   /// Unsubscribe to conversation
@@ -62,7 +62,7 @@ class SocialManager extends BasicService {
     assert(id != null);
     final header = await getWsHeader('unsub');
     header['path'] = '/conv/$id';
-    Services.auth.ws.sink.add(JSON.encode(header));
+    Services.auth.ws.add(JSON.encode(header));
   }
 
   /// Send message to conversation
@@ -74,6 +74,6 @@ class SocialManager extends BasicService {
       'sender': Services.auth.user.toString(),
       'message': text
     };
-    Services.auth.ws.sink.add(JSON.encode(header));
+    Services.auth.ws.add(JSON.encode(header));
   }
 }
