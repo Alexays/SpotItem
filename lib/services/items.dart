@@ -96,9 +96,7 @@ class ItemsManager extends BasicService {
   Future<List<Item>> load() async {
     if (_data.isEmpty) {
       await Services.users.getLocation();
-      final res = await iget(
-          Services.auth.loggedIn != null ? '/items/auth' : '/items',
-          Services.auth.loggedIn ? Services.auth.accessToken : null);
+      final res = await iget('/items', Services.auth.accessToken);
       if (res.success && res.data is List) {
         return _data = res.data
             .map((f) => new Item(f, Services.users.getDist(f['lat'], f['lng'])))
