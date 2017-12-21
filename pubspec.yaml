@@ -5,15 +5,15 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   http: '^0.11.3+14'
-  shared_preferences: '^0.2.5'
-  package_info: '^0.0.2'
-  image_picker: '^0.1.5'
+  shared_preferences: '^0.3.0'
+  package_info: '^0.1.0'
+  image_picker: '^0.2.0'
   location: '^1.1.7'
   qrcode_reader: '^0.3.2'
-  url_launcher: '^1.0.3'
-  google_sign_in: '^1.0.1'
-  firebase_messaging: '^0.0.7'
-  firebase_analytics: '^0.1.1'
+  url_launcher: '^2.0.0'
+  google_sign_in: '^2.0.0'
+  firebase_messaging: '^0.1.0'
+  firebase_analytics: '^0.2.0'
   google_maps_webservice: '^0.0.2'
   flutter_google_places_autocomplete: '^0.0.1'
 
