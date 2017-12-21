@@ -13,6 +13,7 @@ import 'package:spotitem/ui/screens/contact_screen.dart';
 import 'package:spotitem/ui/screens/settings_screen.dart';
 import 'package:spotitem/ui/screens/items/item_screen.dart';
 import 'package:spotitem/ui/screens/error_screen.dart';
+import 'package:spotitem/ui/screens/items/filters_screen.dart';
 import 'package:flutter/material.dart';
 
 /// Static Routes
@@ -41,30 +42,44 @@ Route<dynamic> configureRoutes(RouteSettings settings) {
           : f)
       .join('/');
   switch (routes) {
+    case '/filters':
+      return new MaterialPageRoute<dynamic>(
+        fullscreenDialog: true,
+        settings: settings,
+        builder: (_) => const FiltersScreen(),
+      );
     case '/profile/:params':
       return new MaterialPageRoute<dynamic>(
-          settings: settings, builder: (_) => new ProfileScreen(params[0]));
+        settings: settings,
+        builder: (_) => new ProfileScreen(params[0]),
+      );
     case '/items/:params':
       return new MaterialPageRoute<dynamic>(
-          settings: settings, builder: (_) => new ItemPage(itemId: params[0]));
+        settings: settings,
+        builder: (_) => new ItemPage(itemId: params[0]),
+      );
     case '/items/:params/book':
       return new MaterialPageRoute<dynamic>(
-          settings: settings,
-          fullscreenDialog: true,
-          builder: (_) => new BookItemScreen(itemId: params[0]));
+        settings: settings,
+        fullscreenDialog: true,
+        builder: (_) => new BookItemScreen(itemId: params[0]),
+      );
     case '/items/:params/scanned':
       return new MaterialPageRoute<dynamic>(
-          settings: settings,
-          fullscreenDialog: true,
-          builder: (_) => new ScannedItemScreen(itemId: params[0]));
+        settings: settings,
+        fullscreenDialog: true,
+        builder: (_) => new ScannedItemScreen(itemId: params[0]),
+      );
     case '/items/:params/edit':
       return new MaterialPageRoute<dynamic>(
-          settings: settings,
-          builder: (_) => new EditItemScreen(itemId: params[0]));
+        settings: settings,
+        builder: (_) => new EditItemScreen(itemId: params[0]),
+      );
     case '/groups/:params/edit':
       return new MaterialPageRoute<dynamic>(
-          settings: settings,
-          builder: (_) => new EditGroupScreen(groupId: params[0]));
+        settings: settings,
+        builder: (_) => new EditGroupScreen(groupId: params[0]),
+      );
     default:
       return errorRoute(settings);
   }
@@ -73,4 +88,6 @@ Route<dynamic> configureRoutes(RouteSettings settings) {
 /// On error routes
 Route<dynamic> errorRoute(RouteSettings settings) =>
     new MaterialPageRoute<dynamic>(
-        settings: settings, builder: (_) => const ErrorScreen());
+      settings: settings,
+      builder: (_) => const ErrorScreen(),
+    );

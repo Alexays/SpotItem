@@ -33,6 +33,7 @@ class ItemsListItem extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: theme.primaryTextTheme.subhead.copyWith(
             color: Colors.black,
+            fontSize: 18.0,
           ),
         ),
       ),
@@ -46,10 +47,11 @@ class ItemsListItem extends StatelessWidget {
       new Hero(
         tag: '${item.id}$hash',
         child: new FadeInImage(
-          width: 250.0,
-          height: 200.0,
+          width: 275.0,
+          height: 250.0,
           fit: BoxFit.cover,
           placeholder: placeholder,
+          alignment: Alignment.center,
           image: item.images.isNotEmpty
               ? new NetworkImage(
                   '$imgUrl${item.images.first}',
@@ -90,6 +92,7 @@ class ItemsListItem extends StatelessWidget {
         children: <Widget>[
           new Expanded(
             child: new Card(
+              elevation: 1.0,
               child: new Stack(
                 children: widgets,
               ),

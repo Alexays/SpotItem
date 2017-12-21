@@ -52,17 +52,17 @@ class _DiscoverViewState extends State<DiscoverView> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           new Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.only(left: 10.0, bottom: 10.0),
             child: new Text(
               SpotL.of(context).recentItems,
               style: const TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: 20.0,
+                fontWeight: FontWeight.w500,
+                fontSize: 25.0,
               ),
             ),
           ),
           new Container(
-            height: 200.0,
+            height: 250.0,
             child: new DiscoverList(_recents, 0),
           ),
         ],
@@ -80,13 +80,13 @@ class _DiscoverViewState extends State<DiscoverView> {
           child: new Text(
             SpotL.of(context).trackgroup,
             style: const TextStyle(
-              fontWeight: FontWeight.w400,
-              fontSize: 22.0,
+              fontWeight: FontWeight.w500,
+              fontSize: 25.0,
             ),
           ),
         ),
         new Container(
-          height: 200.0,
+          height: 250.0,
           child: new DiscoverList(_groups, 1),
         )
       ],
@@ -125,7 +125,7 @@ class DiscoverList extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           itemCount: _items?.length,
-          itemExtent: 250.0,
+          itemExtent: 275.0,
           itemBuilder: (context, index) => new ItemsListItem(
                 item: _items[index],
                 hash: _hash,

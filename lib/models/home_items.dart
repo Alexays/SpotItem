@@ -5,6 +5,9 @@ class HomeScreenItem {
   /// Home screen item
   final BottomNavigationBarItem item;
 
+  /// Is the main screen
+  final bool main;
+
   /// Home screen item body wich can be widget or a list of widgets
   final dynamic body;
 
@@ -25,6 +28,7 @@ class HomeScreenItem {
 
   /// Home screen item initalizer
   HomeScreenItem({
+    this.main = false,
     parent,
     Widget icon,
     this.title,

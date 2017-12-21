@@ -73,10 +73,19 @@ class _HomeScreenState extends State<HomeScreen>
     WidgetsBinding.instance.addObserver(this);
     _homeScreenItems = <HomeScreenItem>[
       new HomeScreenItem(
+        main: true,
         icon: const Icon(Icons.explore),
         title: SpotL.of(Services.context).explore,
         content: const DiscoverView(),
         filter: const ExplorerView(),
+        fabs: [
+          new FloatingActionButton(
+            child: const Icon(Icons.filter_list),
+            tooltip: 'Filter',
+            onPressed: () =>
+                Navigator.of(Services.context).pushNamed('/filters'),
+          )
+        ],
       ),
       new HomeScreenItem(
         icon: const Icon(Icons.work),
@@ -408,12 +417,6 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   Widget _buildBottomBar(BuildContext context) {
-    if (_homeScreenItems[page].filter != null || _isSearching) {
-      return new PreferredSize(
-        preferredSize: new Size.fromHeight(_filterBarExpanded ? 261.0 : 36.0),
-        child: _buildFilterBar(context),
-      );
-    }
     if (_homeScreenItems[page].sub != null) {
       return new TabBar(
         controller: tabsCtrl[page],
@@ -632,7 +635,11 @@ class _HomeScreenState extends State<HomeScreen>
           ),
           child: new Material(
             color: Colors.transparent,
-            child: new Row(children: widgets),
+            child: new Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: widgets,
+            ),
           ),
         ),
         bottom: bottomBar,
@@ -695,7 +702,7 @@ class _HomeScreenState extends State<HomeScreen>
                     onTap: (index) => setState(() {
                           page = index;
                           Services.observer.analytics.setCurrentScreen(
-                            screenName: 'Home/tabpage',
+                            screenName: 'Home/tab$page',
                           );
                         }),
                   ),

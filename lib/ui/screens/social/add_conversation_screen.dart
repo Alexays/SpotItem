@@ -31,20 +31,21 @@ class AddConvScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => new Scaffold(
-      appBar: new AppBar(title: new Text(SpotL.of(context).messages)),
-      body: new Builder(
-        builder: (context) {
-          Services.context = context;
-          return Services.groups.data.isNotEmpty
-              ? new ListView.builder(
-                  itemCount: Services.groups.data?.length ?? 0,
-                  itemBuilder: (context, index) => new ListTile(
-                        title: new Text(Services.groups.data[index].name),
-                        onTap: () =>
-                            _addConv(context, Services.groups.data[index].id),
-                      ),
-                )
-              : new Center(child: new Text(SpotL.of(context).noGroups));
-        },
-      ));
+        appBar: new AppBar(title: new Text(SpotL.of(context).messages)),
+        body: new Builder(
+          builder: (context) {
+            Services.context = context;
+            return Services.groups.data.isNotEmpty
+                ? new ListView.builder(
+                    itemCount: Services.groups.data?.length ?? 0,
+                    itemBuilder: (context, index) => new ListTile(
+                          title: new Text(Services.groups.data[index].name),
+                          onTap: () =>
+                              _addConv(context, Services.groups.data[index].id),
+                        ),
+                  )
+                : new Center(child: new Text(SpotL.of(context).noGroups));
+          },
+        ),
+      );
 }

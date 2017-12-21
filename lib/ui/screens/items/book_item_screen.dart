@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/models/item.dart';
 import 'package:flutter/material.dart';
