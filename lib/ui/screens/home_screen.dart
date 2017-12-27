@@ -33,7 +33,6 @@ class _HomeScreenState extends State<HomeScreen>
   // Bool
   bool _hideDrawerContents = false;
   bool _isSearching = false;
-  bool _filterBarExpanded = false;
 
   // Search
   final TextEditingController _searchController = new TextEditingController();
@@ -200,223 +199,45 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   Widget _buildFilterBar(BuildContext context) {
-    final tracksLen = Services.items.excludeTracks.length;
+    final tracks = Services.items.excludeTracks;
     final spotL = SpotL.of(context);
-    final buttonTheme = ButtonTheme.of(context);
     final widgets = <Widget>[
       new Row(
         children: <Widget>[
           new MaterialButton(
-            key: const Key('filters'),
-            onPressed: () =>
-                setState(() => _filterBarExpanded = !_filterBarExpanded),
-            child: new Row(
-              children: <Widget>[
-                new Text(
-                  tracksLen > 0
-                      ? '${spotL.filters} ($tracksLen)'
-                      : spotL.filters,
-                  style: const TextStyle(color: Colors.white),
-                ),
-                const Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.white,
-                )
-              ],
+            key: const Key('categories'),
+            onPressed: () => Navigator.of(context).pushNamed('/categories'),
+            child: new Chip(
+              backgroundColor: Theme.of(context).canvasColor,
+              label: new Text(spotL.categories),
             ),
-          ),
-          new Expanded(
-            child: new Container(),
-          ),
-          new PopupMenuButton(
-            padding: buttonTheme.padding,
-            child: new ConstrainedBox(
-              constraints: new BoxConstraints(
-                minWidth: buttonTheme.minWidth,
-                minHeight: buttonTheme.height,
-              ),
-              child: new Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: new Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    new Text(
-                      spotL.sortBy,
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                    const Icon(
-                      Icons.arrow_drop_down,
-                      color: Colors.white,
-                    )
-                  ],
-                ),
-              ),
-            ),
-            itemBuilder: (context) => Services.items.sortMethod.map((f) {
-                  switch (f) {
-                    case 'name':
-                      return new CheckedPopupMenuItem(
-                        checked: Services.items.tracks.value.contains('name'),
-                        value: f,
-                        child: new Text(spotL.name),
-                      );
-                    case 'dist':
-                      return new CheckedPopupMenuItem(
-                        checked: Services.items.tracks.value.contains('dist'),
-                        value: f,
-                        child: new Text(spotL.dist),
-                      );
-                    case 'none':
-                      return new CheckedPopupMenuItem(
-                        checked: !Services.items.tracks.value
-                            .any((f) => Services.items.sortMethod.contains(f)),
-                        value: f,
-                        child: new Text(spotL.none),
-                      );
-                  }
-                }).toList(),
-            onSelected: (action) => setState(() {
-                  if (action == 'none') {
-                    Services.items.tracks.value = Services.items.tracks.value
-                        .where((f) =>
-                            !Services.items.sortMethod.any((d) => d == f))
-                        .toList();
-                    return;
-                  }
-                  Services.items.tracks.value = [
-                    Services.items.tracks.value
-                        .where((f) =>
-                            !Services.items.sortMethod.any((d) => d == f))
-                        .toList(),
-                    [action]
-                  ].expand((x) => x).toList();
-                }),
           ),
         ],
       )
-    ];
-    if (_filterBarExpanded) {
-      var expandFilter;
-      final filter = Services.items.filters[filterIndex];
-      switch (filter['type']) {
-        case 'grid':
-          expandFilter = new GridView.count(
-            padding: const EdgeInsets.all(15.0),
-            crossAxisCount: 3,
-            crossAxisSpacing: 10.0,
-            children: filter['data'].map((f) {
-              if (Services.items.tracks.value.contains(f)) {
-                return new RaisedButton(
-                  child: new Image.asset('assets/$f.png'),
-                  onPressed: () => setState(() => Services.items.tracks.value =
-                      Services.items.tracks.value
-                          .where((d) => d != f)
-                          .toList()),
-                );
-              }
-              return new FlatButton(
-                child: new Image.asset('assets/$f.png'),
-                onPressed: () => setState(() =>
-                    Services.items.tracks.value = Services.items.tracks.value
-                        .where((f) => !filter['data'].any((d) => d == f))
-                        .toList()
-                          ..add(f)),
-              );
-            }).toList(),
-          );
-          break;
-        case 'list':
-          expandFilter = new ListView(
-            children: filter['data']
-                .map((f) => new SwitchListTile(
-                      title: new Text(SpotL.of(context).custom('track$f')),
-                      value: Services.items.tracks.value.contains(f),
-                      onChanged: (value) {
-                        value
-                            ? Services.items.tracks.value.add(f)
-                            : Services.items.tracks.value.remove(f);
-                        setState(() {
-                          Services.items.tracks.value = new List<String>.from(
-                              Services.items.tracks.value);
-                        });
-                      },
-                      secondary: getIcon(f),
-                    ))
-                .toList(),
-          );
-          break;
-      }
-      widgets.add(
-        new Container(
-          height: 225.0,
-          child: new Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              new Container(
-                decoration: new BoxDecoration(
-                  border: new Border.all(
-                    color: Theme.of(context).accentColor,
-                  ),
-                ),
-                width: MediaQuery.of(context).size.width * 0.3,
-                child: new ListView(
-                  itemExtent: 40.0,
-                  children: new List<Widget>.generate(
-                      Services.items.filters.length,
-                      (index) => new InkWell(
-                            key: new Key(Services.items.filters[index]['name']),
-                            onTap: () => setState(() => filterIndex = index),
-                            child: new Container(
-                              color: filterIndex == index
-                                  ? Theme.of(context).accentColor
-                                  : null,
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 5.0,
-                                horizontal: 7.5,
-                              ),
-                              child: new Row(
-                                children: <Widget>[
-                                  new Expanded(
-                                    child: new Text(
-                                      Services.items.filters[index]['name'],
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                  const Icon(
-                                    Icons.chevron_right,
-                                    color: Colors.white,
-                                  )
-                                ],
-                              ),
-                            ),
-                          )),
-                ),
-              ),
-              new Expanded(
-                child: new Container(
-                  height: 225.0,
-                  color: Theme.of(context).accentColor,
-                  child: new Material(
-                    color: Colors.transparent,
-                    child: expandFilter,
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
+    ]..addAll(
+        tracks.map((f) => new Chip(
+              onDeleted: () => setState(() {
+                    Services.items.tracks.value.remove(f);
+                  }),
+              backgroundColor: Theme.of(context).canvasColor,
+              label: new Text(f),
+            )),
       );
-    }
-    return new Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: widgets,
+    return new Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: new Row(
+        children: widgets,
+      ),
     );
   }
 
   Widget _buildBottomBar(BuildContext context) {
+    if (_homeScreenItems[page].filter != null || _isSearching) {
+      return new PreferredSize(
+        preferredSize: new Size.fromHeight(56.0),
+        child: _buildFilterBar(context),
+      );
+    }
     if (_homeScreenItems[page].sub != null) {
       return new TabBar(
         controller: tabsCtrl[page],
@@ -538,21 +359,16 @@ class _HomeScreenState extends State<HomeScreen>
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: <Widget>[
                               new ListTile(
-                                  leading: const Icon(Icons.edit),
-                                  title:
-                                      new Text(SpotL.of(context).editProfile),
-                                  onTap: () => Navigator
-                                      .of(context)
-                                      .pushNamed('/profile/edit/')),
+                                leading: const Icon(Icons.edit),
+                                title: new Text(SpotL.of(context).editProfile),
+                                onTap: () => Navigator
+                                    .of(context)
+                                    .pushNamed('/profile/edit/'),
+                              ),
                               new ListTile(
                                 leading: const Icon(Icons.exit_to_app),
                                 title: new Text(SpotL.of(context).logout),
-                                onTap: () => Services.auth.logout().then(
-                                      (_) => Navigator
-                                          .of(context)
-                                          .pushNamedAndRemoveUntil(
-                                              '/', (route) => false),
-                                    ),
+                                onTap: Services.auth.logout,
                               ),
                             ],
                           ),

@@ -98,12 +98,13 @@ class UsersManager extends BasicService {
   Future<String> autocompleteCity(BuildContext context) async {
     assert(context != null);
     final p = await places.showGooglePlacesAutocomplete(
-        context: context,
-        apiKey: placeApiKey,
-        mode: places.Mode.fullscreen,
-        hint: SpotL.of(context).search,
-        language: 'fr',
-        components: [new places.Component(places.Component.country, 'fr')]);
+      context: context,
+      apiKey: placeApiKey,
+      mode: places.Mode.overlay,
+      hint: SpotL.of(context).search,
+      language: 'fr',
+      components: [new places.Component(places.Component.country, 'fr')],
+    );
     return p?.description;
   }
 
@@ -164,6 +165,16 @@ class UsersManager extends BasicService {
           Services.auth.refreshToken,
           Services.auth.provider,
           Services.auth.lastEmail);
+    }
+    return res;
+  }
+
+  /// Delete user account
+  Future<ApiRes> delete() async {
+    final res = await idelete(
+        '/users/${Services.auth.user.id}', Services.auth.accessToken);
+    if (res.success) {
+      await Services.auth.logout(force: true);
     }
     return res;
   }

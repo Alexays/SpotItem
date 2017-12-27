@@ -6,9 +6,16 @@ import 'package:spotitem/utils.dart';
 import 'package:spotitem/i18n/spot_localization.dart';
 
 /// Register screen class
-class RegisterScreen extends StatelessWidget {
-  /// It's constructor
-  RegisterScreen();
+class RegisterScreen extends StatefulWidget {
+  /// Contact screen initalizer
+  const RegisterScreen();
+
+  @override
+  State createState() => new _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  _RegisterScreenState();
 
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final TextEditingController _name = new TextEditingController();
@@ -36,6 +43,15 @@ class RegisterScreen extends StatelessWidget {
     if (!resValid(context, res)) {
       return;
     }
+    await showDialog<Null>(
+      context: context,
+      child: new SimpleDialog(children: [
+        new Container(
+          padding: const EdgeInsets.all(20.0),
+          child: new Text(SpotL.of(context).emailConfirmation),
+        ),
+      ]),
+    );
     await Navigator.pushReplacementNamed(context, '/');
   }
 
@@ -43,86 +59,97 @@ class RegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) => new Scaffold(
         body: new Builder(builder: (context) {
           Services.context = context;
-          return new SingleChildScrollView(
-            child: new Container(
-              padding: const EdgeInsets.all(20.0),
-              child: new Card(
-                child: new Container(
-                  margin: const EdgeInsets.all(15.0),
-                  child: new Form(
-                    key: _formKey,
-                    autovalidate: true,
-                    child: new Column(
-                      children: <Widget>[
-                        new TextFormField(
-                          key: const Key('name'),
-                          decoration: new InputDecoration(
-                              labelText: SpotL.of(context).firstname,
-                              hintText: SpotL.of(context).firstnamePh),
-                          controller: _name,
-                          validator: validateName,
+          return new ListView(
+            children: <Widget>[
+              new Padding(
+                padding: const EdgeInsets.only(top: 15.0),
+                child: new Image.asset(
+                  'assets/logo.png',
+                  height: MediaQuery.of(context).size.height * 0.25,
+                ),
+              ),
+              new Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                child: new Form(
+                  key: _formKey,
+                  child: new Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      new TextFormField(
+                        key: const Key('name'),
+                        decoration: new InputDecoration(
+                          labelText: SpotL.of(context).firstname,
+                          hintText: SpotL.of(context).firstnamePh,
                         ),
-                        new TextFormField(
-                          key: const Key('lastname'),
-                          decoration: new InputDecoration(
-                              labelText: SpotL.of(context).lastname,
-                              hintText: SpotL.of(context).lastnamePh),
-                          controller: _lastname,
+                        controller: _name,
+                        validator: validateName,
+                      ),
+                      new TextFormField(
+                        key: const Key('lastname'),
+                        decoration: new InputDecoration(
+                          labelText: SpotL.of(context).lastname,
+                          hintText: SpotL.of(context).lastnamePh,
                         ),
-                        new TextFormField(
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: new InputDecoration(
-                            labelText: SpotL.of(context).email,
-                            hintText: SpotL.of(context).emailPh,
-                          ),
-                          controller: _email,
-                          validator: validateEmail,
+                        controller: _lastname,
+                      ),
+                      new TextFormField(
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: new InputDecoration(
+                          labelText: SpotL.of(context).email,
+                          hintText: SpotL.of(context).emailPh,
                         ),
-                        new TextFormField(
-                          key: const Key('password'),
-                          decoration: new InputDecoration(
-                            labelText: SpotL.of(context).password,
-                            hintText: SpotL.of(context).passwordPh,
-                          ),
-                          obscureText: true,
-                          controller: _password,
-                          validator: validatePassword,
+                        controller: _email,
+                        validator: validateEmail,
+                      ),
+                      new TextFormField(
+                        key: const Key('password'),
+                        decoration: new InputDecoration(
+                          labelText: SpotL.of(context).password,
+                          hintText: SpotL.of(context).passwordPh,
                         ),
-                        new TextFormField(
-                          key: const Key('repeat'),
-                          decoration: new InputDecoration(
-                            labelText: SpotL.of(context).passwordRepeat,
-                            hintText: SpotL.of(context).passwordRepeatPh,
-                          ),
-                          controller: _repeat,
-                          obscureText: true,
+                        obscureText: true,
+                        controller: _password,
+                        validator: validatePassword,
+                      ),
+                      new TextFormField(
+                        key: const Key('repeat'),
+                        decoration: new InputDecoration(
+                          labelText: SpotL.of(context).passwordRepeat,
+                          hintText: SpotL.of(context).passwordRepeatPh,
                         ),
-                        new Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            new RaisedButton(
-                              child: new Text(SpotL.of(context).haveAccount),
-                              onPressed: () =>
-                                  Navigator.pushReplacementNamed(context, '/'),
-                            ),
-                            const Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 5.0,
-                              ),
-                            ),
-                            new RaisedButton(
-                              child: new Text(SpotL.of(context).register),
-                              onPressed: () => _doRegister(context),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                        controller: _repeat,
+                        obscureText: true,
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ),
+            ],
           );
         }),
+        persistentFooterButtons: [
+          new FlatButton(
+            child: new Text(SpotL.of(context).haveAccount),
+            onPressed: () => Navigator.pushReplacementNamed(context, '/'),
+          ),
+        ],
+        bottomNavigationBar: new ConstrainedBox(
+          constraints: new BoxConstraints.tightFor(
+            height: 48.0,
+            width: MediaQuery.of(context).size.width,
+          ),
+          child: new Builder(
+            builder: (context) => new RaisedButton(
+                  color: Theme.of(context).accentColor,
+                  onPressed: () => _doRegister(context),
+                  child: new Text(
+                    SpotL.of(context).register.toUpperCase(),
+                    style: new TextStyle(
+                      color: Theme.of(context).canvasColor,
+                    ),
+                  ),
+                ),
+          ),
+        ),
       );
 }

@@ -14,11 +14,12 @@ import 'package:spotitem/ui/screens/settings_screen.dart';
 import 'package:spotitem/ui/screens/items/item_screen.dart';
 import 'package:spotitem/ui/screens/error_screen.dart';
 import 'package:spotitem/ui/screens/items/filters_screen.dart';
+import 'package:spotitem/ui/screens/items/categories_screen.dart';
 import 'package:flutter/material.dart';
 
 /// Static Routes
 Map<String, WidgetBuilder> staticRoutes = {
-  '/register': (_) => new RegisterScreen(),
+  '/register': (_) => const RegisterScreen(),
   '/profile/edit/': (_) => const EditUserScreen(),
   '/items/add/': (_) => const AddItemScreen(),
   '/groups/add/': (_) => const AddGroupScreen(),
@@ -42,6 +43,12 @@ Route<dynamic> configureRoutes(RouteSettings settings) {
           : f)
       .join('/');
   switch (routes) {
+    case '/categories':
+      return new MaterialPageRoute<dynamic>(
+        fullscreenDialog: true,
+        settings: settings,
+        builder: (_) => const CategoriesScreen(),
+      );
     case '/filters':
       return new MaterialPageRoute<dynamic>(
         fullscreenDialog: true,

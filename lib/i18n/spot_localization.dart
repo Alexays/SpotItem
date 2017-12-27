@@ -107,9 +107,6 @@ class SpotL {
   /// Recent items title
   String get recentItems => _nameToValue['recentItems'];
 
-  /// From your groups title
-  String get trackgroup => _nameToValue['trackgroup'];
-
   /// No items title
   String get noItems => _nameToValue['noItems'];
 
@@ -294,9 +291,21 @@ class SpotL {
   /// Sort by title
   String get sortBy => _nameToValue['sortBy'];
 
+  /// Track by title
+  String get trackBy => _nameToValue['trackBy'];
+
   /// Filters title
   String get filters => _nameToValue['filters'];
 
   /// None title
   String get none => _nameToValue['none'];
+
+  /// Categories title
+  String get categories => _nameToValue['categories'];
+
+  /// Delete my account title
+  String get deleteAccount => _nameToValue['deleteAccount'];
+
+  /// Email verification message
+  String get emailConfirmation => _nameToValue['emailConfirmation'];
 }

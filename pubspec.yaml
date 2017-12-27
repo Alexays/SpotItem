@@ -14,8 +14,8 @@ dependencies:
   google_sign_in: '^2.0.0'
   firebase_messaging: '^0.1.0'
   firebase_analytics: '^0.2.0'
-  google_maps_webservice: '^0.0.2'
-  flutter_google_places_autocomplete: '^0.0.1'
+  google_maps_webservice: '^0.0.3'
+  flutter_google_places_autocomplete: '^0.0.3'
 
 dev_dependencies:
   flutter_test:

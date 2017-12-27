@@ -88,8 +88,12 @@ const Map<String, Map<String, String>> localizations =
     'locationError': r'Please enable location or choose location !',
     'updateLocation': r'Do you want to update the location ?',
     'sortBy': r'Sort by',
+    'trackBy': r'Target by',
     'filters': r'Filters',
-    'none': r'None'
+    'none': r'None',
+    'categories': r'Categories',
+    'deleteAccount': r'Delete my account',
+    'emailConfirmation': r'You will receive a confirmation email shortly'
   },
   'fr': const <String, String>{
     'home': r'Accueil',
@@ -175,7 +179,11 @@ const Map<String, Map<String, String>> localizations =
     'locationError': r'Veuillez activer ou choisir votre emplacement !',
     'updateLoction': r'Voulez-vous mettre à jour la position ?',
     'sortBy': r'Trier par',
+    'trackBy': r'Cibler par',
     'filters': r'Filtres',
-    'none': r'Aucun'
+    'none': r'Aucun',
+    'categories': r'Categories',
+    'deleteAccount': r'Supprimer mon compte',
+    'emailConfirmation': r'Vous recevrez prochainement un email de confirmation'
   },
 };

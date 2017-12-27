@@ -30,7 +30,33 @@ class _EditUserScreenState extends State<EditUserScreen> {
     _lastname.text = Services.auth.user.name;
   }
 
-  Future<Null> editUser(BuildContext context) async {
+  Future<Null> delete(BuildContext context) async {
+    await showDialog<Null>(
+      context: context,
+      child: new AlertDialog(
+        title: new Text(SpotL.of(context).confirm),
+        content: new SingleChildScrollView(
+          child: new ListBody(
+            children: <Widget>[
+              new Text(SpotL.of(context).deleteAccount),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          new FlatButton(
+            child:
+                new Text(MaterialLocalizations.of(context).cancelButtonLabel),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          new FlatButton(
+              child: new Text(SpotL.of(context).delete.toUpperCase()),
+              onPressed: Services.users.delete),
+        ],
+      ),
+    );
+  }
+
+  Future<Null> edit(BuildContext context) async {
     _formKey.currentState.save();
     if (!_formKey.currentState.validate()) {
       showSnackBar(context, SpotL.of(context).correctError);
@@ -132,6 +158,17 @@ class _EditUserScreenState extends State<EditUserScreen> {
           );
         },
       ),
+      persistentFooterButtons: [
+        new Builder(
+          builder: (context) => new FlatButton(
+                onPressed: () => delete(context),
+                child: new Text(
+                  SpotL.of(context).deleteAccount.toUpperCase(),
+                  style: new TextStyle(color: theme.errorColor),
+                ),
+              ),
+        )
+      ],
       bottomNavigationBar: new ConstrainedBox(
         constraints: new BoxConstraints.tightFor(
           height: 48.0,
@@ -140,7 +177,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
         child: new Builder(
           builder: (context) => new RaisedButton(
                 color: theme.accentColor,
-                onPressed: () => editUser(context),
+                onPressed: () => edit(context),
                 child: new Text(
                   SpotL.of(context).save.toUpperCase(),
                   style: new TextStyle(color: theme.canvasColor),

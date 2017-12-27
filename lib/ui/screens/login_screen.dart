@@ -5,10 +5,16 @@ import 'package:spotitem/i18n/spot_localization.dart';
 import 'package:spotitem/utils.dart';
 
 /// Login screen class
-class LoginScreen extends StatelessWidget {
-  /// It's constructor
-  LoginScreen();
+class LoginScreen extends StatefulWidget {
+  /// Contact screen initalizer
+  const LoginScreen();
 
+  @override
+  State createState() => new _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  _LoginScreenState();
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final TextEditingController _usernameCtrl = new TextEditingController();
   final TextEditingController _passwordCtrl = new TextEditingController();
@@ -45,106 +51,89 @@ class LoginScreen extends StatelessWidget {
         body: new Builder(
           builder: (context) {
             Services.context = context;
-            return new SingleChildScrollView(
-              primary: true,
-              child: new Container(
-                constraints: new BoxConstraints(
-                  minHeight: MediaQuery.of(context).size.height,
+            return new ListView(
+              children: <Widget>[
+                new Padding(
+                  padding: const EdgeInsets.only(top: 15.0),
+                  child: new Image.asset(
+                    'assets/logo.png',
+                    height: MediaQuery.of(context).size.height * 0.25,
+                  ),
                 ),
-                child: new Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    new Padding(
-                      padding: const EdgeInsets.only(top: 15.0),
-                      child: new Image.asset(
-                        'assets/logo.png',
-                        height: MediaQuery.of(context).size.height * 0.25,
+                new Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                  child: new Form(
+                    key: _formKey,
+                    child: new Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        new TextFormField(
+                          key: const Key('email'),
+                          decoration: new InputDecoration(
+                            hintText: SpotL.of(context).emailPh,
+                            labelText: SpotL.of(context).email,
+                          ),
+                          autofocus: true,
+                          controller: _usernameCtrl,
+                          validator: validateEmail,
+                          initialValue: Services.auth.lastEmail,
+                          keyboardType: TextInputType.emailAddress,
+                        ),
+                        new TextFormField(
+                          key: const Key('password'),
+                          decoration: new InputDecoration(
+                            hintText: SpotL.of(context).passwordPh,
+                            labelText: SpotL.of(context).password,
+                          ),
+                          controller: _passwordCtrl,
+                          obscureText: true,
+                          validator: validatePassword,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+        persistentFooterButtons: [
+          new FlatButton(
+            child: new Text(SpotL.of(context).noAccount),
+            onPressed: () =>
+                Navigator.pushReplacementNamed(context, '/register'),
+          ),
+        ],
+        bottomNavigationBar: new Builder(
+          builder: (context) => new Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  new Expanded(
+                    child: new Container(
+                      height: 48.0,
+                      child: new RaisedButton(
+                        onPressed: () => _localLogin(context),
+                        child: new Text(SpotL.of(context).login.toUpperCase()),
                       ),
                     ),
-                    new Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                      child: new Form(
-                        key: _formKey,
-                        child: new Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            new TextFormField(
-                              key: const Key('email'),
-                              decoration: new InputDecoration(
-                                hintText: SpotL.of(context).emailPh,
-                                labelText: SpotL.of(context).email,
-                              ),
-                              autofocus: true,
-                              controller: _usernameCtrl,
-                              validator: validateEmail,
-                              initialValue: Services.auth.lastEmail,
-                              keyboardType: TextInputType.emailAddress,
-                            ),
-                            new TextFormField(
-                              key: const Key('password'),
-                              decoration: new InputDecoration(
-                                hintText: SpotL.of(context).passwordPh,
-                                labelText: SpotL.of(context).password,
-                              ),
-                              controller: _passwordCtrl,
-                              obscureText: true,
-                              validator: validatePassword,
-                            ),
-                            const Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 5.0),
-                            ),
-                            new Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                new RaisedButton(
-                                    key: const Key('login'),
-                                    child: new Text(SpotL.of(context).login),
-                                    onPressed: () => _localLogin(context)),
-                                const Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 5.0),
-                                ),
-                                new RaisedButton(
-                                  child: const Text(
-                                    'Google',
-                                    style: const TextStyle(color: Colors.white),
-                                  ),
-                                  color: Colors.blue,
-                                  onPressed: () => _googleLogin(context),
-                                )
-                              ],
-                            ),
-                            const Padding(padding: const EdgeInsets.all(5.0)),
-                            new Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                new Text(SpotL.of(context).noAccount),
-                                const Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 5.0),
-                                ),
-                                new FlatButton(
-                                  child: new Text(
-                                    SpotL.of(context).register,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  onPressed: () =>
-                                      Navigator.pushReplacementNamed(
-                                          context, '/register'),
-                                ),
-                              ],
-                            )
-                          ],
+                  ),
+                  new Expanded(
+                    child: new Container(
+                      height: 48.0,
+                      child: new RaisedButton(
+                        color: Theme.of(context).accentColor,
+                        onPressed: () => _googleLogin(context),
+                        child: new Text(
+                          'GOOGLE',
+                          style: new TextStyle(
+                            color: Theme.of(context).canvasColor,
+                          ),
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            );
-          },
         ),
       );
 }

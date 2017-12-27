@@ -37,9 +37,15 @@ class ItemsManager extends BasicService {
       new ValueNotifier<List<String>>([]);
 
   /// Filters of explorer
+  /// TODO: add fitlers
   final List<Map<String, dynamic>> filters = [
-    {'name': 'Categories', 'type': 'grid', 'data': _categories},
-    {'name': 'Advanced', 'type': 'list', 'data': _tracks},
+    {
+      'name': 'sortBy',
+      'type': 'select',
+      'dir': Axis.horizontal,
+      'data': _sortMethod,
+    },
+    {'name': 'trackBy', 'type': 'list', 'data': _tracks},
   ];
 
   /// Private variables
@@ -47,7 +53,7 @@ class ItemsManager extends BasicService {
   List<Item> _data = <Item>[];
   List<Item> _owned = <Item>[];
   List<Item> _holded = <Item>[];
-  final List<String> _sortMethod = ['none', 'dist', 'name'];
+  static final List<String> _sortMethod = ['none', 'dist', 'name'];
   static final List<String> _tracks = ['gift', 'group'];
   static final List<String> _categories = [
     'jeux',

@@ -14,6 +14,7 @@ class ContactScreen extends StatefulWidget {
 }
 
 class _ContactScreenState extends State<ContactScreen> {
+  _ContactScreenState();
   List<dynamic> _contacts = [];
   String _email;
 

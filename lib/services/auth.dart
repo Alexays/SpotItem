@@ -90,9 +90,6 @@ class AuthManager extends BasicService {
     }
     if ((loggedIn && (exp == null || new DateTime.now().isAfter(exp))) &&
         !await getAccessToken(client)) {
-      await Navigator
-          .of(Services.context)
-          .pushNamedAndRemoveUntil('/', (route) => false);
       return null;
     }
     return accessToken;
@@ -189,11 +186,11 @@ class AuthManager extends BasicService {
 
   /// Logout an user.
   ///
-  Future<Null> logout() async {
+  Future<Null> logout({bool force = false}) async {
     if (provider == 'google') {
       await _googleSignIn.signOut();
     }
-    if (providers.contains(provider) && refreshToken != null) {
+    if (providers.contains(provider) && refreshToken != null && !force) {
       await iget('/logout/$provider', refreshToken);
     }
     if (!Services.debug) {
@@ -209,6 +206,11 @@ class AuthManager extends BasicService {
     _provider = null;
     _googleUser = null;
     _loggedIn = false;
+    if (Services.context != null) {
+      await Navigator
+          .of(Services.context)
+          .pushNamedAndRemoveUntil('/', (route) => false);
+    }
   }
 
   /// Regiser an user.
