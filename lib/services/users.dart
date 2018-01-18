@@ -33,16 +33,6 @@ class UsersManager extends BasicService {
   @override
   Future<bool> init() async {
     _initLocation();
-    // platform.setMethodCallHandler((call) async {
-    //   if (call.method == 'linkReceived') {
-    //     print(call.toString());
-    //     final Map<String, dynamic> passedObjs = call.arguments;
-    //     if (passedObjs != null) {
-    //       final path = passedObjs['path'];
-    //       print(path);
-    //     }
-    //   }
-    // });
     return true;
   }
 
