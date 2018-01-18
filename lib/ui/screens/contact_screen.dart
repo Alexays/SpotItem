@@ -77,7 +77,7 @@ class _ContactScreenState extends State<ContactScreen> {
             ),
             decoration: new InputDecoration(
               isDense: true,
-              hideDivider: true,
+              border: null,
               hintText: SpotL.of(context).searchContact,
               errorText:
                   _contacts?.isEmpty == true ? validateEmail(_email) : null,

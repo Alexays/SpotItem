@@ -407,7 +407,7 @@ class _HomeScreenState extends State<HomeScreen>
             ),
             decoration: new InputDecoration(
               isDense: true,
-              hideDivider: true,
+              border: null,
               hintText: SpotL.of(context).search,
               hintStyle: const TextStyle(
                 color: const Color.fromARGB(150, 255, 255, 255),

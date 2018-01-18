@@ -18,8 +18,8 @@ const String clientSecret = 'et+nWhUB>.Dg[c4z';
 
 /// Api base host
 //const String baseHost = '217.182.65.67:3417';
-const String baseHost = '10.29.126.78:1337';
-//const String baseHost = '192.168.0.21:1337';
+//const String baseHost = '10.29.126.78:1337';
+const String baseHost = '192.168.0.21:1337';
 
 /// Api URL
 const String apiUrl = 'http://$baseHost/api';

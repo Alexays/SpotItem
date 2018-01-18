@@ -37,7 +37,8 @@ class Calendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dates = selectedDates.map((f) => f.date.millisecondsSinceEpoch);
-    var firstDate, lastDate, nbMonth;
+    DateTime firstDate, lastDate;
+    int nbMonth;
     if (dates.isNotEmpty) {
       final _firstDate = new DateTime.fromMillisecondsSinceEpoch(
         dates.reduce(math.min),

@@ -11,22 +11,8 @@ import 'package:spotitem/models/item.dart';
 import 'package:spotitem/services/services.dart';
 import 'package:spotitem/utils.dart';
 
-const double _kDatePickerHeaderPortraitHeight = 100.0;
-const double _kDatePickerHeaderLandscapeWidth = 168.0;
-
-const Duration _kMonthScrollDuration = const Duration(milliseconds: 200);
 const double _kDayPickerRowHeight = 42.0;
 const int _kMaxDayPickerRowCount = 6; // A 31 day month that starts on Saturday.
-// Two extra rows: one for the day-of-week header and one for the month header.
-const double _kMaxDayPickerHeight =
-    _kDayPickerRowHeight * (_kMaxDayPickerRowCount + 2);
-
-const double _kMonthPickerPortraitWidth = 330.0;
-const double _kMonthPickerLandscapeWidth = 344.0;
-
-const double _kDialogActionBarHeight = 52.0;
-const double _kDatePickerLandscapeHeight =
-    _kMaxDayPickerHeight + _kDialogActionBarHeight;
 
 class _CalendarGridDelegate extends SliverGridDelegate {
   const _CalendarGridDelegate();

@@ -99,7 +99,7 @@ class AuthManager extends BasicService {
   ///
   Future<bool> getAccessToken(Client client) async {
     await _checkProvider();
-    var apiRes;
+    ApiRes apiRes;
     try {
       final response = await client.get(
         '$apiUrl/check/$provider',
