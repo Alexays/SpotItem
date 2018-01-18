@@ -394,26 +394,29 @@ class _HomeScreenState extends State<HomeScreen>
               onPressed: () => _scaffoldKey.currentState.openDrawer(),
             ),
       new Expanded(
-        child: new TextField(
-          key: const Key('search'),
-          onSubmitted: (data) => _handleSearchBegin(),
-          controller: _searchController,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 18.0,
-            fontWeight: FontWeight.w500,
-          ),
-          decoration: new InputDecoration(
-            isDense: true,
-            hideDivider: true,
-            hintText: SpotL.of(context).search,
-            hintStyle: const TextStyle(
-              color: const Color.fromARGB(150, 255, 255, 255),
+        //TODO: check if it work's
+        child: new OverflowBox(
+          child: new TextField(
+            key: const Key('search'),
+            onSubmitted: (data) => _handleSearchBegin(),
+            controller: _searchController,
+            style: const TextStyle(
+              color: Colors.white,
               fontSize: 18.0,
               fontWeight: FontWeight.w500,
             ),
+            decoration: new InputDecoration(
+              isDense: true,
+              hideDivider: true,
+              hintText: SpotL.of(context).search,
+              hintStyle: const TextStyle(
+                color: const Color.fromARGB(150, 255, 255, 255),
+                fontSize: 18.0,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            keyboardType: TextInputType.text,
           ),
-          keyboardType: TextInputType.text,
         ),
       )
     ];

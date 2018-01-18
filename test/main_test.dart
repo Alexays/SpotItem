@@ -113,7 +113,7 @@ void main() {
 
     testWidgets('Login appear', (tester) async {
       await Services.setup(debug: true);
-      await tester.pumpWidget(new SpotItemApp(init: true));
+      await tester.pumpWidget(new SpotItemApp(true));
       await tester.pump(); // see https://github.com/flutter/flutter/issues/1865
       await tester.pump(); // triggers a frame
 
@@ -124,7 +124,7 @@ void main() {
 
     testWidgets('Able to login and show Home', (tester) async {
       createHttpClient = mockClient(mockUser);
-      await tester.pumpWidget(new SpotItemApp(init: true));
+      await tester.pumpWidget(new SpotItemApp(true));
       await tester.pump();
       await tester.pump();
 
@@ -142,7 +142,7 @@ void main() {
 
     testWidgets('Show discover and group item', (tester) async {
       createHttpClient = mockClient(mockItems);
-      await tester.pumpWidget(new SpotItemApp(init: true));
+      await tester.pumpWidget(new SpotItemApp(true));
       await tester.pump();
       await tester.pump();
       expect(find.text('Recent items'), findsOneWidget);
@@ -167,7 +167,7 @@ void main() {
 
     testWidgets('Sort item by name', (tester) async {
       createHttpClient = mockClient(mockItems);
-      await tester.pumpWidget(new SpotItemApp(init: true));
+      await tester.pumpWidget(new SpotItemApp(true));
       await tester.pump();
       await tester.pump();
       expect(find.text('Recent items'), findsOneWidget);
@@ -198,7 +198,7 @@ void main() {
 
     testWidgets('Filter item by gift', (tester) async {
       createHttpClient = mockClient(mockItems);
-      await tester.pumpWidget(new SpotItemApp(init: true));
+      await tester.pumpWidget(new SpotItemApp(true));
       await tester.pump();
       await tester.pump();
       expect(find.text('Recent items'), findsOneWidget);
@@ -221,7 +221,7 @@ void main() {
 
     testWidgets('Filter item by group', (tester) async {
       createHttpClient = mockClient(mockItems);
-      await tester.pumpWidget(new SpotItemApp(init: true));
+      await tester.pumpWidget(new SpotItemApp(true));
       await tester.pump();
       await tester.pump();
       expect(find.text('Recent items'), findsOneWidget);
@@ -246,7 +246,7 @@ void main() {
 
     testWidgets('Able to search item', (tester) async {
       createHttpClient = mockClient(mockItems);
-      await tester.pumpWidget(new SpotItemApp(init: true));
+      await tester.pumpWidget(new SpotItemApp(true));
       await tester.pump();
       await tester.pump();
       await tester.enterText(find.byKey(const Key('search')), 'Amande');
@@ -267,7 +267,7 @@ void main() {
 
     testWidgets('Show item page', (tester) async {
       createHttpClient = mockClient(mockItems);
-      await tester.pumpWidget(new SpotItemApp(init: true));
+      await tester.pumpWidget(new SpotItemApp(true));
       await tester.pump();
       await tester.pump();
       await tester.tap(find.text('Magnifique Nutella'));
@@ -277,7 +277,7 @@ void main() {
 
     testWidgets('Show item edit page', (tester) async {
       createHttpClient = mockClient(mockItems);
-      await tester.pumpWidget(new SpotItemApp(init: true));
+      await tester.pumpWidget(new SpotItemApp(true));
       await tester.pump();
       await tester.pump();
       await tester.tap(find.text('Magnifique Nutella'));
@@ -290,7 +290,7 @@ void main() {
 
     testWidgets('Show my item tab with items, tracks', (tester) async {
       createHttpClient = mockClient(mockItems);
-      await tester.pumpWidget(new SpotItemApp(init: true));
+      await tester.pumpWidget(new SpotItemApp(true));
       await tester.pump();
       await tester.pump();
       await tester.tap(find.descendant(
@@ -309,7 +309,7 @@ void main() {
 
     testWidgets('I able to view my user information in drawer', (tester) async {
       createHttpClient = mockClient(mockItems);
-      await tester.pumpWidget(new SpotItemApp(init: true));
+      await tester.pumpWidget(new SpotItemApp(true));
       await tester.pump();
       await tester.pump();
       await tester.tap(find.byIcon(Icons.menu));
@@ -320,7 +320,7 @@ void main() {
 
     testWidgets('I able to view my user edit page', (tester) async {
       createHttpClient = mockClient(mockItems);
-      await tester.pumpWidget(new SpotItemApp(init: true));
+      await tester.pumpWidget(new SpotItemApp(true));
       await tester.pump();
       await tester.pump();
       await tester.tap(find.byIcon(Icons.menu));
@@ -335,7 +335,7 @@ void main() {
 
     testWidgets('I able to view settings page', (tester) async {
       createHttpClient = mockClient(mockItems);
-      await tester.pumpWidget(new SpotItemApp(init: true));
+      await tester.pumpWidget(new SpotItemApp(true));
       await tester.pump();
       await tester.pump();
       await tester.tap(find.byIcon(Icons.menu));
@@ -351,7 +351,7 @@ void main() {
 
     testWidgets('Show social tab with groups', (tester) async {
       createHttpClient = mockClient(mockGroups);
-      await tester.pumpWidget(new SpotItemApp(init: true));
+      await tester.pumpWidget(new SpotItemApp(true));
       await tester.pump();
       await tester.pump();
       await tester.tap(find.descendant(
@@ -364,7 +364,7 @@ void main() {
 
     testWidgets('Show social tab with groups inv', (tester) async {
       createHttpClient = mockClient(mockGroups);
-      await tester.pumpWidget(new SpotItemApp(init: true));
+      await tester.pumpWidget(new SpotItemApp(true));
       await tester.pump();
       await tester.pump();
       await tester.tap(find.descendant(
@@ -391,7 +391,7 @@ void main() {
 
     testWidgets('Show groups page', (tester) async {
       createHttpClient = mockClient(mockGroups);
-      await tester.pumpWidget(new SpotItemApp(init: true));
+      await tester.pumpWidget(new SpotItemApp(true));
       await tester.pump();
       await tester.pump();
       await tester.tap(find.descendant(
@@ -412,7 +412,7 @@ void main() {
 
     testWidgets('I able to logout', (tester) async {
       createHttpClient = mockClient(mockItems);
-      await tester.pumpWidget(new SpotItemApp(init: true));
+      await tester.pumpWidget(new SpotItemApp(true));
       await tester.pump();
       await tester.pump();
       await tester.tap(find.byIcon(Icons.menu));

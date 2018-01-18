@@ -9,11 +9,8 @@ import 'package:spotitem/ui/routes.dart';
 
 /// SpotitemApp class
 class SpotItemApp extends MaterialApp {
-  /// Services is Init
-  final bool init;
-
   ///SpotItemApp initlializer
-  SpotItemApp({this.init})
+  SpotItemApp(init)
       : super(
           title: 'SpotItem',
           home: new Builder(builder: (context) {
